@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * 1Password Connect credentials — hand-written.
+ * 1Password Connect credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -20,9 +20,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "OnepasswordCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "OnepasswordCredentials",
+  ) {}
 
 /** Layer from a Connect token + optional base URL. */
 export const fromApiKey = (config: {
@@ -47,9 +48,9 @@ const connectHostToBaseUrl = (host: string): string => {
  * OP_CONNECT_HOST (optional). `OP_CONNECT_HOST` is the official Connect
  * host (no `/v1` suffix); `/v1` is appended when missing.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.OP_CONNECT_TOKEN;
 
     if (!apiKey) {

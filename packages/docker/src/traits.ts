@@ -1,5 +1,5 @@
 /**
- * Docker SDK trait surface — hand-written.
+ * Docker SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Docker has no envelope of its own; the

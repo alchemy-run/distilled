@@ -1,5 +1,5 @@
 /**
- * Boat SDK trait surface — hand-written.
+ * Boat SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Boat has no envelope of its own; the

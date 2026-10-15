@@ -1,17 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "Redshift Data", serviceShapeName: "RedshiftData" });
-const auth = T.AwsAuthSigv4({ name: "redshift-data" });
-const ver = T.ServiceVersion("2019-12-20");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "Redshift Data",
+  serviceShapeName: "RedshiftData",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "redshift-data" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2019-12-20");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -68,71 +74,70 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://redshift-data.{R}.{D}","properties":{},"headers":{}}');
 
 export class ActiveSessionsExceededException
   extends /*@__PURE__*/ S.TaggedError<ActiveSessionsExceededException>()(
     "ActiveSessionsExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ActiveStatementsExceededException
   extends /*@__PURE__*/ S.TaggedError<ActiveStatementsExceededException>()(
     "ActiveStatementsExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ActiveWaitingRequestsExceededException
   extends /*@__PURE__*/ S.TaggedError<ActiveWaitingRequestsExceededException>()(
     "ActiveWaitingRequestsExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class BatchExecuteStatementException
   extends /*@__PURE__*/ S.TaggedError<BatchExecuteStatementException>()(
     "BatchExecuteStatementException",
-    { message: S.String.pipe(T.ErrorMessage()), StatementId: S.String },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()), StatementId: S.String },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class DatabaseConnectionException
   extends /*@__PURE__*/ S.TaggedError<DatabaseConnectionException>()(
     "DatabaseConnectionException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ExecuteStatementException
   extends /*@__PURE__*/ S.TaggedError<ExecuteStatementException>()(
     "ExecuteStatementException",
-    { message: S.String.pipe(T.ErrorMessage()), StatementId: S.String },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()), StatementId: S.String },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class QueryTimeoutException
   extends /*@__PURE__*/ S.TaggedError<QueryTimeoutException>()(
     "QueryTimeoutException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.String },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()), ResourceId: S.String },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type StatementString = string;
 export type SqlList = string[];
-export const SqlList = /*@__PURE__*/ S.Array(S.String);
 export type ClusterIdentifierString = string;
 export type SecretArn = string;
 export type StatementNameString = string;
@@ -142,11 +147,7 @@ export interface SqlParameter {
   name: string;
   value: string;
 }
-export const SqlParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, value: S.String }),
-).annotate({ identifier: "SqlParameter" }) as any as S.Schema<SqlParameter>;
 export type SqlParametersList = SqlParameter[];
-export const SqlParametersList = /*@__PURE__*/ S.Array(SqlParameter);
 export type WorkgroupNameString = string;
 export type ClientToken = string;
 export type ResultFormatString = string;
@@ -171,29 +172,7 @@ export interface BatchExecuteStatementInput {
   ExecutionMode?: string;
   WaitTimeSeconds?: number;
 }
-export const BatchExecuteStatementInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Sqls: SqlList,
-    ClusterIdentifier: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    Database: S.optional(S.String),
-    WithEvent: S.optional(S.Boolean),
-    StatementName: S.optional(S.String),
-    Parameters: S.optional(SqlParametersList),
-    WorkgroupName: S.optional(S.String),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ResultFormat: S.optional(S.String),
-    SessionKeepAliveSeconds: S.optional(S.Number),
-    SessionId: S.optional(S.String),
-    ExecutionMode: S.optional(S.String),
-    WaitTimeSeconds: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BatchExecuteStatementInput",
-}) as any as S.Schema<BatchExecuteStatementInput>;
 export type DbGroupList = string[];
-export const DbGroupList = /*@__PURE__*/ S.Array(S.String);
 export type StatementStatusString = string;
 export type BoxedLong = number;
 export type BoxedBoolean = boolean;
@@ -211,47 +190,16 @@ export interface BatchExecuteStatementOutput {
   RedshiftPid?: number;
   HasResultSet?: boolean;
 }
-export const BatchExecuteStatementOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ClusterIdentifier: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    DbGroups: S.optional(DbGroupList),
-    Database: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    WorkgroupName: S.optional(S.String),
-    SessionId: S.optional(S.String),
-    Status: S.optional(S.String),
-    RedshiftPid: S.optional(S.Number),
-    HasResultSet: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "BatchExecuteStatementOutput",
-}) as any as S.Schema<BatchExecuteStatementOutput>;
 export interface CancelStatementRequest {
   Id: string;
 }
-export const CancelStatementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CancelStatementRequest" }) as any as S.Schema<CancelStatementRequest>;
 export interface CancelStatementResponse {
   Status?: boolean;
 }
-export const CancelStatementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(S.Boolean) }),
-).annotate({ identifier: "CancelStatementResponse" }) as any as S.Schema<CancelStatementResponse>;
 export interface DescribeStatementRequest {
   Id: string;
   WaitTimeSeconds?: number;
 }
-export const DescribeStatementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String, WaitTimeSeconds: S.optional(S.Number) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DescribeStatementRequest" }) as any as S.Schema<DescribeStatementRequest>;
 export type StatusString = string;
 export interface SubStatementData {
   Id: string;
@@ -266,23 +214,7 @@ export interface SubStatementData {
   RedshiftQueryId?: number;
   HasResultSet?: boolean;
 }
-export const SubStatementData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Duration: S.optional(S.Number),
-    Error: S.optional(S.String),
-    Status: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    QueryString: S.optional(S.String),
-    ResultRows: S.optional(S.Number),
-    ResultSize: S.optional(S.Number),
-    RedshiftQueryId: S.optional(S.Number),
-    HasResultSet: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SubStatementData" }) as any as S.Schema<SubStatementData>;
 export type SubStatementList = SubStatementData[];
-export const SubStatementList = /*@__PURE__*/ S.Array(SubStatementData);
 export interface DescribeStatementResponse {
   Id: string;
   SecretArn?: string;
@@ -307,34 +239,6 @@ export interface DescribeStatementResponse {
   SessionId?: string;
   ExecutionMode?: string;
 }
-export const DescribeStatementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    SecretArn: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    Database: S.optional(S.String),
-    ClusterIdentifier: S.optional(S.String),
-    Duration: S.optional(S.Number),
-    Error: S.optional(S.String),
-    Status: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RedshiftPid: S.optional(S.Number),
-    HasResultSet: S.optional(S.Boolean),
-    QueryString: S.optional(S.String),
-    ResultRows: S.optional(S.Number),
-    ResultSize: S.optional(S.Number),
-    RedshiftQueryId: S.optional(S.Number),
-    QueryParameters: S.optional(SqlParametersList),
-    SubStatements: S.optional(SubStatementList),
-    WorkgroupName: S.optional(S.String),
-    ResultFormat: S.optional(S.String),
-    SessionId: S.optional(S.String),
-    ExecutionMode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeStatementResponse",
-}) as any as S.Schema<DescribeStatementResponse>;
 export type PageSize = number;
 export interface DescribeTableRequest {
   ClusterIdentifier?: string;
@@ -348,20 +252,6 @@ export interface DescribeTableRequest {
   MaxResults?: number;
   WorkgroupName?: string;
 }
-export const DescribeTableRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterIdentifier: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    Database: S.String,
-    ConnectedDatabase: S.optional(S.String),
-    Schema: S.optional(S.String),
-    Table: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    WorkgroupName: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeTableRequest" }) as any as S.Schema<DescribeTableRequest>;
 export interface ColumnMetadata {
   isCaseSensitive?: boolean;
   isCurrency?: boolean;
@@ -377,37 +267,12 @@ export interface ColumnMetadata {
   length?: number;
   columnDefault?: string;
 }
-export const ColumnMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isCaseSensitive: S.optional(S.Boolean),
-    isCurrency: S.optional(S.Boolean),
-    isSigned: S.optional(S.Boolean),
-    label: S.optional(S.String),
-    name: S.optional(S.String),
-    nullable: S.optional(S.Number),
-    precision: S.optional(S.Number),
-    scale: S.optional(S.Number),
-    schemaName: S.optional(S.String),
-    tableName: S.optional(S.String),
-    typeName: S.optional(S.String),
-    length: S.optional(S.Number),
-    columnDefault: S.optional(S.String),
-  }),
-).annotate({ identifier: "ColumnMetadata" }) as any as S.Schema<ColumnMetadata>;
 export type ColumnList = ColumnMetadata[];
-export const ColumnList = /*@__PURE__*/ S.Array(ColumnMetadata);
 export interface DescribeTableResponse {
   TableName?: string;
   ColumnList?: ColumnMetadata[];
   NextToken?: string;
 }
-export const DescribeTableResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TableName: S.optional(S.String),
-    ColumnList: S.optional(ColumnList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "DescribeTableResponse" }) as any as S.Schema<DescribeTableResponse>;
 export interface ExecuteStatementInput {
   Sql: string;
   ClusterIdentifier?: string;
@@ -424,24 +289,6 @@ export interface ExecuteStatementInput {
   SessionId?: string;
   WaitTimeSeconds?: number;
 }
-export const ExecuteStatementInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Sql: S.String,
-    ClusterIdentifier: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    Database: S.optional(S.String),
-    WithEvent: S.optional(S.Boolean),
-    StatementName: S.optional(S.String),
-    Parameters: S.optional(SqlParametersList),
-    WorkgroupName: S.optional(S.String),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ResultFormat: S.optional(S.String),
-    SessionKeepAliveSeconds: S.optional(S.Number),
-    SessionId: S.optional(S.String),
-    WaitTimeSeconds: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ExecuteStatementInput" }) as any as S.Schema<ExecuteStatementInput>;
 export interface ExecuteStatementOutput {
   Id?: string;
   CreatedAt?: Date;
@@ -456,36 +303,11 @@ export interface ExecuteStatementOutput {
   RedshiftPid?: number;
   HasResultSet?: boolean;
 }
-export const ExecuteStatementOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ClusterIdentifier: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    DbGroups: S.optional(DbGroupList),
-    Database: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    WorkgroupName: S.optional(S.String),
-    SessionId: S.optional(S.String),
-    Status: S.optional(S.String),
-    RedshiftPid: S.optional(S.Number),
-    HasResultSet: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ExecuteStatementOutput" }) as any as S.Schema<ExecuteStatementOutput>;
 export interface GetStatementResultRequest {
   Id: string;
   NextToken?: string;
   WaitTimeSeconds?: number;
 }
-export const GetStatementResultRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    NextToken: S.optional(S.String),
-    WaitTimeSeconds: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetStatementResultRequest",
-}) as any as S.Schema<GetStatementResultRequest>;
 export type BoxedDouble = number;
 export type Field =
   | {
@@ -536,54 +358,22 @@ export type Field =
       stringValue?: never;
       blobValue: Uint8Array;
     };
-export const Field = /*@__PURE__*/ S.Union([
-  S.Struct({ isNull: S.Boolean }),
-  S.Struct({ booleanValue: S.Boolean }),
-  S.Struct({ longValue: S.Number }),
-  S.Struct({ doubleValue: S.Number }),
-  S.Struct({ stringValue: S.String }),
-  S.Struct({ blobValue: T.Blob }),
-]);
 export type FieldList = Field[];
-export const FieldList = /*@__PURE__*/ S.Array(Field);
 export type SqlRecords = Field[][];
-export const SqlRecords = /*@__PURE__*/ S.Array(FieldList);
 export type ColumnMetadataList = ColumnMetadata[];
-export const ColumnMetadataList = /*@__PURE__*/ S.Array(ColumnMetadata);
 export interface GetStatementResultResponse {
   Records: Field[][];
   ColumnMetadata?: ColumnMetadata[];
   TotalNumRows?: number;
   NextToken?: string;
 }
-export const GetStatementResultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Records: SqlRecords,
-    ColumnMetadata: S.optional(ColumnMetadataList),
-    TotalNumRows: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetStatementResultResponse",
-}) as any as S.Schema<GetStatementResultResponse>;
 export interface GetStatementResultV2Request {
   Id: string;
   NextToken?: string;
   WaitTimeSeconds?: number;
 }
-export const GetStatementResultV2Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    NextToken: S.optional(S.String),
-    WaitTimeSeconds: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetStatementResultV2Request",
-}) as any as S.Schema<GetStatementResultV2Request>;
 export type QueryRecords = { CSVRecords: string };
-export const QueryRecords = /*@__PURE__*/ S.Union([S.Struct({ CSVRecords: S.String })]);
 export type FormattedSqlRecords = QueryRecords[];
-export const FormattedSqlRecords = /*@__PURE__*/ S.Array(QueryRecords);
 export interface GetStatementResultV2Response {
   Records: QueryRecords[];
   ColumnMetadata?: ColumnMetadata[];
@@ -591,17 +381,6 @@ export interface GetStatementResultV2Response {
   ResultFormat?: string;
   NextToken?: string;
 }
-export const GetStatementResultV2Response = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Records: FormattedSqlRecords,
-    ColumnMetadata: S.optional(ColumnMetadataList),
-    TotalNumRows: S.optional(S.Number),
-    ResultFormat: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetStatementResultV2Response",
-}) as any as S.Schema<GetStatementResultV2Response>;
 export interface ListDatabasesRequest {
   ClusterIdentifier?: string;
   Database?: string;
@@ -611,26 +390,11 @@ export interface ListDatabasesRequest {
   MaxResults?: number;
   WorkgroupName?: string;
 }
-export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterIdentifier: S.optional(S.String),
-    Database: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    WorkgroupName: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 export type DatabaseList = string[];
-export const DatabaseList = /*@__PURE__*/ S.Array(S.String);
 export interface ListDatabasesResponse {
   Databases?: string[];
   NextToken?: string;
 }
-export const ListDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Databases: S.optional(DatabaseList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListDatabasesResponse" }) as any as S.Schema<ListDatabasesResponse>;
 export interface ListSchemasRequest {
   ClusterIdentifier?: string;
   SecretArn?: string;
@@ -642,28 +406,11 @@ export interface ListSchemasRequest {
   MaxResults?: number;
   WorkgroupName?: string;
 }
-export const ListSchemasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterIdentifier: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    Database: S.String,
-    ConnectedDatabase: S.optional(S.String),
-    SchemaPattern: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    WorkgroupName: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListSchemasRequest" }) as any as S.Schema<ListSchemasRequest>;
 export type SchemaList = string[];
-export const SchemaList = /*@__PURE__*/ S.Array(S.String);
 export interface ListSchemasResponse {
   Schemas?: string[];
   NextToken?: string;
 }
-export const ListSchemasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Schemas: S.optional(SchemaList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListSchemasResponse" }) as any as S.Schema<ListSchemasResponse>;
 export type ListStatementsLimit = number;
 export type SessionStatusString = string;
 export interface ListSessionsRequest {
@@ -676,18 +423,6 @@ export interface ListSessionsRequest {
   WorkgroupName?: string;
   Database?: string;
 }
-export const ListSessionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    SessionId: S.optional(S.String),
-    Status: S.optional(S.String),
-    RoleLevel: S.optional(S.Boolean),
-    ClusterIdentifier: S.optional(S.String),
-    WorkgroupName: S.optional(S.String),
-    Database: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListSessionsRequest" }) as any as S.Schema<ListSessionsRequest>;
 export interface SessionData {
   SessionId: string;
   Status: string;
@@ -701,30 +436,11 @@ export interface SessionData {
   SessionTtl?: Date;
   CurrentStatementId?: string;
 }
-export const SessionData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SessionId: S.String,
-    Status: S.String,
-    CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Database: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    ClusterIdentifier: S.optional(S.String),
-    WorkgroupName: S.optional(S.String),
-    SessionAliveSeconds: S.optional(S.Number),
-    SessionTtl: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CurrentStatementId: S.optional(S.String),
-  }),
-).annotate({ identifier: "SessionData" }) as any as S.Schema<SessionData>;
 export type SessionList = SessionData[];
-export const SessionList = /*@__PURE__*/ S.Array(SessionData);
 export interface ListSessionsResponse {
   Sessions: SessionData[];
   NextToken?: string;
 }
-export const ListSessionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Sessions: SessionList, NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListSessionsResponse" }) as any as S.Schema<ListSessionsResponse>;
 export interface ListStatementsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -735,20 +451,7 @@ export interface ListStatementsRequest {
   ClusterIdentifier?: string;
   WorkgroupName?: string;
 }
-export const ListStatementsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    StatementName: S.optional(S.String),
-    Status: S.optional(S.String),
-    RoleLevel: S.optional(S.Boolean),
-    Database: S.optional(S.String),
-    ClusterIdentifier: S.optional(S.String),
-    WorkgroupName: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListStatementsRequest" }) as any as S.Schema<ListStatementsRequest>;
 export type StatementStringList = string[];
-export const StatementStringList = /*@__PURE__*/ S.Array(S.String);
 export interface StatementData {
   Id: string;
   QueryString?: string;
@@ -763,31 +466,11 @@ export interface StatementData {
   ResultFormat?: string;
   SessionId?: string;
 }
-export const StatementData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    QueryString: S.optional(S.String),
-    QueryStrings: S.optional(StatementStringList),
-    SecretArn: S.optional(S.String),
-    Status: S.optional(S.String),
-    StatementName: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    QueryParameters: S.optional(SqlParametersList),
-    IsBatchStatement: S.optional(S.Boolean),
-    ResultFormat: S.optional(S.String),
-    SessionId: S.optional(S.String),
-  }),
-).annotate({ identifier: "StatementData" }) as any as S.Schema<StatementData>;
 export type StatementList = StatementData[];
-export const StatementList = /*@__PURE__*/ S.Array(StatementData);
 export interface ListStatementsResponse {
   Statements: StatementData[];
   NextToken?: string;
 }
-export const ListStatementsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Statements: StatementList, NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListStatementsResponse" }) as any as S.Schema<ListStatementsResponse>;
 export interface ListTablesRequest {
   ClusterIdentifier?: string;
   SecretArn?: string;
@@ -800,41 +483,16 @@ export interface ListTablesRequest {
   MaxResults?: number;
   WorkgroupName?: string;
 }
-export const ListTablesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterIdentifier: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    Database: S.String,
-    ConnectedDatabase: S.optional(S.String),
-    SchemaPattern: S.optional(S.String),
-    TablePattern: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    WorkgroupName: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListTablesRequest" }) as any as S.Schema<ListTablesRequest>;
 export interface TableMember {
   name?: string;
   type?: string;
   schema?: string;
 }
-export const TableMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    schema: S.optional(S.String),
-  }),
-).annotate({ identifier: "TableMember" }) as any as S.Schema<TableMember>;
 export type TableList = TableMember[];
-export const TableList = /*@__PURE__*/ S.Array(TableMember);
 export interface ListTablesResponse {
   Tables?: TableMember[];
   NextToken?: string;
 }
-export const ListTablesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tables: S.optional(TableList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListTablesResponse" }) as any as S.Schema<ListTablesResponse>;
 export type BatchExecuteStatementError =
   | ActiveSessionsExceededException
   | ActiveStatementsExceededException
@@ -864,8 +522,8 @@ export const batchExecuteStatement: API.OperationMethod<
   BatchExecuteStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchExecuteStatementInput,
-  output: BatchExecuteStatementOutput,
+  input: __S(0, __c0, 0) as any as S.Schema<BatchExecuteStatementInput>,
+  output: __S(16, __c2, 0) as any as S.Schema<BatchExecuteStatementOutput>,
   errors: [
     ActiveSessionsExceededException,
     ActiveStatementsExceededException,
@@ -897,8 +555,8 @@ export const cancelStatement: API.OperationMethod<
   CancelStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelStatementRequest,
-  output: CancelStatementResponse,
+  input: __S(32, __c4, 0) as any as S.Schema<CancelStatementRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<CancelStatementResponse>,
   errors: [
     DatabaseConnectionException,
     InternalServerException,
@@ -928,8 +586,8 @@ export const describeStatement: API.OperationMethod<
   DescribeStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeStatementRequest,
-  output: DescribeStatementResponse,
+  input: __S(40, __c5, 0) as any as S.Schema<DescribeStatementRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<DescribeStatementResponse>,
   errors: [
     ActiveWaitingRequestsExceededException,
     InternalServerException,
@@ -970,8 +628,8 @@ export const describeTable: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ColumnMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTableRequest,
-  output: DescribeTableResponse,
+  input: __S(48, __c6, 0) as any as S.Schema<DescribeTableRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<DescribeTableResponse>,
   errors: [
     DatabaseConnectionException,
     InternalServerException,
@@ -1019,8 +677,8 @@ export const executeStatement: API.OperationMethod<
   ExecuteStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteStatementInput,
-  output: ExecuteStatementOutput,
+  input: __S(64, __c8, 0) as any as S.Schema<ExecuteStatementInput>,
+  output: __S(16, __c2, 0) as any as S.Schema<ExecuteStatementOutput>,
   errors: [
     ActiveSessionsExceededException,
     ActiveStatementsExceededException,
@@ -1052,8 +710,8 @@ export const getStatementResult: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Field[]
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetStatementResultRequest,
-  output: GetStatementResultResponse,
+  input: __S(72, __c9, 0) as any as S.Schema<GetStatementResultRequest>,
+  output: __S(76, __c9, 4) as any as S.Schema<GetStatementResultResponse>,
   errors: [
     ActiveWaitingRequestsExceededException,
     InternalServerException,
@@ -1084,8 +742,8 @@ export const getStatementResultV2: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   QueryRecords
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetStatementResultV2Request,
-  output: GetStatementResultV2Response,
+  input: __S(80, __c10, 0) as any as S.Schema<GetStatementResultV2Request>,
+  output: __S(83, __c10, 3) as any as S.Schema<GetStatementResultV2Response>,
   errors: [
     ActiveWaitingRequestsExceededException,
     InternalServerException,
@@ -1127,8 +785,8 @@ export const listDatabases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   string
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDatabasesRequest,
-  output: ListDatabasesResponse,
+  input: __S(88, __c11, 0) as any as S.Schema<ListDatabasesRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<ListDatabasesResponse>,
   errors: [
     DatabaseConnectionException,
     InternalServerException,
@@ -1176,8 +834,8 @@ export const listSchemas: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   string
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSchemasRequest,
-  output: ListSchemasResponse,
+  input: __S(96, __c12, 0) as any as S.Schema<ListSchemasRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<ListSchemasResponse>,
   errors: [
     DatabaseConnectionException,
     InternalServerException,
@@ -1213,8 +871,8 @@ export const listSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SessionData
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSessionsRequest,
-  output: ListSessionsResponse,
+  input: __S(104, __c13, 0) as any as S.Schema<ListSessionsRequest>,
+  output: __S(107, __c13, 3) as any as S.Schema<ListSessionsResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1246,8 +904,8 @@ export const listStatements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   StatementData
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListStatementsRequest,
-  output: ListStatementsResponse,
+  input: __S(112, __c14, 0) as any as S.Schema<ListStatementsRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<ListStatementsResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1289,8 +947,8 @@ export const listTables: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TableMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTablesRequest,
-  output: ListTablesResponse,
+  input: __S(120, __c15, 0) as any as S.Schema<ListTablesRequest>,
+  output: __S(123, __c15, 3) as any as S.Schema<ListTablesResponse>,
   errors: [
     DatabaseConnectionException,
     InternalServerException,
@@ -1308,3 +966,427 @@ export const listTables: API.PaginatedOperationMethod<
     pageSize: "MaxResults",
   } as const,
 })) as any;
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Sqls: __S(24, __c3, 0),
+          ClusterIdentifier: S.optional(S.String),
+          SecretArn: S.optional(S.String),
+          DbUser: S.optional(S.String),
+          Database: S.optional(S.String),
+          WithEvent: S.optional(S.Boolean),
+          StatementName: S.optional(S.String),
+          Parameters: S.optional(__S(9, __c1, 1)),
+          WorkgroupName: S.optional(S.String),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          ResultFormat: S.optional(S.String),
+          SessionKeepAliveSeconds: S.optional(S.Number),
+          SessionId: S.optional(S.String),
+          ExecutionMode: S.optional(S.String),
+          WaitTimeSeconds: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchExecuteStatementInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, value: S.String })).annotate({
+        identifier: "SqlParameter",
+      });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ClusterIdentifier: S.optional(S.String),
+          DbUser: S.optional(S.String),
+          DbGroups: S.optional(__S(24, __c3, 0)),
+          Database: S.optional(S.String),
+          SecretArn: S.optional(S.String),
+          WorkgroupName: S.optional(S.String),
+          SessionId: S.optional(S.String),
+          Status: S.optional(S.String),
+          RedshiftPid: S.optional(S.Number),
+          HasResultSet: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BatchExecuteStatementOutput" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Id: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CancelStatementRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Status: S.optional(S.Boolean) })).annotate({
+        identifier: "CancelStatementResponse",
+      });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Id: S.String, WaitTimeSeconds: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeStatementRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          Duration: S.optional(S.Number),
+          Error: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          QueryString: S.optional(S.String),
+          ResultRows: S.optional(S.Number),
+          ResultSize: S.optional(S.Number),
+          RedshiftQueryId: S.optional(S.Number),
+          HasResultSet: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SubStatementData" });
+    case 2:
+      return S.Array(__S(41, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          SecretArn: S.optional(S.String),
+          DbUser: S.optional(S.String),
+          Database: S.optional(S.String),
+          ClusterIdentifier: S.optional(S.String),
+          Duration: S.optional(S.Number),
+          Error: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          RedshiftPid: S.optional(S.Number),
+          HasResultSet: S.optional(S.Boolean),
+          QueryString: S.optional(S.String),
+          ResultRows: S.optional(S.Number),
+          ResultSize: S.optional(S.Number),
+          RedshiftQueryId: S.optional(S.Number),
+          QueryParameters: S.optional(__S(9, __c1, 1)),
+          SubStatements: S.optional(__S(42, __c5, 2)),
+          WorkgroupName: S.optional(S.String),
+          ResultFormat: S.optional(S.String),
+          SessionId: S.optional(S.String),
+          ExecutionMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeStatementResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterIdentifier: S.optional(S.String),
+          SecretArn: S.optional(S.String),
+          DbUser: S.optional(S.String),
+          Database: S.String,
+          ConnectedDatabase: S.optional(S.String),
+          Schema: S.optional(S.String),
+          Table: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          WorkgroupName: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeTableRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TableName: S.optional(S.String),
+          ColumnList: S.optional(__S(57, __c7, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeTableResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          isCaseSensitive: S.optional(S.Boolean),
+          isCurrency: S.optional(S.Boolean),
+          isSigned: S.optional(S.Boolean),
+          label: S.optional(S.String),
+          name: S.optional(S.String),
+          nullable: S.optional(S.Number),
+          precision: S.optional(S.Number),
+          scale: S.optional(S.Number),
+          schemaName: S.optional(S.String),
+          tableName: S.optional(S.String),
+          typeName: S.optional(S.String),
+          length: S.optional(S.Number),
+          columnDefault: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ColumnMetadata" });
+    case 1:
+      return S.Array(__S(56, __c7, 0));
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Sql: S.String,
+          ClusterIdentifier: S.optional(S.String),
+          SecretArn: S.optional(S.String),
+          DbUser: S.optional(S.String),
+          Database: S.optional(S.String),
+          WithEvent: S.optional(S.Boolean),
+          StatementName: S.optional(S.String),
+          Parameters: S.optional(__S(9, __c1, 1)),
+          WorkgroupName: S.optional(S.String),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          ResultFormat: S.optional(S.String),
+          SessionKeepAliveSeconds: S.optional(S.Number),
+          SessionId: S.optional(S.String),
+          WaitTimeSeconds: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ExecuteStatementInput" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          NextToken: S.optional(S.String),
+          WaitTimeSeconds: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetStatementResultRequest" });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ isNull: S.Boolean }),
+        /*@__PURE__*/ S.Struct({ booleanValue: S.Boolean }),
+        /*@__PURE__*/ S.Struct({ longValue: S.Number }),
+        /*@__PURE__*/ S.Struct({ doubleValue: S.Number }),
+        /*@__PURE__*/ S.Struct({ stringValue: S.String }),
+        /*@__PURE__*/ S.Struct({ blobValue: T.Blob }),
+      ]);
+    case 2:
+      return S.Array(__S(73, __c9, 1));
+    case 3:
+      return S.Array(__S(74, __c9, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Records: __S(75, __c9, 3),
+          ColumnMetadata: S.optional(__S(57, __c7, 1)),
+          TotalNumRows: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetStatementResultResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          NextToken: S.optional(S.String),
+          WaitTimeSeconds: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetStatementResultV2Request" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ CSVRecords: S.String })]);
+    case 2:
+      return S.Array(__S(81, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Records: __S(82, __c10, 2),
+          ColumnMetadata: S.optional(__S(57, __c7, 1)),
+          TotalNumRows: S.optional(S.Number),
+          ResultFormat: S.optional(S.String),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetStatementResultV2Response" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterIdentifier: S.optional(S.String),
+          Database: S.optional(S.String),
+          SecretArn: S.optional(S.String),
+          DbUser: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          WorkgroupName: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListDatabasesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Databases: S.optional(__S(24, __c3, 0)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListDatabasesResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterIdentifier: S.optional(S.String),
+          SecretArn: S.optional(S.String),
+          DbUser: S.optional(S.String),
+          Database: S.String,
+          ConnectedDatabase: S.optional(S.String),
+          SchemaPattern: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          WorkgroupName: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListSchemasRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Schemas: S.optional(__S(24, __c3, 0)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSchemasResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          SessionId: S.optional(S.String),
+          Status: S.optional(S.String),
+          RoleLevel: S.optional(S.Boolean),
+          ClusterIdentifier: S.optional(S.String),
+          WorkgroupName: S.optional(S.String),
+          Database: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListSessionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SessionId: S.String,
+          Status: S.String,
+          CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Database: S.optional(S.String),
+          DbUser: S.optional(S.String),
+          ClusterIdentifier: S.optional(S.String),
+          WorkgroupName: S.optional(S.String),
+          SessionAliveSeconds: S.optional(S.Number),
+          SessionTtl: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CurrentStatementId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SessionData" });
+    case 2:
+      return S.Array(__S(105, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Sessions: __S(106, __c13, 2), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSessionsResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          StatementName: S.optional(S.String),
+          Status: S.optional(S.String),
+          RoleLevel: S.optional(S.Boolean),
+          Database: S.optional(S.String),
+          ClusterIdentifier: S.optional(S.String),
+          WorkgroupName: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListStatementsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          QueryString: S.optional(S.String),
+          QueryStrings: S.optional(__S(24, __c3, 0)),
+          SecretArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatementName: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          QueryParameters: S.optional(__S(9, __c1, 1)),
+          IsBatchStatement: S.optional(S.Boolean),
+          ResultFormat: S.optional(S.String),
+          SessionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StatementData" });
+    case 2:
+      return S.Array(__S(113, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Statements: __S(114, __c14, 2), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListStatementsResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterIdentifier: S.optional(S.String),
+          SecretArn: S.optional(S.String),
+          DbUser: S.optional(S.String),
+          Database: S.String,
+          ConnectedDatabase: S.optional(S.String),
+          SchemaPattern: S.optional(S.String),
+          TablePattern: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          WorkgroupName: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTablesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          schema: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TableMember" });
+    case 2:
+      return S.Array(__S(121, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Tables: S.optional(__S(122, __c15, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListTablesResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

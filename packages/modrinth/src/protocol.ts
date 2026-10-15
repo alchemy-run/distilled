@@ -2,11 +2,11 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * ModrinthProtocol — hand-written.
+ * ModrinthProtocol -- hand-written.
  *
  * Modrinth (Labrinth) speaks plain JSON REST (no response envelope):
  *
- *   request:  credentials → optional `Authorization: <apiKey>` (no Bearer)
+ *   request:  credentials -> optional `Authorization: <apiKey>` (no Bearer)
  *             + `User-Agent` + base URL (default
  *             https://api.modrinth.com/v2), resolved from the calling fiber
  *             on every request
@@ -63,13 +63,10 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const ModrinthProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const ModrinthProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     "User-Agent": creds.userAgent,

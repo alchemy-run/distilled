@@ -1,5 +1,5 @@
 /**
- * Okta pagination — hand-written.
+ * Okta pagination -- hand-written.
  *
  * List operations that the converter stamps as paginated are cursor-mode
  * (`after` in). Generated operations pass core's {@link paginateCursor}

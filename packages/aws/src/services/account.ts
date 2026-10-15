@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
-import * as redacted from "effect/Redacted";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -9,149 +10,186 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "Account", serviceShapeName: "Account" });
-const auth = T.AwsAuthSigv4({ name: "account" });
-const ver = T.ServiceVersion("2021-02-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = (_0: unknown) => ({
-    authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "Account", serviceShapeName: "Account" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "account" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2021-02-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver(
+  (p, _) => {
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = (_0: unknown) => ({
+      authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+      }
+      if (UseDualStack === true) {
+        return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
+      }
+      return e(Endpoint);
     }
-    if (UseDualStack === true) {
-      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
-    }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true && UseDualStack === true) {
-          if (
-            true === _.getAttr(PartitionResult, "supportsFIPS") &&
-            true === _.getAttr(PartitionResult, "supportsDualStack")
-          ) {
-            return e(
-              `https://account-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-              _p0(PartitionResult),
-              {},
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true && UseDualStack === true) {
+            if (
+              true === _.getAttr(PartitionResult, "supportsFIPS") &&
+              true === _.getAttr(PartitionResult, "supportsDualStack")
+            ) {
+              return e(
+                `https://account-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p0(PartitionResult),
+                {},
+              );
+            }
+            return err(
+              "FIPS and DualStack are enabled, but this partition does not support one or both",
             );
           }
-          return err(
-            "FIPS and DualStack are enabled, but this partition does not support one or both",
+          if (UseFIPS === true && UseDualStack === false) {
+            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+              return e(
+                `https://account-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                _p0(PartitionResult),
+                {},
+              );
+            }
+            return err("FIPS is enabled but this partition does not support FIPS");
+          }
+          if (UseFIPS === false && UseDualStack === true) {
+            if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+              return e(
+                `https://account.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p0(PartitionResult),
+                {},
+              );
+            }
+            return err("DualStack is enabled but this partition does not support DualStack");
+          }
+          return e(
+            `https://account.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            _p0(PartitionResult),
+            {},
           );
         }
-        if (UseFIPS === true && UseDualStack === false) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://account-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-              _p0(PartitionResult),
-              {},
-            );
-          }
-          return err("FIPS is enabled but this partition does not support FIPS");
-        }
-        if (UseFIPS === false && UseDualStack === true) {
-          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://account.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-              _p0(PartitionResult),
-              {},
-            );
-          }
-          return err("DualStack is enabled but this partition does not support DualStack");
-        }
-        return e(
-          `https://account.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          _p0(PartitionResult),
-          {},
-        );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+  '{"url":"https://account.us-east-1.{D}","properties":{"authSchemes":[{"name":"sigv4","signingRegion":"us-east-1"}]},"headers":{}}',
+  [
+    "us-gov-west-1",
+    "us-gov-east-1",
+    "aws-us-gov-global",
+    "cn-north-1",
+    "cn-northwest-1",
+    "aws-cn-global",
+    "us-iso-east-1",
+    "us-iso-west-1",
+    "aws-iso-global",
+    "us-isob-east-1",
+    "aws-iso-b-global",
+    "aws-iso-f-global",
+    "us-isof-east-1",
+    "us-isof-south-1",
+    "eusc-de-east-1",
+  ],
+);
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      errorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
     },
-    T.HttpError(403),
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      errorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
     },
-    T.HttpError(409),
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      errorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
     },
-    T.all(T.HttpError(500), T.Retryable()),
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      errorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ResourceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ResourceUnavailableException>()(
     "ResourceUnavailableException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      errorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
     },
-    T.HttpError(424),
+    /*@__PURE__*/ T.HttpError(424),
   ) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      errorType: S.optional(S.String).pipe(T.HttpHeader("x-amzn-ErrorType")),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      errorType: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("x-amzn-ErrorType"),
+      ),
     },
-    T.all(T.HttpError(429), T.Retryable({ throttling: true })),
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.HttpError(429),
+      /*@__PURE__*/ T.Retryable({ throttling: true }),
+    ),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
     {
-      message: SensitiveString.pipe(T.ErrorMessage()),
-      reason: S.optional(S.String),
-      fieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
+      message: /*@__PURE__*/ SensitiveString.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      reason: /*@__PURE__*/ S.optional(S.String),
+      fieldList: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(65, __c16, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type AccountId = string;
 export type PrimaryEmailAddress = string | redacted.Redacted<string>;
@@ -161,82 +199,30 @@ export interface AcceptPrimaryEmailUpdateRequest {
   PrimaryEmail: string | redacted.Redacted<string>;
   Otp: string | redacted.Redacted<string>;
 }
-export const AcceptPrimaryEmailUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.String, PrimaryEmail: SensitiveString, Otp: SensitiveString }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/acceptPrimaryEmailUpdate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AcceptPrimaryEmailUpdateRequest",
-}) as any as S.Schema<AcceptPrimaryEmailUpdateRequest>;
 export type PrimaryEmailUpdateStatus = string;
 export interface AcceptPrimaryEmailUpdateResponse {
   Status?: string;
 }
-export const AcceptPrimaryEmailUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
-).annotate({
-  identifier: "AcceptPrimaryEmailUpdateResponse",
-}) as any as S.Schema<AcceptPrimaryEmailUpdateResponse>;
 export type AlternateContactType = string;
 export interface DeleteAlternateContactRequest {
   AlternateContactType: string;
   AccountId?: string;
 }
-export const DeleteAlternateContactRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AlternateContactType: S.String, AccountId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/deleteAlternateContact" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteAlternateContactRequest",
-}) as any as S.Schema<DeleteAlternateContactRequest>;
 export interface DeleteAlternateContactResponse {}
-export const DeleteAlternateContactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteAlternateContactResponse",
-}) as any as S.Schema<DeleteAlternateContactResponse>;
 export type RegionName = string;
 export interface DisableRegionRequest {
   AccountId?: string;
   RegionName: string;
 }
-export const DisableRegionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/disableRegion" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DisableRegionRequest" }) as any as S.Schema<DisableRegionRequest>;
 export interface DisableRegionResponse {}
-export const DisableRegionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DisableRegionResponse",
-}) as any as S.Schema<DisableRegionResponse>;
 export interface EnableRegionRequest {
   AccountId?: string;
   RegionName: string;
 }
-export const EnableRegionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/enableRegion" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "EnableRegionRequest" }) as any as S.Schema<EnableRegionRequest>;
 export interface EnableRegionResponse {}
-export const EnableRegionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "EnableRegionResponse",
-}) as any as S.Schema<EnableRegionResponse>;
 export interface GetAccountInformationRequest {
   AccountId?: string;
 }
-export const GetAccountInformationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/getAccountInformation" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAccountInformationRequest",
-}) as any as S.Schema<GetAccountInformationRequest>;
 export type AccountName = string | redacted.Redacted<string>;
 export type AccountCreatedDate = Date;
 export type AccountState = string;
@@ -246,27 +232,10 @@ export interface GetAccountInformationResponse {
   AccountCreatedDate?: Date;
   AccountState?: string;
 }
-export const GetAccountInformationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    AccountName: S.optional(SensitiveString),
-    AccountCreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    AccountState: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetAccountInformationResponse",
-}) as any as S.Schema<GetAccountInformationResponse>;
 export interface GetAlternateContactRequest {
   AlternateContactType: string;
   AccountId?: string;
 }
-export const GetAlternateContactRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AlternateContactType: S.String, AccountId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/getAlternateContact" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAlternateContactRequest",
-}) as any as S.Schema<GetAlternateContactRequest>;
 export type Name = string | redacted.Redacted<string>;
 export type Title = string | redacted.Redacted<string>;
 export type EmailAddress = string | redacted.Redacted<string>;
@@ -278,33 +247,12 @@ export interface AlternateContact {
   PhoneNumber?: string | redacted.Redacted<string>;
   AlternateContactType?: string;
 }
-export const AlternateContact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(SensitiveString),
-    Title: S.optional(SensitiveString),
-    EmailAddress: S.optional(SensitiveString),
-    PhoneNumber: S.optional(SensitiveString),
-    AlternateContactType: S.optional(S.String),
-  }),
-).annotate({ identifier: "AlternateContact" }) as any as S.Schema<AlternateContact>;
 export interface GetAlternateContactResponse {
   AlternateContact?: AlternateContact;
 }
-export const GetAlternateContactResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AlternateContact: S.optional(AlternateContact) }),
-).annotate({
-  identifier: "GetAlternateContactResponse",
-}) as any as S.Schema<GetAlternateContactResponse>;
 export interface GetContactInformationRequest {
   AccountId?: string;
 }
-export const GetContactInformationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/getContactInformation" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetContactInformationRequest",
-}) as any as S.Schema<GetContactInformationRequest>;
 export type FullName = string | redacted.Redacted<string>;
 export type AddressLine = string | redacted.Redacted<string>;
 export type City = string | redacted.Redacted<string>;
@@ -329,171 +277,63 @@ export interface ContactInformation {
   CompanyName?: string | redacted.Redacted<string>;
   WebsiteUrl?: string | redacted.Redacted<string>;
 }
-export const ContactInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FullName: SensitiveString,
-    AddressLine1: SensitiveString,
-    AddressLine2: S.optional(SensitiveString),
-    AddressLine3: S.optional(SensitiveString),
-    City: SensitiveString,
-    StateOrRegion: S.optional(SensitiveString),
-    DistrictOrCounty: S.optional(SensitiveString),
-    PostalCode: SensitiveString,
-    CountryCode: SensitiveString,
-    PhoneNumber: SensitiveString,
-    CompanyName: S.optional(SensitiveString),
-    WebsiteUrl: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "ContactInformation" }) as any as S.Schema<ContactInformation>;
 export type PhoneNumberVerificationStatus = string;
 export interface GetContactInformationResponse {
   ContactInformation?: ContactInformation;
   VerificationStatus?: string;
 }
-export const GetContactInformationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContactInformation: S.optional(ContactInformation),
-    VerificationStatus: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetContactInformationResponse",
-}) as any as S.Schema<GetContactInformationResponse>;
 export interface GetGovCloudAccountInformationRequest {
   StandardAccountId?: string;
 }
-export const GetGovCloudAccountInformationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StandardAccountId: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getGovCloudAccountInformation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGovCloudAccountInformationRequest",
-}) as any as S.Schema<GetGovCloudAccountInformationRequest>;
 export type AwsAccountState = string;
 export interface GetGovCloudAccountInformationResponse {
   GovCloudAccountId: string;
   AccountState: string;
 }
-export const GetGovCloudAccountInformationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GovCloudAccountId: S.String, AccountState: S.String }),
-).annotate({
-  identifier: "GetGovCloudAccountInformationResponse",
-}) as any as S.Schema<GetGovCloudAccountInformationResponse>;
 export interface GetPrimaryEmailRequest {
   AccountId: string;
 }
-export const GetPrimaryEmailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/getPrimaryEmail" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetPrimaryEmailRequest" }) as any as S.Schema<GetPrimaryEmailRequest>;
 export interface GetPrimaryEmailResponse {
   PrimaryEmail?: string | redacted.Redacted<string>;
 }
-export const GetPrimaryEmailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PrimaryEmail: S.optional(SensitiveString) }),
-).annotate({ identifier: "GetPrimaryEmailResponse" }) as any as S.Schema<GetPrimaryEmailResponse>;
 export interface GetPrimaryEmailUpdateStatusRequest {
   AccountId?: string;
 }
-export const GetPrimaryEmailUpdateStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/getPrimaryEmailUpdateStatus" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPrimaryEmailUpdateStatusRequest",
-}) as any as S.Schema<GetPrimaryEmailUpdateStatusRequest>;
 export interface GetPrimaryEmailUpdateStatusResponse {
   Status: string;
   UpdatedAt?: Date;
 }
-export const GetPrimaryEmailUpdateStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.String,
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "GetPrimaryEmailUpdateStatusResponse",
-}) as any as S.Schema<GetPrimaryEmailUpdateStatusResponse>;
 export interface GetRegionOptStatusRequest {
   AccountId?: string;
   RegionName: string;
 }
-export const GetRegionOptStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/getRegionOptStatus" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetRegionOptStatusRequest",
-}) as any as S.Schema<GetRegionOptStatusRequest>;
 export type RegionOptStatus = string;
 export interface GetRegionOptStatusResponse {
   RegionName?: string;
   RegionOptStatus?: string;
 }
-export const GetRegionOptStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RegionName: S.optional(S.String), RegionOptStatus: S.optional(S.String) }),
-).annotate({
-  identifier: "GetRegionOptStatusResponse",
-}) as any as S.Schema<GetRegionOptStatusResponse>;
 export type RegionOptStatusList = string[];
-export const RegionOptStatusList = /*@__PURE__*/ S.Array(S.String);
 export interface ListRegionsRequest {
   AccountId?: string;
   MaxResults?: number;
   NextToken?: string;
   RegionOptStatusContains?: string[];
 }
-export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountId: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    RegionOptStatusContains: S.optional(RegionOptStatusList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/listRegions" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListRegionsRequest" }) as any as S.Schema<ListRegionsRequest>;
 export interface Region {
   RegionName?: string;
   RegionOptStatus?: string;
 }
-export const Region = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RegionName: S.optional(S.String), RegionOptStatus: S.optional(S.String) }),
-).annotate({ identifier: "Region" }) as any as S.Schema<Region>;
+const Region = __S(76, __c19, 0) as any as S.Schema<Region>;
 export type RegionOptList = Region[];
-export const RegionOptList = /*@__PURE__*/ S.Array(Region);
 export interface ListRegionsResponse {
   NextToken?: string;
   Regions?: Region[];
 }
-export const ListRegionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), Regions: S.optional(RegionOptList) }),
-).annotate({ identifier: "ListRegionsResponse" }) as any as S.Schema<ListRegionsResponse>;
 export interface PutAccountNameRequest {
   AccountName: string | redacted.Redacted<string>;
   AccountId?: string;
 }
-export const PutAccountNameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountName: SensitiveString, AccountId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/putAccountName" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutAccountNameRequest" }) as any as S.Schema<PutAccountNameRequest>;
 export interface PutAccountNameResponse {}
-export const PutAccountNameResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "PutAccountNameResponse",
-}) as any as S.Schema<PutAccountNameResponse>;
 export interface PutAlternateContactRequest {
   Name: string | redacted.Redacted<string>;
   Title: string | redacted.Redacted<string>;
@@ -502,118 +342,39 @@ export interface PutAlternateContactRequest {
   AlternateContactType: string;
   AccountId?: string;
 }
-export const PutAlternateContactRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: SensitiveString,
-    Title: SensitiveString,
-    EmailAddress: SensitiveString,
-    PhoneNumber: SensitiveString,
-    AlternateContactType: S.String,
-    AccountId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/putAlternateContact" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutAlternateContactRequest",
-}) as any as S.Schema<PutAlternateContactRequest>;
 export interface PutAlternateContactResponse {}
-export const PutAlternateContactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "PutAlternateContactResponse",
-}) as any as S.Schema<PutAlternateContactResponse>;
 export interface PutContactInformationRequest {
   ContactInformation: ContactInformation;
   AccountId?: string;
 }
-export const PutContactInformationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContactInformation: ContactInformation, AccountId: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/putContactInformation" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutContactInformationRequest",
-}) as any as S.Schema<PutContactInformationRequest>;
 export interface PutContactInformationResponse {}
-export const PutContactInformationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "PutContactInformationResponse",
-}) as any as S.Schema<PutContactInformationResponse>;
 export interface SendPhoneNumberVerificationRequest {
   AccountId?: string;
 }
-export const SendPhoneNumberVerificationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/sendPhoneNumberVerification" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SendPhoneNumberVerificationRequest",
-}) as any as S.Schema<SendPhoneNumberVerificationRequest>;
 export interface SendPhoneNumberVerificationResponse {
   Status?: string;
 }
-export const SendPhoneNumberVerificationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
-).annotate({
-  identifier: "SendPhoneNumberVerificationResponse",
-}) as any as S.Schema<SendPhoneNumberVerificationResponse>;
 export interface StartPrimaryEmailUpdateRequest {
   AccountId: string;
   PrimaryEmail: string | redacted.Redacted<string>;
 }
-export const StartPrimaryEmailUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.String, PrimaryEmail: SensitiveString }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/startPrimaryEmailUpdate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartPrimaryEmailUpdateRequest",
-}) as any as S.Schema<StartPrimaryEmailUpdateRequest>;
 export interface StartPrimaryEmailUpdateResponse {
   Status?: string;
 }
-export const StartPrimaryEmailUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
-).annotate({
-  identifier: "StartPrimaryEmailUpdateResponse",
-}) as any as S.Schema<StartPrimaryEmailUpdateResponse>;
 export interface VerifyPhoneNumberRequest {
   AccountId?: string;
   Otp: string | redacted.Redacted<string>;
 }
-export const VerifyPhoneNumberRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccountId: S.optional(S.String), Otp: SensitiveString }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/verifyPhoneNumber" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "VerifyPhoneNumberRequest" }) as any as S.Schema<VerifyPhoneNumberRequest>;
 export interface VerifyPhoneNumberResponse {
   Status?: string;
 }
-export const VerifyPhoneNumberResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
-).annotate({
-  identifier: "VerifyPhoneNumberResponse",
-}) as any as S.Schema<VerifyPhoneNumberResponse>;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type ValidationExceptionReason = string;
 export interface ValidationExceptionField {
   name: string;
   message: string | redacted.Redacted<string>;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, message: SensitiveString }),
-).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AcceptPrimaryEmailUpdateError =
   | AccessDeniedException
   | ConflictException
@@ -631,8 +392,8 @@ export const acceptPrimaryEmailUpdate: API.OperationMethod<
   AcceptPrimaryEmailUpdateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcceptPrimaryEmailUpdateRequest,
-  output: AcceptPrimaryEmailUpdateResponse,
+  input: __S(68, __c17, 0) as any as S.Schema<AcceptPrimaryEmailUpdateRequest>,
+  output: __S(72, __c18, 0) as any as S.Schema<AcceptPrimaryEmailUpdateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -666,8 +427,8 @@ export const deleteAlternateContact: API.OperationMethod<
   DeleteAlternateContactError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAlternateContactRequest,
-  output: DeleteAlternateContactResponse,
+  input: __S(80, __c20, 0) as any as S.Schema<DeleteAlternateContactRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<DeleteAlternateContactResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -698,8 +459,8 @@ export const disableRegion: API.OperationMethod<
   DisableRegionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisableRegionRequest,
-  output: DisableRegionResponse,
+  input: __S(88, __c22, 0) as any as S.Schema<DisableRegionRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<DisableRegionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -728,8 +489,8 @@ export const enableRegion: API.OperationMethod<
   EnableRegionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EnableRegionRequest,
-  output: EnableRegionResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<EnableRegionRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<EnableRegionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -757,8 +518,8 @@ export const getAccountInformation: API.OperationMethod<
   GetAccountInformationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountInformationRequest,
-  output: GetAccountInformationResponse,
+  input: __S(4, __c1, 0) as any as S.Schema<GetAccountInformationRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<GetAccountInformationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -790,8 +551,8 @@ export const getAlternateContact: API.OperationMethod<
   GetAlternateContactError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAlternateContactRequest,
-  output: GetAlternateContactResponse,
+  input: __S(8, __c2, 0) as any as S.Schema<GetAlternateContactRequest>,
+  output: __S(10, __c2, 2) as any as S.Schema<GetAlternateContactResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -822,8 +583,8 @@ export const getContactInformation: API.OperationMethod<
   GetContactInformationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetContactInformationRequest,
-  output: GetContactInformationResponse,
+  input: __S(12, __c3, 0) as any as S.Schema<GetContactInformationRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<GetContactInformationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -853,8 +614,8 @@ export const getGovCloudAccountInformation: API.OperationMethod<
   GetGovCloudAccountInformationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGovCloudAccountInformationRequest,
-  output: GetGovCloudAccountInformationResponse,
+  input: __S(20, __c5, 0) as any as S.Schema<GetGovCloudAccountInformationRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<GetGovCloudAccountInformationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -884,8 +645,8 @@ export const getPrimaryEmail: API.OperationMethod<
   GetPrimaryEmailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPrimaryEmailRequest,
-  output: GetPrimaryEmailResponse,
+  input: __S(24, __c6, 0) as any as S.Schema<GetPrimaryEmailRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<GetPrimaryEmailResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -914,8 +675,8 @@ export const getPrimaryEmailUpdateStatus: API.OperationMethod<
   GetPrimaryEmailUpdateStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPrimaryEmailUpdateStatusRequest,
-  output: GetPrimaryEmailUpdateStatusResponse,
+  input: __S(28, __c7, 0) as any as S.Schema<GetPrimaryEmailUpdateStatusRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<GetPrimaryEmailUpdateStatusResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -943,8 +704,8 @@ export const getRegionOptStatus: API.OperationMethod<
   GetRegionOptStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRegionOptStatusRequest,
-  output: GetRegionOptStatusResponse,
+  input: __S(32, __c8, 0) as any as S.Schema<GetRegionOptStatusRequest>,
+  output: __S(76, __c19, 0) as any as S.Schema<GetRegionOptStatusResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -972,8 +733,8 @@ export const listRegions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Region
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRegionsRequest,
-  output: ListRegionsResponse,
+  input: __S(37, __c9, 1) as any as S.Schema<ListRegionsRequest>,
+  output: __S(39, __c9, 3) as any as S.Schema<ListRegionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1006,8 +767,8 @@ export const putAccountName: API.OperationMethod<
   PutAccountNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutAccountNameRequest,
-  output: PutAccountNameResponse,
+  input: __S(40, __c10, 0) as any as S.Schema<PutAccountNameRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<PutAccountNameResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1038,8 +799,8 @@ export const putAlternateContact: API.OperationMethod<
   PutAlternateContactError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutAlternateContactRequest,
-  output: PutAlternateContactResponse,
+  input: __S(44, __c11, 0) as any as S.Schema<PutAlternateContactRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<PutAlternateContactResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1068,8 +829,8 @@ export const putContactInformation: API.OperationMethod<
   PutContactInformationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutContactInformationRequest,
-  output: PutContactInformationResponse,
+  input: __S(48, __c12, 0) as any as S.Schema<PutContactInformationRequest>,
+  output: __S(84, __c21, 0) as any as S.Schema<PutContactInformationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1100,8 +861,8 @@ export const sendPhoneNumberVerification: API.OperationMethod<
   SendPhoneNumberVerificationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SendPhoneNumberVerificationRequest,
-  output: SendPhoneNumberVerificationResponse,
+  input: __S(52, __c13, 0) as any as S.Schema<SendPhoneNumberVerificationRequest>,
+  output: __S(72, __c18, 0) as any as S.Schema<SendPhoneNumberVerificationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1132,8 +893,8 @@ export const startPrimaryEmailUpdate: API.OperationMethod<
   StartPrimaryEmailUpdateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartPrimaryEmailUpdateRequest,
-  output: StartPrimaryEmailUpdateResponse,
+  input: __S(56, __c14, 0) as any as S.Schema<StartPrimaryEmailUpdateRequest>,
+  output: __S(72, __c18, 0) as any as S.Schema<StartPrimaryEmailUpdateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1166,8 +927,8 @@ export const verifyPhoneNumber: API.OperationMethod<
   VerifyPhoneNumberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: VerifyPhoneNumberRequest,
-  output: VerifyPhoneNumberResponse,
+  input: __S(60, __c15, 0) as any as S.Schema<VerifyPhoneNumberRequest>,
+  output: __S(72, __c18, 0) as any as S.Schema<VerifyPhoneNumberResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1180,3 +941,400 @@ export const verifyPhoneNumber: API.OperationMethod<
   retry: Retry,
   operationName: "VerifyPhoneNumber",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/enableRegion" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "EnableRegionRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/getAccountInformation" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetAccountInformationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AccountId: S.optional(S.String),
+          AccountName: S.optional(SensitiveString),
+          AccountCreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          AccountState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetAccountInformationResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AlternateContactType: S.String, AccountId: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/getAlternateContact" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetAlternateContactRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(SensitiveString),
+          Title: S.optional(SensitiveString),
+          EmailAddress: S.optional(SensitiveString),
+          PhoneNumber: S.optional(SensitiveString),
+          AlternateContactType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AlternateContact" });
+    case 2:
+      return S.suspend(() => S.Struct({ AlternateContact: S.optional(__S(9, __c2, 1)) })).annotate({
+        identifier: "GetAlternateContactResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/getContactInformation" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetContactInformationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ContactInformation: S.optional(__S(16, __c4, 0)),
+          VerificationStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetContactInformationResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FullName: SensitiveString,
+          AddressLine1: SensitiveString,
+          AddressLine2: S.optional(SensitiveString),
+          AddressLine3: S.optional(SensitiveString),
+          City: SensitiveString,
+          StateOrRegion: S.optional(SensitiveString),
+          DistrictOrCounty: S.optional(SensitiveString),
+          PostalCode: SensitiveString,
+          CountryCode: SensitiveString,
+          PhoneNumber: SensitiveString,
+          CompanyName: S.optional(SensitiveString),
+          WebsiteUrl: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "ContactInformation" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ StandardAccountId: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/getGovCloudAccountInformation" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetGovCloudAccountInformationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ GovCloudAccountId: S.String, AccountState: S.String }),
+      ).annotate({ identifier: "GetGovCloudAccountInformationResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/getPrimaryEmail" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetPrimaryEmailRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ PrimaryEmail: S.optional(SensitiveString) })).annotate({
+        identifier: "GetPrimaryEmailResponse",
+      });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/getPrimaryEmailUpdateStatus" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetPrimaryEmailUpdateStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.String,
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "GetPrimaryEmailUpdateStatusResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/getRegionOptStatus" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRegionOptStatusRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AccountId: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          RegionOptStatusContains: S.optional(__S(36, __c9, 0)),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/listRegions" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListRegionsRequest" });
+    case 2:
+      return S.Array(Region);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), Regions: S.optional(__S(38, __c9, 2)) }),
+      ).annotate({ identifier: "ListRegionsResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountName: SensitiveString, AccountId: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/putAccountName" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutAccountNameRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: SensitiveString,
+          Title: SensitiveString,
+          EmailAddress: SensitiveString,
+          PhoneNumber: SensitiveString,
+          AlternateContactType: S.String,
+          AccountId: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/putAlternateContact" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutAlternateContactRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContactInformation: __S(16, __c4, 0), AccountId: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/putContactInformation" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutContactInformationRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/sendPhoneNumberVerification" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "SendPhoneNumberVerificationRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.String, PrimaryEmail: SensitiveString }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/startPrimaryEmailUpdate" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartPrimaryEmailUpdateRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.optional(S.String), Otp: SensitiveString }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/verifyPhoneNumber" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "VerifyPhoneNumberRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: SensitiveString })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(64, __c16, 0));
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.String, PrimaryEmail: SensitiveString, Otp: SensitiveString }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/acceptPrimaryEmailUpdate" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AcceptPrimaryEmailUpdateRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Status: S.optional(S.String) })).annotate({
+        identifier: "AcceptPrimaryEmailUpdateResponse",
+      });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ RegionName: S.optional(S.String), RegionOptStatus: S.optional(S.String) }),
+      ).annotate({ identifier: "GetRegionOptStatusResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AlternateContactType: S.String, AccountId: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/deleteAlternateContact" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteAlternateContactRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DeleteAlternateContactResponse",
+      });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AccountId: S.optional(S.String), RegionName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/disableRegion" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisableRegionRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

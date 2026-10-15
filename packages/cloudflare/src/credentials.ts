@@ -1,6 +1,5 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Cloudflare credentials — hand-written.
+ * Cloudflare credentials -- hand-written.
  *
  * API-compatible port of the distilled repo's cloudflare credentials module:
  * the `Credentials` service holds an *effect* that resolves the current
@@ -9,7 +8,8 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * resolves it per request and formats the auth headers via
  * {@link formatHeaders}.
  */
-import * as Config from "effect/Config";
+import * as Config from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
@@ -67,17 +67,19 @@ export interface OAuthCredentials {
 
 export type ResolvedCredentials = ApiTokenCredentials | ApiKeyCredentials | OAuthCredentials;
 
-export class OAuthRefreshError extends Data.TaggedError("CloudflareOAuthRefreshError")<{
-  message: string;
-  cause?: unknown;
-}> {}
+export class OAuthRefreshError
+  extends /*@__PURE__*/ Data.TaggedError("CloudflareOAuthRefreshError")<{
+    message: string;
+    cause?: unknown;
+  }> {}
 
 export type CredentialsError = ConfigError | OAuthRefreshError;
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<ResolvedCredentials, CredentialsError, never>
->()("CloudflareCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<
+    Credentials,
+    Effect.Effect<ResolvedCredentials, CredentialsError, never>
+  >()("CloudflareCredentials") {}
 
 const resolveApiBaseUrl = (apiBaseUrl?: string): string => apiBaseUrl ?? DEFAULT_API_BASE_URL;
 
@@ -193,17 +195,21 @@ const redactNonEmpty = (value: Option.Option<string>): Option.Option<Redacted.Re
     Option.map(Redacted.make),
   );
 
-const envConfig = Config.all({
-  apiToken: Config.option(Config.String("CLOUDFLARE_API_TOKEN")).pipe(Config.map(redactNonEmpty)),
-  apiKey: Config.option(Config.String("CLOUDFLARE_API_KEY")).pipe(Config.map(redactNonEmpty)),
-  email: Config.option(Config.String("CLOUDFLARE_EMAIL")),
-  apiBaseUrl: Config.String("CLOUDFLARE_API_BASE_URL").pipe(
-    Config.withDefault(DEFAULT_API_BASE_URL),
+const envConfig = /*@__PURE__*/ Config.all({
+  apiToken: /*@__PURE__*/ Config.option(/*@__PURE__*/ Config.String("CLOUDFLARE_API_TOKEN")).pipe(
+    /*@__PURE__*/ Config.map(redactNonEmpty),
+  ),
+  apiKey: /*@__PURE__*/ Config.option(/*@__PURE__*/ Config.String("CLOUDFLARE_API_KEY")).pipe(
+    /*@__PURE__*/ Config.map(redactNonEmpty),
+  ),
+  email: /*@__PURE__*/ Config.option(/*@__PURE__*/ Config.String("CLOUDFLARE_EMAIL")),
+  apiBaseUrl: /*@__PURE__*/ Config.String("CLOUDFLARE_API_BASE_URL").pipe(
+    /*@__PURE__*/ Config.withDefault(DEFAULT_API_BASE_URL),
   ),
 });
 
-export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> = Effect.gen(
-  function* () {
+export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> =
+  /*@__PURE__*/ Effect.gen(function* () {
     const config = yield* envConfig.pipe(
       Effect.mapError(fromConfigError("Failed to load Cloudflare credentials from config")),
     );
@@ -236,12 +242,11 @@ export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> = E
       message:
         "Either CLOUDFLARE_API_TOKEN or CLOUDFLARE_API_KEY+CLOUDFLARE_EMAIL environment variables are required",
     });
-  },
-);
+  });
 
 export const fromEnv = (): Layer.Layer<Credentials> => Layer.succeed(Credentials, resolveFromEnv);
 
-export const CredentialsFromEnv = fromEnv();
+export const CredentialsFromEnv = /*@__PURE__*/ fromEnv();
 
 export const formatHeaders = (credentials: ResolvedCredentials): Record<string, string> => {
   switch (credentials.type) {

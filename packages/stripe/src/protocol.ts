@@ -1,4 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
+import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   HTTP_STATUS_MAP,
@@ -16,23 +17,29 @@ import {
   getAnn,
   getProps,
   hasPropAnn,
+  makeRequest,
   mapKeys,
+  mapsVerbatim,
   matchTypedError,
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import {
+  hasSensitive,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
+import { checkResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
- * StripeProtocol — hand-written.
+ * StripeProtocol -- hand-written.
  *
  * Speaks Stripe's REST protocol. The generic trait helpers live in
  * `@distilled.cloud/core/protocol-http`; this module supplies what is
  * Stripe's own (ported from the distilled v0 stripe client):
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + API base URL;
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + API base URL;
  *             per-call {@link StripeRequestOptions} (resolved from the
- *             calling fiber via {@link RequestOptions}) → Idempotency-Key /
+ *             calling fiber via {@link RequestOptions}) -> Idempotency-Key /
  *             Stripe-Account / Stripe-Context / Stripe-Version headers;
  *             GET inputs flatten body-bound members into the query string
  *             with Stripe bracket notation (`created[gte]`, `expand[]`);
@@ -43,26 +50,25 @@ import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
  *             as JSON otherwise (the /v2 ops), and as multipart form-data
  *             for `contentType: "multipart"` (POST /v1/files)
  *
- *   response: 2xx JSON is the payload (no envelope) → wire→TS key mapping →
+ *   response: 2xx JSON is the payload (no envelope) -> wire->TS key mapping ->
  *             Redacted wrapping of sensitive members; failures parse the
- *             `{ error: { type, code, message, … } }` envelope and dispatch
+ *             `{ error: { type, code, message, ... } }` envelope and dispatch
  *             by per-op matcher classes first (`matchTypedError`, e.g.
- *             ProductHasPrices), then `error.type` (card_error → CardError,
- *             idempotency_error → IdempotencyError, invalid_request_error →
- *             InvalidRequestError, api_error → ApiError), then the
- *             Stripe-specific status map (402 → PaymentError, 424 →
+ *             ProductHasPrices), then `error.type` (card_error -> CardError,
+ *             idempotency_error -> IdempotencyError, invalid_request_error ->
+ *             InvalidRequestError, api_error -> ApiError), then the
+ *             Stripe-specific status map (402 -> PaymentError, 424 ->
  *             ExternalDependencyFailed), then core's HTTP status map (with
  *             retryAfter hints), then UnknownStripeError.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpBody from "effect/http/HttpBody";
-import type * as HttpClient from "effect/http/HttpClient";
+import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { Credentials, type Config } from "./credentials.ts";
@@ -108,11 +114,12 @@ export type StripeRequestOptions = {
 /**
  * Per-call request options service. distilled v0 passed these as a second
  * call argument; v1 operations take only their input, so options travel on
- * the calling fiber's context instead — see {@link withRequestOptions}.
+ * the calling fiber's context instead -- see {@link withRequestOptions}.
  */
-export class RequestOptions extends Context.Service<RequestOptions, StripeRequestOptions>()(
-  "StripeRequestOptions",
-) {}
+export class RequestOptions
+  extends /*@__PURE__*/ Context.Service<RequestOptions, StripeRequestOptions>()(
+    "StripeRequestOptions",
+  ) {}
 
 /**
  * Provide {@link StripeRequestOptions} to every Stripe API call below it.
@@ -188,7 +195,7 @@ const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effe
 // Stripe query / form encoding (ported from distilled v0)
 // =============================================================================
 
-const BODYLESS = new Set(["GET", "HEAD"]);
+const BODYLESS = /*@__PURE__*/ new Set(["GET", "HEAD"]);
 
 const appendQueryValue = (query: URLSearchParams, key: string, value: unknown): void => {
   if (value === undefined || value === null) return;
@@ -274,108 +281,183 @@ const buildFormUrlEncoded = (body: Record<string, unknown>): string => {
 // Request building
 // =============================================================================
 
-// The protocol layer is memoized per process by `API.make`, so the build
-// must not capture credentials — `encode` resolves Credentials (and the
-// per-call RequestOptions) from the calling fiber's context on every
-// request. The requirement is erased at this boundary and reintroduced for
-// callers by the generated `StripeOpContext` annotations.
-const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
-  Effect.gen(function* () {
-    const resolveCredentials = yield* Credentials;
-    const creds = yield* resolveCredentials as Effect.Effect<Config>;
-    const options = Option.getOrUndefined(yield* Effect.serviceOption(RequestOptions));
+/** One input member, with its binding read from the schema once. */
+interface MemberPlan {
+  readonly key: string;
+  readonly bind: "label" | "header" | "query" | "body";
+  /** Label token, lower-cased header name, query name or body wire name. */
+  readonly name: string;
+  readonly type: AST.AST;
+  /** `mapKeys(type, value, "encode")` returns the value unchanged. */
+  readonly verbatim: boolean;
+}
 
-    const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-    if (!http) {
-      throw new Error("operation input is missing the Http() trait");
+interface RequestPlan {
+  readonly http: HttpTrait;
+  readonly members: ReadonlyArray<MemberPlan>;
+  readonly known: ReadonlySet<string>;
+}
+
+const requestPlans = /*@__PURE__*/ new WeakMap<AST.AST, RequestPlan>();
+const requestPlanFor = (inputAst: AST.AST): RequestPlan => {
+  let plan = requestPlans.get(inputAst);
+  if (plan !== undefined) return plan;
+  const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
+  if (!http) {
+    throw new Error("operation input is missing the Http() trait");
+  }
+  const members = getProps(inputAst).map((prop): MemberPlan => {
+    const key = String(prop.name);
+    if (hasPropAnn(prop, labelSymbol)) {
+      return {
+        key,
+        bind: "label",
+        name: nameOf(prop, labelSymbol),
+        type: prop.type,
+        verbatim: true,
+      };
     }
-
-    const baseHeaders: Record<string, string> = {
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-      ...stripeRequestHeaders(options),
-      Accept: "application/json",
+    if (hasPropAnn(prop, headerSymbol)) {
+      const name = nameOf(prop, headerSymbol).toLowerCase();
+      return { key, bind: "header", name, type: prop.type, verbatim: true };
+    }
+    if (hasPropAnn(prop, querySymbol)) {
+      return {
+        key,
+        bind: "query",
+        name: nameOf(prop, querySymbol),
+        type: prop.type,
+        verbatim: true,
+      };
+    }
+    return {
+      key,
+      bind: "body",
+      name: nameOf(prop, bodySymbol),
+      type: prop.type,
+      verbatim: mapsVerbatim(prop.type, "encode"),
     };
+  });
+  plan = { http, members, known: new Set(members.map((m) => m.key)) };
+  requestPlans.set(inputAst, plan);
+  return plan;
+};
 
-    // Multipart (POST /v1/files): core's buildRequest speaks multipart
-    // form-data (file parts + JSON-encoded object parts) — same behavior as
-    // v0's buildFormData.
-    if (http.contentType === "multipart") {
-      return buildRequest({
-        input: unwrapRedactedDeep(input),
-        inputAst,
-        baseUrl: creds.apiBaseUrl,
-        headers: baseHeaders,
-      });
-    }
+const requestFor = (
+  creds: Config,
+  options: StripeRequestOptions | undefined,
+  input: unknown,
+  inputAst: AST.AST,
+): HttpClientRequest.HttpClientRequest => {
+  const { http, members, known } = requestPlanFor(inputAst);
 
-    const inputObj = (unwrapRedactedDeep(input) ?? {}) as Record<string, unknown>;
-    const headers: Record<string, string> = { ...baseHeaders };
-    const body: Record<string, unknown> = {};
-    const query = new URLSearchParams();
-    let uri = http.uri;
-    const consumed = new Set<string>();
+  const baseHeaders: Record<string, string> = {
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    ...stripeRequestHeaders(options),
+    Accept: "application/json",
+  };
 
-    for (const prop of getProps(inputAst)) {
-      const key = String(prop.name);
-      consumed.add(key);
-      const value = inputObj[key];
-      if (value === undefined) continue;
+  // Multipart (POST /v1/files): core's buildRequest speaks multipart
+  // form-data (file parts + JSON-encoded object parts) -- same behavior as
+  // v0's buildFormData.
+  if (http.contentType === "multipart") {
+    return buildRequest({
+      input: unwrapRedactedDeep(input),
+      inputAst,
+      baseUrl: creds.apiBaseUrl,
+      headers: baseHeaders,
+    });
+  }
 
-      if (hasPropAnn(prop, labelSymbol)) {
-        const token = nameOf(prop, labelSymbol);
-        uri = uri.replace(`{${token}}`, encodeURIComponent(String(value)));
-      } else if (hasPropAnn(prop, headerSymbol)) {
-        headers[nameOf(prop, headerSymbol).toLowerCase()] = String(value);
-      } else if (hasPropAnn(prop, querySymbol)) {
+  const inputObj = (unwrapRedactedDeep(input) ?? {}) as Record<string, unknown>;
+  const headers = baseHeaders;
+  const body: Record<string, unknown> = {};
+  let bodyKeys = 0;
+  let query: URLSearchParams | undefined;
+  let uri = http.uri;
+
+  for (let i = 0; i < members.length; i++) {
+    const m = members[i]!;
+    const value = inputObj[m.key];
+    if (value === undefined) continue;
+    switch (m.bind) {
+      case "label":
+        uri = uri.replace(`{${m.name}}`, encodeURIComponent(String(value)));
+        break;
+      case "header":
+        headers[m.name] = String(value);
+        break;
+      case "query":
         // Stripe bracket expansion, not dotted params (`created[gte]=1`).
-        appendStripeQuery(query, nameOf(prop, querySymbol), value);
-      } else {
-        body[nameOf(prop, bodySymbol)] = mapKeys(prop.type, value, "encode");
-      }
+        appendStripeQuery((query ??= new URLSearchParams()), m.name, value);
+        break;
+      default:
+        body[m.name] = m.verbatim ? value : mapKeys(m.type, value, "encode");
+        bodyKeys++;
     }
+  }
 
-    // Input keys the schema doesn't know pass through as body fields — the
-    // generated schemas can lag the real API, and silently dropping them
-    // would break working callers.
-    for (const [key, value] of Object.entries(inputObj)) {
-      if (consumed.has(key) || value === undefined) continue;
-      body[key] = value;
+  // Input keys the schema doesn't know pass through as body fields -- the
+  // generated schemas can lag the real API, and silently dropping them
+  // would break working callers.
+  for (const key in inputObj) {
+    if (known.has(key) || !Object.hasOwn(inputObj, key)) continue;
+    const value = inputObj[key];
+    if (value === undefined) continue;
+    body[key] = value;
+    bodyKeys++;
+  }
+
+  // v0's normalizeStripeGetQuery: GET inputs carry no body -- flatten the
+  // body-bound members into the query string with bracket notation.
+  const bodyless = BODYLESS.has(http.method);
+  if (bodyless && bodyKeys > 0) {
+    for (const [key, value] of Object.entries(body)) {
+      appendStripeQuery((query ??= new URLSearchParams()), key, value);
     }
+  }
 
-    // v0's normalizeStripeGetQuery: GET inputs carry no body — flatten the
-    // body-bound members into the query string with bracket notation.
-    if (BODYLESS.has(http.method)) {
-      for (const [key, value] of Object.entries(body)) {
-        appendStripeQuery(query, key, value);
-      }
-    }
-
-    const qs = query.toString();
-    const url = `${creds.apiBaseUrl}${uri}${qs ? `?${qs}` : ""}`;
-    if (process.env.DISTILLED_DEBUG_HTTP) {
-      console.error(
-        `[distilled] ${http.method} ${url}` +
-          (Object.keys(body).length && !BODYLESS.has(http.method)
-            ? ` body=${JSON.stringify(body).slice(0, 400)}`
-            : ""),
-      );
-    }
-
-    let request = HttpClientRequest.make(http.method)(url).pipe(
-      HttpClientRequest.setHeaders(headers),
+  const qs = query === undefined ? "" : query.toString();
+  const url = qs ? `${creds.apiBaseUrl}${uri}?${qs}` : `${creds.apiBaseUrl}${uri}`;
+  if (debugHttp()) {
+    console.error(
+      `[distilled] ${http.method} ${url}` +
+        (bodyKeys && !bodyless ? ` body=${JSON.stringify(body).slice(0, 400)}` : ""),
     );
-    if (!BODYLESS.has(http.method) && Object.keys(body).length > 0) {
-      request =
-        http.contentType === "form-urlencoded"
-          ? request.pipe(
-              HttpClientRequest.setBody(
-                HttpBody.text(buildFormUrlEncoded(body), "application/x-www-form-urlencoded"),
-              ),
-            )
-          : // The /v2/* operations are plain JSON.
-            request.pipe(HttpClientRequest.bodyJsonUnsafe(body));
-    }
-    return request;
+  }
+
+  const request = makeRequest(http.method, url, headers);
+  if (bodyless || bodyKeys === 0) return request;
+  return HttpClientRequest.setBody(
+    request,
+    http.contentType === "form-urlencoded"
+      ? HttpBody.text(buildFormUrlEncoded(body), "application/x-www-form-urlencoded")
+      : // The /v2/* operations are plain JSON.
+        HttpBody.jsonUnsafe(body),
+  );
+};
+
+/**
+ * The calling fiber's credentials, then `f` on them. The protocol layer is
+ * memoized per process by `API.make`, so credentials (and the per-call
+ * RequestOptions) are resolved from the calling fiber's context on every
+ * request. The requirement is erased at this boundary and reintroduced for
+ * callers by the generated `StripeOpContext` annotations.
+ */
+const withCredentials = <B>(
+  context: Context.Context<any>,
+  f: (creds: Config) => Effect.Effect<B, any, any>,
+): Effect.Effect<B, any, any> =>
+  API.withValue(Context.get(context, Credentials) as Effect.Effect<Config, any, any>, f);
+
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
+  Effect.withFiber((fiber) => {
+    const context = fiber.context as Context.Context<any>;
+    return withCredentials(context, (creds) =>
+      Effect.succeed(
+        requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, inputAst),
+      ),
+    );
   });
 
 // =============================================================================
@@ -391,7 +473,7 @@ const stripeStatusMap: Readonly<Record<number, (new (args: any) => unknown) | un
 const coreStatusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
   HTTP_STATUS_MAP;
 
-/** Stripe's `{ error: { type, message, … } }` object, when present. */
+/** Stripe's `{ error: { type, message, ... } }` object, when present. */
 const stripeErrorEnvelope = (errorBody: unknown): Record<string, unknown> | undefined => {
   const envelope =
     errorBody !== null && typeof errorBody === "object"
@@ -411,7 +493,7 @@ const stripeErrorMessage = (errorBody: unknown): string | undefined => {
  * Match a Stripe API error response to the appropriate error class.
  *
  * Stripe dispatches errors by:
- * 1. Per-operation matcher classes (`matchTypedError`) — see decode
+ * 1. Per-operation matcher classes (`matchTypedError`) -- see decode
  * 2. The `error.type` field (card_error, idempotency_error,
  *    invalid_request_error, api_error)
  * 3. HTTP status code (402/424 Stripe-specific, then the core status map)
@@ -470,7 +552,7 @@ const matchStripeError = (
     });
   }
 
-  // Fall back to standard HTTP status errors (400, 401, 403, 404, …).
+  // Fall back to standard HTTP status errors (400, 401, 403, 404, ...).
   const CoreErrorClass = coreStatusMap[status];
   if (CoreErrorClass) {
     return new CoreErrorClass({
@@ -479,7 +561,7 @@ const matchStripeError = (
     } as any);
   }
 
-  // Unmapped 5xx (e.g. proxy statuses) → retryable server error (v1
+  // Unmapped 5xx (e.g. proxy statuses) -> retryable server error (v1
   // convention; v0 fell through to UnknownStripeError here).
   if (status >= 500) {
     return new InternalServerError({
@@ -497,62 +579,84 @@ const matchStripeError = (
   });
 };
 
-const decode = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-}) =>
-  Effect.gen(function* () {
-    // Read as text and parse tolerantly — error pages can be non-JSON.
-    const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-    if (process.env.DISTILLED_DEBUG_HTTP) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
-    let json: unknown;
-    let nonJson = false;
-    if (text.trim().length > 0) {
-      try {
-        json = JSON.parse(text);
-      } catch {
-        nonJson = true;
+const decodeResponse = (
+  context: Context.Context<any>,
+  response: HttpClientResponse.HttpClientResponse,
+  outputAst: AST.AST,
+  errorClasses: ReadonlyArray<unknown>,
+): Effect.Effect<unknown> =>
+  Effect.matchEffect(response.text, {
+    onFailure: Effect.die,
+    onSuccess: (read): Effect.Effect<unknown> => {
+      // Read as text and parse tolerantly -- error pages can be non-JSON.
+      const text = read ?? "";
+      if (debugHttp()) {
+        console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
       }
-    }
-    const status = response.status;
-    const headers = response.headers as Record<string, string | undefined>;
+      let json: unknown;
+      let nonJson = false;
+      if (text.trim().length > 0) {
+        try {
+          json = JSON.parse(text);
+        } catch {
+          nonJson = true;
+        }
+      }
+      const status = response.status;
+      const headers = response.headers as Record<string, string | undefined>;
 
-    if (status >= 400) {
-      const errorBody: unknown = nonJson ? text : json;
-      const message =
-        stripeErrorMessage(errorBody) ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
-      const typed = matchTypedError(errorClasses, status, [{ message }], {
-        body: nonJson ? text : json,
-        headers,
-      });
-      if (typed !== undefined) return yield* fail(typed);
-      return yield* fail(matchStripeError(status, errorBody, headers));
-    }
+      if (status >= 400) {
+        const errorBody: unknown = nonJson ? text : json;
+        const message =
+          stripeErrorMessage(errorBody) ??
+          (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+        const typed = matchTypedError(errorClasses, status, [{ message }], {
+          body: nonJson ? text : json,
+          headers,
+        });
+        if (typed !== undefined) return fail(typed);
+        return fail(matchStripeError(status, errorBody, headers));
+      }
 
-    // 2xx: the response body IS the payload (no envelope). Wire→TS key
-    // mapping is schema-driven; sensitive members come back Redacted.
-    // Strict mode checks the mapped body against the output schema first.
-    const body: unknown = nonJson ? text : (json ?? {});
-    const mapped = yield* validateResponse(
-      outputAst,
-      mapKeys(outputAst, body, "decode"),
-      (cause) => new StripeParseError({ body: nonJson ? text : json, cause }),
-    ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
+      // 2xx: the response body IS the payload (no envelope). Wire->TS key
+      // mapping is schema-driven; sensitive members come back Redacted.
+      // Strict mode checks the mapped body against the output schema first.
+      const body: unknown = nonJson ? text : (json ?? {});
+      const mapped = mapsVerbatim(outputAst, "decode") ? body : mapKeys(outputAst, body, "decode");
+      const cause = checkResponse(context, outputAst, mapped);
+      if (cause !== undefined) {
+        return fail(new StripeParseError({ body: nonJson ? text : json, cause }));
+      }
+      return Effect.succeed(hasSensitive(outputAst) ? wrapSensitive(outputAst, mapped) : mapped);
+    },
   });
 
-export const StripeProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
+  Effect.withFiber((fiber) => {
+    const context = fiber.context as Context.Context<any>;
+    return withCredentials(context, (creds) => {
+      const request = requestFor(
+        creds,
+        Context.getOrUndefined(context, RequestOptions),
+        input,
+        op.inputAst,
+      );
+      const client = Context.get(context, HttpClient.HttpClient);
+      return Effect.flatMap(client.execute(request), (response) =>
+        decodeResponse(context, response, op.outputAst, op.errors),
+      );
+    });
+  }) as Effect.Effect<unknown>;
+
+export const StripeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
-  API.Protocol.of({
+  /*@__PURE__*/ API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
     encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode,
+    decode: ({ response, outputAst, errors }) =>
+      Effect.withFiber((fiber) =>
+        decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
+      ),
+    call,
   }),
 );

@@ -1,13 +1,13 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Axiom credentials — hand-written.
+ * Axiom credentials -- hand-written.
  *
  * API-compatible port of the distilled v0 axiom credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
  * on the calling fiber).
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -28,9 +28,8 @@ export interface Config {
   readonly orgId?: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "AxiomCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("AxiomCredentials") {}
 
 /** Layer from a redacted API token + optional base URL / org ID. */
 export const fromApiKey = (config: {
@@ -47,24 +46,26 @@ export const fromApiKey = (config: {
     }),
   );
 
-const envConfig = EffectConfig.all({
-  apiToken: EffectConfig.option(EffectConfig.String("AXIOM_TOKEN")),
-  apiKey: EffectConfig.option(EffectConfig.String("AXIOM_API_KEY")),
-  apiBaseUrl: EffectConfig.String("AXIOM_URL").pipe(EffectConfig.withDefault(DEFAULT_API_BASE_URL)),
-  orgId: EffectConfig.option(EffectConfig.String("AXIOM_ORG_ID")),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  apiToken: /*@__PURE__*/ EffectConfig.option(/*@__PURE__*/ EffectConfig.String("AXIOM_TOKEN")),
+  apiKey: /*@__PURE__*/ EffectConfig.option(/*@__PURE__*/ EffectConfig.String("AXIOM_API_KEY")),
+  apiBaseUrl: /*@__PURE__*/ EffectConfig.String("AXIOM_URL").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_API_BASE_URL),
+  ),
+  orgId: /*@__PURE__*/ EffectConfig.option(/*@__PURE__*/ EffectConfig.String("AXIOM_ORG_ID")),
 });
 
 /**
  * Build {@link Credentials} from environment variables.
  *
- * - `AXIOM_TOKEN` or `AXIOM_API_KEY` (required) — Axiom API token or PAT.
- * - `AXIOM_URL` (optional) — override the API base URL (for self-hosted or
+ * - `AXIOM_TOKEN` or `AXIOM_API_KEY` (required) -- Axiom API token or PAT.
+ * - `AXIOM_URL` (optional) -- override the API base URL (for self-hosted or
  *   regional edge deployments). Defaults to `https://api.axiom.co`.
- * - `AXIOM_ORG_ID` (optional) — organization ID, required for PATs.
+ * - `AXIOM_ORG_ID` (optional) -- organization ID, required for PATs.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const config = yield* envConfig.pipe(
       Effect.mapError(
         () =>

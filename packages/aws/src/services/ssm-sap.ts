@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
-import * as redacted from "effect/Redacted";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -9,11 +10,13 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "Ssm Sap", serviceShapeName: "SsmSap" });
-const auth = T.AwsAuthSigv4({ name: "ssm-sap" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "Ssm Sap", serviceShapeName: "SsmSap" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "ssm-sap" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-05-10");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -68,88 +71,53 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://ssm-sap.{R}.{D}","properties":{},"headers":{}}');
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(401),
   ).pipe(C.withAuthError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type PermissionActionType = "RESTORE" | (string & {});
-export const PermissionActionType = S.String;
-
 export type Arn = string;
 export interface DeleteResourcePermissionInput {
   ActionType?: PermissionActionType;
   SourceResourceArn?: string;
   ResourceArn: string;
 }
-export const DeleteResourcePermissionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionType: S.optional(PermissionActionType),
-    SourceResourceArn: S.optional(S.String),
-    ResourceArn: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/delete-resource-permission" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResourcePermissionInput",
-}) as any as S.Schema<DeleteResourcePermissionInput>;
 export interface DeleteResourcePermissionOutput {
   Policy?: string;
 }
-export const DeleteResourcePermissionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteResourcePermissionOutput",
-}) as any as S.Schema<DeleteResourcePermissionOutput>;
 export type ApplicationId = string;
 export interface DeregisterApplicationInput {
   ApplicationId: string;
 }
-export const DeregisterApplicationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/deregister-application" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeregisterApplicationInput",
-}) as any as S.Schema<DeregisterApplicationInput>;
 export interface DeregisterApplicationOutput {}
-export const DeregisterApplicationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeregisterApplicationOutput",
-}) as any as S.Schema<DeregisterApplicationOutput>;
 export type SsmSapArn = string;
 export type AppRegistryArn = string;
 export interface GetApplicationInput {
@@ -157,16 +125,7 @@ export interface GetApplicationInput {
   ApplicationArn?: string;
   AppRegistryArn?: string;
 }
-export const GetApplicationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ApplicationArn: S.optional(S.String),
-    AppRegistryArn: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/get-application" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetApplicationInput" }) as any as S.Schema<GetApplicationInput>;
 export type ApplicationType = "HANA" | "SAP_ABAP" | (string & {});
-export const ApplicationType = S.String;
-
 export type ApplicationStatus =
   | "ACTIVATED"
   | "STARTING"
@@ -177,8 +136,6 @@ export type ApplicationStatus =
   | "DELETING"
   | "UNKNOWN"
   | (string & {});
-export const ApplicationStatus = S.String;
-
 export type ApplicationDiscoveryStatus =
   | "SUCCESS"
   | "REGISTRATION_FAILED"
@@ -186,13 +143,9 @@ export type ApplicationDiscoveryStatus =
   | "REGISTERING"
   | "DELETING"
   | (string & {});
-export const ApplicationDiscoveryStatus = S.String;
-
 export type ComponentId = string;
 export type ComponentIdList = string[];
-export const ComponentIdList = /*@__PURE__*/ S.Array(S.String);
 export type ApplicationArnList = string[];
-export const ApplicationArnList = /*@__PURE__*/ S.Array(S.String);
 export interface Application {
   Id?: string;
   Type?: ApplicationType;
@@ -205,40 +158,17 @@ export interface Application {
   StatusMessage?: string;
   AssociatedApplicationArns?: string[];
 }
-export const Application = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Type: S.optional(ApplicationType),
-    Arn: S.optional(S.String),
-    AppRegistryArn: S.optional(S.String),
-    Status: S.optional(ApplicationStatus),
-    DiscoveryStatus: S.optional(ApplicationDiscoveryStatus),
-    Components: S.optional(ComponentIdList),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StatusMessage: S.optional(S.String),
-    AssociatedApplicationArns: S.optional(ApplicationArnList),
-  }),
-).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetApplicationOutput {
   Application?: Application;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Application: S.optional(Application), Tags: S.optional(TagMap) }),
-).annotate({ identifier: "GetApplicationOutput" }) as any as S.Schema<GetApplicationOutput>;
 export interface GetComponentInput {
   ApplicationId: string;
   ComponentId: string;
 }
-export const GetComponentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationId: S.String, ComponentId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/get-component" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetComponentInput" }) as any as S.Schema<GetComponentInput>;
 export type SID = string;
 export type SAPInstanceNumber = string;
 export type ComponentType =
@@ -251,8 +181,6 @@ export type ComponentType =
   | "WD"
   | "ERS"
   | (string & {});
-export const ComponentType = S.String;
-
 export type ComponentStatus =
   | "ACTIVATED"
   | "STARTING"
@@ -262,11 +190,7 @@ export type ComponentStatus =
   | "RUNNING_WITH_ERROR"
   | "UNDEFINED"
   | (string & {});
-export const ComponentStatus = S.String;
-
 export type ReplicationMode = "PRIMARY" | "NONE" | "SYNC" | "SYNCMEM" | "ASYNC" | (string & {});
-export const ReplicationMode = S.String;
-
 export type OperationMode =
   | "PRIMARY"
   | "LOGREPLAY"
@@ -274,8 +198,6 @@ export type OperationMode =
   | "LOGREPLAY_READACCESS"
   | "NONE"
   | (string & {});
-export const OperationMode = S.String;
-
 export type ClusterStatus =
   | "ONLINE"
   | "STANDBY"
@@ -283,8 +205,6 @@ export type ClusterStatus =
   | "OFFLINE"
   | "NONE"
   | (string & {});
-export const ClusterStatus = S.String;
-
 export interface Resilience {
   HsrTier?: string;
   HsrReplicationMode?: ReplicationMode;
@@ -292,52 +212,22 @@ export interface Resilience {
   ClusterStatus?: ClusterStatus;
   EnqueueReplication?: boolean;
 }
-export const Resilience = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HsrTier: S.optional(S.String),
-    HsrReplicationMode: S.optional(ReplicationMode),
-    HsrOperationMode: S.optional(OperationMode),
-    ClusterStatus: S.optional(ClusterStatus),
-    EnqueueReplication: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Resilience" }) as any as S.Schema<Resilience>;
 export type AllocationType = "VPC_SUBNET" | "ELASTIC_IP" | "OVERLAY" | "UNKNOWN" | (string & {});
-export const AllocationType = S.String;
-
 export interface IpAddressMember {
   IpAddress?: string;
   Primary?: boolean;
   AllocationType?: AllocationType;
 }
-export const IpAddressMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IpAddress: S.optional(S.String),
-    Primary: S.optional(S.Boolean),
-    AllocationType: S.optional(AllocationType),
-  }),
-).annotate({ identifier: "IpAddressMember" }) as any as S.Schema<IpAddressMember>;
 export type IpAddressList = IpAddressMember[];
-export const IpAddressList = /*@__PURE__*/ S.Array(IpAddressMember);
 export interface AssociatedHost {
   Hostname?: string;
   Ec2InstanceId?: string;
   IpAddresses?: IpAddressMember[];
   OsVersion?: string;
 }
-export const AssociatedHost = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Hostname: S.optional(S.String),
-    Ec2InstanceId: S.optional(S.String),
-    IpAddresses: S.optional(IpAddressList),
-    OsVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "AssociatedHost" }) as any as S.Schema<AssociatedHost>;
 export type DatabaseId = string;
 export type DatabaseIdList = string[];
-export const DatabaseIdList = /*@__PURE__*/ S.Array(S.String);
 export type HostRole = "LEADER" | "WORKER" | "STANDBY" | "UNKNOWN" | (string & {});
-export const HostRole = S.String;
-
 export interface Host {
   HostName?: string;
   HostIp?: string;
@@ -346,33 +236,13 @@ export interface Host {
   HostRole?: HostRole;
   OsVersion?: string;
 }
-export const Host = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HostName: S.optional(S.String),
-    HostIp: S.optional(S.String),
-    EC2InstanceId: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    HostRole: S.optional(HostRole),
-    OsVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "Host" }) as any as S.Schema<Host>;
 export type HostList = Host[];
-export const HostList = /*@__PURE__*/ S.Array(Host);
 export type DatabaseConnectionMethod = "DIRECT" | "OVERLAY" | (string & {});
-export const DatabaseConnectionMethod = S.String;
-
 export interface DatabaseConnection {
   DatabaseConnectionMethod?: DatabaseConnectionMethod;
   DatabaseArn?: string;
   ConnectionIp?: string;
 }
-export const DatabaseConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseConnectionMethod: S.optional(DatabaseConnectionMethod),
-    DatabaseArn: S.optional(S.String),
-    ConnectionIp: S.optional(S.String),
-  }),
-).annotate({ identifier: "DatabaseConnection" }) as any as S.Schema<DatabaseConnection>;
 export interface Component {
   ComponentId?: string;
   Sid?: string;
@@ -395,65 +265,20 @@ export interface Component {
   LastUpdated?: Date;
   Arn?: string;
 }
-export const Component = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComponentId: S.optional(S.String),
-    Sid: S.optional(S.String),
-    SystemNumber: S.optional(S.String),
-    ParentComponent: S.optional(S.String),
-    ChildComponents: S.optional(ComponentIdList),
-    ApplicationId: S.optional(S.String),
-    ComponentType: S.optional(ComponentType),
-    Status: S.optional(ComponentStatus),
-    SapHostname: S.optional(S.String),
-    SapFeature: S.optional(S.String),
-    SapKernelVersion: S.optional(S.String),
-    HdbVersion: S.optional(S.String),
-    Resilience: S.optional(Resilience),
-    AssociatedHost: S.optional(AssociatedHost),
-    Databases: S.optional(DatabaseIdList),
-    Hosts: S.optional(HostList),
-    PrimaryHost: S.optional(S.String),
-    DatabaseConnection: S.optional(DatabaseConnection),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Component" }) as any as S.Schema<Component>;
 export interface GetComponentOutput {
   Component?: Component;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetComponentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Component: S.optional(Component), Tags: S.optional(TagMap) }),
-).annotate({ identifier: "GetComponentOutput" }) as any as S.Schema<GetComponentOutput>;
 export type OperationId = string;
 export interface GetConfigurationCheckOperationInput {
   OperationId: string;
 }
-export const GetConfigurationCheckOperationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OperationId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-configuration-check-operation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetConfigurationCheckOperationInput",
-}) as any as S.Schema<GetConfigurationCheckOperationInput>;
 export type OperationStatus = "INPROGRESS" | "SUCCESS" | "ERROR" | (string & {});
-export const OperationStatus = S.String;
-
 export type ConfigurationCheckType =
   | "SAP_CHECK_01"
   | "SAP_CHECK_02"
   | "SAP_CHECK_03"
   | (string & {});
-export const ConfigurationCheckType = S.String;
-
 export interface RuleStatusCounts {
   Failed?: number;
   Warning?: number;
@@ -461,15 +286,6 @@ export interface RuleStatusCounts {
   Passed?: number;
   Unknown?: number;
 }
-export const RuleStatusCounts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Failed: S.optional(S.Number),
-    Warning: S.optional(S.Number),
-    Info: S.optional(S.Number),
-    Passed: S.optional(S.Number),
-    Unknown: S.optional(S.Number),
-  }),
-).annotate({ identifier: "RuleStatusCounts" }) as any as S.Schema<RuleStatusCounts>;
 export interface ConfigurationCheckOperation {
   Id?: string;
   ApplicationId?: string;
@@ -482,62 +298,25 @@ export interface ConfigurationCheckOperation {
   EndTime?: Date;
   RuleStatusCounts?: RuleStatusCounts;
 }
-export const ConfigurationCheckOperation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    ApplicationId: S.optional(S.String),
-    Status: S.optional(OperationStatus),
-    StatusMessage: S.optional(S.String),
-    ConfigurationCheckId: S.optional(ConfigurationCheckType),
-    ConfigurationCheckName: S.optional(S.String),
-    ConfigurationCheckDescription: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RuleStatusCounts: S.optional(RuleStatusCounts),
-  }),
-).annotate({
-  identifier: "ConfigurationCheckOperation",
-}) as any as S.Schema<ConfigurationCheckOperation>;
 export interface GetConfigurationCheckOperationOutput {
   ConfigurationCheckOperation?: ConfigurationCheckOperation;
 }
-export const GetConfigurationCheckOperationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConfigurationCheckOperation: S.optional(ConfigurationCheckOperation) }),
-).annotate({
-  identifier: "GetConfigurationCheckOperationOutput",
-}) as any as S.Schema<GetConfigurationCheckOperationOutput>;
 export interface GetDatabaseInput {
   ApplicationId?: string;
   ComponentId?: string;
   DatabaseId?: string;
   DatabaseArn?: string;
 }
-export const GetDatabaseInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ComponentId: S.optional(S.String),
-    DatabaseId: S.optional(S.String),
-    DatabaseArn: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/get-database" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetDatabaseInput" }) as any as S.Schema<GetDatabaseInput>;
 export type DatabaseName = string;
 export type CredentialType = "ADMIN" | (string & {});
-export const CredentialType = S.String;
-
 export type SecretId = string | redacted.Redacted<string>;
 export interface ApplicationCredential {
   DatabaseName: string;
   CredentialType: CredentialType;
   SecretId: string | redacted.Redacted<string>;
 }
-export const ApplicationCredential = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DatabaseName: S.String, CredentialType: CredentialType, SecretId: SensitiveString }),
-).annotate({ identifier: "ApplicationCredential" }) as any as S.Schema<ApplicationCredential>;
 export type ApplicationCredentialList = ApplicationCredential[];
-export const ApplicationCredentialList = /*@__PURE__*/ S.Array(ApplicationCredential);
 export type DatabaseType = "SYSTEM" | "TENANT" | (string & {});
-export const DatabaseType = S.String;
-
 export type DatabaseStatus =
   | "RUNNING"
   | "STARTING"
@@ -547,10 +326,7 @@ export type DatabaseStatus =
   | "ERROR"
   | "STOPPING"
   | (string & {});
-export const DatabaseStatus = S.String;
-
 export type ComponentArnList = string[];
-export const ComponentArnList = /*@__PURE__*/ S.Array(S.String);
 export interface Database {
   ApplicationId?: string;
   ComponentId?: string;
@@ -565,42 +341,15 @@ export interface Database {
   LastUpdated?: Date;
   ConnectedComponentArns?: string[];
 }
-export const Database = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ComponentId: S.optional(S.String),
-    Credentials: S.optional(ApplicationCredentialList),
-    DatabaseId: S.optional(S.String),
-    DatabaseName: S.optional(S.String),
-    DatabaseType: S.optional(DatabaseType),
-    Arn: S.optional(S.String),
-    Status: S.optional(DatabaseStatus),
-    PrimaryHost: S.optional(S.String),
-    SQLPort: S.optional(S.Number),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ConnectedComponentArns: S.optional(ComponentArnList),
-  }),
-).annotate({ identifier: "Database" }) as any as S.Schema<Database>;
 export interface GetDatabaseOutput {
   Database?: Database;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetDatabaseOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Database: S.optional(Database), Tags: S.optional(TagMap) }),
-).annotate({ identifier: "GetDatabaseOutput" }) as any as S.Schema<GetDatabaseOutput>;
 export interface GetOperationInput {
   OperationId: string;
 }
-export const GetOperationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OperationId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/get-operation" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetOperationInput" }) as any as S.Schema<GetOperationInput>;
 export type OperationType = string;
 export type OperationProperties = { [key: string]: string | undefined };
-export const OperationProperties = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional)).pipe(
-  T.Sparse(),
-);
 export type ResourceType = string;
 export type ResourceId = string;
 export interface Operation {
@@ -616,84 +365,32 @@ export interface Operation {
   EndTime?: Date;
   LastUpdatedTime?: Date;
 }
-export const Operation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Type: S.optional(S.String),
-    Status: S.optional(OperationStatus),
-    StatusMessage: S.optional(S.String),
-    Properties: S.optional(OperationProperties),
-    ResourceType: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 export interface GetOperationOutput {
   Operation?: Operation;
 }
-export const GetOperationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Operation: S.optional(Operation) }),
-).annotate({ identifier: "GetOperationOutput" }) as any as S.Schema<GetOperationOutput>;
 export interface GetResourcePermissionInput {
   ActionType?: PermissionActionType;
   ResourceArn: string;
 }
-export const GetResourcePermissionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ActionType: S.optional(PermissionActionType), ResourceArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/get-resource-permission" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResourcePermissionInput",
-}) as any as S.Schema<GetResourcePermissionInput>;
 export interface GetResourcePermissionOutput {
   Policy?: string;
 }
-export const GetResourcePermissionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotate({
-  identifier: "GetResourcePermissionOutput",
-}) as any as S.Schema<GetResourcePermissionOutput>;
 export type NextToken = string;
 export type MaxResults = number;
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterOperator = "Equals" | "GreaterThanOrEquals" | "LessThanOrEquals" | (string & {});
-export const FilterOperator = S.String;
-
 export interface Filter {
   Name: string;
   Value: string;
   Operator: FilterOperator;
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String, Operator: FilterOperator }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = /*@__PURE__*/ S.Array(Filter);
 export interface ListApplicationsInput {
   NextToken?: string;
   MaxResults?: number;
   Filters?: Filter[];
 }
-export const ListApplicationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    Filters: S.optional(FilterList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/list-applications" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListApplicationsInput" }) as any as S.Schema<ListApplicationsInput>;
 export interface ApplicationSummary {
   Id?: string;
   DiscoveryStatus?: ApplicationDiscoveryStatus;
@@ -701,36 +398,16 @@ export interface ApplicationSummary {
   Arn?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    DiscoveryStatus: S.optional(ApplicationDiscoveryStatus),
-    Type: S.optional(ApplicationType),
-    Arn: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "ApplicationSummary" }) as any as S.Schema<ApplicationSummary>;
 export type ApplicationSummaryList = ApplicationSummary[];
-export const ApplicationSummaryList = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsOutput {
   Applications?: ApplicationSummary[];
   NextToken?: string;
 }
-export const ListApplicationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Applications: S.optional(ApplicationSummaryList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListApplicationsOutput" }) as any as S.Schema<ListApplicationsOutput>;
 export interface ListComponentsInput {
   ApplicationId?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListComponentsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/list-components" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListComponentsInput" }) as any as S.Schema<ListComponentsInput>;
 export interface ComponentSummary {
   ApplicationId?: string;
   ComponentId?: string;
@@ -738,80 +415,31 @@ export interface ComponentSummary {
   Tags?: { [key: string]: string | undefined };
   Arn?: string;
 }
-export const ComponentSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ComponentId: S.optional(S.String),
-    ComponentType: S.optional(ComponentType),
-    Tags: S.optional(TagMap),
-    Arn: S.optional(S.String),
-  }),
-).annotate({ identifier: "ComponentSummary" }) as any as S.Schema<ComponentSummary>;
 export type ComponentSummaryList = ComponentSummary[];
-export const ComponentSummaryList = /*@__PURE__*/ S.Array(ComponentSummary);
 export interface ListComponentsOutput {
   Components?: ComponentSummary[];
   NextToken?: string;
 }
-export const ListComponentsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Components: S.optional(ComponentSummaryList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListComponentsOutput" }) as any as S.Schema<ListComponentsOutput>;
 export interface ListConfigurationCheckDefinitionsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListConfigurationCheckDefinitionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-configuration-check-definitions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConfigurationCheckDefinitionsInput",
-}) as any as S.Schema<ListConfigurationCheckDefinitionsInput>;
 export type ApplicationTypeList = ApplicationType[];
-export const ApplicationTypeList = /*@__PURE__*/ S.Array(ApplicationType);
 export interface ConfigurationCheckDefinition {
   Id?: ConfigurationCheckType;
   Name?: string;
   Description?: string;
   ApplicableApplicationTypes?: ApplicationType[];
 }
-export const ConfigurationCheckDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(ConfigurationCheckType),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    ApplicableApplicationTypes: S.optional(ApplicationTypeList),
-  }),
-).annotate({
-  identifier: "ConfigurationCheckDefinition",
-}) as any as S.Schema<ConfigurationCheckDefinition>;
 export type ConfigurationCheckDefinitionList = ConfigurationCheckDefinition[];
-export const ConfigurationCheckDefinitionList = /*@__PURE__*/ S.Array(ConfigurationCheckDefinition);
 export interface ListConfigurationCheckDefinitionsOutput {
   ConfigurationChecks?: ConfigurationCheckDefinition[];
   NextToken?: string;
 }
-export const ListConfigurationCheckDefinitionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationChecks: S.optional(ConfigurationCheckDefinitionList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConfigurationCheckDefinitionsOutput",
-}) as any as S.Schema<ListConfigurationCheckDefinitionsOutput>;
 export type ConfigurationCheckOperationListingMode =
   | "ALL_OPERATIONS"
   | "LATEST_PER_CHECK"
   | (string & {});
-export const ConfigurationCheckOperationListingMode = S.String;
-
 export interface ListConfigurationCheckOperationsInput {
   ApplicationId: string;
   ListMode?: ConfigurationCheckOperationListingMode;
@@ -819,54 +447,17 @@ export interface ListConfigurationCheckOperationsInput {
   NextToken?: string;
   Filters?: Filter[];
 }
-export const ListConfigurationCheckOperationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String,
-    ListMode: S.optional(ConfigurationCheckOperationListingMode),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(FilterList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-configuration-check-operations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConfigurationCheckOperationsInput",
-}) as any as S.Schema<ListConfigurationCheckOperationsInput>;
 export type ConfigurationCheckOperationList = ConfigurationCheckOperation[];
-export const ConfigurationCheckOperationList = /*@__PURE__*/ S.Array(ConfigurationCheckOperation);
 export interface ListConfigurationCheckOperationsOutput {
   ConfigurationCheckOperations?: ConfigurationCheckOperation[];
   NextToken?: string;
 }
-export const ListConfigurationCheckOperationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationCheckOperations: S.optional(ConfigurationCheckOperationList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConfigurationCheckOperationsOutput",
-}) as any as S.Schema<ListConfigurationCheckOperationsOutput>;
 export interface ListDatabasesInput {
   ApplicationId?: string;
   ComponentId?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListDatabasesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ComponentId: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/list-databases" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListDatabasesInput" }) as any as S.Schema<ListDatabasesInput>;
 export interface DatabaseSummary {
   ApplicationId?: string;
   ComponentId?: string;
@@ -875,52 +466,23 @@ export interface DatabaseSummary {
   Arn?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const DatabaseSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.optional(S.String),
-    ComponentId: S.optional(S.String),
-    DatabaseId: S.optional(S.String),
-    DatabaseType: S.optional(DatabaseType),
-    Arn: S.optional(S.String),
-    Tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "DatabaseSummary" }) as any as S.Schema<DatabaseSummary>;
 export type DatabaseSummaryList = DatabaseSummary[];
-export const DatabaseSummaryList = /*@__PURE__*/ S.Array(DatabaseSummary);
 export interface ListDatabasesOutput {
   Databases?: DatabaseSummary[];
   NextToken?: string;
 }
-export const ListDatabasesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Databases: S.optional(DatabaseSummaryList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListDatabasesOutput" }) as any as S.Schema<ListDatabasesOutput>;
 export interface ListOperationEventsInput {
   OperationId: string;
   MaxResults?: number;
   NextToken?: string;
   Filters?: Filter[];
 }
-export const ListOperationEventsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OperationId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(FilterList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/list-operation-events" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListOperationEventsInput" }) as any as S.Schema<ListOperationEventsInput>;
 export type OperationEventResourceType = string;
 export interface Resource {
   ResourceArn?: string;
   ResourceType?: string;
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String), ResourceType: S.optional(S.String) }),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type OperationEventStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
-export const OperationEventStatus = S.String;
-
 export interface OperationEvent {
   Description?: string;
   Resource?: Resource;
@@ -928,122 +490,50 @@ export interface OperationEvent {
   StatusMessage?: string;
   Timestamp?: Date;
 }
-export const OperationEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Resource: S.optional(Resource),
-    Status: S.optional(OperationEventStatus),
-    StatusMessage: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "OperationEvent" }) as any as S.Schema<OperationEvent>;
 export type OperationEventList = OperationEvent[];
-export const OperationEventList = /*@__PURE__*/ S.Array(OperationEvent);
 export interface ListOperationEventsOutput {
   OperationEvents?: OperationEvent[];
   NextToken?: string;
 }
-export const ListOperationEventsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OperationEvents: S.optional(OperationEventList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListOperationEventsOutput",
-}) as any as S.Schema<ListOperationEventsOutput>;
 export interface ListOperationsInput {
   ApplicationId: string;
   MaxResults?: number;
   NextToken?: string;
   Filters?: Filter[];
 }
-export const ListOperationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(FilterList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/list-operations" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListOperationsInput" }) as any as S.Schema<ListOperationsInput>;
 export type OperationList = Operation[];
-export const OperationList = /*@__PURE__*/ S.Array(Operation);
 export interface ListOperationsOutput {
   Operations?: Operation[];
   NextToken?: string;
 }
-export const ListOperationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Operations: S.optional(OperationList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListOperationsOutput" }) as any as S.Schema<ListOperationsOutput>;
 export interface ListSubCheckResultsInput {
   OperationId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListSubCheckResultsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OperationId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/list-sub-check-results" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListSubCheckResultsInput" }) as any as S.Schema<ListSubCheckResultsInput>;
 export type SubCheckResultId = string;
 export type SubCheckReferencesList = string[];
-export const SubCheckReferencesList = /*@__PURE__*/ S.Array(S.String);
 export interface SubCheckResult {
   Id?: string;
   Name?: string;
   Description?: string;
   References?: string[];
 }
-export const SubCheckResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    References: S.optional(SubCheckReferencesList),
-  }),
-).annotate({ identifier: "SubCheckResult" }) as any as S.Schema<SubCheckResult>;
 export type SubCheckResultList = SubCheckResult[];
-export const SubCheckResultList = /*@__PURE__*/ S.Array(SubCheckResult);
 export interface ListSubCheckResultsOutput {
   SubCheckResults?: SubCheckResult[];
   NextToken?: string;
 }
-export const ListSubCheckResultsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SubCheckResults: S.optional(SubCheckResultList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSubCheckResultsOutput",
-}) as any as S.Schema<ListSubCheckResultsOutput>;
 export interface ListSubCheckRuleResultsInput {
   SubCheckResultId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListSubCheckRuleResultsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubCheckResultId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-sub-check-rule-results" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListSubCheckRuleResultsInput",
-}) as any as S.Schema<ListSubCheckRuleResultsInput>;
 export type RuleResultId = string;
 export type RuleResultStatus = "PASSED" | "FAILED" | "WARNING" | "INFO" | "UNKNOWN" | (string & {});
-export const RuleResultStatus = S.String;
-
 export type RuleResultMetadataKey = string;
 export type RuleResultMetadataValue = string;
 export type RuleResultMetadata = { [key: string]: string | undefined };
-export const RuleResultMetadata = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface RuleResult {
   Id?: string;
   Description?: string;
@@ -1051,88 +541,33 @@ export interface RuleResult {
   Message?: string;
   Metadata?: { [key: string]: string | undefined };
 }
-export const RuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Description: S.optional(S.String),
-    Status: S.optional(RuleResultStatus),
-    Message: S.optional(S.String),
-    Metadata: S.optional(RuleResultMetadata),
-  }),
-).annotate({ identifier: "RuleResult" }) as any as S.Schema<RuleResult>;
 export type RuleResultList = RuleResult[];
-export const RuleResultList = /*@__PURE__*/ S.Array(RuleResult);
 export interface ListSubCheckRuleResultsOutput {
   RuleResults?: RuleResult[];
   NextToken?: string;
 }
-export const ListSubCheckRuleResultsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleResults: S.optional(RuleResultList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSubCheckRuleResultsOutput",
-}) as any as S.Schema<ListSubCheckRuleResultsOutput>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutResourcePermissionInput {
   ActionType: PermissionActionType;
   SourceResourceArn: string;
   ResourceArn: string;
 }
-export const PutResourcePermissionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionType: PermissionActionType,
-    SourceResourceArn: S.String,
-    ResourceArn: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/put-resource-permission" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutResourcePermissionInput",
-}) as any as S.Schema<PutResourcePermissionInput>;
 export interface PutResourcePermissionOutput {
   Policy?: string;
 }
-export const PutResourcePermissionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }),
-).annotate({
-  identifier: "PutResourcePermissionOutput",
-}) as any as S.Schema<PutResourcePermissionOutput>;
 export type InstanceId = string;
 export type InstanceList = string[];
-export const InstanceList = /*@__PURE__*/ S.Array(S.String);
 export interface ComponentInfo {
   ComponentType: ComponentType;
   Sid: string;
   Ec2InstanceId: string;
 }
-export const ComponentInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ComponentType: ComponentType, Sid: S.String, Ec2InstanceId: S.String }),
-).annotate({ identifier: "ComponentInfo" }) as any as S.Schema<ComponentInfo>;
 export type ComponentInfoList = ComponentInfo[];
-export const ComponentInfoList = /*@__PURE__*/ S.Array(ComponentInfo);
 export interface RegisterApplicationInput {
   ApplicationId: string;
   ApplicationType: ApplicationType;
@@ -1144,164 +579,55 @@ export interface RegisterApplicationInput {
   DatabaseArn?: string;
   ComponentsInfo?: ComponentInfo[];
 }
-export const RegisterApplicationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String,
-    ApplicationType: ApplicationType,
-    Instances: InstanceList,
-    SapInstanceNumber: S.optional(S.String),
-    Sid: S.optional(S.String),
-    Tags: S.optional(TagMap),
-    Credentials: S.optional(ApplicationCredentialList),
-    DatabaseArn: S.optional(S.String),
-    ComponentsInfo: S.optional(ComponentInfoList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/register-application" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "RegisterApplicationInput" }) as any as S.Schema<RegisterApplicationInput>;
 export interface RegisterApplicationOutput {
   Application?: Application;
   OperationId?: string;
 }
-export const RegisterApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Application: S.optional(Application), OperationId: S.optional(S.String) }),
-).annotate({
-  identifier: "RegisterApplicationOutput",
-}) as any as S.Schema<RegisterApplicationOutput>;
 export interface StartApplicationInput {
   ApplicationId: string;
 }
-export const StartApplicationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/start-application" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "StartApplicationInput" }) as any as S.Schema<StartApplicationInput>;
 export interface StartApplicationOutput {
   OperationId?: string;
 }
-export const StartApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OperationId: S.optional(S.String) }),
-).annotate({ identifier: "StartApplicationOutput" }) as any as S.Schema<StartApplicationOutput>;
 export interface StartApplicationRefreshInput {
   ApplicationId: string;
 }
-export const StartApplicationRefreshInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ApplicationId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/start-application-refresh" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartApplicationRefreshInput",
-}) as any as S.Schema<StartApplicationRefreshInput>;
 export interface StartApplicationRefreshOutput {
   OperationId?: string;
 }
-export const StartApplicationRefreshOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OperationId: S.optional(S.String) }),
-).annotate({
-  identifier: "StartApplicationRefreshOutput",
-}) as any as S.Schema<StartApplicationRefreshOutput>;
 export type ConfigurationCheckTypeList = ConfigurationCheckType[];
-export const ConfigurationCheckTypeList = /*@__PURE__*/ S.Array(ConfigurationCheckType);
 export interface StartConfigurationChecksInput {
   ApplicationId: string;
   ConfigurationCheckIds?: ConfigurationCheckType[];
 }
-export const StartConfigurationChecksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String,
-    ConfigurationCheckIds: S.optional(ConfigurationCheckTypeList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/start-configuration-checks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartConfigurationChecksInput",
-}) as any as S.Schema<StartConfigurationChecksInput>;
 export interface StartConfigurationChecksOutput {
   ConfigurationCheckOperations?: ConfigurationCheckOperation[];
 }
-export const StartConfigurationChecksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConfigurationCheckOperations: S.optional(ConfigurationCheckOperationList) }),
-).annotate({
-  identifier: "StartConfigurationChecksOutput",
-}) as any as S.Schema<StartConfigurationChecksOutput>;
 export type ConnectedEntityType = "DBMS" | (string & {});
-export const ConnectedEntityType = S.String;
-
 export interface StopApplicationInput {
   ApplicationId: string;
   StopConnectedEntity?: ConnectedEntityType;
   IncludeEc2InstanceShutdown?: boolean;
 }
-export const StopApplicationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String,
-    StopConnectedEntity: S.optional(ConnectedEntityType),
-    IncludeEc2InstanceShutdown: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/stop-application" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "StopApplicationInput" }) as any as S.Schema<StopApplicationInput>;
 export interface StopApplicationOutput {
   OperationId?: string;
 }
-export const StopApplicationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OperationId: S.optional(S.String) }),
-).annotate({ identifier: "StopApplicationOutput" }) as any as S.Schema<StopApplicationOutput>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type BackintMode = "AWSBackup" | (string & {});
-export const BackintMode = S.String;
-
 export interface BackintConfig {
   BackintMode: BackintMode;
   EnsureNoBackupInProcess: boolean;
 }
-export const BackintConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BackintMode: BackintMode, EnsureNoBackupInProcess: S.Boolean }),
-).annotate({ identifier: "BackintConfig" }) as any as S.Schema<BackintConfig>;
 export interface UpdateApplicationSettingsInput {
   ApplicationId: string;
   CredentialsToAddOrUpdate?: ApplicationCredential[];
@@ -1309,37 +635,11 @@ export interface UpdateApplicationSettingsInput {
   Backint?: BackintConfig;
   DatabaseArn?: string;
 }
-export const UpdateApplicationSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationId: S.String,
-    CredentialsToAddOrUpdate: S.optional(ApplicationCredentialList),
-    CredentialsToRemove: S.optional(ApplicationCredentialList),
-    Backint: S.optional(BackintConfig),
-    DatabaseArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-application-settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApplicationSettingsInput",
-}) as any as S.Schema<UpdateApplicationSettingsInput>;
 export type OperationIdList = string[];
-export const OperationIdList = /*@__PURE__*/ S.Array(S.String);
 export interface UpdateApplicationSettingsOutput {
   Message?: string;
   OperationIds?: string[];
 }
-export const UpdateApplicationSettingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String), OperationIds: S.optional(OperationIdList) }),
-).annotate({
-  identifier: "UpdateApplicationSettingsOutput",
-}) as any as S.Schema<UpdateApplicationSettingsOutput>;
 export type DeleteResourcePermissionError =
   | InternalServerException
   | ResourceNotFoundException
@@ -1354,8 +654,8 @@ export const deleteResourcePermission: API.OperationMethod<
   DeleteResourcePermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourcePermissionInput,
-  output: DeleteResourcePermissionOutput,
+  input: __S(448, __c28, 0) as any as S.Schema<DeleteResourcePermissionInput>,
+  output: __S(464, __c29, 0) as any as S.Schema<DeleteResourcePermissionOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1368,7 +668,7 @@ export type DeregisterApplicationError =
   | ValidationException
   | CommonErrors;
 /**
- * Deregister an SAP application with AWS Systems Manager for SAP. This action does not aﬀect the existing setup of your SAP workloads on Amazon EC2.
+ * Deregister an SAP application with AWS Systems Manager for SAP. This action does not aU+FB00ect the existing setup of your SAP workloads on Amazon EC2.
  */
 export const deregisterApplication: API.OperationMethod<
   DeregisterApplicationInput,
@@ -1376,8 +676,8 @@ export const deregisterApplication: API.OperationMethod<
   DeregisterApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterApplicationInput,
-  output: DeregisterApplicationOutput,
+  input: __S(480, __c30, 0) as any as S.Schema<DeregisterApplicationInput>,
+  output: __S(496, __c31, 0) as any as S.Schema<DeregisterApplicationOutput>,
   errors: [InternalServerException, UnauthorizedException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1394,8 +694,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetApplicationInput,
-  output: GetApplicationOutput,
+  input: __S(512, __c32, 0) as any as S.Schema<GetApplicationInput>,
+  output: __S(513, __c32, 1) as any as S.Schema<GetApplicationOutput>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1416,8 +716,8 @@ export const getComponent: API.OperationMethod<
   GetComponentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetComponentInput,
-  output: GetComponentOutput,
+  input: __S(576, __c36, 0) as any as S.Schema<GetComponentInput>,
+  output: __S(585, __c36, 9) as any as S.Schema<GetComponentOutput>,
   errors: [InternalServerException, UnauthorizedException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1437,8 +737,8 @@ export const getConfigurationCheckOperation: API.OperationMethod<
   GetConfigurationCheckOperationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConfigurationCheckOperationInput,
-  output: GetConfigurationCheckOperationOutput,
+  input: __S(592, __c37, 0) as any as S.Schema<GetConfigurationCheckOperationInput>,
+  output: __S(593, __c37, 1) as any as S.Schema<GetConfigurationCheckOperationOutput>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1455,8 +755,8 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDatabaseInput,
-  output: GetDatabaseOutput,
+  input: __S(0, __c0, 0) as any as S.Schema<GetDatabaseInput>,
+  output: __S(2, __c0, 2) as any as S.Schema<GetDatabaseOutput>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1473,8 +773,8 @@ export const getOperation: API.OperationMethod<
   GetOperationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOperationInput,
-  output: GetOperationOutput,
+  input: __S(32, __c2, 0) as any as S.Schema<GetOperationInput>,
+  output: __S(33, __c2, 1) as any as S.Schema<GetOperationOutput>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1495,8 +795,8 @@ export const getResourcePermission: API.OperationMethod<
   GetResourcePermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourcePermissionInput,
-  output: GetResourcePermissionOutput,
+  input: __S(64, __c4, 0) as any as S.Schema<GetResourcePermissionInput>,
+  output: __S(464, __c29, 0) as any as S.Schema<GetResourcePermissionOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1518,8 +818,8 @@ export const listApplications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ApplicationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListApplicationsInput,
-  output: ListApplicationsOutput,
+  input: __S(80, __c5, 0) as any as S.Schema<ListApplicationsInput>,
+  output: __S(83, __c5, 3) as any as S.Schema<ListApplicationsOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1548,8 +848,8 @@ export const listComponents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ComponentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListComponentsInput,
-  output: ListComponentsOutput,
+  input: __S(112, __c7, 0) as any as S.Schema<ListComponentsInput>,
+  output: __S(115, __c7, 3) as any as S.Schema<ListComponentsOutput>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -1581,8 +881,8 @@ export const listConfigurationCheckDefinitions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConfigurationCheckDefinition
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConfigurationCheckDefinitionsInput,
-  output: ListConfigurationCheckDefinitionsOutput,
+  input: __S(128, __c8, 0) as any as S.Schema<ListConfigurationCheckDefinitionsInput>,
+  output: __S(131, __c8, 3) as any as S.Schema<ListConfigurationCheckDefinitionsOutput>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1610,8 +910,8 @@ export const listConfigurationCheckOperations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConfigurationCheckOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConfigurationCheckOperationsInput,
-  output: ListConfigurationCheckOperationsOutput,
+  input: __S(160, __c10, 0) as any as S.Schema<ListConfigurationCheckOperationsInput>,
+  output: __S(161, __c10, 1) as any as S.Schema<ListConfigurationCheckOperationsOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1639,8 +939,8 @@ export const listDatabases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DatabaseSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDatabasesInput,
-  output: ListDatabasesOutput,
+  input: __S(192, __c12, 0) as any as S.Schema<ListDatabasesInput>,
+  output: __S(195, __c12, 3) as any as S.Schema<ListDatabasesOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1666,8 +966,8 @@ export const listOperationEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OperationEvent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOperationEventsInput,
-  output: ListOperationEventsOutput,
+  input: __S(208, __c13, 0) as any as S.Schema<ListOperationEventsInput>,
+  output: __S(212, __c13, 4) as any as S.Schema<ListOperationEventsOutput>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1691,8 +991,8 @@ export const listOperations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Operation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOperationsInput,
-  output: ListOperationsOutput,
+  input: __S(224, __c14, 0) as any as S.Schema<ListOperationsInput>,
+  output: __S(226, __c14, 2) as any as S.Schema<ListOperationsOutput>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1716,8 +1016,8 @@ export const listSubCheckResults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubCheckResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSubCheckResultsInput,
-  output: ListSubCheckResultsOutput,
+  input: __S(240, __c15, 0) as any as S.Schema<ListSubCheckResultsInput>,
+  output: __S(243, __c15, 3) as any as S.Schema<ListSubCheckResultsOutput>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1744,8 +1044,8 @@ export const listSubCheckRuleResults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RuleResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSubCheckRuleResultsInput,
-  output: ListSubCheckRuleResultsOutput,
+  input: __S(256, __c16, 0) as any as S.Schema<ListSubCheckRuleResultsInput>,
+  output: __S(259, __c16, 3) as any as S.Schema<ListSubCheckRuleResultsOutput>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1772,8 +1072,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(272, __c17, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1794,8 +1094,8 @@ export const putResourcePermission: API.OperationMethod<
   PutResourcePermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourcePermissionInput,
-  output: PutResourcePermissionOutput,
+  input: __S(288, __c18, 0) as any as S.Schema<PutResourcePermissionInput>,
+  output: __S(464, __c29, 0) as any as S.Schema<PutResourcePermissionOutput>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1823,8 +1123,8 @@ export const registerApplication: API.OperationMethod<
   RegisterApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterApplicationInput,
-  output: RegisterApplicationOutput,
+  input: __S(306, __c19, 2) as any as S.Schema<RegisterApplicationInput>,
+  output: __S(307, __c19, 3) as any as S.Schema<RegisterApplicationOutput>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1853,8 +1153,8 @@ export const startApplication: API.OperationMethod<
   StartApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartApplicationInput,
-  output: StartApplicationOutput,
+  input: __S(320, __c20, 0) as any as S.Schema<StartApplicationInput>,
+  output: __S(336, __c21, 0) as any as S.Schema<StartApplicationOutput>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1882,8 +1182,8 @@ export const startApplicationRefresh: API.OperationMethod<
   StartApplicationRefreshError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartApplicationRefreshInput,
-  output: StartApplicationRefreshOutput,
+  input: __S(352, __c22, 0) as any as S.Schema<StartApplicationRefreshInput>,
+  output: __S(336, __c21, 0) as any as S.Schema<StartApplicationRefreshOutput>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1911,8 +1211,8 @@ export const startConfigurationChecks: API.OperationMethod<
   StartConfigurationChecksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartConfigurationChecksInput,
-  output: StartConfigurationChecksOutput,
+  input: __S(368, __c23, 0) as any as S.Schema<StartConfigurationChecksInput>,
+  output: __S(369, __c23, 1) as any as S.Schema<StartConfigurationChecksOutput>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1941,8 +1241,8 @@ export const stopApplication: API.OperationMethod<
   StopApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopApplicationInput,
-  output: StopApplicationOutput,
+  input: __S(384, __c24, 0) as any as S.Schema<StopApplicationInput>,
+  output: __S(336, __c21, 0) as any as S.Schema<StopApplicationOutput>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -1968,8 +1268,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(400, __c25, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1990,8 +1290,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(416, __c26, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2014,8 +1314,8 @@ export const updateApplicationSettings: API.OperationMethod<
   UpdateApplicationSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApplicationSettingsInput,
-  output: UpdateApplicationSettingsOutput,
+  input: __S(433, __c27, 1) as any as S.Schema<UpdateApplicationSettingsInput>,
+  output: __S(434, __c27, 2) as any as S.Schema<UpdateApplicationSettingsOutput>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2027,3 +1327,913 @@ export const updateApplicationSettings: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateApplicationSettings",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.optional(S.String),
+          ComponentId: S.optional(S.String),
+          DatabaseId: S.optional(S.String),
+          DatabaseArn: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/get-database" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetDatabaseInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.optional(S.String),
+          ComponentId: S.optional(S.String),
+          Credentials: S.optional(__S(17, __c1, 1)),
+          DatabaseId: S.optional(S.String),
+          DatabaseName: S.optional(S.String),
+          DatabaseType: S.optional(S.String),
+          Arn: S.optional(S.String),
+          Status: S.optional(S.String),
+          PrimaryHost: S.optional(S.String),
+          SQLPort: S.optional(S.Number),
+          LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ConnectedComponentArns: S.optional(__S(560, __c35, 0)),
+        }),
+      ).annotate({ identifier: "Database" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Database: S.optional(__S(1, __c0, 1)), Tags: S.optional(__S(544, __c34, 0)) }),
+      ).annotate({ identifier: "GetDatabaseOutput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DatabaseName: S.String, CredentialType: S.String, SecretId: SensitiveString }),
+      ).annotate({ identifier: "ApplicationCredential" });
+    case 1:
+      return S.Array(__S(16, __c1, 0));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ OperationId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/get-operation" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetOperationInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ Operation: S.optional(__S(49, __c3, 1)) })).annotate({
+        identifier: "GetOperationOutput",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional)).pipe(
+        /*@__PURE__*/ T.Sparse(),
+      );
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Type: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          Properties: S.optional(__S(48, __c3, 0)),
+          ResourceType: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          ResourceArn: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Operation" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ActionType: S.optional(S.String), ResourceArn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/get-resource-permission" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetResourcePermissionInput" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          Filters: S.optional(__S(97, __c6, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/list-applications" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListApplicationsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          DiscoveryStatus: S.optional(S.String),
+          Type: S.optional(S.String),
+          Arn: S.optional(S.String),
+          Tags: S.optional(__S(544, __c34, 0)),
+        }),
+      ).annotate({ identifier: "ApplicationSummary" });
+    case 2:
+      return S.Array(__S(81, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Applications: S.optional(__S(82, __c5, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListApplicationsOutput" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Value: S.String, Operator: S.String }),
+      ).annotate({ identifier: "Filter" });
+    case 1:
+      return S.Array(__S(96, __c6, 0));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/list-components" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListComponentsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.optional(S.String),
+          ComponentId: S.optional(S.String),
+          ComponentType: S.optional(S.String),
+          Tags: S.optional(__S(544, __c34, 0)),
+          Arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ComponentSummary" });
+    case 2:
+      return S.Array(__S(113, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Components: S.optional(__S(114, __c7, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListComponentsOutput" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/list-configuration-check-definitions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListConfigurationCheckDefinitionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          ApplicableApplicationTypes: S.optional(__S(144, __c9, 0)),
+        }),
+      ).annotate({ identifier: "ConfigurationCheckDefinition" });
+    case 2:
+      return S.Array(__S(129, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ConfigurationChecks: S.optional(__S(130, __c8, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListConfigurationCheckDefinitionsOutput" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.String,
+          ListMode: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(97, __c6, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/list-configuration-check-operations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListConfigurationCheckOperationsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ConfigurationCheckOperations: S.optional(__S(176, __c11, 0)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListConfigurationCheckOperationsOutput" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(609, __c38, 1));
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.optional(S.String),
+          ComponentId: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/list-databases" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListDatabasesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.optional(S.String),
+          ComponentId: S.optional(S.String),
+          DatabaseId: S.optional(S.String),
+          DatabaseType: S.optional(S.String),
+          Arn: S.optional(S.String),
+          Tags: S.optional(__S(544, __c34, 0)),
+        }),
+      ).annotate({ identifier: "DatabaseSummary" });
+    case 2:
+      return S.Array(__S(193, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Databases: S.optional(__S(194, __c12, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListDatabasesOutput" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          OperationId: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(97, __c6, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/list-operation-events" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListOperationEventsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.optional(S.String), ResourceType: S.optional(S.String) }),
+      ).annotate({ identifier: "Resource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          Resource: S.optional(__S(209, __c13, 1)),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "OperationEvent" });
+    case 3:
+      return S.Array(__S(210, __c13, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          OperationEvents: S.optional(__S(211, __c13, 3)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListOperationEventsOutput" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(97, __c6, 1)),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/list-operations" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListOperationsInput" });
+    case 1:
+      return S.Array(__S(49, __c3, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Operations: S.optional(__S(225, __c14, 1)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListOperationsOutput" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          OperationId: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/list-sub-check-results" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListSubCheckResultsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          References: S.optional(__S(560, __c35, 0)),
+        }),
+      ).annotate({ identifier: "SubCheckResult" });
+    case 2:
+      return S.Array(__S(241, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          SubCheckResults: S.optional(__S(242, __c15, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListSubCheckResultsOutput" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubCheckResultId: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/list-sub-check-rule-results" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListSubCheckRuleResultsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Description: S.optional(S.String),
+          Status: S.optional(S.String),
+          Message: S.optional(S.String),
+          Metadata: S.optional(__S(544, __c34, 0)),
+        }),
+      ).annotate({ identifier: "RuleResult" });
+    case 2:
+      return S.Array(__S(257, __c16, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ RuleResults: S.optional(__S(258, __c16, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSubCheckRuleResultsOutput" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(544, __c34, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ActionType: S.String, SourceResourceArn: S.String, ResourceArn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/put-resource-permission" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutResourcePermissionInput" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ComponentType: S.String, Sid: S.String, Ec2InstanceId: S.String }),
+      ).annotate({ identifier: "ComponentInfo" });
+    case 1:
+      return S.Array(__S(304, __c19, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.String,
+          ApplicationType: S.String,
+          Instances: __S(560, __c35, 0),
+          SapInstanceNumber: S.optional(S.String),
+          Sid: S.optional(S.String),
+          Tags: S.optional(__S(544, __c34, 0)),
+          Credentials: S.optional(__S(17, __c1, 1)),
+          DatabaseArn: S.optional(S.String),
+          ComponentsInfo: S.optional(__S(305, __c19, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/register-application" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RegisterApplicationInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Application: S.optional(__S(528, __c33, 0)),
+          OperationId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegisterApplicationOutput" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/start-application" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartApplicationInput" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ OperationId: S.optional(S.String) })).annotate({
+        identifier: "StartApplicationOutput",
+      });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/start-application-refresh" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartApplicationRefreshInput" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.String,
+          ConfigurationCheckIds: S.optional(__S(144, __c9, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/start-configuration-checks" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartConfigurationChecksInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ConfigurationCheckOperations: S.optional(__S(176, __c11, 0)) }),
+      ).annotate({ identifier: "StartConfigurationChecksOutput" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.String,
+          StopConnectedEntity: S.optional(S.String),
+          IncludeEc2InstanceShutdown: S.optional(S.Boolean),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/stop-application" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopApplicationInput" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tags: __S(544, __c34, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(560, __c35, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BackintMode: S.String, EnsureNoBackupInProcess: S.Boolean }),
+      ).annotate({ identifier: "BackintConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.String,
+          CredentialsToAddOrUpdate: S.optional(__S(17, __c1, 1)),
+          CredentialsToRemove: S.optional(__S(17, __c1, 1)),
+          Backint: S.optional(__S(432, __c27, 0)),
+          DatabaseArn: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/update-application-settings" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateApplicationSettingsInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Message: S.optional(S.String), OperationIds: S.optional(__S(560, __c35, 0)) }),
+      ).annotate({ identifier: "UpdateApplicationSettingsOutput" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ActionType: S.optional(S.String),
+          SourceResourceArn: S.optional(S.String),
+          ResourceArn: S.String,
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/delete-resource-permission" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteResourcePermissionInput" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Policy: S.optional(S.String) })).annotate({
+        identifier: "DeleteResourcePermissionOutput",
+      });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/deregister-application" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeregisterApplicationInput" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeregisterApplicationOutput" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationId: S.optional(S.String),
+          ApplicationArn: S.optional(S.String),
+          AppRegistryArn: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/get-application" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetApplicationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Application: S.optional(__S(528, __c33, 0)),
+          Tags: S.optional(__S(544, __c34, 0)),
+        }),
+      ).annotate({ identifier: "GetApplicationOutput" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Type: S.optional(S.String),
+          Arn: S.optional(S.String),
+          AppRegistryArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          DiscoveryStatus: S.optional(S.String),
+          Components: S.optional(__S(560, __c35, 0)),
+          LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StatusMessage: S.optional(S.String),
+          AssociatedApplicationArns: S.optional(__S(560, __c35, 0)),
+        }),
+      ).annotate({ identifier: "Application" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationId: S.String, ComponentId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/get-component" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetComponentInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          HsrTier: S.optional(S.String),
+          HsrReplicationMode: S.optional(S.String),
+          HsrOperationMode: S.optional(S.String),
+          ClusterStatus: S.optional(S.String),
+          EnqueueReplication: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Resilience" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          IpAddress: S.optional(S.String),
+          Primary: S.optional(S.Boolean),
+          AllocationType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IpAddressMember" });
+    case 3:
+      return S.Array(__S(578, __c36, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Hostname: S.optional(S.String),
+          Ec2InstanceId: S.optional(S.String),
+          IpAddresses: S.optional(__S(579, __c36, 3)),
+          OsVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AssociatedHost" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          HostName: S.optional(S.String),
+          HostIp: S.optional(S.String),
+          EC2InstanceId: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          HostRole: S.optional(S.String),
+          OsVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Host" });
+    case 6:
+      return S.Array(__S(581, __c36, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseConnectionMethod: S.optional(S.String),
+          DatabaseArn: S.optional(S.String),
+          ConnectionIp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseConnection" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          ComponentId: S.optional(S.String),
+          Sid: S.optional(S.String),
+          SystemNumber: S.optional(S.String),
+          ParentComponent: S.optional(S.String),
+          ChildComponents: S.optional(__S(560, __c35, 0)),
+          ApplicationId: S.optional(S.String),
+          ComponentType: S.optional(S.String),
+          Status: S.optional(S.String),
+          SapHostname: S.optional(S.String),
+          SapFeature: S.optional(S.String),
+          SapKernelVersion: S.optional(S.String),
+          HdbVersion: S.optional(S.String),
+          Resilience: S.optional(__S(577, __c36, 1)),
+          AssociatedHost: S.optional(__S(580, __c36, 4)),
+          Databases: S.optional(__S(560, __c35, 0)),
+          Hosts: S.optional(__S(582, __c36, 6)),
+          PrimaryHost: S.optional(S.String),
+          DatabaseConnection: S.optional(__S(583, __c36, 7)),
+          LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Component" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          Component: S.optional(__S(584, __c36, 8)),
+          Tags: S.optional(__S(544, __c34, 0)),
+        }),
+      ).annotate({ identifier: "GetComponentOutput" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ OperationId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/get-configuration-check-operation" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetConfigurationCheckOperationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ConfigurationCheckOperation: S.optional(__S(609, __c38, 1)) }),
+      ).annotate({ identifier: "GetConfigurationCheckOperationOutput" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Failed: S.optional(S.Number),
+          Warning: S.optional(S.Number),
+          Info: S.optional(S.Number),
+          Passed: S.optional(S.Number),
+          Unknown: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RuleStatusCounts" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          ApplicationId: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          ConfigurationCheckId: S.optional(S.String),
+          ConfigurationCheckName: S.optional(S.String),
+          ConfigurationCheckDescription: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          RuleStatusCounts: S.optional(__S(608, __c38, 0)),
+        }),
+      ).annotate({ identifier: "ConfigurationCheckOperation" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

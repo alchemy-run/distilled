@@ -1,17 +1,20 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "signer", serviceShapeName: "WallabyService" });
-const auth = T.AwsAuthSigv4({ name: "signer" });
-const ver = T.ServiceVersion("2017-08-25");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "signer", serviceShapeName: "WallabyService" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "signer" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2017-08-25");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -66,73 +69,109 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://signer.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(403),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(400),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(409),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServiceErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
     "InternalServiceErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(500),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(404),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(404),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceLimitExceededException>()(
     "ServiceLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(402),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class SigningProfileAlreadyExists
   extends /*@__PURE__*/ S.TaggedError<SigningProfileAlreadyExists>()(
     "SigningProfileAlreadyExists",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.SyntheticError({ from: "ValidationException", message: { includes: "already exists" } }),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.SyntheticError({
+      from: "ValidationException",
+      message: { includes: "already exists" },
+    }),
   ).pipe(C.withAlreadyExistsError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(429),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(429),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), code: S.optional(S.String) },
-    T.HttpError(400),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      code: /*@__PURE__*/ S.optional(S.String),
+    },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type ProfileName = string;
 export type ProfileVersion = string;
@@ -144,67 +183,17 @@ export interface AddProfilePermissionRequest {
   revisionId?: string;
   statementId: string;
 }
-export const AddProfilePermissionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileName: S.String.pipe(T.HttpLabel("profileName")),
-    profileVersion: S.optional(S.String),
-    action: S.String,
-    principal: S.String,
-    revisionId: S.optional(S.String),
-    statementId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/signing-profiles/{profileName}/permissions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddProfilePermissionRequest",
-}) as any as S.Schema<AddProfilePermissionRequest>;
 export interface AddProfilePermissionResponse {
   revisionId?: string;
 }
-export const AddProfilePermissionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ revisionId: S.optional(S.String) }),
-).annotate({
-  identifier: "AddProfilePermissionResponse",
-}) as any as S.Schema<AddProfilePermissionResponse>;
 export interface CancelSigningProfileRequest {
   profileName: string;
 }
-export const CancelSigningProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ profileName: S.String.pipe(T.HttpLabel("profileName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/signing-profiles/{profileName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelSigningProfileRequest",
-}) as any as S.Schema<CancelSigningProfileRequest>;
 export interface CancelSigningProfileResponse {}
-export const CancelSigningProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "CancelSigningProfileResponse",
-}) as any as S.Schema<CancelSigningProfileResponse>;
 export type JobId = string;
 export interface DescribeSigningJobRequest {
   jobId: string;
 }
-export const DescribeSigningJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.String.pipe(T.HttpLabel("jobId")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/signing-jobs/{jobId}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeSigningJobRequest",
-}) as any as S.Schema<DescribeSigningJobRequest>;
 export type BucketName = string;
 export type Key = string;
 export type Version = string;
@@ -213,91 +202,44 @@ export interface S3Source {
   key: string;
   version: string;
 }
-export const S3Source = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.String, key: S.String, version: S.String }),
-).annotate({ identifier: "S3Source" }) as any as S.Schema<S3Source>;
 export interface Source {
   s3?: S3Source;
 }
-export const Source = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3: S.optional(S3Source) }),
-).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
 export type CertificateArn = string;
 export interface SigningMaterial {
   certificateArn?: string;
 }
-export const SigningMaterial = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ certificateArn: S.optional(S.String) }),
-).annotate({ identifier: "SigningMaterial" }) as any as S.Schema<SigningMaterial>;
 export type PlatformId = string;
 export type DisplayName = string;
 export type EncryptionAlgorithm = "RSA" | "ECDSA" | (string & {});
-export const EncryptionAlgorithm = S.String;
-
 export type HashAlgorithm = "SHA1" | "SHA256" | (string & {});
-export const HashAlgorithm = S.String;
-
 export interface SigningConfigurationOverrides {
   encryptionAlgorithm?: EncryptionAlgorithm;
   hashAlgorithm?: HashAlgorithm;
 }
-export const SigningConfigurationOverrides = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    encryptionAlgorithm: S.optional(EncryptionAlgorithm),
-    hashAlgorithm: S.optional(HashAlgorithm),
-  }),
-).annotate({
-  identifier: "SigningConfigurationOverrides",
-}) as any as S.Schema<SigningConfigurationOverrides>;
 export type ImageFormat = "JSON" | "JSONEmbedded" | "JSONDetached" | (string & {});
-export const ImageFormat = S.String;
-
 export interface SigningPlatformOverrides {
   signingConfiguration?: SigningConfigurationOverrides;
   signingImageFormat?: ImageFormat;
 }
-export const SigningPlatformOverrides = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    signingConfiguration: S.optional(SigningConfigurationOverrides),
-    signingImageFormat: S.optional(ImageFormat),
-  }),
-).annotate({ identifier: "SigningPlatformOverrides" }) as any as S.Schema<SigningPlatformOverrides>;
 export type SigningParameterKey = string;
 export type SigningParameterValue = string;
 export type SigningParameters = { [key: string]: string | undefined };
-export const SigningParameters = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type RequestedBy = string;
 export type SigningStatus = "InProgress" | "Failed" | "Succeeded" | (string & {});
-export const SigningStatus = S.String;
-
 export type StatusReason = string;
 export interface SigningJobRevocationRecord {
   reason?: string;
   revokedAt?: Date;
   revokedBy?: string;
 }
-export const SigningJobRevocationRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reason: S.optional(S.String),
-    revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    revokedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SigningJobRevocationRecord",
-}) as any as S.Schema<SigningJobRevocationRecord>;
 export interface S3SignedObject {
   bucketName?: string;
   key?: string;
 }
-export const S3SignedObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.optional(S.String), key: S.optional(S.String) }),
-).annotate({ identifier: "S3SignedObject" }) as any as S.Schema<S3SignedObject>;
 export interface SignedObject {
   s3?: S3SignedObject;
 }
-export const SignedObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3: S.optional(S3SignedObject) }),
-).annotate({ identifier: "SignedObject" }) as any as S.Schema<SignedObject>;
 export type AccountId = string;
 export interface DescribeSigningJobResponse {
   jobId?: string;
@@ -320,34 +262,8 @@ export interface DescribeSigningJobResponse {
   jobOwner?: string;
   jobInvoker?: string;
 }
-export const DescribeSigningJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    source: S.optional(Source),
-    signingMaterial: S.optional(SigningMaterial),
-    platformId: S.optional(S.String),
-    platformDisplayName: S.optional(S.String),
-    profileName: S.optional(S.String),
-    profileVersion: S.optional(S.String),
-    overrides: S.optional(SigningPlatformOverrides),
-    signingParameters: S.optional(SigningParameters),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    signatureExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    requestedBy: S.optional(S.String),
-    status: S.optional(SigningStatus),
-    statusReason: S.optional(S.String),
-    revocationRecord: S.optional(SigningJobRevocationRecord),
-    signedObject: S.optional(SignedObject),
-    jobOwner: S.optional(S.String),
-    jobInvoker: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeSigningJobResponse",
-}) as any as S.Schema<DescribeSigningJobResponse>;
 export type Arn = string;
 export type CertificateHashes = string[];
-export const CertificateHashes = /*@__PURE__*/ S.Array(S.String);
 export interface GetRevocationStatusRequest {
   signatureTimestamp: Date;
   platformId: string;
@@ -355,88 +271,33 @@ export interface GetRevocationStatusRequest {
   jobArn: string;
   certificateHashes: string[];
 }
-export const GetRevocationStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    signatureTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-      T.HttpQuery("signatureTimestamp"),
-    ),
-    platformId: S.String.pipe(T.HttpQuery("platformId")),
-    profileVersionArn: S.String.pipe(T.HttpQuery("profileVersionArn")),
-    jobArn: S.String.pipe(T.HttpQuery("jobArn")),
-    certificateHashes: CertificateHashes.pipe(T.HttpQuery("certificateHashes")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/revocations" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetRevocationStatusRequest",
-}) as any as S.Schema<GetRevocationStatusRequest>;
 export type RevokedEntities = string[];
-export const RevokedEntities = /*@__PURE__*/ S.Array(S.String);
 export interface GetRevocationStatusResponse {
   revokedEntities?: string[];
 }
-export const GetRevocationStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ revokedEntities: S.optional(RevokedEntities) }),
-).annotate({
-  identifier: "GetRevocationStatusResponse",
-}) as any as S.Schema<GetRevocationStatusResponse>;
 export interface GetSigningPlatformRequest {
   platformId: string;
 }
-export const GetSigningPlatformRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ platformId: S.String.pipe(T.HttpLabel("platformId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signing-platforms/{platformId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSigningPlatformRequest",
-}) as any as S.Schema<GetSigningPlatformRequest>;
 export type Category = "AWSIoT" | (string & {});
-export const Category = S.String;
-
 export type EncryptionAlgorithms = EncryptionAlgorithm[];
-export const EncryptionAlgorithms = /*@__PURE__*/ S.Array(EncryptionAlgorithm);
 export interface EncryptionAlgorithmOptions {
   allowedValues: EncryptionAlgorithm[];
   defaultValue: EncryptionAlgorithm;
 }
-export const EncryptionAlgorithmOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ allowedValues: EncryptionAlgorithms, defaultValue: EncryptionAlgorithm }),
-).annotate({
-  identifier: "EncryptionAlgorithmOptions",
-}) as any as S.Schema<EncryptionAlgorithmOptions>;
 export type HashAlgorithms = HashAlgorithm[];
-export const HashAlgorithms = /*@__PURE__*/ S.Array(HashAlgorithm);
 export interface HashAlgorithmOptions {
   allowedValues: HashAlgorithm[];
   defaultValue: HashAlgorithm;
 }
-export const HashAlgorithmOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ allowedValues: HashAlgorithms, defaultValue: HashAlgorithm }),
-).annotate({ identifier: "HashAlgorithmOptions" }) as any as S.Schema<HashAlgorithmOptions>;
 export interface SigningConfiguration {
   encryptionAlgorithmOptions: EncryptionAlgorithmOptions;
   hashAlgorithmOptions: HashAlgorithmOptions;
 }
-export const SigningConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    encryptionAlgorithmOptions: EncryptionAlgorithmOptions,
-    hashAlgorithmOptions: HashAlgorithmOptions,
-  }),
-).annotate({ identifier: "SigningConfiguration" }) as any as S.Schema<SigningConfiguration>;
 export type ImageFormats = ImageFormat[];
-export const ImageFormats = /*@__PURE__*/ S.Array(ImageFormat);
 export interface SigningImageFormat {
   supportedFormats: ImageFormat[];
   defaultFormat: ImageFormat;
 }
-export const SigningImageFormat = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ supportedFormats: ImageFormats, defaultFormat: ImageFormat }),
-).annotate({ identifier: "SigningImageFormat" }) as any as S.Schema<SigningImageFormat>;
 export type MaxSizeInMB = number;
 export interface GetSigningPlatformResponse {
   platformId?: string;
@@ -449,71 +310,24 @@ export interface GetSigningPlatformResponse {
   maxSizeInMB?: number;
   revocationSupported?: boolean;
 }
-export const GetSigningPlatformResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    platformId: S.optional(S.String),
-    displayName: S.optional(S.String),
-    partner: S.optional(S.String),
-    target: S.optional(S.String),
-    category: S.optional(Category),
-    signingConfiguration: S.optional(SigningConfiguration),
-    signingImageFormat: S.optional(SigningImageFormat),
-    maxSizeInMB: S.optional(S.Number),
-    revocationSupported: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GetSigningPlatformResponse",
-}) as any as S.Schema<GetSigningPlatformResponse>;
 export interface GetSigningProfileRequest {
   profileName: string;
   profileOwner?: string;
 }
-export const GetSigningProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileName: S.String.pipe(T.HttpLabel("profileName")),
-    profileOwner: S.optional(S.String).pipe(T.HttpQuery("profileOwner")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signing-profiles/{profileName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetSigningProfileRequest" }) as any as S.Schema<GetSigningProfileRequest>;
 export interface SigningProfileRevocationRecord {
   revocationEffectiveFrom?: Date;
   revokedAt?: Date;
   revokedBy?: string;
 }
-export const SigningProfileRevocationRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    revocationEffectiveFrom: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    revokedBy: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SigningProfileRevocationRecord",
-}) as any as S.Schema<SigningProfileRevocationRecord>;
 export type ValidityType = "DAYS" | "MONTHS" | "YEARS" | (string & {});
-export const ValidityType = S.String;
-
 export interface SignatureValidityPeriod {
   value?: number;
   type?: ValidityType;
 }
-export const SignatureValidityPeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ value: S.optional(S.Number), type: S.optional(ValidityType) }),
-).annotate({ identifier: "SignatureValidityPeriod" }) as any as S.Schema<SignatureValidityPeriod>;
 export type SigningProfileStatus = "Active" | "Canceled" | "Revoked" | (string & {});
-export const SigningProfileStatus = S.String;
-
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetSigningProfileResponse {
   profileName?: string;
   profileVersion?: string;
@@ -530,47 +344,10 @@ export interface GetSigningProfileResponse {
   arn?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetSigningProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileName: S.optional(S.String),
-    profileVersion: S.optional(S.String),
-    profileVersionArn: S.optional(S.String),
-    revocationRecord: S.optional(SigningProfileRevocationRecord),
-    signingMaterial: S.optional(SigningMaterial),
-    platformId: S.optional(S.String),
-    platformDisplayName: S.optional(S.String),
-    signatureValidityPeriod: S.optional(SignatureValidityPeriod),
-    overrides: S.optional(SigningPlatformOverrides),
-    signingParameters: S.optional(SigningParameters),
-    status: S.optional(SigningProfileStatus),
-    statusReason: S.optional(S.String),
-    arn: S.optional(S.String),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "GetSigningProfileResponse",
-}) as any as S.Schema<GetSigningProfileResponse>;
 export interface ListProfilePermissionsRequest {
   profileName: string;
   nextToken?: string;
 }
-export const ListProfilePermissionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileName: S.String.pipe(T.HttpLabel("profileName")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signing-profiles/{profileName}/permissions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListProfilePermissionsRequest",
-}) as any as S.Schema<ListProfilePermissionsRequest>;
 export type PolicySizeBytes = number;
 export interface Permission {
   action?: string;
@@ -578,32 +355,13 @@ export interface Permission {
   statementId?: string;
   profileVersion?: string;
 }
-export const Permission = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.optional(S.String),
-    principal: S.optional(S.String),
-    statementId: S.optional(S.String),
-    profileVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "Permission" }) as any as S.Schema<Permission>;
 export type Permissions = Permission[];
-export const Permissions = /*@__PURE__*/ S.Array(Permission);
 export interface ListProfilePermissionsResponse {
   revisionId?: string;
   policySizeBytes?: number;
   permissions?: Permission[];
   nextToken?: string;
 }
-export const ListProfilePermissionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    revisionId: S.optional(S.String),
-    policySizeBytes: S.optional(S.Number),
-    permissions: S.optional(Permissions),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListProfilePermissionsResponse",
-}) as any as S.Schema<ListProfilePermissionsResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListSigningJobsRequest {
@@ -617,23 +375,6 @@ export interface ListSigningJobsRequest {
   signatureExpiresAfter?: Date;
   jobInvoker?: string;
 }
-export const ListSigningJobsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(SigningStatus).pipe(T.HttpQuery("status")),
-    platformId: S.optional(S.String).pipe(T.HttpQuery("platformId")),
-    requestedBy: S.optional(S.String).pipe(T.HttpQuery("requestedBy")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    isRevoked: S.optional(S.Boolean).pipe(T.HttpQuery("isRevoked")),
-    signatureExpiresBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.HttpQuery("signatureExpiresBefore"),
-    ),
-    signatureExpiresAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
-      T.HttpQuery("signatureExpiresAfter"),
-    ),
-    jobInvoker: S.optional(S.String).pipe(T.HttpQuery("jobInvoker")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/signing-jobs" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListSigningJobsRequest" }) as any as S.Schema<ListSigningJobsRequest>;
 export interface SigningJob {
   jobId?: string;
   source?: Source;
@@ -650,33 +391,11 @@ export interface SigningJob {
   jobOwner?: string;
   jobInvoker?: string;
 }
-export const SigningJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    source: S.optional(Source),
-    signedObject: S.optional(SignedObject),
-    signingMaterial: S.optional(SigningMaterial),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    status: S.optional(SigningStatus),
-    isRevoked: S.optional(S.Boolean),
-    profileName: S.optional(S.String),
-    profileVersion: S.optional(S.String),
-    platformId: S.optional(S.String),
-    platformDisplayName: S.optional(S.String),
-    signatureExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    jobOwner: S.optional(S.String),
-    jobInvoker: S.optional(S.String),
-  }),
-).annotate({ identifier: "SigningJob" }) as any as S.Schema<SigningJob>;
 export type SigningJobs = SigningJob[];
-export const SigningJobs = /*@__PURE__*/ S.Array(SigningJob);
 export interface ListSigningJobsResponse {
   jobs?: SigningJob[];
   nextToken?: string;
 }
-export const ListSigningJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobs: S.optional(SigningJobs), nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListSigningJobsResponse" }) as any as S.Schema<ListSigningJobsResponse>;
 export interface ListSigningPlatformsRequest {
   category?: string;
   partner?: string;
@@ -684,19 +403,6 @@ export interface ListSigningPlatformsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListSigningPlatformsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: S.optional(S.String).pipe(T.HttpQuery("category")),
-    partner: S.optional(S.String).pipe(T.HttpQuery("partner")),
-    target: S.optional(S.String).pipe(T.HttpQuery("target")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/signing-platforms" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListSigningPlatformsRequest",
-}) as any as S.Schema<ListSigningPlatformsRequest>;
 export interface SigningPlatform {
   platformId?: string;
   displayName?: string;
@@ -708,32 +414,12 @@ export interface SigningPlatform {
   maxSizeInMB?: number;
   revocationSupported?: boolean;
 }
-export const SigningPlatform = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    platformId: S.optional(S.String),
-    displayName: S.optional(S.String),
-    partner: S.optional(S.String),
-    target: S.optional(S.String),
-    category: S.optional(Category),
-    signingConfiguration: S.optional(SigningConfiguration),
-    signingImageFormat: S.optional(SigningImageFormat),
-    maxSizeInMB: S.optional(S.Number),
-    revocationSupported: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SigningPlatform" }) as any as S.Schema<SigningPlatform>;
 export type SigningPlatforms = SigningPlatform[];
-export const SigningPlatforms = /*@__PURE__*/ S.Array(SigningPlatform);
 export interface ListSigningPlatformsResponse {
   platforms?: SigningPlatform[];
   nextToken?: string;
 }
-export const ListSigningPlatformsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ platforms: S.optional(SigningPlatforms), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSigningPlatformsResponse",
-}) as any as S.Schema<ListSigningPlatformsResponse>;
 export type Statuses = SigningProfileStatus[];
-export const Statuses = /*@__PURE__*/ S.Array(SigningProfileStatus);
 export interface ListSigningProfilesRequest {
   includeCanceled?: boolean;
   maxResults?: number;
@@ -741,17 +427,6 @@ export interface ListSigningProfilesRequest {
   platformId?: string;
   statuses?: SigningProfileStatus[];
 }
-export const ListSigningProfilesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    includeCanceled: S.optional(S.Boolean).pipe(T.HttpQuery("includeCanceled")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    platformId: S.optional(S.String).pipe(T.HttpQuery("platformId")),
-    statuses: S.optional(Statuses).pipe(T.HttpQuery("statuses")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/signing-profiles" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSigningProfilesRequest",
-}) as any as S.Schema<ListSigningProfilesRequest>;
 export interface SigningProfile {
   profileName?: string;
   profileVersion?: string;
@@ -765,50 +440,17 @@ export interface SigningProfile {
   arn?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const SigningProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileName: S.optional(S.String),
-    profileVersion: S.optional(S.String),
-    profileVersionArn: S.optional(S.String),
-    signingMaterial: S.optional(SigningMaterial),
-    signatureValidityPeriod: S.optional(SignatureValidityPeriod),
-    platformId: S.optional(S.String),
-    platformDisplayName: S.optional(S.String),
-    signingParameters: S.optional(SigningParameters),
-    status: S.optional(SigningProfileStatus),
-    arn: S.optional(S.String),
-    tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "SigningProfile" }) as any as S.Schema<SigningProfile>;
 export type SigningProfiles = SigningProfile[];
-export const SigningProfiles = /*@__PURE__*/ S.Array(SigningProfile);
 export interface ListSigningProfilesResponse {
   profiles?: SigningProfile[];
   nextToken?: string;
 }
-export const ListSigningProfilesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ profiles: S.optional(SigningProfiles), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSigningProfilesResponse",
-}) as any as S.Schema<ListSigningProfilesResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutSigningProfileRequest {
   profileName: string;
   signingMaterial?: SigningMaterial;
@@ -818,129 +460,33 @@ export interface PutSigningProfileRequest {
   signingParameters?: { [key: string]: string | undefined };
   tags?: { [key: string]: string | undefined };
 }
-export const PutSigningProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileName: S.String.pipe(T.HttpLabel("profileName")),
-    signingMaterial: S.optional(SigningMaterial),
-    signatureValidityPeriod: S.optional(SignatureValidityPeriod),
-    platformId: S.String,
-    overrides: S.optional(SigningPlatformOverrides),
-    signingParameters: S.optional(SigningParameters),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/signing-profiles/{profileName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "PutSigningProfileRequest" }) as any as S.Schema<PutSigningProfileRequest>;
 export interface PutSigningProfileResponse {
   arn?: string;
   profileVersion?: string;
   profileVersionArn?: string;
 }
-export const PutSigningProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    profileVersion: S.optional(S.String),
-    profileVersionArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PutSigningProfileResponse",
-}) as any as S.Schema<PutSigningProfileResponse>;
 export interface RemoveProfilePermissionRequest {
   profileName: string;
   revisionId: string;
   statementId: string;
 }
-export const RemoveProfilePermissionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileName: S.String.pipe(T.HttpLabel("profileName")),
-    revisionId: S.String.pipe(T.HttpQuery("revisionId")),
-    statementId: S.String.pipe(T.HttpLabel("statementId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/signing-profiles/{profileName}/permissions/{statementId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveProfilePermissionRequest",
-}) as any as S.Schema<RemoveProfilePermissionRequest>;
 export interface RemoveProfilePermissionResponse {
   revisionId?: string;
 }
-export const RemoveProfilePermissionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ revisionId: S.optional(S.String) }),
-).annotate({
-  identifier: "RemoveProfilePermissionResponse",
-}) as any as S.Schema<RemoveProfilePermissionResponse>;
 export type RevocationReasonString = string;
 export interface RevokeSignatureRequest {
   jobId: string;
   jobOwner?: string;
   reason: string;
 }
-export const RevokeSignatureRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.String.pipe(T.HttpLabel("jobId")),
-    jobOwner: S.optional(S.String),
-    reason: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/signing-jobs/{jobId}/revoke" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "RevokeSignatureRequest" }) as any as S.Schema<RevokeSignatureRequest>;
 export interface RevokeSignatureResponse {}
-export const RevokeSignatureResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "RevokeSignatureResponse",
-}) as any as S.Schema<RevokeSignatureResponse>;
 export interface RevokeSigningProfileRequest {
   profileName: string;
   profileVersion: string;
   reason: string;
   effectiveTime: Date;
 }
-export const RevokeSigningProfileRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileName: S.String.pipe(T.HttpLabel("profileName")),
-    profileVersion: S.String,
-    reason: S.String,
-    effectiveTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/signing-profiles/{profileName}/revoke" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RevokeSigningProfileRequest",
-}) as any as S.Schema<RevokeSigningProfileRequest>;
 export interface RevokeSigningProfileResponse {}
-export const RevokeSigningProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "RevokeSigningProfileResponse",
-}) as any as S.Schema<RevokeSigningProfileResponse>;
 export type Payload = Uint8Array;
 export interface SignPayloadRequest {
   profileName: string;
@@ -948,53 +494,21 @@ export interface SignPayloadRequest {
   payload: Uint8Array;
   payloadFormat: string;
 }
-export const SignPayloadRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    profileName: S.String,
-    profileOwner: S.optional(S.String),
-    payload: T.Blob,
-    payloadFormat: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/signing-jobs/with-payload" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "SignPayloadRequest" }) as any as S.Schema<SignPayloadRequest>;
 export type Metadata = { [key: string]: string | undefined };
-export const Metadata = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface SignPayloadResponse {
   jobId?: string;
   jobOwner?: string;
   metadata?: { [key: string]: string | undefined };
   signature?: Uint8Array;
 }
-export const SignPayloadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    jobId: S.optional(S.String),
-    jobOwner: S.optional(S.String),
-    metadata: S.optional(Metadata),
-    signature: S.optional(T.Blob),
-  }),
-).annotate({ identifier: "SignPayloadResponse" }) as any as S.Schema<SignPayloadResponse>;
 export type Prefix = string;
 export interface S3Destination {
   bucketName?: string;
   prefix?: string;
 }
-export const S3Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.optional(S.String), prefix: S.optional(S.String) }),
-).annotate({ identifier: "S3Destination" }) as any as S.Schema<S3Destination>;
 export interface Destination {
   s3?: S3Destination;
 }
-export const Destination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3: S.optional(S3Destination) }),
-).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
 export type ClientRequestToken = string;
 export interface StartSigningJobRequest {
   source: Source;
@@ -1003,53 +517,21 @@ export interface StartSigningJobRequest {
   clientRequestToken: string;
   profileOwner?: string;
 }
-export const StartSigningJobRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    source: Source,
-    destination: Destination,
-    profileName: S.String,
-    clientRequestToken: S.String.pipe(T.IdempotencyToken()),
-    profileOwner: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/signing-jobs" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "StartSigningJobRequest" }) as any as S.Schema<StartSigningJobRequest>;
 export interface StartSigningJobResponse {
   jobId?: string;
   jobOwner?: string;
 }
-export const StartSigningJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jobId: S.optional(S.String), jobOwner: S.optional(S.String) }),
-).annotate({ identifier: "StartSigningJobResponse" }) as any as S.Schema<StartSigningJobResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type ErrorMessage = string;
 export type ErrorCode = string;
 export type AddProfilePermissionError =
@@ -1070,8 +552,8 @@ export const addProfilePermission: API.OperationMethod<
   AddProfilePermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddProfilePermissionRequest,
-  output: AddProfilePermissionResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<AddProfilePermissionRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<AddProfilePermissionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1103,8 +585,8 @@ export const cancelSigningProfile: API.OperationMethod<
   CancelSigningProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelSigningProfileRequest,
-  output: CancelSigningProfileResponse,
+  input: __S(8, __c2, 0) as any as S.Schema<CancelSigningProfileRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<CancelSigningProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1133,8 +615,8 @@ export const describeSigningJob: API.OperationMethod<
   DescribeSigningJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeSigningJobRequest,
-  output: DescribeSigningJobResponse,
+  input: __S(16, __c4, 0) as any as S.Schema<DescribeSigningJobRequest>,
+  output: __S(18, __c4, 2) as any as S.Schema<DescribeSigningJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1162,8 +644,8 @@ export const getRevocationStatus: API.OperationMethod<
   GetRevocationStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRevocationStatusRequest,
-  output: GetRevocationStatusResponse,
+  input: __S(40, __c10, 0) as any as S.Schema<GetRevocationStatusRequest>,
+  output: __S(41, __c10, 1) as any as S.Schema<GetRevocationStatusResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1191,8 +673,8 @@ export const getSigningPlatform: API.OperationMethod<
   GetSigningPlatformError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSigningPlatformRequest,
-  output: GetSigningPlatformResponse,
+  input: __S(48, __c12, 0) as any as S.Schema<GetSigningPlatformRequest>,
+  output: __S(55, __c13, 3) as any as S.Schema<GetSigningPlatformResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1219,8 +701,8 @@ export const getSigningProfile: API.OperationMethod<
   GetSigningProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSigningProfileRequest,
-  output: GetSigningProfileResponse,
+  input: __S(60, __c15, 0) as any as S.Schema<GetSigningProfileRequest>,
+  output: __S(62, __c15, 2) as any as S.Schema<GetSigningProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1248,8 +730,8 @@ export const listProfilePermissions: API.OperationMethod<
   ListProfilePermissionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListProfilePermissionsRequest,
-  output: ListProfilePermissionsResponse,
+  input: __S(68, __c17, 0) as any as S.Schema<ListProfilePermissionsRequest>,
+  output: __S(71, __c17, 3) as any as S.Schema<ListProfilePermissionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1284,8 +766,8 @@ export const listSigningJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSigningJobsRequest,
-  output: ListSigningJobsResponse,
+  input: __S(72, __c18, 0) as any as S.Schema<ListSigningJobsRequest>,
+  output: __S(75, __c18, 3) as any as S.Schema<ListSigningJobsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1324,8 +806,8 @@ export const listSigningPlatforms: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSigningPlatformsRequest,
-  output: ListSigningPlatformsResponse,
+  input: __S(76, __c19, 0) as any as S.Schema<ListSigningPlatformsRequest>,
+  output: __S(78, __c19, 2) as any as S.Schema<ListSigningPlatformsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1364,8 +846,8 @@ export const listSigningProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSigningProfilesRequest,
-  output: ListSigningProfilesResponse,
+  input: __S(80, __c20, 0) as any as S.Schema<ListSigningProfilesRequest>,
+  output: __S(83, __c20, 3) as any as S.Schema<ListSigningProfilesResponse>,
   errors: [AccessDeniedException, InternalServiceErrorException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1392,8 +874,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(84, __c21, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(85, __c21, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     BadRequestException,
     InternalServiceErrorException,
@@ -1423,8 +905,8 @@ export const putSigningProfile: API.OperationMethod<
   PutSigningProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutSigningProfileRequest,
-  output: PutSigningProfileResponse,
+  input: __S(88, __c22, 0) as any as S.Schema<PutSigningProfileRequest>,
+  output: __S(89, __c22, 1) as any as S.Schema<PutSigningProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1455,8 +937,8 @@ export const removeProfilePermission: API.OperationMethod<
   RemoveProfilePermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveProfilePermissionRequest,
-  output: RemoveProfilePermissionResponse,
+  input: __S(92, __c23, 0) as any as S.Schema<RemoveProfilePermissionRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<RemoveProfilePermissionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1487,8 +969,8 @@ export const revokeSignature: API.OperationMethod<
   RevokeSignatureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeSignatureRequest,
-  output: RevokeSignatureResponse,
+  input: __S(96, __c24, 0) as any as S.Schema<RevokeSignatureRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<RevokeSignatureResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1521,8 +1003,8 @@ export const revokeSigningProfile: API.OperationMethod<
   RevokeSigningProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeSigningProfileRequest,
-  output: RevokeSigningProfileResponse,
+  input: __S(100, __c25, 0) as any as S.Schema<RevokeSigningProfileRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<RevokeSigningProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1551,8 +1033,8 @@ export const signPayload: API.OperationMethod<
   SignPayloadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SignPayloadRequest,
-  output: SignPayloadResponse,
+  input: __S(104, __c26, 0) as any as S.Schema<SignPayloadRequest>,
+  output: __S(105, __c26, 1) as any as S.Schema<SignPayloadResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1603,8 +1085,8 @@ export const startSigningJob: API.OperationMethod<
   StartSigningJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartSigningJobRequest,
-  output: StartSigningJobResponse,
+  input: __S(110, __c27, 2) as any as S.Schema<StartSigningJobRequest>,
+  output: __S(111, __c27, 3) as any as S.Schema<StartSigningJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -1636,8 +1118,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(112, __c28, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     BadRequestException,
     InternalServiceErrorException,
@@ -1665,8 +1147,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(116, __c29, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     BadRequestException,
     InternalServiceErrorException,
@@ -1677,3 +1159,677 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.String.pipe(T.HttpLabel("profileName")),
+          profileVersion: S.optional(S.String),
+          action: S.String,
+          principal: S.String,
+          revisionId: S.optional(S.String),
+          statementId: S.String,
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/signing-profiles/{profileName}/permissions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AddProfilePermissionRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ revisionId: S.optional(S.String) })).annotate({
+        identifier: "AddProfilePermissionResponse",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ profileName: S.String.pipe(T.HttpLabel("profileName")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/signing-profiles/{profileName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CancelSigningProfileRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelSigningProfileResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ jobId: S.String.pipe(T.HttpLabel("jobId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/signing-jobs/{jobId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeSigningJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.optional(S.String),
+          revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          revokedBy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SigningJobRevocationRecord" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.optional(S.String),
+          source: S.optional(__S(37, __c9, 1)),
+          signingMaterial: S.optional(__S(20, __c5, 0)),
+          platformId: S.optional(S.String),
+          platformDisplayName: S.optional(S.String),
+          profileName: S.optional(S.String),
+          profileVersion: S.optional(S.String),
+          overrides: S.optional(__S(29, __c7, 1)),
+          signingParameters: S.optional(__S(24, __c6, 0)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          signatureExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          requestedBy: S.optional(S.String),
+          status: S.optional(S.String),
+          statusReason: S.optional(S.String),
+          revocationRecord: S.optional(__S(17, __c4, 1)),
+          signedObject: S.optional(__S(33, __c8, 1)),
+          jobOwner: S.optional(S.String),
+          jobInvoker: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeSigningJobResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ certificateArn: S.optional(S.String) })).annotate({
+        identifier: "SigningMaterial",
+      });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          encryptionAlgorithm: S.optional(S.String),
+          hashAlgorithm: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SigningConfigurationOverrides" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          signingConfiguration: S.optional(__S(28, __c7, 0)),
+          signingImageFormat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SigningPlatformOverrides" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucketName: S.optional(S.String), key: S.optional(S.String) }),
+      ).annotate({ identifier: "S3SignedObject" });
+    case 1:
+      return S.suspend(() => S.Struct({ s3: S.optional(__S(32, __c8, 0)) })).annotate({
+        identifier: "SignedObject",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucketName: S.String, key: S.String, version: S.String }),
+      ).annotate({ identifier: "S3Source" });
+    case 1:
+      return S.suspend(() => S.Struct({ s3: S.optional(__S(36, __c9, 0)) })).annotate({
+        identifier: "Source",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          signatureTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
+            T.HttpQuery("signatureTimestamp"),
+          ),
+          platformId: S.String.pipe(T.HttpQuery("platformId")),
+          profileVersionArn: S.String.pipe(T.HttpQuery("profileVersionArn")),
+          jobArn: S.String.pipe(T.HttpQuery("jobArn")),
+          certificateHashes: __S(44, __c11, 0).pipe(T.HttpQuery("certificateHashes")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/revocations" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetRevocationStatusRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ revokedEntities: S.optional(__S(44, __c11, 0)) })).annotate(
+        { identifier: "GetRevocationStatusResponse" },
+      );
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ platformId: S.String.pipe(T.HttpLabel("platformId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/signing-platforms/{platformId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetSigningPlatformRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ allowedValues: __S(56, __c14, 0), defaultValue: S.String }),
+      ).annotate({ identifier: "EncryptionAlgorithmOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          encryptionAlgorithmOptions: __S(52, __c13, 0),
+          hashAlgorithmOptions: __S(52, __c13, 0),
+        }),
+      ).annotate({ identifier: "SigningConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ supportedFormats: __S(56, __c14, 0), defaultFormat: S.String }),
+      ).annotate({ identifier: "SigningImageFormat" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          platformId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          partner: S.optional(S.String),
+          target: S.optional(S.String),
+          category: S.optional(S.String),
+          signingConfiguration: S.optional(__S(53, __c13, 1)),
+          signingImageFormat: S.optional(__S(54, __c13, 2)),
+          maxSizeInMB: S.optional(S.Number),
+          revocationSupported: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GetSigningPlatformResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.String.pipe(T.HttpLabel("profileName")),
+          profileOwner: S.optional(S.String).pipe(T.HttpQuery("profileOwner")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/signing-profiles/{profileName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetSigningProfileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          revocationEffectiveFrom: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          revokedBy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SigningProfileRevocationRecord" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.optional(S.String),
+          profileVersion: S.optional(S.String),
+          profileVersionArn: S.optional(S.String),
+          revocationRecord: S.optional(__S(61, __c15, 1)),
+          signingMaterial: S.optional(__S(20, __c5, 0)),
+          platformId: S.optional(S.String),
+          platformDisplayName: S.optional(S.String),
+          signatureValidityPeriod: S.optional(__S(64, __c16, 0)),
+          overrides: S.optional(__S(29, __c7, 1)),
+          signingParameters: S.optional(__S(24, __c6, 0)),
+          status: S.optional(S.String),
+          statusReason: S.optional(S.String),
+          arn: S.optional(S.String),
+          tags: S.optional(__S(24, __c6, 0)),
+        }),
+      ).annotate({ identifier: "GetSigningProfileResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ value: S.optional(S.Number), type: S.optional(S.String) }),
+      ).annotate({ identifier: "SignatureValidityPeriod" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.String.pipe(T.HttpLabel("profileName")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/signing-profiles/{profileName}/permissions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListProfilePermissionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.String),
+          principal: S.optional(S.String),
+          statementId: S.optional(S.String),
+          profileVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Permission" });
+    case 2:
+      return S.Array(__S(69, __c17, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          revisionId: S.optional(S.String),
+          policySizeBytes: S.optional(S.Number),
+          permissions: S.optional(__S(70, __c17, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListProfilePermissionsResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String).pipe(T.HttpQuery("status")),
+          platformId: S.optional(S.String).pipe(T.HttpQuery("platformId")),
+          requestedBy: S.optional(S.String).pipe(T.HttpQuery("requestedBy")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          isRevoked: S.optional(S.Boolean).pipe(T.HttpQuery("isRevoked")),
+          signatureExpiresBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+            T.HttpQuery("signatureExpiresBefore"),
+          ),
+          signatureExpiresAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+            T.HttpQuery("signatureExpiresAfter"),
+          ),
+          jobInvoker: S.optional(S.String).pipe(T.HttpQuery("jobInvoker")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/signing-jobs" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListSigningJobsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.optional(S.String),
+          source: S.optional(__S(37, __c9, 1)),
+          signedObject: S.optional(__S(33, __c8, 1)),
+          signingMaterial: S.optional(__S(20, __c5, 0)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          status: S.optional(S.String),
+          isRevoked: S.optional(S.Boolean),
+          profileName: S.optional(S.String),
+          profileVersion: S.optional(S.String),
+          platformId: S.optional(S.String),
+          platformDisplayName: S.optional(S.String),
+          signatureExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          jobOwner: S.optional(S.String),
+          jobInvoker: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SigningJob" });
+    case 2:
+      return S.Array(__S(73, __c18, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ jobs: S.optional(__S(74, __c18, 2)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSigningJobsResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String).pipe(T.HttpQuery("category")),
+          partner: S.optional(S.String).pipe(T.HttpQuery("partner")),
+          target: S.optional(S.String).pipe(T.HttpQuery("target")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/signing-platforms" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListSigningPlatformsRequest" });
+    case 1:
+      return S.Array(__S(55, __c13, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ platforms: S.optional(__S(77, __c19, 1)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSigningPlatformsResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          includeCanceled: S.optional(S.Boolean).pipe(T.HttpQuery("includeCanceled")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          platformId: S.optional(S.String).pipe(T.HttpQuery("platformId")),
+          statuses: S.optional(__S(56, __c14, 0)).pipe(T.HttpQuery("statuses")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/signing-profiles" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListSigningProfilesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.optional(S.String),
+          profileVersion: S.optional(S.String),
+          profileVersionArn: S.optional(S.String),
+          signingMaterial: S.optional(__S(20, __c5, 0)),
+          signatureValidityPeriod: S.optional(__S(64, __c16, 0)),
+          platformId: S.optional(S.String),
+          platformDisplayName: S.optional(S.String),
+          signingParameters: S.optional(__S(24, __c6, 0)),
+          status: S.optional(S.String),
+          arn: S.optional(S.String),
+          tags: S.optional(__S(24, __c6, 0)),
+        }),
+      ).annotate({ identifier: "SigningProfile" });
+    case 2:
+      return S.Array(__S(81, __c20, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ profiles: S.optional(__S(82, __c20, 2)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSigningProfilesResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(24, __c6, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.String.pipe(T.HttpLabel("profileName")),
+          signingMaterial: S.optional(__S(20, __c5, 0)),
+          signatureValidityPeriod: S.optional(__S(64, __c16, 0)),
+          platformId: S.String,
+          overrides: S.optional(__S(29, __c7, 1)),
+          signingParameters: S.optional(__S(24, __c6, 0)),
+          tags: S.optional(__S(24, __c6, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/signing-profiles/{profileName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutSigningProfileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          profileVersion: S.optional(S.String),
+          profileVersionArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PutSigningProfileResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.String.pipe(T.HttpLabel("profileName")),
+          revisionId: S.String.pipe(T.HttpQuery("revisionId")),
+          statementId: S.String.pipe(T.HttpLabel("statementId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/signing-profiles/{profileName}/permissions/{statementId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RemoveProfilePermissionRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.String.pipe(T.HttpLabel("jobId")),
+          jobOwner: S.optional(S.String),
+          reason: S.String,
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/signing-jobs/{jobId}/revoke" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RevokeSignatureRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.String.pipe(T.HttpLabel("profileName")),
+          profileVersion: S.String,
+          reason: S.String,
+          effectiveTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/signing-profiles/{profileName}/revoke" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RevokeSigningProfileRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profileName: S.String,
+          profileOwner: S.optional(S.String),
+          payload: T.Blob,
+          payloadFormat: S.String,
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/signing-jobs/with-payload" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "SignPayloadRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.optional(S.String),
+          jobOwner: S.optional(S.String),
+          metadata: S.optional(__S(24, __c6, 0)),
+          signature: S.optional(T.Blob),
+        }),
+      ).annotate({ identifier: "SignPayloadResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucketName: S.optional(S.String), prefix: S.optional(S.String) }),
+      ).annotate({ identifier: "S3Destination" });
+    case 1:
+      return S.suspend(() => S.Struct({ s3: S.optional(__S(108, __c27, 0)) })).annotate({
+        identifier: "Destination",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          source: __S(37, __c9, 1),
+          destination: __S(109, __c27, 1),
+          profileName: S.String,
+          clientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          profileOwner: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/signing-jobs" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartSigningJobRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ jobId: S.optional(S.String), jobOwner: S.optional(S.String) }),
+      ).annotate({ identifier: "StartSigningJobResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tags: __S(24, __c6, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(44, __c11, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

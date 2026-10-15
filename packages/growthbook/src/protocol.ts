@@ -2,13 +2,13 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * GrowthBookProtocol — hand-written.
+ * GrowthBookProtocol -- hand-written.
  *
  * GrowthBook speaks plain bearer-authenticated JSON REST (no response
  * envelope), so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://api.growthbook.io/api), resolved from the
  *             calling fiber on every request
  *
@@ -41,24 +41,23 @@ export type GrowthBookOpError =
 /** Context (requirements) shared by every generated GrowthBook operation. */
 export type GrowthBookOpContext = Credentials | HttpClient.HttpClient;
 
-export const GrowthBookProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-  }),
-  // GrowthBook's error body is `{ message: string }` — the factory's
-  // default lenient envelope covers `{ code, message }`.
-  unknownError: ({ code, message, body }) =>
-    new UnknownGrowthBookError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
+export const GrowthBookProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>(
+  {
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
     }),
-  parseError: ({ body, cause }) => new GrowthBookParseError({ body, cause }),
-});
+    // GrowthBook's error body is `{ message: string }` -- the factory's
+    // default lenient envelope covers `{ code, message }`.
+    unknownError: ({ code, message, body }) =>
+      new UnknownGrowthBookError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new GrowthBookParseError({ body, cause }),
+  },
+);

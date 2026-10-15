@@ -24,17 +24,15 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // Unknown Supabase error - returned when an error code is not recognized
-export class UnknownSupabaseError extends Schema.TaggedError<UnknownSupabaseError>()(
-  "UnknownSupabaseError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownSupabaseError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownSupabaseError>()("UnknownSupabaseError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 // Returned when v1CreateAProject is called against an org whose owner has
 // already hit the free-tier active-project ceiling (currently 2). Supabase
@@ -43,22 +41,18 @@ export class UnknownSupabaseError extends Schema.TaggedError<UnknownSupabaseErro
 //    for the number of active free projects within organizations where
 //    they are an administrator or owner: <email> (<n> project limit)..."
 // We tag it explicitly so tests can detect it, clean up stale projects,
-// and retry — and so callers can distinguish it from a real BadRequest.
-export class FreeProjectLimitReached extends Schema.TaggedError<FreeProjectLimitReached>()(
-  "FreeProjectLimitReached",
-  {
+// and retry -- and so callers can distinguish it from a real BadRequest.
+export class FreeProjectLimitReached
+  extends /*@__PURE__*/ Schema.TaggedError<FreeProjectLimitReached>()("FreeProjectLimitReached", {
     message: Schema.String,
-  },
-).pipe(Category.withQuotaError) {}
+  }).pipe(Category.withQuotaError) {}
 
 // Schema parse error wrapper
-export class SupabaseParseError extends Schema.TaggedError<SupabaseParseError>()(
-  "SupabaseParseError",
-  {
+export class SupabaseParseError
+  extends /*@__PURE__*/ Schema.TaggedError<SupabaseParseError>()("SupabaseParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors that any Supabase operation may surface in addition to the

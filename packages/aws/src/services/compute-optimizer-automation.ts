@@ -1,20 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Compute Optimizer Automation",
   serviceShapeName: "ComputeOptimizerAutomationService",
 });
-const auth = T.AwsAuthSigv4({ name: "aco-automation" });
-const ver = T.ServiceVersion("2025-09-22");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "aco-automation" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2025-09-22");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -71,135 +74,106 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://aco-automation.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class IdempotencyTokenInUseException
   extends /*@__PURE__*/ S.TaggedError<IdempotencyTokenInUseException>()(
     "IdempotencyTokenInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class IdempotentParameterMismatchException
   extends /*@__PURE__*/ S.TaggedError<IdempotentParameterMismatchException>()(
     "IdempotentParameterMismatchException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
     "InvalidParameterValueException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class NotManagementAccountException
   extends /*@__PURE__*/ S.TaggedError<NotManagementAccountException>()(
     "NotManagementAccountException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class OptInRequiredException
   extends /*@__PURE__*/ S.TaggedError<OptInRequiredException>()(
     "OptInRequiredException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export type AccountId = string;
 export type AccountIdList = string[];
-export const AccountIdList = /*@__PURE__*/ S.Array(S.String);
 export type ClientToken = string;
 export interface AssociateAccountsRequest {
   accountIds: string[];
   clientToken?: string;
 }
-export const AssociateAccountsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountIds: AccountIdList,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "AssociateAccountsRequest" }) as any as S.Schema<AssociateAccountsRequest>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface AssociateAccountsResponse {
   accountIds?: string[];
   errors?: string[];
 }
-export const AssociateAccountsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountIds: S.optional(AccountIdList), errors: S.optional(StringList) }),
-).annotate({
-  identifier: "AssociateAccountsResponse",
-}) as any as S.Schema<AssociateAccountsResponse>;
 export type RuleName = string;
 export type RuleDescription = string;
 export type RuleType = "OrganizationRule" | "AccountRule" | (string & {});
-export const RuleType = S.String;
-
 export type RuleApplyOrder = "BeforeAccountRules" | "AfterAccountRules" | (string & {});
-export const RuleApplyOrder = S.String;
-
 export type OrganizationConfigurationAccountIds = string[];
-export const OrganizationConfigurationAccountIds = /*@__PURE__*/ S.Array(S.String);
 export interface OrganizationConfiguration {
   ruleApplyOrder?: RuleApplyOrder;
   accountIds?: string[];
 }
-export const OrganizationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleApplyOrder: S.optional(RuleApplyOrder),
-    accountIds: S.optional(OrganizationConfigurationAccountIds),
-  }),
-).annotate({
-  identifier: "OrganizationConfiguration",
-}) as any as S.Schema<OrganizationConfiguration>;
 export type RecommendedActionType =
   | "SnapshotAndDeleteUnattachedEbsVolume"
   | "UpgradeEbsVolumeType"
   | (string & {});
-export const RecommendedActionType = S.String;
-
 export type RecommendedActionTypeList = RecommendedActionType[];
-export const RecommendedActionTypeList = /*@__PURE__*/ S.Array(RecommendedActionType);
 export type ComparisonOperator =
   | "StringEquals"
   | "StringNotEquals"
@@ -226,63 +200,31 @@ export type ComparisonOperator =
   | "NumericGreaterThanIfExists"
   | "NumericGreaterThanEqualsIfExists"
   | (string & {});
-export const ComparisonOperator = S.String;
-
 export type StringCriteriaValue = string;
 export type StringCriteriaValues = string[];
-export const StringCriteriaValues = /*@__PURE__*/ S.Array(S.String);
 export interface StringCriteriaCondition {
   comparison?: ComparisonOperator;
   values?: string[];
 }
-export const StringCriteriaCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    comparison: S.optional(ComparisonOperator),
-    values: S.optional(StringCriteriaValues),
-  }),
-).annotate({ identifier: "StringCriteriaCondition" }) as any as S.Schema<StringCriteriaCondition>;
 export type StringCriteriaConditionList = StringCriteriaCondition[];
-export const StringCriteriaConditionList = /*@__PURE__*/ S.Array(StringCriteriaCondition);
 export type IntegerList = number[];
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number);
 export interface IntegerCriteriaCondition {
   comparison?: ComparisonOperator;
   values?: number[];
 }
-export const IntegerCriteriaCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ comparison: S.optional(ComparisonOperator), values: S.optional(IntegerList) }),
-).annotate({ identifier: "IntegerCriteriaCondition" }) as any as S.Schema<IntegerCriteriaCondition>;
 export type IntegerCriteriaConditionList = IntegerCriteriaCondition[];
-export const IntegerCriteriaConditionList = /*@__PURE__*/ S.Array(IntegerCriteriaCondition);
 export type DoubleList = number[];
-export const DoubleList = /*@__PURE__*/ S.Array(S.Number);
 export interface DoubleCriteriaCondition {
   comparison?: ComparisonOperator;
   values?: number[];
 }
-export const DoubleCriteriaCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ comparison: S.optional(ComparisonOperator), values: S.optional(DoubleList) }),
-).annotate({ identifier: "DoubleCriteriaCondition" }) as any as S.Schema<DoubleCriteriaCondition>;
 export type DoubleCriteriaConditionList = DoubleCriteriaCondition[];
-export const DoubleCriteriaConditionList = /*@__PURE__*/ S.Array(DoubleCriteriaCondition);
 export interface ResourceTagsCriteriaCondition {
   comparison?: ComparisonOperator;
   key?: string;
   values?: string[];
 }
-export const ResourceTagsCriteriaCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    comparison: S.optional(ComparisonOperator),
-    key: S.optional(S.String),
-    values: S.optional(StringCriteriaValues),
-  }),
-).annotate({
-  identifier: "ResourceTagsCriteriaCondition",
-}) as any as S.Schema<ResourceTagsCriteriaCondition>;
 export type ResourceTagsCriteriaConditionList = ResourceTagsCriteriaCondition[];
-export const ResourceTagsCriteriaConditionList = /*@__PURE__*/ S.Array(
-  ResourceTagsCriteriaCondition,
-);
 export interface Criteria {
   region?: StringCriteriaCondition[];
   resourceArn?: StringCriteriaCondition[];
@@ -293,44 +235,19 @@ export interface Criteria {
   lookBackPeriodInDays?: IntegerCriteriaCondition[];
   restartNeeded?: StringCriteriaCondition[];
 }
-export const Criteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    region: S.optional(StringCriteriaConditionList),
-    resourceArn: S.optional(StringCriteriaConditionList),
-    ebsVolumeType: S.optional(StringCriteriaConditionList),
-    ebsVolumeSizeInGib: S.optional(IntegerCriteriaConditionList),
-    estimatedMonthlySavings: S.optional(DoubleCriteriaConditionList),
-    resourceTag: S.optional(ResourceTagsCriteriaConditionList),
-    lookBackPeriodInDays: S.optional(IntegerCriteriaConditionList),
-    restartNeeded: S.optional(StringCriteriaConditionList),
-  }),
-).annotate({ identifier: "Criteria" }) as any as S.Schema<Criteria>;
 export interface Schedule {
   scheduleExpression?: string;
   scheduleExpressionTimezone?: string;
   executionWindowInMinutes?: number;
 }
-export const Schedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scheduleExpression: S.optional(S.String),
-    scheduleExpressionTimezone: S.optional(S.String),
-    executionWindowInMinutes: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
 export type RuleStatus = "Active" | "Inactive" | (string & {});
-export const RuleStatus = S.String;
-
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   key: string;
   value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface CreateAutomationRuleRequest {
   name: string;
   description?: string;
@@ -344,23 +261,6 @@ export interface CreateAutomationRuleRequest {
   tags?: Tag[];
   clientToken?: string;
 }
-export const CreateAutomationRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    ruleType: RuleType,
-    organizationConfiguration: S.optional(OrganizationConfiguration),
-    priority: S.optional(S.String),
-    recommendedActionTypes: RecommendedActionTypeList,
-    criteria: S.optional(Criteria),
-    schedule: Schedule,
-    status: RuleStatus,
-    tags: S.optional(TagList),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateAutomationRuleRequest",
-}) as any as S.Schema<CreateAutomationRuleRequest>;
 export type RuleArn = string;
 export type RuleId = string;
 export interface CreateAutomationRuleResponse {
@@ -379,82 +279,28 @@ export interface CreateAutomationRuleResponse {
   tags?: Tag[];
   createdTimestamp?: Date;
 }
-export const CreateAutomationRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleArn: S.optional(S.String),
-    ruleId: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    ruleType: S.optional(RuleType),
-    ruleRevision: S.optional(S.Number),
-    organizationConfiguration: S.optional(OrganizationConfiguration),
-    priority: S.optional(S.String),
-    recommendedActionTypes: S.optional(RecommendedActionTypeList),
-    criteria: S.optional(Criteria),
-    schedule: S.optional(Schedule),
-    status: S.optional(RuleStatus),
-    tags: S.optional(TagList),
-    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "CreateAutomationRuleResponse",
-}) as any as S.Schema<CreateAutomationRuleResponse>;
 export interface DeleteAutomationRuleRequest {
   ruleArn: string;
   ruleRevision: number;
   clientToken?: string;
 }
-export const DeleteAutomationRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleArn: S.String,
-    ruleRevision: S.Number,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteAutomationRuleRequest",
-}) as any as S.Schema<DeleteAutomationRuleRequest>;
 export interface DeleteAutomationRuleResponse {}
-export const DeleteAutomationRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteAutomationRuleResponse",
-}) as any as S.Schema<DeleteAutomationRuleResponse>;
 export interface DisassociateAccountsRequest {
   accountIds: string[];
   clientToken?: string;
 }
-export const DisassociateAccountsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountIds: AccountIdList,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DisassociateAccountsRequest",
-}) as any as S.Schema<DisassociateAccountsRequest>;
 export interface DisassociateAccountsResponse {
   accountIds?: string[];
   errors?: string[];
 }
-export const DisassociateAccountsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountIds: S.optional(AccountIdList), errors: S.optional(StringList) }),
-).annotate({
-  identifier: "DisassociateAccountsResponse",
-}) as any as S.Schema<DisassociateAccountsResponse>;
 export type EventId = string;
 export interface GetAutomationEventRequest {
   eventId: string;
 }
-export const GetAutomationEventRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ eventId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAutomationEventRequest",
-}) as any as S.Schema<GetAutomationEventRequest>;
 export type EventType =
   | "SnapshotAndDeleteUnattachedEbsVolume"
   | "UpgradeEbsVolumeType"
   | (string & {});
-export const EventType = S.String;
-
 export type EventStatus =
   | "Ready"
   | "InProgress"
@@ -466,31 +312,17 @@ export type EventStatus =
   | "RollbackComplete"
   | "RollbackFailed"
   | (string & {});
-export const EventStatus = S.String;
-
 export type ResourceArn = string;
 export type ResourceId = string;
 export type RecommendedActionId = string;
 export type ResourceType = "EbsVolume" | (string & {});
-export const ResourceType = S.String;
-
 export type SavingsEstimationMode = "BeforeDiscount" | "AfterDiscount" | (string & {});
-export const SavingsEstimationMode = S.String;
-
 export interface EstimatedMonthlySavings {
   currency: string;
   beforeDiscountSavings: number;
   afterDiscountSavings: number;
   savingsEstimationMode: SavingsEstimationMode;
 }
-export const EstimatedMonthlySavings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    currency: S.String,
-    beforeDiscountSavings: S.Number,
-    afterDiscountSavings: S.Number,
-    savingsEstimationMode: SavingsEstimationMode,
-  }),
-).annotate({ identifier: "EstimatedMonthlySavings" }) as any as S.Schema<EstimatedMonthlySavings>;
 export interface GetAutomationEventResponse {
   eventId?: string;
   eventDescription?: string;
@@ -508,35 +340,9 @@ export interface GetAutomationEventResponse {
   completedTimestamp?: Date;
   estimatedMonthlySavings?: EstimatedMonthlySavings;
 }
-export const GetAutomationEventResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    eventDescription: S.optional(S.String),
-    eventType: S.optional(EventType),
-    eventStatus: S.optional(EventStatus),
-    eventStatusReason: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    resourceId: S.optional(S.String),
-    recommendedActionId: S.optional(S.String),
-    accountId: S.optional(S.String),
-    region: S.optional(S.String),
-    ruleId: S.optional(S.String),
-    resourceType: S.optional(ResourceType),
-    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    completedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    estimatedMonthlySavings: S.optional(EstimatedMonthlySavings),
-  }),
-).annotate({
-  identifier: "GetAutomationEventResponse",
-}) as any as S.Schema<GetAutomationEventResponse>;
 export interface GetAutomationRuleRequest {
   ruleArn: string;
 }
-export const GetAutomationRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ruleArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetAutomationRuleRequest" }) as any as S.Schema<GetAutomationRuleRequest>;
 export interface GetAutomationRuleResponse {
   ruleArn?: string;
   ruleId?: string;
@@ -555,66 +361,20 @@ export interface GetAutomationRuleResponse {
   createdTimestamp?: Date;
   lastUpdatedTimestamp?: Date;
 }
-export const GetAutomationRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleArn: S.optional(S.String),
-    ruleId: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    ruleType: S.optional(RuleType),
-    ruleRevision: S.optional(S.Number),
-    accountId: S.optional(S.String),
-    organizationConfiguration: S.optional(OrganizationConfiguration),
-    priority: S.optional(S.String),
-    recommendedActionTypes: S.optional(RecommendedActionTypeList),
-    criteria: S.optional(Criteria),
-    schedule: S.optional(Schedule),
-    status: S.optional(RuleStatus),
-    tags: S.optional(TagList),
-    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "GetAutomationRuleResponse",
-}) as any as S.Schema<GetAutomationRuleResponse>;
 export interface GetEnrollmentConfigurationRequest {}
-export const GetEnrollmentConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetEnrollmentConfigurationRequest",
-}) as any as S.Schema<GetEnrollmentConfigurationRequest>;
 export type EnrollmentStatus = "Active" | "Inactive" | "Pending" | "Failed" | (string & {});
-export const EnrollmentStatus = S.String;
-
 export type OrganizationRuleMode = "AnyAllowed" | "NoneAllowed" | (string & {});
-export const OrganizationRuleMode = S.String;
-
 export interface GetEnrollmentConfigurationResponse {
   status: EnrollmentStatus;
   statusReason?: string;
   organizationRuleMode?: OrganizationRuleMode;
   lastUpdatedTimestamp?: Date;
 }
-export const GetEnrollmentConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: EnrollmentStatus,
-    statusReason: S.optional(S.String),
-    organizationRuleMode: S.optional(OrganizationRuleMode),
-    lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "GetEnrollmentConfigurationResponse",
-}) as any as S.Schema<GetEnrollmentConfigurationResponse>;
 export type NextToken = string;
 export interface ListAccountsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListAccountsRequest" }) as any as S.Schema<ListAccountsRequest>;
 export interface AccountInfo {
   accountId: string;
   status: EnrollmentStatus;
@@ -622,37 +382,19 @@ export interface AccountInfo {
   statusReason?: string;
   lastUpdatedTimestamp: Date;
 }
-export const AccountInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String,
-    status: EnrollmentStatus,
-    organizationRuleMode: OrganizationRuleMode,
-    statusReason: S.optional(S.String),
-    lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "AccountInfo" }) as any as S.Schema<AccountInfo>;
 export type AccountInfoList = AccountInfo[];
-export const AccountInfoList = /*@__PURE__*/ S.Array(AccountInfo);
 export interface ListAccountsResponse {
   accounts: AccountInfo[];
   nextToken?: string;
 }
-export const ListAccountsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accounts: AccountInfoList, nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListAccountsResponse" }) as any as S.Schema<ListAccountsResponse>;
 export type AutomationEventFilterName = string;
 export type FilterValue = string;
 export type FilterValues = string[];
-export const FilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface AutomationEventFilter {
   name: string;
   values: string[];
 }
-export const AutomationEventFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, values: FilterValues }),
-).annotate({ identifier: "AutomationEventFilter" }) as any as S.Schema<AutomationEventFilter>;
 export type AutomationEventFilterList = AutomationEventFilter[];
-export const AutomationEventFilterList = /*@__PURE__*/ S.Array(AutomationEventFilter);
 export interface ListAutomationEventsRequest {
   filters?: AutomationEventFilter[];
   startTimeInclusive?: Date;
@@ -660,17 +402,6 @@ export interface ListAutomationEventsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListAutomationEventsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.optional(AutomationEventFilterList),
-    startTimeInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTimeExclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAutomationEventsRequest",
-}) as any as S.Schema<ListAutomationEventsRequest>;
 export interface AutomationEvent {
   eventId?: string;
   eventDescription?: string;
@@ -688,50 +419,16 @@ export interface AutomationEvent {
   completedTimestamp?: Date;
   estimatedMonthlySavings?: EstimatedMonthlySavings;
 }
-export const AutomationEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    eventDescription: S.optional(S.String),
-    eventType: S.optional(EventType),
-    eventStatus: S.optional(EventStatus),
-    eventStatusReason: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    resourceId: S.optional(S.String),
-    recommendedActionId: S.optional(S.String),
-    accountId: S.optional(S.String),
-    region: S.optional(S.String),
-    ruleId: S.optional(S.String),
-    resourceType: S.optional(ResourceType),
-    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    completedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    estimatedMonthlySavings: S.optional(EstimatedMonthlySavings),
-  }),
-).annotate({ identifier: "AutomationEvent" }) as any as S.Schema<AutomationEvent>;
 export type AutomationEvents = AutomationEvent[];
-export const AutomationEvents = /*@__PURE__*/ S.Array(AutomationEvent);
 export interface ListAutomationEventsResponse {
   automationEvents?: AutomationEvent[];
   nextToken?: string;
 }
-export const ListAutomationEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ automationEvents: S.optional(AutomationEvents), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAutomationEventsResponse",
-}) as any as S.Schema<ListAutomationEventsResponse>;
 export interface ListAutomationEventStepsRequest {
   eventId: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListAutomationEventStepsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.String,
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAutomationEventStepsRequest",
-}) as any as S.Schema<ListAutomationEventStepsRequest>;
 export type StepId = string;
 export type StepType =
   | "CreateEbsSnapshot"
@@ -739,11 +436,7 @@ export type StepType =
   | "ModifyEbsVolume"
   | "CreateEbsVolume"
   | (string & {});
-export const StepType = S.String;
-
 export type StepStatus = "Ready" | "InProgress" | "Complete" | "Failed" | (string & {});
-export const StepStatus = S.String;
-
 export interface AutomationEventStep {
   eventId?: string;
   stepId?: string;
@@ -754,32 +447,11 @@ export interface AutomationEventStep {
   completedTimestamp?: Date;
   estimatedMonthlySavings?: EstimatedMonthlySavings;
 }
-export const AutomationEventStep = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.optional(S.String),
-    stepId: S.optional(S.String),
-    stepType: S.optional(StepType),
-    stepStatus: S.optional(StepStatus),
-    resourceId: S.optional(S.String),
-    startTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    completedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    estimatedMonthlySavings: S.optional(EstimatedMonthlySavings),
-  }),
-).annotate({ identifier: "AutomationEventStep" }) as any as S.Schema<AutomationEventStep>;
 export type AutomationEventSteps = AutomationEventStep[];
-export const AutomationEventSteps = /*@__PURE__*/ S.Array(AutomationEventStep);
 export interface ListAutomationEventStepsResponse {
   automationEventSteps?: AutomationEventStep[];
   nextToken?: string;
 }
-export const ListAutomationEventStepsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    automationEventSteps: S.optional(AutomationEventSteps),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAutomationEventStepsResponse",
-}) as any as S.Schema<ListAutomationEventStepsResponse>;
 export interface ListAutomationEventSummariesRequest {
   filters?: AutomationEventFilter[];
   startDateInclusive?: string;
@@ -787,81 +459,34 @@ export interface ListAutomationEventSummariesRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListAutomationEventSummariesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.optional(AutomationEventFilterList),
-    startDateInclusive: S.optional(S.String),
-    endDateExclusive: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAutomationEventSummariesRequest",
-}) as any as S.Schema<ListAutomationEventSummariesRequest>;
 export type SummaryDimensionKey = string;
 export interface SummaryDimension {
   key: string;
   value: string;
 }
-export const SummaryDimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({ identifier: "SummaryDimension" }) as any as S.Schema<SummaryDimension>;
 export type SummaryDimensions = SummaryDimension[];
-export const SummaryDimensions = /*@__PURE__*/ S.Array(SummaryDimension);
 export interface TimePeriod {
   startTimeInclusive?: Date;
   endTimeExclusive?: Date;
 }
-export const TimePeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTimeInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTimeExclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
 export interface SummaryTotals {
   automationEventCount?: number;
   estimatedMonthlySavings?: EstimatedMonthlySavings;
 }
-export const SummaryTotals = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    automationEventCount: S.optional(S.Number),
-    estimatedMonthlySavings: S.optional(EstimatedMonthlySavings),
-  }),
-).annotate({ identifier: "SummaryTotals" }) as any as S.Schema<SummaryTotals>;
 export interface AutomationEventSummary {
   key?: string;
   dimensions?: SummaryDimension[];
   timePeriod?: TimePeriod;
   total?: SummaryTotals;
 }
-export const AutomationEventSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.optional(S.String),
-    dimensions: S.optional(SummaryDimensions),
-    timePeriod: S.optional(TimePeriod),
-    total: S.optional(SummaryTotals),
-  }),
-).annotate({ identifier: "AutomationEventSummary" }) as any as S.Schema<AutomationEventSummary>;
 export type AutomationEventSummaryList = AutomationEventSummary[];
-export const AutomationEventSummaryList = /*@__PURE__*/ S.Array(AutomationEventSummary);
 export interface ListAutomationEventSummariesResponse {
   automationEventSummaries?: AutomationEventSummary[];
   nextToken?: string;
 }
-export const ListAutomationEventSummariesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    automationEventSummaries: S.optional(AutomationEventSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAutomationEventSummariesResponse",
-}) as any as S.Schema<ListAutomationEventSummariesResponse>;
 export interface OrganizationScope {
   accountIds?: string[];
 }
-export const OrganizationScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountIds: S.optional(OrganizationConfigurationAccountIds) }),
-).annotate({ identifier: "OrganizationScope" }) as any as S.Schema<OrganizationScope>;
 export interface ListAutomationRulePreviewRequest {
   ruleType: RuleType;
   organizationScope?: OrganizationScope;
@@ -870,40 +495,16 @@ export interface ListAutomationRulePreviewRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListAutomationRulePreviewRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleType: RuleType,
-    organizationScope: S.optional(OrganizationScope),
-    recommendedActionTypes: RecommendedActionTypeList,
-    criteria: S.optional(Criteria),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAutomationRulePreviewRequest",
-}) as any as S.Schema<ListAutomationRulePreviewRequest>;
 export interface EbsVolumeConfiguration {
   type?: string;
   sizeInGib?: number;
   iops?: number;
   throughput?: number;
 }
-export const EbsVolumeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    sizeInGib: S.optional(S.Number),
-    iops: S.optional(S.Number),
-    throughput: S.optional(S.Number),
-  }),
-).annotate({ identifier: "EbsVolumeConfiguration" }) as any as S.Schema<EbsVolumeConfiguration>;
 export interface EbsVolume {
   configuration?: EbsVolumeConfiguration;
 }
-export const EbsVolume = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ configuration: S.optional(EbsVolumeConfiguration) }),
-).annotate({ identifier: "EbsVolume" }) as any as S.Schema<EbsVolume>;
 export type ResourceDetails = { ebsVolume: EbsVolume };
-export const ResourceDetails = /*@__PURE__*/ S.Union([S.Struct({ ebsVolume: EbsVolume })]);
 export interface PreviewResult {
   recommendedActionId?: string;
   resourceArn?: string;
@@ -921,36 +522,11 @@ export interface PreviewResult {
   estimatedMonthlySavings?: EstimatedMonthlySavings;
   resourceTags?: Tag[];
 }
-export const PreviewResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendedActionId: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    resourceId: S.optional(S.String),
-    accountId: S.optional(S.String),
-    region: S.optional(S.String),
-    resourceType: S.optional(ResourceType),
-    lookBackPeriodInDays: S.optional(S.Number),
-    recommendedActionType: S.optional(RecommendedActionType),
-    currentResourceSummary: S.optional(S.String),
-    currentResourceDetails: S.optional(ResourceDetails),
-    recommendedResourceSummary: S.optional(S.String),
-    recommendedResourceDetails: S.optional(ResourceDetails),
-    restartNeeded: S.optional(S.Boolean),
-    estimatedMonthlySavings: S.optional(EstimatedMonthlySavings),
-    resourceTags: S.optional(TagList),
-  }),
-).annotate({ identifier: "PreviewResult" }) as any as S.Schema<PreviewResult>;
 export type PreviewResults = PreviewResult[];
-export const PreviewResults = /*@__PURE__*/ S.Array(PreviewResult);
 export interface ListAutomationRulePreviewResponse {
   previewResults?: PreviewResult[];
   nextToken?: string;
 }
-export const ListAutomationRulePreviewResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ previewResults: S.optional(PreviewResults), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAutomationRulePreviewResponse",
-}) as any as S.Schema<ListAutomationRulePreviewResponse>;
 export interface ListAutomationRulePreviewSummariesRequest {
   ruleType: RuleType;
   organizationScope?: OrganizationScope;
@@ -959,70 +535,30 @@ export interface ListAutomationRulePreviewSummariesRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListAutomationRulePreviewSummariesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleType: RuleType,
-    organizationScope: S.optional(OrganizationScope),
-    recommendedActionTypes: RecommendedActionTypeList,
-    criteria: S.optional(Criteria),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAutomationRulePreviewSummariesRequest",
-}) as any as S.Schema<ListAutomationRulePreviewSummariesRequest>;
 export interface RulePreviewTotal {
   recommendedActionCount: number;
   estimatedMonthlySavings: EstimatedMonthlySavings;
 }
-export const RulePreviewTotal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ recommendedActionCount: S.Number, estimatedMonthlySavings: EstimatedMonthlySavings }),
-).annotate({ identifier: "RulePreviewTotal" }) as any as S.Schema<RulePreviewTotal>;
 export interface PreviewResultSummary {
   key: string;
   total: RulePreviewTotal;
 }
-export const PreviewResultSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, total: RulePreviewTotal }),
-).annotate({ identifier: "PreviewResultSummary" }) as any as S.Schema<PreviewResultSummary>;
 export type PreviewResultSummaries = PreviewResultSummary[];
-export const PreviewResultSummaries = /*@__PURE__*/ S.Array(PreviewResultSummary);
 export interface ListAutomationRulePreviewSummariesResponse {
   previewResultSummaries?: PreviewResultSummary[];
   nextToken?: string;
 }
-export const ListAutomationRulePreviewSummariesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    previewResultSummaries: S.optional(PreviewResultSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAutomationRulePreviewSummariesResponse",
-}) as any as S.Schema<ListAutomationRulePreviewSummariesResponse>;
 export type AutomationRuleFilterName = string;
 export interface Filter {
   name: string;
   values: string[];
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, values: FilterValues }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = /*@__PURE__*/ S.Array(Filter);
 export interface ListAutomationRulesRequest {
   filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
-export const ListAutomationRulesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.optional(FilterList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAutomationRulesRequest",
-}) as any as S.Schema<ListAutomationRulesRequest>;
 export interface AutomationRule {
   ruleArn?: string;
   ruleId?: string;
@@ -1039,59 +575,22 @@ export interface AutomationRule {
   createdTimestamp?: Date;
   lastUpdatedTimestamp?: Date;
 }
-export const AutomationRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleArn: S.optional(S.String),
-    ruleId: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    ruleType: S.optional(RuleType),
-    ruleRevision: S.optional(S.Number),
-    accountId: S.optional(S.String),
-    organizationConfiguration: S.optional(OrganizationConfiguration),
-    priority: S.optional(S.String),
-    recommendedActionTypes: S.optional(RecommendedActionTypeList),
-    schedule: S.optional(Schedule),
-    status: S.optional(RuleStatus),
-    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "AutomationRule" }) as any as S.Schema<AutomationRule>;
 export type AutomationRules = AutomationRule[];
-export const AutomationRules = /*@__PURE__*/ S.Array(AutomationRule);
 export interface ListAutomationRulesResponse {
   automationRules?: AutomationRule[];
   nextToken?: string;
 }
-export const ListAutomationRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ automationRules: S.optional(AutomationRules), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAutomationRulesResponse",
-}) as any as S.Schema<ListAutomationRulesResponse>;
 export type RecommendedActionFilterName = string;
 export interface RecommendedActionFilter {
   name: string;
   values: string[];
 }
-export const RecommendedActionFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, values: FilterValues }),
-).annotate({ identifier: "RecommendedActionFilter" }) as any as S.Schema<RecommendedActionFilter>;
 export type RecommendedActionFilterList = RecommendedActionFilter[];
-export const RecommendedActionFilterList = /*@__PURE__*/ S.Array(RecommendedActionFilter);
 export interface ListRecommendedActionsRequest {
   filters?: RecommendedActionFilter[];
   maxResults?: number;
   nextToken?: string;
 }
-export const ListRecommendedActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.optional(RecommendedActionFilterList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListRecommendedActionsRequest",
-}) as any as S.Schema<ListRecommendedActionsRequest>;
 export interface RecommendedAction {
   recommendedActionId?: string;
   resourceArn?: string;
@@ -1109,181 +608,67 @@ export interface RecommendedAction {
   estimatedMonthlySavings?: EstimatedMonthlySavings;
   resourceTags?: Tag[];
 }
-export const RecommendedAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendedActionId: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    resourceId: S.optional(S.String),
-    accountId: S.optional(S.String),
-    region: S.optional(S.String),
-    resourceType: S.optional(ResourceType),
-    lookBackPeriodInDays: S.optional(S.Number),
-    recommendedActionType: S.optional(RecommendedActionType),
-    currentResourceSummary: S.optional(S.String),
-    currentResourceDetails: S.optional(ResourceDetails),
-    recommendedResourceSummary: S.optional(S.String),
-    recommendedResourceDetails: S.optional(ResourceDetails),
-    restartNeeded: S.optional(S.Boolean),
-    estimatedMonthlySavings: S.optional(EstimatedMonthlySavings),
-    resourceTags: S.optional(TagList),
-  }),
-).annotate({ identifier: "RecommendedAction" }) as any as S.Schema<RecommendedAction>;
 export type RecommendedActions = RecommendedAction[];
-export const RecommendedActions = /*@__PURE__*/ S.Array(RecommendedAction);
 export interface ListRecommendedActionsResponse {
   recommendedActions?: RecommendedAction[];
   nextToken?: string;
 }
-export const ListRecommendedActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ recommendedActions: S.optional(RecommendedActions), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListRecommendedActionsResponse",
-}) as any as S.Schema<ListRecommendedActionsResponse>;
 export interface ListRecommendedActionSummariesRequest {
   filters?: RecommendedActionFilter[];
   maxResults?: number;
   nextToken?: string;
 }
-export const ListRecommendedActionSummariesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.optional(RecommendedActionFilterList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListRecommendedActionSummariesRequest",
-}) as any as S.Schema<ListRecommendedActionSummariesRequest>;
 export interface RecommendedActionTotal {
   recommendedActionCount: number;
   estimatedMonthlySavings: EstimatedMonthlySavings;
 }
-export const RecommendedActionTotal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ recommendedActionCount: S.Number, estimatedMonthlySavings: EstimatedMonthlySavings }),
-).annotate({ identifier: "RecommendedActionTotal" }) as any as S.Schema<RecommendedActionTotal>;
 export interface RecommendedActionSummary {
   key: string;
   total: RecommendedActionTotal;
 }
-export const RecommendedActionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, total: RecommendedActionTotal }),
-).annotate({ identifier: "RecommendedActionSummary" }) as any as S.Schema<RecommendedActionSummary>;
 export type RecommendedActionSummaries = RecommendedActionSummary[];
-export const RecommendedActionSummaries = /*@__PURE__*/ S.Array(RecommendedActionSummary);
 export interface ListRecommendedActionSummariesResponse {
   recommendedActionSummaries?: RecommendedActionSummary[];
   nextToken?: string;
 }
-export const ListRecommendedActionSummariesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendedActionSummaries: S.optional(RecommendedActionSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRecommendedActionSummariesResponse",
-}) as any as S.Schema<ListRecommendedActionSummariesResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: Tag[];
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RollbackAutomationEventRequest {
   eventId: string;
   clientToken?: string;
 }
-export const RollbackAutomationEventRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventId: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RollbackAutomationEventRequest",
-}) as any as S.Schema<RollbackAutomationEventRequest>;
 export interface RollbackAutomationEventResponse {
   eventId?: string;
   eventStatus?: EventStatus;
 }
-export const RollbackAutomationEventResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ eventId: S.optional(S.String), eventStatus: S.optional(EventStatus) }),
-).annotate({
-  identifier: "RollbackAutomationEventResponse",
-}) as any as S.Schema<RollbackAutomationEventResponse>;
 export interface StartAutomationEventRequest {
   recommendedActionId: string;
   clientToken?: string;
 }
-export const StartAutomationEventRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendedActionId: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartAutomationEventRequest",
-}) as any as S.Schema<StartAutomationEventRequest>;
 export interface StartAutomationEventResponse {
   recommendedActionId?: string;
   eventId?: string;
   eventStatus?: EventStatus;
 }
-export const StartAutomationEventResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendedActionId: S.optional(S.String),
-    eventId: S.optional(S.String),
-    eventStatus: S.optional(EventStatus),
-  }),
-).annotate({
-  identifier: "StartAutomationEventResponse",
-}) as any as S.Schema<StartAutomationEventResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   ruleRevision: number;
   tags: Tag[];
   clientToken?: string;
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    ruleRevision: S.Number,
-    tags: TagList,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   ruleRevision: number;
   tagKeys: string[];
   clientToken?: string;
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    ruleRevision: S.Number,
-    tagKeys: TagKeyList,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAutomationRuleRequest {
   ruleArn: string;
   ruleRevision: number;
@@ -1298,24 +683,6 @@ export interface UpdateAutomationRuleRequest {
   status?: RuleStatus;
   clientToken?: string;
 }
-export const UpdateAutomationRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleArn: S.String,
-    ruleRevision: S.Number,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    ruleType: S.optional(RuleType),
-    organizationConfiguration: S.optional(OrganizationConfiguration),
-    priority: S.optional(S.String),
-    recommendedActionTypes: S.optional(RecommendedActionTypeList),
-    criteria: S.optional(Criteria),
-    schedule: S.optional(Schedule),
-    status: S.optional(RuleStatus),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateAutomationRuleRequest",
-}) as any as S.Schema<UpdateAutomationRuleRequest>;
 export interface UpdateAutomationRuleResponse {
   ruleArn?: string;
   ruleRevision?: number;
@@ -1331,51 +698,15 @@ export interface UpdateAutomationRuleResponse {
   createdTimestamp?: Date;
   lastUpdatedTimestamp?: Date;
 }
-export const UpdateAutomationRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleArn: S.optional(S.String),
-    ruleRevision: S.optional(S.Number),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    ruleType: S.optional(RuleType),
-    organizationConfiguration: S.optional(OrganizationConfiguration),
-    priority: S.optional(S.String),
-    recommendedActionTypes: S.optional(RecommendedActionTypeList),
-    criteria: S.optional(Criteria),
-    schedule: S.optional(Schedule),
-    status: S.optional(RuleStatus),
-    createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "UpdateAutomationRuleResponse",
-}) as any as S.Schema<UpdateAutomationRuleResponse>;
 export interface UpdateEnrollmentConfigurationRequest {
   status: EnrollmentStatus;
   clientToken?: string;
 }
-export const UpdateEnrollmentConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: EnrollmentStatus,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateEnrollmentConfigurationRequest",
-}) as any as S.Schema<UpdateEnrollmentConfigurationRequest>;
 export interface UpdateEnrollmentConfigurationResponse {
   status: EnrollmentStatus;
   statusReason?: string;
   lastUpdatedTimestamp: Date;
 }
-export const UpdateEnrollmentConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: EnrollmentStatus,
-    statusReason: S.optional(S.String),
-    lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "UpdateEnrollmentConfigurationResponse",
-}) as any as S.Schema<UpdateEnrollmentConfigurationResponse>;
 export type AssociateAccountsError =
   | AccessDeniedException
   | ForbiddenException
@@ -1399,8 +730,8 @@ export const associateAccounts: API.OperationMethod<
   AssociateAccountsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateAccountsRequest,
-  output: AssociateAccountsResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<AssociateAccountsRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<AssociateAccountsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1440,8 +771,8 @@ export const createAutomationRule: API.OperationMethod<
   CreateAutomationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAutomationRuleRequest,
-  output: CreateAutomationRuleResponse,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateAutomationRuleRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<CreateAutomationRuleResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1481,8 +812,8 @@ export const deleteAutomationRule: API.OperationMethod<
   DeleteAutomationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAutomationRuleRequest,
-  output: DeleteAutomationRuleResponse,
+  input: __S(64, __c8, 0) as any as S.Schema<DeleteAutomationRuleRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<DeleteAutomationRuleResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1523,8 +854,8 @@ export const disassociateAccounts: API.OperationMethod<
   DisassociateAccountsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateAccountsRequest,
-  output: DisassociateAccountsResponse,
+  input: __S(80, __c10, 0) as any as S.Schema<DisassociateAccountsRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<DisassociateAccountsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1561,8 +892,8 @@ export const getAutomationEvent: API.OperationMethod<
   GetAutomationEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAutomationEventRequest,
-  output: GetAutomationEventResponse,
+  input: __S(88, __c11, 0) as any as S.Schema<GetAutomationEventRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<GetAutomationEventResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1597,8 +928,8 @@ export const getAutomationRule: API.OperationMethod<
   GetAutomationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAutomationRuleRequest,
-  output: GetAutomationRuleResponse,
+  input: __S(112, __c14, 0) as any as S.Schema<GetAutomationRuleRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<GetAutomationRuleResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1633,8 +964,8 @@ export const getEnrollmentConfiguration: API.OperationMethod<
   GetEnrollmentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEnrollmentConfigurationRequest,
-  output: GetEnrollmentConfigurationResponse,
+  input: __S(120, __c15, 0) as any as S.Schema<GetEnrollmentConfigurationRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<GetEnrollmentConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1672,8 +1003,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AccountInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsRequest,
-  output: ListAccountsResponse,
+  input: __S(128, __c16, 0) as any as S.Schema<ListAccountsRequest>,
+  output: __S(131, __c16, 3) as any as S.Schema<ListAccountsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1714,8 +1045,8 @@ export const listAutomationEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutomationEvent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAutomationEventsRequest,
-  output: ListAutomationEventsResponse,
+  input: __S(136, __c17, 0) as any as S.Schema<ListAutomationEventsRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<ListAutomationEventsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1756,8 +1087,8 @@ export const listAutomationEventSteps: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutomationEventStep
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAutomationEventStepsRequest,
-  output: ListAutomationEventStepsResponse,
+  input: __S(152, __c19, 0) as any as S.Schema<ListAutomationEventStepsRequest>,
+  output: __S(155, __c19, 3) as any as S.Schema<ListAutomationEventStepsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1798,8 +1129,8 @@ export const listAutomationEventSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutomationEventSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAutomationEventSummariesRequest,
-  output: ListAutomationEventSummariesResponse,
+  input: __S(160, __c20, 0) as any as S.Schema<ListAutomationEventSummariesRequest>,
+  output: __S(165, __c20, 5) as any as S.Schema<ListAutomationEventSummariesResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1839,8 +1170,8 @@ export const listAutomationRulePreview: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PreviewResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAutomationRulePreviewRequest,
-  output: ListAutomationRulePreviewResponse,
+  input: __S(168, __c21, 0) as any as S.Schema<ListAutomationRulePreviewRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<ListAutomationRulePreviewResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1880,8 +1211,8 @@ export const listAutomationRulePreviewSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PreviewResultSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAutomationRulePreviewSummariesRequest,
-  output: ListAutomationRulePreviewSummariesResponse,
+  input: __S(192, __c24, 0) as any as S.Schema<ListAutomationRulePreviewSummariesRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<ListAutomationRulePreviewSummariesResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1921,8 +1252,8 @@ export const listAutomationRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutomationRule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAutomationRulesRequest,
-  output: ListAutomationRulesResponse,
+  input: __S(208, __c26, 0) as any as S.Schema<ListAutomationRulesRequest>,
+  output: __S(211, __c26, 3) as any as S.Schema<ListAutomationRulesResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -1964,8 +1295,8 @@ export const listRecommendedActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecommendedAction
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRecommendedActionsRequest,
-  output: ListRecommendedActionsResponse,
+  input: __S(216, __c27, 0) as any as S.Schema<ListRecommendedActionsRequest>,
+  output: __S(217, __c27, 1) as any as S.Schema<ListRecommendedActionsResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -2007,8 +1338,8 @@ export const listRecommendedActionSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecommendedActionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRecommendedActionSummariesRequest,
-  output: ListRecommendedActionSummariesResponse,
+  input: __S(224, __c28, 0) as any as S.Schema<ListRecommendedActionSummariesRequest>,
+  output: __S(225, __c28, 1) as any as S.Schema<ListRecommendedActionSummariesResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -2048,8 +1379,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(232, __c29, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(233, __c29, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -2088,8 +1419,8 @@ export const rollbackAutomationEvent: API.OperationMethod<
   RollbackAutomationEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RollbackAutomationEventRequest,
-  output: RollbackAutomationEventResponse,
+  input: __S(240, __c30, 0) as any as S.Schema<RollbackAutomationEventRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<RollbackAutomationEventResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -2131,8 +1462,8 @@ export const startAutomationEvent: API.OperationMethod<
   StartAutomationEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartAutomationEventRequest,
-  output: StartAutomationEventResponse,
+  input: __S(248, __c31, 0) as any as S.Schema<StartAutomationEventRequest>,
+  output: __S(249, __c31, 1) as any as S.Schema<StartAutomationEventResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -2172,8 +1503,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(256, __c32, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -2212,8 +1543,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(264, __c33, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -2252,8 +1583,8 @@ export const updateAutomationRule: API.OperationMethod<
   UpdateAutomationRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAutomationRuleRequest,
-  output: UpdateAutomationRuleResponse,
+  input: __S(272, __c34, 0) as any as S.Schema<UpdateAutomationRuleRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<UpdateAutomationRuleResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -2285,7 +1616,7 @@ export type UpdateEnrollmentConfigurationError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Updates your account’s Compute Optimizer Automation enrollment configuration.
+ * Updates your account's Compute Optimizer Automation enrollment configuration.
  */
 export const updateEnrollmentConfiguration: API.OperationMethod<
   UpdateEnrollmentConfigurationRequest,
@@ -2293,8 +1624,8 @@ export const updateEnrollmentConfiguration: API.OperationMethod<
   UpdateEnrollmentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateEnrollmentConfigurationRequest,
-  output: UpdateEnrollmentConfigurationResponse,
+  input: __S(280, __c35, 0) as any as S.Schema<UpdateEnrollmentConfigurationRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<UpdateEnrollmentConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ForbiddenException,
@@ -2312,3 +1643,728 @@ export const updateEnrollmentConfiguration: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateEnrollmentConfiguration",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountIds: __S(8, __c1, 0),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AssociateAccountsRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ accountIds: S.optional(__S(8, __c1, 0)), errors: S.optional(__S(8, __c1, 0)) }),
+      ).annotate({ identifier: "AssociateAccountsResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          ruleType: S.String,
+          organizationConfiguration: S.optional(__S(56, __c7, 0)),
+          priority: S.optional(S.String),
+          recommendedActionTypes: __S(40, __c5, 0),
+          criteria: S.optional(__S(55, __c6, 7)),
+          schedule: __S(57, __c7, 1),
+          status: S.String,
+          tags: S.optional(__S(33, __c4, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateAutomationRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ruleArn: S.optional(S.String),
+          ruleId: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          ruleType: S.optional(S.String),
+          ruleRevision: S.optional(S.Number),
+          organizationConfiguration: S.optional(__S(56, __c7, 0)),
+          priority: S.optional(S.String),
+          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          criteria: S.optional(__S(55, __c6, 7)),
+          schedule: S.optional(__S(57, __c7, 1)),
+          status: S.optional(S.String),
+          tags: S.optional(__S(33, __c4, 1)),
+          createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "CreateAutomationRuleResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(32, __c4, 0));
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ comparison: S.optional(S.String), values: S.optional(__S(8, __c1, 0)) }),
+      ).annotate({ identifier: "StringCriteriaCondition" });
+    case 1:
+      return S.Array(__S(48, __c6, 0));
+    case 2:
+      return S.Array(S.Number);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ comparison: S.optional(S.String), values: S.optional(__S(50, __c6, 2)) }),
+      ).annotate({ identifier: "IntegerCriteriaCondition" });
+    case 4:
+      return S.Array(__S(51, __c6, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          comparison: S.optional(S.String),
+          key: S.optional(S.String),
+          values: S.optional(__S(8, __c1, 0)),
+        }),
+      ).annotate({ identifier: "ResourceTagsCriteriaCondition" });
+    case 6:
+      return S.Array(__S(53, __c6, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          region: S.optional(__S(49, __c6, 1)),
+          resourceArn: S.optional(__S(49, __c6, 1)),
+          ebsVolumeType: S.optional(__S(49, __c6, 1)),
+          ebsVolumeSizeInGib: S.optional(__S(52, __c6, 4)),
+          estimatedMonthlySavings: S.optional(__S(52, __c6, 4)),
+          resourceTag: S.optional(__S(54, __c6, 6)),
+          lookBackPeriodInDays: S.optional(__S(52, __c6, 4)),
+          restartNeeded: S.optional(__S(49, __c6, 1)),
+        }),
+      ).annotate({ identifier: "Criteria" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ruleApplyOrder: S.optional(S.String), accountIds: S.optional(__S(8, __c1, 0)) }),
+      ).annotate({ identifier: "OrganizationConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          scheduleExpression: S.optional(S.String),
+          scheduleExpressionTimezone: S.optional(S.String),
+          executionWindowInMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Schedule" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleArn: S.String,
+          ruleRevision: S.Number,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteAutomationRuleRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAutomationRuleResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountIds: __S(8, __c1, 0),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DisassociateAccountsRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ eventId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAutomationEventRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          eventId: S.optional(S.String),
+          eventDescription: S.optional(S.String),
+          eventType: S.optional(S.String),
+          eventStatus: S.optional(S.String),
+          eventStatusReason: S.optional(S.String),
+          resourceArn: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          recommendedActionId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          region: S.optional(S.String),
+          ruleId: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          completedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          estimatedMonthlySavings: S.optional(__S(104, __c13, 0)),
+        }),
+      ).annotate({ identifier: "GetAutomationEventResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          currency: S.String,
+          beforeDiscountSavings: S.Number,
+          afterDiscountSavings: S.Number,
+          savingsEstimationMode: S.String,
+        }),
+      ).annotate({ identifier: "EstimatedMonthlySavings" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ruleArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAutomationRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ruleArn: S.optional(S.String),
+          ruleId: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          ruleType: S.optional(S.String),
+          ruleRevision: S.optional(S.Number),
+          accountId: S.optional(S.String),
+          organizationConfiguration: S.optional(__S(56, __c7, 0)),
+          priority: S.optional(S.String),
+          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          criteria: S.optional(__S(55, __c6, 7)),
+          schedule: S.optional(__S(57, __c7, 1)),
+          status: S.optional(S.String),
+          tags: S.optional(__S(33, __c4, 1)),
+          createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "GetAutomationRuleResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetEnrollmentConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          statusReason: S.optional(S.String),
+          organizationRuleMode: S.optional(S.String),
+          lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "GetEnrollmentConfigurationResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListAccountsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          status: S.String,
+          organizationRuleMode: S.String,
+          statusReason: S.optional(S.String),
+          lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "AccountInfo" });
+    case 2:
+      return S.Array(__S(129, __c16, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ accounts: __S(130, __c16, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAccountsResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(145, __c18, 1)),
+          startTimeInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endTimeExclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAutomationEventsRequest" });
+    case 1:
+      return S.Array(__S(96, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          automationEvents: S.optional(__S(137, __c17, 1)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAutomationEventsResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, values: __S(8, __c1, 0) })).annotate({
+        identifier: "AutomationEventFilter",
+      });
+    case 1:
+      return S.Array(__S(144, __c18, 0));
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          eventId: S.String,
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAutomationEventStepsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          eventId: S.optional(S.String),
+          stepId: S.optional(S.String),
+          stepType: S.optional(S.String),
+          stepStatus: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          startTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          completedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          estimatedMonthlySavings: S.optional(__S(104, __c13, 0)),
+        }),
+      ).annotate({ identifier: "AutomationEventStep" });
+    case 2:
+      return S.Array(__S(153, __c19, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          automationEventSteps: S.optional(__S(154, __c19, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAutomationEventStepsResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(145, __c18, 1)),
+          startDateInclusive: S.optional(S.String),
+          endDateExclusive: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAutomationEventSummariesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          startTimeInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endTimeExclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "TimePeriod" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          automationEventCount: S.optional(S.Number),
+          estimatedMonthlySavings: S.optional(__S(104, __c13, 0)),
+        }),
+      ).annotate({ identifier: "SummaryTotals" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          dimensions: S.optional(__S(33, __c4, 1)),
+          timePeriod: S.optional(__S(161, __c20, 1)),
+          total: S.optional(__S(162, __c20, 2)),
+        }),
+      ).annotate({ identifier: "AutomationEventSummary" });
+    case 4:
+      return S.Array(__S(163, __c20, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          automationEventSummaries: S.optional(__S(164, __c20, 4)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAutomationEventSummariesResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleType: S.String,
+          organizationScope: S.optional(__S(176, __c22, 0)),
+          recommendedActionTypes: __S(40, __c5, 0),
+          criteria: S.optional(__S(55, __c6, 7)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAutomationRulePreviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          previewResults: S.optional(__S(188, __c23, 4)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAutomationRulePreviewResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ accountIds: S.optional(__S(8, __c1, 0)) })).annotate({
+        identifier: "OrganizationScope",
+      });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          sizeInGib: S.optional(S.Number),
+          iops: S.optional(S.Number),
+          throughput: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EbsVolumeConfiguration" });
+    case 1:
+      return S.suspend(() => S.Struct({ configuration: S.optional(__S(184, __c23, 0)) })).annotate({
+        identifier: "EbsVolume",
+      });
+    case 2:
+      return S.Union([/*@__PURE__*/ S.Struct({ ebsVolume: __S(185, __c23, 1) })]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          recommendedActionId: S.optional(S.String),
+          resourceArn: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          region: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          lookBackPeriodInDays: S.optional(S.Number),
+          recommendedActionType: S.optional(S.String),
+          currentResourceSummary: S.optional(S.String),
+          currentResourceDetails: S.optional(__S(186, __c23, 2)),
+          recommendedResourceSummary: S.optional(S.String),
+          recommendedResourceDetails: S.optional(__S(186, __c23, 2)),
+          restartNeeded: S.optional(S.Boolean),
+          estimatedMonthlySavings: S.optional(__S(104, __c13, 0)),
+          resourceTags: S.optional(__S(33, __c4, 1)),
+        }),
+      ).annotate({ identifier: "PreviewResult" });
+    case 4:
+      return S.Array(__S(187, __c23, 3));
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleType: S.String,
+          organizationScope: S.optional(__S(176, __c22, 0)),
+          recommendedActionTypes: __S(40, __c5, 0),
+          criteria: S.optional(__S(55, __c6, 7)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAutomationRulePreviewSummariesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          previewResultSummaries: S.optional(__S(202, __c25, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAutomationRulePreviewSummariesResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ recommendedActionCount: S.Number, estimatedMonthlySavings: __S(104, __c13, 0) }),
+      ).annotate({ identifier: "RulePreviewTotal" });
+    case 1:
+      return S.suspend(() => S.Struct({ key: S.String, total: __S(200, __c25, 0) })).annotate({
+        identifier: "PreviewResultSummary",
+      });
+    case 2:
+      return S.Array(__S(201, __c25, 1));
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(145, __c18, 1)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAutomationRulesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ruleArn: S.optional(S.String),
+          ruleId: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          ruleType: S.optional(S.String),
+          ruleRevision: S.optional(S.Number),
+          accountId: S.optional(S.String),
+          organizationConfiguration: S.optional(__S(56, __c7, 0)),
+          priority: S.optional(S.String),
+          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          schedule: S.optional(__S(57, __c7, 1)),
+          status: S.optional(S.String),
+          createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "AutomationRule" });
+    case 2:
+      return S.Array(__S(209, __c26, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          automationRules: S.optional(__S(210, __c26, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAutomationRulesResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(145, __c18, 1)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListRecommendedActionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          recommendedActions: S.optional(__S(188, __c23, 4)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListRecommendedActionsResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(145, __c18, 1)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListRecommendedActionSummariesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          recommendedActionSummaries: S.optional(__S(202, __c25, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListRecommendedActionSummariesResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(33, __c4, 1)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          eventId: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RollbackAutomationEventRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ eventId: S.optional(S.String), eventStatus: S.optional(S.String) }),
+      ).annotate({ identifier: "RollbackAutomationEventResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          recommendedActionId: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartAutomationEventRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          recommendedActionId: S.optional(S.String),
+          eventId: S.optional(S.String),
+          eventStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StartAutomationEventResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String,
+          ruleRevision: S.Number,
+          tags: __S(33, __c4, 1),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String,
+          ruleRevision: S.Number,
+          tagKeys: __S(8, __c1, 0),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleArn: S.String,
+          ruleRevision: S.Number,
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          ruleType: S.optional(S.String),
+          organizationConfiguration: S.optional(__S(56, __c7, 0)),
+          priority: S.optional(S.String),
+          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          criteria: S.optional(__S(55, __c6, 7)),
+          schedule: S.optional(__S(57, __c7, 1)),
+          status: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateAutomationRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ruleArn: S.optional(S.String),
+          ruleRevision: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          ruleType: S.optional(S.String),
+          organizationConfiguration: S.optional(__S(56, __c7, 0)),
+          priority: S.optional(S.String),
+          recommendedActionTypes: S.optional(__S(40, __c5, 0)),
+          criteria: S.optional(__S(55, __c6, 7)),
+          schedule: S.optional(__S(57, __c7, 1)),
+          status: S.optional(S.String),
+          createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastUpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "UpdateAutomationRuleResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateEnrollmentConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          statusReason: S.optional(S.String),
+          lastUpdatedTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "UpdateEnrollmentConfigurationResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

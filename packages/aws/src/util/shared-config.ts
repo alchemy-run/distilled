@@ -47,7 +47,7 @@ const readIni = async (path: string): Promise<ParsedIniData> => {
 /**
  * Config-file sections keyed the way callers ask for them: `[profile dev]`
  * becomes `dev`, `[sso-session x]` stays `sso-session.x`, and any other bare
- * section is dropped — in `~/.aws/config` only `[default]` may omit a prefix.
+ * section is dropped -- in `~/.aws/config` only `[default]` may omit a prefix.
  */
 const configSections = (data: ParsedIniData): ParsedIniData => {
   const out: ParsedIniData = data.default ? { default: data.default } : {};

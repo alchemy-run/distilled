@@ -1,14 +1,14 @@
 /**
- * GraphQL Query algebra — the runtime generated GraphQL SDKs target.
+ * GraphQL Query algebra -- the runtime generated GraphQL SDKs target.
  *
- * ── Why this exists ────────────────────────────────────────────────────────
+ * U+2500U+2500 Why this exists U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
  * A GraphQL document is a *selection*, not an RPC. Distilled used to bake a
  * max-depth selection into every operation (`Railway.me({})` downloaded the
  * world). This module instead treats every field as a lazy `Query<Value>`:
  * reading `user.email` records that field, and nothing is posted until
  * `Query.fn` evaluates the plan you returned.
  *
- * ── The two phases ─────────────────────────────────────────────────────────
+ * U+2500U+2500 The two phases U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
  * 1. Build (your function). `Railway.me()` / `user.email` / `Query.map` do
  *    not talk to the network. They construct an expression tree:
  *      Of | Map | Filter | FlatMap | Prop | Root
@@ -21,26 +21,26 @@
  *    against the JSON. Effects reached via FlatMap (e.g.
  *    `usernameIsAvailable(name)`) run *after* the POST, with real values.
  *
- * ── Combinators ────────────────────────────────────────────────────────────
- * - `Query.of(x)` — a literal; never selected.
- * - `Query.map` on a list — callback receives `Query<Item>` so `p.name` is
+ * U+2500U+2500 Combinators U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
+ * - `Query.of(x)` -- a literal; never selected.
+ * - `Query.map` on a list -- callback receives `Query<Item>` so `p.name` is
  *   still a Query (selected). On a scalar, callback receives the value
  *   after extract (`stars => stars > 5`). Relay connections (`edges { node }`)
  *   are lists of the node type, so `projects({ first: 20 }).pipe(Query.map)`
  *   maps projects, not edges.
- * - `Query.filter` — predicate is `Query<Item> => Query<boolean>`; the
+ * - `Query.filter` -- predicate is `Query<Item> => Query<boolean>`; the
  *   boolean Query is walked for fields, then run per row after the POST.
- * - `Query.flatMap` — after extract, run `(value) => Effect | Query`.
- * - `Query.pages` / `Query.items` — a Stream over every page / node of a
+ * - `Query.flatMap` -- after extract, run `(value) => Effect | Query`.
+ * - `Query.pages` / `Query.items` -- a Stream over every page / node of a
  *   Relay connection, one POST per page (see "Pagination").
  *
- * ── Types ──────────────────────────────────────────────────────────────────
+ * U+2500U+2500 Types U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
  * `Query<Value>` is `QueryNode<Value>` plus the GraphQL fields of `Value`,
  * so `user.name` type-checks. That copy is a circular type alias
  * (`Query<User>` contains `Query<Project[]>` which contains `Query<User>`
  * again). TypeScript leaves the cycle lazy; there is no depth cap.
  *
- * ── Transport ──────────────────────────────────────────────────────────────
+ * U+2500U+2500 Transport U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
  * {@link GqlTransport.execute} posts `{ query, variables, operationName }`.
  * The Effect it returns may require Credentials / HttpClient; those leak
  * into `Query.fn`'s requirements. It returns the parsed `data` and raw
@@ -58,8 +58,8 @@ import * as Schedule from "effect/Schedule";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 
-export const QuerySymbol = Symbol.for("@distilled.cloud/graphql/Query");
-const inspect = Symbol.for("nodejs.util.inspect.custom");
+export const QuerySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/graphql/Query");
+const inspect = /*@__PURE__*/ Symbol.for("nodejs.util.inspect.custom");
 
 /** A plan that cannot be compiled (a programming error, raised as a defect). */
 export class GqlError {
@@ -70,7 +70,7 @@ export class GqlError {
   }
 }
 
-// ── Errors ──────────────────────────────────────────────────────────────────
+// U+2500U+2500 Errors U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
 //
 // Every entry of a GraphQL `errors` array becomes one typed issue. Generated
 // SDKs declare tagged error classes plus the matchers that recognize them,
@@ -81,14 +81,18 @@ export class GqlError {
 /** Fields every classified GraphQL error carries. */
 export const errorFields = {
   message: S.String,
-  code: S.optional(S.String),
-  path: S.optional(S.Array(S.Union([S.String, S.Number]))),
-  locations: S.optional(S.Array(S.Struct({ line: S.Number, column: S.Number }))),
-  extensions: S.optional(S.Unknown),
-  traceId: S.optional(S.String),
-  status: S.optional(S.Number),
+  code: /*@__PURE__*/ S.optional(S.String),
+  path: /*@__PURE__*/ S.optional(
+    /*@__PURE__*/ S.Array(/*@__PURE__*/ S.Union([S.String, S.Number])),
+  ),
+  locations: /*@__PURE__*/ S.optional(
+    /*@__PURE__*/ S.Array(/*@__PURE__*/ S.Struct({ line: S.Number, column: S.Number })),
+  ),
+  extensions: /*@__PURE__*/ S.optional(S.Unknown),
+  traceId: /*@__PURE__*/ S.optional(S.String),
+  status: /*@__PURE__*/ S.optional(S.Number),
   /** Server retry hint in seconds. */
-  retryAfter: S.optional(S.Number),
+  retryAfter: /*@__PURE__*/ S.optional(S.Number),
 };
 
 /** The shape shared by every classified GraphQL error. */
@@ -110,23 +114,21 @@ export interface GraphQLIssue {
 export type GraphQLIssueProps = Omit<GraphQLIssue, "_tag">;
 
 /** A GraphQL error no declared matcher recognizes. */
-export class UnknownGraphQLError extends S.TaggedError<UnknownGraphQLError>()(
-  "UnknownGraphQLError",
-  {
+export class UnknownGraphQLError
+  extends /*@__PURE__*/ S.TaggedError<UnknownGraphQLError>()("UnknownGraphQLError", {
     ...errorFields,
     /** Root field the error path points at, when the path is known. */
-    coordinate: S.optional(S.String),
-  },
-) {}
+    coordinate: /*@__PURE__*/ S.optional(S.String),
+  }) {}
 
 /** One response carried errors with different tags; none is hidden. */
-export class GraphQLFailure<E extends GraphQLIssue = GraphQLIssue> extends Data.TaggedError(
-  "GraphQLFailure",
-)<{
-  readonly errors: readonly [E, ...E[]];
-  readonly data: unknown;
-  readonly status?: number;
-}> {
+export class GraphQLFailure<E extends GraphQLIssue = GraphQLIssue>
+  extends /*@__PURE__*/ Data.TaggedError("GraphQLFailure")<{
+    readonly errors: readonly [E, ...E[]];
+    readonly data: unknown;
+    readonly status?: number;
+  }>
+{
   get message(): string {
     return this.errors
       .map((e) => `${e._tag}${e.path?.length ? ` at ${e.path.join(".")}` : ""}: ${e.message}`)
@@ -135,19 +137,21 @@ export class GraphQLFailure<E extends GraphQLIssue = GraphQLIssue> extends Data.
 }
 
 /** The request never produced a GraphQL response (network, HTTP, non-JSON). */
-export class GraphQLTransportError extends Data.TaggedError("GraphQLTransportError")<{
-  readonly message: string;
-  readonly status?: number;
-  /** Server retry hint in seconds. */
-  readonly retryAfter?: number;
-  readonly cause?: unknown;
-}> {}
+export class GraphQLTransportError
+  extends /*@__PURE__*/ Data.TaggedError("GraphQLTransportError")<{
+    readonly message: string;
+    readonly status?: number;
+    /** Server retry hint in seconds. */
+    readonly retryAfter?: number;
+    readonly cause?: unknown;
+  }> {}
 
 /** A paginated connection reported more pages without a new cursor. */
-export class GraphQLPaginationError extends Data.TaggedError("GraphQLPaginationError")<{
-  readonly message: string;
-  readonly cursor: string | null;
-}> {}
+export class GraphQLPaginationError
+  extends /*@__PURE__*/ Data.TaggedError("GraphQLPaginationError")<{
+    readonly message: string;
+    readonly cursor: string | null;
+  }> {}
 
 /** Recognizes a raw GraphQL error. Every present property must match. */
 export interface ErrorMatcher {
@@ -289,21 +293,22 @@ export interface CompiledOperation {
   readonly tree: SelNode;
 }
 
-export class GqlTransport extends Context.Service<
-  GqlTransport,
-  {
-    readonly execute: (
-      req: CompiledOperation,
-    ) => Effect.Effect<GraphQLResponse, GraphQLTransportError, any>;
-  }
->()("@distilled.cloud/graphql/Transport") {}
+export class GqlTransport
+  extends /*@__PURE__*/ Context.Service<
+    GqlTransport,
+    {
+      readonly execute: (
+        req: CompiledOperation,
+      ) => Effect.Effect<GraphQLResponse, GraphQLTransportError, any>;
+    }
+  >()("@distilled.cloud/graphql/Transport") {}
 
 const log = (..._args: Array<unknown>): void => {};
 
 /**
  * GraphQL fields copied onto a Query so `user.name` type-checks.
  * `Query<User>` contains `projects: Query<Project[]>`, which contains
- * `owner: Query<User>` again — TypeScript leaves the cycle lazy. Fields
+ * `owner: Query<User>` again -- TypeScript leaves the cycle lazy. Fields
  * inherit the errors of the root they were read from.
  */
 type QueryFields<Value, Error> = [NonNullable<Value>] extends [ReadonlyArray<infer Item>]
@@ -706,7 +711,7 @@ type Forest = {
   varI: number;
   aliasI: number;
   rootAlias: WeakMap<object, string>;
-  /** Response key of each root → the root field and its declared errors. */
+  /** Response key of each root -> the root field and its declared errors. */
   rootErrors: Map<string, RootErrors>;
 };
 
@@ -1448,7 +1453,7 @@ export function flatMapQuery(sourceOrFlatMapFn: any, flatMapFn?: any): any {
 }
 
 /**
- * Builder → Effect. The inner function is *not* a generator; it returns a
+ * Builder -> Effect. The inner function is *not* a generator; it returns a
  * plan of Query/Effect values. Query.fn visits the plan, POSTs one document,
  * then interprets Map/Filter/FlatMap/Of.
  */
@@ -1463,7 +1468,7 @@ export const queryFn =
     return evaluatePlan(plan);
   };
 
-// ── Pagination ──────────────────────────────────────────────────────────────
+// U+2500U+2500 Pagination U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
 //
 // A connection lens hides `edges`/`pageInfo`. `Query.pages` re-evaluates the
 // query once per page: it sets the connection's `after` argument, paints

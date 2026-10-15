@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
-import * as redacted from "effect/Redacted";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -9,11 +10,16 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "Timestream Query", serviceShapeName: "Timestream_20181101" });
-const auth = T.AwsAuthSigv4({ name: "timestream" });
-const ver = T.ServiceVersion("2018-11-01");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "Timestream Query",
+  serviceShapeName: "Timestream_20181101",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "timestream" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-11-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -85,64 +91,67 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://query.timestream.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "AccessDenied", httpResponseCode: 403 }), T.HttpError(403)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "AccessDenied", httpResponseCode: 403 }),
+      /*@__PURE__*/ T.HttpError(403),
+    ),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidEndpointException
   extends /*@__PURE__*/ S.TaggedError<InvalidEndpointException>()(
     "InvalidEndpointException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(421),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(421),
   ) {}
 export class QueryExecutionException
   extends /*@__PURE__*/ S.TaggedError<QueryExecutionException>()(
     "QueryExecutionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ScheduledQueryArn: S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ScheduledQueryArn: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class TimestreamNotOnboarded
   extends /*@__PURE__*/ S.TaggedError<TimestreamNotOnboarded>()(
     "TimestreamNotOnboarded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.SyntheticError({
       from: "AccessDeniedException",
       message: { includes: "Only existing Timestream for LiveAnalytics customers" },
     }),
@@ -150,62 +159,37 @@ export class TimestreamNotOnboarded
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type QueryId = string;
 export interface CancelQueryRequest {
   QueryId: string;
 }
-export const CancelQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueryId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CancelQueryRequest" }) as any as S.Schema<CancelQueryRequest>;
 export interface CancelQueryResponse {
   CancellationMessage?: string;
 }
-export const CancelQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CancellationMessage: S.optional(S.String) }),
-).annotate({ identifier: "CancelQueryResponse" }) as any as S.Schema<CancelQueryResponse>;
 export type ScheduledQueryName = string;
 export type QueryString = string | redacted.Redacted<string>;
 export type ScheduleExpression = string;
 export interface ScheduleConfiguration {
   ScheduleExpression: string;
 }
-export const ScheduleConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScheduleExpression: S.String }),
-).annotate({ identifier: "ScheduleConfiguration" }) as any as S.Schema<ScheduleConfiguration>;
 export type AmazonResourceName = string;
 export interface SnsConfiguration {
   TopicArn: string;
 }
-export const SnsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TopicArn: S.String }),
-).annotate({ identifier: "SnsConfiguration" }) as any as S.Schema<SnsConfiguration>;
 export interface NotificationConfiguration {
   SnsConfiguration: SnsConfiguration;
 }
-export const NotificationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SnsConfiguration: SnsConfiguration }),
-).annotate({
-  identifier: "NotificationConfiguration",
-}) as any as S.Schema<NotificationConfiguration>;
 export type ResourceName = string;
 export type SchemaName = string;
 export type DimensionValueType = "VARCHAR" | (string & {});
-export const DimensionValueType = S.String;
-
 export interface DimensionMapping {
   Name: string;
   DimensionValueType: DimensionValueType;
 }
-export const DimensionMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, DimensionValueType: DimensionValueType }),
-).annotate({ identifier: "DimensionMapping" }) as any as S.Schema<DimensionMapping>;
 export type DimensionMappingList = DimensionMapping[];
-export const DimensionMappingList = /*@__PURE__*/ S.Array(DimensionMapping);
 export type ScalarMeasureValueType =
   | "BIGINT"
   | "BOOLEAN"
@@ -213,34 +197,16 @@ export type ScalarMeasureValueType =
   | "VARCHAR"
   | "TIMESTAMP"
   | (string & {});
-export const ScalarMeasureValueType = S.String;
-
 export interface MultiMeasureAttributeMapping {
   SourceColumn: string;
   TargetMultiMeasureAttributeName?: string;
   MeasureValueType: ScalarMeasureValueType;
 }
-export const MultiMeasureAttributeMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceColumn: S.String,
-    TargetMultiMeasureAttributeName: S.optional(S.String),
-    MeasureValueType: ScalarMeasureValueType,
-  }),
-).annotate({
-  identifier: "MultiMeasureAttributeMapping",
-}) as any as S.Schema<MultiMeasureAttributeMapping>;
 export type MultiMeasureAttributeMappingList = MultiMeasureAttributeMapping[];
-export const MultiMeasureAttributeMappingList = /*@__PURE__*/ S.Array(MultiMeasureAttributeMapping);
 export interface MultiMeasureMappings {
   TargetMultiMeasureName?: string;
   MultiMeasureAttributeMappings: MultiMeasureAttributeMapping[];
 }
-export const MultiMeasureMappings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetMultiMeasureName: S.optional(S.String),
-    MultiMeasureAttributeMappings: MultiMeasureAttributeMappingList,
-  }),
-).annotate({ identifier: "MultiMeasureMappings" }) as any as S.Schema<MultiMeasureMappings>;
 export type MeasureValueType =
   | "BIGINT"
   | "BOOLEAN"
@@ -248,8 +214,6 @@ export type MeasureValueType =
   | "VARCHAR"
   | "MULTI"
   | (string & {});
-export const MeasureValueType = S.String;
-
 export interface MixedMeasureMapping {
   MeasureName?: string;
   SourceColumn?: string;
@@ -257,17 +221,7 @@ export interface MixedMeasureMapping {
   MeasureValueType: MeasureValueType;
   MultiMeasureAttributeMappings?: MultiMeasureAttributeMapping[];
 }
-export const MixedMeasureMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MeasureName: S.optional(S.String),
-    SourceColumn: S.optional(S.String),
-    TargetMeasureName: S.optional(S.String),
-    MeasureValueType: MeasureValueType,
-    MultiMeasureAttributeMappings: S.optional(MultiMeasureAttributeMappingList),
-  }),
-).annotate({ identifier: "MixedMeasureMapping" }) as any as S.Schema<MixedMeasureMapping>;
 export type MixedMeasureMappingList = MixedMeasureMapping[];
-export const MixedMeasureMappingList = /*@__PURE__*/ S.Array(MixedMeasureMapping);
 export interface TimestreamConfiguration {
   DatabaseName: string;
   TableName: string;
@@ -277,23 +231,9 @@ export interface TimestreamConfiguration {
   MixedMeasureMappings?: MixedMeasureMapping[];
   MeasureNameColumn?: string;
 }
-export const TimestreamConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseName: S.String,
-    TableName: S.String,
-    TimeColumn: S.String,
-    DimensionMappings: DimensionMappingList,
-    MultiMeasureMappings: S.optional(MultiMeasureMappings),
-    MixedMeasureMappings: S.optional(MixedMeasureMappingList),
-    MeasureNameColumn: S.optional(S.String),
-  }),
-).annotate({ identifier: "TimestreamConfiguration" }) as any as S.Schema<TimestreamConfiguration>;
 export interface TargetConfiguration {
   TimestreamConfiguration: TimestreamConfiguration;
 }
-export const TargetConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TimestreamConfiguration: TimestreamConfiguration }),
-).annotate({ identifier: "TargetConfiguration" }) as any as S.Schema<TargetConfiguration>;
 export type ClientToken = string | redacted.Redacted<string>;
 export type TagKey = string;
 export type TagValue = string;
@@ -301,35 +241,19 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export type StringValue2048 = string;
 export type S3BucketName = string;
 export type S3ObjectKeyPrefix = string;
 export type S3EncryptionOption = "SSE_S3" | "SSE_KMS" | (string & {});
-export const S3EncryptionOption = S.String;
-
 export interface S3Configuration {
   BucketName: string;
   ObjectKeyPrefix?: string;
   EncryptionOption?: S3EncryptionOption;
 }
-export const S3Configuration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BucketName: S.String,
-    ObjectKeyPrefix: S.optional(S.String),
-    EncryptionOption: S.optional(S3EncryptionOption),
-  }),
-).annotate({ identifier: "S3Configuration" }) as any as S.Schema<S3Configuration>;
 export interface ErrorReportConfiguration {
   S3Configuration: S3Configuration;
 }
-export const ErrorReportConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3Configuration: S3Configuration }),
-).annotate({ identifier: "ErrorReportConfiguration" }) as any as S.Schema<ErrorReportConfiguration>;
 export interface CreateScheduledQueryRequest {
   Name: string;
   QueryString: string | redacted.Redacted<string>;
@@ -342,162 +266,62 @@ export interface CreateScheduledQueryRequest {
   KmsKeyId?: string;
   ErrorReportConfiguration: ErrorReportConfiguration;
 }
-export const CreateScheduledQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    QueryString: SensitiveString,
-    ScheduleConfiguration: ScheduleConfiguration,
-    NotificationConfiguration: NotificationConfiguration,
-    TargetConfiguration: S.optional(TargetConfiguration),
-    ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
-    ScheduledQueryExecutionRoleArn: S.String,
-    Tags: S.optional(TagList),
-    KmsKeyId: S.optional(S.String),
-    ErrorReportConfiguration: ErrorReportConfiguration,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateScheduledQueryRequest",
-}) as any as S.Schema<CreateScheduledQueryRequest>;
 export interface CreateScheduledQueryResponse {
   Arn: string;
 }
-export const CreateScheduledQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }),
-).annotate({
-  identifier: "CreateScheduledQueryResponse",
-}) as any as S.Schema<CreateScheduledQueryResponse>;
 export interface DeleteScheduledQueryRequest {
   ScheduledQueryArn: string;
 }
-export const DeleteScheduledQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScheduledQueryArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteScheduledQueryRequest",
-}) as any as S.Schema<DeleteScheduledQueryRequest>;
 export interface DeleteScheduledQueryResponse {}
-export const DeleteScheduledQueryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteScheduledQueryResponse",
-}) as any as S.Schema<DeleteScheduledQueryResponse>;
 export interface DescribeAccountSettingsRequest {}
-export const DescribeAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeAccountSettingsRequest",
-}) as any as S.Schema<DescribeAccountSettingsRequest>;
 export type MaxQueryCapacity = number;
 export type QueryPricingModel = "BYTES_SCANNED" | "COMPUTE_UNITS" | (string & {});
-export const QueryPricingModel = S.String;
-
 export type ComputeMode = "ON_DEMAND" | "PROVISIONED" | (string & {});
-export const ComputeMode = S.String;
-
 export type QueryTCU = number;
 export interface AccountSettingsNotificationConfiguration {
   SnsConfiguration?: SnsConfiguration;
   RoleArn: string;
 }
-export const AccountSettingsNotificationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SnsConfiguration: S.optional(SnsConfiguration), RoleArn: S.String }),
-).annotate({
-  identifier: "AccountSettingsNotificationConfiguration",
-}) as any as S.Schema<AccountSettingsNotificationConfiguration>;
 export type LastUpdateStatus = "PENDING" | "FAILED" | "SUCCEEDED" | (string & {});
-export const LastUpdateStatus = S.String;
-
 export interface LastUpdate {
   TargetQueryTCU?: number;
   Status?: LastUpdateStatus;
   StatusMessage?: string;
 }
-export const LastUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetQueryTCU: S.optional(S.Number),
-    Status: S.optional(LastUpdateStatus),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "LastUpdate" }) as any as S.Schema<LastUpdate>;
 export interface ProvisionedCapacityResponse {
   ActiveQueryTCU?: number;
   NotificationConfiguration?: AccountSettingsNotificationConfiguration;
   LastUpdate?: LastUpdate;
 }
-export const ProvisionedCapacityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActiveQueryTCU: S.optional(S.Number),
-    NotificationConfiguration: S.optional(AccountSettingsNotificationConfiguration),
-    LastUpdate: S.optional(LastUpdate),
-  }),
-).annotate({
-  identifier: "ProvisionedCapacityResponse",
-}) as any as S.Schema<ProvisionedCapacityResponse>;
 export interface QueryComputeResponse {
   ComputeMode?: ComputeMode;
   ProvisionedCapacity?: ProvisionedCapacityResponse;
 }
-export const QueryComputeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComputeMode: S.optional(ComputeMode),
-    ProvisionedCapacity: S.optional(ProvisionedCapacityResponse),
-  }),
-).annotate({ identifier: "QueryComputeResponse" }) as any as S.Schema<QueryComputeResponse>;
 export interface DescribeAccountSettingsResponse {
   MaxQueryTCU?: number;
   QueryPricingModel?: QueryPricingModel;
   QueryCompute?: QueryComputeResponse;
 }
-export const DescribeAccountSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxQueryTCU: S.optional(S.Number),
-    QueryPricingModel: S.optional(QueryPricingModel),
-    QueryCompute: S.optional(QueryComputeResponse),
-  }),
-).annotate({
-  identifier: "DescribeAccountSettingsResponse",
-}) as any as S.Schema<DescribeAccountSettingsResponse>;
 export interface DescribeEndpointsRequest {}
-export const DescribeEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeEndpointsRequest" }) as any as S.Schema<DescribeEndpointsRequest>;
 export interface Endpoint {
   Address: string;
   CachePeriodInMinutes: number;
 }
-export const Endpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Address: S.String, CachePeriodInMinutes: S.Number }),
-).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+const Endpoint = /*@__PURE__*/ __L.at(__c1, 0) as any as S.Schema<Endpoint>;
 export type Endpoints = Endpoint[];
-export const Endpoints = /*@__PURE__*/ S.Array(Endpoint);
 export interface DescribeEndpointsResponse {
   Endpoints: Endpoint[];
 }
-export const DescribeEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Endpoints: Endpoints }),
-).annotate({
-  identifier: "DescribeEndpointsResponse",
-}) as any as S.Schema<DescribeEndpointsResponse>;
 export interface DescribeScheduledQueryRequest {
   ScheduledQueryArn: string;
 }
-export const DescribeScheduledQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScheduledQueryArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeScheduledQueryRequest",
-}) as any as S.Schema<DescribeScheduledQueryRequest>;
 export type ScheduledQueryState = "ENABLED" | "DISABLED" | (string & {});
-export const ScheduledQueryState = S.String;
-
 export type ScheduledQueryRunStatus =
   | "AUTO_TRIGGER_SUCCESS"
   | "AUTO_TRIGGER_FAILURE"
   | "MANUAL_TRIGGER_SUCCESS"
   | "MANUAL_TRIGGER_FAILURE"
   | (string & {});
-export const ScheduledQueryRunStatus = S.String;
-
 export interface ExecutionStats {
   ExecutionTimeInMillis?: number;
   DataWrites?: number;
@@ -506,50 +330,23 @@ export interface ExecutionStats {
   RecordsIngested?: number;
   QueryResultRows?: number;
 }
-export const ExecutionStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExecutionTimeInMillis: S.optional(S.Number),
-    DataWrites: S.optional(S.Number),
-    BytesMetered: S.optional(S.Number),
-    CumulativeBytesScanned: S.optional(S.Number),
-    RecordsIngested: S.optional(S.Number),
-    QueryResultRows: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ExecutionStats" }) as any as S.Schema<ExecutionStats>;
 export type PartitionKey = string;
 export type PartitionKeyList = string[];
-export const PartitionKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface QuerySpatialCoverageMax {
   Value?: number;
   TableArn?: string;
   PartitionKey?: string[];
 }
-export const QuerySpatialCoverageMax = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.Number),
-    TableArn: S.optional(S.String),
-    PartitionKey: S.optional(PartitionKeyList),
-  }),
-).annotate({ identifier: "QuerySpatialCoverageMax" }) as any as S.Schema<QuerySpatialCoverageMax>;
 export interface QuerySpatialCoverage {
   Max?: QuerySpatialCoverageMax;
 }
-export const QuerySpatialCoverage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Max: S.optional(QuerySpatialCoverageMax) }),
-).annotate({ identifier: "QuerySpatialCoverage" }) as any as S.Schema<QuerySpatialCoverage>;
 export interface QueryTemporalRangeMax {
   Value?: number;
   TableArn?: string;
 }
-export const QueryTemporalRangeMax = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.optional(S.Number), TableArn: S.optional(S.String) }),
-).annotate({ identifier: "QueryTemporalRangeMax" }) as any as S.Schema<QueryTemporalRangeMax>;
 export interface QueryTemporalRange {
   Max?: QueryTemporalRangeMax;
 }
-export const QueryTemporalRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Max: S.optional(QueryTemporalRangeMax) }),
-).annotate({ identifier: "QueryTemporalRange" }) as any as S.Schema<QueryTemporalRange>;
 export interface ScheduledQueryInsightsResponse {
   QuerySpatialCoverage?: QuerySpatialCoverage;
   QueryTemporalRange?: QueryTemporalRange;
@@ -557,31 +354,14 @@ export interface ScheduledQueryInsightsResponse {
   OutputRows?: number;
   OutputBytes?: number;
 }
-export const ScheduledQueryInsightsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QuerySpatialCoverage: S.optional(QuerySpatialCoverage),
-    QueryTemporalRange: S.optional(QueryTemporalRange),
-    QueryTableCount: S.optional(S.Number),
-    OutputRows: S.optional(S.Number),
-    OutputBytes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ScheduledQueryInsightsResponse",
-}) as any as S.Schema<ScheduledQueryInsightsResponse>;
 export type S3ObjectKey = string;
 export interface S3ReportLocation {
   BucketName?: string;
   ObjectKey?: string;
 }
-export const S3ReportLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BucketName: S.optional(S.String), ObjectKey: S.optional(S.String) }),
-).annotate({ identifier: "S3ReportLocation" }) as any as S.Schema<S3ReportLocation>;
 export interface ErrorReportLocation {
   S3ReportLocation?: S3ReportLocation;
 }
-export const ErrorReportLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3ReportLocation: S.optional(S3ReportLocation) }),
-).annotate({ identifier: "ErrorReportLocation" }) as any as S.Schema<ErrorReportLocation>;
 export type ErrorMessage = string;
 export interface ScheduledQueryRunSummary {
   InvocationTime?: Date;
@@ -592,19 +372,7 @@ export interface ScheduledQueryRunSummary {
   ErrorReportLocation?: ErrorReportLocation;
   FailureReason?: string;
 }
-export const ScheduledQueryRunSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TriggerTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RunStatus: S.optional(ScheduledQueryRunStatus),
-    ExecutionStats: S.optional(ExecutionStats),
-    QueryInsightsResponse: S.optional(ScheduledQueryInsightsResponse),
-    ErrorReportLocation: S.optional(ErrorReportLocation),
-    FailureReason: S.optional(S.String),
-  }),
-).annotate({ identifier: "ScheduledQueryRunSummary" }) as any as S.Schema<ScheduledQueryRunSummary>;
 export type ScheduledQueryRunSummaryList = ScheduledQueryRunSummary[];
-export const ScheduledQueryRunSummaryList = /*@__PURE__*/ S.Array(ScheduledQueryRunSummary);
 export interface ScheduledQueryDescription {
   Arn: string;
   Name: string;
@@ -622,90 +390,33 @@ export interface ScheduledQueryDescription {
   LastRunSummary?: ScheduledQueryRunSummary;
   RecentlyFailedRuns?: ScheduledQueryRunSummary[];
 }
-export const ScheduledQueryDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.String,
-    QueryString: SensitiveString,
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: ScheduledQueryState,
-    PreviousInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    NextInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ScheduleConfiguration: ScheduleConfiguration,
-    NotificationConfiguration: NotificationConfiguration,
-    TargetConfiguration: S.optional(TargetConfiguration),
-    ScheduledQueryExecutionRoleArn: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    ErrorReportConfiguration: S.optional(ErrorReportConfiguration),
-    LastRunSummary: S.optional(ScheduledQueryRunSummary),
-    RecentlyFailedRuns: S.optional(ScheduledQueryRunSummaryList),
-  }),
-).annotate({
-  identifier: "ScheduledQueryDescription",
-}) as any as S.Schema<ScheduledQueryDescription>;
 export interface DescribeScheduledQueryResponse {
   ScheduledQuery: ScheduledQueryDescription;
 }
-export const DescribeScheduledQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScheduledQuery: ScheduledQueryDescription }),
-).annotate({
-  identifier: "DescribeScheduledQueryResponse",
-}) as any as S.Schema<DescribeScheduledQueryResponse>;
 export type ScheduledQueryInsightsMode = "ENABLED_WITH_RATE_CONTROL" | "DISABLED" | (string & {});
-export const ScheduledQueryInsightsMode = S.String;
-
 export interface ScheduledQueryInsights {
   Mode: ScheduledQueryInsightsMode;
 }
-export const ScheduledQueryInsights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Mode: ScheduledQueryInsightsMode }),
-).annotate({ identifier: "ScheduledQueryInsights" }) as any as S.Schema<ScheduledQueryInsights>;
 export interface ExecuteScheduledQueryRequest {
   ScheduledQueryArn: string;
   InvocationTime: Date;
   ClientToken?: string | redacted.Redacted<string>;
   QueryInsights?: ScheduledQueryInsights;
 }
-export const ExecuteScheduledQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScheduledQueryArn: S.String,
-    InvocationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
-    QueryInsights: S.optional(ScheduledQueryInsights),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExecuteScheduledQueryRequest",
-}) as any as S.Schema<ExecuteScheduledQueryRequest>;
 export interface ExecuteScheduledQueryResponse {}
-export const ExecuteScheduledQueryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "ExecuteScheduledQueryResponse",
-}) as any as S.Schema<ExecuteScheduledQueryResponse>;
 export type MaxScheduledQueriesResults = number;
 export type NextScheduledQueriesResultsToken = string;
 export interface ListScheduledQueriesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListScheduledQueriesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListScheduledQueriesRequest",
-}) as any as S.Schema<ListScheduledQueriesRequest>;
 export interface TimestreamDestination {
   DatabaseName?: string;
   TableName?: string;
 }
-export const TimestreamDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DatabaseName: S.optional(S.String), TableName: S.optional(S.String) }),
-).annotate({ identifier: "TimestreamDestination" }) as any as S.Schema<TimestreamDestination>;
 export interface TargetDestination {
   TimestreamDestination?: TimestreamDestination;
 }
-export const TargetDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TimestreamDestination: S.optional(TimestreamDestination) }),
-).annotate({ identifier: "TargetDestination" }) as any as S.Schema<TargetDestination>;
 export interface ScheduledQuery {
   Arn: string;
   Name: string;
@@ -717,30 +428,11 @@ export interface ScheduledQuery {
   TargetDestination?: TargetDestination;
   LastRunStatus?: ScheduledQueryRunStatus;
 }
-export const ScheduledQuery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.String,
-    Name: S.String,
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: ScheduledQueryState,
-    PreviousInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    NextInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ErrorReportConfiguration: S.optional(ErrorReportConfiguration),
-    TargetDestination: S.optional(TargetDestination),
-    LastRunStatus: S.optional(ScheduledQueryRunStatus),
-  }),
-).annotate({ identifier: "ScheduledQuery" }) as any as S.Schema<ScheduledQuery>;
 export type ScheduledQueryList = ScheduledQuery[];
-export const ScheduledQueryList = /*@__PURE__*/ S.Array(ScheduledQuery);
 export interface ListScheduledQueriesResponse {
   ScheduledQueries: ScheduledQuery[];
   NextToken?: string;
 }
-export const ListScheduledQueriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScheduledQueries: ScheduledQueryList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListScheduledQueriesResponse",
-}) as any as S.Schema<ListScheduledQueriesResponse>;
 export type MaxTagsForResourceResult = number;
 export type NextTagsForResourceResultsToken = string;
 export interface ListTagsForResourceRequest {
@@ -748,33 +440,14 @@ export interface ListTagsForResourceRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags: Tag[];
   NextToken?: string;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: TagList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PrepareQueryRequest {
   QueryString: string | redacted.Redacted<string>;
   ValidateOnly?: boolean;
 }
-export const PrepareQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ QueryString: SensitiveString, ValidateOnly: S.optional(S.Boolean) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PrepareQueryRequest" }) as any as S.Schema<PrepareQueryRequest>;
 export type ScalarType =
   | "VARCHAR"
   | "BOOLEAN"
@@ -788,42 +461,17 @@ export type ScalarType =
   | "UNKNOWN"
   | "INTEGER"
   | (string & {});
-export const ScalarType = S.String;
-
 export interface ColumnInfo {
   Name?: string;
   Type: Type;
 }
-export const ColumnInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Type: S.suspend((): S.Schema<Type> => Type).annotate({ identifier: "Type" }),
-  }),
-).annotate({ identifier: "ColumnInfo" }) as any as S.Schema<ColumnInfo>;
 export type ColumnInfoList = ColumnInfo[];
-export const ColumnInfoList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<ColumnInfo> => ColumnInfo).annotate({ identifier: "ColumnInfo" }),
-) as any as S.Schema<ColumnInfoList>;
 export interface Type {
   ScalarType?: ScalarType;
   ArrayColumnInfo?: ColumnInfo;
   TimeSeriesMeasureValueColumnInfo?: ColumnInfo;
   RowColumnInfo?: ColumnInfo[];
 }
-export const Type = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScalarType: S.optional(ScalarType),
-    ArrayColumnInfo: S.optional(
-      S.suspend((): S.Schema<ColumnInfo> => ColumnInfo).annotate({ identifier: "ColumnInfo" }),
-    ),
-    TimeSeriesMeasureValueColumnInfo: S.optional(
-      S.suspend((): S.Schema<ColumnInfo> => ColumnInfo).annotate({ identifier: "ColumnInfo" }),
-    ),
-    RowColumnInfo: S.optional(
-      S.suspend(() => ColumnInfoList).annotate({ identifier: "ColumnInfoList" }),
-    ),
-  }),
-).annotate({ identifier: "Type" }) as any as S.Schema<Type>;
 export interface SelectColumn {
   Name?: string;
   Type?: Type;
@@ -831,50 +479,24 @@ export interface SelectColumn {
   TableName?: string;
   Aliased?: boolean;
 }
-export const SelectColumn = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Type: S.optional(Type),
-    DatabaseName: S.optional(S.String),
-    TableName: S.optional(S.String),
-    Aliased: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SelectColumn" }) as any as S.Schema<SelectColumn>;
 export type SelectColumnList = SelectColumn[];
-export const SelectColumnList = /*@__PURE__*/ S.Array(SelectColumn);
 export interface ParameterMapping {
   Name: string;
   Type: Type;
 }
-export const ParameterMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Type: Type }),
-).annotate({ identifier: "ParameterMapping" }) as any as S.Schema<ParameterMapping>;
 export type ParameterMappingList = ParameterMapping[];
-export const ParameterMappingList = /*@__PURE__*/ S.Array(ParameterMapping);
 export interface PrepareQueryResponse {
   QueryString: string | redacted.Redacted<string>;
   Columns: SelectColumn[];
   Parameters: ParameterMapping[];
 }
-export const PrepareQueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryString: SensitiveString,
-    Columns: SelectColumnList,
-    Parameters: ParameterMappingList,
-  }),
-).annotate({ identifier: "PrepareQueryResponse" }) as any as S.Schema<PrepareQueryResponse>;
 export type ClientRequestToken = string | redacted.Redacted<string>;
 export type PaginationToken = string;
 export type MaxQueryResults = number;
 export type QueryInsightsMode = "ENABLED_WITH_RATE_CONTROL" | "DISABLED" | (string & {});
-export const QueryInsightsMode = S.String;
-
 export interface QueryInsights {
   Mode: QueryInsightsMode;
 }
-export const QueryInsights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Mode: QueryInsightsMode }),
-).annotate({ identifier: "QueryInsights" }) as any as S.Schema<QueryInsights>;
 export interface QueryRequest {
   QueryString: string | redacted.Redacted<string>;
   ClientToken?: string | redacted.Redacted<string>;
@@ -882,32 +504,12 @@ export interface QueryRequest {
   MaxRows?: number;
   QueryInsights?: QueryInsights;
 }
-export const QueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryString: SensitiveString,
-    ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
-    NextToken: S.optional(S.String),
-    MaxRows: S.optional(S.Number),
-    QueryInsights: S.optional(QueryInsights),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "QueryRequest" }) as any as S.Schema<QueryRequest>;
 export type ScalarValue = string;
 export interface TimeSeriesDataPoint {
   Time: string;
   Value: Datum;
 }
-export const TimeSeriesDataPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Time: S.String,
-    Value: S.suspend((): S.Schema<Datum> => Datum).annotate({ identifier: "Datum" }),
-  }),
-).annotate({ identifier: "TimeSeriesDataPoint" }) as any as S.Schema<TimeSeriesDataPoint>;
 export type TimeSeriesDataPointList = TimeSeriesDataPoint[];
-export const TimeSeriesDataPointList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<TimeSeriesDataPoint> => TimeSeriesDataPoint).annotate({
-    identifier: "TimeSeriesDataPoint",
-  }),
-) as any as S.Schema<TimeSeriesDataPointList>;
 export interface Datum {
   ScalarValue?: string;
   TimeSeriesValue?: TimeSeriesDataPoint[];
@@ -915,43 +517,16 @@ export interface Datum {
   RowValue?: Row;
   NullValue?: boolean;
 }
-export const Datum = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScalarValue: S.optional(S.String),
-    TimeSeriesValue: S.optional(
-      S.suspend(() => TimeSeriesDataPointList).annotate({ identifier: "TimeSeriesDataPointList" }),
-    ),
-    ArrayValue: S.optional(S.suspend(() => DatumList).annotate({ identifier: "DatumList" })),
-    RowValue: S.optional(S.suspend((): S.Schema<Row> => Row).annotate({ identifier: "Row" })),
-    NullValue: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Datum" }) as any as S.Schema<Datum>;
 export type DatumList = Datum[];
-export const DatumList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Datum> => Datum).annotate({ identifier: "Datum" }),
-) as any as S.Schema<DatumList>;
 export interface Row {
   Data: Datum[];
 }
-export const Row = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Data: S.suspend(() => DatumList).annotate({ identifier: "DatumList" }) }),
-).annotate({ identifier: "Row" }) as any as S.Schema<Row>;
 export type RowList = Row[];
-export const RowList = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Row> => Row).annotate({ identifier: "Row" }),
-);
 export interface QueryStatus {
   ProgressPercentage?: number;
   CumulativeBytesScanned?: number;
   CumulativeBytesMetered?: number;
 }
-export const QueryStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProgressPercentage: S.optional(S.Number),
-    CumulativeBytesScanned: S.optional(S.Number),
-    CumulativeBytesMetered: S.optional(S.Number),
-  }),
-).annotate({ identifier: "QueryStatus" }) as any as S.Schema<QueryStatus>;
 export interface QueryInsightsResponse {
   QuerySpatialCoverage?: QuerySpatialCoverage;
   QueryTemporalRange?: QueryTemporalRange;
@@ -962,18 +537,6 @@ export interface QueryInsightsResponse {
   UnloadWrittenRows?: number;
   UnloadWrittenBytes?: number;
 }
-export const QueryInsightsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QuerySpatialCoverage: S.optional(QuerySpatialCoverage),
-    QueryTemporalRange: S.optional(QueryTemporalRange),
-    QueryTableCount: S.optional(S.Number),
-    OutputRows: S.optional(S.Number),
-    OutputBytes: S.optional(S.Number),
-    UnloadPartitionCount: S.optional(S.Number),
-    UnloadWrittenRows: S.optional(S.Number),
-    UnloadWrittenBytes: S.optional(S.Number),
-  }),
-).annotate({ identifier: "QueryInsightsResponse" }) as any as S.Schema<QueryInsightsResponse>;
 export interface QueryResponse {
   QueryId: string;
   NextToken?: string;
@@ -982,109 +545,40 @@ export interface QueryResponse {
   QueryStatus?: QueryStatus;
   QueryInsightsResponse?: QueryInsightsResponse;
 }
-export const QueryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    QueryId: S.String,
-    NextToken: S.optional(S.String),
-    Rows: RowList,
-    ColumnInfo: ColumnInfoList,
-    QueryStatus: S.optional(QueryStatus),
-    QueryInsightsResponse: S.optional(QueryInsightsResponse),
-  }),
-).annotate({ identifier: "QueryResponse" }) as any as S.Schema<QueryResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceARN: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface ProvisionedCapacityRequest {
   TargetQueryTCU: number;
   NotificationConfiguration?: AccountSettingsNotificationConfiguration;
 }
-export const ProvisionedCapacityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetQueryTCU: S.Number,
-    NotificationConfiguration: S.optional(AccountSettingsNotificationConfiguration),
-  }),
-).annotate({
-  identifier: "ProvisionedCapacityRequest",
-}) as any as S.Schema<ProvisionedCapacityRequest>;
 export interface QueryComputeRequest {
   ComputeMode?: ComputeMode;
   ProvisionedCapacity?: ProvisionedCapacityRequest;
 }
-export const QueryComputeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComputeMode: S.optional(ComputeMode),
-    ProvisionedCapacity: S.optional(ProvisionedCapacityRequest),
-  }),
-).annotate({ identifier: "QueryComputeRequest" }) as any as S.Schema<QueryComputeRequest>;
 export interface UpdateAccountSettingsRequest {
   MaxQueryTCU?: number;
   QueryPricingModel?: QueryPricingModel;
   QueryCompute?: QueryComputeRequest;
 }
-export const UpdateAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxQueryTCU: S.optional(S.Number),
-    QueryPricingModel: S.optional(QueryPricingModel),
-    QueryCompute: S.optional(QueryComputeRequest),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateAccountSettingsRequest",
-}) as any as S.Schema<UpdateAccountSettingsRequest>;
 export interface UpdateAccountSettingsResponse {
   MaxQueryTCU?: number;
   QueryPricingModel?: QueryPricingModel;
   QueryCompute?: QueryComputeResponse;
 }
-export const UpdateAccountSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxQueryTCU: S.optional(S.Number),
-    QueryPricingModel: S.optional(QueryPricingModel),
-    QueryCompute: S.optional(QueryComputeResponse),
-  }),
-).annotate({
-  identifier: "UpdateAccountSettingsResponse",
-}) as any as S.Schema<UpdateAccountSettingsResponse>;
 export interface UpdateScheduledQueryRequest {
   ScheduledQueryArn: string;
   State: ScheduledQueryState;
 }
-export const UpdateScheduledQueryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScheduledQueryArn: S.String, State: ScheduledQueryState }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateScheduledQueryRequest",
-}) as any as S.Schema<UpdateScheduledQueryRequest>;
 export interface UpdateScheduledQueryResponse {}
-export const UpdateScheduledQueryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UpdateScheduledQueryResponse",
-}) as any as S.Schema<UpdateScheduledQueryResponse>;
 export type ServiceErrorMessage = string;
 export type CancelQueryError =
   | AccessDeniedException
@@ -1107,8 +601,8 @@ export const cancelQuery: API.OperationMethod<
   CancelQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelQueryRequest,
-  output: CancelQueryResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<CancelQueryRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<CancelQueryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1143,8 +637,8 @@ export const createScheduledQuery: API.OperationMethod<
   CreateScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateScheduledQueryRequest,
-  output: CreateScheduledQueryResponse,
+  input: __S(32, __c2, 0) as any as S.Schema<CreateScheduledQueryRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<CreateScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1176,8 +670,8 @@ export const deleteScheduledQuery: API.OperationMethod<
   DeleteScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteScheduledQueryRequest,
-  output: DeleteScheduledQueryResponse,
+  input: __S(112, __c7, 0) as any as S.Schema<DeleteScheduledQueryRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<DeleteScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1208,8 +702,8 @@ export const describeAccountSettings: API.OperationMethod<
   DescribeAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAccountSettingsRequest,
-  output: DescribeAccountSettingsResponse,
+  input: __S(144, __c9, 0) as any as S.Schema<DescribeAccountSettingsRequest>,
+  output: __S(164, __c10, 4) as any as S.Schema<DescribeAccountSettingsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1232,7 +726,7 @@ export type DescribeEndpointsError =
  * API calls against. This API is available through both Write and Query.
  *
  * Because the Timestream SDKs are designed to transparently work with the
- * service’s architecture, including the management and mapping of the service endpoints,
+ * service's architecture, including the management and mapping of the service endpoints,
  * *it is not recommended that you use this API unless*:
  *
  * - You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream
@@ -1251,8 +745,8 @@ export const describeEndpoints: API.OperationMethod<
   DescribeEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeEndpointsRequest,
-  output: DescribeEndpointsResponse,
+  input: __S(176, __c11, 0) as any as S.Schema<DescribeEndpointsRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<DescribeEndpointsResponse>,
   errors: [
     InternalServerException,
     ThrottlingException,
@@ -1281,8 +775,8 @@ export const describeScheduledQuery: API.OperationMethod<
   DescribeScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeScheduledQueryRequest,
-  output: DescribeScheduledQueryResponse,
+  input: __S(192, __c12, 0) as any as S.Schema<DescribeScheduledQueryRequest>,
+  output: __S(200, __c12, 8) as any as S.Schema<DescribeScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1315,8 +809,8 @@ export const executeScheduledQuery: API.OperationMethod<
   ExecuteScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteScheduledQueryRequest,
-  output: ExecuteScheduledQueryResponse,
+  input: __S(240, __c15, 0) as any as S.Schema<ExecuteScheduledQueryRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<ExecuteScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1348,8 +842,8 @@ export const listScheduledQueries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ScheduledQuery
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListScheduledQueriesRequest,
-  output: ListScheduledQueriesResponse,
+  input: __S(272, __c17, 0) as any as S.Schema<ListScheduledQueriesRequest>,
+  output: __S(277, __c17, 5) as any as S.Schema<ListScheduledQueriesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1384,8 +878,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(288, __c18, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InvalidEndpointException,
     ResourceNotFoundException,
@@ -1421,8 +915,8 @@ export const prepareQuery: API.OperationMethod<
   PrepareQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PrepareQueryRequest,
-  output: PrepareQueryResponse,
+  input: __S(304, __c19, 0) as any as S.Schema<PrepareQueryRequest>,
+  output: __S(309, __c19, 5) as any as S.Schema<PrepareQueryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1484,8 +978,8 @@ export const query: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Row
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: QueryRequest,
-  output: QueryResponse,
+  input: __S(336, __c21, 0) as any as S.Schema<QueryRequest>,
+  output: __S(345, __c21, 9) as any as S.Schema<QueryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1525,8 +1019,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(352, __c22, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InvalidEndpointException,
     ResourceNotFoundException,
@@ -1554,8 +1048,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(368, __c23, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InvalidEndpointException,
     ResourceNotFoundException,
@@ -1585,8 +1079,8 @@ export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccountSettingsRequest,
-  output: UpdateAccountSettingsResponse,
+  input: __S(386, __c24, 2) as any as S.Schema<UpdateAccountSettingsRequest>,
+  output: __S(164, __c10, 4) as any as S.Schema<UpdateAccountSettingsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1616,8 +1110,8 @@ export const updateScheduledQuery: API.OperationMethod<
   UpdateScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateScheduledQueryRequest,
-  output: UpdateScheduledQueryResponse,
+  input: __S(400, __c25, 0) as any as S.Schema<UpdateScheduledQueryRequest>,
+  output: __S(128, __c8, 0) as any as S.Schema<UpdateScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1630,3 +1124,639 @@ export const updateScheduledQuery: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateScheduledQuery",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ QueryId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CancelQueryRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ CancellationMessage: S.optional(S.String) })).annotate({
+        identifier: "CancelQueryResponse",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Address: S.String, CachePeriodInMinutes: S.Number }),
+      ).annotate({ identifier: "Endpoint" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          QueryString: SensitiveString,
+          ScheduleConfiguration: __S(64, __c4, 0),
+          NotificationConfiguration: __S(65, __c4, 1),
+          TargetConfiguration: S.optional(__S(74, __c4, 10)),
+          ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
+          ScheduledQueryExecutionRoleArn: S.String,
+          Tags: S.optional(__S(97, __c6, 1)),
+          KmsKeyId: S.optional(S.String),
+          ErrorReportConfiguration: __S(81, __c5, 1),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateScheduledQueryRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Arn: S.String })).annotate({
+        identifier: "CreateScheduledQueryResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ TopicArn: S.String })).annotate({
+        identifier: "SnsConfiguration",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ScheduleExpression: S.String })).annotate({
+        identifier: "ScheduleConfiguration",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ SnsConfiguration: __S(48, __c3, 0) })).annotate({
+        identifier: "NotificationConfiguration",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ Name: S.String, DimensionValueType: S.String })).annotate({
+        identifier: "DimensionMapping",
+      });
+    case 3:
+      return S.Array(__S(66, __c4, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          SourceColumn: S.String,
+          TargetMultiMeasureAttributeName: S.optional(S.String),
+          MeasureValueType: S.String,
+        }),
+      ).annotate({ identifier: "MultiMeasureAttributeMapping" });
+    case 5:
+      return S.Array(__S(68, __c4, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          TargetMultiMeasureName: S.optional(S.String),
+          MultiMeasureAttributeMappings: __S(69, __c4, 5),
+        }),
+      ).annotate({ identifier: "MultiMeasureMappings" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          MeasureName: S.optional(S.String),
+          SourceColumn: S.optional(S.String),
+          TargetMeasureName: S.optional(S.String),
+          MeasureValueType: S.String,
+          MultiMeasureAttributeMappings: S.optional(__S(69, __c4, 5)),
+        }),
+      ).annotate({ identifier: "MixedMeasureMapping" });
+    case 8:
+      return S.Array(__S(71, __c4, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseName: S.String,
+          TableName: S.String,
+          TimeColumn: S.String,
+          DimensionMappings: __S(67, __c4, 3),
+          MultiMeasureMappings: S.optional(__S(70, __c4, 6)),
+          MixedMeasureMappings: S.optional(__S(72, __c4, 8)),
+          MeasureNameColumn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TimestreamConfiguration" });
+    case 10:
+      return S.suspend(() => S.Struct({ TimestreamConfiguration: __S(73, __c4, 9) })).annotate({
+        identifier: "TargetConfiguration",
+      });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BucketName: S.String,
+          ObjectKeyPrefix: S.optional(S.String),
+          EncryptionOption: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "S3Configuration" });
+    case 1:
+      return S.suspend(() => S.Struct({ S3Configuration: __S(80, __c5, 0) })).annotate({
+        identifier: "ErrorReportConfiguration",
+      });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(96, __c6, 0));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ScheduledQueryArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteScheduledQueryRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteScheduledQueryResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeAccountSettingsRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SnsConfiguration: S.optional(__S(48, __c3, 0)), RoleArn: S.String }),
+      ).annotate({ identifier: "AccountSettingsNotificationConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TargetQueryTCU: S.optional(S.Number),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LastUpdate" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ActiveQueryTCU: S.optional(S.Number),
+          NotificationConfiguration: S.optional(__S(160, __c10, 0)),
+          LastUpdate: S.optional(__S(161, __c10, 1)),
+        }),
+      ).annotate({ identifier: "ProvisionedCapacityResponse" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ComputeMode: S.optional(S.String),
+          ProvisionedCapacity: S.optional(__S(162, __c10, 2)),
+        }),
+      ).annotate({ identifier: "QueryComputeResponse" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          MaxQueryTCU: S.optional(S.Number),
+          QueryPricingModel: S.optional(S.String),
+          QueryCompute: S.optional(__S(163, __c10, 3)),
+        }),
+      ).annotate({ identifier: "DescribeAccountSettingsResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeEndpointsRequest" });
+    case 1:
+      return S.Array(Endpoint);
+    case 2:
+      return S.suspend(() => S.Struct({ Endpoints: __S(177, __c11, 1) })).annotate({
+        identifier: "DescribeEndpointsResponse",
+      });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ScheduledQueryArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeScheduledQueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ExecutionTimeInMillis: S.optional(S.Number),
+          DataWrites: S.optional(S.Number),
+          BytesMetered: S.optional(S.Number),
+          CumulativeBytesScanned: S.optional(S.Number),
+          RecordsIngested: S.optional(S.Number),
+          QueryResultRows: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ExecutionStats" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          QuerySpatialCoverage: S.optional(__S(209, __c13, 1)),
+          QueryTemporalRange: S.optional(__S(211, __c13, 3)),
+          QueryTableCount: S.optional(S.Number),
+          OutputRows: S.optional(S.Number),
+          OutputBytes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ScheduledQueryInsightsResponse" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ BucketName: S.optional(S.String), ObjectKey: S.optional(S.String) }),
+      ).annotate({ identifier: "S3ReportLocation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ S3ReportLocation: S.optional(__S(195, __c12, 3)) }),
+      ).annotate({ identifier: "ErrorReportLocation" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          InvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TriggerTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          RunStatus: S.optional(S.String),
+          ExecutionStats: S.optional(__S(193, __c12, 1)),
+          QueryInsightsResponse: S.optional(__S(194, __c12, 2)),
+          ErrorReportLocation: S.optional(__S(196, __c12, 4)),
+          FailureReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScheduledQueryRunSummary" });
+    case 6:
+      return S.Array(__S(197, __c12, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.String,
+          Name: S.String,
+          QueryString: SensitiveString,
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          State: S.String,
+          PreviousInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          NextInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ScheduleConfiguration: __S(64, __c4, 0),
+          NotificationConfiguration: __S(65, __c4, 1),
+          TargetConfiguration: S.optional(__S(74, __c4, 10)),
+          ScheduledQueryExecutionRoleArn: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          ErrorReportConfiguration: S.optional(__S(81, __c5, 1)),
+          LastRunSummary: S.optional(__S(197, __c12, 5)),
+          RecentlyFailedRuns: S.optional(__S(198, __c12, 6)),
+        }),
+      ).annotate({ identifier: "ScheduledQueryDescription" });
+    case 8:
+      return S.suspend(() => S.Struct({ ScheduledQuery: __S(199, __c12, 7) })).annotate({
+        identifier: "DescribeScheduledQueryResponse",
+      });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Value: S.optional(S.Number),
+          TableArn: S.optional(S.String),
+          PartitionKey: S.optional(__S(224, __c14, 0)),
+        }),
+      ).annotate({ identifier: "QuerySpatialCoverageMax" });
+    case 1:
+      return S.suspend(() => S.Struct({ Max: S.optional(__S(208, __c13, 0)) })).annotate({
+        identifier: "QuerySpatialCoverage",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Value: S.optional(S.Number), TableArn: S.optional(S.String) }),
+      ).annotate({ identifier: "QueryTemporalRangeMax" });
+    case 3:
+      return S.suspend(() => S.Struct({ Max: S.optional(__S(210, __c13, 2)) })).annotate({
+        identifier: "QueryTemporalRange",
+      });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ScheduledQueryArn: S.String,
+          InvocationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
+          QueryInsights: S.optional(__S(256, __c16, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ExecuteScheduledQueryRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Mode: S.String })).annotate({
+        identifier: "ScheduledQueryInsights",
+      });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListScheduledQueriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ DatabaseName: S.optional(S.String), TableName: S.optional(S.String) }),
+      ).annotate({ identifier: "TimestreamDestination" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ TimestreamDestination: S.optional(__S(273, __c17, 1)) }),
+      ).annotate({ identifier: "TargetDestination" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.String,
+          Name: S.String,
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          State: S.String,
+          PreviousInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          NextInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ErrorReportConfiguration: S.optional(__S(81, __c5, 1)),
+          TargetDestination: S.optional(__S(274, __c17, 2)),
+          LastRunStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScheduledQuery" });
+    case 4:
+      return S.Array(__S(275, __c17, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ ScheduledQueries: __S(276, __c17, 4), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListScheduledQueriesResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Tags: __S(97, __c6, 1), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListTagsForResourceResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ QueryString: SensitiveString, ValidateOnly: S.optional(S.Boolean) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PrepareQueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Type: S.optional(__S(322, __c20, 2)),
+          DatabaseName: S.optional(S.String),
+          TableName: S.optional(S.String),
+          Aliased: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SelectColumn" });
+    case 2:
+      return S.Array(__S(305, __c19, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ Name: S.String, Type: __S(322, __c20, 2) })).annotate({
+        identifier: "ParameterMapping",
+      });
+    case 4:
+      return S.Array(__S(307, __c19, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          QueryString: SensitiveString,
+          Columns: __S(306, __c19, 2),
+          Parameters: __S(308, __c19, 4),
+        }),
+      ).annotate({ identifier: "PrepareQueryResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Type: S.suspend((): S.Schema<Type> => __S(322, __c20, 2)).annotate({
+            identifier: "Type",
+          }),
+        }),
+      ).annotate({ identifier: "ColumnInfo" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ S.suspend((): S.Schema<ColumnInfo> => __S(320, __c20, 0)).annotate({
+          identifier: "ColumnInfo",
+        }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ScalarType: S.optional(S.String),
+          ArrayColumnInfo: S.optional(
+            S.suspend((): S.Schema<ColumnInfo> => __S(320, __c20, 0)).annotate({
+              identifier: "ColumnInfo",
+            }),
+          ),
+          TimeSeriesMeasureValueColumnInfo: S.optional(
+            S.suspend((): S.Schema<ColumnInfo> => __S(320, __c20, 0)).annotate({
+              identifier: "ColumnInfo",
+            }),
+          ),
+          RowColumnInfo: S.optional(
+            S.suspend(() => __S(321, __c20, 1)).annotate({ identifier: "ColumnInfoList" }),
+          ),
+        }),
+      ).annotate({ identifier: "Type" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QueryString: SensitiveString,
+          ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
+          NextToken: S.optional(S.String),
+          MaxRows: S.optional(S.Number),
+          QueryInsights: S.optional(__S(256, __c16, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "QueryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Time: S.String,
+          Value: S.suspend((): S.Schema<Datum> => __S(339, __c21, 3)).annotate({
+            identifier: "Datum",
+          }),
+        }),
+      ).annotate({ identifier: "TimeSeriesDataPoint" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ S.suspend((): S.Schema<TimeSeriesDataPoint> => __S(337, __c21, 1)).annotate({
+          identifier: "TimeSeriesDataPoint",
+        }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ScalarValue: S.optional(S.String),
+          TimeSeriesValue: S.optional(
+            S.suspend(() => __S(338, __c21, 2)).annotate({ identifier: "TimeSeriesDataPointList" }),
+          ),
+          ArrayValue: S.optional(
+            S.suspend(() => __S(340, __c21, 4)).annotate({ identifier: "DatumList" }),
+          ),
+          RowValue: S.optional(
+            S.suspend((): S.Schema<Row> => __S(341, __c21, 5)).annotate({ identifier: "Row" }),
+          ),
+          NullValue: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Datum" });
+    case 4:
+      return S.Array(
+        /*@__PURE__*/ S.suspend((): S.Schema<Datum> => __S(339, __c21, 3)).annotate({
+          identifier: "Datum",
+        }),
+      );
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Data: S.suspend(() => __S(340, __c21, 4)).annotate({ identifier: "DatumList" }),
+        }),
+      ).annotate({ identifier: "Row" });
+    case 6:
+      return S.Array(
+        /*@__PURE__*/ S.suspend((): S.Schema<Row> => __S(341, __c21, 5)).annotate({
+          identifier: "Row",
+        }),
+      );
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ProgressPercentage: S.optional(S.Number),
+          CumulativeBytesScanned: S.optional(S.Number),
+          CumulativeBytesMetered: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "QueryStatus" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          QuerySpatialCoverage: S.optional(__S(209, __c13, 1)),
+          QueryTemporalRange: S.optional(__S(211, __c13, 3)),
+          QueryTableCount: S.optional(S.Number),
+          OutputRows: S.optional(S.Number),
+          OutputBytes: S.optional(S.Number),
+          UnloadPartitionCount: S.optional(S.Number),
+          UnloadWrittenRows: S.optional(S.Number),
+          UnloadWrittenBytes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "QueryInsightsResponse" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          QueryId: S.String,
+          NextToken: S.optional(S.String),
+          Rows: __S(342, __c21, 6),
+          ColumnInfo: __S(321, __c20, 1),
+          QueryStatus: S.optional(__S(343, __c21, 7)),
+          QueryInsightsResponse: S.optional(__S(344, __c21, 8)),
+        }),
+      ).annotate({ identifier: "QueryResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, Tags: __S(97, __c6, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, TagKeys: __S(224, __c14, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TargetQueryTCU: S.Number,
+          NotificationConfiguration: S.optional(__S(160, __c10, 0)),
+        }),
+      ).annotate({ identifier: "ProvisionedCapacityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ComputeMode: S.optional(S.String),
+          ProvisionedCapacity: S.optional(__S(384, __c24, 0)),
+        }),
+      ).annotate({ identifier: "QueryComputeRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          MaxQueryTCU: S.optional(S.Number),
+          QueryPricingModel: S.optional(S.String),
+          QueryCompute: S.optional(__S(385, __c24, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateAccountSettingsRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ScheduledQueryArn: S.String, State: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateScheduledQueryRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

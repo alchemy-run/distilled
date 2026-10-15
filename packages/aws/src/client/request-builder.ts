@@ -11,74 +11,54 @@
  */
 
 import * as Effect from "effect/Effect";
-import { makeStreamingBodyMiddleware } from "../middleware/streaming-body.ts";
-import { getMiddleware, getProtocol } from "../traits.ts";
+import type { ParseError } from "../errors.ts";
+import {
+  getStreamingPayloadInfo,
+  makeStreamingBodyMiddleware,
+} from "../middleware/streaming-body.ts";
+import { getMiddleware } from "../traits.ts";
 import { fillIdempotencyTokens, findIdempotencyTokenProps } from "./generate-idempotency-tokens.ts";
 import type { Operation } from "./operation.ts";
-import type { Protocol, ProtocolHandler } from "./protocol.ts";
-
-export interface RequestBuilderOptions {
-  /** Override the protocol (otherwise discovered from schema annotations) */
-  protocol?: Protocol;
-}
+import { serializeEffect, type ProtocolHandler } from "./protocol.ts";
+import type { Request } from "./request.ts";
 
 /**
- * Create a request builder for a given operation.
+ * Create a request builder for a given operation and its (loaded) protocol
+ * handler: fills idempotency tokens, serializes, applies middleware
+ * (checksums, streaming bodies) and adds the common headers.
  *
- * Expensive work (protocol/middleware discovery, preprocessing) is done once at creation time.
- *
- * @param operation - The operation (with input/output schemas and protocol annotations)
- * @param options - Optional overrides
- * @returns A function that builds requests from input values
+ * Operations without middleware or a streaming payload build the request
+ * synchronously: the builder returns it directly and throws the
+ * `ParseError` of an input that does not match the schema. Other
+ * operations return an effect.
  */
-export const makeRequestBuilder = (operation: Operation, options?: RequestBuilderOptions) => {
+export const makeRequestBuilder = (
+  operation: Operation,
+  protocol: ProtocolHandler,
+): ((input: unknown) => Request | Effect.Effect<Request, ParseError>) => {
   const inputSchema = operation.input;
-  const inputAst = inputSchema.ast;
-
-  // Discover protocol factory from annotations or use override (done once)
-  const protocolFactory = options?.protocol ?? getProtocol(inputAst);
-  if (!protocolFactory) {
-    throw new Error("No protocol found on input schema");
+  const middleware = getMiddleware(inputSchema.ast);
+  const idempotencyTokenProps = findIdempotencyTokenProps(inputSchema);
+  const serialize = (input: unknown) =>
+    protocol.serialize(fillIdempotencyTokens(input, idempotencyTokenProps));
+  if (!middleware.length && !getStreamingPayloadInfo(inputSchema.ast).hasStreamingPayload) {
+    return (input) => withUserAgent(serialize(input));
   }
 
-  // Create the protocol handler (preprocessing done once)
-  const protocol: ProtocolHandler = protocolFactory(operation);
-
-  // Discover middleware from annotations (done once)
-  const middleware = getMiddleware(inputAst);
-
-  // Create streaming body middleware (schema analysis done once)
+  // Buffers streaming bodies without Content-Length to compute the length
   const applyStreamingBody = makeStreamingBodyMiddleware(inputSchema);
-
-  // Find idempotency token properties (done once at creation time)
-  const idempotencyTokenProps = findIdempotencyTokenProps(inputSchema);
-
-  // Return a function that builds requests
-  return Effect.fn(function* (input: unknown) {
-    // Fill in any undefined idempotency tokens with generated UUIDs
-    const filledInput = fillIdempotencyTokens(input, idempotencyTokenProps);
-
-    // Serialize request using the protocol handler
-    let request = yield* protocol.serializeRequest(filledInput);
-
+  return Effect.fnUntraced(function* (input: unknown) {
+    let request = yield* serializeEffect(serialize)(input);
     // Apply annotation-based middleware (e.g., checksum)
     for (const mw of middleware) {
       request = yield* mw(inputSchema, request);
     }
-
-    // Apply streaming body middleware
-    // Buffers streaming bodies without Content-Length to compute the length
-    request = yield* applyStreamingBody(request);
-
-    // Add common headers
-    request = {
-      ...request,
-      headers: {
-        ...request.headers,
-        "User-Agent": "distilled-aws/1.0",
-      },
-    };
-
-    return request;
+    return withUserAgent(yield* applyStreamingBody(request));
   });
 };
+
+/** Add the common headers. */
+const withUserAgent = (request: Request): Request => ({
+  ...request,
+  headers: { ...request.headers, "User-Agent": "distilled-aws/1.0" },
+});

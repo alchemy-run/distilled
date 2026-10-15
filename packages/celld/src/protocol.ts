@@ -16,7 +16,7 @@ export type CelldOpError =
   | HttpClientError.HttpClientError;
 
 /** Standard REST encoding; signed runtime headers are explicit modeled inputs. */
-export const CelldProtocol: Layer.Layer<API.Protocol> = makeRestProtocol({
+export const CelldProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol({
   credentials: endpoint,
   baseUrl: (url) => url,
   headers: () => ({}),

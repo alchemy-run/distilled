@@ -1,17 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "Route53Resolver", serviceShapeName: "Route53Resolver" });
-const auth = T.AwsAuthSigv4({ name: "route53resolver" });
-const ver = T.ServiceVersion("2018-04-01");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "Route53Resolver",
+  serviceShapeName: "Route53Resolver",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "route53resolver" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-04-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -74,102 +80,99 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://route53resolver.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InternalServiceErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
     "InternalServiceErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidNextTokenException
   extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()("InvalidNextTokenException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InvalidParameterException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()("InvalidParameterException", {
-    message: S.String.pipe(T.ErrorMessage()),
-    FieldName: S.optional(S.String),
+    message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+    FieldName: /*@__PURE__*/ S.optional(S.String),
   }) {}
 export class InvalidPolicyDocument
   extends /*@__PURE__*/ S.TaggedError<InvalidPolicyDocument>()("InvalidPolicyDocument", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()("InvalidRequestException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InvalidTagException
   extends /*@__PURE__*/ S.TaggedError<InvalidTagException>()("InvalidTagException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    ResourceType: S.optional(S.String),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    ResourceType: /*@__PURE__*/ S.optional(S.String),
   }) {}
 export class ResourceExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceExistsException>()("ResourceExistsException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    ResourceType: S.optional(S.String),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    ResourceType: /*@__PURE__*/ S.optional(S.String),
   }) {}
 export class ResourceInUseException
   extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()("ResourceInUseException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    ResourceType: S.optional(S.String),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    ResourceType: /*@__PURE__*/ S.optional(S.String),
   }) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    ResourceType: S.optional(S.String),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    ResourceType: /*@__PURE__*/ S.optional(S.String),
   }) {}
 export class ResourceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ResourceUnavailableException>()(
     "ResourceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), ResourceType: S.optional(S.String) },
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceType: /*@__PURE__*/ S.optional(S.String),
+    },
   ) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class UnknownResourceException
   extends /*@__PURE__*/ S.TaggedError<UnknownResourceException>()("UnknownResourceException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export type CreatorRequestId = string;
 export type ResourceId = string;
 export type Priority = number;
 export type Name = string;
 export type MutationProtectionStatus = "ENABLED" | "DISABLED" | (string & {});
-export const MutationProtectionStatus = S.String;
-
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface AssociateFirewallRuleGroupRequest {
   CreatorRequestId: string;
   FirewallRuleGroupId: string;
@@ -179,19 +182,6 @@ export interface AssociateFirewallRuleGroupRequest {
   MutationProtection?: MutationProtectionStatus;
   Tags?: Tag[];
 }
-export const AssociateFirewallRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
-    FirewallRuleGroupId: S.String,
-    VpcId: S.String,
-    Priority: S.Number,
-    Name: S.String,
-    MutationProtection: S.optional(MutationProtectionStatus),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AssociateFirewallRuleGroupRequest",
-}) as any as S.Schema<AssociateFirewallRuleGroupRequest>;
 export type Arn = string;
 export type ServicePrinciple = string;
 export type FirewallRuleGroupAssociationStatus =
@@ -199,8 +189,6 @@ export type FirewallRuleGroupAssociationStatus =
   | "DELETING"
   | "UPDATING"
   | (string & {});
-export const FirewallRuleGroupAssociationStatus = S.String;
-
 export type StatusMessage = string;
 export type Rfc3339TimeString = string;
 export interface FirewallRuleGroupAssociation {
@@ -218,33 +206,9 @@ export interface FirewallRuleGroupAssociation {
   CreationTime?: string;
   ModificationTime?: string;
 }
-export const FirewallRuleGroupAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    FirewallRuleGroupId: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    Name: S.optional(S.String),
-    Priority: S.optional(S.Number),
-    MutationProtection: S.optional(MutationProtectionStatus),
-    ManagedOwnerName: S.optional(S.String),
-    Status: S.optional(FirewallRuleGroupAssociationStatus),
-    StatusMessage: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    CreationTime: S.optional(S.String),
-    ModificationTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FirewallRuleGroupAssociation",
-}) as any as S.Schema<FirewallRuleGroupAssociation>;
 export interface AssociateFirewallRuleGroupResponse {
   FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
 }
-export const AssociateFirewallRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroupAssociation: S.optional(FirewallRuleGroupAssociation) }),
-).annotate({
-  identifier: "AssociateFirewallRuleGroupResponse",
-}) as any as S.Schema<AssociateFirewallRuleGroupResponse>;
 export type SubnetId = string;
 export type Ip = string;
 export type Ipv6 = string;
@@ -254,34 +218,16 @@ export interface IpAddressUpdate {
   Ip?: string;
   Ipv6?: string;
 }
-export const IpAddressUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IpId: S.optional(S.String),
-    SubnetId: S.optional(S.String),
-    Ip: S.optional(S.String),
-    Ipv6: S.optional(S.String),
-  }),
-).annotate({ identifier: "IpAddressUpdate" }) as any as S.Schema<IpAddressUpdate>;
 export interface AssociateResolverEndpointIpAddressRequest {
   ResolverEndpointId: string;
   IpAddress: IpAddressUpdate;
 }
-export const AssociateResolverEndpointIpAddressRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpointId: S.String, IpAddress: IpAddressUpdate }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateResolverEndpointIpAddressRequest",
-}) as any as S.Schema<AssociateResolverEndpointIpAddressRequest>;
 export type SecurityGroupIds = string[];
-export const SecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type ResolverEndpointDirection =
   | "INBOUND"
   | "OUTBOUND"
   | "INBOUND_DELEGATION"
   | (string & {});
-export const ResolverEndpointDirection = S.String;
-
 export type IpAddressCount = number;
 export type ResolverEndpointStatus =
   | "CREATING"
@@ -291,18 +237,11 @@ export type ResolverEndpointStatus =
   | "ACTION_NEEDED"
   | "DELETING"
   | (string & {});
-export const ResolverEndpointStatus = S.String;
-
 export type OutpostArn = string;
 export type OutpostInstanceType = string;
 export type ResolverEndpointType = "IPV6" | "IPV4" | "DUALSTACK" | (string & {});
-export const ResolverEndpointType = S.String;
-
 export type Protocol = "DoH" | "Do53" | "DoH-FIPS" | (string & {});
-export const Protocol = S.String;
-
 export type ProtocolList = Protocol[];
-export const ProtocolList = /*@__PURE__*/ S.Array(Protocol);
 export type RniEnhancedMetricsEnabled = boolean;
 export type TargetNameServerMetricsEnabled = boolean;
 export type Dns64Enabled = boolean;
@@ -329,49 +268,13 @@ export interface ResolverEndpoint {
   Dns64Enabled?: boolean;
   Ipv6InternetAccessEnabled?: boolean;
 }
-export const ResolverEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    SecurityGroupIds: S.optional(SecurityGroupIds),
-    Direction: S.optional(ResolverEndpointDirection),
-    IpAddressCount: S.optional(S.Number),
-    HostVPCId: S.optional(S.String),
-    Status: S.optional(ResolverEndpointStatus),
-    StatusMessage: S.optional(S.String),
-    CreationTime: S.optional(S.String),
-    ModificationTime: S.optional(S.String),
-    OutpostArn: S.optional(S.String),
-    PreferredInstanceType: S.optional(S.String),
-    ResolverEndpointType: S.optional(ResolverEndpointType),
-    Protocols: S.optional(ProtocolList),
-    RniEnhancedMetricsEnabled: S.optional(S.Boolean),
-    TargetNameServerMetricsEnabled: S.optional(S.Boolean),
-    Dns64Enabled: S.optional(S.Boolean),
-    Ipv6InternetAccessEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ResolverEndpoint" }) as any as S.Schema<ResolverEndpoint>;
 export interface AssociateResolverEndpointIpAddressResponse {
   ResolverEndpoint?: ResolverEndpoint;
 }
-export const AssociateResolverEndpointIpAddressResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpoint: S.optional(ResolverEndpoint) }),
-).annotate({
-  identifier: "AssociateResolverEndpointIpAddressResponse",
-}) as any as S.Schema<AssociateResolverEndpointIpAddressResponse>;
 export interface AssociateResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
   ResourceId: string;
 }
-export const AssociateResolverQueryLogConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfigId: S.String, ResourceId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateResolverQueryLogConfigRequest",
-}) as any as S.Schema<AssociateResolverQueryLogConfigRequest>;
 export type ResolverQueryLogConfigAssociationStatus =
   | "CREATING"
   | "ACTIVE"
@@ -379,16 +282,12 @@ export type ResolverQueryLogConfigAssociationStatus =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const ResolverQueryLogConfigAssociationStatus = S.String;
-
 export type ResolverQueryLogConfigAssociationError =
   | "NONE"
   | "DESTINATION_NOT_FOUND"
   | "ACCESS_DENIED"
   | "INTERNAL_SERVICE_ERROR"
   | (string & {});
-export const ResolverQueryLogConfigAssociationError = S.String;
-
 export type ResolverQueryLogConfigAssociationErrorMessage = string;
 export interface ResolverQueryLogConfigAssociation {
   Id?: string;
@@ -399,39 +298,14 @@ export interface ResolverQueryLogConfigAssociation {
   ErrorMessage?: string;
   CreationTime?: string;
 }
-export const ResolverQueryLogConfigAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    ResolverQueryLogConfigId: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    Status: S.optional(ResolverQueryLogConfigAssociationStatus),
-    Error: S.optional(ResolverQueryLogConfigAssociationError),
-    ErrorMessage: S.optional(S.String),
-    CreationTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResolverQueryLogConfigAssociation",
-}) as any as S.Schema<ResolverQueryLogConfigAssociation>;
 export interface AssociateResolverQueryLogConfigResponse {
   ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation;
 }
-export const AssociateResolverQueryLogConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfigAssociation: S.optional(ResolverQueryLogConfigAssociation) }),
-).annotate({
-  identifier: "AssociateResolverQueryLogConfigResponse",
-}) as any as S.Schema<AssociateResolverQueryLogConfigResponse>;
 export interface AssociateResolverRuleRequest {
   ResolverRuleId: string;
   Name?: string;
   VPCId: string;
 }
-export const AssociateResolverRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRuleId: S.String, Name: S.optional(S.String), VPCId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateResolverRuleRequest",
-}) as any as S.Schema<AssociateResolverRuleRequest>;
 export type ResolverRuleAssociationStatus =
   | "CREATING"
   | "COMPLETE"
@@ -439,8 +313,6 @@ export type ResolverRuleAssociationStatus =
   | "FAILED"
   | "OVERRIDDEN"
   | (string & {});
-export const ResolverRuleAssociationStatus = S.String;
-
 export interface ResolverRuleAssociation {
   Id?: string;
   ResolverRuleId?: string;
@@ -449,99 +321,44 @@ export interface ResolverRuleAssociation {
   Status?: ResolverRuleAssociationStatus;
   StatusMessage?: string;
 }
-export const ResolverRuleAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    ResolverRuleId: S.optional(S.String),
-    Name: S.optional(S.String),
-    VPCId: S.optional(S.String),
-    Status: S.optional(ResolverRuleAssociationStatus),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "ResolverRuleAssociation" }) as any as S.Schema<ResolverRuleAssociation>;
 export interface AssociateResolverRuleResponse {
   ResolverRuleAssociation?: ResolverRuleAssociation;
 }
-export const AssociateResolverRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRuleAssociation: S.optional(ResolverRuleAssociation) }),
-).annotate({
-  identifier: "AssociateResolverRuleResponse",
-}) as any as S.Schema<AssociateResolverRuleResponse>;
 export type Action = "ALLOW" | "BLOCK" | "ALERT" | (string & {});
-export const Action = S.String;
-
 export type BlockResponse = "NODATA" | "NXDOMAIN" | "OVERRIDE" | (string & {});
-export const BlockResponse = S.String;
-
 export type BlockOverrideDomain = string;
 export type BlockOverrideDnsType = "CNAME" | (string & {});
-export const BlockOverrideDnsType = S.String;
-
 export type BlockOverrideTtl = number;
 export type FirewallDomainRedirectionAction =
   | "INSPECT_REDIRECTION_DOMAIN"
   | "TRUST_REDIRECTION_DOMAIN"
   | (string & {});
-export const FirewallDomainRedirectionAction = S.String;
-
 export type Qtype = string;
 export type DnsThreatProtection = "DGA" | "DNS_TUNNELING" | "DICTIONARY_DGA" | (string & {});
-export const DnsThreatProtection = S.String;
-
 export type ConfidenceThreshold = "LOW" | "MEDIUM" | "HIGH" | (string & {});
-export const ConfidenceThreshold = S.String;
-
 export type PartnerValue = string;
 export interface PartnerThreatProtectionConfig {
   Partner: string;
 }
-export const PartnerThreatProtectionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Partner: S.String }),
-).annotate({
-  identifier: "PartnerThreatProtectionConfig",
-}) as any as S.Schema<PartnerThreatProtectionConfig>;
 export type FirewallAdvancedContentCategoryValue = string;
 export interface FirewallAdvancedContentCategoryConfig {
   Category: string;
 }
-export const FirewallAdvancedContentCategoryConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Category: S.String }),
-).annotate({
-  identifier: "FirewallAdvancedContentCategoryConfig",
-}) as any as S.Schema<FirewallAdvancedContentCategoryConfig>;
 export type FirewallAdvancedThreatCategoryValue = string;
 export interface FirewallAdvancedThreatCategoryConfig {
   Category: string;
 }
-export const FirewallAdvancedThreatCategoryConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Category: S.String }),
-).annotate({
-  identifier: "FirewallAdvancedThreatCategoryConfig",
-}) as any as S.Schema<FirewallAdvancedThreatCategoryConfig>;
 export type DnsThreatProtectionRuleTypeValue = string;
 export interface DnsThreatProtectionRuleTypeConfig {
   Value: string;
   ConfidenceThreshold: ConfidenceThreshold;
 }
-export const DnsThreatProtectionRuleTypeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.String, ConfidenceThreshold: ConfidenceThreshold }),
-).annotate({
-  identifier: "DnsThreatProtectionRuleTypeConfig",
-}) as any as S.Schema<DnsThreatProtectionRuleTypeConfig>;
 export interface FirewallRuleType {
   PartnerThreatProtection?: PartnerThreatProtectionConfig;
   FirewallAdvancedContentCategory?: FirewallAdvancedContentCategoryConfig;
   FirewallAdvancedThreatCategory?: FirewallAdvancedThreatCategoryConfig;
   DnsThreatProtection?: DnsThreatProtectionRuleTypeConfig;
 }
-export const FirewallRuleType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PartnerThreatProtection: S.optional(PartnerThreatProtectionConfig),
-    FirewallAdvancedContentCategory: S.optional(FirewallAdvancedContentCategoryConfig),
-    FirewallAdvancedThreatCategory: S.optional(FirewallAdvancedThreatCategoryConfig),
-    DnsThreatProtection: S.optional(DnsThreatProtectionRuleTypeConfig),
-  }),
-).annotate({ identifier: "FirewallRuleType" }) as any as S.Schema<FirewallRuleType>;
 export interface CreateFirewallRuleEntry {
   CreatorRequestId: string;
   FirewallRuleGroupId: string;
@@ -559,37 +376,10 @@ export interface CreateFirewallRuleEntry {
   ConfidenceThreshold?: ConfidenceThreshold;
   FirewallRuleType?: FirewallRuleType;
 }
-export const CreateFirewallRuleEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.String,
-    FirewallRuleGroupId: S.String,
-    FirewallDomainListId: S.optional(S.String),
-    Priority: S.Number,
-    Action: Action,
-    BlockResponse: S.optional(BlockResponse),
-    BlockOverrideDomain: S.optional(S.String),
-    BlockOverrideDnsType: S.optional(BlockOverrideDnsType),
-    BlockOverrideTtl: S.optional(S.Number),
-    Name: S.String,
-    FirewallDomainRedirectionAction: S.optional(FirewallDomainRedirectionAction),
-    Qtype: S.optional(S.String),
-    DnsThreatProtection: S.optional(DnsThreatProtection),
-    ConfidenceThreshold: S.optional(ConfidenceThreshold),
-    FirewallRuleType: S.optional(FirewallRuleType),
-  }),
-).annotate({ identifier: "CreateFirewallRuleEntry" }) as any as S.Schema<CreateFirewallRuleEntry>;
 export type CreateFirewallRuleEntries = CreateFirewallRuleEntry[];
-export const CreateFirewallRuleEntries = /*@__PURE__*/ S.Array(CreateFirewallRuleEntry);
 export interface BatchCreateFirewallRuleRequest {
   CreateFirewallRuleEntries: CreateFirewallRuleEntry[];
 }
-export const BatchCreateFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CreateFirewallRuleEntries: CreateFirewallRuleEntries }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchCreateFirewallRuleRequest",
-}) as any as S.Schema<BatchCreateFirewallRuleRequest>;
 export type Unsigned = number;
 export type FirewallRuleStatus = string;
 export type FirewallRuleStatusMessage = string;
@@ -615,114 +405,37 @@ export interface FirewallRule {
   Status?: string;
   StatusMessage?: string;
 }
-export const FirewallRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRuleGroupId: S.optional(S.String),
-    FirewallDomainListId: S.optional(S.String),
-    FirewallThreatProtectionId: S.optional(S.String),
-    Name: S.optional(S.String),
-    Priority: S.optional(S.Number),
-    Action: S.optional(Action),
-    BlockResponse: S.optional(BlockResponse),
-    BlockOverrideDomain: S.optional(S.String),
-    BlockOverrideDnsType: S.optional(BlockOverrideDnsType),
-    BlockOverrideTtl: S.optional(S.Number),
-    CreatorRequestId: S.optional(S.String),
-    CreationTime: S.optional(S.String),
-    ModificationTime: S.optional(S.String),
-    FirewallDomainRedirectionAction: S.optional(FirewallDomainRedirectionAction),
-    Qtype: S.optional(S.String),
-    DnsThreatProtection: S.optional(DnsThreatProtection),
-    ConfidenceThreshold: S.optional(ConfidenceThreshold),
-    FirewallRuleType: S.optional(FirewallRuleType),
-    Status: S.optional(S.String),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "FirewallRule" }) as any as S.Schema<FirewallRule>;
 export type FirewallRules = FirewallRule[];
-export const FirewallRules = /*@__PURE__*/ S.Array(FirewallRule);
 export interface BatchCreateFirewallRuleError_ {
   FirewallRule?: CreateFirewallRuleEntry;
   Code?: string;
   Message?: string;
 }
-export const BatchCreateFirewallRuleError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRule: S.optional(CreateFirewallRuleEntry),
-    Code: S.optional(S.String),
-    Message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchCreateFirewallRuleError",
-}) as any as S.Schema<BatchCreateFirewallRuleError_>;
 export type BatchCreateFirewallRuleErrors = BatchCreateFirewallRuleError_[];
-export const BatchCreateFirewallRuleErrors = /*@__PURE__*/ S.Array(BatchCreateFirewallRuleError_);
 export interface BatchCreateFirewallRuleResponse {
   CreatedFirewallRules?: FirewallRule[];
   CreateErrors?: BatchCreateFirewallRuleError_[];
 }
-export const BatchCreateFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatedFirewallRules: S.optional(FirewallRules),
-    CreateErrors: S.optional(BatchCreateFirewallRuleErrors),
-  }),
-).annotate({
-  identifier: "BatchCreateFirewallRuleResponse",
-}) as any as S.Schema<BatchCreateFirewallRuleResponse>;
 export interface DeleteFirewallRuleEntry {
   FirewallRuleGroupId: string;
   FirewallDomainListId?: string;
   FirewallThreatProtectionId?: string;
   Qtype?: string;
 }
-export const DeleteFirewallRuleEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRuleGroupId: S.String,
-    FirewallDomainListId: S.optional(S.String),
-    FirewallThreatProtectionId: S.optional(S.String),
-    Qtype: S.optional(S.String),
-  }),
-).annotate({ identifier: "DeleteFirewallRuleEntry" }) as any as S.Schema<DeleteFirewallRuleEntry>;
 export type DeleteFirewallRuleEntries = DeleteFirewallRuleEntry[];
-export const DeleteFirewallRuleEntries = /*@__PURE__*/ S.Array(DeleteFirewallRuleEntry);
 export interface BatchDeleteFirewallRuleRequest {
   DeleteFirewallRuleEntries: DeleteFirewallRuleEntry[];
 }
-export const BatchDeleteFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DeleteFirewallRuleEntries: DeleteFirewallRuleEntries }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchDeleteFirewallRuleRequest",
-}) as any as S.Schema<BatchDeleteFirewallRuleRequest>;
 export interface BatchDeleteFirewallRuleError_ {
   FirewallRule?: DeleteFirewallRuleEntry;
   Code?: string;
   Message?: string;
 }
-export const BatchDeleteFirewallRuleError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRule: S.optional(DeleteFirewallRuleEntry),
-    Code: S.optional(S.String),
-    Message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchDeleteFirewallRuleError",
-}) as any as S.Schema<BatchDeleteFirewallRuleError_>;
 export type BatchDeleteFirewallRuleErrors = BatchDeleteFirewallRuleError_[];
-export const BatchDeleteFirewallRuleErrors = /*@__PURE__*/ S.Array(BatchDeleteFirewallRuleError_);
 export interface BatchDeleteFirewallRuleResponse {
   DeletedFirewallRules?: FirewallRule[];
   DeleteErrors?: BatchDeleteFirewallRuleError_[];
 }
-export const BatchDeleteFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeletedFirewallRules: S.optional(FirewallRules),
-    DeleteErrors: S.optional(BatchDeleteFirewallRuleErrors),
-  }),
-).annotate({
-  identifier: "BatchDeleteFirewallRuleResponse",
-}) as any as S.Schema<BatchDeleteFirewallRuleResponse>;
 export interface UpdateFirewallRuleEntry {
   FirewallRuleGroupId: string;
   FirewallDomainListId?: string;
@@ -740,79 +453,25 @@ export interface UpdateFirewallRuleEntry {
   ConfidenceThreshold?: ConfidenceThreshold;
   FirewallRuleType?: FirewallRuleType;
 }
-export const UpdateFirewallRuleEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRuleGroupId: S.String,
-    FirewallDomainListId: S.optional(S.String),
-    FirewallThreatProtectionId: S.optional(S.String),
-    Priority: S.optional(S.Number),
-    Action: S.optional(Action),
-    BlockResponse: S.optional(BlockResponse),
-    BlockOverrideDomain: S.optional(S.String),
-    BlockOverrideDnsType: S.optional(BlockOverrideDnsType),
-    BlockOverrideTtl: S.optional(S.Number),
-    Name: S.optional(S.String),
-    FirewallDomainRedirectionAction: S.optional(FirewallDomainRedirectionAction),
-    Qtype: S.optional(S.String),
-    DnsThreatProtection: S.optional(DnsThreatProtection),
-    ConfidenceThreshold: S.optional(ConfidenceThreshold),
-    FirewallRuleType: S.optional(FirewallRuleType),
-  }),
-).annotate({ identifier: "UpdateFirewallRuleEntry" }) as any as S.Schema<UpdateFirewallRuleEntry>;
 export type UpdateFirewallRuleEntries = UpdateFirewallRuleEntry[];
-export const UpdateFirewallRuleEntries = /*@__PURE__*/ S.Array(UpdateFirewallRuleEntry);
 export interface BatchUpdateFirewallRuleRequest {
   UpdateFirewallRuleEntries: UpdateFirewallRuleEntry[];
 }
-export const BatchUpdateFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UpdateFirewallRuleEntries: UpdateFirewallRuleEntries }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchUpdateFirewallRuleRequest",
-}) as any as S.Schema<BatchUpdateFirewallRuleRequest>;
 export interface BatchUpdateFirewallRuleError_ {
   FirewallRule?: UpdateFirewallRuleEntry;
   Code?: string;
   Message?: string;
 }
-export const BatchUpdateFirewallRuleError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRule: S.optional(UpdateFirewallRuleEntry),
-    Code: S.optional(S.String),
-    Message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchUpdateFirewallRuleError",
-}) as any as S.Schema<BatchUpdateFirewallRuleError_>;
 export type BatchUpdateFirewallRuleErrors = BatchUpdateFirewallRuleError_[];
-export const BatchUpdateFirewallRuleErrors = /*@__PURE__*/ S.Array(BatchUpdateFirewallRuleError_);
 export interface BatchUpdateFirewallRuleResponse {
   UpdatedFirewallRules?: FirewallRule[];
   UpdateErrors?: BatchUpdateFirewallRuleError_[];
 }
-export const BatchUpdateFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpdatedFirewallRules: S.optional(FirewallRules),
-    UpdateErrors: S.optional(BatchUpdateFirewallRuleErrors),
-  }),
-).annotate({
-  identifier: "BatchUpdateFirewallRuleResponse",
-}) as any as S.Schema<BatchUpdateFirewallRuleResponse>;
 export interface CreateFirewallDomainListRequest {
   CreatorRequestId: string;
   Name: string;
   Tags?: Tag[];
 }
-export const CreateFirewallDomainListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
-    Name: S.String,
-    Tags: S.optional(TagList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateFirewallDomainListRequest",
-}) as any as S.Schema<CreateFirewallDomainListRequest>;
 export type FirewallDomainListStatus =
   | "COMPLETE"
   | "COMPLETE_IMPORT_FAILED"
@@ -820,12 +479,8 @@ export type FirewallDomainListStatus =
   | "DELETING"
   | "UPDATING"
   | (string & {});
-export const FirewallDomainListStatus = S.String;
-
 export type Category = string;
 export type DomainListType = "THREAT" | "CONTENT" | (string & {});
-export const DomainListType = S.String;
-
 export interface FirewallDomainList {
   Id?: string;
   Arn?: string;
@@ -840,30 +495,9 @@ export interface FirewallDomainList {
   Category?: string;
   ManagedListType?: DomainListType;
 }
-export const FirewallDomainList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    DomainCount: S.optional(S.Number),
-    Status: S.optional(FirewallDomainListStatus),
-    StatusMessage: S.optional(S.String),
-    ManagedOwnerName: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    CreationTime: S.optional(S.String),
-    ModificationTime: S.optional(S.String),
-    Category: S.optional(S.String),
-    ManagedListType: S.optional(DomainListType),
-  }),
-).annotate({ identifier: "FirewallDomainList" }) as any as S.Schema<FirewallDomainList>;
 export interface CreateFirewallDomainListResponse {
   FirewallDomainList?: FirewallDomainList;
 }
-export const CreateFirewallDomainListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallDomainList: S.optional(FirewallDomainList) }),
-).annotate({
-  identifier: "CreateFirewallDomainListResponse",
-}) as any as S.Schema<CreateFirewallDomainListResponse>;
 export interface CreateFirewallRuleRequest {
   CreatorRequestId: string;
   FirewallRuleGroupId: string;
@@ -881,56 +515,17 @@ export interface CreateFirewallRuleRequest {
   ConfidenceThreshold?: ConfidenceThreshold;
   FirewallRuleType?: FirewallRuleType;
 }
-export const CreateFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
-    FirewallRuleGroupId: S.String,
-    FirewallDomainListId: S.optional(S.String),
-    Priority: S.Number,
-    Action: Action,
-    BlockResponse: S.optional(BlockResponse),
-    BlockOverrideDomain: S.optional(S.String),
-    BlockOverrideDnsType: S.optional(BlockOverrideDnsType),
-    BlockOverrideTtl: S.optional(S.Number),
-    Name: S.String,
-    FirewallDomainRedirectionAction: S.optional(FirewallDomainRedirectionAction),
-    Qtype: S.optional(S.String),
-    DnsThreatProtection: S.optional(DnsThreatProtection),
-    ConfidenceThreshold: S.optional(ConfidenceThreshold),
-    FirewallRuleType: S.optional(FirewallRuleType),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateFirewallRuleRequest",
-}) as any as S.Schema<CreateFirewallRuleRequest>;
 export interface CreateFirewallRuleResponse {
   FirewallRule?: FirewallRule;
 }
-export const CreateFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRule: S.optional(FirewallRule) }),
-).annotate({
-  identifier: "CreateFirewallRuleResponse",
-}) as any as S.Schema<CreateFirewallRuleResponse>;
 export interface CreateFirewallRuleGroupRequest {
   CreatorRequestId: string;
   Name: string;
   Tags?: Tag[];
 }
-export const CreateFirewallRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
-    Name: S.String,
-    Tags: S.optional(TagList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateFirewallRuleGroupRequest",
-}) as any as S.Schema<CreateFirewallRuleGroupRequest>;
 export type FirewallRuleGroupStatus = "COMPLETE" | "DELETING" | "UPDATING" | (string & {});
-export const FirewallRuleGroupStatus = S.String;
-
 export type AccountId = string;
 export type ShareStatus = "NOT_SHARED" | "SHARED_WITH_ME" | "SHARED_BY_ME" | (string & {});
-export const ShareStatus = S.String;
-
 export interface FirewallRuleGroup {
   Id?: string;
   Arn?: string;
@@ -944,29 +539,9 @@ export interface FirewallRuleGroup {
   CreationTime?: string;
   ModificationTime?: string;
 }
-export const FirewallRuleGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    RuleCount: S.optional(S.Number),
-    Status: S.optional(FirewallRuleGroupStatus),
-    StatusMessage: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    ShareStatus: S.optional(ShareStatus),
-    CreationTime: S.optional(S.String),
-    ModificationTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "FirewallRuleGroup" }) as any as S.Schema<FirewallRuleGroup>;
 export interface CreateFirewallRuleGroupResponse {
   FirewallRuleGroup?: FirewallRuleGroup;
 }
-export const CreateFirewallRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroup: S.optional(FirewallRuleGroup) }),
-).annotate({
-  identifier: "CreateFirewallRuleGroupResponse",
-}) as any as S.Schema<CreateFirewallRuleGroupResponse>;
 export type OutpostResolverName = string;
 export type InstanceCount = number;
 export interface CreateOutpostResolverRequest {
@@ -977,18 +552,6 @@ export interface CreateOutpostResolverRequest {
   OutpostArn: string;
   Tags?: Tag[];
 }
-export const CreateOutpostResolverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.String,
-    Name: S.String,
-    InstanceCount: S.optional(S.Number),
-    PreferredInstanceType: S.String,
-    OutpostArn: S.String,
-    Tags: S.optional(TagList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateOutpostResolverRequest",
-}) as any as S.Schema<CreateOutpostResolverRequest>;
 export type OutpostResolverStatus =
   | "CREATING"
   | "OPERATIONAL"
@@ -998,8 +561,6 @@ export type OutpostResolverStatus =
   | "FAILED_CREATION"
   | "FAILED_DELETION"
   | (string & {});
-export const OutpostResolverStatus = S.String;
-
 export type OutpostResolverStatusMessage = string;
 export interface OutpostResolver {
   Arn?: string;
@@ -1014,39 +575,15 @@ export interface OutpostResolver {
   StatusMessage?: string;
   OutpostArn?: string;
 }
-export const OutpostResolver = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CreationTime: S.optional(S.String),
-    ModificationTime: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    Id: S.optional(S.String),
-    InstanceCount: S.optional(S.Number),
-    PreferredInstanceType: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(OutpostResolverStatus),
-    StatusMessage: S.optional(S.String),
-    OutpostArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "OutpostResolver" }) as any as S.Schema<OutpostResolver>;
 export interface CreateOutpostResolverResponse {
   OutpostResolver?: OutpostResolver;
 }
-export const CreateOutpostResolverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OutpostResolver: S.optional(OutpostResolver) }),
-).annotate({
-  identifier: "CreateOutpostResolverResponse",
-}) as any as S.Schema<CreateOutpostResolverResponse>;
 export interface IpAddressRequest {
   SubnetId: string;
   Ip?: string;
   Ipv6?: string;
 }
-export const IpAddressRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SubnetId: S.String, Ip: S.optional(S.String), Ipv6: S.optional(S.String) }),
-).annotate({ identifier: "IpAddressRequest" }) as any as S.Schema<IpAddressRequest>;
 export type IpAddressesRequest = IpAddressRequest[];
-export const IpAddressesRequest = /*@__PURE__*/ S.Array(IpAddressRequest);
 export interface CreateResolverEndpointRequest {
   CreatorRequestId: string;
   Name?: string;
@@ -1063,34 +600,9 @@ export interface CreateResolverEndpointRequest {
   Dns64Enabled?: boolean;
   Ipv6InternetAccessEnabled?: boolean;
 }
-export const CreateResolverEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.String,
-    Name: S.optional(S.String),
-    SecurityGroupIds: SecurityGroupIds,
-    Direction: ResolverEndpointDirection,
-    IpAddresses: IpAddressesRequest,
-    OutpostArn: S.optional(S.String),
-    PreferredInstanceType: S.optional(S.String),
-    Tags: S.optional(TagList),
-    ResolverEndpointType: S.optional(ResolverEndpointType),
-    Protocols: S.optional(ProtocolList),
-    RniEnhancedMetricsEnabled: S.optional(S.Boolean),
-    TargetNameServerMetricsEnabled: S.optional(S.Boolean),
-    Dns64Enabled: S.optional(S.Boolean),
-    Ipv6InternetAccessEnabled: S.optional(S.Boolean),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateResolverEndpointRequest",
-}) as any as S.Schema<CreateResolverEndpointRequest>;
 export interface CreateResolverEndpointResponse {
   ResolverEndpoint?: ResolverEndpoint;
 }
-export const CreateResolverEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpoint: S.optional(ResolverEndpoint) }),
-).annotate({
-  identifier: "CreateResolverEndpointResponse",
-}) as any as S.Schema<CreateResolverEndpointResponse>;
 export type ResolverQueryLogConfigName = string;
 export type DestinationArn = string;
 export interface CreateResolverQueryLogConfigRequest {
@@ -1099,24 +611,12 @@ export interface CreateResolverQueryLogConfigRequest {
   CreatorRequestId: string;
   Tags?: Tag[];
 }
-export const CreateResolverQueryLogConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    DestinationArn: S.String,
-    CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateResolverQueryLogConfigRequest",
-}) as any as S.Schema<CreateResolverQueryLogConfigRequest>;
 export type ResolverQueryLogConfigStatus =
   | "CREATING"
   | "CREATED"
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const ResolverQueryLogConfigStatus = S.String;
-
 export type Count = number;
 export interface ResolverQueryLogConfig {
   Id?: string;
@@ -1130,31 +630,10 @@ export interface ResolverQueryLogConfig {
   CreatorRequestId?: string;
   CreationTime?: string;
 }
-export const ResolverQueryLogConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    Status: S.optional(ResolverQueryLogConfigStatus),
-    ShareStatus: S.optional(ShareStatus),
-    AssociationCount: S.optional(S.Number),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    DestinationArn: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    CreationTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "ResolverQueryLogConfig" }) as any as S.Schema<ResolverQueryLogConfig>;
 export interface CreateResolverQueryLogConfigResponse {
   ResolverQueryLogConfig?: ResolverQueryLogConfig;
 }
-export const CreateResolverQueryLogConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfig: S.optional(ResolverQueryLogConfig) }),
-).annotate({
-  identifier: "CreateResolverQueryLogConfigResponse",
-}) as any as S.Schema<CreateResolverQueryLogConfigResponse>;
 export type RuleTypeOption = "FORWARD" | "SYSTEM" | "RECURSIVE" | "DELEGATE" | (string & {});
-export const RuleTypeOption = S.String;
-
 export type DomainName = string;
 export type Port = number;
 export type ServerNameIndication = string;
@@ -1165,17 +644,7 @@ export interface TargetAddress {
   Protocol?: Protocol;
   ServerNameIndication?: string;
 }
-export const TargetAddress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Ip: S.optional(S.String),
-    Port: S.optional(S.Number),
-    Ipv6: S.optional(S.String),
-    Protocol: S.optional(Protocol),
-    ServerNameIndication: S.optional(S.String),
-  }),
-).annotate({ identifier: "TargetAddress" }) as any as S.Schema<TargetAddress>;
 export type TargetList = TargetAddress[];
-export const TargetList = /*@__PURE__*/ S.Array(TargetAddress);
 export type DelegationRecord = string;
 export interface CreateResolverRuleRequest {
   CreatorRequestId: string;
@@ -1187,23 +656,7 @@ export interface CreateResolverRuleRequest {
   Tags?: Tag[];
   DelegationRecord?: string;
 }
-export const CreateResolverRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreatorRequestId: S.String,
-    Name: S.optional(S.String),
-    RuleType: RuleTypeOption,
-    DomainName: S.optional(S.String),
-    TargetIps: S.optional(TargetList),
-    ResolverEndpointId: S.optional(S.String),
-    Tags: S.optional(TagList),
-    DelegationRecord: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateResolverRuleRequest",
-}) as any as S.Schema<CreateResolverRuleRequest>;
 export type ResolverRuleStatus = "COMPLETE" | "DELETING" | "UPDATING" | "FAILED" | (string & {});
-export const ResolverRuleStatus = S.String;
-
 export interface ResolverRule {
   Id?: string;
   CreatorRequestId?: string;
@@ -1221,376 +674,132 @@ export interface ResolverRule {
   ModificationTime?: string;
   DelegationRecord?: string;
 }
-export const ResolverRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    Arn: S.optional(S.String),
-    DomainName: S.optional(S.String),
-    Status: S.optional(ResolverRuleStatus),
-    StatusMessage: S.optional(S.String),
-    RuleType: S.optional(RuleTypeOption),
-    Name: S.optional(S.String),
-    TargetIps: S.optional(TargetList),
-    ResolverEndpointId: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    ShareStatus: S.optional(ShareStatus),
-    CreationTime: S.optional(S.String),
-    ModificationTime: S.optional(S.String),
-    DelegationRecord: S.optional(S.String),
-  }),
-).annotate({ identifier: "ResolverRule" }) as any as S.Schema<ResolverRule>;
 export interface CreateResolverRuleResponse {
   ResolverRule?: ResolverRule;
 }
-export const CreateResolverRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRule: S.optional(ResolverRule) }),
-).annotate({
-  identifier: "CreateResolverRuleResponse",
-}) as any as S.Schema<CreateResolverRuleResponse>;
 export interface DeleteFirewallDomainListRequest {
   FirewallDomainListId: string;
 }
-export const DeleteFirewallDomainListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallDomainListId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteFirewallDomainListRequest",
-}) as any as S.Schema<DeleteFirewallDomainListRequest>;
 export interface DeleteFirewallDomainListResponse {
   FirewallDomainList?: FirewallDomainList;
 }
-export const DeleteFirewallDomainListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallDomainList: S.optional(FirewallDomainList) }),
-).annotate({
-  identifier: "DeleteFirewallDomainListResponse",
-}) as any as S.Schema<DeleteFirewallDomainListResponse>;
 export interface DeleteFirewallRuleRequest {
   FirewallRuleGroupId: string;
   FirewallDomainListId?: string;
   FirewallThreatProtectionId?: string;
   Qtype?: string;
 }
-export const DeleteFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRuleGroupId: S.String,
-    FirewallDomainListId: S.optional(S.String),
-    FirewallThreatProtectionId: S.optional(S.String),
-    Qtype: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteFirewallRuleRequest",
-}) as any as S.Schema<DeleteFirewallRuleRequest>;
 export interface DeleteFirewallRuleResponse {
   FirewallRule?: FirewallRule;
 }
-export const DeleteFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRule: S.optional(FirewallRule) }),
-).annotate({
-  identifier: "DeleteFirewallRuleResponse",
-}) as any as S.Schema<DeleteFirewallRuleResponse>;
 export interface DeleteFirewallRuleGroupRequest {
   FirewallRuleGroupId: string;
 }
-export const DeleteFirewallRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroupId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteFirewallRuleGroupRequest",
-}) as any as S.Schema<DeleteFirewallRuleGroupRequest>;
 export interface DeleteFirewallRuleGroupResponse {
   FirewallRuleGroup?: FirewallRuleGroup;
 }
-export const DeleteFirewallRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroup: S.optional(FirewallRuleGroup) }),
-).annotate({
-  identifier: "DeleteFirewallRuleGroupResponse",
-}) as any as S.Schema<DeleteFirewallRuleGroupResponse>;
 export interface DeleteOutpostResolverRequest {
   Id: string;
 }
-export const DeleteOutpostResolverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteOutpostResolverRequest",
-}) as any as S.Schema<DeleteOutpostResolverRequest>;
 export interface DeleteOutpostResolverResponse {
   OutpostResolver?: OutpostResolver;
 }
-export const DeleteOutpostResolverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OutpostResolver: S.optional(OutpostResolver) }),
-).annotate({
-  identifier: "DeleteOutpostResolverResponse",
-}) as any as S.Schema<DeleteOutpostResolverResponse>;
 export interface DeleteResolverEndpointRequest {
   ResolverEndpointId: string;
 }
-export const DeleteResolverEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpointId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteResolverEndpointRequest",
-}) as any as S.Schema<DeleteResolverEndpointRequest>;
 export interface DeleteResolverEndpointResponse {
   ResolverEndpoint?: ResolverEndpoint;
 }
-export const DeleteResolverEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpoint: S.optional(ResolverEndpoint) }),
-).annotate({
-  identifier: "DeleteResolverEndpointResponse",
-}) as any as S.Schema<DeleteResolverEndpointResponse>;
 export interface DeleteResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
 }
-export const DeleteResolverQueryLogConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfigId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteResolverQueryLogConfigRequest",
-}) as any as S.Schema<DeleteResolverQueryLogConfigRequest>;
 export interface DeleteResolverQueryLogConfigResponse {
   ResolverQueryLogConfig?: ResolverQueryLogConfig;
 }
-export const DeleteResolverQueryLogConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfig: S.optional(ResolverQueryLogConfig) }),
-).annotate({
-  identifier: "DeleteResolverQueryLogConfigResponse",
-}) as any as S.Schema<DeleteResolverQueryLogConfigResponse>;
 export interface DeleteResolverRuleRequest {
   ResolverRuleId: string;
 }
-export const DeleteResolverRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRuleId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteResolverRuleRequest",
-}) as any as S.Schema<DeleteResolverRuleRequest>;
 export interface DeleteResolverRuleResponse {
   ResolverRule?: ResolverRule;
 }
-export const DeleteResolverRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRule: S.optional(ResolverRule) }),
-).annotate({
-  identifier: "DeleteResolverRuleResponse",
-}) as any as S.Schema<DeleteResolverRuleResponse>;
 export interface DisassociateFirewallRuleGroupRequest {
   FirewallRuleGroupAssociationId: string;
 }
-export const DisassociateFirewallRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroupAssociationId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateFirewallRuleGroupRequest",
-}) as any as S.Schema<DisassociateFirewallRuleGroupRequest>;
 export interface DisassociateFirewallRuleGroupResponse {
   FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
 }
-export const DisassociateFirewallRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroupAssociation: S.optional(FirewallRuleGroupAssociation) }),
-).annotate({
-  identifier: "DisassociateFirewallRuleGroupResponse",
-}) as any as S.Schema<DisassociateFirewallRuleGroupResponse>;
 export interface DisassociateResolverEndpointIpAddressRequest {
   ResolverEndpointId: string;
   IpAddress: IpAddressUpdate;
 }
-export const DisassociateResolverEndpointIpAddressRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpointId: S.String, IpAddress: IpAddressUpdate }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateResolverEndpointIpAddressRequest",
-}) as any as S.Schema<DisassociateResolverEndpointIpAddressRequest>;
 export interface DisassociateResolverEndpointIpAddressResponse {
   ResolverEndpoint?: ResolverEndpoint;
 }
-export const DisassociateResolverEndpointIpAddressResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpoint: S.optional(ResolverEndpoint) }),
-).annotate({
-  identifier: "DisassociateResolverEndpointIpAddressResponse",
-}) as any as S.Schema<DisassociateResolverEndpointIpAddressResponse>;
 export interface DisassociateResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
   ResourceId: string;
 }
-export const DisassociateResolverQueryLogConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfigId: S.String, ResourceId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateResolverQueryLogConfigRequest",
-}) as any as S.Schema<DisassociateResolverQueryLogConfigRequest>;
 export interface DisassociateResolverQueryLogConfigResponse {
   ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation;
 }
-export const DisassociateResolverQueryLogConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfigAssociation: S.optional(ResolverQueryLogConfigAssociation) }),
-).annotate({
-  identifier: "DisassociateResolverQueryLogConfigResponse",
-}) as any as S.Schema<DisassociateResolverQueryLogConfigResponse>;
 export interface DisassociateResolverRuleRequest {
   VPCId: string;
   ResolverRuleId: string;
 }
-export const DisassociateResolverRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VPCId: S.String, ResolverRuleId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateResolverRuleRequest",
-}) as any as S.Schema<DisassociateResolverRuleRequest>;
 export interface DisassociateResolverRuleResponse {
   ResolverRuleAssociation?: ResolverRuleAssociation;
 }
-export const DisassociateResolverRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRuleAssociation: S.optional(ResolverRuleAssociation) }),
-).annotate({
-  identifier: "DisassociateResolverRuleResponse",
-}) as any as S.Schema<DisassociateResolverRuleResponse>;
 export interface GetFirewallConfigRequest {
   ResourceId: string;
 }
-export const GetFirewallConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetFirewallConfigRequest" }) as any as S.Schema<GetFirewallConfigRequest>;
 export type FirewallFailOpenStatus =
   | "ENABLED"
   | "DISABLED"
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
-export const FirewallFailOpenStatus = S.String;
-
 export interface FirewallConfig {
   Id?: string;
   ResourceId?: string;
   OwnerId?: string;
   FirewallFailOpen?: FirewallFailOpenStatus;
 }
-export const FirewallConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    FirewallFailOpen: S.optional(FirewallFailOpenStatus),
-  }),
-).annotate({ identifier: "FirewallConfig" }) as any as S.Schema<FirewallConfig>;
 export interface GetFirewallConfigResponse {
   FirewallConfig?: FirewallConfig;
 }
-export const GetFirewallConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallConfig: S.optional(FirewallConfig) }),
-).annotate({
-  identifier: "GetFirewallConfigResponse",
-}) as any as S.Schema<GetFirewallConfigResponse>;
 export interface GetFirewallDomainListRequest {
   FirewallDomainListId: string;
 }
-export const GetFirewallDomainListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallDomainListId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetFirewallDomainListRequest",
-}) as any as S.Schema<GetFirewallDomainListRequest>;
 export interface GetFirewallDomainListResponse {
   FirewallDomainList?: FirewallDomainList;
 }
-export const GetFirewallDomainListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallDomainList: S.optional(FirewallDomainList) }),
-).annotate({
-  identifier: "GetFirewallDomainListResponse",
-}) as any as S.Schema<GetFirewallDomainListResponse>;
 export interface GetFirewallRuleGroupRequest {
   FirewallRuleGroupId: string;
 }
-export const GetFirewallRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroupId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetFirewallRuleGroupRequest",
-}) as any as S.Schema<GetFirewallRuleGroupRequest>;
 export interface GetFirewallRuleGroupResponse {
   FirewallRuleGroup?: FirewallRuleGroup;
 }
-export const GetFirewallRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroup: S.optional(FirewallRuleGroup) }),
-).annotate({
-  identifier: "GetFirewallRuleGroupResponse",
-}) as any as S.Schema<GetFirewallRuleGroupResponse>;
 export interface GetFirewallRuleGroupAssociationRequest {
   FirewallRuleGroupAssociationId: string;
 }
-export const GetFirewallRuleGroupAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroupAssociationId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetFirewallRuleGroupAssociationRequest",
-}) as any as S.Schema<GetFirewallRuleGroupAssociationRequest>;
 export interface GetFirewallRuleGroupAssociationResponse {
   FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
 }
-export const GetFirewallRuleGroupAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroupAssociation: S.optional(FirewallRuleGroupAssociation) }),
-).annotate({
-  identifier: "GetFirewallRuleGroupAssociationResponse",
-}) as any as S.Schema<GetFirewallRuleGroupAssociationResponse>;
 export interface GetFirewallRuleGroupPolicyRequest {
   Arn: string;
 }
-export const GetFirewallRuleGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetFirewallRuleGroupPolicyRequest",
-}) as any as S.Schema<GetFirewallRuleGroupPolicyRequest>;
 export type FirewallRuleGroupPolicy = string;
 export interface GetFirewallRuleGroupPolicyResponse {
   FirewallRuleGroupPolicy?: string;
 }
-export const GetFirewallRuleGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroupPolicy: S.optional(S.String) }),
-).annotate({
-  identifier: "GetFirewallRuleGroupPolicyResponse",
-}) as any as S.Schema<GetFirewallRuleGroupPolicyResponse>;
 export interface GetOutpostResolverRequest {
   Id: string;
 }
-export const GetOutpostResolverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetOutpostResolverRequest",
-}) as any as S.Schema<GetOutpostResolverRequest>;
 export interface GetOutpostResolverResponse {
   OutpostResolver?: OutpostResolver;
 }
-export const GetOutpostResolverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OutpostResolver: S.optional(OutpostResolver) }),
-).annotate({
-  identifier: "GetOutpostResolverResponse",
-}) as any as S.Schema<GetOutpostResolverResponse>;
 export interface GetResolverConfigRequest {
   ResourceId: string;
 }
-export const GetResolverConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetResolverConfigRequest" }) as any as S.Schema<GetResolverConfigRequest>;
 export type ResolverAutodefinedReverseStatus =
   | "ENABLING"
   | "ENABLED"
@@ -1599,40 +808,18 @@ export type ResolverAutodefinedReverseStatus =
   | "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING"
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
-export const ResolverAutodefinedReverseStatus = S.String;
-
 export interface ResolverConfig {
   Id?: string;
   ResourceId?: string;
   OwnerId?: string;
   AutodefinedReverse?: ResolverAutodefinedReverseStatus;
 }
-export const ResolverConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    AutodefinedReverse: S.optional(ResolverAutodefinedReverseStatus),
-  }),
-).annotate({ identifier: "ResolverConfig" }) as any as S.Schema<ResolverConfig>;
 export interface GetResolverConfigResponse {
   ResolverConfig?: ResolverConfig;
 }
-export const GetResolverConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverConfig: S.optional(ResolverConfig) }),
-).annotate({
-  identifier: "GetResolverConfigResponse",
-}) as any as S.Schema<GetResolverConfigResponse>;
 export interface GetResolverDnssecConfigRequest {
   ResourceId: string;
 }
-export const GetResolverDnssecConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetResolverDnssecConfigRequest",
-}) as any as S.Schema<GetResolverDnssecConfigRequest>;
 export type ResolverDNSSECValidationStatus =
   | "ENABLING"
   | "ENABLED"
@@ -1641,224 +828,88 @@ export type ResolverDNSSECValidationStatus =
   | "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING"
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
-export const ResolverDNSSECValidationStatus = S.String;
-
 export interface ResolverDnssecConfig {
   Id?: string;
   OwnerId?: string;
   ResourceId?: string;
   ValidationStatus?: ResolverDNSSECValidationStatus;
 }
-export const ResolverDnssecConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    ValidationStatus: S.optional(ResolverDNSSECValidationStatus),
-  }),
-).annotate({ identifier: "ResolverDnssecConfig" }) as any as S.Schema<ResolverDnssecConfig>;
 export interface GetResolverDnssecConfigResponse {
   ResolverDNSSECConfig?: ResolverDnssecConfig;
 }
-export const GetResolverDnssecConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverDNSSECConfig: S.optional(ResolverDnssecConfig) }),
-).annotate({
-  identifier: "GetResolverDnssecConfigResponse",
-}) as any as S.Schema<GetResolverDnssecConfigResponse>;
 export interface GetResolverEndpointRequest {
   ResolverEndpointId: string;
 }
-export const GetResolverEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpointId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetResolverEndpointRequest",
-}) as any as S.Schema<GetResolverEndpointRequest>;
 export interface GetResolverEndpointResponse {
   ResolverEndpoint?: ResolverEndpoint;
 }
-export const GetResolverEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpoint: S.optional(ResolverEndpoint) }),
-).annotate({
-  identifier: "GetResolverEndpointResponse",
-}) as any as S.Schema<GetResolverEndpointResponse>;
 export interface GetResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
 }
-export const GetResolverQueryLogConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfigId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetResolverQueryLogConfigRequest",
-}) as any as S.Schema<GetResolverQueryLogConfigRequest>;
 export interface GetResolverQueryLogConfigResponse {
   ResolverQueryLogConfig?: ResolverQueryLogConfig;
 }
-export const GetResolverQueryLogConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfig: S.optional(ResolverQueryLogConfig) }),
-).annotate({
-  identifier: "GetResolverQueryLogConfigResponse",
-}) as any as S.Schema<GetResolverQueryLogConfigResponse>;
 export interface GetResolverQueryLogConfigAssociationRequest {
   ResolverQueryLogConfigAssociationId: string;
 }
-export const GetResolverQueryLogConfigAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfigAssociationId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetResolverQueryLogConfigAssociationRequest",
-}) as any as S.Schema<GetResolverQueryLogConfigAssociationRequest>;
 export interface GetResolverQueryLogConfigAssociationResponse {
   ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation;
 }
-export const GetResolverQueryLogConfigAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfigAssociation: S.optional(ResolverQueryLogConfigAssociation) }),
-).annotate({
-  identifier: "GetResolverQueryLogConfigAssociationResponse",
-}) as any as S.Schema<GetResolverQueryLogConfigAssociationResponse>;
 export interface GetResolverQueryLogConfigPolicyRequest {
   Arn: string;
 }
-export const GetResolverQueryLogConfigPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetResolverQueryLogConfigPolicyRequest",
-}) as any as S.Schema<GetResolverQueryLogConfigPolicyRequest>;
 export type ResolverQueryLogConfigPolicy = string;
 export interface GetResolverQueryLogConfigPolicyResponse {
   ResolverQueryLogConfigPolicy?: string;
 }
-export const GetResolverQueryLogConfigPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverQueryLogConfigPolicy: S.optional(S.String) }),
-).annotate({
-  identifier: "GetResolverQueryLogConfigPolicyResponse",
-}) as any as S.Schema<GetResolverQueryLogConfigPolicyResponse>;
 export interface GetResolverRuleRequest {
   ResolverRuleId: string;
 }
-export const GetResolverRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRuleId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetResolverRuleRequest" }) as any as S.Schema<GetResolverRuleRequest>;
 export interface GetResolverRuleResponse {
   ResolverRule?: ResolverRule;
 }
-export const GetResolverRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRule: S.optional(ResolverRule) }),
-).annotate({ identifier: "GetResolverRuleResponse" }) as any as S.Schema<GetResolverRuleResponse>;
 export interface GetResolverRuleAssociationRequest {
   ResolverRuleAssociationId: string;
 }
-export const GetResolverRuleAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRuleAssociationId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetResolverRuleAssociationRequest",
-}) as any as S.Schema<GetResolverRuleAssociationRequest>;
 export interface GetResolverRuleAssociationResponse {
   ResolverRuleAssociation?: ResolverRuleAssociation;
 }
-export const GetResolverRuleAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRuleAssociation: S.optional(ResolverRuleAssociation) }),
-).annotate({
-  identifier: "GetResolverRuleAssociationResponse",
-}) as any as S.Schema<GetResolverRuleAssociationResponse>;
 export interface GetResolverRulePolicyRequest {
   Arn: string;
 }
-export const GetResolverRulePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetResolverRulePolicyRequest",
-}) as any as S.Schema<GetResolverRulePolicyRequest>;
 export type ResolverRulePolicy = string;
 export interface GetResolverRulePolicyResponse {
   ResolverRulePolicy?: string;
 }
-export const GetResolverRulePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRulePolicy: S.optional(S.String) }),
-).annotate({
-  identifier: "GetResolverRulePolicyResponse",
-}) as any as S.Schema<GetResolverRulePolicyResponse>;
 export type FirewallDomainImportOperation = "REPLACE" | (string & {});
-export const FirewallDomainImportOperation = S.String;
-
 export type DomainListFileUrl = string;
 export interface ImportFirewallDomainsRequest {
   FirewallDomainListId: string;
   Operation: FirewallDomainImportOperation;
   DomainFileUrl: string;
 }
-export const ImportFirewallDomainsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallDomainListId: S.String,
-    Operation: FirewallDomainImportOperation,
-    DomainFileUrl: S.String,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportFirewallDomainsRequest",
-}) as any as S.Schema<ImportFirewallDomainsRequest>;
 export interface ImportFirewallDomainsResponse {
   Id?: string;
   Name?: string;
   Status?: FirewallDomainListStatus;
   StatusMessage?: string;
 }
-export const ImportFirewallDomainsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(FirewallDomainListStatus),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ImportFirewallDomainsResponse",
-}) as any as S.Schema<ImportFirewallDomainsResponse>;
 export type ListFirewallConfigsMaxResult = number;
 export type NextToken = string;
 export interface ListFirewallConfigsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFirewallConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListFirewallConfigsRequest",
-}) as any as S.Schema<ListFirewallConfigsRequest>;
 export type FirewallConfigList = FirewallConfig[];
-export const FirewallConfigList = /*@__PURE__*/ S.Array(FirewallConfig);
 export interface ListFirewallConfigsResponse {
   NextToken?: string;
   FirewallConfigs?: FirewallConfig[];
 }
-export const ListFirewallConfigsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), FirewallConfigs: S.optional(FirewallConfigList) }),
-).annotate({
-  identifier: "ListFirewallConfigsResponse",
-}) as any as S.Schema<ListFirewallConfigsResponse>;
 export type MaxResults = number;
 export interface ListFirewallDomainListsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFirewallDomainListsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListFirewallDomainListsRequest",
-}) as any as S.Schema<ListFirewallDomainListsRequest>;
 export interface FirewallDomainListMetadata {
   Id?: string;
   Arn?: string;
@@ -1868,60 +919,23 @@ export interface FirewallDomainListMetadata {
   ManagedListType?: DomainListType;
   Category?: string;
 }
-export const FirewallDomainListMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    ManagedOwnerName: S.optional(S.String),
-    ManagedListType: S.optional(DomainListType),
-    Category: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FirewallDomainListMetadata",
-}) as any as S.Schema<FirewallDomainListMetadata>;
 export type FirewallDomainListMetadataList = FirewallDomainListMetadata[];
-export const FirewallDomainListMetadataList = /*@__PURE__*/ S.Array(FirewallDomainListMetadata);
 export interface ListFirewallDomainListsResponse {
   NextToken?: string;
   FirewallDomainLists?: FirewallDomainListMetadata[];
 }
-export const ListFirewallDomainListsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    FirewallDomainLists: S.optional(FirewallDomainListMetadataList),
-  }),
-).annotate({
-  identifier: "ListFirewallDomainListsResponse",
-}) as any as S.Schema<ListFirewallDomainListsResponse>;
 export type ListDomainMaxResults = number;
 export interface ListFirewallDomainsRequest {
   FirewallDomainListId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFirewallDomainsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallDomainListId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListFirewallDomainsRequest",
-}) as any as S.Schema<ListFirewallDomainsRequest>;
 export type FirewallDomainName = string;
 export type FirewallDomains = string[];
-export const FirewallDomains = /*@__PURE__*/ S.Array(S.String);
 export interface ListFirewallDomainsResponse {
   NextToken?: string;
   Domains?: string[];
 }
-export const ListFirewallDomainsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), Domains: S.optional(FirewallDomains) }),
-).annotate({
-  identifier: "ListFirewallDomainsResponse",
-}) as any as S.Schema<ListFirewallDomainsResponse>;
 export interface ListFirewallRuleGroupAssociationsRequest {
   FirewallRuleGroupId?: string;
   VpcId?: string;
@@ -1930,43 +944,15 @@ export interface ListFirewallRuleGroupAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFirewallRuleGroupAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRuleGroupId: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    Priority: S.optional(S.Number),
-    Status: S.optional(FirewallRuleGroupAssociationStatus),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListFirewallRuleGroupAssociationsRequest",
-}) as any as S.Schema<ListFirewallRuleGroupAssociationsRequest>;
 export type FirewallRuleGroupAssociations = FirewallRuleGroupAssociation[];
-export const FirewallRuleGroupAssociations = /*@__PURE__*/ S.Array(FirewallRuleGroupAssociation);
 export interface ListFirewallRuleGroupAssociationsResponse {
   NextToken?: string;
   FirewallRuleGroupAssociations?: FirewallRuleGroupAssociation[];
 }
-export const ListFirewallRuleGroupAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    FirewallRuleGroupAssociations: S.optional(FirewallRuleGroupAssociations),
-  }),
-).annotate({
-  identifier: "ListFirewallRuleGroupAssociationsResponse",
-}) as any as S.Schema<ListFirewallRuleGroupAssociationsResponse>;
 export interface ListFirewallRuleGroupsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFirewallRuleGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListFirewallRuleGroupsRequest",
-}) as any as S.Schema<ListFirewallRuleGroupsRequest>;
 export interface FirewallRuleGroupMetadata {
   Id?: string;
   Arn?: string;
@@ -1975,32 +961,11 @@ export interface FirewallRuleGroupMetadata {
   CreatorRequestId?: string;
   ShareStatus?: ShareStatus;
 }
-export const FirewallRuleGroupMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    OwnerId: S.optional(S.String),
-    CreatorRequestId: S.optional(S.String),
-    ShareStatus: S.optional(ShareStatus),
-  }),
-).annotate({
-  identifier: "FirewallRuleGroupMetadata",
-}) as any as S.Schema<FirewallRuleGroupMetadata>;
 export type FirewallRuleGroupMetadataList = FirewallRuleGroupMetadata[];
-export const FirewallRuleGroupMetadataList = /*@__PURE__*/ S.Array(FirewallRuleGroupMetadata);
 export interface ListFirewallRuleGroupsResponse {
   NextToken?: string;
   FirewallRuleGroups?: FirewallRuleGroupMetadata[];
 }
-export const ListFirewallRuleGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    FirewallRuleGroups: S.optional(FirewallRuleGroupMetadataList),
-  }),
-).annotate({
-  identifier: "ListFirewallRuleGroupsResponse",
-}) as any as S.Schema<ListFirewallRuleGroupsResponse>;
 export interface ListFirewallRulesRequest {
   FirewallRuleGroupId: string;
   Priority?: number;
@@ -2008,39 +973,16 @@ export interface ListFirewallRulesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFirewallRulesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRuleGroupId: S.String,
-    Priority: S.optional(S.Number),
-    Action: S.optional(Action),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListFirewallRulesRequest" }) as any as S.Schema<ListFirewallRulesRequest>;
 export interface ListFirewallRulesResponse {
   NextToken?: string;
   FirewallRules?: FirewallRule[];
 }
-export const ListFirewallRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), FirewallRules: S.optional(FirewallRules) }),
-).annotate({
-  identifier: "ListFirewallRulesResponse",
-}) as any as S.Schema<ListFirewallRulesResponse>;
 export type RuleTypeName = string;
 export interface ListFirewallRuleTypesRequest {
   RuleType?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFirewallRuleTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleType: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListFirewallRuleTypesRequest",
-}) as any as S.Schema<ListFirewallRuleTypesRequest>;
 export type RuleTypeValue = string;
 export type DisplayName = string;
 export type RuleTypeDescription = string;
@@ -2050,9 +992,6 @@ export interface SubscriptionInfo {
   VendorName?: string;
   ProductId?: string;
 }
-export const SubscriptionInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VendorName: S.optional(S.String), ProductId: S.optional(S.String) }),
-).annotate({ identifier: "SubscriptionInfo" }) as any as S.Schema<SubscriptionInfo>;
 export interface FirewallRuleTypeDefinition {
   RuleType?: string;
   Value?: string;
@@ -2060,134 +999,54 @@ export interface FirewallRuleTypeDefinition {
   Description?: string;
   SubscriptionInfo?: SubscriptionInfo;
 }
-export const FirewallRuleTypeDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleType: S.optional(S.String),
-    Value: S.optional(S.String),
-    DisplayName: S.optional(S.String),
-    Description: S.optional(S.String),
-    SubscriptionInfo: S.optional(SubscriptionInfo),
-  }),
-).annotate({
-  identifier: "FirewallRuleTypeDefinition",
-}) as any as S.Schema<FirewallRuleTypeDefinition>;
 export type FirewallRuleTypeDefinitions = FirewallRuleTypeDefinition[];
-export const FirewallRuleTypeDefinitions = /*@__PURE__*/ S.Array(FirewallRuleTypeDefinition);
 export interface ListFirewallRuleTypesResponse {
   FirewallRuleTypes?: FirewallRuleTypeDefinition[];
   NextToken?: string;
 }
-export const ListFirewallRuleTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRuleTypes: S.optional(FirewallRuleTypeDefinitions),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListFirewallRuleTypesResponse",
-}) as any as S.Schema<ListFirewallRuleTypesResponse>;
 export interface ListOutpostResolversRequest {
   OutpostArn?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListOutpostResolversRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OutpostArn: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListOutpostResolversRequest",
-}) as any as S.Schema<ListOutpostResolversRequest>;
 export type OutpostResolverList = OutpostResolver[];
-export const OutpostResolverList = /*@__PURE__*/ S.Array(OutpostResolver);
 export interface ListOutpostResolversResponse {
   OutpostResolvers?: OutpostResolver[];
   NextToken?: string;
 }
-export const ListOutpostResolversResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OutpostResolvers: S.optional(OutpostResolverList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListOutpostResolversResponse",
-}) as any as S.Schema<ListOutpostResolversResponse>;
 export type ListResolverConfigsMaxResult = number;
 export interface ListResolverConfigsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListResolverConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListResolverConfigsRequest",
-}) as any as S.Schema<ListResolverConfigsRequest>;
 export type ResolverConfigList = ResolverConfig[];
-export const ResolverConfigList = /*@__PURE__*/ S.Array(ResolverConfig);
 export interface ListResolverConfigsResponse {
   NextToken?: string;
   ResolverConfigs?: ResolverConfig[];
 }
-export const ListResolverConfigsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), ResolverConfigs: S.optional(ResolverConfigList) }),
-).annotate({
-  identifier: "ListResolverConfigsResponse",
-}) as any as S.Schema<ListResolverConfigsResponse>;
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValues = string[];
-export const FilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface Filter {
   Name?: string;
   Values?: string[];
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Values: S.optional(FilterValues) }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type Filters = Filter[];
-export const Filters = /*@__PURE__*/ S.Array(Filter);
 export interface ListResolverDnssecConfigsRequest {
   MaxResults?: number;
   NextToken?: string;
   Filters?: Filter[];
 }
-export const ListResolverDnssecConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(Filters),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResolverDnssecConfigsRequest",
-}) as any as S.Schema<ListResolverDnssecConfigsRequest>;
 export type ResolverDnssecConfigList = ResolverDnssecConfig[];
-export const ResolverDnssecConfigList = /*@__PURE__*/ S.Array(ResolverDnssecConfig);
 export interface ListResolverDnssecConfigsResponse {
   NextToken?: string;
   ResolverDnssecConfigs?: ResolverDnssecConfig[];
 }
-export const ListResolverDnssecConfigsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ResolverDnssecConfigs: S.optional(ResolverDnssecConfigList),
-  }),
-).annotate({
-  identifier: "ListResolverDnssecConfigsResponse",
-}) as any as S.Schema<ListResolverDnssecConfigsResponse>;
 export interface ListResolverEndpointIpAddressesRequest {
   ResolverEndpointId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListResolverEndpointIpAddressesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResolverEndpointId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResolverEndpointIpAddressesRequest",
-}) as any as S.Schema<ListResolverEndpointIpAddressesRequest>;
 export type IpAddressStatus =
   | "CREATING"
   | "FAILED_CREATION"
@@ -2204,8 +1063,6 @@ export type IpAddressStatus =
   | "UPDATE_FAILED"
   | "ISOLATED"
   | (string & {});
-export const IpAddressStatus = S.String;
-
 export interface IpAddressResponse {
   IpId?: string;
   SubnetId?: string;
@@ -2216,68 +1073,25 @@ export interface IpAddressResponse {
   CreationTime?: string;
   ModificationTime?: string;
 }
-export const IpAddressResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IpId: S.optional(S.String),
-    SubnetId: S.optional(S.String),
-    Ip: S.optional(S.String),
-    Ipv6: S.optional(S.String),
-    Status: S.optional(IpAddressStatus),
-    StatusMessage: S.optional(S.String),
-    CreationTime: S.optional(S.String),
-    ModificationTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "IpAddressResponse" }) as any as S.Schema<IpAddressResponse>;
 export type IpAddressesResponse = IpAddressResponse[];
-export const IpAddressesResponse = /*@__PURE__*/ S.Array(IpAddressResponse);
 export interface ListResolverEndpointIpAddressesResponse {
   NextToken?: string;
   MaxResults?: number;
   IpAddresses?: IpAddressResponse[];
 }
-export const ListResolverEndpointIpAddressesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    IpAddresses: S.optional(IpAddressesResponse),
-  }),
-).annotate({
-  identifier: "ListResolverEndpointIpAddressesResponse",
-}) as any as S.Schema<ListResolverEndpointIpAddressesResponse>;
 export interface ListResolverEndpointsRequest {
   MaxResults?: number;
   NextToken?: string;
   Filters?: Filter[];
 }
-export const ListResolverEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(Filters),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResolverEndpointsRequest",
-}) as any as S.Schema<ListResolverEndpointsRequest>;
 export type ResolverEndpoints = ResolverEndpoint[];
-export const ResolverEndpoints = /*@__PURE__*/ S.Array(ResolverEndpoint);
 export interface ListResolverEndpointsResponse {
   NextToken?: string;
   MaxResults?: number;
   ResolverEndpoints?: ResolverEndpoint[];
 }
-export const ListResolverEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    ResolverEndpoints: S.optional(ResolverEndpoints),
-  }),
-).annotate({
-  identifier: "ListResolverEndpointsResponse",
-}) as any as S.Schema<ListResolverEndpointsResponse>;
 export type SortByKey = string;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
-export const SortOrder = S.String;
-
 export interface ListResolverQueryLogConfigAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2285,37 +1099,13 @@ export interface ListResolverQueryLogConfigAssociationsRequest {
   SortBy?: string;
   SortOrder?: SortOrder;
 }
-export const ListResolverQueryLogConfigAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(Filters),
-    SortBy: S.optional(S.String),
-    SortOrder: S.optional(SortOrder),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResolverQueryLogConfigAssociationsRequest",
-}) as any as S.Schema<ListResolverQueryLogConfigAssociationsRequest>;
 export type ResolverQueryLogConfigAssociationList = ResolverQueryLogConfigAssociation[];
-export const ResolverQueryLogConfigAssociationList = /*@__PURE__*/ S.Array(
-  ResolverQueryLogConfigAssociation,
-);
 export interface ListResolverQueryLogConfigAssociationsResponse {
   NextToken?: string;
   TotalCount?: number;
   TotalFilteredCount?: number;
   ResolverQueryLogConfigAssociations?: ResolverQueryLogConfigAssociation[];
 }
-export const ListResolverQueryLogConfigAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    TotalCount: S.optional(S.Number),
-    TotalFilteredCount: S.optional(S.Number),
-    ResolverQueryLogConfigAssociations: S.optional(ResolverQueryLogConfigAssociationList),
-  }),
-).annotate({
-  identifier: "ListResolverQueryLogConfigAssociationsResponse",
-}) as any as S.Schema<ListResolverQueryLogConfigAssociationsResponse>;
 export interface ListResolverQueryLogConfigsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -2323,253 +1113,95 @@ export interface ListResolverQueryLogConfigsRequest {
   SortBy?: string;
   SortOrder?: SortOrder;
 }
-export const ListResolverQueryLogConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(Filters),
-    SortBy: S.optional(S.String),
-    SortOrder: S.optional(SortOrder),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResolverQueryLogConfigsRequest",
-}) as any as S.Schema<ListResolverQueryLogConfigsRequest>;
 export type ResolverQueryLogConfigList = ResolverQueryLogConfig[];
-export const ResolverQueryLogConfigList = /*@__PURE__*/ S.Array(ResolverQueryLogConfig);
 export interface ListResolverQueryLogConfigsResponse {
   NextToken?: string;
   TotalCount?: number;
   TotalFilteredCount?: number;
   ResolverQueryLogConfigs?: ResolverQueryLogConfig[];
 }
-export const ListResolverQueryLogConfigsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    TotalCount: S.optional(S.Number),
-    TotalFilteredCount: S.optional(S.Number),
-    ResolverQueryLogConfigs: S.optional(ResolverQueryLogConfigList),
-  }),
-).annotate({
-  identifier: "ListResolverQueryLogConfigsResponse",
-}) as any as S.Schema<ListResolverQueryLogConfigsResponse>;
 export interface ListResolverRuleAssociationsRequest {
   MaxResults?: number;
   NextToken?: string;
   Filters?: Filter[];
 }
-export const ListResolverRuleAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(Filters),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResolverRuleAssociationsRequest",
-}) as any as S.Schema<ListResolverRuleAssociationsRequest>;
 export type ResolverRuleAssociations = ResolverRuleAssociation[];
-export const ResolverRuleAssociations = /*@__PURE__*/ S.Array(ResolverRuleAssociation);
 export interface ListResolverRuleAssociationsResponse {
   NextToken?: string;
   MaxResults?: number;
   ResolverRuleAssociations?: ResolverRuleAssociation[];
 }
-export const ListResolverRuleAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    ResolverRuleAssociations: S.optional(ResolverRuleAssociations),
-  }),
-).annotate({
-  identifier: "ListResolverRuleAssociationsResponse",
-}) as any as S.Schema<ListResolverRuleAssociationsResponse>;
 export interface ListResolverRulesRequest {
   MaxResults?: number;
   NextToken?: string;
   Filters?: Filter[];
 }
-export const ListResolverRulesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(Filters),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListResolverRulesRequest" }) as any as S.Schema<ListResolverRulesRequest>;
 export type ResolverRules = ResolverRule[];
-export const ResolverRules = /*@__PURE__*/ S.Array(ResolverRule);
 export interface ListResolverRulesResponse {
   NextToken?: string;
   MaxResults?: number;
   ResolverRules?: ResolverRule[];
 }
-export const ListResolverRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    ResolverRules: S.optional(ResolverRules),
-  }),
-).annotate({
-  identifier: "ListResolverRulesResponse",
-}) as any as S.Schema<ListResolverRulesResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
   NextToken?: string;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutFirewallRuleGroupPolicyRequest {
   Arn: string;
   FirewallRuleGroupPolicy: string;
 }
-export const PutFirewallRuleGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, FirewallRuleGroupPolicy: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutFirewallRuleGroupPolicyRequest",
-}) as any as S.Schema<PutFirewallRuleGroupPolicyRequest>;
 export interface PutFirewallRuleGroupPolicyResponse {
   ReturnValue?: boolean;
 }
-export const PutFirewallRuleGroupPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReturnValue: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "PutFirewallRuleGroupPolicyResponse",
-}) as any as S.Schema<PutFirewallRuleGroupPolicyResponse>;
 export interface PutResolverQueryLogConfigPolicyRequest {
   Arn: string;
   ResolverQueryLogConfigPolicy: string;
 }
-export const PutResolverQueryLogConfigPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, ResolverQueryLogConfigPolicy: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutResolverQueryLogConfigPolicyRequest",
-}) as any as S.Schema<PutResolverQueryLogConfigPolicyRequest>;
 export interface PutResolverQueryLogConfigPolicyResponse {
   ReturnValue?: boolean;
 }
-export const PutResolverQueryLogConfigPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReturnValue: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "PutResolverQueryLogConfigPolicyResponse",
-}) as any as S.Schema<PutResolverQueryLogConfigPolicyResponse>;
 export interface PutResolverRulePolicyRequest {
   Arn: string;
   ResolverRulePolicy: string;
 }
-export const PutResolverRulePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String, ResolverRulePolicy: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutResolverRulePolicyRequest",
-}) as any as S.Schema<PutResolverRulePolicyRequest>;
 export interface PutResolverRulePolicyResponse {
   ReturnValue?: boolean;
 }
-export const PutResolverRulePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReturnValue: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "PutResolverRulePolicyResponse",
-}) as any as S.Schema<PutResolverRulePolicyResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateFirewallConfigRequest {
   ResourceId: string;
   FirewallFailOpen: FirewallFailOpenStatus;
 }
-export const UpdateFirewallConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.String, FirewallFailOpen: FirewallFailOpenStatus }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateFirewallConfigRequest",
-}) as any as S.Schema<UpdateFirewallConfigRequest>;
 export interface UpdateFirewallConfigResponse {
   FirewallConfig?: FirewallConfig;
 }
-export const UpdateFirewallConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallConfig: S.optional(FirewallConfig) }),
-).annotate({
-  identifier: "UpdateFirewallConfigResponse",
-}) as any as S.Schema<UpdateFirewallConfigResponse>;
 export type FirewallDomainUpdateOperation = "ADD" | "REMOVE" | "REPLACE" | (string & {});
-export const FirewallDomainUpdateOperation = S.String;
-
 export interface UpdateFirewallDomainsRequest {
   FirewallDomainListId: string;
   Operation: FirewallDomainUpdateOperation;
   Domains: string[];
 }
-export const UpdateFirewallDomainsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallDomainListId: S.String,
-    Operation: FirewallDomainUpdateOperation,
-    Domains: FirewallDomains,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateFirewallDomainsRequest",
-}) as any as S.Schema<UpdateFirewallDomainsRequest>;
 export interface UpdateFirewallDomainsResponse {
   Id?: string;
   Name?: string;
   Status?: FirewallDomainListStatus;
   StatusMessage?: string;
 }
-export const UpdateFirewallDomainsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(FirewallDomainListStatus),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateFirewallDomainsResponse",
-}) as any as S.Schema<UpdateFirewallDomainsResponse>;
 export interface UpdateFirewallRuleRequest {
   FirewallRuleGroupId: string;
   FirewallDomainListId?: string;
@@ -2587,140 +1219,52 @@ export interface UpdateFirewallRuleRequest {
   ConfidenceThreshold?: ConfidenceThreshold;
   FirewallRuleType?: FirewallRuleType;
 }
-export const UpdateFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRuleGroupId: S.String,
-    FirewallDomainListId: S.optional(S.String),
-    FirewallThreatProtectionId: S.optional(S.String),
-    Priority: S.optional(S.Number),
-    Action: S.optional(Action),
-    BlockResponse: S.optional(BlockResponse),
-    BlockOverrideDomain: S.optional(S.String),
-    BlockOverrideDnsType: S.optional(BlockOverrideDnsType),
-    BlockOverrideTtl: S.optional(S.Number),
-    Name: S.optional(S.String),
-    FirewallDomainRedirectionAction: S.optional(FirewallDomainRedirectionAction),
-    Qtype: S.optional(S.String),
-    DnsThreatProtection: S.optional(DnsThreatProtection),
-    ConfidenceThreshold: S.optional(ConfidenceThreshold),
-    FirewallRuleType: S.optional(FirewallRuleType),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateFirewallRuleRequest",
-}) as any as S.Schema<UpdateFirewallRuleRequest>;
 export interface UpdateFirewallRuleResponse {
   FirewallRule?: FirewallRule;
 }
-export const UpdateFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRule: S.optional(FirewallRule) }),
-).annotate({
-  identifier: "UpdateFirewallRuleResponse",
-}) as any as S.Schema<UpdateFirewallRuleResponse>;
 export interface UpdateFirewallRuleGroupAssociationRequest {
   FirewallRuleGroupAssociationId: string;
   Priority?: number;
   MutationProtection?: MutationProtectionStatus;
   Name?: string;
 }
-export const UpdateFirewallRuleGroupAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallRuleGroupAssociationId: S.String,
-    Priority: S.optional(S.Number),
-    MutationProtection: S.optional(MutationProtectionStatus),
-    Name: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateFirewallRuleGroupAssociationRequest",
-}) as any as S.Schema<UpdateFirewallRuleGroupAssociationRequest>;
 export interface UpdateFirewallRuleGroupAssociationResponse {
   FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
 }
-export const UpdateFirewallRuleGroupAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallRuleGroupAssociation: S.optional(FirewallRuleGroupAssociation) }),
-).annotate({
-  identifier: "UpdateFirewallRuleGroupAssociationResponse",
-}) as any as S.Schema<UpdateFirewallRuleGroupAssociationResponse>;
 export interface UpdateOutpostResolverRequest {
   Id: string;
   Name?: string;
   InstanceCount?: number;
   PreferredInstanceType?: string;
 }
-export const UpdateOutpostResolverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Name: S.optional(S.String),
-    InstanceCount: S.optional(S.Number),
-    PreferredInstanceType: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateOutpostResolverRequest",
-}) as any as S.Schema<UpdateOutpostResolverRequest>;
 export interface UpdateOutpostResolverResponse {
   OutpostResolver?: OutpostResolver;
 }
-export const UpdateOutpostResolverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OutpostResolver: S.optional(OutpostResolver) }),
-).annotate({
-  identifier: "UpdateOutpostResolverResponse",
-}) as any as S.Schema<UpdateOutpostResolverResponse>;
 export type AutodefinedReverseFlag =
   | "ENABLE"
   | "DISABLE"
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
-export const AutodefinedReverseFlag = S.String;
-
 export interface UpdateResolverConfigRequest {
   ResourceId: string;
   AutodefinedReverseFlag: AutodefinedReverseFlag;
 }
-export const UpdateResolverConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.String, AutodefinedReverseFlag: AutodefinedReverseFlag }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateResolverConfigRequest",
-}) as any as S.Schema<UpdateResolverConfigRequest>;
 export interface UpdateResolverConfigResponse {
   ResolverConfig?: ResolverConfig;
 }
-export const UpdateResolverConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverConfig: S.optional(ResolverConfig) }),
-).annotate({
-  identifier: "UpdateResolverConfigResponse",
-}) as any as S.Schema<UpdateResolverConfigResponse>;
 export type Validation = "ENABLE" | "DISABLE" | "USE_LOCAL_RESOURCE_SETTING" | (string & {});
-export const Validation = S.String;
-
 export interface UpdateResolverDnssecConfigRequest {
   ResourceId: string;
   Validation: Validation;
 }
-export const UpdateResolverDnssecConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.String, Validation: Validation }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateResolverDnssecConfigRequest",
-}) as any as S.Schema<UpdateResolverDnssecConfigRequest>;
 export interface UpdateResolverDnssecConfigResponse {
   ResolverDNSSECConfig?: ResolverDnssecConfig;
 }
-export const UpdateResolverDnssecConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverDNSSECConfig: S.optional(ResolverDnssecConfig) }),
-).annotate({
-  identifier: "UpdateResolverDnssecConfigResponse",
-}) as any as S.Schema<UpdateResolverDnssecConfigResponse>;
 export interface UpdateIpAddress {
   IpId: string;
   Ipv6: string;
 }
-export const UpdateIpAddress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IpId: S.String, Ipv6: S.String }),
-).annotate({ identifier: "UpdateIpAddress" }) as any as S.Schema<UpdateIpAddress>;
 export type UpdateIpAddresses = UpdateIpAddress[];
-export const UpdateIpAddresses = /*@__PURE__*/ S.Array(UpdateIpAddress);
 export interface UpdateResolverEndpointRequest {
   ResolverEndpointId: string;
   Name?: string;
@@ -2732,60 +1276,21 @@ export interface UpdateResolverEndpointRequest {
   Dns64Enabled?: boolean;
   Ipv6InternetAccessEnabled?: boolean;
 }
-export const UpdateResolverEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResolverEndpointId: S.String,
-    Name: S.optional(S.String),
-    ResolverEndpointType: S.optional(ResolverEndpointType),
-    UpdateIpAddresses: S.optional(UpdateIpAddresses),
-    Protocols: S.optional(ProtocolList),
-    RniEnhancedMetricsEnabled: S.optional(S.Boolean),
-    TargetNameServerMetricsEnabled: S.optional(S.Boolean),
-    Dns64Enabled: S.optional(S.Boolean),
-    Ipv6InternetAccessEnabled: S.optional(S.Boolean),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateResolverEndpointRequest",
-}) as any as S.Schema<UpdateResolverEndpointRequest>;
 export interface UpdateResolverEndpointResponse {
   ResolverEndpoint?: ResolverEndpoint;
 }
-export const UpdateResolverEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverEndpoint: S.optional(ResolverEndpoint) }),
-).annotate({
-  identifier: "UpdateResolverEndpointResponse",
-}) as any as S.Schema<UpdateResolverEndpointResponse>;
 export interface ResolverRuleConfig {
   Name?: string;
   TargetIps?: TargetAddress[];
   ResolverEndpointId?: string;
 }
-export const ResolverRuleConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    TargetIps: S.optional(TargetList),
-    ResolverEndpointId: S.optional(S.String),
-  }),
-).annotate({ identifier: "ResolverRuleConfig" }) as any as S.Schema<ResolverRuleConfig>;
 export interface UpdateResolverRuleRequest {
   ResolverRuleId: string;
   Config: ResolverRuleConfig;
 }
-export const UpdateResolverRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRuleId: S.String, Config: ResolverRuleConfig }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateResolverRuleRequest",
-}) as any as S.Schema<UpdateResolverRuleRequest>;
 export interface UpdateResolverRuleResponse {
   ResolverRule?: ResolverRule;
 }
-export const UpdateResolverRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResolverRule: S.optional(ResolverRule) }),
-).annotate({
-  identifier: "UpdateResolverRuleResponse",
-}) as any as S.Schema<UpdateResolverRuleResponse>;
 export type ExceptionMessage = string;
 export type AssociateFirewallRuleGroupError =
   | AccessDeniedException
@@ -2807,8 +1312,8 @@ export const associateFirewallRuleGroup: API.OperationMethod<
   AssociateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateFirewallRuleGroupRequest,
-  output: AssociateFirewallRuleGroupResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<AssociateFirewallRuleGroupRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<AssociateFirewallRuleGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2845,8 +1350,8 @@ export const associateResolverEndpointIpAddress: API.OperationMethod<
   AssociateResolverEndpointIpAddressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateResolverEndpointIpAddressRequest,
-  output: AssociateResolverEndpointIpAddressResponse,
+  input: __S(32, __c4, 0) as any as S.Schema<AssociateResolverEndpointIpAddressRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<AssociateResolverEndpointIpAddressResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -2887,8 +1392,8 @@ export const associateResolverQueryLogConfig: API.OperationMethod<
   AssociateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateResolverQueryLogConfigRequest,
-  output: AssociateResolverQueryLogConfigResponse,
+  input: __S(72, __c9, 0) as any as S.Schema<AssociateResolverQueryLogConfigRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<AssociateResolverQueryLogConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2926,8 +1431,8 @@ export const associateResolverRule: API.OperationMethod<
   AssociateResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateResolverRuleRequest,
-  output: AssociateResolverRuleResponse,
+  input: __S(96, __c12, 0) as any as S.Schema<AssociateResolverRuleRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<AssociateResolverRuleResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -2959,8 +1464,8 @@ export const batchCreateFirewallRule: API.OperationMethod<
   BatchCreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchCreateFirewallRuleRequest,
-  output: BatchCreateFirewallRuleResponse,
+  input: __S(122, __c15, 2) as any as S.Schema<BatchCreateFirewallRuleRequest>,
+  output: __S(125, __c15, 5) as any as S.Schema<BatchCreateFirewallRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -2989,8 +1494,8 @@ export const batchDeleteFirewallRule: API.OperationMethod<
   BatchDeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchDeleteFirewallRuleRequest,
-  output: BatchDeleteFirewallRuleResponse,
+  input: __S(146, __c18, 2) as any as S.Schema<BatchDeleteFirewallRuleRequest>,
+  output: __S(149, __c18, 5) as any as S.Schema<BatchDeleteFirewallRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3019,8 +1524,8 @@ export const batchUpdateFirewallRule: API.OperationMethod<
   BatchUpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchUpdateFirewallRuleRequest,
-  output: BatchUpdateFirewallRuleResponse,
+  input: __S(154, __c19, 2) as any as S.Schema<BatchUpdateFirewallRuleRequest>,
+  output: __S(157, __c19, 5) as any as S.Schema<BatchUpdateFirewallRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3049,8 +1554,8 @@ export const createFirewallDomainList: API.OperationMethod<
   CreateFirewallDomainListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFirewallDomainListRequest,
-  output: CreateFirewallDomainListResponse,
+  input: __S(160, __c20, 0) as any as S.Schema<CreateFirewallDomainListRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<CreateFirewallDomainListResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3072,13 +1577,13 @@ export type CreateFirewallRuleError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field — they are mutually exclusive:
+ * Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field -- they are mutually exclusive:
  *
- * - `FirewallDomainListId` — match a customer-managed or Amazon Web Services-managed domain list.
+ * - `FirewallDomainListId` -- match a customer-managed or Amazon Web Services-managed domain list.
  *
- * - `DnsThreatProtection` — match a built-in DNS Firewall Advanced threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
+ * - `DnsThreatProtection` -- match a built-in DNS Firewall Advanced threat detector (`DGA`, `DNS_TUNNELING`, or `DICTIONARY_DGA`).
  *
- * - `FirewallRuleType` — match one of the rule-type variants returned by ListFirewallRuleTypes: `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, or `PartnerThreatProtection`. The `PartnerThreatProtection` variant requires an active Amazon Web Services Marketplace subscription to the named partner product.
+ * - `FirewallRuleType` -- match one of the rule-type variants returned by ListFirewallRuleTypes: `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, or `PartnerThreatProtection`. The `PartnerThreatProtection` variant requires an active Amazon Web Services Marketplace subscription to the named partner product.
  *
  * For rules that require asynchronous provisioning (today, the `PartnerThreatProtection` rule type), the rule's `Status` begins at `CREATING` and transitions to `COMPLETE` once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, `Status` becomes `CREATION_FAILED` and `StatusMessage` contains a human-readable reason; the rule is then immutable and must be removed with DeleteFirewallRule.
  */
@@ -3088,8 +1593,8 @@ export const createFirewallRule: API.OperationMethod<
   CreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFirewallRuleRequest,
-  output: CreateFirewallRuleResponse,
+  input: __S(176, __c22, 0) as any as S.Schema<CreateFirewallRuleRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<CreateFirewallRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3120,8 +1625,8 @@ export const createFirewallRuleGroup: API.OperationMethod<
   CreateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFirewallRuleGroupRequest,
-  output: CreateFirewallRuleGroupResponse,
+  input: __S(192, __c24, 0) as any as S.Schema<CreateFirewallRuleGroupRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<CreateFirewallRuleGroupResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3154,8 +1659,8 @@ export const createOutpostResolver: API.OperationMethod<
   CreateOutpostResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOutpostResolverRequest,
-  output: CreateOutpostResolverResponse,
+  input: __S(208, __c26, 0) as any as S.Schema<CreateOutpostResolverRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<CreateOutpostResolverResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3194,8 +1699,8 @@ export const createResolverEndpoint: API.OperationMethod<
   CreateResolverEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResolverEndpointRequest,
-  output: CreateResolverEndpointResponse,
+  input: __S(234, __c29, 2) as any as S.Schema<CreateResolverEndpointRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<CreateResolverEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3238,8 +1743,8 @@ export const createResolverQueryLogConfig: API.OperationMethod<
   CreateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResolverQueryLogConfigRequest,
-  output: CreateResolverQueryLogConfigResponse,
+  input: __S(240, __c30, 0) as any as S.Schema<CreateResolverQueryLogConfigRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<CreateResolverQueryLogConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3276,8 +1781,8 @@ export const createResolverRule: API.OperationMethod<
   CreateResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResolverRuleRequest,
-  output: CreateResolverRuleResponse,
+  input: __S(264, __c33, 0) as any as S.Schema<CreateResolverRuleRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<CreateResolverRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3310,8 +1815,8 @@ export const deleteFirewallDomainList: API.OperationMethod<
   DeleteFirewallDomainListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFirewallDomainListRequest,
-  output: DeleteFirewallDomainListResponse,
+  input: __S(288, __c36, 0) as any as S.Schema<DeleteFirewallDomainListRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<DeleteFirewallDomainListResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3332,7 +1837,7 @@ export type DeleteFirewallRuleError =
   | ValidationException
   | CommonErrors;
 /**
- * Deletes the specified firewall rule. Identify the rule using either `FirewallDomainListId` (for domain-list and DNS Firewall Advanced rules) or `FirewallThreatProtectionId` (for partner-managed and DNS Firewall Advanced rules) — together with `FirewallRuleGroupId`.
+ * Deletes the specified firewall rule. Identify the rule using either `FirewallDomainListId` (for domain-list and DNS Firewall Advanced rules) or `FirewallThreatProtectionId` (for partner-managed and DNS Firewall Advanced rules) -- together with `FirewallRuleGroupId`.
  *
  * `DeleteFirewallRule` is the only operation that succeeds against a rule whose `Status` is `CREATION_FAILED`.
  */
@@ -3342,8 +1847,8 @@ export const deleteFirewallRule: API.OperationMethod<
   DeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFirewallRuleRequest,
-  output: DeleteFirewallRuleResponse,
+  input: __S(296, __c37, 0) as any as S.Schema<DeleteFirewallRuleRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<DeleteFirewallRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3373,8 +1878,8 @@ export const deleteFirewallRuleGroup: API.OperationMethod<
   DeleteFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFirewallRuleGroupRequest,
-  output: DeleteFirewallRuleGroupResponse,
+  input: __S(304, __c38, 0) as any as S.Schema<DeleteFirewallRuleGroupRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<DeleteFirewallRuleGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3409,8 +1914,8 @@ export const deleteOutpostResolver: API.OperationMethod<
   DeleteOutpostResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOutpostResolverRequest,
-  output: DeleteOutpostResolverResponse,
+  input: __S(312, __c39, 0) as any as S.Schema<DeleteOutpostResolverRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<DeleteOutpostResolverResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3446,8 +1951,8 @@ export const deleteResolverEndpoint: API.OperationMethod<
   DeleteResolverEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResolverEndpointRequest,
-  output: DeleteResolverEndpointResponse,
+  input: __S(320, __c40, 0) as any as S.Schema<DeleteResolverEndpointRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DeleteResolverEndpointResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -3487,8 +1992,8 @@ export const deleteResolverQueryLogConfig: API.OperationMethod<
   DeleteResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResolverQueryLogConfigRequest,
-  output: DeleteResolverQueryLogConfigResponse,
+  input: __S(328, __c41, 0) as any as S.Schema<DeleteResolverQueryLogConfigRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<DeleteResolverQueryLogConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3521,8 +2026,8 @@ export const deleteResolverRule: API.OperationMethod<
   DeleteResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResolverRuleRequest,
-  output: DeleteResolverRuleResponse,
+  input: __S(336, __c42, 0) as any as S.Schema<DeleteResolverRuleRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<DeleteResolverRuleResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -3553,8 +2058,8 @@ export const disassociateFirewallRuleGroup: API.OperationMethod<
   DisassociateFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateFirewallRuleGroupRequest,
-  output: DisassociateFirewallRuleGroupResponse,
+  input: __S(344, __c43, 0) as any as S.Schema<DisassociateFirewallRuleGroupRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DisassociateFirewallRuleGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3589,8 +2094,8 @@ export const disassociateResolverEndpointIpAddress: API.OperationMethod<
   DisassociateResolverEndpointIpAddressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateResolverEndpointIpAddressRequest,
-  output: DisassociateResolverEndpointIpAddressResponse,
+  input: __S(352, __c44, 0) as any as S.Schema<DisassociateResolverEndpointIpAddressRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DisassociateResolverEndpointIpAddressResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -3630,8 +2135,8 @@ export const disassociateResolverQueryLogConfig: API.OperationMethod<
   DisassociateResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateResolverQueryLogConfigRequest,
-  output: DisassociateResolverQueryLogConfigResponse,
+  input: __S(360, __c45, 0) as any as S.Schema<DisassociateResolverQueryLogConfigRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<DisassociateResolverQueryLogConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3664,8 +2169,8 @@ export const disassociateResolverRule: API.OperationMethod<
   DisassociateResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateResolverRuleRequest,
-  output: DisassociateResolverRuleResponse,
+  input: __S(368, __c46, 0) as any as S.Schema<DisassociateResolverRuleRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DisassociateResolverRuleResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -3695,8 +2200,8 @@ export const getFirewallConfig: API.OperationMethod<
   GetFirewallConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFirewallConfigRequest,
-  output: GetFirewallConfigResponse,
+  input: __S(376, __c47, 0) as any as S.Schema<GetFirewallConfigRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<GetFirewallConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3724,8 +2229,8 @@ export const getFirewallDomainList: API.OperationMethod<
   GetFirewallDomainListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFirewallDomainListRequest,
-  output: GetFirewallDomainListResponse,
+  input: __S(400, __c50, 0) as any as S.Schema<GetFirewallDomainListRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<GetFirewallDomainListResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3752,8 +2257,8 @@ export const getFirewallRuleGroup: API.OperationMethod<
   GetFirewallRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFirewallRuleGroupRequest,
-  output: GetFirewallRuleGroupResponse,
+  input: __S(408, __c51, 0) as any as S.Schema<GetFirewallRuleGroupRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<GetFirewallRuleGroupResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3780,8 +2285,8 @@ export const getFirewallRuleGroupAssociation: API.OperationMethod<
   GetFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFirewallRuleGroupAssociationRequest,
-  output: GetFirewallRuleGroupAssociationResponse,
+  input: __S(416, __c52, 0) as any as S.Schema<GetFirewallRuleGroupAssociationRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<GetFirewallRuleGroupAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3810,8 +2315,8 @@ export const getFirewallRuleGroupPolicy: API.OperationMethod<
   GetFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetFirewallRuleGroupPolicyRequest,
-  output: GetFirewallRuleGroupPolicyResponse,
+  input: __S(424, __c53, 0) as any as S.Schema<GetFirewallRuleGroupPolicyRequest>,
+  output: __S(425, __c53, 1) as any as S.Schema<GetFirewallRuleGroupPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3841,8 +2346,8 @@ export const getOutpostResolver: API.OperationMethod<
   GetOutpostResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOutpostResolverRequest,
-  output: GetOutpostResolverResponse,
+  input: __S(432, __c54, 0) as any as S.Schema<GetOutpostResolverRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<GetOutpostResolverResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3873,8 +2378,8 @@ export const getResolverConfig: API.OperationMethod<
   GetResolverConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverConfigRequest,
-  output: GetResolverConfigResponse,
+  input: __S(440, __c55, 0) as any as S.Schema<GetResolverConfigRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<GetResolverConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3905,8 +2410,8 @@ export const getResolverDnssecConfig: API.OperationMethod<
   GetResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverDnssecConfigRequest,
-  output: GetResolverDnssecConfigResponse,
+  input: __S(464, __c58, 0) as any as S.Schema<GetResolverDnssecConfigRequest>,
+  output: __S(480, __c60, 0) as any as S.Schema<GetResolverDnssecConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -3936,8 +2441,8 @@ export const getResolverEndpoint: API.OperationMethod<
   GetResolverEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverEndpointRequest,
-  output: GetResolverEndpointResponse,
+  input: __S(488, __c61, 0) as any as S.Schema<GetResolverEndpointRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<GetResolverEndpointResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -3967,8 +2472,8 @@ export const getResolverQueryLogConfig: API.OperationMethod<
   GetResolverQueryLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverQueryLogConfigRequest,
-  output: GetResolverQueryLogConfigResponse,
+  input: __S(496, __c62, 0) as any as S.Schema<GetResolverQueryLogConfigRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<GetResolverQueryLogConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4000,8 +2505,8 @@ export const getResolverQueryLogConfigAssociation: API.OperationMethod<
   GetResolverQueryLogConfigAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverQueryLogConfigAssociationRequest,
-  output: GetResolverQueryLogConfigAssociationResponse,
+  input: __S(504, __c63, 0) as any as S.Schema<GetResolverQueryLogConfigAssociationRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<GetResolverQueryLogConfigAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4032,8 +2537,8 @@ export const getResolverQueryLogConfigPolicy: API.OperationMethod<
   GetResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverQueryLogConfigPolicyRequest,
-  output: GetResolverQueryLogConfigPolicyResponse,
+  input: __S(512, __c64, 0) as any as S.Schema<GetResolverQueryLogConfigPolicyRequest>,
+  output: __S(513, __c64, 1) as any as S.Schema<GetResolverQueryLogConfigPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4062,8 +2567,8 @@ export const getResolverRule: API.OperationMethod<
   GetResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverRuleRequest,
-  output: GetResolverRuleResponse,
+  input: __S(520, __c65, 0) as any as S.Schema<GetResolverRuleRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<GetResolverRuleResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -4091,8 +2596,8 @@ export const getResolverRuleAssociation: API.OperationMethod<
   GetResolverRuleAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverRuleAssociationRequest,
-  output: GetResolverRuleAssociationResponse,
+  input: __S(528, __c66, 0) as any as S.Schema<GetResolverRuleAssociationRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<GetResolverRuleAssociationResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -4120,8 +2625,8 @@ export const getResolverRulePolicy: API.OperationMethod<
   GetResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResolverRulePolicyRequest,
-  output: GetResolverRulePolicyResponse,
+  input: __S(536, __c67, 0) as any as S.Schema<GetResolverRulePolicyRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<GetResolverRulePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4162,8 +2667,8 @@ export const importFirewallDomains: API.OperationMethod<
   ImportFirewallDomainsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ImportFirewallDomainsRequest,
-  output: ImportFirewallDomainsResponse,
+  input: __S(544, __c68, 0) as any as S.Schema<ImportFirewallDomainsRequest>,
+  output: __S(552, __c69, 0) as any as S.Schema<ImportFirewallDomainsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4196,8 +2701,8 @@ export const listFirewallConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFirewallConfigsRequest,
-  output: ListFirewallConfigsResponse,
+  input: __S(560, __c70, 0) as any as S.Schema<ListFirewallConfigsRequest>,
+  output: __S(562, __c70, 2) as any as S.Schema<ListFirewallConfigsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4233,8 +2738,8 @@ export const listFirewallDomainLists: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallDomainListMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFirewallDomainListsRequest,
-  output: ListFirewallDomainListsResponse,
+  input: __S(568, __c71, 0) as any as S.Schema<ListFirewallDomainListsRequest>,
+  output: __S(571, __c71, 3) as any as S.Schema<ListFirewallDomainListsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4271,8 +2776,8 @@ export const listFirewallDomains: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallDomainName
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFirewallDomainsRequest,
-  output: ListFirewallDomainsResponse,
+  input: __S(576, __c72, 0) as any as S.Schema<ListFirewallDomainsRequest>,
+  output: __S(577, __c72, 1) as any as S.Schema<ListFirewallDomainsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4309,8 +2814,8 @@ export const listFirewallRuleGroupAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallRuleGroupAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFirewallRuleGroupAssociationsRequest,
-  output: ListFirewallRuleGroupAssociationsResponse,
+  input: __S(584, __c73, 0) as any as S.Schema<ListFirewallRuleGroupAssociationsRequest>,
+  output: __S(586, __c73, 2) as any as S.Schema<ListFirewallRuleGroupAssociationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4346,8 +2851,8 @@ export const listFirewallRuleGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallRuleGroupMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFirewallRuleGroupsRequest,
-  output: ListFirewallRuleGroupsResponse,
+  input: __S(592, __c74, 0) as any as S.Schema<ListFirewallRuleGroupsRequest>,
+  output: __S(595, __c74, 3) as any as S.Schema<ListFirewallRuleGroupsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4386,8 +2891,8 @@ export const listFirewallRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallRule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFirewallRulesRequest,
-  output: ListFirewallRulesResponse,
+  input: __S(600, __c75, 0) as any as S.Schema<ListFirewallRulesRequest>,
+  output: __S(601, __c75, 1) as any as S.Schema<ListFirewallRulesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4413,7 +2918,7 @@ export type ListFirewallRuleTypesError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves the rule-type variants that can be used in the `FirewallRuleType` field of CreateFirewallRule and UpdateFirewallRule. Each returned FirewallRuleTypeDefinition identifies one variant + value combination — for example, `FirewallAdvancedContentCategory` + `VIOLENCE_AND_HATE_SPEECH`, or `PartnerThreatProtection` + a partner-managed feed.
+ * Retrieves the rule-type variants that can be used in the `FirewallRuleType` field of CreateFirewallRule and UpdateFirewallRule. Each returned FirewallRuleTypeDefinition identifies one variant + value combination -- for example, `FirewallAdvancedContentCategory` + `VIOLENCE_AND_HATE_SPEECH`, or `PartnerThreatProtection` + a partner-managed feed.
  *
  * The supported `RuleType` filter values are `FirewallAdvancedContentCategory`, `FirewallAdvancedThreatCategory`, `DnsThreatProtection`, and `PartnerThreatProtection`. When a returned definition's variant requires an external subscription (currently only `PartnerThreatProtection`), the response also includes a SubscriptionInfo identifying the Amazon Web Services Marketplace product that backs it; absence of `SubscriptionInfo` means the variant is fully managed by Amazon Web Services and requires no separate subscription.
  */
@@ -4424,8 +2929,8 @@ export const listFirewallRuleTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallRuleTypeDefinition
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFirewallRuleTypesRequest,
-  output: ListFirewallRuleTypesResponse,
+  input: __S(608, __c76, 0) as any as S.Schema<ListFirewallRuleTypesRequest>,
+  output: __S(612, __c76, 4) as any as S.Schema<ListFirewallRuleTypesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4460,8 +2965,8 @@ export const listOutpostResolvers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OutpostResolver
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListOutpostResolversRequest,
-  output: ListOutpostResolversResponse,
+  input: __S(616, __c77, 0) as any as S.Schema<ListOutpostResolversRequest>,
+  output: __S(618, __c77, 2) as any as S.Schema<ListOutpostResolversResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4500,8 +3005,8 @@ export const listResolverConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolverConfigsRequest,
-  output: ListResolverConfigsResponse,
+  input: __S(624, __c78, 0) as any as S.Schema<ListResolverConfigsRequest>,
+  output: __S(626, __c78, 2) as any as S.Schema<ListResolverConfigsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4540,8 +3045,8 @@ export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverDnssecConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolverDnssecConfigsRequest,
-  output: ListResolverDnssecConfigsResponse,
+  input: __S(632, __c79, 0) as any as S.Schema<ListResolverDnssecConfigsRequest>,
+  output: __S(634, __c79, 2) as any as S.Schema<ListResolverDnssecConfigsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4578,8 +3083,8 @@ export const listResolverEndpointIpAddresses: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IpAddressResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolverEndpointIpAddressesRequest,
-  output: ListResolverEndpointIpAddressesResponse,
+  input: __S(648, __c81, 0) as any as S.Schema<ListResolverEndpointIpAddressesRequest>,
+  output: __S(651, __c81, 3) as any as S.Schema<ListResolverEndpointIpAddressesResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidNextTokenException,
@@ -4615,8 +3120,8 @@ export const listResolverEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverEndpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolverEndpointsRequest,
-  output: ListResolverEndpointsResponse,
+  input: __S(656, __c82, 0) as any as S.Schema<ListResolverEndpointsRequest>,
+  output: __S(658, __c82, 2) as any as S.Schema<ListResolverEndpointsResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidNextTokenException,
@@ -4653,8 +3158,8 @@ export const listResolverQueryLogConfigAssociations: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   ResolverQueryLogConfigAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolverQueryLogConfigAssociationsRequest,
-  output: ListResolverQueryLogConfigAssociationsResponse,
+  input: __S(664, __c83, 0) as any as S.Schema<ListResolverQueryLogConfigAssociationsRequest>,
+  output: __S(666, __c83, 2) as any as S.Schema<ListResolverQueryLogConfigAssociationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4693,8 +3198,8 @@ export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverQueryLogConfig
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolverQueryLogConfigsRequest,
-  output: ListResolverQueryLogConfigsResponse,
+  input: __S(672, __c84, 0) as any as S.Schema<ListResolverQueryLogConfigsRequest>,
+  output: __S(674, __c84, 2) as any as S.Schema<ListResolverQueryLogConfigsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4731,8 +3236,8 @@ export const listResolverRuleAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverRuleAssociation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolverRuleAssociationsRequest,
-  output: ListResolverRuleAssociationsResponse,
+  input: __S(680, __c85, 0) as any as S.Schema<ListResolverRuleAssociationsRequest>,
+  output: __S(682, __c85, 2) as any as S.Schema<ListResolverRuleAssociationsResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidNextTokenException,
@@ -4768,8 +3273,8 @@ export const listResolverRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolverRule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResolverRulesRequest,
-  output: ListResolverRulesResponse,
+  input: __S(688, __c86, 0) as any as S.Schema<ListResolverRulesRequest>,
+  output: __S(690, __c86, 2) as any as S.Schema<ListResolverRulesResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidNextTokenException,
@@ -4806,8 +3311,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(696, __c87, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(697, __c87, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidNextTokenException,
@@ -4845,8 +3350,8 @@ export const putFirewallRuleGroupPolicy: API.OperationMethod<
   PutFirewallRuleGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutFirewallRuleGroupPolicyRequest,
-  output: PutFirewallRuleGroupPolicyResponse,
+  input: __S(704, __c88, 0) as any as S.Schema<PutFirewallRuleGroupPolicyRequest>,
+  output: __S(712, __c89, 0) as any as S.Schema<PutFirewallRuleGroupPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4877,8 +3382,8 @@ export const putResolverQueryLogConfigPolicy: API.OperationMethod<
   PutResolverQueryLogConfigPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResolverQueryLogConfigPolicyRequest,
-  output: PutResolverQueryLogConfigPolicyResponse,
+  input: __S(720, __c90, 0) as any as S.Schema<PutResolverQueryLogConfigPolicyRequest>,
+  output: __S(712, __c89, 0) as any as S.Schema<PutResolverQueryLogConfigPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4909,8 +3414,8 @@ export const putResolverRulePolicy: API.OperationMethod<
   PutResolverRulePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResolverRulePolicyRequest,
-  output: PutResolverRulePolicyResponse,
+  input: __S(728, __c91, 0) as any as S.Schema<PutResolverRulePolicyRequest>,
+  output: __S(712, __c89, 0) as any as S.Schema<PutResolverRulePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -4941,8 +3446,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(736, __c92, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(744, __c93, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -4973,8 +3478,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(752, __c94, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(744, __c93, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalServiceErrorException,
     InvalidParameterException,
@@ -5004,8 +3509,8 @@ export const updateFirewallConfig: API.OperationMethod<
   UpdateFirewallConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallConfigRequest,
-  output: UpdateFirewallConfigResponse,
+  input: __S(760, __c95, 0) as any as S.Schema<UpdateFirewallConfigRequest>,
+  output: __S(392, __c49, 0) as any as S.Schema<UpdateFirewallConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -5036,8 +3541,8 @@ export const updateFirewallDomains: API.OperationMethod<
   UpdateFirewallDomainsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallDomainsRequest,
-  output: UpdateFirewallDomainsResponse,
+  input: __S(768, __c96, 0) as any as S.Schema<UpdateFirewallDomainsRequest>,
+  output: __S(552, __c69, 0) as any as S.Schema<UpdateFirewallDomainsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5069,8 +3574,8 @@ export const updateFirewallRule: API.OperationMethod<
   UpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallRuleRequest,
-  output: UpdateFirewallRuleResponse,
+  input: __S(776, __c97, 0) as any as S.Schema<UpdateFirewallRuleRequest>,
+  output: __S(184, __c23, 0) as any as S.Schema<UpdateFirewallRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5101,8 +3606,8 @@ export const updateFirewallRuleGroupAssociation: API.OperationMethod<
   UpdateFirewallRuleGroupAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFirewallRuleGroupAssociationRequest,
-  output: UpdateFirewallRuleGroupAssociationResponse,
+  input: __S(784, __c98, 0) as any as S.Schema<UpdateFirewallRuleGroupAssociationRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<UpdateFirewallRuleGroupAssociationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5137,8 +3642,8 @@ export const updateOutpostResolver: API.OperationMethod<
   UpdateOutpostResolverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateOutpostResolverRequest,
-  output: UpdateOutpostResolverResponse,
+  input: __S(792, __c99, 0) as any as S.Schema<UpdateOutpostResolverRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<UpdateOutpostResolverResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5174,8 +3679,8 @@ export const updateResolverConfig: API.OperationMethod<
   UpdateResolverConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResolverConfigRequest,
-  output: UpdateResolverConfigResponse,
+  input: __S(800, __c100, 0) as any as S.Schema<UpdateResolverConfigRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<UpdateResolverConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -5209,8 +3714,8 @@ export const updateResolverDnssecConfig: API.OperationMethod<
   UpdateResolverDnssecConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResolverDnssecConfigRequest,
-  output: UpdateResolverDnssecConfigResponse,
+  input: __S(808, __c101, 0) as any as S.Schema<UpdateResolverDnssecConfigRequest>,
+  output: __S(480, __c60, 0) as any as S.Schema<UpdateResolverDnssecConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -5242,8 +3747,8 @@ export const updateResolverEndpoint: API.OperationMethod<
   UpdateResolverEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResolverEndpointRequest,
-  output: UpdateResolverEndpointResponse,
+  input: __S(818, __c102, 2) as any as S.Schema<UpdateResolverEndpointRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<UpdateResolverEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -5277,8 +3782,8 @@ export const updateResolverRule: API.OperationMethod<
   UpdateResolverRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResolverRuleRequest,
-  output: UpdateResolverRuleResponse,
+  input: __S(825, __c103, 1) as any as S.Schema<UpdateResolverRuleRequest>,
+  output: __S(280, __c35, 0) as any as S.Schema<UpdateResolverRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceErrorException,
@@ -5293,3 +3798,1645 @@ export const updateResolverRule: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateResolverRule",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          FirewallRuleGroupId: S.String,
+          VpcId: S.String,
+          Priority: S.Number,
+          Name: S.String,
+          MutationProtection: S.optional(S.String),
+          Tags: S.optional(__S(9, __c1, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AssociateFirewallRuleGroupRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Arn: S.optional(S.String),
+          FirewallRuleGroupId: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          Name: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          MutationProtection: S.optional(S.String),
+          ManagedOwnerName: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          CreatorRequestId: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+          ModificationTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallRuleGroupAssociation" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallRuleGroupAssociation: S.optional(__S(16, __c2, 0)) }),
+      ).annotate({ identifier: "AssociateFirewallRuleGroupResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverEndpointId: S.String, IpAddress: __S(64, __c8, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateResolverEndpointIpAddressRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          CreatorRequestId: S.optional(S.String),
+          Arn: S.optional(S.String),
+          Name: S.optional(S.String),
+          SecurityGroupIds: S.optional(__S(40, __c5, 0)),
+          Direction: S.optional(S.String),
+          IpAddressCount: S.optional(S.Number),
+          HostVPCId: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+          ModificationTime: S.optional(S.String),
+          OutpostArn: S.optional(S.String),
+          PreferredInstanceType: S.optional(S.String),
+          ResolverEndpointType: S.optional(S.String),
+          Protocols: S.optional(__S(48, __c6, 0)),
+          RniEnhancedMetricsEnabled: S.optional(S.Boolean),
+          TargetNameServerMetricsEnabled: S.optional(S.Boolean),
+          Dns64Enabled: S.optional(S.Boolean),
+          Ipv6InternetAccessEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ResolverEndpoint" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ResolverEndpoint: S.optional(__S(49, __c6, 1)) })).annotate(
+        { identifier: "AssociateResolverEndpointIpAddressResponse" },
+      );
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          IpId: S.optional(S.String),
+          SubnetId: S.optional(S.String),
+          Ip: S.optional(S.String),
+          Ipv6: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IpAddressUpdate" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverQueryLogConfigId: S.String, ResourceId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateResolverQueryLogConfigRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverQueryLogConfigAssociation: S.optional(__S(88, __c11, 0)) }),
+      ).annotate({ identifier: "AssociateResolverQueryLogConfigResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          ResolverQueryLogConfigId: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          Status: S.optional(S.String),
+          Error: S.optional(S.String),
+          ErrorMessage: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolverQueryLogConfigAssociation" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverRuleId: S.String, Name: S.optional(S.String), VPCId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateResolverRuleRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverRuleAssociation: S.optional(__S(112, __c14, 0)) }),
+      ).annotate({ identifier: "AssociateResolverRuleResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          ResolverRuleId: S.optional(S.String),
+          Name: S.optional(S.String),
+          VPCId: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolverRuleAssociation" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreatorRequestId: S.String,
+          FirewallRuleGroupId: S.String,
+          FirewallDomainListId: S.optional(S.String),
+          Priority: S.Number,
+          Action: S.String,
+          BlockResponse: S.optional(S.String),
+          BlockOverrideDomain: S.optional(S.String),
+          BlockOverrideDnsType: S.optional(S.String),
+          BlockOverrideTtl: S.optional(S.Number),
+          Name: S.String,
+          FirewallDomainRedirectionAction: S.optional(S.String),
+          Qtype: S.optional(S.String),
+          DnsThreatProtection: S.optional(S.String),
+          ConfidenceThreshold: S.optional(S.String),
+          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+        }),
+      ).annotate({ identifier: "CreateFirewallRuleEntry" });
+    case 1:
+      return S.Array(__S(120, __c15, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ CreateFirewallRuleEntries: __S(121, __c15, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchCreateFirewallRuleRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRule: S.optional(__S(120, __c15, 0)),
+          Code: S.optional(S.String),
+          Message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchCreateFirewallRuleError" });
+    case 4:
+      return S.Array(__S(123, __c15, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          CreatedFirewallRules: S.optional(__S(136, __c17, 0)),
+          CreateErrors: S.optional(__S(124, __c15, 4)),
+        }),
+      ).annotate({ identifier: "BatchCreateFirewallRuleResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Partner: S.String })).annotate({
+        identifier: "PartnerThreatProtectionConfig",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ Category: S.String })).annotate({
+        identifier: "FirewallAdvancedContentCategoryConfig",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ Value: S.String, ConfidenceThreshold: S.String })).annotate(
+        { identifier: "DnsThreatProtectionRuleTypeConfig" },
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          PartnerThreatProtection: S.optional(__S(128, __c16, 0)),
+          FirewallAdvancedContentCategory: S.optional(__S(129, __c16, 1)),
+          FirewallAdvancedThreatCategory: S.optional(__S(129, __c16, 1)),
+          DnsThreatProtection: S.optional(__S(130, __c16, 2)),
+        }),
+      ).annotate({ identifier: "FirewallRuleType" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleGroupId: S.optional(S.String),
+          FirewallDomainListId: S.optional(S.String),
+          FirewallThreatProtectionId: S.optional(S.String),
+          Name: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          Action: S.optional(S.String),
+          BlockResponse: S.optional(S.String),
+          BlockOverrideDomain: S.optional(S.String),
+          BlockOverrideDnsType: S.optional(S.String),
+          BlockOverrideTtl: S.optional(S.Number),
+          CreatorRequestId: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+          ModificationTime: S.optional(S.String),
+          FirewallDomainRedirectionAction: S.optional(S.String),
+          Qtype: S.optional(S.String),
+          DnsThreatProtection: S.optional(S.String),
+          ConfidenceThreshold: S.optional(S.String),
+          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallRule" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(132, __c16, 4));
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleGroupId: S.String,
+          FirewallDomainListId: S.optional(S.String),
+          FirewallThreatProtectionId: S.optional(S.String),
+          Qtype: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteFirewallRuleEntry" });
+    case 1:
+      return S.Array(__S(144, __c18, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ DeleteFirewallRuleEntries: __S(145, __c18, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchDeleteFirewallRuleRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRule: S.optional(__S(144, __c18, 0)),
+          Code: S.optional(S.String),
+          Message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchDeleteFirewallRuleError" });
+    case 4:
+      return S.Array(__S(147, __c18, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          DeletedFirewallRules: S.optional(__S(136, __c17, 0)),
+          DeleteErrors: S.optional(__S(148, __c18, 4)),
+        }),
+      ).annotate({ identifier: "BatchDeleteFirewallRuleResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleGroupId: S.String,
+          FirewallDomainListId: S.optional(S.String),
+          FirewallThreatProtectionId: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          Action: S.optional(S.String),
+          BlockResponse: S.optional(S.String),
+          BlockOverrideDomain: S.optional(S.String),
+          BlockOverrideDnsType: S.optional(S.String),
+          BlockOverrideTtl: S.optional(S.Number),
+          Name: S.optional(S.String),
+          FirewallDomainRedirectionAction: S.optional(S.String),
+          Qtype: S.optional(S.String),
+          DnsThreatProtection: S.optional(S.String),
+          ConfidenceThreshold: S.optional(S.String),
+          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+        }),
+      ).annotate({ identifier: "UpdateFirewallRuleEntry" });
+    case 1:
+      return S.Array(__S(152, __c19, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ UpdateFirewallRuleEntries: __S(153, __c19, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchUpdateFirewallRuleRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRule: S.optional(__S(152, __c19, 0)),
+          Code: S.optional(S.String),
+          Message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchUpdateFirewallRuleError" });
+    case 4:
+      return S.Array(__S(155, __c19, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          UpdatedFirewallRules: S.optional(__S(136, __c17, 0)),
+          UpdateErrors: S.optional(__S(156, __c19, 4)),
+        }),
+      ).annotate({ identifier: "BatchUpdateFirewallRuleResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          Name: S.String,
+          Tags: S.optional(__S(9, __c1, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateFirewallDomainListRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Arn: S.optional(S.String),
+          Name: S.optional(S.String),
+          DomainCount: S.optional(S.Number),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          ManagedOwnerName: S.optional(S.String),
+          CreatorRequestId: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+          ModificationTime: S.optional(S.String),
+          Category: S.optional(S.String),
+          ManagedListType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallDomainList" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ FirewallDomainList: S.optional(__S(168, __c21, 0)) }),
+      ).annotate({ identifier: "CreateFirewallDomainListResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          FirewallRuleGroupId: S.String,
+          FirewallDomainListId: S.optional(S.String),
+          Priority: S.Number,
+          Action: S.String,
+          BlockResponse: S.optional(S.String),
+          BlockOverrideDomain: S.optional(S.String),
+          BlockOverrideDnsType: S.optional(S.String),
+          BlockOverrideTtl: S.optional(S.Number),
+          Name: S.String,
+          FirewallDomainRedirectionAction: S.optional(S.String),
+          Qtype: S.optional(S.String),
+          DnsThreatProtection: S.optional(S.String),
+          ConfidenceThreshold: S.optional(S.String),
+          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateFirewallRuleRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ FirewallRule: S.optional(__S(132, __c16, 4)) })).annotate({
+        identifier: "CreateFirewallRuleResponse",
+      });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          Name: S.String,
+          Tags: S.optional(__S(9, __c1, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateFirewallRuleGroupRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Arn: S.optional(S.String),
+          Name: S.optional(S.String),
+          RuleCount: S.optional(S.Number),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          OwnerId: S.optional(S.String),
+          CreatorRequestId: S.optional(S.String),
+          ShareStatus: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+          ModificationTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallRuleGroup" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ FirewallRuleGroup: S.optional(__S(200, __c25, 0)) }),
+      ).annotate({ identifier: "CreateFirewallRuleGroupResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreatorRequestId: S.String,
+          Name: S.String,
+          InstanceCount: S.optional(S.Number),
+          PreferredInstanceType: S.String,
+          OutpostArn: S.String,
+          Tags: S.optional(__S(9, __c1, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateOutpostResolverRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+          ModificationTime: S.optional(S.String),
+          CreatorRequestId: S.optional(S.String),
+          Id: S.optional(S.String),
+          InstanceCount: S.optional(S.Number),
+          PreferredInstanceType: S.optional(S.String),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          OutpostArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OutpostResolver" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ OutpostResolver: S.optional(__S(216, __c27, 0)) }),
+      ).annotate({ identifier: "CreateOutpostResolverResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SubnetId: S.String, Ip: S.optional(S.String), Ipv6: S.optional(S.String) }),
+      ).annotate({ identifier: "IpAddressRequest" });
+    case 1:
+      return S.Array(__S(232, __c29, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CreatorRequestId: S.String,
+          Name: S.optional(S.String),
+          SecurityGroupIds: __S(40, __c5, 0),
+          Direction: S.String,
+          IpAddresses: __S(233, __c29, 1),
+          OutpostArn: S.optional(S.String),
+          PreferredInstanceType: S.optional(S.String),
+          Tags: S.optional(__S(9, __c1, 1)),
+          ResolverEndpointType: S.optional(S.String),
+          Protocols: S.optional(__S(48, __c6, 0)),
+          RniEnhancedMetricsEnabled: S.optional(S.Boolean),
+          TargetNameServerMetricsEnabled: S.optional(S.Boolean),
+          Dns64Enabled: S.optional(S.Boolean),
+          Ipv6InternetAccessEnabled: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateResolverEndpointRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          DestinationArn: S.String,
+          CreatorRequestId: S.String.pipe(T.IdempotencyToken()),
+          Tags: S.optional(__S(9, __c1, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateResolverQueryLogConfigRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverQueryLogConfig: S.optional(__S(256, __c32, 0)) }),
+      ).annotate({ identifier: "CreateResolverQueryLogConfigResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          OwnerId: S.optional(S.String),
+          Status: S.optional(S.String),
+          ShareStatus: S.optional(S.String),
+          AssociationCount: S.optional(S.Number),
+          Arn: S.optional(S.String),
+          Name: S.optional(S.String),
+          DestinationArn: S.optional(S.String),
+          CreatorRequestId: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolverQueryLogConfig" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreatorRequestId: S.String,
+          Name: S.optional(S.String),
+          RuleType: S.String,
+          DomainName: S.optional(S.String),
+          TargetIps: S.optional(__S(273, __c34, 1)),
+          ResolverEndpointId: S.optional(S.String),
+          Tags: S.optional(__S(9, __c1, 1)),
+          DelegationRecord: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateResolverRuleRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Ip: S.optional(S.String),
+          Port: S.optional(S.Number),
+          Ipv6: S.optional(S.String),
+          Protocol: S.optional(S.String),
+          ServerNameIndication: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TargetAddress" });
+    case 1:
+      return S.Array(__S(272, __c34, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          CreatorRequestId: S.optional(S.String),
+          Arn: S.optional(S.String),
+          DomainName: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          RuleType: S.optional(S.String),
+          Name: S.optional(S.String),
+          TargetIps: S.optional(__S(273, __c34, 1)),
+          ResolverEndpointId: S.optional(S.String),
+          OwnerId: S.optional(S.String),
+          ShareStatus: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+          ModificationTime: S.optional(S.String),
+          DelegationRecord: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolverRule" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ResolverRule: S.optional(__S(274, __c34, 2)) })).annotate({
+        identifier: "CreateResolverRuleResponse",
+      });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallDomainListId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteFirewallDomainListRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleGroupId: S.String,
+          FirewallDomainListId: S.optional(S.String),
+          FirewallThreatProtectionId: S.optional(S.String),
+          Qtype: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteFirewallRuleRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallRuleGroupId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteFirewallRuleGroupRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Id: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteOutpostResolverRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverEndpointId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteResolverEndpointRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverQueryLogConfigId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteResolverQueryLogConfigRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverRuleId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteResolverRuleRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallRuleGroupAssociationId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateFirewallRuleGroupRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverEndpointId: S.String, IpAddress: __S(64, __c8, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateResolverEndpointIpAddressRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverQueryLogConfigId: S.String, ResourceId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateResolverQueryLogConfigRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VPCId: S.String, ResolverRuleId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateResolverRuleRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetFirewallConfigRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          OwnerId: S.optional(S.String),
+          FirewallFailOpen: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallConfig" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ FirewallConfig: S.optional(__S(384, __c48, 0)) })).annotate(
+        { identifier: "GetFirewallConfigResponse" },
+      );
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallDomainListId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetFirewallDomainListRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallRuleGroupId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetFirewallRuleGroupRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FirewallRuleGroupAssociationId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetFirewallRuleGroupAssociationRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Arn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetFirewallRuleGroupPolicyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ FirewallRuleGroupPolicy: S.optional(S.String) })).annotate({
+        identifier: "GetFirewallRuleGroupPolicyResponse",
+      });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Id: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetOutpostResolverRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResolverConfigRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          OwnerId: S.optional(S.String),
+          AutodefinedReverse: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolverConfig" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ResolverConfig: S.optional(__S(448, __c56, 0)) })).annotate(
+        { identifier: "GetResolverConfigResponse" },
+      );
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResolverDnssecConfigRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          OwnerId: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          ValidationStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolverDnssecConfig" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverDNSSECConfig: S.optional(__S(472, __c59, 0)) }),
+      ).annotate({ identifier: "GetResolverDnssecConfigResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverEndpointId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResolverEndpointRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverQueryLogConfigId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResolverQueryLogConfigRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverQueryLogConfigAssociationId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResolverQueryLogConfigAssociationRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Arn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResolverQueryLogConfigPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ResolverQueryLogConfigPolicy: S.optional(S.String) }),
+      ).annotate({ identifier: "GetResolverQueryLogConfigPolicyResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverRuleId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResolverRuleRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResolverRuleAssociationId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResolverRuleAssociationRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Arn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResolverRulePolicyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ ResolverRulePolicy: S.optional(S.String) })).annotate({
+        identifier: "GetResolverRulePolicyResponse",
+      });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallDomainListId: S.String,
+          Operation: S.String,
+          DomainFileUrl: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ImportFirewallDomainsRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ImportFirewallDomainsResponse" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListFirewallConfigsRequest" });
+    case 1:
+      return S.Array(__S(384, __c48, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          FirewallConfigs: S.optional(__S(561, __c70, 1)),
+        }),
+      ).annotate({ identifier: "ListFirewallConfigsResponse" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListFirewallDomainListsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Arn: S.optional(S.String),
+          Name: S.optional(S.String),
+          CreatorRequestId: S.optional(S.String),
+          ManagedOwnerName: S.optional(S.String),
+          ManagedListType: S.optional(S.String),
+          Category: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallDomainListMetadata" });
+    case 2:
+      return S.Array(__S(569, __c71, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          FirewallDomainLists: S.optional(__S(570, __c71, 2)),
+        }),
+      ).annotate({ identifier: "ListFirewallDomainListsResponse" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallDomainListId: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFirewallDomainsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), Domains: S.optional(__S(40, __c5, 0)) }),
+      ).annotate({ identifier: "ListFirewallDomainsResponse" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleGroupId: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          Status: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFirewallRuleGroupAssociationsRequest" });
+    case 1:
+      return S.Array(__S(16, __c2, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          FirewallRuleGroupAssociations: S.optional(__S(585, __c73, 1)),
+        }),
+      ).annotate({ identifier: "ListFirewallRuleGroupAssociationsResponse" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListFirewallRuleGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Arn: S.optional(S.String),
+          Name: S.optional(S.String),
+          OwnerId: S.optional(S.String),
+          CreatorRequestId: S.optional(S.String),
+          ShareStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallRuleGroupMetadata" });
+    case 2:
+      return S.Array(__S(593, __c74, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          FirewallRuleGroups: S.optional(__S(594, __c74, 2)),
+        }),
+      ).annotate({ identifier: "ListFirewallRuleGroupsResponse" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleGroupId: S.String,
+          Priority: S.optional(S.Number),
+          Action: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFirewallRulesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          FirewallRules: S.optional(__S(136, __c17, 0)),
+        }),
+      ).annotate({ identifier: "ListFirewallRulesResponse" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RuleType: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFirewallRuleTypesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ VendorName: S.optional(S.String), ProductId: S.optional(S.String) }),
+      ).annotate({ identifier: "SubscriptionInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          RuleType: S.optional(S.String),
+          Value: S.optional(S.String),
+          DisplayName: S.optional(S.String),
+          Description: S.optional(S.String),
+          SubscriptionInfo: S.optional(__S(609, __c76, 1)),
+        }),
+      ).annotate({ identifier: "FirewallRuleTypeDefinition" });
+    case 3:
+      return S.Array(__S(610, __c76, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleTypes: S.optional(__S(611, __c76, 3)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListFirewallRuleTypesResponse" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          OutpostArn: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListOutpostResolversRequest" });
+    case 1:
+      return S.Array(__S(216, __c27, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          OutpostResolvers: S.optional(__S(617, __c77, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListOutpostResolversResponse" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListResolverConfigsRequest" });
+    case 1:
+      return S.Array(__S(448, __c56, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ResolverConfigs: S.optional(__S(625, __c78, 1)),
+        }),
+      ).annotate({ identifier: "ListResolverConfigsResponse" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(641, __c80, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResolverDnssecConfigsRequest" });
+    case 1:
+      return S.Array(__S(472, __c59, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ResolverDnssecConfigs: S.optional(__S(633, __c79, 1)),
+        }),
+      ).annotate({ identifier: "ListResolverDnssecConfigsResponse" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(40, __c5, 0)) }),
+      ).annotate({ identifier: "Filter" });
+    case 1:
+      return S.Array(__S(640, __c80, 0));
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResolverEndpointId: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResolverEndpointIpAddressesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          IpId: S.optional(S.String),
+          SubnetId: S.optional(S.String),
+          Ip: S.optional(S.String),
+          Ipv6: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          CreationTime: S.optional(S.String),
+          ModificationTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IpAddressResponse" });
+    case 2:
+      return S.Array(__S(649, __c81, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          IpAddresses: S.optional(__S(650, __c81, 2)),
+        }),
+      ).annotate({ identifier: "ListResolverEndpointIpAddressesResponse" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(641, __c80, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResolverEndpointsRequest" });
+    case 1:
+      return S.Array(__S(49, __c6, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          ResolverEndpoints: S.optional(__S(657, __c82, 1)),
+        }),
+      ).annotate({ identifier: "ListResolverEndpointsResponse" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(641, __c80, 1)),
+          SortBy: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResolverQueryLogConfigAssociationsRequest" });
+    case 1:
+      return S.Array(__S(88, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          TotalCount: S.optional(S.Number),
+          TotalFilteredCount: S.optional(S.Number),
+          ResolverQueryLogConfigAssociations: S.optional(__S(665, __c83, 1)),
+        }),
+      ).annotate({ identifier: "ListResolverQueryLogConfigAssociationsResponse" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(641, __c80, 1)),
+          SortBy: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResolverQueryLogConfigsRequest" });
+    case 1:
+      return S.Array(__S(256, __c32, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          TotalCount: S.optional(S.Number),
+          TotalFilteredCount: S.optional(S.Number),
+          ResolverQueryLogConfigs: S.optional(__S(673, __c84, 1)),
+        }),
+      ).annotate({ identifier: "ListResolverQueryLogConfigsResponse" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(641, __c80, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResolverRuleAssociationsRequest" });
+    case 1:
+      return S.Array(__S(112, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          ResolverRuleAssociations: S.optional(__S(681, __c85, 1)),
+        }),
+      ).annotate({ identifier: "ListResolverRuleAssociationsResponse" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(641, __c80, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResolverRulesRequest" });
+    case 1:
+      return S.Array(__S(274, __c34, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          ResolverRules: S.optional(__S(689, __c86, 1)),
+        }),
+      ).annotate({ identifier: "ListResolverRulesResponse" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Tags: S.optional(__S(9, __c1, 1)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListTagsForResourceResponse" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Arn: S.String, FirewallRuleGroupPolicy: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutFirewallRuleGroupPolicyRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ReturnValue: S.optional(S.Boolean) })).annotate({
+        identifier: "PutFirewallRuleGroupPolicyResponse",
+      });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Arn: S.String, ResolverQueryLogConfigPolicy: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutResolverQueryLogConfigPolicyRequest" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Arn: S.String, ResolverRulePolicy: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutResolverRulePolicyRequest" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, Tags: __S(9, __c1, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(40, __c5, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceId: S.String, FirewallFailOpen: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateFirewallConfigRequest" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallDomainListId: S.String,
+          Operation: S.String,
+          Domains: __S(40, __c5, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFirewallDomainsRequest" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleGroupId: S.String,
+          FirewallDomainListId: S.optional(S.String),
+          FirewallThreatProtectionId: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          Action: S.optional(S.String),
+          BlockResponse: S.optional(S.String),
+          BlockOverrideDomain: S.optional(S.String),
+          BlockOverrideDnsType: S.optional(S.String),
+          BlockOverrideTtl: S.optional(S.Number),
+          Name: S.optional(S.String),
+          FirewallDomainRedirectionAction: S.optional(S.String),
+          Qtype: S.optional(S.String),
+          DnsThreatProtection: S.optional(S.String),
+          ConfidenceThreshold: S.optional(S.String),
+          FirewallRuleType: S.optional(__S(131, __c16, 3)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFirewallRuleRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallRuleGroupAssociationId: S.String,
+          Priority: S.optional(S.Number),
+          MutationProtection: S.optional(S.String),
+          Name: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFirewallRuleGroupAssociationRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          Name: S.optional(S.String),
+          InstanceCount: S.optional(S.Number),
+          PreferredInstanceType: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateOutpostResolverRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceId: S.String, AutodefinedReverseFlag: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateResolverConfigRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceId: S.String, Validation: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateResolverDnssecConfigRequest" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ IpId: S.String, Ipv6: S.String })).annotate({
+        identifier: "UpdateIpAddress",
+      });
+    case 1:
+      return S.Array(__S(816, __c102, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ResolverEndpointId: S.String,
+          Name: S.optional(S.String),
+          ResolverEndpointType: S.optional(S.String),
+          UpdateIpAddresses: S.optional(__S(817, __c102, 1)),
+          Protocols: S.optional(__S(48, __c6, 0)),
+          RniEnhancedMetricsEnabled: S.optional(S.Boolean),
+          TargetNameServerMetricsEnabled: S.optional(S.Boolean),
+          Dns64Enabled: S.optional(S.Boolean),
+          Ipv6InternetAccessEnabled: S.optional(S.Boolean),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateResolverEndpointRequest" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          TargetIps: S.optional(__S(273, __c34, 1)),
+          ResolverEndpointId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResolverRuleConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ResolverRuleId: S.String, Config: __S(824, __c103, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateResolverRuleRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

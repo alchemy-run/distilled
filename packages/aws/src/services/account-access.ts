@@ -1,236 +1,170 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "Account Access", serviceShapeName: "AWSAccountAccess" });
-const auth = T.AwsAuthSigv4({ name: "account-access" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "Account Access",
+  serviceShapeName: "AWSAccountAccess",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "account-access" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-05-10");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver(
+  (p, _) => {
+    const { UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+      }
+      return e(Endpoint);
     }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true) {
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true) {
+            return e(
+              `https://account-access-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
           return e(
-            `https://account-access-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            `https://account-access.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
-        return e(
-          `https://account-access.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-        );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+  '{"url":"https://account-access.{R}.api.aws","properties":{},"headers":{}}',
+  [
+    "cn-north-1",
+    "cn-northwest-1",
+    "aws-cn-global",
+    "us-iso-east-1",
+    "us-iso-west-1",
+    "aws-iso-global",
+    "us-isob-east-1",
+    "aws-iso-b-global",
+    "aws-iso-f-global",
+    "us-isof-east-1",
+    "us-isof-south-1",
+    "eusc-de-east-1",
+  ],
+);
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class AlreadyCreatedException
   extends /*@__PURE__*/ S.TaggedError<AlreadyCreatedException>()("AlreadyCreatedException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type IdentityCenterInstanceArn = string;
 export interface IdentityCenter {
   instanceArn: string;
 }
-export const IdentityCenter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ instanceArn: S.String }),
-).annotate({ identifier: "IdentityCenter" }) as any as S.Schema<IdentityCenter>;
 export type IdentitySource = { identityCenter: IdentityCenter };
-export const IdentitySource = /*@__PURE__*/ S.Union([S.Struct({ identityCenter: IdentityCenter })]);
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateApplicationRequest {
   identitySource: IdentitySource;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identitySource: IdentitySource, tags: S.optional(TagsMap) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 export type ApplicationArn = string;
 export interface CreateApplicationResponse {
   applicationArn: string;
 }
-export const CreateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ applicationArn: S.String }),
-).annotate({
-  identifier: "CreateApplicationResponse",
-}) as any as S.Schema<CreateApplicationResponse>;
 export type UserId = string;
 export type GroupId = string;
 export type IdentityCenterPrincipal =
   | { userId: string; groupId?: never }
   | { userId?: never; groupId: string };
-export const IdentityCenterPrincipal = /*@__PURE__*/ S.Union([
-  S.Struct({ userId: S.String }),
-  S.Struct({ groupId: S.String }),
-]);
 export type Principal = { identityCenter: IdentityCenterPrincipal };
-export const Principal = /*@__PURE__*/ S.Union([
-  S.Struct({ identityCenter: IdentityCenterPrincipal }),
-]);
 export type RoleArn = string;
 export interface PrincipalRoleEntitlement {
   principal: Principal;
   roleArn: string;
 }
-export const PrincipalRoleEntitlement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ principal: Principal, roleArn: S.String }),
-).annotate({ identifier: "PrincipalRoleEntitlement" }) as any as S.Schema<PrincipalRoleEntitlement>;
 export type Entitlement = { principalRole: PrincipalRoleEntitlement };
-export const Entitlement = /*@__PURE__*/ S.Union([
-  S.Struct({ principalRole: PrincipalRoleEntitlement }),
-]);
 export interface CreateEntitlementRequest {
   applicationArn: string;
   entitlement: Entitlement;
 }
-export const CreateEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ applicationArn: S.String, entitlement: Entitlement }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/entitlements" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CreateEntitlementRequest" }) as any as S.Schema<CreateEntitlementRequest>;
 export interface CreateEntitlementResponse {
   entitlementId: string;
 }
-export const CreateEntitlementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ entitlementId: S.String }),
-).annotate({
-  identifier: "CreateEntitlementResponse",
-}) as any as S.Schema<CreateEntitlementResponse>;
 export interface DeleteApplicationRequest {
   applicationArn: string;
 }
-export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ applicationArn: S.String.pipe(T.HttpLabel("applicationArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/applications/{applicationArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteApplicationResponse",
-}) as any as S.Schema<DeleteApplicationResponse>;
 export interface DeleteEntitlementRequest {
   applicationArn: string;
   entitlementId: string;
 }
-export const DeleteEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.String.pipe(T.HttpQuery("applicationArn")),
-    entitlementId: S.String.pipe(T.HttpLabel("entitlementId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/entitlements/{entitlementId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "DeleteEntitlementRequest" }) as any as S.Schema<DeleteEntitlementRequest>;
 export interface DeleteEntitlementResponse {}
-export const DeleteEntitlementResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteEntitlementResponse",
-}) as any as S.Schema<DeleteEntitlementResponse>;
 export interface GetApplicationRequest {
   applicationArn: string;
 }
-export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ applicationArn: S.String.pipe(T.HttpLabel("applicationArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications/{applicationArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 export type IdentityCenterApplicationArn = string;
 export interface IdentityCenterDetails {
   instanceArn: string;
   applicationArn?: string;
 }
-export const IdentityCenterDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ instanceArn: S.String, applicationArn: S.optional(S.String) }),
-).annotate({ identifier: "IdentityCenterDetails" }) as any as S.Schema<IdentityCenterDetails>;
 export type IdentitySourceDetails = { identityCenter: IdentityCenterDetails };
-export const IdentitySourceDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ identityCenter: IdentityCenterDetails }),
-]);
 export type Status =
   | "CREATE_IN_PROGRESS"
   | "ACTIVE"
@@ -238,23 +172,16 @@ export type Status =
   | "CREATE_FAILED"
   | "DELETE_FAILED"
   | (string & {});
-export const Status = S.String;
-
 export type ErrorCode =
   | "AUTHORIZATION_ERROR"
   | "RESOURCE_NOT_FOUND_ERROR"
   | "SERVICE_QUOTA_EXCEEDED_ERROR"
   | "INTERNAL_SERVICE_ERROR"
   | (string & {});
-export const ErrorCode = S.String;
-
 export interface ErrorDetails {
   code: ErrorCode;
   message: string;
 }
-export const ErrorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ code: ErrorCode, message: S.String }),
-).annotate({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
 export interface GetApplicationResponse {
   identitySource: IdentitySourceDetails;
   status: Status;
@@ -264,36 +191,10 @@ export interface GetApplicationResponse {
   tags?: { [key: string]: string | undefined };
   error?: ErrorDetails;
 }
-export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identitySource: IdentitySourceDetails,
-    status: Status,
-    tenantId: S.optional(S.String),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    tags: S.optional(TagsMap),
-    error: S.optional(ErrorDetails),
-  }),
-).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 export interface GetEntitlementRequest {
   applicationArn: string;
   entitlementId: string;
 }
-export const GetEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.String.pipe(T.HttpQuery("applicationArn")),
-    entitlementId: S.String.pipe(T.HttpLabel("entitlementId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/entitlements/{entitlementId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetEntitlementRequest" }) as any as S.Schema<GetEntitlementRequest>;
 export type Account = string;
 export interface PrincipalRoleEntitlementDetails {
   principal: Principal;
@@ -301,203 +202,80 @@ export interface PrincipalRoleEntitlementDetails {
   account: string;
   accountName?: string;
 }
-export const PrincipalRoleEntitlementDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principal: Principal,
-    roleArn: S.String,
-    account: S.String,
-    accountName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PrincipalRoleEntitlementDetails",
-}) as any as S.Schema<PrincipalRoleEntitlementDetails>;
 export type EntitlementDetails = { principalRole: PrincipalRoleEntitlementDetails };
-export const EntitlementDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ principalRole: PrincipalRoleEntitlementDetails }),
-]);
 export interface GetEntitlementResponse {
   applicationArn: string;
   entitlementId: string;
   entitlement: EntitlementDetails;
   createdAt: Date;
 }
-export const GetEntitlementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.String,
-    entitlementId: S.String,
-    entitlement: EntitlementDetails,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "GetEntitlementResponse" }) as any as S.Schema<GetEntitlementResponse>;
 export interface ListApplicationsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/applications-list" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 export interface ApplicationSummary {
   applicationArn: string;
   tenantId?: string;
   createdAt: Date;
   updatedAt: Date;
 }
-export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.String,
-    tenantId: S.optional(S.String),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "ApplicationSummary" }) as any as S.Schema<ApplicationSummary>;
 export type ApplicationList = ApplicationSummary[];
-export const ApplicationList = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsResponse {
   applications: ApplicationSummary[];
   nextToken?: string;
 }
-export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ applications: ApplicationList, nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 export type IdentityCenterPrincipalFilter =
   | { userId: string; groupId?: never }
   | { userId?: never; groupId: string };
-export const IdentityCenterPrincipalFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ userId: S.String }),
-  S.Struct({ groupId: S.String }),
-]);
 export type PrincipalFilter = { identityCenter: IdentityCenterPrincipalFilter };
-export const PrincipalFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ identityCenter: IdentityCenterPrincipalFilter }),
-]);
 export interface PrincipalRoleEntitlementFilter {
   principal?: PrincipalFilter;
   roleArn?: string;
   account?: string;
 }
-export const PrincipalRoleEntitlementFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principal: S.optional(PrincipalFilter),
-    roleArn: S.optional(S.String),
-    account: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PrincipalRoleEntitlementFilter",
-}) as any as S.Schema<PrincipalRoleEntitlementFilter>;
 export interface EntitlementFilter {
   principalRole?: PrincipalRoleEntitlementFilter;
 }
-export const EntitlementFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ principalRole: S.optional(PrincipalRoleEntitlementFilter) }),
-).annotate({ identifier: "EntitlementFilter" }) as any as S.Schema<EntitlementFilter>;
 export interface ListEntitlementsRequest {
   applicationArn: string;
   filter: EntitlementFilter;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationArn: S.String,
-    filter: EntitlementFilter,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/entitlements-list" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListEntitlementsRequest" }) as any as S.Schema<ListEntitlementsRequest>;
 export interface PrincipalRoleEntitlementSummary {
   principal: Principal;
   roleArn: string;
   account: string;
   accountName?: string;
 }
-export const PrincipalRoleEntitlementSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    principal: Principal,
-    roleArn: S.String,
-    account: S.String,
-    accountName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PrincipalRoleEntitlementSummary",
-}) as any as S.Schema<PrincipalRoleEntitlementSummary>;
 export type EntitlementSummary = { principalRole: PrincipalRoleEntitlementSummary };
-export const EntitlementSummary = /*@__PURE__*/ S.Union([
-  S.Struct({ principalRole: PrincipalRoleEntitlementSummary }),
-]);
 export interface EntitlementsListMember {
   entitlementId: string;
   entitlement: EntitlementSummary;
   createdAt: Date;
 }
-export const EntitlementsListMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    entitlementId: S.String,
-    entitlement: EntitlementSummary,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "EntitlementsListMember" }) as any as S.Schema<EntitlementsListMember>;
 export type EntitlementsList = EntitlementsListMember[];
-export const EntitlementsList = /*@__PURE__*/ S.Array(EntitlementsListMember);
 export interface ListEntitlementsResponse {
   entitlements: EntitlementsListMember[];
   nextToken?: string;
 }
-export const ListEntitlementsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ entitlements: EntitlementsList, nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListEntitlementsResponse" }) as any as S.Schema<ListEntitlementsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagsMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type CreateApplicationError =
   | AccessDeniedException
   | AlreadyCreatedException
@@ -515,8 +293,8 @@ export const createApplication: API.OperationMethod<
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResponse,
+  input: __S(90, __c11, 2) as any as S.Schema<CreateApplicationRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<CreateApplicationResponse>,
   errors: [
     AccessDeniedException,
     AlreadyCreatedException,
@@ -548,8 +326,8 @@ export const createEntitlement: API.OperationMethod<
   CreateEntitlementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEntitlementRequest,
-  output: CreateEntitlementResponse,
+  input: __S(106, __c13, 2) as any as S.Schema<CreateEntitlementRequest>,
+  output: __S(107, __c13, 3) as any as S.Schema<CreateEntitlementResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -581,8 +359,8 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -613,8 +391,8 @@ export const deleteEntitlement: API.OperationMethod<
   DeleteEntitlementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEntitlementRequest,
-  output: DeleteEntitlementResponse,
+  input: __S(16, __c2, 0) as any as S.Schema<DeleteEntitlementRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteEntitlementResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -644,8 +422,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetApplicationRequest,
-  output: GetApplicationResponse,
+  input: __S(24, __c3, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<GetApplicationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -674,8 +452,8 @@ export const getEntitlement: API.OperationMethod<
   GetEntitlementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetEntitlementRequest,
-  output: GetEntitlementResponse,
+  input: __S(32, __c4, 0) as any as S.Schema<GetEntitlementRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<GetEntitlementResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -704,8 +482,8 @@ export const listApplications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ApplicationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
+  input: __S(48, __c6, 0) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<ListApplicationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -735,8 +513,8 @@ export const listEntitlements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EntitlementsListMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListEntitlementsRequest,
-  output: ListEntitlementsResponse,
+  input: __S(58, __c7, 2) as any as S.Schema<ListEntitlementsRequest>,
+  output: __S(61, __c7, 5) as any as S.Schema<ListEntitlementsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -765,8 +543,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(64, __c8, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -793,8 +571,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(72, __c9, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -821,8 +599,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(81, __c10, 1) as any as S.Schema<UntagResourceRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -833,3 +611,335 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ applicationArn: S.String.pipe(T.HttpLabel("applicationArn")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/applications/{applicationArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteApplicationRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteApplicationResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationArn: S.String.pipe(T.HttpQuery("applicationArn")),
+          entitlementId: S.String.pipe(T.HttpLabel("entitlementId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/entitlements/{entitlementId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteEntitlementRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ applicationArn: S.String.pipe(T.HttpLabel("applicationArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/applications/{applicationArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetApplicationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ instanceArn: S.String, applicationArn: S.optional(S.String) }),
+      ).annotate({ identifier: "IdentityCenterDetails" });
+    case 2:
+      return S.Union([/*@__PURE__*/ S.Struct({ identityCenter: __S(25, __c3, 1) })]);
+    case 3:
+      return S.suspend(() => S.Struct({ code: S.String, message: S.String })).annotate({
+        identifier: "ErrorDetails",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          identitySource: __S(26, __c3, 2),
+          status: S.String,
+          tenantId: S.optional(S.String),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          tags: S.optional(__S(96, __c12, 0)),
+          error: S.optional(__S(27, __c3, 3)),
+        }),
+      ).annotate({ identifier: "GetApplicationResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationArn: S.String.pipe(T.HttpQuery("applicationArn")),
+          entitlementId: S.String.pipe(T.HttpLabel("entitlementId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/entitlements/{entitlementId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetEntitlementRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          applicationArn: S.String,
+          entitlementId: S.String,
+          entitlement: __S(41, __c5, 1),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "GetEntitlementResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          principal: __S(113, __c14, 1),
+          roleArn: S.String,
+          account: S.String,
+          accountName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrincipalRoleEntitlementDetails" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ principalRole: __S(40, __c5, 0) })]);
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/applications-list" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListApplicationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          applicationArn: S.String,
+          tenantId: S.optional(S.String),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "ApplicationSummary" });
+    case 2:
+      return S.Array(__S(49, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ applications: __S(50, __c6, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListApplicationsResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          principal: S.optional(__S(113, __c14, 1)),
+          roleArn: S.optional(S.String),
+          account: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrincipalRoleEntitlementFilter" });
+    case 1:
+      return S.suspend(() => S.Struct({ principalRole: S.optional(__S(56, __c7, 0)) })).annotate({
+        identifier: "EntitlementFilter",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          applicationArn: S.String,
+          filter: __S(57, __c7, 1),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/entitlements-list" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListEntitlementsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          entitlementId: S.String,
+          entitlement: __S(41, __c5, 1),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "EntitlementsListMember" });
+    case 4:
+      return S.Array(__S(59, __c7, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ entitlements: __S(60, __c7, 4), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListEntitlementsResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(96, __c12, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tags: __S(96, __c12, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(80, __c10, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ instanceArn: S.String })).annotate({
+        identifier: "IdentityCenter",
+      });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ identityCenter: __S(88, __c11, 0) })]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ identitySource: __S(89, __c11, 1), tags: S.optional(__S(96, __c12, 0)) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateApplicationRequest" });
+    case 3:
+      return S.suspend(() => S.Struct({ applicationArn: S.String })).annotate({
+        identifier: "CreateApplicationResponse",
+      });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ principal: __S(113, __c14, 1), roleArn: S.String }),
+      ).annotate({ identifier: "PrincipalRoleEntitlement" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ principalRole: __S(104, __c13, 0) })]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ applicationArn: S.String, entitlement: __S(105, __c13, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/entitlements" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateEntitlementRequest" });
+    case 3:
+      return S.suspend(() => S.Struct({ entitlementId: S.String })).annotate({
+        identifier: "CreateEntitlementResponse",
+      });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ userId: S.String }),
+        /*@__PURE__*/ S.Struct({ groupId: S.String }),
+      ]);
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ identityCenter: __S(112, __c14, 0) })]);
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

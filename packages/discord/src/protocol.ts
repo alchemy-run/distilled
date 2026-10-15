@@ -2,12 +2,12 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * DiscordProtocol — the shared bearer-REST protocol instantiated for Discord.
+ * DiscordProtocol -- the shared bearer-REST protocol instantiated for Discord.
  *
  * Discord speaks plain JSON with no response envelope: successful responses
  * are the resource (or a bare array) verbatim. Failures carry
  * `{ code, message, errors? }` where `code` is Discord's own numeric JSON
- * error code — the shared HTTP status map turns the status into the error
+ * error code -- the shared HTTP status map turns the status into the error
  * class, and anything unmapped becomes {@link UnknownDiscordError} with the
  * code and per-field `errors` detail preserved.
  *
@@ -62,7 +62,7 @@ const errorDetails = (body: unknown): unknown => {
 
 /**
  * Discord's JSON error code as a number. The OAuth2 endpoints answer with a
- * string `error` slug instead of a numeric `code` — those carry no numeric
+ * string `error` slug instead of a numeric `code` -- those carry no numeric
  * code at all, so anything unparseable is dropped rather than surfaced as
  * NaN.
  */
@@ -73,14 +73,11 @@ const numericCode = (code: string | number | undefined): number | undefined => {
   return Number.isFinite(n) ? n : undefined;
 };
 
-export const DiscordProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const DiscordProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request (the layer is memoized per
   // process); the Credentials service holds an effect so rotating tokens
   // Just Work.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,

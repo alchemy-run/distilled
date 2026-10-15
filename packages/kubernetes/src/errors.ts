@@ -9,7 +9,7 @@
  *
  * Note the generated service modules additionally define their own
  * per-status matcher classes (NotFound/Conflict/UnprocessableEntity) for the
- * statuses each operation declares — those share `_tag`s with the core
+ * statuses each operation declares -- those share `_tag`s with the core
  * classes here, so `catchTag` works against either.
  */
 export {
@@ -33,30 +33,26 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
  * Returned when the Kubernetes API returns an error that does not
  * map to a known HTTP status class. The `reason` field mirrors the
  * `reason` from the Kubernetes `v1.Status` object.
  */
-export class UnknownKubernetesError extends Schema.TaggedError<UnknownKubernetesError>()(
-  "UnknownKubernetesError",
-  {
-    reason: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownKubernetesError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownKubernetesError>()("UnknownKubernetesError", {
+    reason: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /**
  * Returned when a Kubernetes API response cannot be decoded
  * against the expected schema (kept for v0 surface parity).
  */
-export class KubernetesParseError extends Schema.TaggedError<KubernetesParseError>()(
-  "KubernetesParseError",
-  {
+export class KubernetesParseError
+  extends /*@__PURE__*/ Schema.TaggedError<KubernetesParseError>()("KubernetesParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}

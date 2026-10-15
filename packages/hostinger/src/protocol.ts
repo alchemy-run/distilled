@@ -2,13 +2,13 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * HostingerProtocol — hand-written.
+ * HostingerProtocol -- hand-written.
  *
  * Hostinger speaks plain bearer-authenticated JSON REST (no response
  * envelope), so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://developers.hostinger.com), resolved from the
  *             calling fiber on every request
  *
@@ -41,19 +41,16 @@ export type HostingerOpError =
 /** Context (requirements) shared by every generated Hostinger operation. */
 export type HostingerOpContext = Credentials | HttpClient.HttpClient;
 
-export const HostingerProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const HostingerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   // Hostinger's error body is `{ message: string, correlation_id?: string }`
-  // — the factory's default lenient envelope covers `message`.
+  // -- the factory's default lenient envelope covers `message`.
   unknownError: ({ code, message, body }) =>
     new UnknownHostingerError({
       code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,

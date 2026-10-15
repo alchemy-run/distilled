@@ -21,7 +21,7 @@ const unredact = (value: string | Redacted.Redacted<string>): string =>
 
 /**
  * The region STS is called in: the explicit one, else the environment, else
- * `fallback` (the profile's `region` in the Node build), else `us-east-1` —
+ * `fallback` (the profile's `region` in the Node build), else `us-east-1` --
  * the order of the SDK's `stsRegionDefaultResolver`.
  */
 export const stsRegion = (

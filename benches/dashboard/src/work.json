@@ -1,0 +1,495 @@
+{
+  "goal": "Shrink SDK bundle size and import memory",
+  "branch": "perf/sdk-footprint",
+  "base": {
+    "sha": "40a9500a7091618f69c1e5237fad8d6658fce79d",
+    "subject": "feat(notion): add the Notion SDK (#855)"
+  },
+  "steps": [
+    {
+      "sha": "be83014bbbaa00c7933d86b752079613082210ef",
+      "subject": "perf(core): build pagination streams without Stream.flatMap"
+    },
+    {
+      "sha": "f7bf885c14ea0856a37e81cba4e983244a66f6d4",
+      "subject": "perf(core): read the retry hint cap without effect/Config"
+    },
+    {
+      "sha": "22982661fae6324b057ca6ab7f56997368a12e31",
+      "subject": "perf(core): import effect modules directly in error-category"
+    },
+    {
+      "sha": "9e60009757d63b9d1510f28e66ce7498142b1617",
+      "subject": "perf(core): share operation methods through one prototype"
+    },
+    {
+      "sha": "5d2fb074e06c82feddd22a98f3182ceefc4f297e",
+      "subject": "perf(codegen): mark every call nested in a top-level initializer PURE"
+    },
+    {
+      "sha": "be75448c15e1c0dbf246cf775dc990edf53be125",
+      "subject": "chore: apply the nested PURE markers to every generated service"
+    },
+    {
+      "sha": "0083c76afb20327ddc3baf8f5bfa5706104a7a3c",
+      "subject": "perf(core): build suspended schema ASTs on first use"
+    },
+    {
+      "sha": "b2297ea0a60f0ccb6f38c6e0f4ebc8181cc95ad0",
+      "subject": "perf(core): build Array and Record schemas lazily too"
+    },
+    {
+      "sha": "a673af0cc95a1e3c9a162429471e532aa5c2f1b2",
+      "subject": "perf(codegen): keep generated modules Latin-1 only"
+    },
+    {
+      "sha": "b5b1c83e8b5e241c006d3ae4db76e480c8ecf1f8",
+      "subject": "chore: apply the Latin-1 pass to every generated service"
+    },
+    {
+      "sha": "4342843cd933bf4e98b56ec2d2362d0289b23c0d",
+      "subject": "chore: apply the Latin-1 pass to the unstable generated services"
+    },
+    {
+      "sha": "c5ca2e97c9d6a93fb547dad0a758999b33b9a14b",
+      "subject": "perf: keep hand-written shipped sources Latin-1 only"
+    },
+    {
+      "sha": "589790ecb44a725ce4b036816a5ced71b1189652",
+      "subject": "perf(core): build generated error classes on first use"
+    },
+    {
+      "sha": "bf8b544f7119575d8b6071b7109e729c885fd034",
+      "subject": "perf(core): find the error base on first use"
+    },
+    {
+      "sha": "7df2c527552371c59f63af72b87411e28bd640c4",
+      "subject": "bench: add schema-lab and the per-protocol SDK bench"
+    },
+    {
+      "sha": "4c0c055ba4f6d0d7cea9599a3418af38f2043994",
+      "subject": "perf(codegen): alias structurally identical schemas"
+    },
+    {
+      "sha": "59c5565941f5d4103212facd85b7b28d5b76a55e",
+      "subject": "chore: apply schema dedupe to every generated service"
+    },
+    {
+      "sha": "954ca6b3f1b603403779a3a98b5c82cdf1afd2af",
+      "subject": "perf(aws): sign with synchronous node:crypto where available"
+    },
+    {
+      "sha": "2c439046183fd6dcb19aff1b087ceaca3159935d",
+      "subject": "perf: cheaper per-call path in core api and AWS protocols"
+    },
+    {
+      "sha": "2e0dcd59e442c4a9c7785e1384a7c0d497ced3a7",
+      "subject": "perf(aws): reuse HMAC KeyObjects for derived signing keys"
+    },
+    {
+      "sha": "d68b31b67d1fb7166244e41333488cf91247f881",
+      "subject": "perf(aws): read non-streaming response bodies as text"
+    },
+    {
+      "sha": "32903494168c4ce31ece02599246fd56b329ff70",
+      "subject": "perf: strip JSDoc from compiled JavaScript"
+    },
+    {
+      "sha": "4c96322196c634481f11e1495741d91d6bb98b2a",
+      "subject": "feat(core): swappable Crypto service for request signing"
+    },
+    {
+      "sha": "bf00ba835202600b729f23fa5d22f68477686f84",
+      "subject": "perf(codegen): dedupe through enum aliases"
+    },
+    {
+      "sha": "5079336876789875c4db477cfed592a12723bc97",
+      "subject": "chore: apply enum-aware dedupe to every generated service"
+    },
+    {
+      "sha": "acbdcb5d7553f72cafc5f2bc5b90853607427dac",
+      "subject": "perf(codegen)!: keep schema consts module-private"
+    },
+    {
+      "sha": "1bc7899501e4f519f29682c9fa00de6be1f99a3e",
+      "subject": "chore: privatize schemas in every generated service"
+    },
+    {
+      "sha": "21b02d67c770dfd326450877496810824b060b0d",
+      "subject": "perf(codegen): build private schemas from chunked builder functions"
+    },
+    {
+      "sha": "d77bcaf0eff71befc9d0719a73e836989ca5c42f",
+      "subject": "chore: chunk schema builders in every generated service"
+    },
+    {
+      "sha": "2abbef2131cef63429a70b132c7cf9ea14d68d33",
+      "subject": "perf(codegen): reach private schemas through a lazy table"
+    },
+    {
+      "sha": "d2d5f33cdbdf4be243b310dc1a0a4f59a5744ff0",
+      "subject": "chore: table private schemas in every generated service"
+    },
+    {
+      "sha": "204c3f1d8d65a3e2577f0f91b2dcc3d87400d2f5",
+      "subject": "perf(codegen): name the schema builder at each table call site"
+    },
+    {
+      "sha": "9026cec4b1562b325a29c32534d26ca939029a48",
+      "subject": "chore: regenerate schema tables with call-site builders"
+    },
+    {
+      "sha": "cd90cb29ec7304a11bdb1b9e8c2105be9bdf07a8",
+      "subject": "bench: add the Notion SDK target"
+    },
+    {
+      "sha": "b3086edc9d933a79ce452c621af7273e0f5a69a9",
+      "subject": "perf: read environment config without effect/Config"
+    },
+    {
+      "sha": "0b8871fbd4c4695b582bddbe881ca148deeb9e11",
+      "subject": "perf(aws): load providers, protocols and event streams on first use"
+    },
+    {
+      "sha": "80088f2f15412a66940312c94d11887e84fe61c6",
+      "subject": "perf(codegen): group schema builders by the operations that reach them"
+    },
+    {
+      "sha": "4d861db71739e9b6d33a2131313a255d4b21627c",
+      "subject": "chore: regenerate services with grouped schema builders"
+    },
+    {
+      "sha": "9556e98a73e27f75dcc0dd0a027e946360893dfe",
+      "subject": "perf(core): retry without Effect.retry or Schedule in every bundle"
+    },
+    {
+      "sha": "1e3dfc4b3139a00e62db110d622f7684a356bc9e",
+      "subject": "perf(aws): bundle only the protocol and event stream code a program uses"
+    },
+    {
+      "sha": "c0e8b9d81ca91077c3901de9c2add0f5c5fc7432",
+      "subject": "perf: mark top-level calls in hand-written sources PURE"
+    },
+    {
+      "sha": "bf15d2f3a53de3d87ea75df0defe7338672ef53f",
+      "subject": "bench: imports suite and object counts; strict variant of every program"
+    },
+    {
+      "sha": "ec9b3e6cabd3b4627b18278299d1af5681612b27",
+      "subject": "perf: schema-free generated code for non-AWS SDKs"
+    },
+    {
+      "sha": "30c428be0ac78fa77ac59b1ed91236805e4a6f0e",
+      "subject": "chore: format schema-lab"
+    },
+    {
+      "sha": "af7287a38240f3c61b4a055d27ce6e23ca5b8f67",
+      "subject": "feat(codegen): generate non-AWS services on schema-lite"
+    },
+    {
+      "sha": "4de47396aec18a87c0cbf573aabdb9e8d32b9792",
+      "subject": "chore: format"
+    },
+    {
+      "sha": "1eae38c6dd7022f5a43c3e36aa8d7d0969253e61",
+      "subject": "chore: regenerate every SDK with the full codegen pipeline"
+    },
+    {
+      "sha": "80f76d2d87d472a2b78309b0614fa6541cfd3c2e",
+      "subject": "perf(core): one shared base class for lite error classes"
+    },
+    {
+      "sha": "92d549957677a44c10436d1d72eb6e2359aba6c8",
+      "subject": "perf(core): REST encode/decode without generators; read DISTILLED_DEBUG_HTTP once"
+    },
+    {
+      "sha": "3cf028b63308621b914d7894a70f70ff630478f1",
+      "subject": "perf: resolve credentials without a generator in 70 REST protocols"
+    },
+    {
+      "sha": "d9d273817e5a9a5867ad4284ccd8ba46aa956f94",
+      "subject": "perf: Stripe and Cloudflare encode/decode without generators"
+    },
+    {
+      "sha": "20f27ed94b6e3a32d5f40767f488ba6435d033b0",
+      "subject": "bench: report every strict-response candidate's error"
+    },
+    {
+      "sha": "63c065965400de1b2dcf18cbe64f479555e5821e",
+      "subject": "bench: official SDK comparison suite"
+    },
+    {
+      "sha": "4ad1f342813cace7ab7c382257f769c2549c662b",
+      "subject": "bench: pin official SDKs to versions past the minimum release age"
+    },
+    {
+      "sha": "3a430953b327920046ed45146d10f4b795978cf5",
+      "subject": "bench: pin AWS SDK internals past the minimum release age"
+    },
+    {
+      "sha": "772cd78d6927e6211be63ae54751f2c982916633",
+      "subject": "perf(aws): build the error map on the first error response"
+    },
+    {
+      "sha": "42e9e3a332853fe30d70ace8afc0371d0f2626e4",
+      "subject": "bench: measure import time and first call in a sequential cold-start pass"
+    },
+    {
+      "sha": "b5cb626d9ebaf20335ed6069e8155595f51977ab",
+      "subject": "wip: data-described operations (API.op + datafy pass), prototype on resend/neon/stripe/workers"
+    },
+    {
+      "sha": "03057c50365b66d110e829a25e7dc332a8bbeece",
+      "subject": "perf: patch effect so bundlers can drop HttpClientErrorSchema"
+    },
+    {
+      "sha": "7b242fd27ed2af82119dda27f4123b8f1c7585cd",
+      "subject": "datafy: run in codegen pipeline, tests, bench scanner reads data operations"
+    },
+    {
+      "sha": "79f59b675f56985482af942e8cdfd0257bb47d91",
+      "subject": "Merge branch 'perf/sdk-footprint' into exp/data-tables"
+    },
+    {
+      "sha": "8bff37795630ed42435511cc2bd00bec16eb83b5",
+      "subject": "build: bundle each package's lib into a few group chunks (bundle-lib)"
+    },
+    {
+      "sha": "32228218f1f5460217f5510919998a6ca2c16c65",
+      "subject": "build(bundle-lib): runtime helpers in the group chunk, Latin-1 output, minified (names kept)"
+    },
+    {
+      "sha": "6e3165f1c30319a3b9473a1bba0365d1b66b25ab",
+      "subject": "build(bundle-lib): keep PURE annotations through minification, shift source maps, maps without sources"
+    },
+    {
+      "sha": "6c411a59850b87d2e5dd57cc38668d73408a39a3",
+      "subject": "build(bundle-lib): do not double PURE annotations the minifier kept"
+    },
+    {
+      "sha": "4aa2c011bcab7f34d56090dde5e115ed8f38b966",
+      "subject": "perf(core): one-boundary REST calls with compiled request plans and sync strict validation"
+    },
+    {
+      "sha": "2548f07bfaa6328baecae37b54b11870204efd21",
+      "subject": "perf(core): config readers compose synchronously without a provider"
+    },
+    {
+      "sha": "7270c754412b41b5eda69c367935ba601b7aafc0",
+      "subject": "perf(cloudflare): one-boundary calls with per-schema output plans"
+    },
+    {
+      "sha": "a3a4f5668e6af4ab042d6bf65c5979af35550d8c",
+      "subject": "perf(stripe): one-boundary calls with per-schema request plans"
+    },
+    {
+      "sha": "83dcc0a1152f9ffe5dbe82f5585788a6c63b32d1",
+      "subject": "wip(core): schema-lite encoding links, declaration checks, error class ast, direct at()"
+    },
+    {
+      "sha": "5211e5e4ebca89ddc2c407c246036cb9293fc14a",
+      "subject": "wip(aws): protocols convert values by walking lite ASTs (util/codec.ts)"
+    },
+    {
+      "sha": "4ab47252f7659dd757a8a9b578a14d2878501339",
+      "subject": "wip(aws): regenerate services on schema-lite"
+    },
+    {
+      "sha": "e58e0146f6be62485a7b9d3bf22a816a05c68aac",
+      "subject": "fix(aws): lenient output falls back to the response as read; mismatched errors stay plain objects; type-only Schema imports"
+    },
+    {
+      "sha": "e958dfb62e423d7390278e503b6a3f3fa50b4703",
+      "subject": "fix: typecheck:ci for lite AWS schemas"
+    },
+    {
+      "sha": "eab7b45e7561a53013cdfdebca6bea7a1b9d1cb9",
+      "subject": "perf(aws): synchronous SigV4 signing with node:crypto"
+    },
+    {
+      "sha": "8ce61328327a4ac0c5de485436f52fd40cc67cbd",
+      "subject": "perf: lib service modules as data operations (post-build datafy pass)"
+    },
+    {
+      "sha": "f59c668b73bdb570f1eea633e418f11fb00e838d",
+      "subject": "api: data operations get their state from a data-only prototype, so code-form bundles drop the interpreter"
+    },
+    {
+      "sha": "ffb8908253a82e646f8b39f04fd988d50085e681",
+      "subject": "build: rolldown 1.2.8; drop the effect HttpClientErrorSchema patch"
+    },
+    {
+      "sha": "905eaaccd1f31d396894fbe3d0c537b25ea0c394",
+      "subject": "Merge branch 'exp/aws-lite' into perf/sdk-footprint"
+    },
+    {
+      "sha": "ac6f0d198ec78f84f3142d2697e54eba0635c1bc",
+      "subject": "Merge branch 'exp/promise-core' into perf/sdk-footprint"
+    },
+    {
+      "sha": "f966856238f5a9a2726c8a9126bdb6cfd147f08b",
+      "subject": "Merge branch 'exp/data-tables' into perf/sdk-footprint"
+    },
+    {
+      "sha": "d76194864e5d6d509ce27702a6575901f9ec0eb6",
+      "subject": "Merge commit 'f96685623' into exp/single-module"
+    },
+    {
+      "sha": "1b36b0cd3135dff01f4f0884c0607b0029c0c4b2",
+      "subject": "bench: service and provider import time is the minimum of 3 fresh processes"
+    },
+    {
+      "sha": "d82837860cfd9234ac7ab76858ba51a37e88d4e9",
+      "subject": "build(bundle-lib): datafy service modules while bundling (the bundled output no longer has the shape strip-lib-docs datafies)"
+    },
+    {
+      "sha": "cc3aea9466605d82200f5ca2b5fbe239fee6e095",
+      "subject": "Merge commit '1b36b0cd3' into exp/single-module"
+    },
+    {
+      "sha": "fa9fe1aa6969743a0312c78f94f4bc6521e3a62b",
+      "subject": "perf(aws): collapse deep subpath exports into patterns"
+    },
+    {
+      "sha": "e49f59be118336a4210394cff6fab01c7b268df6",
+      "subject": "build(bundle-lib): every wildcard export directory (services/, unstable-services/) is an entry directory"
+    },
+    {
+      "sha": "071589c64b602972baae91d3c037c5e7a5184c1f",
+      "subject": "perf(core): parse plain XML documents in one fast pass"
+    },
+    {
+      "sha": "debfedb19417175f1cf0b408c143533f81c9f8d7",
+      "subject": "perf(aws): sign without URL/Headers parsing and with one-shot hashing"
+    },
+    {
+      "sha": "72670b12c4e35665f825e8aabf51b4e00b18c909",
+      "subject": "perf(aws): synchronous protocol handlers and per-schema (de)serialization plans"
+    },
+    {
+      "sha": "8d40b67939968354226790274c7f865758d3b52a",
+      "subject": "perf(aws): AwsProtocol.call runs a warm call as one effect"
+    },
+    {
+      "sha": "20efcc1a468c9a2a6b66054f87d011e279993507",
+      "subject": "test(aws): call path matches encode/decode; signSync parts match URL signing"
+    },
+    {
+      "sha": "fa907b401287c1b23280a77cfd2f4ba58f44fa54",
+      "subject": "bench: import heap is the median of 4 fresh processes"
+    },
+    {
+      "sha": "66797be467cecb7f0c7e1a51f75ce0caa8b61074",
+      "subject": "perf(aws): precomputed Region-only endpoint templates"
+    },
+    {
+      "sha": "105dcb69c356a5b5aa6e98d147bae8edfac03e7e",
+      "subject": "Merge commit 'fa907b401' into exp/single-module"
+    },
+    {
+      "sha": "79382b4fd489bff039ca76995169143fe6665ec4",
+      "subject": "chore(aws): stamp generatedAt"
+    },
+    {
+      "sha": "00318076c91ffcbbfde931cac95b5a3be2041e67",
+      "subject": "test(aws): type the call-path test's provided effect"
+    },
+    {
+      "sha": "565b4b0e207d3b7c32e5b3f6f1e8b9c4c839788a",
+      "subject": "chore: remove scratch bundle output committed by mistake"
+    },
+    {
+      "sha": "307d1b2d856ba918c395349b3bdd03daeab2adbb",
+      "subject": "perf(core): one XML parser with fast paths instead of a second plain-document scanner"
+    },
+    {
+      "sha": "524fb369f88e9b4ba81ad0fa94e7896117a0cc9b",
+      "subject": "perf(aws): one shared request/response path, so AWS bundles are no larger than before"
+    },
+    {
+      "sha": "6ee4063d034a026dc29622246b8cb194192b47fa",
+      "subject": "Merge branch 'exp/cold-start' into perf/sdk-footprint"
+    },
+    {
+      "sha": "1247e053df393de525a90f5a02bbad07d310c697",
+      "subject": "bench: warm undici before measuring distilled cold start, like the official probe"
+    },
+    {
+      "sha": "bddc3b368d777b6caaef6def42cb88670f360da2",
+      "subject": "Merge branch 'perf/sdk-footprint' into exp/aws-fast"
+    },
+    {
+      "sha": "1b498335cff8086eed8f54a7f8fc6c89504f2b87",
+      "subject": "test(aws): endpoint templates through the synchronous, cached resolver"
+    },
+    {
+      "sha": "e032d58c4e4e4090563b979d70ee97debb1b337a",
+      "subject": "perf(core): strict mode checks responses with a compiled lite-AST checker instead of Effect Schema"
+    },
+    {
+      "sha": "7d7a259b21ae24a93a832bc2a1ff4bb93d45ac11",
+      "subject": "perf(core): build the strict checker's compiler on first use"
+    },
+    {
+      "sha": "d3604836186e9e13d3e6e8471715c7f00817f466",
+      "subject": "bench(official): download size of each official SDK with its dependencies"
+    },
+    {
+      "sha": "a4d658c323728cf1c352bb0c85a6a7091a5fa4ee",
+      "subject": "bench(official): pack files in npm's order so local tarball sizes match npm pack"
+    },
+    {
+      "sha": "9967a2c3ca7c8e3ebe4a03aac306698ca3ab10e6",
+      "subject": "perf(core): generated error classes ship as data, built on first use"
+    },
+    {
+      "sha": "1ba1fac1d73acc56b43ca99d34e01d7744af9891",
+      "subject": "perf(core): smaller data error classes: the body builds or returns data by new.target"
+    },
+    {
+      "sha": "f88fb9e1988cd4cb54a064bc084e9b6163152f03",
+      "subject": "test(core): type the subclass of a data error class"
+    },
+    {
+      "sha": "54eedde3897421dfd0282db9ce90cf9930a4fd74",
+      "subject": "Merge branch 'exp/lazy-errors' into perf/sdk-footprint"
+    },
+    {
+      "sha": "9203761283189bea911ed2144bb19b91f5c86795",
+      "subject": "perf(core): data modules share constants: moved module constants, value entries, operation-name stems"
+    },
+    {
+      "sha": "64931d8e4d708653e5373b891d746090988c757b",
+      "subject": "perf(build): no datafy aliases in bundled service modules"
+    },
+    {
+      "sha": "47ad68ec4ff726d97f65519459e37970ecc44814",
+      "subject": "perf(core): big endpoint rules stay module constants"
+    },
+    {
+      "sha": "97e9f0c5b872b654985461c2c3f36e8871a2a47c",
+      "subject": "perf(core): data operation state descriptors are not kept after the prototypes are made"
+    },
+    {
+      "sha": "cd8a39b3d1ba856032a55bf6b6a4495667ee2edb",
+      "subject": "perf(build): Node loads service modules as lazy stubs; bundlers keep the full modules"
+    },
+    {
+      "sha": "1854a8047e0dc478953da3dce72bbfc7c6159857",
+      "subject": "docs(build): lib layout names services.full"
+    },
+    {
+      "sha": "ee6a14cd79a52a9cd0212b39a2e5756b3babb835",
+      "subject": "perf(core): a lazy service's first use evaluates only what the operation reaches"
+    },
+    {
+      "sha": "0e918eda476ffe0f3b14b5846fd536dbecabc29f",
+      "subject": "perf(core): cheaper first use of a lazy service; small modules stay whole"
+    },
+    {
+      "sha": "f6019b3767bf651d30fa23e4893f11dd356c9736",
+      "subject": "perf(build): lazy stubs write each export name once and import one package helper"
+    }
+  ],
+  "updatedAt": "2026-10-11T23:14:29.619Z"
+}

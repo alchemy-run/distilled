@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import * as Effect from "effect/Effect";
 import { describe, it } from "vitest";
+import {
+  parseXmlReference,
+  XmlParseError as ReferenceXmlParseError,
+} from "./fixtures/xml/reference-parser.ts";
 import fixtures from "./fixtures/xml/upstream-validator.json" with { type: "json" };
 import { escapeXml, parseXml, parseXmlSync, XmlParseError } from "./xml.ts";
 
@@ -112,8 +116,12 @@ describe("XML object format", () => {
       "<__proto__><constructor>one</constructor><constructor>two</constructor><__proto__>safe</__proto__><toString/></__proto__>",
     );
     const root = result.__proto__;
-    assert.equal(Object.getPrototypeOf(result), null);
-    assert.equal(Object.getPrototypeOf(root), null);
+    // Parsed objects inherit nothing: their prototype has no prototype.
+    for (const object of [result, root]) {
+      assert.equal(Object.getPrototypeOf(Object.getPrototypeOf(object)), null);
+      assert.equal(Object.getOwnPropertyNames(Object.getPrototypeOf(object)).length, 0);
+      assert.equal("hasOwnProperty" in (object as object), false);
+    }
     assert.deepEqual(
       JSON.parse(JSON.stringify(root)),
       JSON.parse('{"constructor":["one","two"],"__proto__":"safe","toString":""}'),
@@ -247,5 +255,124 @@ describe("malformed and unsupported XML", () => {
     const effect = parseXml("<R>ok</R>");
     assert.equal(Effect.runSync(effect).R, "ok");
     assert.equal(Effect.runSync(effect).R, "ok");
+  });
+});
+
+describe("parser fast paths", () => {
+  /** The value or error of a parser, comparable across parsers. */
+  const outcome = (parser: (xml: string) => unknown, xml: string) => {
+    try {
+      return { value: JSON.stringify(parser(xml)) };
+    } catch (error) {
+      return {
+        error:
+          error instanceof XmlParseError || error instanceof ReferenceXmlParseError
+            ? error.message
+            : String(error),
+      };
+    }
+  };
+  const same = (xml: string) =>
+    assert.deepEqual(
+      outcome(parseXmlSync, xml),
+      outcome(parseXmlReference, xml),
+      JSON.stringify(xml),
+    );
+
+  it("matches the reference parser on the upstream corpus", () => {
+    for (const fixture of fixtures) same(fixture.xml);
+  });
+
+  it("matches the reference parser on generated documents and their corruptions", () => {
+    // Deterministic generator over the constructs both paths handle and the
+    // ones only the full parser does (comments, CDATA, PIs, non-ASCII names).
+    let seed = 1;
+    const random = () => (seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648;
+    const pick = <A>(xs: ReadonlyArray<A>): A => xs[Math.floor(random() * xs.length)]!;
+    const names = [
+      "a",
+      "B",
+      "x:y",
+      "_n",
+      "item",
+      "member",
+      "__proto__",
+      "Name1",
+      "k-v.w",
+      "é",
+      "#",
+    ];
+    const texts = [
+      "",
+      " ",
+      "v",
+      " x ",
+      "a&amp;b",
+      "&lt;&gt;&quot;&apos;",
+      "&#65;&#x42;",
+      "&bad;",
+      "&#0;",
+      "l\r\nm",
+      "t\rn",
+      "\t",
+      "]]>",
+      "😀",
+      "&",
+      "x>y",
+      "\u0001",
+    ];
+    const attrValues = [
+      '"1"',
+      "'2'",
+      '" a\tb "',
+      '"x&amp;y"',
+      '"<"',
+      '"&#10;"',
+      "noquote",
+      '"\r\n"',
+    ];
+    const element = (depth: number): string => {
+      const name = pick(names);
+      let attrs = "";
+      for (let i = Math.floor(random() * 3); i > 0; i--) {
+        attrs += `${pick([" ", "\n", "  "])}${pick(names)}${pick(["=", " = "])}${pick(attrValues)}`;
+      }
+      if (random() < 0.25) return `<${name}${attrs}${pick(["/>", " />"])}`;
+      let body = "";
+      for (let i = Math.floor(random() * 4); i > 0; i--) {
+        const r = random();
+        if (depth < 4 && r < 0.5) body += element(depth + 1);
+        else if (r < 0.85) body += pick(texts);
+        else body += pick(["<!-- c -->", "<![CDATA[ d ]]>", "<?pi x?>"]);
+      }
+      return `<${name}${attrs}>${body}</${pick([name, name, name, "other"])}${pick(["", " "])}>`;
+    };
+    const prologs = [
+      "",
+      '<?xml version="1.0"?>',
+      '<?xml version="1.0" encoding="UTF-8"?>\n',
+      "\uFEFF",
+      " ",
+      "<?xml version='2.0'?>",
+      "<!DOCTYPE r>",
+    ];
+    for (let i = 0; i < 3000; i++) {
+      const xml = pick(prologs) + element(0) + pick(["", " ", "\n", "<x/>", "t"]);
+      same(xml);
+      // Truncations and single-character corruptions
+      same(xml.slice(0, Math.floor(random() * xml.length)));
+      const at = Math.floor(random() * xml.length);
+      same(xml.slice(0, at) + pick(["<", ">", "&", '"', "/", " ", "\u0000"]) + xml.slice(at + 1));
+    }
+  });
+
+  it("matches the reference parser under depth and length limits", () => {
+    for (const maxDepth of [1, 2, 3]) {
+      const xml = "<a><b><c/></b></a>";
+      assert.deepEqual(
+        outcome((x) => parseXmlSync(x, { maxDepth }), xml),
+        outcome((x) => parseXmlReference(x, { maxDepth }), xml),
+      );
+    }
   });
 });

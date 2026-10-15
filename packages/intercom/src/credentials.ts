@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Intercom credentials — hand-written.
+ * Intercom credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -23,9 +23,10 @@ export interface Config {
   readonly apiVersion: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "IntercomCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "IntercomCredentials",
+  ) {}
 
 /** Layer from a redacted access token + optional base URL and API version. */
 export const fromApiKey = (config: {
@@ -46,9 +47,9 @@ export const fromApiKey = (config: {
  * Reads INTERCOM_ACCESS_TOKEN (or INTERCOM_API_KEY), INTERCOM_API_BASE_URL,
  * and INTERCOM_API_VERSION.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.INTERCOM_ACCESS_TOKEN ?? process.env.INTERCOM_API_KEY;
 
     if (!apiKey) {

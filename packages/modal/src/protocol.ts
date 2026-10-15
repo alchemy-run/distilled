@@ -2,7 +2,7 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * ModalProtocol — proto3 JSON at gRPC method paths.
+ * ModalProtocol -- proto3 JSON at gRPC method paths.
  *
  * Each generated operation is `POST /<package>.<Service>/<Method>` with a
  * proto3 JSON body (camelCase fields, 64-bit ints as strings, bytes as
@@ -54,11 +54,8 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const ModalProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+export const ModalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     "x-modal-token-id": Redacted.value(creds.tokenId),

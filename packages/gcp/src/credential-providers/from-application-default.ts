@@ -124,7 +124,7 @@ const serviceAccountKey = (json: Json, path: string, scopes?: ReadonlyArray<stri
     ),
   );
 
-/** `…/serviceAccounts/<email>:generateAccessToken` → `<email>`. */
+/** `.../serviceAccounts/<email>:generateAccessToken` -> `<email>`. */
 const impersonatedEmail = (url: string): string | undefined => {
   const match = /\/serviceAccounts\/([^/:]+):generateAccessToken$/.exec(url);
   return match ? decodeURIComponent(match[1]) : undefined;

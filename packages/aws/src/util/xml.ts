@@ -2,9 +2,10 @@
  * Shared XML utilities for AWS protocols (aws-query, ec2-query, rest-xml)
  */
 
-import { parseXml as parseCoreXml, type XmlParseOptions } from "@distilled.cloud/core/xml";
+import { parseXmlSync, XmlParseError, type XmlObject } from "@distilled.cloud/core/xml";
 import * as Effect from "effect/Effect";
 import type * as AST from "effect/SchemaAST";
+import { Unreadable } from "../client/protocol.ts";
 import { ParseError } from "../errors.ts";
 import { isBooleanAST, isNumberAST } from "./ast.ts";
 
@@ -18,11 +19,26 @@ export {
   type XmlParseOptions,
 } from "@distilled.cloud/core/xml";
 
-/** Adapt shared XML failures to the AWS protocol error type. */
-export const parseXml = (xml: string, options?: XmlParseOptions) =>
-  parseCoreXml(xml, options).pipe(
-    Effect.mapError((error) => new ParseError({ message: error.message })),
-  );
+/** Parse XML, failing with the AWS protocol error type. */
+export const parseXml = (xml: string): Effect.Effect<XmlObject, ParseError> => {
+  const parsed = readXml(xml);
+  return parsed instanceof Unreadable ? Effect.fail(parsed.error) : Effect.succeed(parsed);
+};
+
+/**
+ * A 2xx XML body, parsed; a malformed one is {@link Unreadable} with the
+ * `ParseError` {@link parseXml} fails with.
+ */
+export const readXml = (xml: string): XmlObject | Unreadable => {
+  try {
+    return parseXmlSync(xml);
+  } catch (error) {
+    if (error instanceof XmlParseError) {
+      return new Unreadable(new ParseError({ message: error.message }), xml);
+    }
+    throw error;
+  }
+};
 
 // =============================================================================
 // XML Response Helpers

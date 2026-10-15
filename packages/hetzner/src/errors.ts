@@ -6,9 +6,9 @@
  * for, plus the unknown-error and parse-error wrappers.
  *
  * Hetzner pairs every status with a machine-readable `code` (`locked`,
- * `uniqueness_error`, `resource_limit_exceeded`, …) that is finer-grained
+ * `uniqueness_error`, `resource_limit_exceeded`, ...) that is finer-grained
  * than the status itself. The spec declares failures only as the `4xx`/`5xx`
- * wildcards — no operation says which codes it can produce — so the SDK
+ * wildcards -- no operation says which codes it can produce -- so the SDK
  * dispatches on the status (the classes here) and carries the code through
  * on {@link UnknownHetznerError} for the statuses nothing else maps. The
  * human-readable `message` is preserved verbatim on every class.
@@ -41,70 +41,66 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * HTTP 405 — `method_not_allowed`: the route exists but not for this method.
+ * HTTP 405 -- `method_not_allowed`: the route exists but not for this method.
  * In practice this means the SDK and the API disagree about a route, so it
  * is a bug report rather than something to branch on.
  */
-export class MethodNotAllowed extends Schema.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
-  message: Schema.String,
-}).pipe(Category.withBadRequestError) {}
+export class MethodNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
+    message: Schema.String,
+  }).pipe(Category.withBadRequestError) {}
 
 /**
- * HTTP 410 — `deprecated_api_endpoint`: the endpoint's functionality was
+ * HTTP 410 -- `deprecated_api_endpoint`: the endpoint's functionality was
  * REMOVED, not merely marked deprecated. Hetzner announces removals with a
  * date and the spec keeps flagging an endpoint `deprecated: true` until then
  * (those are skipped at generation time), so a 410 from a generated
  * operation means the pinned spec has fallen behind and needs a
  * regeneration. The error `details` carry a changelog link.
  */
-export class Gone extends Schema.TaggedError<Gone>()("Gone", {
-  message: Schema.String,
-}).pipe(Category.withNotFoundError) {}
+export class Gone
+  extends /*@__PURE__*/ Schema.TaggedError<Gone>()("Gone", {
+    message: Schema.String,
+  }).pipe(Category.withNotFoundError) {}
 
 /**
- * HTTP 412 — `resource_unavailable`: the resource itself is fine, but what
- * you asked for is not currently orderable — a Server type sold out in the
+ * HTTP 412 -- `resource_unavailable`: the resource itself is fine, but what
+ * you asked for is not currently orderable -- a Server type sold out in the
  * chosen Location, an Image not offered there. Retrying the same request
  * unchanged will keep failing until Hetzner has capacity again, so it is NOT
  * marked retryable; a different Location or Server type is the fix.
  */
-export class PreconditionFailed extends Schema.TaggedError<PreconditionFailed>()(
-  "PreconditionFailed",
-  {
+export class PreconditionFailed
+  extends /*@__PURE__*/ Schema.TaggedError<PreconditionFailed>()("PreconditionFailed", {
     message: Schema.String,
-  },
-).pipe(Category.withConflictError) {}
+  }).pipe(Category.withConflictError) {}
 
 /**
- * Unknown Hetzner error — returned when a failed response's HTTP status has
+ * Unknown Hetzner error -- returned when a failed response's HTTP status has
  * no mapped error class. `code` is Hetzner's own error code (the
  * machine-parsable half of its error envelope) and `details` the
- * code-dependent detail object — the offending fields for `invalid_input`
+ * code-dependent detail object -- the offending fields for `invalid_input`
  * and `uniqueness_error`, the exceeded limits for
  * `resource_limit_exceeded`. See
  * https://docs.hetzner.cloud/reference/cloud#errors.
  */
-export class UnknownHetznerError extends Schema.TaggedError<UnknownHetznerError>()(
-  "UnknownHetznerError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    details: Schema.optional(Schema.Unknown),
+export class UnknownHetznerError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownHetznerError>()("UnknownHetznerError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    details: /*@__PURE__*/ Schema.optional(Schema.Unknown),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class HetznerParseError extends Schema.TaggedError<HetznerParseError>()(
-  "HetznerParseError",
-  {
+export class HetznerParseError
+  extends /*@__PURE__*/ Schema.TaggedError<HetznerParseError>()("HetznerParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any Hetzner operation may surface in addition to the shared HTTP

@@ -1,6 +1,6 @@
 import * as Retries from "@distilled.cloud/core/retry";
 /**
- * AWS retry surface — a veneer over `@distilled.cloud/core/retry`.
+ * AWS retry surface -- a veneer over `@distilled.cloud/core/retry`.
  *
  * The `Retry` service tag is threaded into every generated operation via
  * `API.make({ retry: Retry })`, so a caller-installed policy applies to all
@@ -20,7 +20,7 @@ export type Policy = Retries.Policy;
 /**
  * Context tag for configuring retry behavior of AWS API calls.
  */
-export class Retry extends Context.Service<Retry, Policy>()("AWS::Retry") {}
+export class Retry extends /*@__PURE__*/ Context.Service<Retry, Policy>()("AWS::Retry") {}
 
 /**
  * Provides a custom retry policy to all AWS API calls in the effect.
@@ -39,8 +39,8 @@ export const policy: {
  */
 export const none: <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-) => Effect.Effect<A, E, Exclude<R, Retry>> = Effect.provide(
-  Layer.succeed(Retry, { while: () => false }),
+) => Effect.Effect<A, E, Exclude<R, Retry>> = /*@__PURE__*/ Effect.provide(
+  /*@__PURE__*/ Layer.succeed(Retry, { while: () => false }),
 );
 
 /**
@@ -63,7 +63,7 @@ export const throttlingOptions: Options = Retries.throttlingOptions;
  */
 export const throttling: <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-) => Effect.Effect<A, E, Exclude<R, Retry>> = policy(Retries.throttlingFactory);
+) => Effect.Effect<A, E, Exclude<R, Retry>> = /*@__PURE__*/ policy(Retries.throttlingFactory);
 
 /**
  * Retry options that retries all transient errors indefinitely.
@@ -75,4 +75,4 @@ export const transientOptions: Options = Retries.transientOptions;
  */
 export const transient: <A, E, R>(
   effect: Effect.Effect<A, E, R>,
-) => Effect.Effect<A, E, Exclude<R, Retry>> = policy(Retries.transientFactory);
+) => Effect.Effect<A, E, Exclude<R, Retry>> = /*@__PURE__*/ policy(Retries.transientFactory);

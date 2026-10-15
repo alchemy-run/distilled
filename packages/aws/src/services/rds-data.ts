@@ -1,17 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "RDS Data", serviceShapeName: "RdsDataService" });
-const auth = T.AwsAuthSigv4({ name: "rds-data" });
-const ver = T.ServiceVersion("2018-08-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "RDS Data",
+  serviceShapeName: "RdsDataService",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "rds-data" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-08-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -66,109 +72,112 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://rds-data.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class DatabaseErrorException
   extends /*@__PURE__*/ S.TaggedError<DatabaseErrorException>()(
     "DatabaseErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class DatabaseNotFoundException
   extends /*@__PURE__*/ S.TaggedError<DatabaseNotFoundException>()(
     "DatabaseNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class DatabaseResumingException
   extends /*@__PURE__*/ S.TaggedError<DatabaseResumingException>()(
     "DatabaseResumingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class DatabaseUnavailableException
   extends /*@__PURE__*/ S.TaggedError<DatabaseUnavailableException>()(
     "DatabaseUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(504),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(504),
   ).pipe(C.withTimeoutError) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class HttpEndpointNotEnabledException
   extends /*@__PURE__*/ S.TaggedError<HttpEndpointNotEnabledException>()(
     "HttpEndpointNotEnabledException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
     "InternalServerErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidResourceStateException
   extends /*@__PURE__*/ S.TaggedError<InvalidResourceStateException>()(
     "InvalidResourceStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSecretException
   extends /*@__PURE__*/ S.TaggedError<InvalidSecretException>()(
     "InvalidSecretException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class SecretsErrorException
   extends /*@__PURE__*/ S.TaggedError<SecretsErrorException>()(
     "SecretsErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableError
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableError>()(
     "ServiceUnavailableError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class StatementTimeoutException
   extends /*@__PURE__*/ S.TaggedError<StatementTimeoutException>()(
     "StatementTimeoutException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()), dbConnectionId: S.optional(S.Number) },
-    T.HttpError(400),
+    {
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      dbConnectionId: /*@__PURE__*/ S.optional(S.Number),
+    },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class TransactionNotFoundException
   extends /*@__PURE__*/ S.TaggedError<TransactionNotFoundException>()(
     "TransactionNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class UnsupportedResultException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedResultException>()(
     "UnsupportedResultException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type Arn = string;
 export type SqlStatement = string;
@@ -178,17 +187,10 @@ export type BoxedBoolean = boolean;
 export type BoxedLong = number;
 export type BoxedDouble = number;
 export type BooleanArray = boolean[];
-export const BooleanArray = /*@__PURE__*/ S.Array(S.Boolean).pipe(T.Sparse());
 export type LongArray = number[];
-export const LongArray = /*@__PURE__*/ S.Array(S.Number).pipe(T.Sparse());
 export type DoubleArray = number[];
-export const DoubleArray = /*@__PURE__*/ S.Array(S.Number).pipe(T.Sparse());
 export type StringArray = string[];
-export const StringArray = /*@__PURE__*/ S.Array(S.String).pipe(T.Sparse());
 export type ArrayOfArray = ArrayValue[];
-export const ArrayOfArray = /*@__PURE__*/ S.Array(
-  S.suspend(() => ArrayValue).annotate({ identifier: "ArrayValue" }),
-).pipe(T.Sparse()) as any as S.Schema<ArrayOfArray>;
 export type ArrayValue =
   | {
       booleanValues: boolean[];
@@ -225,13 +227,6 @@ export type ArrayValue =
       stringValues?: never;
       arrayValues: ArrayValue[];
     };
-export const ArrayValue = /*@__PURE__*/ S.Union([
-  S.Struct({ booleanValues: BooleanArray }),
-  S.Struct({ longValues: LongArray }),
-  S.Struct({ doubleValues: DoubleArray }),
-  S.Struct({ stringValues: StringArray }),
-  S.Struct({ arrayValues: S.suspend(() => ArrayOfArray).annotate({ identifier: "ArrayOfArray" }) }),
-]) as any as S.Schema<ArrayValue>;
 export type Field =
   | {
       isNull: boolean;
@@ -296,34 +291,14 @@ export type Field =
       blobValue?: never;
       arrayValue: ArrayValue;
     };
-export const Field = /*@__PURE__*/ S.Union([
-  S.Struct({ isNull: S.Boolean }),
-  S.Struct({ booleanValue: S.Boolean }),
-  S.Struct({ longValue: S.Number }),
-  S.Struct({ doubleValue: S.Number }),
-  S.Struct({ stringValue: S.String }),
-  S.Struct({ blobValue: T.Blob }),
-  S.Struct({ arrayValue: ArrayValue }),
-]);
 export type TypeHint = "JSON" | "UUID" | "TIMESTAMP" | "DATE" | "TIME" | "DECIMAL" | (string & {});
-export const TypeHint = S.String;
-
 export interface SqlParameter {
   name?: string;
   value?: Field;
   typeHint?: TypeHint;
 }
-export const SqlParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    value: S.optional(Field),
-    typeHint: S.optional(TypeHint),
-  }),
-).annotate({ identifier: "SqlParameter" }) as any as S.Schema<SqlParameter>;
 export type SqlParametersList = SqlParameter[];
-export const SqlParametersList = /*@__PURE__*/ S.Array(SqlParameter);
 export type SqlParameterSets = SqlParameter[][];
-export const SqlParameterSets = /*@__PURE__*/ S.Array(SqlParametersList);
 export type Id = string;
 export interface BatchExecuteStatementRequest {
   resourceArn: string;
@@ -334,78 +309,32 @@ export interface BatchExecuteStatementRequest {
   parameterSets?: SqlParameter[][];
   transactionId?: string;
 }
-export const BatchExecuteStatementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    sql: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-    parameterSets: S.optional(SqlParameterSets),
-    transactionId: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/BatchExecute" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BatchExecuteStatementRequest",
-}) as any as S.Schema<BatchExecuteStatementRequest>;
 export type FieldList = Field[];
-export const FieldList = /*@__PURE__*/ S.Array(Field);
 export interface UpdateResult {
   generatedFields?: Field[];
 }
-export const UpdateResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ generatedFields: S.optional(FieldList) }),
-).annotate({ identifier: "UpdateResult" }) as any as S.Schema<UpdateResult>;
 export type UpdateResults = UpdateResult[];
-export const UpdateResults = /*@__PURE__*/ S.Array(UpdateResult);
 export interface BatchExecuteStatementResponse {
   updateResults?: UpdateResult[];
 }
-export const BatchExecuteStatementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ updateResults: S.optional(UpdateResults) }),
-).annotate({
-  identifier: "BatchExecuteStatementResponse",
-}) as any as S.Schema<BatchExecuteStatementResponse>;
 export interface BeginTransactionRequest {
   resourceArn: string;
   secretArn: string;
   database?: string;
   schema?: string;
 }
-export const BeginTransactionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/BeginTransaction" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "BeginTransactionRequest" }) as any as S.Schema<BeginTransactionRequest>;
 export interface BeginTransactionResponse {
   transactionId?: string;
 }
-export const BeginTransactionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ transactionId: S.optional(S.String) }),
-).annotate({ identifier: "BeginTransactionResponse" }) as any as S.Schema<BeginTransactionResponse>;
 export interface CommitTransactionRequest {
   resourceArn: string;
   secretArn: string;
   transactionId: string;
 }
-export const CommitTransactionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String, secretArn: S.String, transactionId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/CommitTransaction" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CommitTransactionRequest" }) as any as S.Schema<CommitTransactionRequest>;
 export type TransactionStatus = string;
 export interface CommitTransactionResponse {
   transactionStatus?: string;
 }
-export const CommitTransactionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ transactionStatus: S.optional(S.String) }),
-).annotate({
-  identifier: "CommitTransactionResponse",
-}) as any as S.Schema<CommitTransactionResponse>;
 export interface ExecuteSqlRequest {
   dbClusterOrInstanceArn: string;
   awsSecretStoreArn: string;
@@ -413,15 +342,6 @@ export interface ExecuteSqlRequest {
   database?: string;
   schema?: string;
 }
-export const ExecuteSqlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dbClusterOrInstanceArn: S.String,
-    awsSecretStoreArn: S.String,
-    sqlStatements: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/ExecuteSql" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ExecuteSqlRequest" }) as any as S.Schema<ExecuteSqlRequest>;
 export interface ColumnMetadata {
   name?: string;
   type?: number;
@@ -438,49 +358,17 @@ export interface ColumnMetadata {
   scale?: number;
   arrayBaseColumnType?: number;
 }
-export const ColumnMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    type: S.optional(S.Number),
-    typeName: S.optional(S.String),
-    label: S.optional(S.String),
-    schemaName: S.optional(S.String),
-    tableName: S.optional(S.String),
-    isAutoIncrement: S.optional(S.Boolean),
-    isSigned: S.optional(S.Boolean),
-    isCurrency: S.optional(S.Boolean),
-    isCaseSensitive: S.optional(S.Boolean),
-    nullable: S.optional(S.Number),
-    precision: S.optional(S.Number),
-    scale: S.optional(S.Number),
-    arrayBaseColumnType: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ColumnMetadata" }) as any as S.Schema<ColumnMetadata>;
 export type Metadata = ColumnMetadata[];
-export const Metadata = /*@__PURE__*/ S.Array(ColumnMetadata);
 export interface ResultSetMetadata {
   columnCount?: number;
   columnMetadata?: ColumnMetadata[];
 }
-export const ResultSetMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ columnCount: S.optional(S.Number), columnMetadata: S.optional(Metadata) }),
-).annotate({ identifier: "ResultSetMetadata" }) as any as S.Schema<ResultSetMetadata>;
 export type BoxedInteger = number;
 export type BoxedFloat = number;
 export type ArrayValueList = Value[];
-export const ArrayValueList = /*@__PURE__*/ S.Array(
-  S.suspend(() => Value).annotate({ identifier: "Value" }),
-) as any as S.Schema<ArrayValueList>;
 export interface StructValue {
   attributes?: Value[];
 }
-export const StructValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attributes: S.optional(
-      S.suspend(() => ArrayValueList).annotate({ identifier: "ArrayValueList" }),
-    ),
-  }),
-).annotate({ identifier: "StructValue" }) as any as S.Schema<StructValue>;
 export type Value =
   | {
       isNull: boolean;
@@ -602,76 +490,31 @@ export type Value =
       arrayValues?: never;
       structValue: StructValue;
     };
-export const Value = /*@__PURE__*/ S.Union([
-  S.Struct({ isNull: S.Boolean }),
-  S.Struct({ bitValue: S.Boolean }),
-  S.Struct({ bigIntValue: S.Number }),
-  S.Struct({ intValue: S.Number }),
-  S.Struct({ doubleValue: S.Number }),
-  S.Struct({ realValue: S.Number }),
-  S.Struct({ stringValue: S.String }),
-  S.Struct({ blobValue: T.Blob }),
-  S.Struct({
-    arrayValues: S.suspend(() => ArrayValueList).annotate({ identifier: "ArrayValueList" }),
-  }),
-  S.Struct({
-    structValue: S.suspend((): S.Schema<StructValue> => StructValue).annotate({
-      identifier: "StructValue",
-    }),
-  }),
-]) as any as S.Schema<Value>;
 export type Row = Value[];
-export const Row = /*@__PURE__*/ S.Array(S.suspend(() => Value).annotate({ identifier: "Value" }));
 export interface Record {
   values?: Value[];
 }
-export const Record = /*@__PURE__*/ S.suspend(() => S.Struct({ values: S.optional(Row) })).annotate(
-  { identifier: "Record" },
-) as any as S.Schema<Record>;
 export type Records = Record[];
-export const Records = /*@__PURE__*/ S.Array(Record);
 export interface ResultFrame {
   resultSetMetadata?: ResultSetMetadata;
   records?: Record[];
 }
-export const ResultFrame = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resultSetMetadata: S.optional(ResultSetMetadata), records: S.optional(Records) }),
-).annotate({ identifier: "ResultFrame" }) as any as S.Schema<ResultFrame>;
 export type RecordsUpdated = number;
 export interface SqlStatementResult {
   resultFrame?: ResultFrame;
   numberOfRecordsUpdated?: number;
 }
-export const SqlStatementResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resultFrame: S.optional(ResultFrame), numberOfRecordsUpdated: S.optional(S.Number) }),
-).annotate({ identifier: "SqlStatementResult" }) as any as S.Schema<SqlStatementResult>;
 export type SqlStatementResults = SqlStatementResult[];
-export const SqlStatementResults = /*@__PURE__*/ S.Array(SqlStatementResult);
 export interface ExecuteSqlResponse {
   sqlStatementResults?: SqlStatementResult[];
 }
-export const ExecuteSqlResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sqlStatementResults: S.optional(SqlStatementResults) }),
-).annotate({ identifier: "ExecuteSqlResponse" }) as any as S.Schema<ExecuteSqlResponse>;
 export type DecimalReturnType = "STRING" | "DOUBLE_OR_LONG" | (string & {});
-export const DecimalReturnType = S.String;
-
 export type LongReturnType = "STRING" | "LONG" | (string & {});
-export const LongReturnType = S.String;
-
 export interface ResultSetOptions {
   decimalReturnType?: DecimalReturnType;
   longReturnType?: LongReturnType;
 }
-export const ResultSetOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    decimalReturnType: S.optional(DecimalReturnType),
-    longReturnType: S.optional(LongReturnType),
-  }),
-).annotate({ identifier: "ResultSetOptions" }) as any as S.Schema<ResultSetOptions>;
 export type RecordsFormatType = "NONE" | "JSON" | (string & {});
-export const RecordsFormatType = S.String;
-
 export interface ExecuteStatementRequest {
   resourceArn: string;
   secretArn: string;
@@ -685,23 +528,7 @@ export interface ExecuteStatementRequest {
   resultSetOptions?: ResultSetOptions;
   formatRecordsAs?: RecordsFormatType;
 }
-export const ExecuteStatementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String,
-    secretArn: S.String,
-    sql: S.String,
-    database: S.optional(S.String),
-    schema: S.optional(S.String),
-    parameters: S.optional(SqlParametersList),
-    transactionId: S.optional(S.String),
-    includeResultMetadata: S.optional(S.Boolean),
-    continueAfterTimeout: S.optional(S.Boolean),
-    resultSetOptions: S.optional(ResultSetOptions),
-    formatRecordsAs: S.optional(RecordsFormatType),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/Execute" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ExecuteStatementRequest" }) as any as S.Schema<ExecuteStatementRequest>;
 export type SqlRecords = Field[][];
-export const SqlRecords = /*@__PURE__*/ S.Array(FieldList);
 export type FormattedSqlRecords = string;
 export interface ExecuteStatementResponse {
   records?: Field[][];
@@ -710,35 +537,14 @@ export interface ExecuteStatementResponse {
   generatedFields?: Field[];
   formattedRecords?: string;
 }
-export const ExecuteStatementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    records: S.optional(SqlRecords),
-    columnMetadata: S.optional(Metadata),
-    numberOfRecordsUpdated: S.optional(S.Number),
-    generatedFields: S.optional(FieldList),
-    formattedRecords: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExecuteStatementResponse" }) as any as S.Schema<ExecuteStatementResponse>;
 export interface RollbackTransactionRequest {
   resourceArn: string;
   secretArn: string;
   transactionId: string;
 }
-export const RollbackTransactionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String, secretArn: S.String, transactionId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/RollbackTransaction" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RollbackTransactionRequest",
-}) as any as S.Schema<RollbackTransactionRequest>;
 export interface RollbackTransactionResponse {
   transactionStatus?: string;
 }
-export const RollbackTransactionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ transactionStatus: S.optional(S.String) }),
-).annotate({
-  identifier: "RollbackTransactionResponse",
-}) as any as S.Schema<RollbackTransactionResponse>;
 export type ErrorMessage = string;
 export type BatchExecuteStatementError =
   | AccessDeniedException
@@ -774,8 +580,8 @@ export const batchExecuteStatement: API.OperationMethod<
   BatchExecuteStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchExecuteStatementRequest,
-  output: BatchExecuteStatementResponse,
+  input: __S(1, __c0, 1) as any as S.Schema<BatchExecuteStatementRequest>,
+  output: __S(4, __c0, 4) as any as S.Schema<BatchExecuteStatementResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -830,8 +636,8 @@ export const beginTransaction: API.OperationMethod<
   BeginTransactionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BeginTransactionRequest,
-  output: BeginTransactionResponse,
+  input: __S(32, __c2, 0) as any as S.Schema<BeginTransactionRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<BeginTransactionResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -880,8 +686,8 @@ export const commitTransaction: API.OperationMethod<
   CommitTransactionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CommitTransactionRequest,
-  output: CommitTransactionResponse,
+  input: __S(48, __c3, 0) as any as S.Schema<CommitTransactionRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<CommitTransactionResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -922,8 +728,8 @@ export const executeSql: API.OperationMethod<
   ExecuteSqlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteSqlRequest,
-  output: ExecuteSqlResponse,
+  input: __S(80, __c5, 0) as any as S.Schema<ExecuteSqlRequest>,
+  output: __S(91, __c5, 11) as any as S.Schema<ExecuteSqlResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -967,8 +773,8 @@ export const executeStatement: API.OperationMethod<
   ExecuteStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExecuteStatementRequest,
-  output: ExecuteStatementResponse,
+  input: __S(113, __c7, 1) as any as S.Schema<ExecuteStatementRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<ExecuteStatementResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1018,8 +824,8 @@ export const rollbackTransaction: API.OperationMethod<
   RollbackTransactionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RollbackTransactionRequest,
-  output: RollbackTransactionResponse,
+  input: __S(128, __c8, 0) as any as S.Schema<RollbackTransactionRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<RollbackTransactionResponse>,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -1041,3 +847,295 @@ export const rollbackTransaction: API.OperationMethod<
   retry: Retry,
   operationName: "RollbackTransaction",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(23, __c1, 7));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String,
+          secretArn: S.String,
+          sql: S.String,
+          database: S.optional(S.String),
+          schema: S.optional(S.String),
+          parameterSets: S.optional(__S(0, __c0, 0)),
+          transactionId: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/BatchExecute" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchExecuteStatementRequest" });
+    case 2:
+      return S.suspend(() => S.Struct({ generatedFields: S.optional(__S(24, __c1, 8)) })).annotate({
+        identifier: "UpdateResult",
+      });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() => S.Struct({ updateResults: S.optional(__S(3, __c0, 3)) })).annotate({
+        identifier: "BatchExecuteStatementResponse",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Boolean).pipe(/*@__PURE__*/ T.Sparse());
+    case 1:
+      return S.Array(S.Number).pipe(/*@__PURE__*/ T.Sparse());
+    case 2:
+      return S.Array(S.String).pipe(/*@__PURE__*/ T.Sparse());
+    case 3:
+      return S.Array(
+        /*@__PURE__*/ S.suspend(() => __S(20, __c1, 4)).annotate({ identifier: "ArrayValue" }),
+      ).pipe(/*@__PURE__*/ T.Sparse());
+    case 4:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ booleanValues: __S(16, __c1, 0) }),
+        /*@__PURE__*/ S.Struct({ longValues: __S(17, __c1, 1) }),
+        /*@__PURE__*/ S.Struct({ doubleValues: __S(17, __c1, 1) }),
+        /*@__PURE__*/ S.Struct({ stringValues: __S(18, __c1, 2) }),
+        /*@__PURE__*/ S.Struct({
+          arrayValues: /*@__PURE__*/ S.suspend(() => __S(19, __c1, 3)).annotate({
+            identifier: "ArrayOfArray",
+          }),
+        }),
+      ]);
+    case 5:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ isNull: S.Boolean }),
+        /*@__PURE__*/ S.Struct({ booleanValue: S.Boolean }),
+        /*@__PURE__*/ S.Struct({ longValue: S.Number }),
+        /*@__PURE__*/ S.Struct({ doubleValue: S.Number }),
+        /*@__PURE__*/ S.Struct({ stringValue: S.String }),
+        /*@__PURE__*/ S.Struct({ blobValue: T.Blob }),
+        /*@__PURE__*/ S.Struct({ arrayValue: __S(20, __c1, 4) }),
+      ]);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(__S(21, __c1, 5)),
+          typeHint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqlParameter" });
+    case 7:
+      return S.Array(__S(22, __c1, 6));
+    case 8:
+      return S.Array(__S(21, __c1, 5));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String,
+          secretArn: S.String,
+          database: S.optional(S.String),
+          schema: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/BeginTransaction" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BeginTransactionRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ transactionId: S.optional(S.String) })).annotate({
+        identifier: "BeginTransactionResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, secretArn: S.String, transactionId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/CommitTransaction" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CommitTransactionRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ transactionStatus: S.optional(S.String) })).annotate({
+        identifier: "CommitTransactionResponse",
+      });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dbClusterOrInstanceArn: S.String,
+          awsSecretStoreArn: S.String,
+          sqlStatements: S.String,
+          database: S.optional(S.String),
+          schema: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/ExecuteSql" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ExecuteSqlRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          columnCount: S.optional(S.Number),
+          columnMetadata: S.optional(__S(97, __c6, 1)),
+        }),
+      ).annotate({ identifier: "ResultSetMetadata" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ S.suspend(() => __S(84, __c5, 4)).annotate({ identifier: "Value" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          attributes: S.optional(
+            S.suspend(() => __S(82, __c5, 2)).annotate({ identifier: "ArrayValueList" }),
+          ),
+        }),
+      ).annotate({ identifier: "StructValue" });
+    case 4:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ isNull: S.Boolean }),
+        /*@__PURE__*/ S.Struct({ bitValue: S.Boolean }),
+        /*@__PURE__*/ S.Struct({ bigIntValue: S.Number }),
+        /*@__PURE__*/ S.Struct({ intValue: S.Number }),
+        /*@__PURE__*/ S.Struct({ doubleValue: S.Number }),
+        /*@__PURE__*/ S.Struct({ realValue: S.Number }),
+        /*@__PURE__*/ S.Struct({ stringValue: S.String }),
+        /*@__PURE__*/ S.Struct({ blobValue: T.Blob }),
+        /*@__PURE__*/ S.Struct({
+          arrayValues: /*@__PURE__*/ S.suspend(() => __S(82, __c5, 2)).annotate({
+            identifier: "ArrayValueList",
+          }),
+        }),
+        /*@__PURE__*/ S.Struct({
+          structValue: /*@__PURE__*/ S.suspend((): S.Schema<StructValue> =>
+            __S(83, __c5, 3),
+          ).annotate({ identifier: "StructValue" }),
+        }),
+      ]);
+    case 5:
+      return S.Array(
+        /*@__PURE__*/ S.suspend(() => __S(84, __c5, 4)).annotate({ identifier: "Value" }),
+      );
+    case 6:
+      return S.suspend(() => S.Struct({ values: S.optional(__S(85, __c5, 5)) })).annotate({
+        identifier: "Record",
+      });
+    case 7:
+      return S.Array(__S(86, __c5, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          resultSetMetadata: S.optional(__S(81, __c5, 1)),
+          records: S.optional(__S(87, __c5, 7)),
+        }),
+      ).annotate({ identifier: "ResultFrame" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          resultFrame: S.optional(__S(88, __c5, 8)),
+          numberOfRecordsUpdated: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SqlStatementResult" });
+    case 10:
+      return S.Array(__S(89, __c5, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({ sqlStatementResults: S.optional(__S(90, __c5, 10)) }),
+      ).annotate({ identifier: "ExecuteSqlResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.optional(S.Number),
+          typeName: S.optional(S.String),
+          label: S.optional(S.String),
+          schemaName: S.optional(S.String),
+          tableName: S.optional(S.String),
+          isAutoIncrement: S.optional(S.Boolean),
+          isSigned: S.optional(S.Boolean),
+          isCurrency: S.optional(S.Boolean),
+          isCaseSensitive: S.optional(S.Boolean),
+          nullable: S.optional(S.Number),
+          precision: S.optional(S.Number),
+          scale: S.optional(S.Number),
+          arrayBaseColumnType: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ColumnMetadata" });
+    case 1:
+      return S.Array(__S(96, __c6, 0));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ decimalReturnType: S.optional(S.String), longReturnType: S.optional(S.String) }),
+      ).annotate({ identifier: "ResultSetOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String,
+          secretArn: S.String,
+          sql: S.String,
+          database: S.optional(S.String),
+          schema: S.optional(S.String),
+          parameters: S.optional(__S(23, __c1, 7)),
+          transactionId: S.optional(S.String),
+          includeResultMetadata: S.optional(S.Boolean),
+          continueAfterTimeout: S.optional(S.Boolean),
+          resultSetOptions: S.optional(__S(112, __c7, 0)),
+          formatRecordsAs: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/Execute" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ExecuteStatementRequest" });
+    case 2:
+      return S.Array(__S(24, __c1, 8));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          records: S.optional(__S(114, __c7, 2)),
+          columnMetadata: S.optional(__S(97, __c6, 1)),
+          numberOfRecordsUpdated: S.optional(S.Number),
+          generatedFields: S.optional(__S(24, __c1, 8)),
+          formattedRecords: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExecuteStatementResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, secretArn: S.String, transactionId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/RollbackTransaction" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RollbackTransactionRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

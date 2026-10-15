@@ -28,23 +28,19 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
-/** Unknown STACKIT error — returned when nothing else matches the failure. */
-export class UnknownStackitError extends Schema.TaggedError<UnknownStackitError>()(
-  "UnknownStackitError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+/** Unknown STACKIT error -- returned when nothing else matches the failure. */
+export class UnknownStackitError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownStackitError>()("UnknownStackitError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class StackitParseError extends Schema.TaggedError<StackitParseError>()(
-  "StackitParseError",
-  {
+export class StackitParseError
+  extends /*@__PURE__*/ Schema.TaggedError<StackitParseError>()("StackitParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}

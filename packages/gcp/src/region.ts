@@ -8,7 +8,7 @@
  * resources; it never changes which host a request goes to.
  *
  * Credentials carry a region (`Credentials` `region`, e.g. from a
- * profile) and {@link Region} is the OVERRIDE on top — an
+ * profile) and {@link Region} is the OVERRIDE on top -- an
  * optional service generated operations do not list in their
  * requirements. {@link current} reads the override, then the
  * credentials' region.
@@ -19,7 +19,7 @@
  *   location in its resource name only where the global host rejects
  *   regional resources (Vertex AI, Secret Manager, Parameter Manager).
  * - `"prefer"`: send every request whose resource name has a location
- *   to that location's regional host whenever Google publishes one — the
+ *   to that location's regional host whenever Google publishes one -- the
  *   data-residency mode (TLS terminates in the region).
  * - `"never"`: always use the global host.
  */
@@ -34,9 +34,10 @@ import { REGIONAL_ENDPOINTS } from "./regional-endpoints.ts";
 /** A GCP region (`us-central1`) or multi-region (`us`, `eu`). */
 export type RegionName = string;
 
-export class Region extends Context.Service<Region, Effect.Effect<RegionName | undefined>>()(
-  "GCP::Region",
-) {}
+export class Region
+  extends /*@__PURE__*/ Context.Service<Region, Effect.Effect<RegionName | undefined>>()(
+    "GCP::Region",
+  ) {}
 
 /*
  * There is deliberately no environment source: Google's SDKs have no
@@ -51,8 +52,8 @@ export const of = (region: RegionName) => Layer.succeed(Region, Effect.succeed(r
  * The default region: the {@link Region} override, else the credentials'
  * region, else `undefined`.
  */
-export const current: Effect.Effect<RegionName | undefined, GCPCredentialsError> = Effect.gen(
-  function* () {
+export const current: Effect.Effect<RegionName | undefined, GCPCredentialsError> =
+  /*@__PURE__*/ Effect.gen(function* () {
     const override = yield* Effect.serviceOption(Region);
     if (Option.isSome(override)) {
       const region = yield* override.value;
@@ -61,14 +62,14 @@ export const current: Effect.Effect<RegionName | undefined, GCPCredentialsError>
     const credentials = yield* Effect.serviceOption(Credentials);
     if (Option.isNone(credentials)) return undefined;
     return (yield* credentials.value).region;
-  },
-);
+  });
 
 export type RegionalEndpointMode = "required" | "prefer" | "never";
 
-export class RegionalEndpoints extends Context.Service<RegionalEndpoints, RegionalEndpointMode>()(
-  "GCP::RegionalEndpoints",
-) {}
+export class RegionalEndpoints
+  extends /*@__PURE__*/ Context.Service<RegionalEndpoints, RegionalEndpointMode>()(
+    "GCP::RegionalEndpoints",
+  ) {}
 
 /** Route requests to regional hosts, e.g. `RegionalEndpoints.of("prefer")`. */
 export const regionalEndpoints = (mode: RegionalEndpointMode) =>
@@ -76,9 +77,9 @@ export const regionalEndpoints = (mode: RegionalEndpointMode) =>
 
 /**
  * Services whose global host rejects regional resources, so a request for
- * `projects/p/locations/{region}/…` must go to the regional host.
+ * `projects/p/locations/{region}/...` must go to the regional host.
  */
-const REGION_REQUIRED = new Set([
+const REGION_REQUIRED = /*@__PURE__*/ new Set([
   "https://aiplatform.googleapis.com/",
   "https://secretmanager.googleapis.com/",
   "https://parametermanager.googleapis.com/",

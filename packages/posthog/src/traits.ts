@@ -1,5 +1,5 @@
 /**
- * PostHog SDK trait surface — hand-written.
+ * PostHog SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated service
  * modules import everything from one place. PostHog's wire needs nothing

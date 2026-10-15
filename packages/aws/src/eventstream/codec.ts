@@ -50,19 +50,22 @@ export const INITIAL_RESPONSE_EVENT_TYPE = "initial-response";
 // ============================================================================
 
 /** Error decoding an event stream message */
-export class EventStreamDecodeError extends Data.TaggedError("EventStreamDecodeError")<{
-  message: string;
-}> {}
+export class EventStreamDecodeError
+  extends /*@__PURE__*/ Data.TaggedError("EventStreamDecodeError")<{
+    message: string;
+  }> {}
 
 /** Error encoding an event stream message */
-export class EventStreamEncodeError extends Data.TaggedError("EventStreamEncodeError")<{
-  message: string;
-}> {}
+export class EventStreamEncodeError
+  extends /*@__PURE__*/ Data.TaggedError("EventStreamEncodeError")<{
+    message: string;
+  }> {}
 
 /** Error parsing an event from a message */
-export class EventParseError extends Data.TaggedError("EventParseError")<{
-  message: string;
-}> {}
+export class EventParseError
+  extends /*@__PURE__*/ Data.TaggedError("EventParseError")<{
+    message: string;
+  }> {}
 
 // ============================================================================
 // Header Value Types

@@ -1,0 +1,2745 @@
+{
+  "acme": {
+    "AcmeProtocol": {
+      "pkg": "acme",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/acme"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getDirectory({\"identifier\":\"GetDirectoryRequest\"})",
+      "label": "acme.getDirectory",
+      "env": {
+        "ACME_ACCOUNT_KEY": "bench-secret",
+        "ACME_ACCOUNT_URL": "https://bench.example.com",
+        "ACME_DIRECTORY_URL": "https://bench.example.com",
+        "ACME_EAB_HMAC_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "AcmeProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"newNonce\":\"x\",\"newAccount\":\"x\",\"newOrder\":\"x\",\"revokeCert\":\"x\"}"
+      }
+    }
+  },
+  "adyen": {
+    "AdyenProtocol": {
+      "pkg": "adyen",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/adyen"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getStoredPaymentMethods({})",
+      "label": "adyen.getStoredPaymentMethods",
+      "env": {
+        "ADYEN_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "AdyenProtocol",
+      "primary": true
+    }
+  },
+  "apache-superset": {
+    "ApacheSupersetProtocol": {
+      "pkg": "apache-superset",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/superset"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listMenu({})",
+      "label": "superset.listMenu",
+      "env": {
+        "SUPERSET_ACCESS_TOKEN": "bench-secret",
+        "SUPERSET_URL": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ApacheSupersetProtocol",
+      "primary": true
+    }
+  },
+  "archil": {
+    "ArchilProtocol": {
+      "pkg": "archil",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/archil"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listDisks({})",
+      "label": "archil.listDisks",
+      "env": {
+        "ARCHIL_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ArchilProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"success\":false,\"data\":[]}"
+      }
+    }
+  },
+  "argocd": {
+    "ArgocdProtocol": {
+      "pkg": "argocd",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/argocd"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listGPGKeyService({})",
+      "label": "argocd.listGPGKeyService",
+      "env": {
+        "ARGOCD_SERVER": "https://bench.example.com",
+        "ARGOCD_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ArgocdProtocol",
+      "primary": true
+    }
+  },
+  "auth0": {
+    "Auth0Protocol": {
+      "pkg": "auth0",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/auth0"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getSns({})",
+      "label": "auth0.getSns",
+      "env": {
+        "AUTH0_DOMAIN": "bench.example.com",
+        "AUTH0_MANAGEMENT_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "Auth0Protocol",
+      "primary": true
+    }
+  },
+  "aws": {
+    "restXml": {
+      "pkg": "aws",
+      "protocol": "restXml",
+      "primary": true,
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/s3"
+      },
+      "auth": "Credentials.fromCredentials({ accessKeyId: Redacted.make(\"AKIA_BENCH\"), secretAccessKey: Redacted.make(\"bench\") }, \"us-east-1\")",
+      "call": "Op.listBuckets({})",
+      "label": "s3.listBuckets",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/xml"
+        },
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ListAllMyBucketsResult xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\"><Owner><ID>1</ID></Owner><Buckets><Bucket><Name>bench</Name><CreationDate>2025-01-01T00:00:00.000Z</CreationDate></Bucket></Buckets></ListAllMyBucketsResult>"
+      },
+      "pinned": true
+    },
+    "awsJson1_0": {
+      "pkg": "aws",
+      "protocol": "awsJson1_0",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/dynamodb"
+      },
+      "auth": "Credentials.fromCredentials({ accessKeyId: Redacted.make(\"AKIA_BENCH\"), secretAccessKey: Redacted.make(\"bench\") }, \"us-east-1\")",
+      "call": "Op.listTables({})",
+      "label": "dynamodb.listTables",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/x-amz-json-1.0"
+        },
+        "body": "{\"TableNames\":[]}"
+      },
+      "pinned": true
+    },
+    "awsJson1_1": {
+      "pkg": "aws",
+      "protocol": "awsJson1_1",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/kms"
+      },
+      "auth": "Credentials.fromCredentials({ accessKeyId: Redacted.make(\"AKIA_BENCH\"), secretAccessKey: Redacted.make(\"bench\") }, \"us-east-1\")",
+      "call": "Op.listKeys({})",
+      "label": "kms.listKeys",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/x-amz-json-1.1"
+        },
+        "body": "{\"Keys\":[],\"Truncated\":false}"
+      },
+      "pinned": true
+    },
+    "awsQuery": {
+      "pkg": "aws",
+      "protocol": "awsQuery",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/sts"
+      },
+      "auth": "Credentials.fromCredentials({ accessKeyId: Redacted.make(\"AKIA_BENCH\"), secretAccessKey: Redacted.make(\"bench\") }, \"us-east-1\")",
+      "call": "Op.getCallerIdentity({})",
+      "label": "sts.getCallerIdentity",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/xml"
+        },
+        "body": "<GetCallerIdentityResponse xmlns=\"https://sts.amazonaws.com/doc/2011-06-15/\"><GetCallerIdentityResult><Arn>arn:aws:iam::123456789012:user/bench</Arn><UserId>AIDABENCH</UserId><Account>123456789012</Account></GetCallerIdentityResult><ResponseMetadata><RequestId>1</RequestId></ResponseMetadata></GetCallerIdentityResponse>"
+      },
+      "pinned": true
+    },
+    "ec2Query": {
+      "pkg": "aws",
+      "protocol": "ec2Query",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/ec2"
+      },
+      "auth": "Credentials.fromCredentials({ accessKeyId: Redacted.make(\"AKIA_BENCH\"), secretAccessKey: Redacted.make(\"bench\") }, \"us-east-1\")",
+      "call": "Op.describeRegions({})",
+      "label": "ec2.describeRegions",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/xml"
+        },
+        "body": "<DescribeRegionsResponse xmlns=\"http://ec2.amazonaws.com/doc/2016-11-15/\"><requestId>1</requestId><regionInfo><item><regionName>us-east-1</regionName><regionEndpoint>ec2.us-east-1.amazonaws.com</regionEndpoint><optInStatus>opt-in-not-required</optInStatus></item></regionInfo></DescribeRegionsResponse>"
+      },
+      "pinned": true
+    },
+    "restJson1": {
+      "pkg": "aws",
+      "protocol": "restJson1",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/lambda"
+      },
+      "auth": "Credentials.fromCredentials({ accessKeyId: Redacted.make(\"AKIA_BENCH\"), secretAccessKey: Redacted.make(\"bench\") }, \"us-east-1\")",
+      "call": "Op.listFunctions({})",
+      "label": "lambda.listFunctions",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"Functions\":[]}"
+      },
+      "pinned": true
+    }
+  },
+  "axiom": {
+    "AxiomProtocol": {
+      "pkg": "axiom",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/v2"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listDashboards({})",
+      "label": "v2.listDashboards",
+      "env": {
+        "AXIOM_API_KEY": "bench-secret",
+        "AXIOM_ORG_ID": "bench-id",
+        "AXIOM_TOKEN": "bench-secret",
+        "AXIOM_URL": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "AxiomProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "azure": {
+    "AzureProtocol": {
+      "pkg": "azure",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/resources"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.ListTenants({})",
+      "label": "resources.ListTenants",
+      "env": {
+        "AZURE_BEARER_TOKEN": "bench-secret",
+        "AZURE_SUBSCRIPTION_ID": "bench-id",
+        "AZURE_TENANT_ID": "bench-id"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "pinned": true,
+      "protocol": "AzureProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"value\":[]}"
+      }
+    }
+  },
+  "boat-dev": {
+    "BoatProtocol": {
+      "pkg": "boat-dev",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/boat"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listRepos({})",
+      "label": "boat.listRepos",
+      "env": {
+        "BOAT_API_BASE": "https://bench.example.com",
+        "BOAT_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "BoatProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"ok\":false,\"type\":\"x\",\"installations\":[],\"environmentId\":\"x\",\"selectedRepositories\":[]}"
+      }
+    }
+  },
+  "celld": {
+    "CelldProtocol": {
+      "pkg": "celld",
+      "imports": {
+        "Credentials": "pkg:endpoint",
+        "Op": "pkg:services/node"
+      },
+      "auth": "Credentials.of(\"https://bench.example.com\")",
+      "call": "Op.shutdownNode({})",
+      "label": "node.shutdownNode",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "pinned": true,
+      "protocol": "CelldProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"ok\":false}"
+      }
+    }
+  },
+  "chronosphere": {
+    "ChronosphereProtocol": {
+      "pkg": "chronosphere",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/chronosphere"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listSLOs({})",
+      "label": "chronosphere.listSLOs",
+      "env": {
+        "CHRONOSPHERE_API_TOKEN": "bench-secret",
+        "CHRONOSPHERE_DOMAIN": "bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ChronosphereProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"slos\":[]}"
+      }
+    }
+  },
+  "clerk": {
+    "ClerkProtocol": {
+      "pkg": "clerk",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/clerk"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listMachines({})",
+      "label": "clerk.listMachines",
+      "env": {
+        "CLERK_SECRET_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ClerkProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[],\"total_count\":0}"
+      }
+    }
+  },
+  "cloudflare": {
+    "CloudflarePaginatedProtocol": {
+      "pkg": "cloudflare",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/workers"
+      },
+      "auth": "Credentials.fromApiToken({ apiToken: Redacted.make(\"bench-token\") })",
+      "call": "Op.listScripts({\"accountId\":\"bench\"})",
+      "label": "workers.listScripts",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"success\":true,\"errors\":[],\"messages\":[],\"result\":[]}"
+      },
+      "pinned": true,
+      "protocol": "CloudflarePaginatedProtocol",
+      "primary": true
+    },
+    "CloudflareProtocol": {
+      "pkg": "cloudflare",
+      "protocol": "CloudflareProtocol",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/ips"
+      },
+      "auth": "Credentials.fromApiToken({ apiToken: Redacted.make(\"bench-token\") })",
+      "call": "Op.listIps({})",
+      "label": "ips.listIps",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      }
+    }
+  },
+  "coinbase": {
+    "CoinbaseProtocol": {
+      "pkg": "coinbase",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/cdp"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listEndUsers({})",
+      "label": "cdp.listEndUsers",
+      "env": {
+        "CDP_API_KEY_ID": "bench-id",
+        "CDP_API_KEY_SECRET": "8ko1h627pg6Lm2h0uh8tbXMWXt9KPOZAvuKI0U2n72AjZlp5wiEaA1XjBb94Wl7A3v4qa2aJelkrBoCw9Z/tRA=="
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "CoinbaseProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"endUsers\":[]}"
+      }
+    }
+  },
+  "coolify": {
+    "CoolifyProtocol": {
+      "pkg": "coolify",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/coolify"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listResources({})",
+      "label": "coolify.listResources",
+      "env": {
+        "COOLIFY_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "CoolifyProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "\"x\""
+      }
+    }
+  },
+  "customerio": {
+    "CustomerioProtocol": {
+      "pkg": "customerio",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/customerio"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listAssets({})",
+      "label": "customerio.listAssets",
+      "env": {
+        "CUSTOMERIO_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "CustomerioProtocol",
+      "primary": true
+    }
+  },
+  "datadog": {
+    "DatadogProtocol": {
+      "pkg": "datadog",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/v2"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listApps({})",
+      "label": "v2.listApps",
+      "env": {
+        "DD_API_KEY": "bench-secret",
+        "DD_APP_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "DatadogProtocol",
+      "primary": true
+    }
+  },
+  "daytona": {
+    "DaytonaProtocol": {
+      "pkg": "daytona",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/jobs"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listJobs({})",
+      "label": "jobs.listJobs",
+      "env": {
+        "DAYTONA_ANALYTICS_URL": "https://bench.example.com",
+        "DAYTONA_API_KEY": "bench-secret",
+        "DAYTONA_ORGANIZATION_ID": "bench-id",
+        "DAYTONA_SANDBOX_ID": "bench-id",
+        "DAYTONA_TOOLBOX_URL": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "DaytonaProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"items\":[],\"total\":0,\"page\":0,\"totalPages\":0}"
+      }
+    }
+  },
+  "digitalocean": {
+    "DigitalOceanProtocol": {
+      "pkg": "digitalocean",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/digitalocean"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listNfs({})",
+      "label": "digitalocean.listNfs",
+      "env": {
+        "DIGITALOCEAN_ACCESS_TOKEN": "bench-secret",
+        "DIGITALOCEAN_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "DigitalOceanProtocol",
+      "primary": true
+    }
+  },
+  "discord": {
+    "DiscordProtocol": {
+      "pkg": "discord",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/discord"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listMyGuilds({})",
+      "label": "discord.listMyGuilds",
+      "env": {
+        "DISCORD_BOT_TOKEN": "bench-secret",
+        "DISCORD_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "DiscordProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "docker": {
+    "DockerProtocol": {
+      "pkg": "docker",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/docker"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listNode({})",
+      "label": "docker.listNode",
+      "env": {
+        "DOCKER_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "DockerProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "doppler": {
+    "DopplerProtocol": {
+      "pkg": "doppler",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/doppler"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listUsers({})",
+      "label": "doppler.listUsers",
+      "env": {
+        "DOPPLER_API_KEY": "bench-secret",
+        "DOPPLER_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "DopplerProtocol",
+      "primary": true
+    },
+    "DopplerPublicProtocol": {
+      "pkg": "doppler",
+      "protocol": "DopplerPublicProtocol",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/doppler"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.revokeCliAuth({\"token\":\"bench\"})",
+      "label": "doppler.revokeCliAuth",
+      "env": {
+        "DOPPLER_API_KEY": "bench-secret",
+        "DOPPLER_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      }
+    }
+  },
+  "elasticsearch": {
+    "ElasticsearchProtocol": {
+      "pkg": "elasticsearch",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/elasticsearch"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listTasks({})",
+      "label": "elasticsearch.listTasks",
+      "env": {
+        "ELASTICSEARCH_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ElasticsearchProtocol",
+      "primary": true
+    }
+  },
+  "expo-eas": {
+    "ExpoGraphqlProtocol": {
+      "pkg": "expo-eas",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/eas"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.build({})",
+      "label": "eas.build",
+      "env": {
+        "EXPO_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ExpoGraphqlProtocol",
+      "primary": true
+    }
+  },
+  "fly-io": {
+    "FlyIoProtocol": {
+      "pkg": "fly-io",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/machines"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getRegions({})",
+      "label": "machines.getRegions",
+      "env": {
+        "FLY_API_HOSTNAME": "https://bench.example.com",
+        "FLY_API_TOKEN": "bench-secret",
+        "FLY_IO_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "FlyIoProtocol",
+      "primary": true
+    },
+    "FlyApiProtocol": {
+      "pkg": "fly-io",
+      "protocol": "FlyApiProtocol",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/mpg"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listUsers({\"id\":\"bench\"})",
+      "label": "mpg.listUsers",
+      "env": {
+        "FLY_API_HOSTNAME": "https://bench.example.com",
+        "FLY_API_TOKEN": "bench-secret",
+        "FLY_IO_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      }
+    },
+    "FlyGraphqlProtocol": {
+      "pkg": "fly-io",
+      "protocol": "FlyGraphqlProtocol",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/addons"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.addOn({})",
+      "label": "addons.addOn",
+      "env": {
+        "FLY_API_HOSTNAME": "https://bench.example.com",
+        "FLY_API_TOKEN": "bench-secret",
+        "FLY_IO_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      }
+    },
+    "SpritesProtocol": {
+      "pkg": "fly-io",
+      "protocol": "SpritesProtocol",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/sprites"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.createOrganizationToken({\"org\":\"bench\"})",
+      "label": "sprites.createOrganizationToken",
+      "env": {
+        "FLY_API_HOSTNAME": "https://bench.example.com",
+        "FLY_API_TOKEN": "bench-secret",
+        "FLY_IO_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"token\":\"x\"}"
+      }
+    }
+  },
+  "forgejo": {
+    "ForgejoProtocol": {
+      "pkg": "forgejo",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/admin"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listAdminCron({})",
+      "label": "admin.listAdminCron",
+      "env": {
+        "FORGEJO_TOKEN": "bench-secret",
+        "FORGEJO_URL": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ForgejoProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "gcp": {
+    "GcpProtocol": {
+      "pkg": "gcp",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/storage_v1"
+      },
+      "auth": "Credentials.fromAccessToken({ accessToken: Redacted.make(\"bench-token\"), project: \"bench-project\" })",
+      "call": "Op.listBuckets({\"project\":\"bench\"})",
+      "label": "storage_v1.listBuckets",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"kind\":\"storage#buckets\",\"items\":[]}"
+      },
+      "pinned": true,
+      "protocol": "GcpProtocol",
+      "primary": true
+    }
+  },
+  "github": {
+    "GithubProtocol": {
+      "pkg": "github",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/gists"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.list({})",
+      "label": "gists.list",
+      "env": {
+        "GH_TOKEN": "bench-secret",
+        "GITHUB_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "GithubProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "google-workspace": {
+    "GoogleWorkspaceProtocol": {
+      "pkg": "google-workspace",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/drive_v3"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listApps({})",
+      "label": "drive_v3.listApps",
+      "env": {
+        "GOOGLE_ACCESS_TOKEN": "bench-secret",
+        "GOOGLE_PROJECT_ID": "bench-id"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "GoogleWorkspaceProtocol",
+      "primary": true
+    }
+  },
+  "grafana": {
+    "GrafanaProtocol": {
+      "pkg": "grafana",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/grafana"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listRoles({})",
+      "label": "grafana.listRoles",
+      "env": {
+        "GRAFANA_ORG_ID": "bench-id",
+        "GRAFANA_TOKEN": "bench-secret",
+        "GRAFANA_URL": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "GrafanaProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "growthbook": {
+    "GrowthBookProtocol": {
+      "pkg": "growthbook",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/growthbook"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listConfigs({})",
+      "label": "growthbook.listConfigs",
+      "env": {
+        "GROWTHBOOK_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "GrowthBookProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"configs\":[],\"limit\":0,\"offset\":0,\"count\":0,\"total\":0,\"hasMore\":false,\"nextOffset\":0}"
+      }
+    }
+  },
+  "gusto": {
+    "GustoProtocol": {
+      "pkg": "gusto",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/gusto"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getEvents({})",
+      "label": "gusto.getEvents",
+      "env": {
+        "GUSTO_ACCESS_TOKEN": "bench-secret",
+        "GUSTO_API_KEY": "bench-secret",
+        "GUSTO_API_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "GustoProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "hetzner": {
+    "HetznerProtocol": {
+      "pkg": "hetzner",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/isos"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listIsos({})",
+      "label": "isos.listIsos",
+      "env": {
+        "HCLOUD_ENDPOINT": "https://bench.example.com",
+        "HCLOUD_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "HetznerProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"isos\":[],\"meta\":{\"pagination\":{\"page\":0,\"per_page\":0,\"previous_page\":0,\"next_page\":0,\"last_page\":0,\"total_entries\":0}}}"
+      }
+    }
+  },
+  "hostinger": {
+    "HostingerProtocol": {
+      "pkg": "hostinger",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/hostinger"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listMailOrdersV1({})",
+      "label": "hostinger.listMailOrdersV1",
+      "env": {
+        "HOSTINGER_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "HostingerProtocol",
+      "primary": true
+    }
+  },
+  "huggingface": {
+    "HuggingFaceProtocol": {
+      "pkg": "huggingface",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/blogs"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listBlogs({})",
+      "label": "blogs.listBlogs",
+      "env": {
+        "HF_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "HuggingFaceProtocol",
+      "primary": true
+    }
+  },
+  "iceberg": {
+    "IcebergProtocol": {
+      "pkg": "iceberg",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/catalog"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listNamespaces({})",
+      "label": "catalog.listNamespaces",
+      "env": {
+        "CLOUDFLARE_API_TOKEN": "bench-secret",
+        "ICEBERG_CATALOG_URI": "https://bench.example.com",
+        "ICEBERG_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "IcebergProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"namespaces\":[]}"
+      }
+    }
+  },
+  "infisical": {
+    "InfisicalProtocol": {
+      "pkg": "infisical",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/infisical"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listSigners({})",
+      "label": "infisical.listSigners",
+      "env": {
+        "INFISICAL_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "InfisicalProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"signers\":[],\"totalCount\":0}"
+      }
+    }
+  },
+  "inngest": {
+    "InngestProtocol": {
+      "pkg": "inngest",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/inngest"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listV2Runs({})",
+      "label": "inngest.listV2Runs",
+      "env": {
+        "INNGEST_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "InngestProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[]}"
+      }
+    }
+  },
+  "intercom": {
+    "IntercomProtocol": {
+      "pkg": "intercom",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/intercom"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listTags({})",
+      "label": "intercom.listTags",
+      "env": {
+        "INTERCOM_ACCESS_TOKEN": "bench-secret",
+        "INTERCOM_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "IntercomProtocol",
+      "primary": true
+    }
+  },
+  "kubernetes": {
+    "KubernetesProtocol": {
+      "pkg": "kubernetes",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/core"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listCoreV1Node({})",
+      "label": "core.listCoreV1Node",
+      "env": {
+        "KUBERNETES_TOKEN": "bench-secret",
+        "KUBERNETES_API_URL": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "KubernetesProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"items\":[]}"
+      }
+    }
+  },
+  "launchdarkly": {
+    "LaunchDarklyProtocol": {
+      "pkg": "launchdarkly",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/launchdarkly"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getTags({})",
+      "label": "launchdarkly.getTags",
+      "env": {
+        "LAUNCHDARKLY_ACCESS_TOKEN": "bench-secret",
+        "LAUNCHDARKLY_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "LaunchDarklyProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"items\":[],\"_links\":{}}"
+      }
+    }
+  },
+  "meilisearch": {
+    "MeilisearchProtocol": {
+      "pkg": "meilisearch",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/meilisearch"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listApiKeys({})",
+      "label": "meilisearch.listApiKeys",
+      "env": {
+        "MEILISEARCH_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "MeilisearchProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"results\":[],\"offset\":0,\"limit\":0,\"total\":0}"
+      }
+    }
+  },
+  "mercury": {
+    "MercuryProtocol": {
+      "pkg": "mercury",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/mercury"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listCards({})",
+      "label": "mercury.listCards",
+      "env": {
+        "MERCURY_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "MercuryProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"cards\":[],\"page\":{}}"
+      }
+    }
+  },
+  "metabase": {
+    "MetabaseProtocol": {
+      "pkg": "metabase",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/metabase"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getCard({})",
+      "label": "metabase.getCard",
+      "env": {
+        "METABASE_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "MetabaseProtocol",
+      "primary": true
+    }
+  },
+  "modal": {
+    "ModalProtocol": {
+      "pkg": "modal",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/app"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listApp({})",
+      "label": "app.listApp",
+      "env": {
+        "MODAL_SERVER_URL": "https://bench.example.com",
+        "MODAL_TOKEN_ID": "bench-id",
+        "MODAL_TOKEN_SECRET": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ModalProtocol",
+      "primary": true
+    }
+  },
+  "modrinth": {
+    "ModrinthProtocol": {
+      "pkg": "modrinth",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/modrinth"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getOpenReports({})",
+      "label": "modrinth.getOpenReports",
+      "env": {
+        "MODRINTH_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ModrinthProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "mongodb-atlas": {
+    "MongodbAtlasProtocol": {
+      "pkg": "mongodb-atlas",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/atlas"
+      },
+      "auth": "Credentials.fromAccessToken({ accessToken: Redacted.make(\"bench-token\") })",
+      "call": "Op.listOrgs({})",
+      "label": "atlas.listOrgs",
+      "env": {},
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "MongodbAtlasProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"results\":[]}"
+      }
+    }
+  },
+  "neon": {
+    "NeonProtocol": {
+      "pkg": "neon",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/neon"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listProjects({})",
+      "label": "neon.listProjects",
+      "env": {
+        "NEON_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "NeonProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"projects\":[],\"applications\":{},\"integrations\":{}}"
+      }
+    }
+  },
+  "notion": {
+    "NotionProtocol": {
+      "pkg": "notion",
+      "protocol": "NotionProtocol",
+      "primary": true,
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/users"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listUsers({})",
+      "label": "users.listUsers",
+      "env": {
+        "NOTION_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"type\":\"x\",\"user\":{},\"object\":\"x\",\"next_cursor\":\"x\",\"has_more\":false,\"results\":[]}"
+      }
+    }
+  },
+  "okta": {
+    "OktaProtocol": {
+      "pkg": "okta",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/okta"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listRoles({})",
+      "label": "okta.listRoles",
+      "env": {
+        "OKTA_API_TOKEN": "bench-secret",
+        "OKTA_ORG_URL": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "OktaProtocol",
+      "primary": true
+    }
+  },
+  "onepassword": {
+    "OnepasswordProtocol": {
+      "pkg": "onepassword",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/onepassword"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getVaults({})",
+      "label": "onepassword.getVaults",
+      "env": {
+        "OP_CONNECT_HOST": "https://bench.example.com",
+        "OP_CONNECT_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "OnepasswordProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "opencode": {
+    "OpencodeProtocol": {
+      "pkg": "opencode",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/opencode"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listPty({})",
+      "label": "opencode.listPty",
+      "env": {
+        "OPENCODE_SERVER_PASSWORD": "bench-secret",
+        "OPENCODE_SERVER_USERNAME": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "OpencodeProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "ovh": {
+    "OvhProtocol": {
+      "pkg": "ovh",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/ip"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listIp({})",
+      "label": "ip.listIp",
+      "env": {
+        "OVH_ACCESS_TOKEN": "bench-secret",
+        "OVH_ENDPOINT": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "OvhProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "paypal": {
+    "PaypalProtocol": {
+      "pkg": "paypal",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/billing_subscriptions_v1"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listPlans({})",
+      "label": "billing_subscriptions_v1.listPlans",
+      "env": {
+        "PAYPAL_ACCESS_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "PaypalProtocol",
+      "primary": true
+    }
+  },
+  "plaid": {
+    "PlaidProtocol": {
+      "pkg": "plaid",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/plaid"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listWallet({})",
+      "label": "plaid.listWallet",
+      "env": {
+        "PLAID_CLIENT_ID": "bench-id",
+        "PLAID_SECRET": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "PlaidProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"wallets\":[],\"request_id\":\"x\"}"
+      }
+    }
+  },
+  "planetscale": {
+    "PlanetScaleProtocol": {
+      "pkg": "planetscale",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/planetscale"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listOrganizations({})",
+      "label": "planetscale.listOrganizations",
+      "env": {
+        "PLANETSCALE_API_TOKEN": "bench-secret",
+        "PLANETSCALE_API_TOKEN_ID": "bench-id",
+        "PLANETSCALE_ORGANIZATION": "bench-id"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "PlanetScaleProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"type\":\"x\",\"current_page\":0,\"per_page\":0,\"next_page\":0,\"next_page_url\":\"x\",\"prev_page\":0,\"prev_page_url\":\"x\",\"data\":[]}"
+      }
+    }
+  },
+  "polar": {
+    "PolarProtocol": {
+      "pkg": "polar",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/polar"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.filesList({})",
+      "label": "polar.filesList",
+      "env": {
+        "POLAR_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "PolarProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"items\":[],\"pagination\":{\"total_count\":0,\"max_page\":0}}"
+      }
+    }
+  },
+  "porkbun": {
+    "PorkbunProtocol": {
+      "pkg": "porkbun",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/porkbun"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listWebhook({})",
+      "label": "porkbun.listWebhook",
+      "env": {
+        "PORKBUN_API_KEY": "bench-secret",
+        "PORKBUN_SECRET_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "PorkbunProtocol",
+      "primary": true
+    }
+  },
+  "posthog": {
+    "PosthogProtocol": {
+      "pkg": "posthog",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/organizations"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.list({})",
+      "label": "organizations.list",
+      "env": {
+        "POSTHOG_API_KEY": "bench-secret",
+        "POSTHOG_HOST": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "PosthogProtocol",
+      "primary": true
+    }
+  },
+  "prisma": {
+    "PrismaProtocol": {
+      "pkg": "prisma",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/management"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getBuilds({})",
+      "label": "management.getBuilds",
+      "env": {
+        "PRISMA_API_TOKEN": "bench-secret",
+        "PRISMA_POSTGRES_API_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "PrismaProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[],\"pagination\":{\"nextCursor\":\"x\",\"hasMore\":false}}"
+      }
+    }
+  },
+  "railway": {
+    "graphql": {
+      "pkg": "railway",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Railway": "pkg:index",
+        "Query": "core:query"
+      },
+      "auth": "Layer.provideMerge(Railway.GraphQLLive, Credentials.CredentialsFromEnv)",
+      "call": "Query.Query.fn(() => ({ email: Railway.Railway.me().email }))()",
+      "label": "Railway.me().email",
+      "env": {
+        "RAILWAY_API_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":{\"me\":{\"email\":\"bench@example.com\"}}}"
+      },
+      "pinned": true,
+      "protocol": "graphql",
+      "primary": true
+    }
+  },
+  "redis-cloud": {
+    "RedisCloudProtocol": {
+      "pkg": "redis-cloud",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/redisCloud"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listMemoryStores({})",
+      "label": "redisCloud.listMemoryStores",
+      "env": {
+        "REDIS_CLOUD_API_KEY": "bench-secret",
+        "REDIS_CLOUD_API_SECRET_KEY": "bench-secret",
+        "REDIS_CLOUD_AUTH_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "RedisCloudProtocol",
+      "primary": true
+    }
+  },
+  "remote": {
+    "RemoteProtocol": {
+      "pkg": "remote",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/remote"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getTimeoff({})",
+      "label": "remote.getTimeoff",
+      "env": {
+        "REMOTE_ACCESS_TOKEN": "bench-secret",
+        "REMOTE_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "RemoteProtocol",
+      "primary": true
+    }
+  },
+  "render": {
+    "RenderProtocol": {
+      "pkg": "render",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/render"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listDisks({})",
+      "label": "render.listDisks",
+      "env": {
+        "RENDER_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "RenderProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "resend": {
+    "ResendProtocol": {
+      "pkg": "resend",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/resend"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listLogs({})",
+      "label": "resend.listLogs",
+      "env": {
+        "RESEND_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ResendProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[]}"
+      }
+    }
+  },
+  "s2": {
+    "S2Protocol": {
+      "pkg": "s2",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/basins"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listBasins({})",
+      "label": "basins.listBasins",
+      "env": {
+        "S2_ACCESS_TOKEN": "bench-secret",
+        "S2_ACCOUNT_ENDPOINT": "https://bench.example.com",
+        "S2_BASIN": "bench-id",
+        "S2_BASIN_ENDPOINT": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "S2Protocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"basins\":[],\"has_more\":false}"
+      }
+    }
+  },
+  "sentry": {
+    "SentryProtocol": {
+      "pkg": "sentry",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/sentry"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listOrganizations({})",
+      "label": "sentry.listOrganizations",
+      "env": {
+        "SENTRY_API_KEY": "bench-secret",
+        "SENTRY_AUTH_TOKEN": "bench-secret",
+        "SENTRY_URL": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "SentryProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "[]"
+      }
+    }
+  },
+  "slack": {
+    "SlackProtocol": {
+      "pkg": "slack",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/admin"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listEmoji({})",
+      "label": "admin.listEmoji",
+      "env": {
+        "SLACK_BOT_TOKEN": "bench-secret",
+        "SLACK_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "SlackProtocol",
+      "primary": true
+    }
+  },
+  "spacetimedb": {
+    "SpacetimeDBProtocol": {
+      "pkg": "spacetimedb",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/spacetimedb"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listIdentityDatabases({\"identity\":\"bench\"})",
+      "label": "spacetimedb.listIdentityDatabases",
+      "env": {
+        "SPACETIMEDB_HOST": "https://bench.example.com",
+        "SPACETIMEDB_TOKEN": "bench-secret",
+        "SPACETIME_HOST": "https://bench.example.com",
+        "SPACETIME_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "SpacetimeDBProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"identities\":[]}"
+      }
+    }
+  },
+  "squarespace": {
+    "SquarespaceProtocol": {
+      "pkg": "squarespace",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/squarespace"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listDiscounts({})",
+      "label": "squarespace.listDiscounts",
+      "env": {
+        "SQUARESPACE_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "SquarespaceProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"discounts\":[]}"
+      }
+    }
+  },
+  "stackit": {
+    "StackitProtocol": {
+      "pkg": "stackit",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/pim"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listSKUs({})",
+      "label": "pim.listSKUs",
+      "env": {
+        "STACKIT_SERVICE_ACCOUNT_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "StackitProtocol",
+      "primary": true
+    }
+  },
+  "stripe": {
+    "StripeProtocol": {
+      "pkg": "stripe",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/stripe"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.GetFiles({})",
+      "label": "stripe.GetFiles",
+      "env": {
+        "STRIPE_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "StripeProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[],\"has_more\":false,\"object\":\"x\",\"url\":\"x\"}"
+      }
+    }
+  },
+  "supabase": {
+    "SupabaseProtocol": {
+      "pkg": "supabase",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/supabase"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.v1ListAllSnippets({})",
+      "label": "supabase.v1ListAllSnippets",
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "SupabaseProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[]}"
+      }
+    }
+  },
+  "surrealdb": {
+    "SurrealdbProtocol": {
+      "pkg": "surrealdb",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/surrealdb"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getExport({})",
+      "label": "surrealdb.getExport",
+      "env": {
+        "SURREALDB_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "SurrealdbProtocol",
+      "primary": true
+    }
+  },
+  "temporal": {
+    "TemporalProtocol": {
+      "pkg": "temporal",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/temporal"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listNamespaces({})",
+      "label": "temporal.listNamespaces",
+      "env": {
+        "TEMPORAL_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "TemporalProtocol",
+      "primary": true
+    }
+  },
+  "trigger-dev": {
+    "TriggerDevProtocol": {
+      "pkg": "trigger-dev",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/trigger-dev"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listRunsV1({})",
+      "label": "trigger-dev.listRunsV1",
+      "env": {
+        "TRIGGER_DEV_API_KEY": "bench-secret",
+        "TRIGGER_SECRET_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "TriggerDevProtocol",
+      "primary": true
+    }
+  },
+  "turbopuffer": {
+    "TurbopufferProtocol": {
+      "pkg": "turbopuffer",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/turbopuffer"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listNamespaces({})",
+      "label": "turbopuffer.listNamespaces",
+      "env": {
+        "TURBOPUFFER_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "TurbopufferProtocol",
+      "primary": true
+    }
+  },
+  "turso": {
+    "TursoProtocol": {
+      "pkg": "turso",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/turso"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listAPITokens({})",
+      "label": "turso.listAPITokens",
+      "env": {
+        "TURSO_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "TursoProtocol",
+      "primary": true
+    }
+  },
+  "typesense": {
+    "TypesenseProtocol": {
+      "pkg": "typesense",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/typesense"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.getAPIStats({})",
+      "label": "typesense.getAPIStats",
+      "env": {
+        "TYPESENSE_API_KEY": "bench-secret",
+        "TYPESENSE_API_URL": "https://bench.example.com"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "TypesenseProtocol",
+      "primary": true
+    }
+  },
+  "unkey": {
+    "UnkeyProtocol": {
+      "pkg": "unkey",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/unkey"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listDomains({})",
+      "label": "unkey.listDomains",
+      "env": {
+        "UNKEY_ROOT_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "UnkeyProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"meta\":{\"requestId\":\"x\"},\"data\":[],\"pagination\":{\"hasMore\":false}}"
+      }
+    }
+  },
+  "vanta": {
+    "VantaProtocol": {
+      "pkg": "vanta",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/manage_vanta"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.list({})",
+      "label": "manage_vanta.list",
+      "env": {
+        "VANTA_ACCESS_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "VantaProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"results\":{\"data\":[],\"pageInfo\":{\"endCursor\":\"x\",\"hasNextPage\":false,\"hasPreviousPage\":false,\"startCursor\":\"x\"}}}"
+      }
+    }
+  },
+  "vercel": {
+    "VercelProtocol": {
+      "pkg": "vercel",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/sandboxes"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listDrives({})",
+      "label": "sandboxes.listDrives",
+      "env": {
+        "VERCEL_TOKEN": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "VercelProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"drives\":[],\"pagination\":{\"count\":0,\"next\":\"x\"}}"
+      }
+    }
+  },
+  "whop": {
+    "WhopProtocol": {
+      "pkg": "whop",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/ads"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listAds({})",
+      "label": "ads.listAds",
+      "env": {
+        "WHOP_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "WhopProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":[],\"page_info\":{\"end_cursor\":\"x\",\"has_next_page\":false,\"has_previous_page\":false,\"start_cursor\":\"x\"}}"
+      }
+    }
+  },
+  "workos": {
+    "WorkosProtocol": {
+      "pkg": "workos",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/workos"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.ListConnectionsController({})",
+      "label": "workos.ListConnectionsController",
+      "env": {
+        "WORKOS_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "WorkosProtocol",
+      "primary": true
+    }
+  },
+  "xata": {
+    "XataProtocol": {
+      "pkg": "xata",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/xata"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.query({})",
+      "label": "xata.query",
+      "env": {
+        "XATA_API_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "XataProtocol",
+      "primary": true
+    }
+  },
+  "zendesk": {
+    "ZendeskProtocol": {
+      "pkg": "zendesk",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/zendesk"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.listTags({})",
+      "label": "zendesk.listTags",
+      "env": {
+        "ZENDESK_ACCESS_TOKEN": "bench-secret",
+        "ZENDESK_API_TOKEN": "bench-secret",
+        "ZENDESK_EMAIL": "bench@example.com",
+        "ZENDESK_SUBDOMAIN": "bench"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ZendeskProtocol",
+      "primary": true,
+      "strictResponse": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"tags\":[]}"
+      }
+    }
+  },
+  "zerossl": {
+    "ZeroSslProtocol": {
+      "pkg": "zerossl",
+      "imports": {
+        "Credentials": "pkg:credentials",
+        "Op": "pkg:services/zerossl"
+      },
+      "auth": "Credentials.CredentialsFromEnv",
+      "call": "Op.generateEabCredentials({\"identifier\":\"GenerateEabCredentialsRequest\"})",
+      "label": "zerossl.generateEabCredentials",
+      "env": {
+        "ZEROSSL_ACCESS_KEY": "bench-secret",
+        "ZERO_SSL_KEY": "bench-secret"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{}"
+      },
+      "protocol": "ZeroSslProtocol",
+      "primary": true
+    }
+  }
+}

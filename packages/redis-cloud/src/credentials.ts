@@ -1,13 +1,13 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Redis Cloud credentials — hand-written.
+ * Redis Cloud credentials -- hand-written.
  *
  * Every REST request authenticates with two API keys (and optionally an SSO
  * token), sent as headers:
  *
- *   x-api-key         — account key (identifies the Redis Cloud account)
- *   x-api-secret-key  — user key (identifies the caller)
- *   x-auth-token      — optional SSO token
+ *   x-api-key         -- account key (identifies the Redis Cloud account)
+ *   x-api-secret-key  -- user key (identifies the caller)
+ *   x-auth-token      -- optional SSO token
  *
  * See https://redis.io/docs/latest/operate/rc/api/get-started/manage-api-keys/
  *
@@ -21,7 +21,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
 /**
- * Redis Cloud API root. Operation paths already include `/v1/…`, so the
+ * Redis Cloud API root. Operation paths already include `/v1/...`, so the
  * version is not part of the base URL.
  */
 export const DEFAULT_API_BASE_URL = "https://api.redislabs.com";
@@ -33,9 +33,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "RedisCloudCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "RedisCloudCredentials",
+  ) {}
 
 /** Auth headers for a resolved credentials config. */
 export const formatHeaders = (config: Config): Record<string, string> => {
@@ -70,9 +71,9 @@ export const fromApiKey = (config: {
  * Reads REDIS_CLOUD_API_KEY and REDIS_CLOUD_API_SECRET_KEY (required),
  * REDIS_CLOUD_AUTH_TOKEN and REDIS_CLOUD_API_BASE_URL (optional).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.REDIS_CLOUD_API_KEY;
     const apiSecretKey = process.env.REDIS_CLOUD_API_SECRET_KEY;
 

@@ -2,14 +2,14 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * BoatProtocol — hand-written.
+ * BoatProtocol -- hand-written.
  *
  * Boat speaks bearer-authenticated JSON REST. Success bodies keep the
- * `{ ok, type, … }` envelope the spec documents; failures are
- * `{ ok: false, code, message, error, requestId }` — `code`/`message` sit
+ * `{ ok, type, ... }` envelope the spec documents; failures are
+ * `{ ok: false, code, message, error, requestId }` -- `code`/`message` sit
  * at the top level, which the factory's default envelope already reads.
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://boat.dev/api/v1), resolved from the
  *             calling fiber on every request
  *
@@ -42,13 +42,10 @@ export type BoatOpError =
 /** Context (requirements) shared by every generated Boat operation. */
 export type BoatOpContext = Credentials | HttpClient.HttpClient;
 
-export const BoatProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const BoatProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,

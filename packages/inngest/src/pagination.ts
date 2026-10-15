@@ -1,5 +1,5 @@
 /**
- * Inngest pagination — hand-written.
+ * Inngest pagination -- hand-written.
  *
  * Inngest's paginated list operations are all cursor-mode (`cursor` in,
  * `page.cursor` out, items under `data`); generated operations pass

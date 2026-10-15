@@ -61,7 +61,9 @@
       "types": "./lib/unstable-services/*.d.ts",
       "bun": "./src/unstable-services/*.ts",
       "worker": "./src/unstable-services/*.ts",
-      "default": "./lib/unstable-services/*.js"
+      "module": "./lib/unstable-services.full/*.js",
+      "module-sync": "./lib/unstable-services/*.js",
+      "default": "./lib/unstable-services.full/*.js"
     },
     ".": {
       "types": "./lib/index.d.ts",
@@ -74,7 +76,9 @@
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
-      "default": "./lib/services/*.js"
+      "module": "./lib/services.full/*.js",
+      "module-sync": "./lib/services/*.js",
+      "default": "./lib/services.full/*.js"
     }
   },
   "scripts": {

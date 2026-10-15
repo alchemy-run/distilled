@@ -3,8 +3,8 @@
  *
  * Re-exports the common HTTP errors from core and adds the Neon fallback
  * errors. Note the generated service module additionally defines its own
- * per-status matcher classes (BadRequest/NotFound/…) for the statuses each
- * operation declares — those share `_tag`s with the core classes here, so
+ * per-status matcher classes (BadRequest/NotFound/...) for the statuses each
+ * operation declares -- those share `_tag`s with the core classes here, so
  * `catchTag` works against either.
  */
 export {
@@ -28,17 +28,19 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
-/** Unknown Neon error — returned when nothing else matches the failure. */
-export class UnknownNeonError extends Schema.TaggedError<UnknownNeonError>()("UnknownNeonError", {
-  code: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  body: Schema.Unknown,
-}).pipe(Category.withServerError) {}
+/** Unknown Neon error -- returned when nothing else matches the failure. */
+export class UnknownNeonError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownNeonError>()("UnknownNeonError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    body: Schema.Unknown,
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper (kept for v0 surface parity). */
-export class NeonParseError extends Schema.TaggedError<NeonParseError>()("NeonParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class NeonParseError
+  extends /*@__PURE__*/ Schema.TaggedError<NeonParseError>()("NeonParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}

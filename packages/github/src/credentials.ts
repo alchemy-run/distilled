@@ -1,6 +1,5 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * GitHub credentials — hand-written.
+ * GitHub credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl, userAgent }` per
  * request; the protocol layer formats the `Authorization: Bearer <token>`
@@ -8,9 +7,10 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *
  * The token may be a personal access token (classic or fine-grained), a
  * GitHub App installation token, or the `GITHUB_TOKEN` an Actions run is
- * handed — the REST API accepts all of them as bearer tokens.
+ * handed -- the REST API accepts all of them as bearer tokens.
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -32,35 +32,36 @@ export interface Config {
   readonly userAgent: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "GithubCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "GithubCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
+const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `GITHUB_TOKEN` is what Actions injects; `GH_TOKEN` is the gh CLI's
   // spelling. Either works, GITHUB_TOKEN first.
-  token: EffectConfig.String("GITHUB_TOKEN").pipe(
-    EffectConfig.orElse(() => EffectConfig.String("GH_TOKEN")),
+  token: /*@__PURE__*/ EffectConfig.String("GITHUB_TOKEN").pipe(
+    /*@__PURE__*/ EffectConfig.orElse(() => EffectConfig.String("GH_TOKEN")),
   ),
   // Actions sets GITHUB_API_URL; GHES runners set it to their own host.
-  apiBaseUrl: EffectConfig.String("GITHUB_API_URL").pipe(
-    EffectConfig.withDefault(DEFAULT_API_BASE_URL),
+  apiBaseUrl: /*@__PURE__*/ EffectConfig.String("GITHUB_API_URL").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
-  userAgent: EffectConfig.String("GITHUB_USER_AGENT").pipe(
-    EffectConfig.withDefault(DEFAULT_USER_AGENT),
+  userAgent: /*@__PURE__*/ EffectConfig.String("GITHUB_USER_AGENT").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_USER_AGENT),
   ),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "GITHUB_TOKEN (or GH_TOKEN) environment variable is required",
         }),
     ),
-    Effect.map(({ token, apiBaseUrl, userAgent }) => ({
+    /*@__PURE__*/ Effect.map(({ token, apiBaseUrl, userAgent }) => ({
       token: Redacted.make(token),
       apiBaseUrl,
       userAgent,

@@ -17,7 +17,7 @@ export interface Request {
    * True when the operation's input declares a streaming payload member
    * (smithy `@streaming` blob). Streaming-input operations must be signed
    * with `x-amz-content-sha256: UNSIGNED-PAYLOAD` (matching botocore's
-   * `has_streaming_input` behavior) — services like Lex Runtime V2 reject a
+   * `has_streaming_input` behavior) -- services like Lex Runtime V2 reject a
    * payload-hash signature on these routes even when the payload is a
    * buffered `Uint8Array`.
    */

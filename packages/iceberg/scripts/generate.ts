@@ -121,8 +121,8 @@ const spec: SdkSpec = {
     // `effect/Redacted` is only referenced by modules with sensitive members.
     return withoutEmptyImport.includes("Redacted.Redacted<")
       ? withoutEmptyImport.replace(
-          `import * as S from "@distilled.cloud/core/schema";`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";`,
+          `import * as S from "@distilled.cloud/core/schema-lite";`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";`,
         )
       : withoutEmptyImport;
   },

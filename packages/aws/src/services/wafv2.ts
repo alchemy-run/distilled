@@ -1,18 +1,21 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const ns = T.XmlNamespace("http://waf.amazonaws.com/doc/2019-07-29/");
-const svc = T.AwsApiService({ sdkId: "WAFV2", serviceShapeName: "AWSWAF_20190729" });
-const auth = T.AwsAuthSigv4({ name: "wafv2" });
-const ver = T.ServiceVersion("2019-07-29");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://waf.amazonaws.com/doc/2019-07-29/");
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "WAFV2", serviceShapeName: "AWSWAF_20190729" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "wafv2" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2019-07-29");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -65,134 +68,124 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://wafv2.{R}.{D}","properties":{},"headers":{}}');
 
 export class WAFAssociatedItemException
   extends /*@__PURE__*/ S.TaggedError<WAFAssociatedItemException>()("WAFAssociatedItemException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class WAFConfigurationWarningException
   extends /*@__PURE__*/ S.TaggedError<WAFConfigurationWarningException>()(
     "WAFConfigurationWarningException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFDuplicateItemException
   extends /*@__PURE__*/ S.TaggedError<WAFDuplicateItemException>()("WAFDuplicateItemException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class WAFExpiredManagedRuleGroupVersionException
   extends /*@__PURE__*/ S.TaggedError<WAFExpiredManagedRuleGroupVersionException>()(
     "WAFExpiredManagedRuleGroupVersionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFFeatureNotIncludedInPricingPlanException
   extends /*@__PURE__*/ S.TaggedError<WAFFeatureNotIncludedInPricingPlanException>()(
     "WAFFeatureNotIncludedInPricingPlanException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      DisallowedFeatures: S.optional(
-        S.suspend(() => DisallowedFeatures).annotate({ identifier: "DisallowedFeatures" }),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      DisallowedFeatures: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(1153, __c36, 1)).annotate({
+          identifier: "DisallowedFeatures",
+        }),
       ),
     },
   ) {}
 export class WAFInternalErrorException
   extends /*@__PURE__*/ S.TaggedError<WAFInternalErrorException>()("WAFInternalErrorException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withServerError) {}
 export class WAFInvalidOperationException
   extends /*@__PURE__*/ S.TaggedError<WAFInvalidOperationException>()(
     "WAFInvalidOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFInvalidParameterException
   extends /*@__PURE__*/ S.TaggedError<WAFInvalidParameterException>()(
     "WAFInvalidParameterException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Field: S.optional(
-        S.suspend(() => ParameterExceptionField).annotate({
-          identifier: "ParameterExceptionField",
-        }),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      Field: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => S.String).annotate({ identifier: "ParameterExceptionField" }),
       ),
-      Parameter: S.optional(S.String),
-      Reason: S.optional(S.String),
+      Parameter: /*@__PURE__*/ S.optional(S.String),
+      Reason: /*@__PURE__*/ S.optional(S.String),
     },
   ) {}
 export class WAFInvalidPermissionPolicyException
   extends /*@__PURE__*/ S.TaggedError<WAFInvalidPermissionPolicyException>()(
     "WAFInvalidPermissionPolicyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFInvalidResourceException
   extends /*@__PURE__*/ S.TaggedError<WAFInvalidResourceException>()(
     "WAFInvalidResourceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFLimitsExceededException
   extends /*@__PURE__*/ S.TaggedError<WAFLimitsExceededException>()("WAFLimitsExceededException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    SourceType: S.optional(S.String),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    SourceType: /*@__PURE__*/ S.optional(S.String),
   }) {}
 export class WAFLogDestinationPermissionIssueException
   extends /*@__PURE__*/ S.TaggedError<WAFLogDestinationPermissionIssueException>()(
     "WAFLogDestinationPermissionIssueException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFNonexistentItemException
   extends /*@__PURE__*/ S.TaggedError<WAFNonexistentItemException>()(
     "WAFNonexistentItemException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFOptimisticLockException
   extends /*@__PURE__*/ S.TaggedError<WAFOptimisticLockException>()("WAFOptimisticLockException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class WAFServiceLinkedRoleErrorException
   extends /*@__PURE__*/ S.TaggedError<WAFServiceLinkedRoleErrorException>()(
     "WAFServiceLinkedRoleErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFSubscriptionNotFoundException
   extends /*@__PURE__*/ S.TaggedError<WAFSubscriptionNotFoundException>()(
     "WAFSubscriptionNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFTagOperationException
   extends /*@__PURE__*/ S.TaggedError<WAFTagOperationException>()("WAFTagOperationException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class WAFTagOperationInternalErrorException
   extends /*@__PURE__*/ S.TaggedError<WAFTagOperationInternalErrorException>()(
     "WAFTagOperationInternalErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ).pipe(C.withServerError) {}
 export class WAFUnavailableEntityException
   extends /*@__PURE__*/ S.TaggedError<WAFUnavailableEntityException>()(
     "WAFUnavailableEntityException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class WAFUnsupportedAggregateKeyTypeException
   extends /*@__PURE__*/ S.TaggedError<WAFUnsupportedAggregateKeyTypeException>()(
     "WAFUnsupportedAggregateKeyTypeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export type ResourceArn = string;
 export interface AssociateWebACLRequest {
   WebACLArn: string;
   ResourceArn: string;
 }
-export const AssociateWebACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ WebACLArn: S.String, ResourceArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "AssociateWebACLRequest" }) as any as S.Schema<AssociateWebACLRequest>;
 export interface AssociateWebACLResponse {}
-export const AssociateWebACLResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "AssociateWebACLResponse" }) as any as S.Schema<AssociateWebACLResponse>;
 export type Scope = "CLOUDFRONT" | "REGIONAL" | (string & {});
-export const Scope = S.String;
-
 export type EntityName = string;
 export type RulePriority = number;
 export type SearchString = Uint8Array;
@@ -200,161 +193,73 @@ export type FieldToMatchData = string;
 export interface SingleHeader {
   Name: string;
 }
-export const SingleHeader = /*@__PURE__*/ S.suspend(() => S.Struct({ Name: S.String })).annotate({
-  identifier: "SingleHeader",
-}) as any as S.Schema<SingleHeader>;
 export interface SingleQueryArgument {
   Name: string;
 }
-export const SingleQueryArgument = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String }),
-).annotate({ identifier: "SingleQueryArgument" }) as any as S.Schema<SingleQueryArgument>;
 export interface AllQueryArguments {}
-export const AllQueryArguments = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "AllQueryArguments",
-}) as any as S.Schema<AllQueryArguments>;
 export interface UriPath {}
-export const UriPath = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UriPath",
-}) as any as S.Schema<UriPath>;
 export interface QueryString {}
-export const QueryString = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "QueryString",
-}) as any as S.Schema<QueryString>;
 export type OversizeHandling = "CONTINUE" | "MATCH" | "NO_MATCH" | (string & {});
-export const OversizeHandling = S.String;
-
 export interface Body {
   OversizeHandling?: OversizeHandling;
 }
-export const Body = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OversizeHandling: S.optional(OversizeHandling) }),
-).annotate({ identifier: "Body" }) as any as S.Schema<Body>;
 export interface Method {}
-export const Method = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "Method",
-}) as any as S.Schema<Method>;
 export interface All {}
-export const All = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "All",
-}) as any as S.Schema<All>;
 export type JsonPointerPath = string;
 export type JsonPointerPaths = string[];
-export const JsonPointerPaths = /*@__PURE__*/ S.Array(S.String);
 export interface JsonMatchPattern {
   All?: All;
   IncludedPaths?: string[];
 }
-export const JsonMatchPattern = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ All: S.optional(All), IncludedPaths: S.optional(JsonPointerPaths) }),
-).annotate({ identifier: "JsonMatchPattern" }) as any as S.Schema<JsonMatchPattern>;
 export type JsonMatchScope = "ALL" | "KEY" | "VALUE" | (string & {});
-export const JsonMatchScope = S.String;
-
 export type BodyParsingFallbackBehavior =
   | "MATCH"
   | "NO_MATCH"
   | "EVALUATE_AS_STRING"
   | (string & {});
-export const BodyParsingFallbackBehavior = S.String;
-
 export interface JsonBody {
   MatchPattern: JsonMatchPattern;
   MatchScope: JsonMatchScope;
   InvalidFallbackBehavior?: BodyParsingFallbackBehavior;
   OversizeHandling?: OversizeHandling;
 }
-export const JsonBody = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MatchPattern: JsonMatchPattern,
-    MatchScope: JsonMatchScope,
-    InvalidFallbackBehavior: S.optional(BodyParsingFallbackBehavior),
-    OversizeHandling: S.optional(OversizeHandling),
-  }),
-).annotate({ identifier: "JsonBody" }) as any as S.Schema<JsonBody>;
 export type HeaderNames = string[];
-export const HeaderNames = /*@__PURE__*/ S.Array(S.String);
 export interface HeaderMatchPattern {
   All?: All;
   IncludedHeaders?: string[];
   ExcludedHeaders?: string[];
 }
-export const HeaderMatchPattern = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    All: S.optional(All),
-    IncludedHeaders: S.optional(HeaderNames),
-    ExcludedHeaders: S.optional(HeaderNames),
-  }),
-).annotate({ identifier: "HeaderMatchPattern" }) as any as S.Schema<HeaderMatchPattern>;
 export type MapMatchScope = "ALL" | "KEY" | "VALUE" | (string & {});
-export const MapMatchScope = S.String;
-
 export interface Headers {
   MatchPattern: HeaderMatchPattern;
   MatchScope: MapMatchScope;
   OversizeHandling: OversizeHandling;
 }
-export const Headers = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MatchPattern: HeaderMatchPattern,
-    MatchScope: MapMatchScope,
-    OversizeHandling: OversizeHandling,
-  }),
-).annotate({ identifier: "Headers" }) as any as S.Schema<Headers>;
 export type SingleCookieName = string;
 export type CookieNames = string[];
-export const CookieNames = /*@__PURE__*/ S.Array(S.String);
 export interface CookieMatchPattern {
   All?: All;
   IncludedCookies?: string[];
   ExcludedCookies?: string[];
 }
-export const CookieMatchPattern = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    All: S.optional(All),
-    IncludedCookies: S.optional(CookieNames),
-    ExcludedCookies: S.optional(CookieNames),
-  }),
-).annotate({ identifier: "CookieMatchPattern" }) as any as S.Schema<CookieMatchPattern>;
 export interface Cookies {
   MatchPattern: CookieMatchPattern;
   MatchScope: MapMatchScope;
   OversizeHandling: OversizeHandling;
 }
-export const Cookies = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MatchPattern: CookieMatchPattern,
-    MatchScope: MapMatchScope,
-    OversizeHandling: OversizeHandling,
-  }),
-).annotate({ identifier: "Cookies" }) as any as S.Schema<Cookies>;
 export interface HeaderOrder {
   OversizeHandling: OversizeHandling;
 }
-export const HeaderOrder = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ OversizeHandling: OversizeHandling }),
-).annotate({ identifier: "HeaderOrder" }) as any as S.Schema<HeaderOrder>;
 export type FallbackBehavior = "MATCH" | "NO_MATCH" | (string & {});
-export const FallbackBehavior = S.String;
-
 export interface JA3Fingerprint {
   FallbackBehavior: FallbackBehavior;
 }
-export const JA3Fingerprint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FallbackBehavior: FallbackBehavior }),
-).annotate({ identifier: "JA3Fingerprint" }) as any as S.Schema<JA3Fingerprint>;
 export interface JA4Fingerprint {
   FallbackBehavior: FallbackBehavior;
 }
-export const JA4Fingerprint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FallbackBehavior: FallbackBehavior }),
-).annotate({ identifier: "JA4Fingerprint" }) as any as S.Schema<JA4Fingerprint>;
 export interface UriFragment {
   FallbackBehavior?: FallbackBehavior;
 }
-export const UriFragment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FallbackBehavior: S.optional(FallbackBehavior) }),
-).annotate({ identifier: "UriFragment" }) as any as S.Schema<UriFragment>;
 export interface FieldToMatch {
   SingleHeader?: SingleHeader;
   SingleQueryArgument?: SingleQueryArgument;
@@ -371,24 +276,6 @@ export interface FieldToMatch {
   JA4Fingerprint?: JA4Fingerprint;
   UriFragment?: UriFragment;
 }
-export const FieldToMatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SingleHeader: S.optional(SingleHeader),
-    SingleQueryArgument: S.optional(SingleQueryArgument),
-    AllQueryArguments: S.optional(AllQueryArguments),
-    UriPath: S.optional(UriPath),
-    QueryString: S.optional(QueryString),
-    Body: S.optional(Body),
-    Method: S.optional(Method),
-    JsonBody: S.optional(JsonBody),
-    Headers: S.optional(Headers),
-    Cookies: S.optional(Cookies),
-    HeaderOrder: S.optional(HeaderOrder),
-    JA3Fingerprint: S.optional(JA3Fingerprint),
-    JA4Fingerprint: S.optional(JA4Fingerprint),
-    UriFragment: S.optional(UriFragment),
-  }),
-).annotate({ identifier: "FieldToMatch" }) as any as S.Schema<FieldToMatch>;
 export type TextTransformationPriority = number;
 export type TextTransformationType =
   | "NONE"
@@ -423,17 +310,11 @@ export type TextTransformationType =
   | "JS_DECODE_EXT"
   | "SHA256"
   | (string & {});
-export const TextTransformationType = S.String;
-
 export interface TextTransformation {
   Priority: number;
   Type: TextTransformationType;
 }
-export const TextTransformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Priority: S.Number, Type: TextTransformationType }),
-).annotate({ identifier: "TextTransformation" }) as any as S.Schema<TextTransformation>;
 export type TextTransformations = TextTransformation[];
-export const TextTransformations = /*@__PURE__*/ S.Array(TextTransformation);
 export type PreParseTextTransformationPriority = number;
 export type PreParseTextTransformationType =
   | "NONE"
@@ -442,19 +323,11 @@ export type PreParseTextTransformationType =
   | "COMBINE_DUPLICATE_QUERY_ARGS_BY_COMMA"
   | "REPLACE_SEMICOLONS_WITH_AMPERSANDS"
   | (string & {});
-export const PreParseTextTransformationType = S.String;
-
 export interface PreParseTextTransformation {
   Priority: number;
   Type: PreParseTextTransformationType;
 }
-export const PreParseTextTransformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Priority: S.Number, Type: PreParseTextTransformationType }),
-).annotate({
-  identifier: "PreParseTextTransformation",
-}) as any as S.Schema<PreParseTextTransformation>;
 export type PreParseTextTransformations = PreParseTextTransformation[];
-export const PreParseTextTransformations = /*@__PURE__*/ S.Array(PreParseTextTransformation);
 export type PositionalConstraint =
   | "EXACTLY"
   | "STARTS_WITH"
@@ -462,8 +335,6 @@ export type PositionalConstraint =
   | "CONTAINS"
   | "CONTAINS_WORD"
   | (string & {});
-export const PositionalConstraint = S.String;
-
 export interface ByteMatchStatement {
   SearchString: Uint8Array;
   FieldToMatch: FieldToMatch;
@@ -471,47 +342,19 @@ export interface ByteMatchStatement {
   PreParseTextTransformations?: PreParseTextTransformation[];
   PositionalConstraint: PositionalConstraint;
 }
-export const ByteMatchStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SearchString: T.Blob,
-    FieldToMatch: FieldToMatch,
-    TextTransformations: TextTransformations,
-    PreParseTextTransformations: S.optional(PreParseTextTransformations),
-    PositionalConstraint: PositionalConstraint,
-  }),
-).annotate({ identifier: "ByteMatchStatement" }) as any as S.Schema<ByteMatchStatement>;
 export type SensitivityLevel = "LOW" | "HIGH" | (string & {});
-export const SensitivityLevel = S.String;
-
 export interface SqliMatchStatement {
   FieldToMatch: FieldToMatch;
   TextTransformations: TextTransformation[];
   PreParseTextTransformations?: PreParseTextTransformation[];
   SensitivityLevel?: SensitivityLevel;
 }
-export const SqliMatchStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FieldToMatch: FieldToMatch,
-    TextTransformations: TextTransformations,
-    PreParseTextTransformations: S.optional(PreParseTextTransformations),
-    SensitivityLevel: S.optional(SensitivityLevel),
-  }),
-).annotate({ identifier: "SqliMatchStatement" }) as any as S.Schema<SqliMatchStatement>;
 export interface XssMatchStatement {
   FieldToMatch: FieldToMatch;
   TextTransformations: TextTransformation[];
   PreParseTextTransformations?: PreParseTextTransformation[];
 }
-export const XssMatchStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FieldToMatch: FieldToMatch,
-    TextTransformations: TextTransformations,
-    PreParseTextTransformations: S.optional(PreParseTextTransformations),
-  }),
-).annotate({ identifier: "XssMatchStatement" }) as any as S.Schema<XssMatchStatement>;
 export type ComparisonOperator = "EQ" | "NE" | "LE" | "LT" | "GE" | "GT" | (string & {});
-export const ComparisonOperator = S.String;
-
 export type Size = number;
 export interface SizeConstraintStatement {
   FieldToMatch: FieldToMatch;
@@ -520,15 +363,6 @@ export interface SizeConstraintStatement {
   TextTransformations: TextTransformation[];
   PreParseTextTransformations?: PreParseTextTransformation[];
 }
-export const SizeConstraintStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FieldToMatch: FieldToMatch,
-    ComparisonOperator: ComparisonOperator,
-    Size: S.Number,
-    TextTransformations: TextTransformations,
-    PreParseTextTransformations: S.optional(PreParseTextTransformations),
-  }),
-).annotate({ identifier: "SizeConstraintStatement" }) as any as S.Schema<SizeConstraintStatement>;
 export type CountryCode =
   | "AF"
   | "AX"
@@ -781,36 +615,20 @@ export type CountryCode =
   | "ZW"
   | "XK"
   | (string & {});
-export const CountryCode = S.String;
-
 export type CountryCodes = CountryCode[];
-export const CountryCodes = /*@__PURE__*/ S.Array(CountryCode);
 export type ForwardedIPHeaderName = string;
 export interface ForwardedIPConfig {
   HeaderName: string;
   FallbackBehavior: FallbackBehavior;
 }
-export const ForwardedIPConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ HeaderName: S.String, FallbackBehavior: FallbackBehavior }),
-).annotate({ identifier: "ForwardedIPConfig" }) as any as S.Schema<ForwardedIPConfig>;
 export interface GeoMatchStatement {
   CountryCodes?: CountryCode[];
   ForwardedIPConfig?: ForwardedIPConfig;
 }
-export const GeoMatchStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CountryCodes: S.optional(CountryCodes),
-    ForwardedIPConfig: S.optional(ForwardedIPConfig),
-  }),
-).annotate({ identifier: "GeoMatchStatement" }) as any as S.Schema<GeoMatchStatement>;
 export interface ExcludedRule {
   Name: string;
 }
-export const ExcludedRule = /*@__PURE__*/ S.suspend(() => S.Struct({ Name: S.String })).annotate({
-  identifier: "ExcludedRule",
-}) as any as S.Schema<ExcludedRule>;
 export type ExcludedRules = ExcludedRule[];
-export const ExcludedRules = /*@__PURE__*/ S.Array(ExcludedRule);
 export type ResponseStatusCode = number;
 export type CustomHTTPHeaderName = string;
 export type CustomHTTPHeaderValue = string;
@@ -818,66 +636,34 @@ export interface CustomHTTPHeader {
   Name: string;
   Value: string;
 }
-export const CustomHTTPHeader = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Value: S.String }),
-).annotate({ identifier: "CustomHTTPHeader" }) as any as S.Schema<CustomHTTPHeader>;
 export type CustomHTTPHeaders = CustomHTTPHeader[];
-export const CustomHTTPHeaders = /*@__PURE__*/ S.Array(CustomHTTPHeader);
 export interface CustomResponse {
   ResponseCode: number;
   CustomResponseBodyKey?: string;
   ResponseHeaders?: CustomHTTPHeader[];
 }
-export const CustomResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResponseCode: S.Number,
-    CustomResponseBodyKey: S.optional(S.String),
-    ResponseHeaders: S.optional(CustomHTTPHeaders),
-  }),
-).annotate({ identifier: "CustomResponse" }) as any as S.Schema<CustomResponse>;
 export interface BlockAction {
   CustomResponse?: CustomResponse;
 }
-export const BlockAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomResponse: S.optional(CustomResponse) }),
-).annotate({ identifier: "BlockAction" }) as any as S.Schema<BlockAction>;
 export interface CustomRequestHandling {
   InsertHeaders: CustomHTTPHeader[];
 }
-export const CustomRequestHandling = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InsertHeaders: CustomHTTPHeaders }),
-).annotate({ identifier: "CustomRequestHandling" }) as any as S.Schema<CustomRequestHandling>;
 export interface AllowAction {
   CustomRequestHandling?: CustomRequestHandling;
 }
-export const AllowAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomRequestHandling: S.optional(CustomRequestHandling) }),
-).annotate({ identifier: "AllowAction" }) as any as S.Schema<AllowAction>;
 export interface CountAction {
   CustomRequestHandling?: CustomRequestHandling;
 }
-export const CountAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomRequestHandling: S.optional(CustomRequestHandling) }),
-).annotate({ identifier: "CountAction" }) as any as S.Schema<CountAction>;
 export interface CaptchaAction {
   CustomRequestHandling?: CustomRequestHandling;
 }
-export const CaptchaAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomRequestHandling: S.optional(CustomRequestHandling) }),
-).annotate({ identifier: "CaptchaAction" }) as any as S.Schema<CaptchaAction>;
 export interface ChallengeAction {
   CustomRequestHandling?: CustomRequestHandling;
 }
-export const ChallengeAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CustomRequestHandling: S.optional(CustomRequestHandling) }),
-).annotate({ identifier: "ChallengeAction" }) as any as S.Schema<ChallengeAction>;
 export type PriceMultiplier = string;
 export interface MonetizeAction {
   PriceMultiplier?: string;
 }
-export const MonetizeAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PriceMultiplier: S.optional(S.String) }),
-).annotate({ identifier: "MonetizeAction" }) as any as S.Schema<MonetizeAction>;
 export interface RuleAction {
   Block?: BlockAction;
   Allow?: AllowAction;
@@ -886,77 +672,32 @@ export interface RuleAction {
   Challenge?: ChallengeAction;
   Monetize?: MonetizeAction;
 }
-export const RuleAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Block: S.optional(BlockAction),
-    Allow: S.optional(AllowAction),
-    Count: S.optional(CountAction),
-    Captcha: S.optional(CaptchaAction),
-    Challenge: S.optional(ChallengeAction),
-    Monetize: S.optional(MonetizeAction),
-  }),
-).annotate({ identifier: "RuleAction" }) as any as S.Schema<RuleAction>;
 export interface RuleActionOverride {
   Name: string;
   ActionToUse: RuleAction;
 }
-export const RuleActionOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, ActionToUse: RuleAction }),
-).annotate({ identifier: "RuleActionOverride" }) as any as S.Schema<RuleActionOverride>;
 export type RuleActionOverrides = RuleActionOverride[];
-export const RuleActionOverrides = /*@__PURE__*/ S.Array(RuleActionOverride);
 export interface RuleGroupReferenceStatement {
   ARN: string;
   ExcludedRules?: ExcludedRule[];
   RuleActionOverrides?: RuleActionOverride[];
 }
-export const RuleGroupReferenceStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ARN: S.String,
-    ExcludedRules: S.optional(ExcludedRules),
-    RuleActionOverrides: S.optional(RuleActionOverrides),
-  }),
-).annotate({
-  identifier: "RuleGroupReferenceStatement",
-}) as any as S.Schema<RuleGroupReferenceStatement>;
 export type ForwardedIPPosition = "FIRST" | "LAST" | "ANY" | (string & {});
-export const ForwardedIPPosition = S.String;
-
 export interface IPSetForwardedIPConfig {
   HeaderName: string;
   FallbackBehavior: FallbackBehavior;
   Position: ForwardedIPPosition;
 }
-export const IPSetForwardedIPConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HeaderName: S.String,
-    FallbackBehavior: FallbackBehavior,
-    Position: ForwardedIPPosition,
-  }),
-).annotate({ identifier: "IPSetForwardedIPConfig" }) as any as S.Schema<IPSetForwardedIPConfig>;
 export interface IPSetReferenceStatement {
   ARN: string;
   IPSetForwardedIPConfig?: IPSetForwardedIPConfig;
 }
-export const IPSetReferenceStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ARN: S.String, IPSetForwardedIPConfig: S.optional(IPSetForwardedIPConfig) }),
-).annotate({ identifier: "IPSetReferenceStatement" }) as any as S.Schema<IPSetReferenceStatement>;
 export interface RegexPatternSetReferenceStatement {
   ARN: string;
   FieldToMatch: FieldToMatch;
   TextTransformations: TextTransformation[];
   PreParseTextTransformations?: PreParseTextTransformation[];
 }
-export const RegexPatternSetReferenceStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ARN: S.String,
-    FieldToMatch: FieldToMatch,
-    TextTransformations: TextTransformations,
-    PreParseTextTransformations: S.optional(PreParseTextTransformations),
-  }),
-).annotate({
-  identifier: "RegexPatternSetReferenceStatement",
-}) as any as S.Schema<RegexPatternSetReferenceStatement>;
 export type RateLimit = number;
 export type EvaluationWindowSec = number;
 export type RateBasedStatementAggregateKeyType =
@@ -965,76 +706,38 @@ export type RateBasedStatementAggregateKeyType =
   | "CUSTOM_KEYS"
   | "CONSTANT"
   | (string & {});
-export const RateBasedStatementAggregateKeyType = S.String;
-
 export interface RateLimitHeader {
   Name: string;
   TextTransformations: TextTransformation[];
 }
-export const RateLimitHeader = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, TextTransformations: TextTransformations }),
-).annotate({ identifier: "RateLimitHeader" }) as any as S.Schema<RateLimitHeader>;
 export interface RateLimitCookie {
   Name: string;
   TextTransformations: TextTransformation[];
 }
-export const RateLimitCookie = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, TextTransformations: TextTransformations }),
-).annotate({ identifier: "RateLimitCookie" }) as any as S.Schema<RateLimitCookie>;
 export interface RateLimitQueryArgument {
   Name: string;
   TextTransformations: TextTransformation[];
 }
-export const RateLimitQueryArgument = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, TextTransformations: TextTransformations }),
-).annotate({ identifier: "RateLimitQueryArgument" }) as any as S.Schema<RateLimitQueryArgument>;
 export interface RateLimitQueryString {
   TextTransformations: TextTransformation[];
 }
-export const RateLimitQueryString = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TextTransformations: TextTransformations }),
-).annotate({ identifier: "RateLimitQueryString" }) as any as S.Schema<RateLimitQueryString>;
 export interface RateLimitHTTPMethod {}
-export const RateLimitHTTPMethod = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "RateLimitHTTPMethod",
-}) as any as S.Schema<RateLimitHTTPMethod>;
 export interface RateLimitForwardedIP {}
-export const RateLimitForwardedIP = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "RateLimitForwardedIP",
-}) as any as S.Schema<RateLimitForwardedIP>;
 export interface RateLimitIP {}
-export const RateLimitIP = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "RateLimitIP",
-}) as any as S.Schema<RateLimitIP>;
 export type LabelNamespace = string;
 export interface RateLimitLabelNamespace {
   Namespace: string;
 }
-export const RateLimitLabelNamespace = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Namespace: S.String }),
-).annotate({ identifier: "RateLimitLabelNamespace" }) as any as S.Schema<RateLimitLabelNamespace>;
 export interface RateLimitUriPath {
   TextTransformations: TextTransformation[];
 }
-export const RateLimitUriPath = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TextTransformations: TextTransformations }),
-).annotate({ identifier: "RateLimitUriPath" }) as any as S.Schema<RateLimitUriPath>;
 export interface RateLimitJA3Fingerprint {
   FallbackBehavior: FallbackBehavior;
 }
-export const RateLimitJA3Fingerprint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FallbackBehavior: FallbackBehavior }),
-).annotate({ identifier: "RateLimitJA3Fingerprint" }) as any as S.Schema<RateLimitJA3Fingerprint>;
 export interface RateLimitJA4Fingerprint {
   FallbackBehavior: FallbackBehavior;
 }
-export const RateLimitJA4Fingerprint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FallbackBehavior: FallbackBehavior }),
-).annotate({ identifier: "RateLimitJA4Fingerprint" }) as any as S.Schema<RateLimitJA4Fingerprint>;
 export interface RateLimitAsn {}
-export const RateLimitAsn = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "RateLimitAsn",
-}) as any as S.Schema<RateLimitAsn>;
 export interface RateBasedStatementCustomKey {
   Header?: RateLimitHeader;
   Cookie?: RateLimitCookie;
@@ -1049,26 +752,7 @@ export interface RateBasedStatementCustomKey {
   JA4Fingerprint?: RateLimitJA4Fingerprint;
   ASN?: RateLimitAsn;
 }
-export const RateBasedStatementCustomKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Header: S.optional(RateLimitHeader),
-    Cookie: S.optional(RateLimitCookie),
-    QueryArgument: S.optional(RateLimitQueryArgument),
-    QueryString: S.optional(RateLimitQueryString),
-    HTTPMethod: S.optional(RateLimitHTTPMethod),
-    ForwardedIP: S.optional(RateLimitForwardedIP),
-    IP: S.optional(RateLimitIP),
-    LabelNamespace: S.optional(RateLimitLabelNamespace),
-    UriPath: S.optional(RateLimitUriPath),
-    JA3Fingerprint: S.optional(RateLimitJA3Fingerprint),
-    JA4Fingerprint: S.optional(RateLimitJA4Fingerprint),
-    ASN: S.optional(RateLimitAsn),
-  }),
-).annotate({
-  identifier: "RateBasedStatementCustomKey",
-}) as any as S.Schema<RateBasedStatementCustomKey>;
 export type RateBasedStatementCustomKeys = RateBasedStatementCustomKey[];
-export const RateBasedStatementCustomKeys = /*@__PURE__*/ S.Array(RateBasedStatementCustomKey);
 export interface RateBasedStatement {
   Limit: number;
   EvaluationWindowSec?: number;
@@ -1077,211 +761,94 @@ export interface RateBasedStatement {
   ForwardedIPConfig?: ForwardedIPConfig;
   CustomKeys?: RateBasedStatementCustomKey[];
 }
-export const RateBasedStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Limit: S.Number,
-    EvaluationWindowSec: S.optional(S.Number),
-    AggregateKeyType: RateBasedStatementAggregateKeyType,
-    ScopeDownStatement: S.optional(
-      S.suspend((): S.Schema<Statement> => Statement).annotate({ identifier: "Statement" }),
-    ),
-    ForwardedIPConfig: S.optional(ForwardedIPConfig),
-    CustomKeys: S.optional(RateBasedStatementCustomKeys),
-  }),
-).annotate({ identifier: "RateBasedStatement" }) as any as S.Schema<RateBasedStatement>;
 export type Statements = Statement[];
-export const Statements = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Statement> => Statement).annotate({ identifier: "Statement" }),
-) as any as S.Schema<Statements>;
 export interface AndStatement {
   Statements: Statement[];
 }
-export const AndStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Statements: S.suspend(() => Statements).annotate({ identifier: "Statements" }) }),
-).annotate({ identifier: "AndStatement" }) as any as S.Schema<AndStatement>;
 export interface OrStatement {
   Statements: Statement[];
 }
-export const OrStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Statements: S.suspend(() => Statements).annotate({ identifier: "Statements" }) }),
-).annotate({ identifier: "OrStatement" }) as any as S.Schema<OrStatement>;
 export interface NotStatement {
   Statement: Statement;
 }
-export const NotStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Statement: S.suspend((): S.Schema<Statement> => Statement).annotate({
-      identifier: "Statement",
-    }),
-  }),
-).annotate({ identifier: "NotStatement" }) as any as S.Schema<NotStatement>;
 export type VendorName = string;
 export type VersionKeyString = string;
 export type LoginPathString = string;
 export type PayloadType = "JSON" | "FORM_ENCODED" | (string & {});
-export const PayloadType = S.String;
-
 export type FieldIdentifier = string;
 export interface UsernameField {
   Identifier: string;
 }
-export const UsernameField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String }),
-).annotate({ identifier: "UsernameField" }) as any as S.Schema<UsernameField>;
 export interface PasswordField {
   Identifier: string;
 }
-export const PasswordField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String }),
-).annotate({ identifier: "PasswordField" }) as any as S.Schema<PasswordField>;
 export type InspectionLevel = "COMMON" | "TARGETED" | (string & {});
-export const InspectionLevel = S.String;
-
 export type EnableMachineLearning = boolean;
 export interface AWSManagedRulesBotControlRuleSet {
   InspectionLevel: InspectionLevel;
   EnableMachineLearning?: boolean;
 }
-export const AWSManagedRulesBotControlRuleSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InspectionLevel: InspectionLevel, EnableMachineLearning: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "AWSManagedRulesBotControlRuleSet",
-}) as any as S.Schema<AWSManagedRulesBotControlRuleSet>;
 export interface RequestInspection {
   PayloadType: PayloadType;
   UsernameField: UsernameField;
   PasswordField: PasswordField;
 }
-export const RequestInspection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PayloadType: PayloadType,
-    UsernameField: UsernameField,
-    PasswordField: PasswordField,
-  }),
-).annotate({ identifier: "RequestInspection" }) as any as S.Schema<RequestInspection>;
 export type SuccessCode = number;
 export type ResponseInspectionStatusCodeSuccessCodes = number[];
-export const ResponseInspectionStatusCodeSuccessCodes = /*@__PURE__*/ S.Array(S.Number);
 export type FailureCode = number;
 export type ResponseInspectionStatusCodeFailureCodes = number[];
-export const ResponseInspectionStatusCodeFailureCodes = /*@__PURE__*/ S.Array(S.Number);
 export interface ResponseInspectionStatusCode {
   SuccessCodes: number[];
   FailureCodes: number[];
 }
-export const ResponseInspectionStatusCode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SuccessCodes: ResponseInspectionStatusCodeSuccessCodes,
-    FailureCodes: ResponseInspectionStatusCodeFailureCodes,
-  }),
-).annotate({
-  identifier: "ResponseInspectionStatusCode",
-}) as any as S.Schema<ResponseInspectionStatusCode>;
 export type ResponseInspectionHeaderName = string;
 export type SuccessValue = string;
 export type ResponseInspectionHeaderSuccessValues = string[];
-export const ResponseInspectionHeaderSuccessValues = /*@__PURE__*/ S.Array(S.String);
 export type FailureValue = string;
 export type ResponseInspectionHeaderFailureValues = string[];
-export const ResponseInspectionHeaderFailureValues = /*@__PURE__*/ S.Array(S.String);
 export interface ResponseInspectionHeader {
   Name: string;
   SuccessValues: string[];
   FailureValues: string[];
 }
-export const ResponseInspectionHeader = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    SuccessValues: ResponseInspectionHeaderSuccessValues,
-    FailureValues: ResponseInspectionHeaderFailureValues,
-  }),
-).annotate({ identifier: "ResponseInspectionHeader" }) as any as S.Schema<ResponseInspectionHeader>;
 export type ResponseInspectionBodyContainsSuccessStrings = string[];
-export const ResponseInspectionBodyContainsSuccessStrings = /*@__PURE__*/ S.Array(S.String);
 export type ResponseInspectionBodyContainsFailureStrings = string[];
-export const ResponseInspectionBodyContainsFailureStrings = /*@__PURE__*/ S.Array(S.String);
 export interface ResponseInspectionBodyContains {
   SuccessStrings: string[];
   FailureStrings: string[];
 }
-export const ResponseInspectionBodyContains = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SuccessStrings: ResponseInspectionBodyContainsSuccessStrings,
-    FailureStrings: ResponseInspectionBodyContainsFailureStrings,
-  }),
-).annotate({
-  identifier: "ResponseInspectionBodyContains",
-}) as any as S.Schema<ResponseInspectionBodyContains>;
 export type ResponseInspectionJsonSuccessValues = string[];
-export const ResponseInspectionJsonSuccessValues = /*@__PURE__*/ S.Array(S.String);
 export type ResponseInspectionJsonFailureValues = string[];
-export const ResponseInspectionJsonFailureValues = /*@__PURE__*/ S.Array(S.String);
 export interface ResponseInspectionJson {
   Identifier: string;
   SuccessValues: string[];
   FailureValues: string[];
 }
-export const ResponseInspectionJson = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identifier: S.String,
-    SuccessValues: ResponseInspectionJsonSuccessValues,
-    FailureValues: ResponseInspectionJsonFailureValues,
-  }),
-).annotate({ identifier: "ResponseInspectionJson" }) as any as S.Schema<ResponseInspectionJson>;
 export interface ResponseInspection {
   StatusCode?: ResponseInspectionStatusCode;
   Header?: ResponseInspectionHeader;
   BodyContains?: ResponseInspectionBodyContains;
   Json?: ResponseInspectionJson;
 }
-export const ResponseInspection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StatusCode: S.optional(ResponseInspectionStatusCode),
-    Header: S.optional(ResponseInspectionHeader),
-    BodyContains: S.optional(ResponseInspectionBodyContains),
-    Json: S.optional(ResponseInspectionJson),
-  }),
-).annotate({ identifier: "ResponseInspection" }) as any as S.Schema<ResponseInspection>;
 export interface AWSManagedRulesATPRuleSet {
   LoginPath: string;
   RequestInspection?: RequestInspection;
   ResponseInspection?: ResponseInspection;
   EnableRegexInPath?: boolean;
 }
-export const AWSManagedRulesATPRuleSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoginPath: S.String,
-    RequestInspection: S.optional(RequestInspection),
-    ResponseInspection: S.optional(ResponseInspection),
-    EnableRegexInPath: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AWSManagedRulesATPRuleSet",
-}) as any as S.Schema<AWSManagedRulesATPRuleSet>;
 export type CreationPathString = string;
 export type RegistrationPagePathString = string;
 export interface EmailField {
   Identifier: string;
 }
-export const EmailField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String }),
-).annotate({ identifier: "EmailField" }) as any as S.Schema<EmailField>;
 export interface PhoneNumberField {
   Identifier: string;
 }
-export const PhoneNumberField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String }),
-).annotate({ identifier: "PhoneNumberField" }) as any as S.Schema<PhoneNumberField>;
 export type PhoneNumberFields = PhoneNumberField[];
-export const PhoneNumberFields = /*@__PURE__*/ S.Array(PhoneNumberField);
 export interface AddressField {
   Identifier: string;
 }
-export const AddressField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String }),
-).annotate({ identifier: "AddressField" }) as any as S.Schema<AddressField>;
 export type AddressFields = AddressField[];
-export const AddressFields = /*@__PURE__*/ S.Array(AddressField);
 export interface RequestInspectionACFP {
   PayloadType: PayloadType;
   UsernameField?: UsernameField;
@@ -1290,16 +857,6 @@ export interface RequestInspectionACFP {
   PhoneNumberFields?: PhoneNumberField[];
   AddressFields?: AddressField[];
 }
-export const RequestInspectionACFP = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PayloadType: PayloadType,
-    UsernameField: S.optional(UsernameField),
-    PasswordField: S.optional(PasswordField),
-    EmailField: S.optional(EmailField),
-    PhoneNumberFields: S.optional(PhoneNumberFields),
-    AddressFields: S.optional(AddressFields),
-  }),
-).annotate({ identifier: "RequestInspectionACFP" }) as any as S.Schema<RequestInspectionACFP>;
 export interface AWSManagedRulesACFPRuleSet {
   CreationPath: string;
   RegistrationPagePath: string;
@@ -1307,62 +864,25 @@ export interface AWSManagedRulesACFPRuleSet {
   ResponseInspection?: ResponseInspection;
   EnableRegexInPath?: boolean;
 }
-export const AWSManagedRulesACFPRuleSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationPath: S.String,
-    RegistrationPagePath: S.String,
-    RequestInspection: RequestInspectionACFP,
-    ResponseInspection: S.optional(ResponseInspection),
-    EnableRegexInPath: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AWSManagedRulesACFPRuleSet",
-}) as any as S.Schema<AWSManagedRulesACFPRuleSet>;
 export type UsageOfAction = "ENABLED" | "DISABLED" | (string & {});
-export const UsageOfAction = S.String;
-
 export type SensitivityToAct = "LOW" | "MEDIUM" | "HIGH" | (string & {});
-export const SensitivityToAct = S.String;
-
 export type RegexPatternString = string;
 export interface Regex {
   RegexString?: string;
 }
-export const Regex = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RegexString: S.optional(S.String) }),
-).annotate({ identifier: "Regex" }) as any as S.Schema<Regex>;
 export type RegularExpressionList = Regex[];
-export const RegularExpressionList = /*@__PURE__*/ S.Array(Regex);
 export interface ClientSideAction {
   UsageOfAction: UsageOfAction;
   Sensitivity?: SensitivityToAct;
   ExemptUriRegularExpressions?: Regex[];
 }
-export const ClientSideAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UsageOfAction: UsageOfAction,
-    Sensitivity: S.optional(SensitivityToAct),
-    ExemptUriRegularExpressions: S.optional(RegularExpressionList),
-  }),
-).annotate({ identifier: "ClientSideAction" }) as any as S.Schema<ClientSideAction>;
 export interface ClientSideActionConfig {
   Challenge: ClientSideAction;
 }
-export const ClientSideActionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Challenge: ClientSideAction }),
-).annotate({ identifier: "ClientSideActionConfig" }) as any as S.Schema<ClientSideActionConfig>;
 export interface AWSManagedRulesAntiDDoSRuleSet {
   ClientSideActionConfig: ClientSideActionConfig;
   SensitivityToBlock?: SensitivityToAct;
 }
-export const AWSManagedRulesAntiDDoSRuleSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientSideActionConfig: ClientSideActionConfig,
-    SensitivityToBlock: S.optional(SensitivityToAct),
-  }),
-).annotate({
-  identifier: "AWSManagedRulesAntiDDoSRuleSet",
-}) as any as S.Schema<AWSManagedRulesAntiDDoSRuleSet>;
 export interface ManagedRuleGroupConfig {
   LoginPath?: string;
   PayloadType?: PayloadType;
@@ -1373,20 +893,7 @@ export interface ManagedRuleGroupConfig {
   AWSManagedRulesACFPRuleSet?: AWSManagedRulesACFPRuleSet;
   AWSManagedRulesAntiDDoSRuleSet?: AWSManagedRulesAntiDDoSRuleSet;
 }
-export const ManagedRuleGroupConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoginPath: S.optional(S.String),
-    PayloadType: S.optional(PayloadType),
-    UsernameField: S.optional(UsernameField),
-    PasswordField: S.optional(PasswordField),
-    AWSManagedRulesBotControlRuleSet: S.optional(AWSManagedRulesBotControlRuleSet),
-    AWSManagedRulesATPRuleSet: S.optional(AWSManagedRulesATPRuleSet),
-    AWSManagedRulesACFPRuleSet: S.optional(AWSManagedRulesACFPRuleSet),
-    AWSManagedRulesAntiDDoSRuleSet: S.optional(AWSManagedRulesAntiDDoSRuleSet),
-  }),
-).annotate({ identifier: "ManagedRuleGroupConfig" }) as any as S.Schema<ManagedRuleGroupConfig>;
 export type ManagedRuleGroupConfigs = ManagedRuleGroupConfig[];
-export const ManagedRuleGroupConfigs = /*@__PURE__*/ S.Array(ManagedRuleGroupConfig);
 export interface ManagedRuleGroupStatement {
   VendorName: string;
   Name: string;
@@ -1396,56 +903,24 @@ export interface ManagedRuleGroupStatement {
   ManagedRuleGroupConfigs?: ManagedRuleGroupConfig[];
   RuleActionOverrides?: RuleActionOverride[];
 }
-export const ManagedRuleGroupStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VendorName: S.String,
-    Name: S.String,
-    Version: S.optional(S.String),
-    ExcludedRules: S.optional(ExcludedRules),
-    ScopeDownStatement: S.optional(
-      S.suspend((): S.Schema<Statement> => Statement).annotate({ identifier: "Statement" }),
-    ),
-    ManagedRuleGroupConfigs: S.optional(ManagedRuleGroupConfigs),
-    RuleActionOverrides: S.optional(RuleActionOverrides),
-  }),
-).annotate({
-  identifier: "ManagedRuleGroupStatement",
-}) as any as S.Schema<ManagedRuleGroupStatement>;
 export type LabelMatchScope = "LABEL" | "NAMESPACE" | (string & {});
-export const LabelMatchScope = S.String;
-
 export type LabelMatchKey = string;
 export interface LabelMatchStatement {
   Scope: LabelMatchScope;
   Key: string;
 }
-export const LabelMatchStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: LabelMatchScope, Key: S.String }),
-).annotate({ identifier: "LabelMatchStatement" }) as any as S.Schema<LabelMatchStatement>;
 export interface RegexMatchStatement {
   RegexString: string;
   FieldToMatch: FieldToMatch;
   TextTransformations: TextTransformation[];
   PreParseTextTransformations?: PreParseTextTransformation[];
 }
-export const RegexMatchStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RegexString: S.String,
-    FieldToMatch: FieldToMatch,
-    TextTransformations: TextTransformations,
-    PreParseTextTransformations: S.optional(PreParseTextTransformations),
-  }),
-).annotate({ identifier: "RegexMatchStatement" }) as any as S.Schema<RegexMatchStatement>;
 export type ASN = number;
 export type AsnList = number[];
-export const AsnList = /*@__PURE__*/ S.Array(S.Number);
 export interface AsnMatchStatement {
   AsnList: number[];
   ForwardedIPConfig?: ForwardedIPConfig;
 }
-export const AsnMatchStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AsnList: AsnList, ForwardedIPConfig: S.optional(ForwardedIPConfig) }),
-).annotate({ identifier: "AsnMatchStatement" }) as any as S.Schema<AsnMatchStatement>;
 export interface Statement {
   ByteMatchStatement?: ByteMatchStatement;
   SqliMatchStatement?: SqliMatchStatement;
@@ -1464,96 +939,32 @@ export interface Statement {
   RegexMatchStatement?: RegexMatchStatement;
   AsnMatchStatement?: AsnMatchStatement;
 }
-export const Statement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ByteMatchStatement: S.optional(ByteMatchStatement),
-    SqliMatchStatement: S.optional(SqliMatchStatement),
-    XssMatchStatement: S.optional(XssMatchStatement),
-    SizeConstraintStatement: S.optional(SizeConstraintStatement),
-    GeoMatchStatement: S.optional(GeoMatchStatement),
-    RuleGroupReferenceStatement: S.optional(RuleGroupReferenceStatement),
-    IPSetReferenceStatement: S.optional(IPSetReferenceStatement),
-    RegexPatternSetReferenceStatement: S.optional(RegexPatternSetReferenceStatement),
-    RateBasedStatement: S.optional(
-      S.suspend((): S.Schema<RateBasedStatement> => RateBasedStatement).annotate({
-        identifier: "RateBasedStatement",
-      }),
-    ),
-    AndStatement: S.optional(
-      S.suspend((): S.Schema<AndStatement> => AndStatement).annotate({
-        identifier: "AndStatement",
-      }),
-    ),
-    OrStatement: S.optional(
-      S.suspend((): S.Schema<OrStatement> => OrStatement).annotate({ identifier: "OrStatement" }),
-    ),
-    NotStatement: S.optional(
-      S.suspend((): S.Schema<NotStatement> => NotStatement).annotate({
-        identifier: "NotStatement",
-      }),
-    ),
-    ManagedRuleGroupStatement: S.optional(
-      S.suspend((): S.Schema<ManagedRuleGroupStatement> => ManagedRuleGroupStatement).annotate({
-        identifier: "ManagedRuleGroupStatement",
-      }),
-    ),
-    LabelMatchStatement: S.optional(LabelMatchStatement),
-    RegexMatchStatement: S.optional(RegexMatchStatement),
-    AsnMatchStatement: S.optional(AsnMatchStatement),
-  }),
-).annotate({ identifier: "Statement" }) as any as S.Schema<Statement>;
 export interface NoneAction {}
-export const NoneAction = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "NoneAction",
-}) as any as S.Schema<NoneAction>;
 export interface OverrideAction {
   Count?: CountAction;
   None?: NoneAction;
 }
-export const OverrideAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Count: S.optional(CountAction), None: S.optional(NoneAction) }),
-).annotate({ identifier: "OverrideAction" }) as any as S.Schema<OverrideAction>;
 export type LabelName = string;
 export interface Label {
   Name: string;
 }
-export const Label = /*@__PURE__*/ S.suspend(() => S.Struct({ Name: S.String })).annotate({
-  identifier: "Label",
-}) as any as S.Schema<Label>;
 export type Labels = Label[];
-export const Labels = /*@__PURE__*/ S.Array(Label);
 export type MetricName = string;
 export interface VisibilityConfig {
   SampledRequestsEnabled: boolean;
   CloudWatchMetricsEnabled: boolean;
   MetricName: string;
 }
-export const VisibilityConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SampledRequestsEnabled: S.Boolean,
-    CloudWatchMetricsEnabled: S.Boolean,
-    MetricName: S.String,
-  }),
-).annotate({ identifier: "VisibilityConfig" }) as any as S.Schema<VisibilityConfig>;
 export type TimeWindowSecond = number;
 export interface ImmunityTimeProperty {
   ImmunityTime: number;
 }
-export const ImmunityTimeProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ImmunityTime: S.Number }),
-).annotate({ identifier: "ImmunityTimeProperty" }) as any as S.Schema<ImmunityTimeProperty>;
 export interface CaptchaConfig {
   ImmunityTimeProperty?: ImmunityTimeProperty;
 }
-export const CaptchaConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ImmunityTimeProperty: S.optional(ImmunityTimeProperty) }),
-).annotate({ identifier: "CaptchaConfig" }) as any as S.Schema<CaptchaConfig>;
 export interface ChallengeConfig {
   ImmunityTimeProperty?: ImmunityTimeProperty;
 }
-export const ChallengeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ImmunityTimeProperty: S.optional(ImmunityTimeProperty) }),
-).annotate({ identifier: "ChallengeConfig" }) as any as S.Schema<ChallengeConfig>;
 export interface Rule {
   Name: string;
   Priority: number;
@@ -1565,74 +976,36 @@ export interface Rule {
   CaptchaConfig?: CaptchaConfig;
   ChallengeConfig?: ChallengeConfig;
 }
-export const Rule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Priority: S.Number,
-    Statement: Statement,
-    Action: S.optional(RuleAction),
-    OverrideAction: S.optional(OverrideAction),
-    RuleLabels: S.optional(Labels),
-    VisibilityConfig: VisibilityConfig,
-    CaptchaConfig: S.optional(CaptchaConfig),
-    ChallengeConfig: S.optional(ChallengeConfig),
-  }),
-).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
 export type Rules = Rule[];
-export const Rules = /*@__PURE__*/ S.Array(Rule);
 export interface CheckCapacityRequest {
   Scope: Scope;
   Rules: Rule[];
 }
-export const CheckCapacityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, Rules: Rules }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CheckCapacityRequest" }) as any as S.Schema<CheckCapacityRequest>;
 export type ConsumedCapacity = number;
 export interface CheckCapacityResponse {
   Capacity?: number;
 }
-export const CheckCapacityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Capacity: S.optional(S.Number) }).pipe(ns),
-).annotate({ identifier: "CheckCapacityResponse" }) as any as S.Schema<CheckCapacityResponse>;
 export type TokenDomain = string;
 export type APIKeyTokenDomains = string[];
-export const APIKeyTokenDomains = /*@__PURE__*/ S.Array(S.String);
 export interface CreateAPIKeyRequest {
   Scope: Scope;
   TokenDomains: string[];
 }
-export const CreateAPIKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, TokenDomains: APIKeyTokenDomains }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CreateAPIKeyRequest" }) as any as S.Schema<CreateAPIKeyRequest>;
 export type APIKey = string;
 export interface CreateAPIKeyResponse {
   APIKey?: string;
 }
-export const CreateAPIKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ APIKey: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "CreateAPIKeyResponse" }) as any as S.Schema<CreateAPIKeyResponse>;
 export type EntityDescription = string;
 export type IPAddressVersion = "IPV4" | "IPV6" | (string & {});
-export const IPAddressVersion = S.String;
-
 export type IPAddress = string;
 export type IPAddresses = string[];
-export const IPAddresses = /*@__PURE__*/ S.Array(S.String);
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface CreateIPSetRequest {
   Name: string;
   Scope: Scope;
@@ -1641,16 +1014,6 @@ export interface CreateIPSetRequest {
   Addresses: string[];
   Tags?: Tag[];
 }
-export const CreateIPSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    Description: S.optional(S.String),
-    IPAddressVersion: IPAddressVersion,
-    Addresses: IPAddresses,
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateIPSetRequest" }) as any as S.Schema<CreateIPSetRequest>;
 export type EntityId = string;
 export type LockToken = string;
 export interface IPSetSummary {
@@ -1660,21 +1023,9 @@ export interface IPSetSummary {
   LockToken?: string;
   ARN?: string;
 }
-export const IPSetSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Id: S.optional(S.String),
-    Description: S.optional(S.String),
-    LockToken: S.optional(S.String),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "IPSetSummary" }) as any as S.Schema<IPSetSummary>;
 export interface CreateIPSetResponse {
   Summary?: IPSetSummary;
 }
-export const CreateIPSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Summary: S.optional(IPSetSummary) }).pipe(ns),
-).annotate({ identifier: "CreateIPSetResponse" }) as any as S.Schema<CreateIPSetResponse>;
 export interface CreateRegexPatternSetRequest {
   Name: string;
   Scope: Scope;
@@ -1682,17 +1033,6 @@ export interface CreateRegexPatternSetRequest {
   RegularExpressionList: Regex[];
   Tags?: Tag[];
 }
-export const CreateRegexPatternSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    Description: S.optional(S.String),
-    RegularExpressionList: RegularExpressionList,
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateRegexPatternSetRequest",
-}) as any as S.Schema<CreateRegexPatternSetRequest>;
 export interface RegexPatternSetSummary {
   Name?: string;
   Id?: string;
@@ -1700,83 +1040,40 @@ export interface RegexPatternSetSummary {
   LockToken?: string;
   ARN?: string;
 }
-export const RegexPatternSetSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Id: S.optional(S.String),
-    Description: S.optional(S.String),
-    LockToken: S.optional(S.String),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "RegexPatternSetSummary" }) as any as S.Schema<RegexPatternSetSummary>;
 export interface CreateRegexPatternSetResponse {
   Summary?: RegexPatternSetSummary;
 }
-export const CreateRegexPatternSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Summary: S.optional(RegexPatternSetSummary) }).pipe(ns),
-).annotate({
-  identifier: "CreateRegexPatternSetResponse",
-}) as any as S.Schema<CreateRegexPatternSetResponse>;
 export type CapacityUnit = number;
 export type ResponseContentType = "TEXT_PLAIN" | "TEXT_HTML" | "APPLICATION_JSON" | (string & {});
-export const ResponseContentType = S.String;
-
 export type ResponseContent = string;
 export interface CustomResponseBody {
   ContentType: ResponseContentType;
   Content: string;
 }
-export const CustomResponseBody = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContentType: ResponseContentType, Content: S.String }),
-).annotate({ identifier: "CustomResponseBody" }) as any as S.Schema<CustomResponseBody>;
 export type CustomResponseBodies = { [key: string]: CustomResponseBody | undefined };
-export const CustomResponseBodies = /*@__PURE__*/ S.Record(
-  S.String,
-  CustomResponseBody.pipe(S.optional),
-);
 export type BlockchainChain = "BASE" | "SOLANA" | "BASE_SEPOLIA" | "SOLANA_DEVNET" | (string & {});
-export const BlockchainChain = S.String;
-
 export type WalletAddress = string;
 export type PriceAmount = string;
 export type CryptoCurrency = "USDC" | (string & {});
-export const CryptoCurrency = S.String;
-
 export interface Price {
   Amount: string;
   Currency: CryptoCurrency;
 }
-export const Price = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Amount: S.String, Currency: CryptoCurrency }),
-).annotate({ identifier: "Price" }) as any as S.Schema<Price>;
 export type Prices = Price[];
-export const Prices = /*@__PURE__*/ S.Array(Price);
 export interface PaymentNetwork {
   Chain: BlockchainChain;
   WalletAddress: string;
   Prices: Price[];
 }
-export const PaymentNetwork = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Chain: BlockchainChain, WalletAddress: S.String, Prices: Prices }),
-).annotate({ identifier: "PaymentNetwork" }) as any as S.Schema<PaymentNetwork>;
 export type PaymentNetworks = PaymentNetwork[];
-export const PaymentNetworks = /*@__PURE__*/ S.Array(PaymentNetwork);
 export interface CryptoConfig {
   PaymentNetworks: PaymentNetwork[];
 }
-export const CryptoConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PaymentNetworks: PaymentNetworks }),
-).annotate({ identifier: "CryptoConfig" }) as any as S.Schema<CryptoConfig>;
 export type CurrencyMode = "REAL" | "TEST" | (string & {});
-export const CurrencyMode = S.String;
-
 export interface MonetizationConfig {
   CryptoConfig?: CryptoConfig;
   CurrencyMode?: CurrencyMode;
 }
-export const MonetizationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CryptoConfig: S.optional(CryptoConfig), CurrencyMode: S.optional(CurrencyMode) }),
-).annotate({ identifier: "MonetizationConfig" }) as any as S.Schema<MonetizationConfig>;
 export interface CreateRuleGroupRequest {
   Name: string;
   Scope: Scope;
@@ -1788,19 +1085,6 @@ export interface CreateRuleGroupRequest {
   CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
   MonetizationConfig?: MonetizationConfig;
 }
-export const CreateRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    Capacity: S.Number,
-    Description: S.optional(S.String),
-    Rules: S.optional(Rules),
-    VisibilityConfig: VisibilityConfig,
-    Tags: S.optional(TagList),
-    CustomResponseBodies: S.optional(CustomResponseBodies),
-    MonetizationConfig: S.optional(MonetizationConfig),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateRuleGroupRequest" }) as any as S.Schema<CreateRuleGroupRequest>;
 export interface RuleGroupSummary {
   Name?: string;
   Id?: string;
@@ -1808,28 +1092,13 @@ export interface RuleGroupSummary {
   LockToken?: string;
   ARN?: string;
 }
-export const RuleGroupSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Id: S.optional(S.String),
-    Description: S.optional(S.String),
-    LockToken: S.optional(S.String),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "RuleGroupSummary" }) as any as S.Schema<RuleGroupSummary>;
 export interface CreateRuleGroupResponse {
   Summary?: RuleGroupSummary;
 }
-export const CreateRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Summary: S.optional(RuleGroupSummary) }).pipe(ns),
-).annotate({ identifier: "CreateRuleGroupResponse" }) as any as S.Schema<CreateRuleGroupResponse>;
 export interface DefaultAction {
   Block?: BlockAction;
   Allow?: AllowAction;
 }
-export const DefaultAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Block: S.optional(BlockAction), Allow: S.optional(AllowAction) }),
-).annotate({ identifier: "DefaultAction" }) as any as S.Schema<DefaultAction>;
 export type FieldToProtectType =
   | "SINGLE_HEADER"
   | "SINGLE_COOKIE"
@@ -1837,45 +1106,24 @@ export type FieldToProtectType =
   | "QUERY_STRING"
   | "BODY"
   | (string & {});
-export const FieldToProtectType = S.String;
-
 export type FieldToProtectKeyName = string;
 export type FieldToProtectKeys = string[];
-export const FieldToProtectKeys = /*@__PURE__*/ S.Array(S.String);
 export interface FieldToProtect {
   FieldType: FieldToProtectType;
   FieldKeys?: string[];
 }
-export const FieldToProtect = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FieldType: FieldToProtectType, FieldKeys: S.optional(FieldToProtectKeys) }),
-).annotate({ identifier: "FieldToProtect" }) as any as S.Schema<FieldToProtect>;
 export type DataProtectionAction = "SUBSTITUTION" | "HASH" | (string & {});
-export const DataProtectionAction = S.String;
-
 export interface DataProtection {
   Field: FieldToProtect;
   Action: DataProtectionAction;
   ExcludeRuleMatchDetails?: boolean;
   ExcludeRateBasedDetails?: boolean;
 }
-export const DataProtection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Field: FieldToProtect,
-    Action: DataProtectionAction,
-    ExcludeRuleMatchDetails: S.optional(S.Boolean),
-    ExcludeRateBasedDetails: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "DataProtection" }) as any as S.Schema<DataProtection>;
 export type DataProtections = DataProtection[];
-export const DataProtections = /*@__PURE__*/ S.Array(DataProtection);
 export interface DataProtectionConfig {
   DataProtections: DataProtection[];
 }
-export const DataProtectionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataProtections: DataProtections }),
-).annotate({ identifier: "DataProtectionConfig" }) as any as S.Schema<DataProtectionConfig>;
 export type TokenDomains = string[];
-export const TokenDomains = /*@__PURE__*/ S.Array(S.String);
 export type AssociatedResourceType =
   | "CLOUDFRONT"
   | "API_GATEWAY"
@@ -1884,62 +1132,31 @@ export type AssociatedResourceType =
   | "VERIFIED_ACCESS_INSTANCE"
   | "AGENTCORE_GATEWAY"
   | (string & {});
-export const AssociatedResourceType = S.String;
-
 export type SizeInspectionLimit = "KB_16" | "KB_32" | "KB_48" | "KB_64" | (string & {});
-export const SizeInspectionLimit = S.String;
-
 export interface RequestBodyAssociatedResourceTypeConfig {
   DefaultSizeInspectionLimit: SizeInspectionLimit;
 }
-export const RequestBodyAssociatedResourceTypeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DefaultSizeInspectionLimit: SizeInspectionLimit }),
-).annotate({
-  identifier: "RequestBodyAssociatedResourceTypeConfig",
-}) as any as S.Schema<RequestBodyAssociatedResourceTypeConfig>;
 export type RequestBody = {
   [key in AssociatedResourceType]?: RequestBodyAssociatedResourceTypeConfig;
 };
-export const RequestBody = /*@__PURE__*/ S.Record(
-  AssociatedResourceType,
-  RequestBodyAssociatedResourceTypeConfig.pipe(S.optional),
-);
 export interface AssociationConfig {
   RequestBody?: { [key: string]: RequestBodyAssociatedResourceTypeConfig | undefined };
 }
-export const AssociationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RequestBody: S.optional(RequestBody) }),
-).annotate({ identifier: "AssociationConfig" }) as any as S.Schema<AssociationConfig>;
 export type LowReputationMode = "ACTIVE_UNDER_DDOS" | "ALWAYS_ON" | (string & {});
-export const LowReputationMode = S.String;
-
 export interface OnSourceDDoSProtectionConfig {
   ALBLowReputationMode: LowReputationMode;
 }
-export const OnSourceDDoSProtectionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ALBLowReputationMode: LowReputationMode }),
-).annotate({
-  identifier: "OnSourceDDoSProtectionConfig",
-}) as any as S.Schema<OnSourceDDoSProtectionConfig>;
 export type AttributeName = string;
 export type AttributeValue = string;
 export type AttributeValues = string[];
-export const AttributeValues = /*@__PURE__*/ S.Array(S.String);
 export interface ApplicationAttribute {
   Name?: string;
   Values?: string[];
 }
-export const ApplicationAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Values: S.optional(AttributeValues) }),
-).annotate({ identifier: "ApplicationAttribute" }) as any as S.Schema<ApplicationAttribute>;
 export type ApplicationAttributes = ApplicationAttribute[];
-export const ApplicationAttributes = /*@__PURE__*/ S.Array(ApplicationAttribute);
 export interface ApplicationConfig {
   Attributes?: ApplicationAttribute[];
 }
-export const ApplicationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Attributes: S.optional(ApplicationAttributes) }),
-).annotate({ identifier: "ApplicationConfig" }) as any as S.Schema<ApplicationConfig>;
 export interface CreateWebACLRequest {
   Name: string;
   Scope: Scope;
@@ -1958,26 +1175,6 @@ export interface CreateWebACLRequest {
   ApplicationConfig?: ApplicationConfig;
   MonetizationConfig?: MonetizationConfig;
 }
-export const CreateWebACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    DefaultAction: DefaultAction,
-    Description: S.optional(S.String),
-    Rules: S.optional(Rules),
-    VisibilityConfig: VisibilityConfig,
-    DataProtectionConfig: S.optional(DataProtectionConfig),
-    Tags: S.optional(TagList),
-    CustomResponseBodies: S.optional(CustomResponseBodies),
-    CaptchaConfig: S.optional(CaptchaConfig),
-    ChallengeConfig: S.optional(ChallengeConfig),
-    TokenDomains: S.optional(TokenDomains),
-    AssociationConfig: S.optional(AssociationConfig),
-    OnSourceDDoSProtectionConfig: S.optional(OnSourceDDoSProtectionConfig),
-    ApplicationConfig: S.optional(ApplicationConfig),
-    MonetizationConfig: S.optional(MonetizationConfig),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateWebACLRequest" }) as any as S.Schema<CreateWebACLRequest>;
 export interface WebACLSummary {
   Name?: string;
   Id?: string;
@@ -1985,173 +1182,68 @@ export interface WebACLSummary {
   LockToken?: string;
   ARN?: string;
 }
-export const WebACLSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Id: S.optional(S.String),
-    Description: S.optional(S.String),
-    LockToken: S.optional(S.String),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "WebACLSummary" }) as any as S.Schema<WebACLSummary>;
 export interface CreateWebACLResponse {
   Summary?: WebACLSummary;
 }
-export const CreateWebACLResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Summary: S.optional(WebACLSummary) }).pipe(ns),
-).annotate({ identifier: "CreateWebACLResponse" }) as any as S.Schema<CreateWebACLResponse>;
 export interface DeleteAPIKeyRequest {
   Scope: Scope;
   APIKey: string;
 }
-export const DeleteAPIKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, APIKey: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteAPIKeyRequest" }) as any as S.Schema<DeleteAPIKeyRequest>;
 export interface DeleteAPIKeyResponse {}
-export const DeleteAPIKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "DeleteAPIKeyResponse",
-}) as any as S.Schema<DeleteAPIKeyResponse>;
 export interface DeleteFirewallManagerRuleGroupsRequest {
   WebACLArn: string;
   WebACLLockToken: string;
 }
-export const DeleteFirewallManagerRuleGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ WebACLArn: S.String, WebACLLockToken: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteFirewallManagerRuleGroupsRequest",
-}) as any as S.Schema<DeleteFirewallManagerRuleGroupsRequest>;
 export interface DeleteFirewallManagerRuleGroupsResponse {
   NextWebACLLockToken?: string;
 }
-export const DeleteFirewallManagerRuleGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextWebACLLockToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteFirewallManagerRuleGroupsResponse",
-}) as any as S.Schema<DeleteFirewallManagerRuleGroupsResponse>;
 export interface DeleteIPSetRequest {
   Name: string;
   Scope: Scope;
   Id: string;
   LockToken: string;
 }
-export const DeleteIPSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: Scope, Id: S.String, LockToken: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteIPSetRequest" }) as any as S.Schema<DeleteIPSetRequest>;
 export interface DeleteIPSetResponse {}
-export const DeleteIPSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "DeleteIPSetResponse",
-}) as any as S.Schema<DeleteIPSetResponse>;
 export type LogType = "WAF_LOGS" | (string & {});
-export const LogType = S.String;
-
 export type LogScope =
   | "CUSTOMER"
   | "SECURITY_LAKE"
   | "CLOUDWATCH_TELEMETRY_RULE_MANAGED"
   | (string & {});
-export const LogScope = S.String;
-
 export interface DeleteLoggingConfigurationRequest {
   ResourceArn: string;
   LogType?: LogType;
   LogScope?: LogScope;
 }
-export const DeleteLoggingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String,
-    LogType: S.optional(LogType),
-    LogScope: S.optional(LogScope),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteLoggingConfigurationRequest",
-}) as any as S.Schema<DeleteLoggingConfigurationRequest>;
 export interface DeleteLoggingConfigurationResponse {}
-export const DeleteLoggingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLoggingConfigurationResponse",
-}) as any as S.Schema<DeleteLoggingConfigurationResponse>;
 export interface DeletePermissionPolicyRequest {
   ResourceArn: string;
 }
-export const DeletePermissionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeletePermissionPolicyRequest",
-}) as any as S.Schema<DeletePermissionPolicyRequest>;
 export interface DeletePermissionPolicyResponse {}
-export const DeletePermissionPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeletePermissionPolicyResponse",
-}) as any as S.Schema<DeletePermissionPolicyResponse>;
 export interface DeleteRegexPatternSetRequest {
   Name: string;
   Scope: Scope;
   Id: string;
   LockToken: string;
 }
-export const DeleteRegexPatternSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: Scope, Id: S.String, LockToken: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteRegexPatternSetRequest",
-}) as any as S.Schema<DeleteRegexPatternSetRequest>;
 export interface DeleteRegexPatternSetResponse {}
-export const DeleteRegexPatternSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRegexPatternSetResponse",
-}) as any as S.Schema<DeleteRegexPatternSetResponse>;
 export interface DeleteRuleGroupRequest {
   Name: string;
   Scope: Scope;
   Id: string;
   LockToken: string;
 }
-export const DeleteRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: Scope, Id: S.String, LockToken: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteRuleGroupRequest" }) as any as S.Schema<DeleteRuleGroupRequest>;
 export interface DeleteRuleGroupResponse {}
-export const DeleteRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "DeleteRuleGroupResponse" }) as any as S.Schema<DeleteRuleGroupResponse>;
 export interface DeleteWebACLRequest {
   Name: string;
   Scope: Scope;
   Id: string;
   LockToken: string;
 }
-export const DeleteWebACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: Scope, Id: S.String, LockToken: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteWebACLRequest" }) as any as S.Schema<DeleteWebACLRequest>;
 export interface DeleteWebACLResponse {}
-export const DeleteWebACLResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "DeleteWebACLResponse",
-}) as any as S.Schema<DeleteWebACLResponse>;
 export interface DescribeAllManagedProductsRequest {
   Scope: Scope;
 }
-export const DescribeAllManagedProductsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeAllManagedProductsRequest",
-}) as any as S.Schema<DescribeAllManagedProductsRequest>;
 export type ProductId = string;
 export type ProductLink = string;
 export type ProductTitle = string;
@@ -2167,81 +1259,32 @@ export interface ManagedProductDescriptor {
   IsVersioningSupported?: boolean;
   IsAdvancedManagedRuleSet?: boolean;
 }
-export const ManagedProductDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VendorName: S.optional(S.String),
-    ManagedRuleSetName: S.optional(S.String),
-    ProductId: S.optional(S.String),
-    ProductLink: S.optional(S.String),
-    ProductTitle: S.optional(S.String),
-    ProductDescription: S.optional(S.String),
-    SnsTopicArn: S.optional(S.String),
-    IsVersioningSupported: S.optional(S.Boolean),
-    IsAdvancedManagedRuleSet: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ManagedProductDescriptor" }) as any as S.Schema<ManagedProductDescriptor>;
 export type ManagedProductDescriptors = ManagedProductDescriptor[];
-export const ManagedProductDescriptors = /*@__PURE__*/ S.Array(ManagedProductDescriptor);
 export interface DescribeAllManagedProductsResponse {
   ManagedProducts?: ManagedProductDescriptor[];
 }
-export const DescribeAllManagedProductsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManagedProducts: S.optional(ManagedProductDescriptors) }).pipe(ns),
-).annotate({
-  identifier: "DescribeAllManagedProductsResponse",
-}) as any as S.Schema<DescribeAllManagedProductsResponse>;
 export interface DescribeManagedProductsByVendorRequest {
   VendorName: string;
   Scope: Scope;
 }
-export const DescribeManagedProductsByVendorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VendorName: S.String, Scope: Scope }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeManagedProductsByVendorRequest",
-}) as any as S.Schema<DescribeManagedProductsByVendorRequest>;
 export interface DescribeManagedProductsByVendorResponse {
   ManagedProducts?: ManagedProductDescriptor[];
 }
-export const DescribeManagedProductsByVendorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManagedProducts: S.optional(ManagedProductDescriptors) }).pipe(ns),
-).annotate({
-  identifier: "DescribeManagedProductsByVendorResponse",
-}) as any as S.Schema<DescribeManagedProductsByVendorResponse>;
 export interface DescribeManagedRuleGroupRequest {
   VendorName: string;
   Name: string;
   Scope: Scope;
   VersionName?: string;
 }
-export const DescribeManagedRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VendorName: S.String,
-    Name: S.String,
-    Scope: Scope,
-    VersionName: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeManagedRuleGroupRequest",
-}) as any as S.Schema<DescribeManagedRuleGroupRequest>;
 export interface RuleSummary {
   Name?: string;
   Action?: RuleAction;
 }
-export const RuleSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Action: S.optional(RuleAction) }),
-).annotate({ identifier: "RuleSummary" }) as any as S.Schema<RuleSummary>;
 export type RuleSummaries = RuleSummary[];
-export const RuleSummaries = /*@__PURE__*/ S.Array(RuleSummary);
 export interface LabelSummary {
   Name?: string;
 }
-export const LabelSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
-).annotate({ identifier: "LabelSummary" }) as any as S.Schema<LabelSummary>;
 export type LabelSummaries = LabelSummary[];
-export const LabelSummaries = /*@__PURE__*/ S.Array(LabelSummary);
 export interface DescribeManagedRuleGroupResponse {
   VersionName?: string;
   SnsTopicArn?: string;
@@ -2251,91 +1294,32 @@ export interface DescribeManagedRuleGroupResponse {
   AvailableLabels?: LabelSummary[];
   ConsumedLabels?: LabelSummary[];
 }
-export const DescribeManagedRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VersionName: S.optional(S.String),
-    SnsTopicArn: S.optional(S.String),
-    Capacity: S.optional(S.Number),
-    Rules: S.optional(RuleSummaries),
-    LabelNamespace: S.optional(S.String),
-    AvailableLabels: S.optional(LabelSummaries),
-    ConsumedLabels: S.optional(LabelSummaries),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeManagedRuleGroupResponse",
-}) as any as S.Schema<DescribeManagedRuleGroupResponse>;
 export interface DisassociateWebACLRequest {
   ResourceArn: string;
 }
-export const DisassociateWebACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateWebACLRequest",
-}) as any as S.Schema<DisassociateWebACLRequest>;
 export interface DisassociateWebACLResponse {}
-export const DisassociateWebACLResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DisassociateWebACLResponse",
-}) as any as S.Schema<DisassociateWebACLResponse>;
 export type Platform = "IOS" | "ANDROID" | (string & {});
-export const Platform = S.String;
-
 export interface GenerateMobileSdkReleaseUrlRequest {
   Platform: Platform;
   ReleaseVersion: string;
 }
-export const GenerateMobileSdkReleaseUrlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Platform: Platform, ReleaseVersion: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GenerateMobileSdkReleaseUrlRequest",
-}) as any as S.Schema<GenerateMobileSdkReleaseUrlRequest>;
 export type DownloadUrl = string;
 export interface GenerateMobileSdkReleaseUrlResponse {
   Url?: string;
 }
-export const GenerateMobileSdkReleaseUrlResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Url: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GenerateMobileSdkReleaseUrlResponse",
-}) as any as S.Schema<GenerateMobileSdkReleaseUrlResponse>;
 export interface GetDecryptedAPIKeyRequest {
   Scope: Scope;
   APIKey: string;
 }
-export const GetDecryptedAPIKeyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, APIKey: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetDecryptedAPIKeyRequest",
-}) as any as S.Schema<GetDecryptedAPIKeyRequest>;
 export interface GetDecryptedAPIKeyResponse {
   TokenDomains?: string[];
   CreationTimestamp?: Date;
 }
-export const GetDecryptedAPIKeyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TokenDomains: S.optional(TokenDomains),
-    CreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDecryptedAPIKeyResponse",
-}) as any as S.Schema<GetDecryptedAPIKeyResponse>;
 export interface GetIPSetRequest {
   Name: string;
   Scope: Scope;
   Id: string;
 }
-export const GetIPSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: Scope, Id: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetIPSetRequest" }) as any as S.Schema<GetIPSetRequest>;
 export interface IPSet {
   Name: string;
   Id: string;
@@ -2344,47 +1328,19 @@ export interface IPSet {
   IPAddressVersion: IPAddressVersion;
   Addresses: string[];
 }
-export const IPSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Id: S.String,
-    ARN: S.String,
-    Description: S.optional(S.String),
-    IPAddressVersion: IPAddressVersion,
-    Addresses: IPAddresses,
-  }),
-).annotate({ identifier: "IPSet" }) as any as S.Schema<IPSet>;
 export interface GetIPSetResponse {
   IPSet?: IPSet;
   LockToken?: string;
 }
-export const GetIPSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IPSet: S.optional(IPSet), LockToken: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "GetIPSetResponse" }) as any as S.Schema<GetIPSetResponse>;
 export interface GetLoggingConfigurationRequest {
   ResourceArn: string;
   LogType?: LogType;
   LogScope?: LogScope;
 }
-export const GetLoggingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String,
-    LogType: S.optional(LogType),
-    LogScope: S.optional(LogScope),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetLoggingConfigurationRequest",
-}) as any as S.Schema<GetLoggingConfigurationRequest>;
 export type LogDestinationConfigs = string[];
-export const LogDestinationConfigs = /*@__PURE__*/ S.Array(S.String);
 export type RedactedFields = FieldToMatch[];
-export const RedactedFields = /*@__PURE__*/ S.Array(FieldToMatch);
 export type FilterBehavior = "KEEP" | "DROP" | (string & {});
-export const FilterBehavior = S.String;
-
 export type FilterRequirement = "MEETS_ALL" | "MEETS_ANY" | (string & {});
-export const FilterRequirement = S.String;
-
 export type ActionValue =
   | "ALLOW"
   | "BLOCK"
@@ -2394,49 +1350,27 @@ export type ActionValue =
   | "MONETIZE"
   | "EXCLUDED_AS_COUNT"
   | (string & {});
-export const ActionValue = S.String;
-
 export interface ActionCondition {
   Action: ActionValue;
 }
-export const ActionCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Action: ActionValue }),
-).annotate({ identifier: "ActionCondition" }) as any as S.Schema<ActionCondition>;
 export interface LabelNameCondition {
   LabelName: string;
 }
-export const LabelNameCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LabelName: S.String }),
-).annotate({ identifier: "LabelNameCondition" }) as any as S.Schema<LabelNameCondition>;
 export interface Condition {
   ActionCondition?: ActionCondition;
   LabelNameCondition?: LabelNameCondition;
 }
-export const Condition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActionCondition: S.optional(ActionCondition),
-    LabelNameCondition: S.optional(LabelNameCondition),
-  }),
-).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export type Conditions = Condition[];
-export const Conditions = /*@__PURE__*/ S.Array(Condition);
 export interface Filter {
   Behavior: FilterBehavior;
   Requirement: FilterRequirement;
   Conditions: Condition[];
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Behavior: FilterBehavior, Requirement: FilterRequirement, Conditions: Conditions }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type Filters = Filter[];
-export const Filters = /*@__PURE__*/ S.Array(Filter);
 export interface LoggingFilter {
   Filters: Filter[];
   DefaultBehavior: FilterBehavior;
 }
-export const LoggingFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Filters: Filters, DefaultBehavior: FilterBehavior }),
-).annotate({ identifier: "LoggingFilter" }) as any as S.Schema<LoggingFilter>;
 export interface LoggingConfiguration {
   ResourceArn: string;
   LogDestinationConfigs: string[];
@@ -2446,35 +1380,14 @@ export interface LoggingConfiguration {
   LogType?: LogType;
   LogScope?: LogScope;
 }
-export const LoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String,
-    LogDestinationConfigs: LogDestinationConfigs,
-    RedactedFields: S.optional(RedactedFields),
-    ManagedByFirewallManager: S.optional(S.Boolean),
-    LoggingFilter: S.optional(LoggingFilter),
-    LogType: S.optional(LogType),
-    LogScope: S.optional(LogScope),
-  }),
-).annotate({ identifier: "LoggingConfiguration" }) as any as S.Schema<LoggingConfiguration>;
 export interface GetLoggingConfigurationResponse {
   LoggingConfiguration?: LoggingConfiguration;
 }
-export const GetLoggingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoggingConfiguration: S.optional(LoggingConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "GetLoggingConfigurationResponse",
-}) as any as S.Schema<GetLoggingConfigurationResponse>;
 export interface GetManagedRuleSetRequest {
   Name: string;
   Scope: Scope;
   Id: string;
 }
-export const GetManagedRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: Scope, Id: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetManagedRuleSetRequest" }) as any as S.Schema<GetManagedRuleSetRequest>;
 export type TimeWindowDay = number;
 export interface ManagedRuleSetVersion {
   AssociatedRuleGroupArn?: string;
@@ -2484,21 +1397,7 @@ export interface ManagedRuleSetVersion {
   LastUpdateTimestamp?: Date;
   ExpiryTimestamp?: Date;
 }
-export const ManagedRuleSetVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssociatedRuleGroupArn: S.optional(S.String),
-    Capacity: S.optional(S.Number),
-    ForecastedLifetime: S.optional(S.Number),
-    PublishTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ExpiryTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ManagedRuleSetVersion" }) as any as S.Schema<ManagedRuleSetVersion>;
 export type PublishedVersions = { [key: string]: ManagedRuleSetVersion | undefined };
-export const PublishedVersions = /*@__PURE__*/ S.Record(
-  S.String,
-  ManagedRuleSetVersion.pipe(S.optional),
-);
 export interface ManagedRuleSet {
   Name: string;
   Id: string;
@@ -2508,39 +1407,14 @@ export interface ManagedRuleSet {
   RecommendedVersion?: string;
   LabelNamespace?: string;
 }
-export const ManagedRuleSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Id: S.String,
-    ARN: S.String,
-    Description: S.optional(S.String),
-    PublishedVersions: S.optional(PublishedVersions),
-    RecommendedVersion: S.optional(S.String),
-    LabelNamespace: S.optional(S.String),
-  }),
-).annotate({ identifier: "ManagedRuleSet" }) as any as S.Schema<ManagedRuleSet>;
 export interface GetManagedRuleSetResponse {
   ManagedRuleSet?: ManagedRuleSet;
   LockToken?: string;
 }
-export const GetManagedRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ManagedRuleSet: S.optional(ManagedRuleSet), LockToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "GetManagedRuleSetResponse",
-}) as any as S.Schema<GetManagedRuleSetResponse>;
 export interface GetMobileSdkReleaseRequest {
   Platform: Platform;
   ReleaseVersion: string;
 }
-export const GetMobileSdkReleaseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Platform: Platform, ReleaseVersion: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetMobileSdkReleaseRequest",
-}) as any as S.Schema<GetMobileSdkReleaseRequest>;
 export type ReleaseNotes = string;
 export interface MobileSdkRelease {
   ReleaseVersion?: string;
@@ -2548,41 +1422,16 @@ export interface MobileSdkRelease {
   ReleaseNotes?: string;
   Tags?: Tag[];
 }
-export const MobileSdkRelease = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReleaseVersion: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ReleaseNotes: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }),
-).annotate({ identifier: "MobileSdkRelease" }) as any as S.Schema<MobileSdkRelease>;
 export interface GetMobileSdkReleaseResponse {
   MobileSdkRelease?: MobileSdkRelease;
 }
-export const GetMobileSdkReleaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MobileSdkRelease: S.optional(MobileSdkRelease) }).pipe(ns),
-).annotate({
-  identifier: "GetMobileSdkReleaseResponse",
-}) as any as S.Schema<GetMobileSdkReleaseResponse>;
 export interface GetPermissionPolicyRequest {
   ResourceArn: string;
 }
-export const GetPermissionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetPermissionPolicyRequest",
-}) as any as S.Schema<GetPermissionPolicyRequest>;
 export type PolicyString = string;
 export interface GetPermissionPolicyResponse {
   Policy?: string;
 }
-export const GetPermissionPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetPermissionPolicyResponse",
-}) as any as S.Schema<GetPermissionPolicyResponse>;
 export interface GetRateBasedStatementManagedKeysRequest {
   Scope: Scope;
   WebACLName: string;
@@ -2590,50 +1439,19 @@ export interface GetRateBasedStatementManagedKeysRequest {
   RuleGroupRuleName?: string;
   RuleName: string;
 }
-export const GetRateBasedStatementManagedKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Scope: Scope,
-    WebACLName: S.String,
-    WebACLId: S.String,
-    RuleGroupRuleName: S.optional(S.String),
-    RuleName: S.String,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetRateBasedStatementManagedKeysRequest",
-}) as any as S.Schema<GetRateBasedStatementManagedKeysRequest>;
 export interface RateBasedStatementManagedKeysIPSet {
   IPAddressVersion?: IPAddressVersion;
   Addresses?: string[];
 }
-export const RateBasedStatementManagedKeysIPSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IPAddressVersion: S.optional(IPAddressVersion), Addresses: S.optional(IPAddresses) }),
-).annotate({
-  identifier: "RateBasedStatementManagedKeysIPSet",
-}) as any as S.Schema<RateBasedStatementManagedKeysIPSet>;
 export interface GetRateBasedStatementManagedKeysResponse {
   ManagedKeysIPV4?: RateBasedStatementManagedKeysIPSet;
   ManagedKeysIPV6?: RateBasedStatementManagedKeysIPSet;
 }
-export const GetRateBasedStatementManagedKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManagedKeysIPV4: S.optional(RateBasedStatementManagedKeysIPSet),
-    ManagedKeysIPV6: S.optional(RateBasedStatementManagedKeysIPSet),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetRateBasedStatementManagedKeysResponse",
-}) as any as S.Schema<GetRateBasedStatementManagedKeysResponse>;
 export interface GetRegexPatternSetRequest {
   Name: string;
   Scope: Scope;
   Id: string;
 }
-export const GetRegexPatternSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Scope: Scope, Id: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetRegexPatternSetRequest",
-}) as any as S.Schema<GetRegexPatternSetRequest>;
 export interface RegexPatternSet {
   Name?: string;
   Id?: string;
@@ -2641,45 +1459,19 @@ export interface RegexPatternSet {
   Description?: string;
   RegularExpressionList?: Regex[];
 }
-export const RegexPatternSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Id: S.optional(S.String),
-    ARN: S.optional(S.String),
-    Description: S.optional(S.String),
-    RegularExpressionList: S.optional(RegularExpressionList),
-  }),
-).annotate({ identifier: "RegexPatternSet" }) as any as S.Schema<RegexPatternSet>;
 export interface GetRegexPatternSetResponse {
   RegexPatternSet?: RegexPatternSet;
   LockToken?: string;
 }
-export const GetRegexPatternSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RegexPatternSet: S.optional(RegexPatternSet), LockToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "GetRegexPatternSetResponse",
-}) as any as S.Schema<GetRegexPatternSetResponse>;
 export type RankingStatisticType =
   | "TOP_SOURCES_BY_REVENUE"
   | "TOP_PATHS_BY_REVENUE"
   | (string & {});
-export const RankingStatisticType = S.String;
-
 export interface TimeWindow {
   StartTime: Date;
   EndTime: Date;
 }
-export const TimeWindow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
 export type Currency = "USDC" | (string & {});
-export const Currency = S.String;
-
 export type GroupByType =
   | "NAME"
   | "CATEGORY"
@@ -2687,29 +1479,18 @@ export type GroupByType =
   | "ORGANIZATION"
   | "WEBACL"
   | (string & {});
-export const GroupByType = S.String;
-
 export type MonetizationFilterName = string;
 export type MonetizationFilterValue = string;
 export type MonetizationFilterValueList = string[];
-export const MonetizationFilterValueList = /*@__PURE__*/ S.Array(S.String);
 export interface MonetizationFilter {
   Name: string;
   Values: string[];
 }
-export const MonetizationFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Values: MonetizationFilterValueList }),
-).annotate({ identifier: "MonetizationFilter" }) as any as S.Schema<MonetizationFilter>;
 export type MonetizationFilterList = MonetizationFilter[];
-export const MonetizationFilterList = /*@__PURE__*/ S.Array(MonetizationFilter);
 export type NextMarker = string;
 export type PathStatisticsLimit = number;
 export type RankingSortBy = "REVENUE" | "PERCENTAGE" | "NAME" | (string & {});
-export const RankingSortBy = S.String;
-
 export type SortOrder = "ASC" | "DESC" | (string & {});
-export const SortOrder = S.String;
-
 export interface GetRevenueStatisticsRequest {
   StatisticType: RankingStatisticType;
   TimeWindow: TimeWindow;
@@ -2722,22 +1503,6 @@ export interface GetRevenueStatisticsRequest {
   SortBy?: RankingSortBy;
   SortOrder?: SortOrder;
 }
-export const GetRevenueStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StatisticType: RankingStatisticType,
-    TimeWindow: TimeWindow,
-    Scope: Scope,
-    Currency: Currency,
-    GroupBy: S.optional(GroupByType),
-    Filters: S.optional(MonetizationFilterList),
-    NextMarker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    SortBy: S.optional(RankingSortBy),
-    SortOrder: S.optional(SortOrder),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetRevenueStatisticsRequest",
-}) as any as S.Schema<GetRevenueStatisticsRequest>;
 export type FilterString = string;
 export type PercentageValue = number;
 export type MonetizationAmountValue = string;
@@ -2754,21 +1519,7 @@ export interface SourceStatistics {
   Verified?: boolean;
   GroupByValue?: string;
 }
-export const SourceStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceName: S.String,
-    Percentage: S.Number,
-    Amount: S.String,
-    RequestCount: S.Number,
-    SourceCategory: S.optional(S.String),
-    Intent: S.optional(S.String),
-    Organization: S.optional(S.String),
-    Verified: S.optional(S.Boolean),
-    GroupByValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "SourceStatistics" }) as any as S.Schema<SourceStatistics>;
 export type SourceStatisticsList = SourceStatistics[];
-export const SourceStatisticsList = /*@__PURE__*/ S.Array(SourceStatistics);
 export type PathString = string;
 export interface RevenuePathStatistics {
   Path: string;
@@ -2776,41 +1527,18 @@ export interface RevenuePathStatistics {
   Amount: string;
   RequestCount: number;
 }
-export const RevenuePathStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Path: S.String, Percentage: S.Number, Amount: S.String, RequestCount: S.Number }),
-).annotate({ identifier: "RevenuePathStatistics" }) as any as S.Schema<RevenuePathStatistics>;
 export type RevenuePathStatisticsList = RevenuePathStatistics[];
-export const RevenuePathStatisticsList = /*@__PURE__*/ S.Array(RevenuePathStatistics);
 export interface GetRevenueStatisticsResponse {
   SourceStatistics?: SourceStatistics[];
   RevenuePathStatistics?: RevenuePathStatistics[];
   NextMarker?: string;
 }
-export const GetRevenueStatisticsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceStatistics: S.optional(SourceStatisticsList),
-    RevenuePathStatistics: S.optional(RevenuePathStatisticsList),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetRevenueStatisticsResponse",
-}) as any as S.Schema<GetRevenueStatisticsResponse>;
 export interface GetRevenueStatisticsSummaryRequest {
   TimeWindow: TimeWindow;
   Scope: Scope;
   Currency: Currency;
   Filters?: MonetizationFilter[];
 }
-export const GetRevenueStatisticsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimeWindow: TimeWindow,
-    Scope: Scope,
-    Currency: Currency,
-    Filters: S.optional(MonetizationFilterList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetRevenueStatisticsSummaryRequest",
-}) as any as S.Schema<GetRevenueStatisticsSummaryRequest>;
 export interface RevenueBreakdown {
   TotalAmount?: string;
   VerifiedAmount?: string;
@@ -2819,30 +1547,11 @@ export interface RevenueBreakdown {
   TotalSettled?: number;
   TotalMonetizeServed?: number;
 }
-export const RevenueBreakdown = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TotalAmount: S.optional(S.String),
-    VerifiedAmount: S.optional(S.String),
-    UnverifiedAmount: S.optional(S.String),
-    Currency: S.optional(Currency),
-    TotalSettled: S.optional(S.Number),
-    TotalMonetizeServed: S.optional(S.Number),
-  }),
-).annotate({ identifier: "RevenueBreakdown" }) as any as S.Schema<RevenueBreakdown>;
 export interface GetRevenueStatisticsSummaryResponse {
   RevenueBreakdown?: RevenueBreakdown;
 }
-export const GetRevenueStatisticsSummaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RevenueBreakdown: S.optional(RevenueBreakdown) }).pipe(ns),
-).annotate({
-  identifier: "GetRevenueStatisticsSummaryResponse",
-}) as any as S.Schema<GetRevenueStatisticsSummaryResponse>;
 export type TimeSeriesStatisticType = "DATE_HISTOGRAM" | "PAYMENT_TRAFFIC" | (string & {});
-export const TimeSeriesStatisticType = S.String;
-
 export type IntervalType = "MINUTELY" | "FIVE_MINUTELY" | "HOURLY" | "DAILY" | (string & {});
-export const IntervalType = S.String;
-
 export type MaxDataPoints = number;
 export interface GetRevenueStatisticsTimeSeriesRequest {
   StatisticType: TimeSeriesStatisticType;
@@ -2855,21 +1564,6 @@ export interface GetRevenueStatisticsTimeSeriesRequest {
   Limit?: number;
   NextMarker?: string;
 }
-export const GetRevenueStatisticsTimeSeriesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StatisticType: TimeSeriesStatisticType,
-    TimeWindow: TimeWindow,
-    Scope: Scope,
-    Interval: IntervalType,
-    Currency: Currency,
-    GroupBy: S.optional(GroupByType),
-    Filters: S.optional(MonetizationFilterList),
-    Limit: S.optional(S.Number),
-    NextMarker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetRevenueStatisticsTimeSeriesRequest",
-}) as any as S.Schema<GetRevenueStatisticsTimeSeriesRequest>;
 export interface DataPointEntry {
   Date?: Date;
   MonetizeServedCount?: number;
@@ -2879,42 +1573,17 @@ export interface DataPointEntry {
   Intent?: string;
   GroupByValue?: string;
 }
-export const DataPointEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MonetizeServedCount: S.optional(S.Number),
-    SettledCount: S.optional(S.Number),
-    TotalAmount: S.optional(S.String),
-    Category: S.optional(S.String),
-    Intent: S.optional(S.String),
-    GroupByValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "DataPointEntry" }) as any as S.Schema<DataPointEntry>;
 export type DataPointsList = DataPointEntry[];
-export const DataPointsList = /*@__PURE__*/ S.Array(DataPointEntry);
 export interface GetRevenueStatisticsTimeSeriesResponse {
   DataPoints?: DataPointEntry[];
   NextMarker?: string;
 }
-export const GetRevenueStatisticsTimeSeriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataPoints: S.optional(DataPointsList), NextMarker: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetRevenueStatisticsTimeSeriesResponse",
-}) as any as S.Schema<GetRevenueStatisticsTimeSeriesResponse>;
 export interface GetRuleGroupRequest {
   Name?: string;
   Scope?: Scope;
   Id?: string;
   ARN?: string;
 }
-export const GetRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Scope: S.optional(Scope),
-    Id: S.optional(S.String),
-    ARN: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetRuleGroupRequest" }) as any as S.Schema<GetRuleGroupRequest>;
 export interface RuleGroup {
   Name: string;
   Id: string;
@@ -2929,29 +1598,10 @@ export interface RuleGroup {
   ConsumedLabels?: LabelSummary[];
   MonetizationConfig?: MonetizationConfig;
 }
-export const RuleGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Id: S.String,
-    Capacity: S.Number,
-    ARN: S.String,
-    Description: S.optional(S.String),
-    Rules: S.optional(Rules),
-    VisibilityConfig: VisibilityConfig,
-    LabelNamespace: S.optional(S.String),
-    CustomResponseBodies: S.optional(CustomResponseBodies),
-    AvailableLabels: S.optional(LabelSummaries),
-    ConsumedLabels: S.optional(LabelSummaries),
-    MonetizationConfig: S.optional(MonetizationConfig),
-  }),
-).annotate({ identifier: "RuleGroup" }) as any as S.Schema<RuleGroup>;
 export interface GetRuleGroupResponse {
   RuleGroup?: RuleGroup;
   LockToken?: string;
 }
-export const GetRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleGroup: S.optional(RuleGroup), LockToken: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "GetRuleGroupResponse" }) as any as S.Schema<GetRuleGroupResponse>;
 export type ListMaxItems = number;
 export interface GetSampledRequestsRequest {
   WebAclArn: string;
@@ -2960,17 +1610,6 @@ export interface GetSampledRequestsRequest {
   TimeWindow: TimeWindow;
   MaxItems: number;
 }
-export const GetSampledRequestsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WebAclArn: S.String,
-    RuleMetricName: S.String,
-    Scope: Scope,
-    TimeWindow: TimeWindow,
-    MaxItems: S.Number,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetSampledRequestsRequest",
-}) as any as S.Schema<GetSampledRequestsRequest>;
 export type IPString = string;
 export type Country = string;
 export type URIString = string;
@@ -2982,11 +1621,7 @@ export interface HTTPHeader {
   Name?: string;
   Value?: string;
 }
-export const HTTPHeader = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "HTTPHeader" }) as any as S.Schema<HTTPHeader>;
 export type HTTPHeaders = HTTPHeader[];
-export const HTTPHeaders = /*@__PURE__*/ S.Array(HTTPHeader);
 export interface HTTPRequest {
   ClientIP?: string;
   Country?: string;
@@ -2995,16 +1630,6 @@ export interface HTTPRequest {
   HTTPVersion?: string;
   Headers?: HTTPHeader[];
 }
-export const HTTPRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientIP: S.optional(S.String),
-    Country: S.optional(S.String),
-    URI: S.optional(S.String),
-    Method: S.optional(S.String),
-    HTTPVersion: S.optional(S.String),
-    Headers: S.optional(HTTPHeaders),
-  }),
-).annotate({ identifier: "HTTPRequest" }) as any as S.Schema<HTTPRequest>;
 export type SampleWeight = number;
 export type Action = string;
 export type ResponseCode = number;
@@ -3015,32 +1640,16 @@ export type FailureReason =
   | "TOKEN_INVALID"
   | "TOKEN_DOMAIN_MISMATCH"
   | (string & {});
-export const FailureReason = S.String;
-
 export interface CaptchaResponse {
   ResponseCode?: number;
   SolveTimestamp?: number;
   FailureReason?: FailureReason;
 }
-export const CaptchaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResponseCode: S.optional(S.Number),
-    SolveTimestamp: S.optional(S.Number),
-    FailureReason: S.optional(FailureReason),
-  }),
-).annotate({ identifier: "CaptchaResponse" }) as any as S.Schema<CaptchaResponse>;
 export interface ChallengeResponse {
   ResponseCode?: number;
   SolveTimestamp?: number;
   FailureReason?: FailureReason;
 }
-export const ChallengeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResponseCode: S.optional(S.Number),
-    SolveTimestamp: S.optional(S.Number),
-    FailureReason: S.optional(FailureReason),
-  }),
-).annotate({ identifier: "ChallengeResponse" }) as any as S.Schema<ChallengeResponse>;
 export interface SampledHTTPRequest {
   Request: HTTPRequest;
   Weight: number;
@@ -3054,38 +1663,13 @@ export interface SampledHTTPRequest {
   ChallengeResponse?: ChallengeResponse;
   OverriddenAction?: string;
 }
-export const SampledHTTPRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Request: HTTPRequest,
-    Weight: S.Number,
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Action: S.optional(S.String),
-    RuleNameWithinRuleGroup: S.optional(S.String),
-    RequestHeadersInserted: S.optional(HTTPHeaders),
-    ResponseCodeSent: S.optional(S.Number),
-    Labels: S.optional(Labels),
-    CaptchaResponse: S.optional(CaptchaResponse),
-    ChallengeResponse: S.optional(ChallengeResponse),
-    OverriddenAction: S.optional(S.String),
-  }),
-).annotate({ identifier: "SampledHTTPRequest" }) as any as S.Schema<SampledHTTPRequest>;
 export type SampledHTTPRequests = SampledHTTPRequest[];
-export const SampledHTTPRequests = /*@__PURE__*/ S.Array(SampledHTTPRequest);
 export type PopulationSize = number;
 export interface GetSampledRequestsResponse {
   SampledRequests?: SampledHTTPRequest[];
   PopulationSize?: number;
   TimeWindow?: TimeWindow;
 }
-export const GetSampledRequestsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SampledRequests: S.optional(SampledHTTPRequests),
-    PopulationSize: S.optional(S.Number),
-    TimeWindow: S.optional(TimeWindow),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetSampledRequestsResponse",
-}) as any as S.Schema<GetSampledRequestsResponse>;
 export type UriPathPrefixString = string;
 export type NumberOfTopTrafficBotsPerPath = number;
 export interface GetTopPathStatisticsByTrafficRequest {
@@ -3100,44 +1684,17 @@ export interface GetTopPathStatisticsByTrafficRequest {
   NumberOfTopTrafficBotsPerPath: number;
   NextMarker?: string;
 }
-export const GetTopPathStatisticsByTrafficRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WebAclArn: S.String,
-    Scope: Scope,
-    UriPathPrefix: S.optional(S.String),
-    TimeWindow: TimeWindow,
-    BotCategory: S.optional(S.String),
-    BotOrganization: S.optional(S.String),
-    BotName: S.optional(S.String),
-    Limit: S.Number,
-    NumberOfTopTrafficBotsPerPath: S.Number,
-    NextMarker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetTopPathStatisticsByTrafficRequest",
-}) as any as S.Schema<GetTopPathStatisticsByTrafficRequest>;
 export interface FilterSource {
   BotCategory?: string;
   BotOrganization?: string;
   BotName?: string;
 }
-export const FilterSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BotCategory: S.optional(S.String),
-    BotOrganization: S.optional(S.String),
-    BotName: S.optional(S.String),
-  }),
-).annotate({ identifier: "FilterSource" }) as any as S.Schema<FilterSource>;
 export interface BotStatistics {
   BotName: string;
   RequestCount: number;
   Percentage: number;
 }
-export const BotStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BotName: S.String, RequestCount: S.Number, Percentage: S.Number }),
-).annotate({ identifier: "BotStatistics" }) as any as S.Schema<BotStatistics>;
 export type BotStatisticsList = BotStatistics[];
-export const BotStatisticsList = /*@__PURE__*/ S.Array(BotStatistics);
 export interface PathStatistics {
   Source?: FilterSource;
   Path: string;
@@ -3145,57 +1702,23 @@ export interface PathStatistics {
   Percentage: number;
   TopBots?: BotStatistics[];
 }
-export const PathStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Source: S.optional(FilterSource),
-    Path: S.String,
-    RequestCount: S.Number,
-    Percentage: S.Number,
-    TopBots: S.optional(BotStatisticsList),
-  }),
-).annotate({ identifier: "PathStatistics" }) as any as S.Schema<PathStatistics>;
 export type PathStatisticsList = PathStatistics[];
-export const PathStatisticsList = /*@__PURE__*/ S.Array(PathStatistics);
 export interface GetTopPathStatisticsByTrafficResponse {
   PathStatistics: PathStatistics[];
   TotalRequestCount: number;
   NextMarker?: string;
   TopCategories?: PathStatistics[];
 }
-export const GetTopPathStatisticsByTrafficResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PathStatistics: PathStatisticsList,
-    TotalRequestCount: S.Number,
-    NextMarker: S.optional(S.String),
-    TopCategories: S.optional(PathStatisticsList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetTopPathStatisticsByTrafficResponse",
-}) as any as S.Schema<GetTopPathStatisticsByTrafficResponse>;
 export interface GetWebACLRequest {
   Name?: string;
   Scope?: Scope;
   Id?: string;
   ARN?: string;
 }
-export const GetWebACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Scope: S.optional(Scope),
-    Id: S.optional(S.String),
-    ARN: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetWebACLRequest" }) as any as S.Schema<GetWebACLRequest>;
 export interface FirewallManagerStatement {
   ManagedRuleGroupStatement?: ManagedRuleGroupStatement;
   RuleGroupReferenceStatement?: RuleGroupReferenceStatement;
 }
-export const FirewallManagerStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ManagedRuleGroupStatement: S.optional(ManagedRuleGroupStatement),
-    RuleGroupReferenceStatement: S.optional(RuleGroupReferenceStatement),
-  }),
-).annotate({ identifier: "FirewallManagerStatement" }) as any as S.Schema<FirewallManagerStatement>;
 export interface FirewallManagerRuleGroup {
   Name: string;
   Priority: number;
@@ -3203,17 +1726,7 @@ export interface FirewallManagerRuleGroup {
   OverrideAction: OverrideAction;
   VisibilityConfig: VisibilityConfig;
 }
-export const FirewallManagerRuleGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Priority: S.Number,
-    FirewallManagerStatement: FirewallManagerStatement,
-    OverrideAction: OverrideAction,
-    VisibilityConfig: VisibilityConfig,
-  }),
-).annotate({ identifier: "FirewallManagerRuleGroup" }) as any as S.Schema<FirewallManagerRuleGroup>;
 export type FirewallManagerRuleGroups = FirewallManagerRuleGroup[];
-export const FirewallManagerRuleGroups = /*@__PURE__*/ S.Array(FirewallManagerRuleGroup);
 export interface WebACL {
   Name: string;
   Id: string;
@@ -3238,74 +1751,24 @@ export interface WebACL {
   ApplicationConfig?: ApplicationConfig;
   MonetizationConfig?: MonetizationConfig;
 }
-export const WebACL = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Id: S.String,
-    ARN: S.String,
-    DefaultAction: DefaultAction,
-    Description: S.optional(S.String),
-    Rules: S.optional(Rules),
-    VisibilityConfig: VisibilityConfig,
-    DataProtectionConfig: S.optional(DataProtectionConfig),
-    Capacity: S.optional(S.Number),
-    PreProcessFirewallManagerRuleGroups: S.optional(FirewallManagerRuleGroups),
-    PostProcessFirewallManagerRuleGroups: S.optional(FirewallManagerRuleGroups),
-    ManagedByFirewallManager: S.optional(S.Boolean),
-    LabelNamespace: S.optional(S.String),
-    CustomResponseBodies: S.optional(CustomResponseBodies),
-    CaptchaConfig: S.optional(CaptchaConfig),
-    ChallengeConfig: S.optional(ChallengeConfig),
-    TokenDomains: S.optional(TokenDomains),
-    AssociationConfig: S.optional(AssociationConfig),
-    RetrofittedByFirewallManager: S.optional(S.Boolean),
-    OnSourceDDoSProtectionConfig: S.optional(OnSourceDDoSProtectionConfig),
-    ApplicationConfig: S.optional(ApplicationConfig),
-    MonetizationConfig: S.optional(MonetizationConfig),
-  }),
-).annotate({ identifier: "WebACL" }) as any as S.Schema<WebACL>;
 export type OutputUrl = string;
 export interface GetWebACLResponse {
   WebACL?: WebACL;
   LockToken?: string;
   ApplicationIntegrationURL?: string;
 }
-export const GetWebACLResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WebACL: S.optional(WebACL),
-    LockToken: S.optional(S.String),
-    ApplicationIntegrationURL: S.optional(S.String),
-  }).pipe(ns),
-).annotate({ identifier: "GetWebACLResponse" }) as any as S.Schema<GetWebACLResponse>;
 export interface GetWebACLForResourceRequest {
   ResourceArn: string;
 }
-export const GetWebACLForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetWebACLForResourceRequest",
-}) as any as S.Schema<GetWebACLForResourceRequest>;
 export interface GetWebACLForResourceResponse {
   WebACL?: WebACL;
 }
-export const GetWebACLForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ WebACL: S.optional(WebACL) }).pipe(ns),
-).annotate({
-  identifier: "GetWebACLForResourceResponse",
-}) as any as S.Schema<GetWebACLForResourceResponse>;
 export type PaginationLimit = number;
 export interface ListAPIKeysRequest {
   Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
-export const ListAPIKeysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, NextMarker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListAPIKeysRequest" }) as any as S.Schema<ListAPIKeysRequest>;
 export type APIKeyVersion = number;
 export interface APIKeySummary {
   TokenDomains?: string[];
@@ -3313,68 +1776,28 @@ export interface APIKeySummary {
   CreationTimestamp?: Date;
   Version?: number;
 }
-export const APIKeySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TokenDomains: S.optional(TokenDomains),
-    APIKey: S.optional(S.String),
-    CreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Version: S.optional(S.Number),
-  }),
-).annotate({ identifier: "APIKeySummary" }) as any as S.Schema<APIKeySummary>;
 export type APIKeySummaries = APIKeySummary[];
-export const APIKeySummaries = /*@__PURE__*/ S.Array(APIKeySummary);
 export interface ListAPIKeysResponse {
   NextMarker?: string;
   APIKeySummaries?: APIKeySummary[];
   ApplicationIntegrationURL?: string;
 }
-export const ListAPIKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    APIKeySummaries: S.optional(APIKeySummaries),
-    ApplicationIntegrationURL: S.optional(S.String),
-  }).pipe(ns),
-).annotate({ identifier: "ListAPIKeysResponse" }) as any as S.Schema<ListAPIKeysResponse>;
 export interface ListAvailableManagedRuleGroupsRequest {
   Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
-export const ListAvailableManagedRuleGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, NextMarker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAvailableManagedRuleGroupsRequest",
-}) as any as S.Schema<ListAvailableManagedRuleGroupsRequest>;
 export interface ManagedRuleGroupSummary {
   VendorName?: string;
   Name?: string;
   VersioningSupported?: boolean;
   Description?: string;
 }
-export const ManagedRuleGroupSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VendorName: S.optional(S.String),
-    Name: S.optional(S.String),
-    VersioningSupported: S.optional(S.Boolean),
-    Description: S.optional(S.String),
-  }),
-).annotate({ identifier: "ManagedRuleGroupSummary" }) as any as S.Schema<ManagedRuleGroupSummary>;
 export type ManagedRuleGroupSummaries = ManagedRuleGroupSummary[];
-export const ManagedRuleGroupSummaries = /*@__PURE__*/ S.Array(ManagedRuleGroupSummary);
 export interface ListAvailableManagedRuleGroupsResponse {
   NextMarker?: string;
   ManagedRuleGroups?: ManagedRuleGroupSummary[];
 }
-export const ListAvailableManagedRuleGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    ManagedRuleGroups: S.optional(ManagedRuleGroupSummaries),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAvailableManagedRuleGroupsResponse",
-}) as any as S.Schema<ListAvailableManagedRuleGroupsResponse>;
 export interface ListAvailableManagedRuleGroupVersionsRequest {
   VendorName: string;
   Name: string;
@@ -3382,104 +1805,42 @@ export interface ListAvailableManagedRuleGroupVersionsRequest {
   NextMarker?: string;
   Limit?: number;
 }
-export const ListAvailableManagedRuleGroupVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VendorName: S.String,
-    Name: S.String,
-    Scope: Scope,
-    NextMarker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAvailableManagedRuleGroupVersionsRequest",
-}) as any as S.Schema<ListAvailableManagedRuleGroupVersionsRequest>;
 export interface ManagedRuleGroupVersion {
   Name?: string;
   LastUpdateTimestamp?: Date;
 }
-export const ManagedRuleGroupVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    LastUpdateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ManagedRuleGroupVersion" }) as any as S.Schema<ManagedRuleGroupVersion>;
 export type ManagedRuleGroupVersions = ManagedRuleGroupVersion[];
-export const ManagedRuleGroupVersions = /*@__PURE__*/ S.Array(ManagedRuleGroupVersion);
 export interface ListAvailableManagedRuleGroupVersionsResponse {
   NextMarker?: string;
   Versions?: ManagedRuleGroupVersion[];
   CurrentDefaultVersion?: string;
 }
-export const ListAvailableManagedRuleGroupVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    Versions: S.optional(ManagedRuleGroupVersions),
-    CurrentDefaultVersion: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAvailableManagedRuleGroupVersionsResponse",
-}) as any as S.Schema<ListAvailableManagedRuleGroupVersionsResponse>;
 export interface ListIPSetsRequest {
   Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
-export const ListIPSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, NextMarker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListIPSetsRequest" }) as any as S.Schema<ListIPSetsRequest>;
 export type IPSetSummaries = IPSetSummary[];
-export const IPSetSummaries = /*@__PURE__*/ S.Array(IPSetSummary);
 export interface ListIPSetsResponse {
   NextMarker?: string;
   IPSets?: IPSetSummary[];
 }
-export const ListIPSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextMarker: S.optional(S.String), IPSets: S.optional(IPSetSummaries) }).pipe(ns),
-).annotate({ identifier: "ListIPSetsResponse" }) as any as S.Schema<ListIPSetsResponse>;
 export interface ListLoggingConfigurationsRequest {
   Scope: Scope;
   NextMarker?: string;
   Limit?: number;
   LogScope?: LogScope;
 }
-export const ListLoggingConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Scope: Scope,
-    NextMarker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    LogScope: S.optional(LogScope),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListLoggingConfigurationsRequest",
-}) as any as S.Schema<ListLoggingConfigurationsRequest>;
 export type LoggingConfigurations = LoggingConfiguration[];
-export const LoggingConfigurations = /*@__PURE__*/ S.Array(LoggingConfiguration);
 export interface ListLoggingConfigurationsResponse {
   LoggingConfigurations?: LoggingConfiguration[];
   NextMarker?: string;
 }
-export const ListLoggingConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LoggingConfigurations: S.optional(LoggingConfigurations),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListLoggingConfigurationsResponse",
-}) as any as S.Schema<ListLoggingConfigurationsResponse>;
 export interface ListManagedRuleSetsRequest {
   Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
-export const ListManagedRuleSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, NextMarker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListManagedRuleSetsRequest",
-}) as any as S.Schema<ListManagedRuleSetsRequest>;
 export interface ManagedRuleSetSummary {
   Name?: string;
   Id?: string;
@@ -3488,94 +1849,35 @@ export interface ManagedRuleSetSummary {
   ARN?: string;
   LabelNamespace?: string;
 }
-export const ManagedRuleSetSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Id: S.optional(S.String),
-    Description: S.optional(S.String),
-    LockToken: S.optional(S.String),
-    ARN: S.optional(S.String),
-    LabelNamespace: S.optional(S.String),
-  }),
-).annotate({ identifier: "ManagedRuleSetSummary" }) as any as S.Schema<ManagedRuleSetSummary>;
 export type ManagedRuleSetSummaries = ManagedRuleSetSummary[];
-export const ManagedRuleSetSummaries = /*@__PURE__*/ S.Array(ManagedRuleSetSummary);
 export interface ListManagedRuleSetsResponse {
   NextMarker?: string;
   ManagedRuleSets?: ManagedRuleSetSummary[];
 }
-export const ListManagedRuleSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    ManagedRuleSets: S.optional(ManagedRuleSetSummaries),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListManagedRuleSetsResponse",
-}) as any as S.Schema<ListManagedRuleSetsResponse>;
 export interface ListMobileSdkReleasesRequest {
   Platform: Platform;
   NextMarker?: string;
   Limit?: number;
 }
-export const ListMobileSdkReleasesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Platform: Platform,
-    NextMarker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListMobileSdkReleasesRequest",
-}) as any as S.Schema<ListMobileSdkReleasesRequest>;
 export interface ReleaseSummary {
   ReleaseVersion?: string;
   Timestamp?: Date;
 }
-export const ReleaseSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReleaseVersion: S.optional(S.String),
-    Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ReleaseSummary" }) as any as S.Schema<ReleaseSummary>;
 export type ReleaseSummaries = ReleaseSummary[];
-export const ReleaseSummaries = /*@__PURE__*/ S.Array(ReleaseSummary);
 export interface ListMobileSdkReleasesResponse {
   ReleaseSummaries?: ReleaseSummary[];
   NextMarker?: string;
 }
-export const ListMobileSdkReleasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReleaseSummaries: S.optional(ReleaseSummaries),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListMobileSdkReleasesResponse",
-}) as any as S.Schema<ListMobileSdkReleasesResponse>;
 export interface ListRegexPatternSetsRequest {
   Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
-export const ListRegexPatternSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, NextMarker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRegexPatternSetsRequest",
-}) as any as S.Schema<ListRegexPatternSetsRequest>;
 export type RegexPatternSetSummaries = RegexPatternSetSummary[];
-export const RegexPatternSetSummaries = /*@__PURE__*/ S.Array(RegexPatternSetSummary);
 export interface ListRegexPatternSetsResponse {
   NextMarker?: string;
   RegexPatternSets?: RegexPatternSetSummary[];
 }
-export const ListRegexPatternSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    RegexPatternSets: S.optional(RegexPatternSetSummaries),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListRegexPatternSetsResponse",
-}) as any as S.Schema<ListRegexPatternSetsResponse>;
 export type ResourceType =
   | "APPLICATION_LOAD_BALANCER"
   | "API_GATEWAY"
@@ -3586,53 +1888,25 @@ export type ResourceType =
   | "AMPLIFY"
   | "AGENTCORE_GATEWAY"
   | (string & {});
-export const ResourceType = S.String;
-
 export interface ListResourcesForWebACLRequest {
   WebACLArn: string;
   ResourceType?: ResourceType;
 }
-export const ListResourcesForWebACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ WebACLArn: S.String, ResourceType: S.optional(ResourceType) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListResourcesForWebACLRequest",
-}) as any as S.Schema<ListResourcesForWebACLRequest>;
 export type ResourceArns = string[];
-export const ResourceArns = /*@__PURE__*/ S.Array(S.String);
 export interface ListResourcesForWebACLResponse {
   ResourceArns?: string[];
 }
-export const ListResourcesForWebACLResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArns: S.optional(ResourceArns) }).pipe(ns),
-).annotate({
-  identifier: "ListResourcesForWebACLResponse",
-}) as any as S.Schema<ListResourcesForWebACLResponse>;
 export interface ListRuleGroupsRequest {
   Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
-export const ListRuleGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, NextMarker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListRuleGroupsRequest" }) as any as S.Schema<ListRuleGroupsRequest>;
 export type RuleGroupSummaries = RuleGroupSummary[];
-export const RuleGroupSummaries = /*@__PURE__*/ S.Array(RuleGroupSummary);
 export interface ListRuleGroupsResponse {
   NextMarker?: string;
   RuleGroups?: RuleGroupSummary[];
 }
-export const ListRuleGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextMarker: S.optional(S.String), RuleGroups: S.optional(RuleGroupSummaries) }).pipe(
-    ns,
-  ),
-).annotate({ identifier: "ListRuleGroupsResponse" }) as any as S.Schema<ListRuleGroupsResponse>;
 export type SettlementSortBy = "TIMESTAMP" | "AMOUNT" | "NAME" | "STATUS" | (string & {});
-export const SettlementSortBy = S.String;
-
 export type SettlementRecordLimit = number;
 export interface ListSettlementRecordsRequest {
   TimeWindow: TimeWindow;
@@ -3644,20 +1918,6 @@ export interface ListSettlementRecordsRequest {
   Limit?: number;
   NextMarker?: string;
 }
-export const ListSettlementRecordsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimeWindow: TimeWindow,
-    Scope: Scope,
-    Currency: Currency,
-    Filters: S.optional(MonetizationFilterList),
-    SortBy: S.optional(SettlementSortBy),
-    SortOrder: S.optional(SortOrder),
-    Limit: S.optional(S.Number),
-    NextMarker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSettlementRecordsRequest",
-}) as any as S.Schema<ListSettlementRecordsRequest>;
 export type SettlementFilterString = string;
 export type SettlementStatus =
   | "SETTLED"
@@ -3667,8 +1927,6 @@ export type SettlementStatus =
   | "SKIPPED_ORIGIN_ERROR"
   | "DUPLICATE"
   | (string & {});
-export const SettlementStatus = S.String;
-
 export type SettlementIdString = string;
 export interface SettlementRecord {
   Timestamp: Date;
@@ -3689,126 +1947,45 @@ export interface SettlementRecord {
   WebAclArn?: string;
   RequestTimestamp?: Date;
 }
-export const SettlementRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    PayerAddress: S.optional(S.String),
-    WalletAddress: S.optional(S.String),
-    Status: SettlementStatus,
-    Amount: S.String,
-    Currency: S.optional(Currency),
-    Network: S.optional(S.String),
-    TransactionId: S.optional(S.String),
-    RequestId: S.optional(S.String),
-    SourceName: S.optional(S.String),
-    Organization: S.optional(S.String),
-    SourceCategory: S.optional(S.String),
-    Intent: S.optional(S.String),
-    Verified: S.optional(S.Boolean),
-    ContentPath: S.optional(S.String),
-    WebAclArn: S.optional(S.String),
-    RequestTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "SettlementRecord" }) as any as S.Schema<SettlementRecord>;
 export type SettlementRecordList = SettlementRecord[];
-export const SettlementRecordList = /*@__PURE__*/ S.Array(SettlementRecord);
 export interface ListSettlementRecordsResponse {
   Settlements?: SettlementRecord[];
   NextMarker?: string;
 }
-export const ListSettlementRecordsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Settlements: S.optional(SettlementRecordList),
-    NextMarker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListSettlementRecordsResponse",
-}) as any as S.Schema<ListSettlementRecordsResponse>;
 export interface ListTagsForResourceRequest {
   NextMarker?: string;
   Limit?: number;
   ResourceARN: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    ResourceARN: S.String,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface TagInfoForResource {
   ResourceARN?: string;
   TagList?: Tag[];
 }
-export const TagInfoForResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.optional(S.String), TagList: S.optional(TagList) }),
-).annotate({ identifier: "TagInfoForResource" }) as any as S.Schema<TagInfoForResource>;
 export interface ListTagsForResourceResponse {
   NextMarker?: string;
   TagInfoForResource?: TagInfoForResource;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextMarker: S.optional(S.String),
-    TagInfoForResource: S.optional(TagInfoForResource),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListWebACLsRequest {
   Scope: Scope;
   NextMarker?: string;
   Limit?: number;
 }
-export const ListWebACLsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Scope: Scope, NextMarker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListWebACLsRequest" }) as any as S.Schema<ListWebACLsRequest>;
 export type WebACLSummaries = WebACLSummary[];
-export const WebACLSummaries = /*@__PURE__*/ S.Array(WebACLSummary);
 export interface ListWebACLsResponse {
   NextMarker?: string;
   WebACLs?: WebACLSummary[];
 }
-export const ListWebACLsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextMarker: S.optional(S.String), WebACLs: S.optional(WebACLSummaries) }).pipe(ns),
-).annotate({ identifier: "ListWebACLsResponse" }) as any as S.Schema<ListWebACLsResponse>;
 export interface PutLoggingConfigurationRequest {
   LoggingConfiguration: LoggingConfiguration;
 }
-export const PutLoggingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoggingConfiguration: LoggingConfiguration }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutLoggingConfigurationRequest",
-}) as any as S.Schema<PutLoggingConfigurationRequest>;
 export interface PutLoggingConfigurationResponse {
   LoggingConfiguration?: LoggingConfiguration;
 }
-export const PutLoggingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LoggingConfiguration: S.optional(LoggingConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "PutLoggingConfigurationResponse",
-}) as any as S.Schema<PutLoggingConfigurationResponse>;
 export interface VersionToPublish {
   AssociatedRuleGroupArn?: string;
   ForecastedLifetime?: number;
 }
-export const VersionToPublish = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssociatedRuleGroupArn: S.optional(S.String),
-    ForecastedLifetime: S.optional(S.Number),
-  }),
-).annotate({ identifier: "VersionToPublish" }) as any as S.Schema<VersionToPublish>;
 export type VersionsToPublish = { [key: string]: VersionToPublish | undefined };
-export const VersionsToPublish = /*@__PURE__*/ S.Record(
-  S.String,
-  VersionToPublish.pipe(S.optional),
-);
 export interface PutManagedRuleSetVersionsRequest {
   Name: string;
   Scope: Scope;
@@ -3817,71 +1994,25 @@ export interface PutManagedRuleSetVersionsRequest {
   RecommendedVersion?: string;
   VersionsToPublish?: { [key: string]: VersionToPublish | undefined };
 }
-export const PutManagedRuleSetVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    Id: S.String,
-    LockToken: S.String,
-    RecommendedVersion: S.optional(S.String),
-    VersionsToPublish: S.optional(VersionsToPublish),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutManagedRuleSetVersionsRequest",
-}) as any as S.Schema<PutManagedRuleSetVersionsRequest>;
 export interface PutManagedRuleSetVersionsResponse {
   NextLockToken?: string;
 }
-export const PutManagedRuleSetVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "PutManagedRuleSetVersionsResponse",
-}) as any as S.Schema<PutManagedRuleSetVersionsResponse>;
 export interface PutPermissionPolicyRequest {
   ResourceArn: string;
   Policy: string;
 }
-export const PutPermissionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutPermissionPolicyRequest",
-}) as any as S.Schema<PutPermissionPolicyRequest>;
 export interface PutPermissionPolicyResponse {}
-export const PutPermissionPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "PutPermissionPolicyResponse",
-}) as any as S.Schema<PutPermissionPolicyResponse>;
 export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceARN: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateIPSetRequest {
   Name: string;
   Scope: Scope;
@@ -3890,22 +2021,9 @@ export interface UpdateIPSetRequest {
   Addresses: string[];
   LockToken: string;
 }
-export const UpdateIPSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    Id: S.String,
-    Description: S.optional(S.String),
-    Addresses: IPAddresses,
-    LockToken: S.String,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "UpdateIPSetRequest" }) as any as S.Schema<UpdateIPSetRequest>;
 export interface UpdateIPSetResponse {
   NextLockToken?: string;
 }
-export const UpdateIPSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "UpdateIPSetResponse" }) as any as S.Schema<UpdateIPSetResponse>;
 export interface UpdateManagedRuleSetVersionExpiryDateRequest {
   Name: string;
   Scope: Scope;
@@ -3914,32 +2032,11 @@ export interface UpdateManagedRuleSetVersionExpiryDateRequest {
   VersionToExpire: string;
   ExpiryTimestamp: Date;
 }
-export const UpdateManagedRuleSetVersionExpiryDateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    Id: S.String,
-    LockToken: S.String,
-    VersionToExpire: S.String,
-    ExpiryTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateManagedRuleSetVersionExpiryDateRequest",
-}) as any as S.Schema<UpdateManagedRuleSetVersionExpiryDateRequest>;
 export interface UpdateManagedRuleSetVersionExpiryDateResponse {
   ExpiringVersion?: string;
   ExpiryTimestamp?: Date;
   NextLockToken?: string;
 }
-export const UpdateManagedRuleSetVersionExpiryDateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExpiringVersion: S.optional(S.String),
-    ExpiryTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    NextLockToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateManagedRuleSetVersionExpiryDateResponse",
-}) as any as S.Schema<UpdateManagedRuleSetVersionExpiryDateResponse>;
 export interface UpdateRegexPatternSetRequest {
   Name: string;
   Scope: Scope;
@@ -3948,26 +2045,9 @@ export interface UpdateRegexPatternSetRequest {
   RegularExpressionList: Regex[];
   LockToken: string;
 }
-export const UpdateRegexPatternSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    Id: S.String,
-    Description: S.optional(S.String),
-    RegularExpressionList: RegularExpressionList,
-    LockToken: S.String,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateRegexPatternSetRequest",
-}) as any as S.Schema<UpdateRegexPatternSetRequest>;
 export interface UpdateRegexPatternSetResponse {
   NextLockToken?: string;
 }
-export const UpdateRegexPatternSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateRegexPatternSetResponse",
-}) as any as S.Schema<UpdateRegexPatternSetResponse>;
 export interface UpdateRuleGroupRequest {
   Name: string;
   Scope: Scope;
@@ -3979,25 +2059,9 @@ export interface UpdateRuleGroupRequest {
   CustomResponseBodies?: { [key: string]: CustomResponseBody | undefined };
   MonetizationConfig?: MonetizationConfig;
 }
-export const UpdateRuleGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    Id: S.String,
-    Description: S.optional(S.String),
-    Rules: S.optional(Rules),
-    VisibilityConfig: VisibilityConfig,
-    LockToken: S.String,
-    CustomResponseBodies: S.optional(CustomResponseBodies),
-    MonetizationConfig: S.optional(MonetizationConfig),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "UpdateRuleGroupRequest" }) as any as S.Schema<UpdateRuleGroupRequest>;
 export interface UpdateRuleGroupResponse {
   NextLockToken?: string;
 }
-export const UpdateRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "UpdateRuleGroupResponse" }) as any as S.Schema<UpdateRuleGroupResponse>;
 export interface UpdateWebACLRequest {
   Name: string;
   Scope: Scope;
@@ -4017,33 +2081,9 @@ export interface UpdateWebACLRequest {
   ApplicationConfig?: ApplicationConfig;
   MonetizationConfig?: MonetizationConfig;
 }
-export const UpdateWebACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Scope: Scope,
-    Id: S.String,
-    DefaultAction: DefaultAction,
-    Description: S.optional(S.String),
-    Rules: S.optional(Rules),
-    VisibilityConfig: VisibilityConfig,
-    DataProtectionConfig: S.optional(DataProtectionConfig),
-    LockToken: S.String,
-    CustomResponseBodies: S.optional(CustomResponseBodies),
-    CaptchaConfig: S.optional(CaptchaConfig),
-    ChallengeConfig: S.optional(ChallengeConfig),
-    TokenDomains: S.optional(TokenDomains),
-    AssociationConfig: S.optional(AssociationConfig),
-    OnSourceDDoSProtectionConfig: S.optional(OnSourceDDoSProtectionConfig),
-    ApplicationConfig: S.optional(ApplicationConfig),
-    MonetizationConfig: S.optional(MonetizationConfig),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "UpdateWebACLRequest" }) as any as S.Schema<UpdateWebACLRequest>;
 export interface UpdateWebACLResponse {
   NextLockToken?: string;
 }
-export const UpdateWebACLResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "UpdateWebACLResponse" }) as any as S.Schema<UpdateWebACLResponse>;
 export type ErrorMessage = string;
 export type PricingPlanFeatureName = string;
 export type RequiredPricingPlanName = string;
@@ -4051,11 +2091,7 @@ export interface DisallowedFeature {
   Feature?: string;
   RequiredPricingPlan?: string;
 }
-export const DisallowedFeature = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Feature: S.optional(S.String), RequiredPricingPlan: S.optional(S.String) }),
-).annotate({ identifier: "DisallowedFeature" }) as any as S.Schema<DisallowedFeature>;
 export type DisallowedFeatures = DisallowedFeature[];
-export const DisallowedFeatures = /*@__PURE__*/ S.Array(DisallowedFeature);
 export type ParameterExceptionField =
   | "WEB_ACL"
   | "RULE_GROUP"
@@ -4135,8 +2171,6 @@ export type ParameterExceptionField =
   | "PAYMENT_NETWORK"
   | "PRE_PARSE_TEXT_TRANSFORMATION"
   | (string & {});
-export const ParameterExceptionField = S.String;
-
 export type ParameterExceptionParameter = string;
 export type ErrorReason = string;
 export type SourceType = string;
@@ -4179,8 +2213,8 @@ export const associateWebACL: API.OperationMethod<
   AssociateWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateWebACLRequest,
-  output: AssociateWebACLResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<AssociateWebACLRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<AssociateWebACLResponse>,
   errors: [
     WAFFeatureNotIncludedInPricingPlanException,
     WAFInternalErrorException,
@@ -4226,8 +2260,8 @@ export const checkCapacity: API.OperationMethod<
   CheckCapacityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CheckCapacityRequest,
-  output: CheckCapacityResponse,
+  input: __S(64, __c2, 0) as any as S.Schema<CheckCapacityRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<CheckCapacityResponse>,
   errors: [
     WAFExpiredManagedRuleGroupVersionException,
     WAFInternalErrorException,
@@ -4266,8 +2300,8 @@ export const createAPIKey: API.OperationMethod<
   CreateAPIKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAPIKeyRequest,
-  output: CreateAPIKeyResponse,
+  input: __S(352, __c11, 0) as any as S.Schema<CreateAPIKeyRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<CreateAPIKeyResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -4301,8 +2335,8 @@ export const createIPSet: API.OperationMethod<
   CreateIPSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateIPSetRequest,
-  output: CreateIPSetResponse,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateIPSetRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<CreateIPSetResponse>,
   errors: [
     WAFDuplicateItemException,
     WAFInternalErrorException,
@@ -4338,8 +2372,8 @@ export const createRegexPatternSet: API.OperationMethod<
   CreateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRegexPatternSetRequest,
-  output: CreateRegexPatternSetResponse,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateRegexPatternSetRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<CreateRegexPatternSetResponse>,
   errors: [
     WAFDuplicateItemException,
     WAFInternalErrorException,
@@ -4379,8 +2413,8 @@ export const createRuleGroup: API.OperationMethod<
   CreateRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRuleGroupRequest,
-  output: CreateRuleGroupResponse,
+  input: __S(544, __c17, 0) as any as S.Schema<CreateRuleGroupRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<CreateRuleGroupResponse>,
   errors: [
     WAFDuplicateItemException,
     WAFInternalErrorException,
@@ -4426,8 +2460,8 @@ export const createWebACL: API.OperationMethod<
   CreateWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateWebACLRequest,
-  output: CreateWebACLResponse,
+  input: __S(608, __c19, 0) as any as S.Schema<CreateWebACLRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<CreateWebACLResponse>,
   errors: [
     WAFConfigurationWarningException,
     WAFDuplicateItemException,
@@ -4467,8 +2501,8 @@ export const deleteAPIKey: API.OperationMethod<
   DeleteAPIKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAPIKeyRequest,
-  output: DeleteAPIKeyResponse,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteAPIKeyRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteAPIKeyResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -4499,8 +2533,8 @@ export const deleteFirewallManagerRuleGroups: API.OperationMethod<
   DeleteFirewallManagerRuleGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFirewallManagerRuleGroupsRequest,
-  output: DeleteFirewallManagerRuleGroupsResponse,
+  input: __S(704, __c22, 0) as any as S.Schema<DeleteFirewallManagerRuleGroupsRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<DeleteFirewallManagerRuleGroupsResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -4532,8 +2566,8 @@ export const deleteIPSet: API.OperationMethod<
   DeleteIPSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIPSetRequest,
-  output: DeleteIPSetResponse,
+  input: __S(736, __c23, 0) as any as S.Schema<DeleteIPSetRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteIPSetResponse>,
   errors: [
     WAFAssociatedItemException,
     WAFInternalErrorException,
@@ -4565,8 +2599,8 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLoggingConfigurationRequest,
-  output: DeleteLoggingConfigurationResponse,
+  input: __S(768, __c24, 0) as any as S.Schema<DeleteLoggingConfigurationRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteLoggingConfigurationResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -4595,8 +2629,8 @@ export const deletePermissionPolicy: API.OperationMethod<
   DeletePermissionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePermissionPolicyRequest,
-  output: DeletePermissionPolicyResponse,
+  input: __S(800, __c25, 0) as any as S.Schema<DeletePermissionPolicyRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeletePermissionPolicyResponse>,
   errors: [WAFInternalErrorException, WAFInvalidParameterException, WAFNonexistentItemException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4622,8 +2656,8 @@ export const deleteRegexPatternSet: API.OperationMethod<
   DeleteRegexPatternSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRegexPatternSetRequest,
-  output: DeleteRegexPatternSetResponse,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteRegexPatternSetRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteRegexPatternSetResponse>,
   errors: [
     WAFAssociatedItemException,
     WAFInternalErrorException,
@@ -4658,8 +2692,8 @@ export const deleteRuleGroup: API.OperationMethod<
   DeleteRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRuleGroupRequest,
-  output: DeleteRuleGroupResponse,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteRuleGroupRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteRuleGroupResponse>,
   errors: [
     WAFAssociatedItemException,
     WAFInternalErrorException,
@@ -4715,8 +2749,8 @@ export const deleteWebACL: API.OperationMethod<
   DeleteWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteWebACLRequest,
-  output: DeleteWebACLResponse,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteWebACLRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DeleteWebACLResponse>,
   errors: [
     WAFAssociatedItemException,
     WAFInternalErrorException,
@@ -4746,8 +2780,8 @@ export const describeAllManagedProducts: API.OperationMethod<
   DescribeAllManagedProductsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAllManagedProductsRequest,
-  output: DescribeAllManagedProductsResponse,
+  input: __S(928, __c29, 0) as any as S.Schema<DescribeAllManagedProductsRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<DescribeAllManagedProductsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4768,8 +2802,8 @@ export const describeManagedProductsByVendor: API.OperationMethod<
   DescribeManagedProductsByVendorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeManagedProductsByVendorRequest,
-  output: DescribeManagedProductsByVendorResponse,
+  input: __S(992, __c31, 0) as any as S.Schema<DescribeManagedProductsByVendorRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<DescribeManagedProductsByVendorResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4793,8 +2827,8 @@ export const describeManagedRuleGroup: API.OperationMethod<
   DescribeManagedRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeManagedRuleGroupRequest,
-  output: DescribeManagedRuleGroupResponse,
+  input: __S(1024, __c32, 0) as any as S.Schema<DescribeManagedRuleGroupRequest>,
+  output: __S(1027, __c32, 3) as any as S.Schema<DescribeManagedRuleGroupResponse>,
   errors: [
     WAFExpiredManagedRuleGroupVersionException,
     WAFInternalErrorException,
@@ -4832,8 +2866,8 @@ export const disassociateWebACL: API.OperationMethod<
   DisassociateWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateWebACLRequest,
-  output: DisassociateWebACLResponse,
+  input: __S(1088, __c34, 0) as any as S.Schema<DisassociateWebACLRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<DisassociateWebACLResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -4864,8 +2898,8 @@ export const generateMobileSdkReleaseUrl: API.OperationMethod<
   GenerateMobileSdkReleaseUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GenerateMobileSdkReleaseUrlRequest,
-  output: GenerateMobileSdkReleaseUrlResponse,
+  input: __S(1120, __c35, 0) as any as S.Schema<GenerateMobileSdkReleaseUrlRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<GenerateMobileSdkReleaseUrlResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -4897,8 +2931,8 @@ export const getDecryptedAPIKey: API.OperationMethod<
   GetDecryptedAPIKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDecryptedAPIKeyRequest,
-  output: GetDecryptedAPIKeyResponse,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetDecryptedAPIKeyRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<GetDecryptedAPIKeyResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -4926,8 +2960,8 @@ export const getIPSet: API.OperationMethod<
   GetIPSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIPSetRequest,
-  output: GetIPSetResponse,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetIPSetRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<GetIPSetResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -4954,8 +2988,8 @@ export const getLoggingConfiguration: API.OperationMethod<
   GetLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLoggingConfigurationRequest,
-  output: GetLoggingConfigurationResponse,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetLoggingConfigurationRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<GetLoggingConfigurationResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -4986,8 +3020,8 @@ export const getManagedRuleSet: API.OperationMethod<
   GetManagedRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetManagedRuleSetRequest,
-  output: GetManagedRuleSetResponse,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetManagedRuleSetRequest>,
+  output: __S(1348, __c42, 4) as any as S.Schema<GetManagedRuleSetResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5018,8 +3052,8 @@ export const getMobileSdkRelease: API.OperationMethod<
   GetMobileSdkReleaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMobileSdkReleaseRequest,
-  output: GetMobileSdkReleaseResponse,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetMobileSdkReleaseRequest>,
+  output: __S(1378, __c43, 2) as any as S.Schema<GetMobileSdkReleaseResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5047,8 +3081,8 @@ export const getPermissionPolicy: API.OperationMethod<
   GetPermissionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPermissionPolicyRequest,
-  output: GetPermissionPolicyResponse,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetPermissionPolicyRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<GetPermissionPolicyResponse>,
   errors: [WAFInternalErrorException, WAFInvalidParameterException, WAFNonexistentItemException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5090,8 +3124,8 @@ export const getRateBasedStatementManagedKeys: API.OperationMethod<
   GetRateBasedStatementManagedKeysError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRateBasedStatementManagedKeysRequest,
-  output: GetRateBasedStatementManagedKeysResponse,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetRateBasedStatementManagedKeysRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<GetRateBasedStatementManagedKeysResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5119,8 +3153,8 @@ export const getRegexPatternSet: API.OperationMethod<
   GetRegexPatternSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRegexPatternSetRequest,
-  output: GetRegexPatternSetResponse,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetRegexPatternSetRequest>,
+  output: __S(1474, __c46, 2) as any as S.Schema<GetRegexPatternSetResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5147,8 +3181,8 @@ export const getRevenueStatistics: API.OperationMethod<
   GetRevenueStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRevenueStatisticsRequest,
-  output: GetRevenueStatisticsResponse,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetRevenueStatisticsRequest>,
+  output: __S(1509, __c47, 5) as any as S.Schema<GetRevenueStatisticsResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5175,8 +3209,8 @@ export const getRevenueStatisticsSummary: API.OperationMethod<
   GetRevenueStatisticsSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRevenueStatisticsSummaryRequest,
-  output: GetRevenueStatisticsSummaryResponse,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetRevenueStatisticsSummaryRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<GetRevenueStatisticsSummaryResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5203,8 +3237,8 @@ export const getRevenueStatisticsTimeSeries: API.OperationMethod<
   GetRevenueStatisticsTimeSeriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRevenueStatisticsTimeSeriesRequest,
-  output: GetRevenueStatisticsTimeSeriesResponse,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetRevenueStatisticsTimeSeriesRequest>,
+  output: __S(1635, __c51, 3) as any as S.Schema<GetRevenueStatisticsTimeSeriesResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5231,8 +3265,8 @@ export const getRuleGroup: API.OperationMethod<
   GetRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRuleGroupRequest,
-  output: GetRuleGroupResponse,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetRuleGroupRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<GetRuleGroupResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5267,8 +3301,8 @@ export const getSampledRequests: API.OperationMethod<
   GetSampledRequestsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSampledRequestsRequest,
-  output: GetSampledRequestsResponse,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetSampledRequestsRequest>,
+  output: __S(1703, __c53, 7) as any as S.Schema<GetSampledRequestsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidParameterException, WAFNonexistentItemException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5293,8 +3327,8 @@ export const getTopPathStatisticsByTraffic: API.OperationMethod<
   GetTopPathStatisticsByTrafficError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTopPathStatisticsByTrafficRequest,
-  output: GetTopPathStatisticsByTrafficResponse,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetTopPathStatisticsByTrafficRequest>,
+  output: __S(1734, __c54, 6) as any as S.Schema<GetTopPathStatisticsByTrafficResponse>,
   errors: [
     WAFFeatureNotIncludedInPricingPlanException,
     WAFInternalErrorException,
@@ -5322,8 +3356,8 @@ export const getWebACL: API.OperationMethod<
   GetWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetWebACLRequest,
-  output: GetWebACLResponse,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetWebACLRequest>,
+  output: __S(1761, __c55, 1) as any as S.Schema<GetWebACLResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5363,8 +3397,8 @@ export const getWebACLForResource: API.OperationMethod<
   GetWebACLForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetWebACLForResourceRequest,
-  output: GetWebACLForResourceResponse,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetWebACLForResourceRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<GetWebACLForResourceResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5396,8 +3430,8 @@ export const listAPIKeys: API.OperationMethod<
   ListAPIKeysError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAPIKeysRequest,
-  output: ListAPIKeysResponse,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListAPIKeysRequest>,
+  output: __S(1859, __c58, 3) as any as S.Schema<ListAPIKeysResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5425,8 +3459,8 @@ export const listAvailableManagedRuleGroups: API.OperationMethod<
   ListAvailableManagedRuleGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAvailableManagedRuleGroupsRequest,
-  output: ListAvailableManagedRuleGroupsResponse,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListAvailableManagedRuleGroupsRequest>,
+  output: __S(1891, __c59, 3) as any as S.Schema<ListAvailableManagedRuleGroupsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5448,8 +3482,8 @@ export const listAvailableManagedRuleGroupVersions: API.OperationMethod<
   ListAvailableManagedRuleGroupVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAvailableManagedRuleGroupVersionsRequest,
-  output: ListAvailableManagedRuleGroupVersionsResponse,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListAvailableManagedRuleGroupVersionsRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<ListAvailableManagedRuleGroupVersionsResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5476,8 +3510,8 @@ export const listIPSets: API.OperationMethod<
   ListIPSetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListIPSetsRequest,
-  output: ListIPSetsResponse,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListIPSetsRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<ListIPSetsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5498,8 +3532,8 @@ export const listLoggingConfigurations: API.OperationMethod<
   ListLoggingConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLoggingConfigurationsRequest,
-  output: ListLoggingConfigurationsResponse,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListLoggingConfigurationsRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<ListLoggingConfigurationsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5524,8 +3558,8 @@ export const listManagedRuleSets: API.OperationMethod<
   ListManagedRuleSetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListManagedRuleSetsRequest,
-  output: ListManagedRuleSetsResponse,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListManagedRuleSetsRequest>,
+  output: __S(2051, __c64, 3) as any as S.Schema<ListManagedRuleSetsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5550,8 +3584,8 @@ export const listMobileSdkReleases: API.OperationMethod<
   ListMobileSdkReleasesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListMobileSdkReleasesRequest,
-  output: ListMobileSdkReleasesResponse,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListMobileSdkReleasesRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<ListMobileSdkReleasesResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5573,8 +3607,8 @@ export const listRegexPatternSets: API.OperationMethod<
   ListRegexPatternSetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListRegexPatternSetsRequest,
-  output: ListRegexPatternSetsResponse,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListRegexPatternSetsRequest>,
+  output: __S(2113, __c66, 1) as any as S.Schema<ListRegexPatternSetsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5606,8 +3640,8 @@ export const listResourcesForWebACL: API.OperationMethod<
   ListResourcesForWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListResourcesForWebACLRequest,
-  output: ListResourcesForWebACLResponse,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListResourcesForWebACLRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<ListResourcesForWebACLResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5634,8 +3668,8 @@ export const listRuleGroups: API.OperationMethod<
   ListRuleGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListRuleGroupsRequest,
-  output: ListRuleGroupsResponse,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListRuleGroupsRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<ListRuleGroupsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5657,8 +3691,8 @@ export const listSettlementRecords: API.OperationMethod<
   ListSettlementRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListSettlementRecordsRequest,
-  output: ListSettlementRecordsResponse,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListSettlementRecordsRequest>,
+  output: __S(2211, __c69, 3) as any as S.Schema<ListSettlementRecordsResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5695,8 +3729,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5725,8 +3759,8 @@ export const listWebACLs: API.OperationMethod<
   ListWebACLsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListWebACLsRequest,
-  output: ListWebACLsResponse,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListWebACLsRequest>,
+  output: __S(2273, __c71, 1) as any as S.Schema<ListWebACLsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5791,8 +3825,8 @@ export const putLoggingConfiguration: API.OperationMethod<
   PutLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutLoggingConfigurationRequest,
-  output: PutLoggingConfigurationResponse,
+  input: __S(2304, __c72, 0) as any as S.Schema<PutLoggingConfigurationRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<PutLoggingConfigurationResponse>,
   errors: [
     WAFFeatureNotIncludedInPricingPlanException,
     WAFInternalErrorException,
@@ -5838,8 +3872,8 @@ export const putManagedRuleSetVersions: API.OperationMethod<
   PutManagedRuleSetVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutManagedRuleSetVersionsRequest,
-  output: PutManagedRuleSetVersionsResponse,
+  input: __S(2338, __c73, 2) as any as S.Schema<PutManagedRuleSetVersionsRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<PutManagedRuleSetVersionsResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5883,8 +3917,8 @@ export const putPermissionPolicy: API.OperationMethod<
   PutPermissionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutPermissionPolicyRequest,
-  output: PutPermissionPolicyResponse,
+  input: __S(2400, __c75, 0) as any as S.Schema<PutPermissionPolicyRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<PutPermissionPolicyResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidParameterException,
@@ -5922,8 +3956,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(2432, __c76, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -5958,8 +3992,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(2464, __c77, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -6015,8 +4049,8 @@ export const updateIPSet: API.OperationMethod<
   UpdateIPSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateIPSetRequest,
-  output: UpdateIPSetResponse,
+  input: __S(2496, __c78, 0) as any as S.Schema<UpdateIPSetRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<UpdateIPSetResponse>,
   errors: [
     WAFDuplicateItemException,
     WAFInternalErrorException,
@@ -6053,8 +4087,8 @@ export const updateManagedRuleSetVersionExpiryDate: API.OperationMethod<
   UpdateManagedRuleSetVersionExpiryDateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateManagedRuleSetVersionExpiryDateRequest,
-  output: UpdateManagedRuleSetVersionExpiryDateResponse,
+  input: __S(2528, __c79, 0) as any as S.Schema<UpdateManagedRuleSetVersionExpiryDateRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<UpdateManagedRuleSetVersionExpiryDateResponse>,
   errors: [
     WAFInternalErrorException,
     WAFInvalidOperationException,
@@ -6109,8 +4143,8 @@ export const updateRegexPatternSet: API.OperationMethod<
   UpdateRegexPatternSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRegexPatternSetRequest,
-  output: UpdateRegexPatternSetResponse,
+  input: __S(2560, __c80, 0) as any as S.Schema<UpdateRegexPatternSetRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<UpdateRegexPatternSetResponse>,
   errors: [
     WAFDuplicateItemException,
     WAFInternalErrorException,
@@ -6172,8 +4206,8 @@ export const updateRuleGroup: API.OperationMethod<
   UpdateRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRuleGroupRequest,
-  output: UpdateRuleGroupResponse,
+  input: __S(2592, __c81, 0) as any as S.Schema<UpdateRuleGroupRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<UpdateRuleGroupResponse>,
   errors: [
     WAFConfigurationWarningException,
     WAFDuplicateItemException,
@@ -6242,8 +4276,8 @@ export const updateWebACL: API.OperationMethod<
   UpdateWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateWebACLRequest,
-  output: UpdateWebACLResponse,
+  input: __S(2624, __c82, 0) as any as S.Schema<UpdateWebACLRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<UpdateWebACLResponse>,
   errors: [
     WAFConfigurationWarningException,
     WAFDuplicateItemException,
@@ -6263,3 +4297,2134 @@ export const updateWebACL: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWebACL",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ WebACLArn: S.String, ResourceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateWebACLRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "AssociateWebACLResponse",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Scope: S.String, Rules: __S(340, __c10, 20) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CheckCapacityRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Capacity: S.optional(S.Number) }).pipe(ns)).annotate({
+        identifier: "CheckCapacityResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ RegexString: S.optional(S.String) })).annotate({
+        identifier: "Regex",
+      });
+    case 1:
+      return S.Array(__S(128, __c4, 0));
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.String, Value: S.String })).annotate({
+        identifier: "CustomHTTPHeader",
+      });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ResponseCode: S.Number,
+          CustomResponseBodyKey: S.optional(S.String),
+          ResponseHeaders: S.optional(__S(161, __c5, 1)),
+        }),
+      ).annotate({ identifier: "CustomResponse" });
+    case 3:
+      return S.suspend(() => S.Struct({ CustomResponse: S.optional(__S(162, __c5, 2)) })).annotate({
+        identifier: "BlockAction",
+      });
+    case 4:
+      return S.suspend(() => S.Struct({ InsertHeaders: __S(161, __c5, 1) })).annotate({
+        identifier: "CustomRequestHandling",
+      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ CustomRequestHandling: S.optional(__S(164, __c5, 4)) }),
+      ).annotate({ identifier: "AllowAction" });
+    case 6:
+      return S.suspend(() => S.Struct({ PriceMultiplier: S.optional(S.String) })).annotate({
+        identifier: "MonetizeAction",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          Block: S.optional(__S(163, __c5, 3)),
+          Allow: S.optional(__S(165, __c5, 5)),
+          Count: S.optional(__S(165, __c5, 5)),
+          Captcha: S.optional(__S(165, __c5, 5)),
+          Challenge: S.optional(__S(165, __c5, 5)),
+          Monetize: S.optional(__S(166, __c5, 6)),
+        }),
+      ).annotate({ identifier: "RuleAction" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.String })).annotate({ identifier: "SingleHeader" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "AllQueryArguments" });
+    case 1:
+      return S.suspend(() => S.Struct({ OversizeHandling: S.optional(S.String) })).annotate({
+        identifier: "Body",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          All: S.optional(__S(224, __c7, 0)),
+          IncludedPaths: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "JsonMatchPattern" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          MatchPattern: __S(226, __c7, 2),
+          MatchScope: S.String,
+          InvalidFallbackBehavior: S.optional(S.String),
+          OversizeHandling: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JsonBody" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          All: S.optional(__S(224, __c7, 0)),
+          IncludedHeaders: S.optional(__S(96, __c3, 0)),
+          ExcludedHeaders: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "HeaderMatchPattern" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          MatchPattern: __S(228, __c7, 4),
+          MatchScope: S.String,
+          OversizeHandling: S.String,
+        }),
+      ).annotate({ identifier: "Headers" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          All: S.optional(__S(224, __c7, 0)),
+          IncludedCookies: S.optional(__S(96, __c3, 0)),
+          ExcludedCookies: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "CookieMatchPattern" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          MatchPattern: __S(230, __c7, 6),
+          MatchScope: S.String,
+          OversizeHandling: S.String,
+        }),
+      ).annotate({ identifier: "Cookies" });
+    case 8:
+      return S.suspend(() => S.Struct({ OversizeHandling: S.String })).annotate({
+        identifier: "HeaderOrder",
+      });
+    case 9:
+      return S.suspend(() => S.Struct({ FallbackBehavior: S.String })).annotate({
+        identifier: "JA3Fingerprint",
+      });
+    case 10:
+      return S.suspend(() => S.Struct({ FallbackBehavior: S.optional(S.String) })).annotate({
+        identifier: "UriFragment",
+      });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          SingleHeader: S.optional(__S(192, __c6, 0)),
+          SingleQueryArgument: S.optional(__S(192, __c6, 0)),
+          AllQueryArguments: S.optional(__S(224, __c7, 0)),
+          UriPath: S.optional(__S(224, __c7, 0)),
+          QueryString: S.optional(__S(224, __c7, 0)),
+          Body: S.optional(__S(225, __c7, 1)),
+          Method: S.optional(__S(224, __c7, 0)),
+          JsonBody: S.optional(__S(227, __c7, 3)),
+          Headers: S.optional(__S(229, __c7, 5)),
+          Cookies: S.optional(__S(231, __c7, 7)),
+          HeaderOrder: S.optional(__S(232, __c7, 8)),
+          JA3Fingerprint: S.optional(__S(233, __c7, 9)),
+          JA4Fingerprint: S.optional(__S(233, __c7, 9)),
+          UriFragment: S.optional(__S(234, __c7, 10)),
+        }),
+      ).annotate({ identifier: "FieldToMatch" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(192, __c6, 0));
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Priority: S.Number, Type: S.String })).annotate({
+        identifier: "TextTransformation",
+      });
+    case 1:
+      return S.Array(__S(288, __c9, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SearchString: T.Blob,
+          FieldToMatch: __S(235, __c7, 11),
+          TextTransformations: __S(289, __c9, 1),
+          PreParseTextTransformations: S.optional(__S(289, __c9, 1)),
+          PositionalConstraint: S.String,
+        }),
+      ).annotate({ identifier: "ByteMatchStatement" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FieldToMatch: __S(235, __c7, 11),
+          TextTransformations: __S(289, __c9, 1),
+          PreParseTextTransformations: S.optional(__S(289, __c9, 1)),
+          SensitivityLevel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SqliMatchStatement" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          FieldToMatch: __S(235, __c7, 11),
+          TextTransformations: __S(289, __c9, 1),
+          PreParseTextTransformations: S.optional(__S(289, __c9, 1)),
+        }),
+      ).annotate({ identifier: "XssMatchStatement" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          FieldToMatch: __S(235, __c7, 11),
+          ComparisonOperator: S.String,
+          Size: S.Number,
+          TextTransformations: __S(289, __c9, 1),
+          PreParseTextTransformations: S.optional(__S(289, __c9, 1)),
+        }),
+      ).annotate({ identifier: "SizeConstraintStatement" });
+    case 6:
+      return S.Array(S.String);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ HeaderName: S.String, FallbackBehavior: S.String }),
+      ).annotate({ identifier: "ForwardedIPConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          CountryCodes: S.optional(__S(294, __c9, 6)),
+          ForwardedIPConfig: S.optional(__S(295, __c9, 7)),
+        }),
+      ).annotate({ identifier: "GeoMatchStatement" });
+    case 9:
+      return S.suspend(() => S.Struct({ Name: S.String, ActionToUse: __S(167, __c5, 7) })).annotate(
+        { identifier: "RuleActionOverride" },
+      );
+    case 10:
+      return S.Array(__S(297, __c9, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          ARN: S.String,
+          ExcludedRules: S.optional(__S(256, __c8, 0)),
+          RuleActionOverrides: S.optional(__S(298, __c9, 10)),
+        }),
+      ).annotate({ identifier: "RuleGroupReferenceStatement" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({ HeaderName: S.String, FallbackBehavior: S.String, Position: S.String }),
+      ).annotate({ identifier: "IPSetForwardedIPConfig" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({ ARN: S.String, IPSetForwardedIPConfig: S.optional(__S(300, __c9, 12)) }),
+      ).annotate({ identifier: "IPSetReferenceStatement" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          ARN: S.String,
+          FieldToMatch: __S(235, __c7, 11),
+          TextTransformations: __S(289, __c9, 1),
+          PreParseTextTransformations: S.optional(__S(289, __c9, 1)),
+        }),
+      ).annotate({ identifier: "RegexPatternSetReferenceStatement" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, TextTransformations: __S(289, __c9, 1) }),
+      ).annotate({ identifier: "RateLimitHeader" });
+    case 16:
+      return S.suspend(() => S.Struct({ TextTransformations: __S(289, __c9, 1) })).annotate({
+        identifier: "RateLimitQueryString",
+      });
+    case 17:
+      return S.suspend(() => S.Struct({ Namespace: S.String })).annotate({
+        identifier: "RateLimitLabelNamespace",
+      });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          Header: S.optional(__S(303, __c9, 15)),
+          Cookie: S.optional(__S(303, __c9, 15)),
+          QueryArgument: S.optional(__S(303, __c9, 15)),
+          QueryString: S.optional(__S(304, __c9, 16)),
+          HTTPMethod: S.optional(__S(224, __c7, 0)),
+          ForwardedIP: S.optional(__S(224, __c7, 0)),
+          IP: S.optional(__S(224, __c7, 0)),
+          LabelNamespace: S.optional(__S(305, __c9, 17)),
+          UriPath: S.optional(__S(304, __c9, 16)),
+          JA3Fingerprint: S.optional(__S(233, __c7, 9)),
+          JA4Fingerprint: S.optional(__S(233, __c7, 9)),
+          ASN: S.optional(__S(224, __c7, 0)),
+        }),
+      ).annotate({ identifier: "RateBasedStatementCustomKey" });
+    case 19:
+      return S.Array(__S(306, __c9, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          Limit: S.Number,
+          EvaluationWindowSec: S.optional(S.Number),
+          AggregateKeyType: S.String,
+          ScopeDownStatement: S.optional(
+            S.suspend((): S.Schema<Statement> => __S(334, __c10, 14)).annotate({
+              identifier: "Statement",
+            }),
+          ),
+          ForwardedIPConfig: S.optional(__S(295, __c9, 7)),
+          CustomKeys: S.optional(__S(307, __c9, 19)),
+        }),
+      ).annotate({ identifier: "RateBasedStatement" });
+    case 21:
+      return S.Array(
+        /*@__PURE__*/ S.suspend((): S.Schema<Statement> => __S(334, __c10, 14)).annotate({
+          identifier: "Statement",
+        }),
+      );
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          Statements: S.suspend(() => __S(309, __c9, 21)).annotate({ identifier: "Statements" }),
+        }),
+      ).annotate({ identifier: "AndStatement" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          Statement: S.suspend((): S.Schema<Statement> => __S(334, __c10, 14)).annotate({
+            identifier: "Statement",
+          }),
+        }),
+      ).annotate({ identifier: "NotStatement" });
+    case 24:
+      return S.suspend(() => S.Struct({ Identifier: S.String })).annotate({
+        identifier: "UsernameField",
+      });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({ InspectionLevel: S.String, EnableMachineLearning: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "AWSManagedRulesBotControlRuleSet" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          PayloadType: S.String,
+          UsernameField: __S(312, __c9, 24),
+          PasswordField: __S(312, __c9, 24),
+        }),
+      ).annotate({ identifier: "RequestInspection" });
+    case 27:
+      return S.Array(S.Number);
+    case 28:
+      return S.suspend(() =>
+        S.Struct({ SuccessCodes: __S(315, __c9, 27), FailureCodes: __S(315, __c9, 27) }),
+      ).annotate({ identifier: "ResponseInspectionStatusCode" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          SuccessValues: __S(96, __c3, 0),
+          FailureValues: __S(96, __c3, 0),
+        }),
+      ).annotate({ identifier: "ResponseInspectionHeader" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({ SuccessStrings: __S(96, __c3, 0), FailureStrings: __S(96, __c3, 0) }),
+      ).annotate({ identifier: "ResponseInspectionBodyContains" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          Identifier: S.String,
+          SuccessValues: __S(96, __c3, 0),
+          FailureValues: __S(96, __c3, 0),
+        }),
+      ).annotate({ identifier: "ResponseInspectionJson" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StatusCode: S.optional(__S(316, __c9, 28)),
+          Header: S.optional(__S(317, __c9, 29)),
+          BodyContains: S.optional(__S(318, __c9, 30)),
+          Json: S.optional(__S(319, __c9, 31)),
+        }),
+      ).annotate({ identifier: "ResponseInspection" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LoginPath: S.String,
+          RequestInspection: S.optional(__S(314, __c9, 26)),
+          ResponseInspection: S.optional(__S(320, __c10, 0)),
+          EnableRegexInPath: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AWSManagedRulesATPRuleSet" });
+    case 2:
+      return S.Array(__S(312, __c9, 24));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          PayloadType: S.String,
+          UsernameField: S.optional(__S(312, __c9, 24)),
+          PasswordField: S.optional(__S(312, __c9, 24)),
+          EmailField: S.optional(__S(312, __c9, 24)),
+          PhoneNumberFields: S.optional(__S(322, __c10, 2)),
+          AddressFields: S.optional(__S(322, __c10, 2)),
+        }),
+      ).annotate({ identifier: "RequestInspectionACFP" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          CreationPath: S.String,
+          RegistrationPagePath: S.String,
+          RequestInspection: __S(323, __c10, 3),
+          ResponseInspection: S.optional(__S(320, __c10, 0)),
+          EnableRegexInPath: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AWSManagedRulesACFPRuleSet" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          UsageOfAction: S.String,
+          Sensitivity: S.optional(S.String),
+          ExemptUriRegularExpressions: S.optional(__S(129, __c4, 1)),
+        }),
+      ).annotate({ identifier: "ClientSideAction" });
+    case 6:
+      return S.suspend(() => S.Struct({ Challenge: __S(325, __c10, 5) })).annotate({
+        identifier: "ClientSideActionConfig",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ClientSideActionConfig: __S(326, __c10, 6),
+          SensitivityToBlock: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AWSManagedRulesAntiDDoSRuleSet" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          LoginPath: S.optional(S.String),
+          PayloadType: S.optional(S.String),
+          UsernameField: S.optional(__S(312, __c9, 24)),
+          PasswordField: S.optional(__S(312, __c9, 24)),
+          AWSManagedRulesBotControlRuleSet: S.optional(__S(313, __c9, 25)),
+          AWSManagedRulesATPRuleSet: S.optional(__S(321, __c10, 1)),
+          AWSManagedRulesACFPRuleSet: S.optional(__S(324, __c10, 4)),
+          AWSManagedRulesAntiDDoSRuleSet: S.optional(__S(327, __c10, 7)),
+        }),
+      ).annotate({ identifier: "ManagedRuleGroupConfig" });
+    case 9:
+      return S.Array(__S(328, __c10, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          VendorName: S.String,
+          Name: S.String,
+          Version: S.optional(S.String),
+          ExcludedRules: S.optional(__S(256, __c8, 0)),
+          ScopeDownStatement: S.optional(
+            S.suspend((): S.Schema<Statement> => __S(334, __c10, 14)).annotate({
+              identifier: "Statement",
+            }),
+          ),
+          ManagedRuleGroupConfigs: S.optional(__S(329, __c10, 9)),
+          RuleActionOverrides: S.optional(__S(298, __c9, 10)),
+        }),
+      ).annotate({ identifier: "ManagedRuleGroupStatement" });
+    case 11:
+      return S.suspend(() => S.Struct({ Scope: S.String, Key: S.String })).annotate({
+        identifier: "LabelMatchStatement",
+      });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          RegexString: S.String,
+          FieldToMatch: __S(235, __c7, 11),
+          TextTransformations: __S(289, __c9, 1),
+          PreParseTextTransformations: S.optional(__S(289, __c9, 1)),
+        }),
+      ).annotate({ identifier: "RegexMatchStatement" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({ AsnList: __S(315, __c9, 27), ForwardedIPConfig: S.optional(__S(295, __c9, 7)) }),
+      ).annotate({ identifier: "AsnMatchStatement" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          ByteMatchStatement: S.optional(__S(290, __c9, 2)),
+          SqliMatchStatement: S.optional(__S(291, __c9, 3)),
+          XssMatchStatement: S.optional(__S(292, __c9, 4)),
+          SizeConstraintStatement: S.optional(__S(293, __c9, 5)),
+          GeoMatchStatement: S.optional(__S(296, __c9, 8)),
+          RuleGroupReferenceStatement: S.optional(__S(299, __c9, 11)),
+          IPSetReferenceStatement: S.optional(__S(301, __c9, 13)),
+          RegexPatternSetReferenceStatement: S.optional(__S(302, __c9, 14)),
+          RateBasedStatement: S.optional(
+            S.suspend((): S.Schema<RateBasedStatement> => __S(308, __c9, 20)).annotate({
+              identifier: "RateBasedStatement",
+            }),
+          ),
+          AndStatement: S.optional(
+            S.suspend((): S.Schema<AndStatement> => __S(310, __c9, 22)).annotate({
+              identifier: "AndStatement",
+            }),
+          ),
+          OrStatement: S.optional(
+            S.suspend((): S.Schema<OrStatement> => __S(310, __c9, 22)).annotate({
+              identifier: "OrStatement",
+            }),
+          ),
+          NotStatement: S.optional(
+            S.suspend((): S.Schema<NotStatement> => __S(311, __c9, 23)).annotate({
+              identifier: "NotStatement",
+            }),
+          ),
+          ManagedRuleGroupStatement: S.optional(
+            S.suspend((): S.Schema<ManagedRuleGroupStatement> => __S(330, __c10, 10)).annotate({
+              identifier: "ManagedRuleGroupStatement",
+            }),
+          ),
+          LabelMatchStatement: S.optional(__S(331, __c10, 11)),
+          RegexMatchStatement: S.optional(__S(332, __c10, 12)),
+          AsnMatchStatement: S.optional(__S(333, __c10, 13)),
+        }),
+      ).annotate({ identifier: "Statement" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({ Count: S.optional(__S(165, __c5, 5)), None: S.optional(__S(224, __c7, 0)) }),
+      ).annotate({ identifier: "OverrideAction" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          SampledRequestsEnabled: S.Boolean,
+          CloudWatchMetricsEnabled: S.Boolean,
+          MetricName: S.String,
+        }),
+      ).annotate({ identifier: "VisibilityConfig" });
+    case 17:
+      return S.suspend(() => S.Struct({ ImmunityTime: S.Number })).annotate({
+        identifier: "ImmunityTimeProperty",
+      });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({ ImmunityTimeProperty: S.optional(__S(337, __c10, 17)) }),
+      ).annotate({ identifier: "CaptchaConfig" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Priority: S.Number,
+          Statement: __S(334, __c10, 14),
+          Action: S.optional(__S(167, __c5, 7)),
+          OverrideAction: S.optional(__S(335, __c10, 15)),
+          RuleLabels: S.optional(__S(256, __c8, 0)),
+          VisibilityConfig: __S(336, __c10, 16),
+          CaptchaConfig: S.optional(__S(338, __c10, 18)),
+          ChallengeConfig: S.optional(__S(338, __c10, 18)),
+        }),
+      ).annotate({ identifier: "Rule" });
+    case 20:
+      return S.Array(__S(339, __c10, 19));
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Scope: S.String, TokenDomains: __S(96, __c3, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateAPIKeyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ APIKey: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "CreateAPIKeyResponse",
+      });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          Description: S.optional(S.String),
+          IPAddressVersion: S.String,
+          Addresses: __S(96, __c3, 0),
+          Tags: S.optional(__S(449, __c14, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateIPSetRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Summary: S.optional(__S(480, __c15, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateIPSetResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(448, __c14, 0));
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Id: S.optional(S.String),
+          Description: S.optional(S.String),
+          LockToken: S.optional(S.String),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IPSetSummary" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          Description: S.optional(S.String),
+          RegularExpressionList: __S(129, __c4, 1),
+          Tags: S.optional(__S(449, __c14, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateRegexPatternSetRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          Capacity: S.Number,
+          Description: S.optional(S.String),
+          Rules: S.optional(__S(340, __c10, 20)),
+          VisibilityConfig: __S(336, __c10, 16),
+          Tags: S.optional(__S(449, __c14, 1)),
+          CustomResponseBodies: S.optional(__S(577, __c18, 1)),
+          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateRuleGroupRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ContentType: S.String, Content: S.String })).annotate({
+        identifier: "CustomResponseBody",
+      });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(576, __c18, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() => S.Struct({ Amount: S.String, Currency: S.String })).annotate({
+        identifier: "Price",
+      });
+    case 3:
+      return S.Array(__S(578, __c18, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Chain: S.String, WalletAddress: S.String, Prices: __S(579, __c18, 3) }),
+      ).annotate({ identifier: "PaymentNetwork" });
+    case 5:
+      return S.Array(__S(580, __c18, 4));
+    case 6:
+      return S.suspend(() => S.Struct({ PaymentNetworks: __S(581, __c18, 5) })).annotate({
+        identifier: "CryptoConfig",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          CryptoConfig: S.optional(__S(582, __c18, 6)),
+          CurrencyMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MonetizationConfig" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          DefaultAction: __S(640, __c20, 0),
+          Description: S.optional(S.String),
+          Rules: S.optional(__S(340, __c10, 20)),
+          VisibilityConfig: __S(336, __c10, 16),
+          DataProtectionConfig: S.optional(__S(644, __c20, 4)),
+          Tags: S.optional(__S(449, __c14, 1)),
+          CustomResponseBodies: S.optional(__S(577, __c18, 1)),
+          CaptchaConfig: S.optional(__S(338, __c10, 18)),
+          ChallengeConfig: S.optional(__S(338, __c10, 18)),
+          TokenDomains: S.optional(__S(96, __c3, 0)),
+          AssociationConfig: S.optional(__S(647, __c20, 7)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
+          ApplicationConfig: S.optional(__S(651, __c20, 11)),
+          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateWebACLRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Block: S.optional(__S(163, __c5, 3)), Allow: S.optional(__S(165, __c5, 5)) }),
+      ).annotate({ identifier: "DefaultAction" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ FieldType: S.String, FieldKeys: S.optional(__S(96, __c3, 0)) }),
+      ).annotate({ identifier: "FieldToProtect" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Field: __S(641, __c20, 1),
+          Action: S.String,
+          ExcludeRuleMatchDetails: S.optional(S.Boolean),
+          ExcludeRateBasedDetails: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataProtection" });
+    case 3:
+      return S.Array(__S(642, __c20, 2));
+    case 4:
+      return S.suspend(() => S.Struct({ DataProtections: __S(643, __c20, 3) })).annotate({
+        identifier: "DataProtectionConfig",
+      });
+    case 5:
+      return S.suspend(() => S.Struct({ DefaultSizeInspectionLimit: S.String })).annotate({
+        identifier: "RequestBodyAssociatedResourceTypeConfig",
+      });
+    case 6:
+      return S.Record(S.String, /*@__PURE__*/ __S(645, __c20, 5).pipe(S.optional));
+    case 7:
+      return S.suspend(() => S.Struct({ RequestBody: S.optional(__S(646, __c20, 6)) })).annotate({
+        identifier: "AssociationConfig",
+      });
+    case 8:
+      return S.suspend(() => S.Struct({ ALBLowReputationMode: S.String })).annotate({
+        identifier: "OnSourceDDoSProtectionConfig",
+      });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(96, __c3, 0)) }),
+      ).annotate({ identifier: "ApplicationAttribute" });
+    case 10:
+      return S.Array(__S(649, __c20, 9));
+    case 11:
+      return S.suspend(() => S.Struct({ Attributes: S.optional(__S(650, __c20, 10)) })).annotate({
+        identifier: "ApplicationConfig",
+      });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Scope: S.String, APIKey: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteAPIKeyRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ WebACLArn: S.String, WebACLLockToken: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteFirewallManagerRuleGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ NextWebACLLockToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "DeleteFirewallManagerRuleGroupsResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Scope: S.String, Id: S.String, LockToken: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteIPSetRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String,
+          LogType: S.optional(S.String),
+          LogScope: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteLoggingConfigurationRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeletePermissionPolicyRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Scope: S.String, Id: S.String, LockToken: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteRegexPatternSetRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Scope: S.String, Id: S.String, LockToken: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteRuleGroupRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Scope: S.String, Id: S.String, LockToken: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteWebACLRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Scope: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeAllManagedProductsRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VendorName: S.optional(S.String),
+          ManagedRuleSetName: S.optional(S.String),
+          ProductId: S.optional(S.String),
+          ProductLink: S.optional(S.String),
+          ProductTitle: S.optional(S.String),
+          ProductDescription: S.optional(S.String),
+          SnsTopicArn: S.optional(S.String),
+          IsVersioningSupported: S.optional(S.Boolean),
+          IsAdvancedManagedRuleSet: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ManagedProductDescriptor" });
+    case 1:
+      return S.Array(__S(960, __c30, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ManagedProducts: S.optional(__S(961, __c30, 1)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeAllManagedProductsResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VendorName: S.String, Scope: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeManagedProductsByVendorRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VendorName: S.String,
+          Name: S.String,
+          Scope: S.String,
+          VersionName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeManagedRuleGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Action: S.optional(__S(167, __c5, 7)) }),
+      ).annotate({ identifier: "RuleSummary" });
+    case 2:
+      return S.Array(__S(1025, __c32, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          VersionName: S.optional(S.String),
+          SnsTopicArn: S.optional(S.String),
+          Capacity: S.optional(S.Number),
+          Rules: S.optional(__S(1026, __c32, 2)),
+          LabelNamespace: S.optional(S.String),
+          AvailableLabels: S.optional(__S(1057, __c33, 1)),
+          ConsumedLabels: S.optional(__S(1057, __c33, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeManagedRuleGroupResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
+        identifier: "LabelSummary",
+      });
+    case 1:
+      return S.Array(__S(1056, __c33, 0));
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateWebACLRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Platform: S.String, ReleaseVersion: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GenerateMobileSdkReleaseUrlRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Url: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "GenerateMobileSdkReleaseUrlResponse",
+      });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Feature: S.optional(S.String), RequiredPricingPlan: S.optional(S.String) }),
+      ).annotate({ identifier: "DisallowedFeature" });
+    case 1:
+      return S.Array(__S(1152, __c36, 0));
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Scope: S.String, APIKey: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetDecryptedAPIKeyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TokenDomains: S.optional(__S(96, __c3, 0)),
+          CreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetDecryptedAPIKeyResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Scope: S.String, Id: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetIPSetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Id: S.String,
+          ARN: S.String,
+          Description: S.optional(S.String),
+          IPAddressVersion: S.String,
+          Addresses: __S(96, __c3, 0),
+        }),
+      ).annotate({ identifier: "IPSet" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ IPSet: S.optional(__S(1217, __c38, 1)), LockToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "GetIPSetResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String,
+          LogType: S.optional(S.String),
+          LogScope: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetLoggingConfigurationRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(235, __c7, 11));
+    case 1:
+      return S.suspend(() => S.Struct({ Action: S.String })).annotate({
+        identifier: "ActionCondition",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ LabelName: S.String })).annotate({
+        identifier: "LabelNameCondition",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ActionCondition: S.optional(__S(1281, __c40, 1)),
+          LabelNameCondition: S.optional(__S(1282, __c40, 2)),
+        }),
+      ).annotate({ identifier: "Condition" });
+    case 4:
+      return S.Array(__S(1283, __c40, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ Behavior: S.String, Requirement: S.String, Conditions: __S(1284, __c40, 4) }),
+      ).annotate({ identifier: "Filter" });
+    case 6:
+      return S.Array(__S(1285, __c40, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ Filters: __S(1286, __c40, 6), DefaultBehavior: S.String }),
+      ).annotate({ identifier: "LoggingFilter" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String,
+          LogDestinationConfigs: __S(96, __c3, 0),
+          RedactedFields: S.optional(__S(1280, __c40, 0)),
+          ManagedByFirewallManager: S.optional(S.Boolean),
+          LoggingFilter: S.optional(__S(1287, __c40, 7)),
+          LogType: S.optional(S.String),
+          LogScope: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LoggingConfiguration" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LoggingConfiguration: S.optional(__S(1288, __c40, 8)) }).pipe(ns),
+      ).annotate({ identifier: "GetLoggingConfigurationResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Scope: S.String, Id: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetManagedRuleSetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AssociatedRuleGroupArn: S.optional(S.String),
+          Capacity: S.optional(S.Number),
+          ForecastedLifetime: S.optional(S.Number),
+          PublishTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ExpiryTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ManagedRuleSetVersion" });
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ __S(1345, __c42, 1).pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Id: S.String,
+          ARN: S.String,
+          Description: S.optional(S.String),
+          PublishedVersions: S.optional(__S(1346, __c42, 2)),
+          RecommendedVersion: S.optional(S.String),
+          LabelNamespace: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedRuleSet" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ManagedRuleSet: S.optional(__S(1347, __c42, 3)),
+          LockToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetManagedRuleSetResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Platform: S.String, ReleaseVersion: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetMobileSdkReleaseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReleaseVersion: S.optional(S.String),
+          Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ReleaseNotes: S.optional(S.String),
+          Tags: S.optional(__S(449, __c14, 1)),
+        }),
+      ).annotate({ identifier: "MobileSdkRelease" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ MobileSdkRelease: S.optional(__S(1377, __c43, 1)) }).pipe(ns),
+      ).annotate({ identifier: "GetMobileSdkReleaseResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetPermissionPolicyRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Policy: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "GetPermissionPolicyResponse",
+      });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.String,
+          WebACLName: S.String,
+          WebACLId: S.String,
+          RuleGroupRuleName: S.optional(S.String),
+          RuleName: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetRateBasedStatementManagedKeysRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          IPAddressVersion: S.optional(S.String),
+          Addresses: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "RateBasedStatementManagedKeysIPSet" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ManagedKeysIPV4: S.optional(__S(1441, __c45, 1)),
+          ManagedKeysIPV6: S.optional(__S(1441, __c45, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetRateBasedStatementManagedKeysResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Scope: S.String, Id: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetRegexPatternSetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Id: S.optional(S.String),
+          ARN: S.optional(S.String),
+          Description: S.optional(S.String),
+          RegularExpressionList: S.optional(__S(129, __c4, 1)),
+        }),
+      ).annotate({ identifier: "RegexPatternSet" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          RegexPatternSet: S.optional(__S(1473, __c46, 1)),
+          LockToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetRegexPatternSetResponse" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StatisticType: S.String,
+          TimeWindow: __S(1536, __c48, 0),
+          Scope: S.String,
+          Currency: S.String,
+          GroupBy: S.optional(S.String),
+          Filters: S.optional(__S(1569, __c49, 1)),
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          SortBy: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetRevenueStatisticsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SourceName: S.String,
+          Percentage: S.Number,
+          Amount: S.String,
+          RequestCount: S.Number,
+          SourceCategory: S.optional(S.String),
+          Intent: S.optional(S.String),
+          Organization: S.optional(S.String),
+          Verified: S.optional(S.Boolean),
+          GroupByValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SourceStatistics" });
+    case 2:
+      return S.Array(__S(1505, __c47, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Path: S.String,
+          Percentage: S.Number,
+          Amount: S.String,
+          RequestCount: S.Number,
+        }),
+      ).annotate({ identifier: "RevenuePathStatistics" });
+    case 4:
+      return S.Array(__S(1507, __c47, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          SourceStatistics: S.optional(__S(1506, __c47, 2)),
+          RevenuePathStatistics: S.optional(__S(1508, __c47, 4)),
+          NextMarker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetRevenueStatisticsResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "TimeWindow" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.String, Values: __S(96, __c3, 0) })).annotate({
+        identifier: "MonetizationFilter",
+      });
+    case 1:
+      return S.Array(__S(1568, __c49, 0));
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TimeWindow: __S(1536, __c48, 0),
+          Scope: S.String,
+          Currency: S.String,
+          Filters: S.optional(__S(1569, __c49, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetRevenueStatisticsSummaryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TotalAmount: S.optional(S.String),
+          VerifiedAmount: S.optional(S.String),
+          UnverifiedAmount: S.optional(S.String),
+          Currency: S.optional(S.String),
+          TotalSettled: S.optional(S.Number),
+          TotalMonetizeServed: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RevenueBreakdown" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ RevenueBreakdown: S.optional(__S(1601, __c50, 1)) }).pipe(ns),
+      ).annotate({ identifier: "GetRevenueStatisticsSummaryResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StatisticType: S.String,
+          TimeWindow: __S(1536, __c48, 0),
+          Scope: S.String,
+          Interval: S.String,
+          Currency: S.String,
+          GroupBy: S.optional(S.String),
+          Filters: S.optional(__S(1569, __c49, 1)),
+          Limit: S.optional(S.Number),
+          NextMarker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetRevenueStatisticsTimeSeriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          MonetizeServedCount: S.optional(S.Number),
+          SettledCount: S.optional(S.Number),
+          TotalAmount: S.optional(S.String),
+          Category: S.optional(S.String),
+          Intent: S.optional(S.String),
+          GroupByValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataPointEntry" });
+    case 2:
+      return S.Array(__S(1633, __c51, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          DataPoints: S.optional(__S(1634, __c51, 2)),
+          NextMarker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetRevenueStatisticsTimeSeriesResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Scope: S.optional(S.String),
+          Id: S.optional(S.String),
+          ARN: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetRuleGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Id: S.String,
+          Capacity: S.Number,
+          ARN: S.String,
+          Description: S.optional(S.String),
+          Rules: S.optional(__S(340, __c10, 20)),
+          VisibilityConfig: __S(336, __c10, 16),
+          LabelNamespace: S.optional(S.String),
+          CustomResponseBodies: S.optional(__S(577, __c18, 1)),
+          AvailableLabels: S.optional(__S(1057, __c33, 1)),
+          ConsumedLabels: S.optional(__S(1057, __c33, 1)),
+          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+        }),
+      ).annotate({ identifier: "RuleGroup" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroup: S.optional(__S(1665, __c52, 1)),
+          LockToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetRuleGroupResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WebAclArn: S.String,
+          RuleMetricName: S.String,
+          Scope: S.String,
+          TimeWindow: __S(1536, __c48, 0),
+          MaxItems: S.Number,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetSampledRequestsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "HTTPHeader" });
+    case 2:
+      return S.Array(__S(1697, __c53, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ClientIP: S.optional(S.String),
+          Country: S.optional(S.String),
+          URI: S.optional(S.String),
+          Method: S.optional(S.String),
+          HTTPVersion: S.optional(S.String),
+          Headers: S.optional(__S(1698, __c53, 2)),
+        }),
+      ).annotate({ identifier: "HTTPRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ResponseCode: S.optional(S.Number),
+          SolveTimestamp: S.optional(S.Number),
+          FailureReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CaptchaResponse" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Request: __S(1699, __c53, 3),
+          Weight: S.Number,
+          Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Action: S.optional(S.String),
+          RuleNameWithinRuleGroup: S.optional(S.String),
+          RequestHeadersInserted: S.optional(__S(1698, __c53, 2)),
+          ResponseCodeSent: S.optional(S.Number),
+          Labels: S.optional(__S(256, __c8, 0)),
+          CaptchaResponse: S.optional(__S(1700, __c53, 4)),
+          ChallengeResponse: S.optional(__S(1700, __c53, 4)),
+          OverriddenAction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SampledHTTPRequest" });
+    case 6:
+      return S.Array(__S(1701, __c53, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          SampledRequests: S.optional(__S(1702, __c53, 6)),
+          PopulationSize: S.optional(S.Number),
+          TimeWindow: S.optional(__S(1536, __c48, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetSampledRequestsResponse" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WebAclArn: S.String,
+          Scope: S.String,
+          UriPathPrefix: S.optional(S.String),
+          TimeWindow: __S(1536, __c48, 0),
+          BotCategory: S.optional(S.String),
+          BotOrganization: S.optional(S.String),
+          BotName: S.optional(S.String),
+          Limit: S.Number,
+          NumberOfTopTrafficBotsPerPath: S.Number,
+          NextMarker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetTopPathStatisticsByTrafficRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BotCategory: S.optional(S.String),
+          BotOrganization: S.optional(S.String),
+          BotName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FilterSource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ BotName: S.String, RequestCount: S.Number, Percentage: S.Number }),
+      ).annotate({ identifier: "BotStatistics" });
+    case 3:
+      return S.Array(__S(1730, __c54, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Source: S.optional(__S(1729, __c54, 1)),
+          Path: S.String,
+          RequestCount: S.Number,
+          Percentage: S.Number,
+          TopBots: S.optional(__S(1731, __c54, 3)),
+        }),
+      ).annotate({ identifier: "PathStatistics" });
+    case 5:
+      return S.Array(__S(1732, __c54, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          PathStatistics: __S(1733, __c54, 5),
+          TotalRequestCount: S.Number,
+          NextMarker: S.optional(S.String),
+          TopCategories: S.optional(__S(1733, __c54, 5)),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetTopPathStatisticsByTrafficResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Scope: S.optional(S.String),
+          Id: S.optional(S.String),
+          ARN: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetWebACLRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          WebACL: S.optional(__S(1795, __c56, 3)),
+          LockToken: S.optional(S.String),
+          ApplicationIntegrationURL: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetWebACLResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ManagedRuleGroupStatement: S.optional(__S(330, __c10, 10)),
+          RuleGroupReferenceStatement: S.optional(__S(299, __c9, 11)),
+        }),
+      ).annotate({ identifier: "FirewallManagerStatement" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Priority: S.Number,
+          FirewallManagerStatement: __S(1792, __c56, 0),
+          OverrideAction: __S(335, __c10, 15),
+          VisibilityConfig: __S(336, __c10, 16),
+        }),
+      ).annotate({ identifier: "FirewallManagerRuleGroup" });
+    case 2:
+      return S.Array(__S(1793, __c56, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Id: S.String,
+          ARN: S.String,
+          DefaultAction: __S(640, __c20, 0),
+          Description: S.optional(S.String),
+          Rules: S.optional(__S(340, __c10, 20)),
+          VisibilityConfig: __S(336, __c10, 16),
+          DataProtectionConfig: S.optional(__S(644, __c20, 4)),
+          Capacity: S.optional(S.Number),
+          PreProcessFirewallManagerRuleGroups: S.optional(__S(1794, __c56, 2)),
+          PostProcessFirewallManagerRuleGroups: S.optional(__S(1794, __c56, 2)),
+          ManagedByFirewallManager: S.optional(S.Boolean),
+          LabelNamespace: S.optional(S.String),
+          CustomResponseBodies: S.optional(__S(577, __c18, 1)),
+          CaptchaConfig: S.optional(__S(338, __c10, 18)),
+          ChallengeConfig: S.optional(__S(338, __c10, 18)),
+          TokenDomains: S.optional(__S(96, __c3, 0)),
+          AssociationConfig: S.optional(__S(647, __c20, 7)),
+          RetrofittedByFirewallManager: S.optional(S.Boolean),
+          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
+          ApplicationConfig: S.optional(__S(651, __c20, 11)),
+          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+        }),
+      ).annotate({ identifier: "WebACL" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetWebACLForResourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ WebACL: S.optional(__S(1795, __c56, 3)) }).pipe(ns),
+      ).annotate({ identifier: "GetWebACLForResourceResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAPIKeysRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TokenDomains: S.optional(__S(96, __c3, 0)),
+          APIKey: S.optional(S.String),
+          CreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Version: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "APIKeySummary" });
+    case 2:
+      return S.Array(__S(1857, __c58, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          APIKeySummaries: S.optional(__S(1858, __c58, 2)),
+          ApplicationIntegrationURL: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListAPIKeysResponse" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAvailableManagedRuleGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          VendorName: S.optional(S.String),
+          Name: S.optional(S.String),
+          VersioningSupported: S.optional(S.Boolean),
+          Description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedRuleGroupSummary" });
+    case 2:
+      return S.Array(__S(1889, __c59, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          ManagedRuleGroups: S.optional(__S(1890, __c59, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListAvailableManagedRuleGroupsResponse" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VendorName: S.String,
+          Name: S.String,
+          Scope: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAvailableManagedRuleGroupVersionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          LastUpdateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ManagedRuleGroupVersion" });
+    case 2:
+      return S.Array(__S(1921, __c60, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          Versions: S.optional(__S(1922, __c60, 2)),
+          CurrentDefaultVersion: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListAvailableManagedRuleGroupVersionsResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListIPSetsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          IPSets: S.optional(__S(1984, __c62, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListIPSetsResponse" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(480, __c15, 0));
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          LogScope: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLoggingConfigurationsRequest" });
+    case 1:
+      return S.Array(__S(1288, __c40, 8));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          LoggingConfigurations: S.optional(__S(2017, __c63, 1)),
+          NextMarker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListLoggingConfigurationsResponse" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListManagedRuleSetsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Id: S.optional(S.String),
+          Description: S.optional(S.String),
+          LockToken: S.optional(S.String),
+          ARN: S.optional(S.String),
+          LabelNamespace: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedRuleSetSummary" });
+    case 2:
+      return S.Array(__S(2049, __c64, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          ManagedRuleSets: S.optional(__S(2050, __c64, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListManagedRuleSetsResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Platform: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListMobileSdkReleasesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReleaseVersion: S.optional(S.String),
+          Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ReleaseSummary" });
+    case 2:
+      return S.Array(__S(2081, __c65, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ReleaseSummaries: S.optional(__S(2082, __c65, 2)),
+          NextMarker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListMobileSdkReleasesResponse" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListRegexPatternSetsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          RegexPatternSets: S.optional(__S(1984, __c62, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListRegexPatternSetsResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ WebACLArn: S.String, ResourceType: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListResourcesForWebACLRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ResourceArns: S.optional(__S(96, __c3, 0)) }).pipe(ns),
+      ).annotate({ identifier: "ListResourcesForWebACLResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListRuleGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          RuleGroups: S.optional(__S(1984, __c62, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListRuleGroupsResponse" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TimeWindow: __S(1536, __c48, 0),
+          Scope: S.String,
+          Currency: S.String,
+          Filters: S.optional(__S(1569, __c49, 1)),
+          SortBy: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextMarker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListSettlementRecordsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          PayerAddress: S.optional(S.String),
+          WalletAddress: S.optional(S.String),
+          Status: S.String,
+          Amount: S.String,
+          Currency: S.optional(S.String),
+          Network: S.optional(S.String),
+          TransactionId: S.optional(S.String),
+          RequestId: S.optional(S.String),
+          SourceName: S.optional(S.String),
+          Organization: S.optional(S.String),
+          SourceCategory: S.optional(S.String),
+          Intent: S.optional(S.String),
+          Verified: S.optional(S.Boolean),
+          ContentPath: S.optional(S.String),
+          WebAclArn: S.optional(S.String),
+          RequestTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "SettlementRecord" });
+    case 2:
+      return S.Array(__S(2209, __c69, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Settlements: S.optional(__S(2210, __c69, 2)),
+          NextMarker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListSettlementRecordsResponse" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          ResourceARN: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.optional(S.String), TagList: S.optional(__S(449, __c14, 1)) }),
+      ).annotate({ identifier: "TagInfoForResource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          TagInfoForResource: S.optional(__S(2241, __c70, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListTagsForResourceResponse" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Scope: S.String,
+          NextMarker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListWebACLsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NextMarker: S.optional(S.String),
+          WebACLs: S.optional(__S(1984, __c62, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListWebACLsResponse" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LoggingConfiguration: __S(1288, __c40, 8) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutLoggingConfigurationRequest" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AssociatedRuleGroupArn: S.optional(S.String),
+          ForecastedLifetime: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "VersionToPublish" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(2336, __c73, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          Id: S.String,
+          LockToken: S.String,
+          RecommendedVersion: S.optional(S.String),
+          VersionsToPublish: S.optional(__S(2337, __c73, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "PutManagedRuleSetVersionsRequest" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ NextLockToken: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "PutManagedRuleSetVersionsResponse",
+      });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutPermissionPolicyRequest" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, Tags: __S(449, __c14, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, TagKeys: __S(96, __c3, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          Id: S.String,
+          Description: S.optional(S.String),
+          Addresses: __S(96, __c3, 0),
+          LockToken: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateIPSetRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          Id: S.String,
+          LockToken: S.String,
+          VersionToExpire: S.String,
+          ExpiryTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateManagedRuleSetVersionExpiryDateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ExpiringVersion: S.optional(S.String),
+          ExpiryTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          NextLockToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpdateManagedRuleSetVersionExpiryDateResponse" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          Id: S.String,
+          Description: S.optional(S.String),
+          RegularExpressionList: __S(129, __c4, 1),
+          LockToken: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateRegexPatternSetRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          Id: S.String,
+          Description: S.optional(S.String),
+          Rules: S.optional(__S(340, __c10, 20)),
+          VisibilityConfig: __S(336, __c10, 16),
+          LockToken: S.String,
+          CustomResponseBodies: S.optional(__S(577, __c18, 1)),
+          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateRuleGroupRequest" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Scope: S.String,
+          Id: S.String,
+          DefaultAction: __S(640, __c20, 0),
+          Description: S.optional(S.String),
+          Rules: S.optional(__S(340, __c10, 20)),
+          VisibilityConfig: __S(336, __c10, 16),
+          DataProtectionConfig: S.optional(__S(644, __c20, 4)),
+          LockToken: S.String,
+          CustomResponseBodies: S.optional(__S(577, __c18, 1)),
+          CaptchaConfig: S.optional(__S(338, __c10, 18)),
+          ChallengeConfig: S.optional(__S(338, __c10, 18)),
+          TokenDomains: S.optional(__S(96, __c3, 0)),
+          AssociationConfig: S.optional(__S(647, __c20, 7)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
+          ApplicationConfig: S.optional(__S(651, __c20, 11)),
+          MonetizationConfig: S.optional(__S(583, __c18, 7)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateWebACLRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

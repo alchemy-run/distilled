@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Porkbun credentials — hand-written.
+ * Porkbun credentials -- hand-written.
  *
  * Porkbun authenticates with a public API key and a secret API key, sent as
  * `X-API-Key` / `X-Secret-API-Key` (header auth; the JSON-body form is
@@ -21,9 +21,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "PorkbunCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "PorkbunCredentials",
+  ) {}
 
 /** Auth headers for a resolved credentials config. */
 export const formatHeaders = (config: Config): Record<string, string> => ({
@@ -50,9 +51,9 @@ export const fromApiKey = (config: {
  * Reads PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY (required) and
  * PORKBUN_API_BASE_URL (optional).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.PORKBUN_API_KEY;
     const secretApiKey = process.env.PORKBUN_SECRET_API_KEY;
 

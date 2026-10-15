@@ -1,20 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const ns = T.XmlNamespace("http://dynamodb.amazonaws.com/doc/2012-08-10/");
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://dynamodb.amazonaws.com/doc/2012-08-10/");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "DynamoDB Streams",
   serviceShapeName: "DynamoDBStreams_20120810",
 });
-const auth = T.AwsAuthSigv4({ name: "dynamodb" });
-const ver = T.ServiceVersion("2012-08-10");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "dynamodb" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2012-08-10");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -132,105 +135,68 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://streams.dynamodb.{R}.{D}","properties":{},"headers":{}}');
 
 export class ExpiredIteratorException
   extends /*@__PURE__*/ S.TaggedError<ExpiredIteratorException>()("ExpiredIteratorException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()("InternalServerError", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class TrimmedDataAccessException
   extends /*@__PURE__*/ S.TaggedError<TrimmedDataAccessException>()("TrimmedDataAccessException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export type StreamArn = string;
 export type PositiveIntegerObject = number;
 export type ShardId = string;
 export type ShardFilterType = "CHILD_SHARDS" | (string & {});
-export const ShardFilterType = S.String;
-
 export interface ShardFilter {
   Type?: ShardFilterType;
   ShardId?: string;
 }
-export const ShardFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: S.optional(ShardFilterType), ShardId: S.optional(S.String) }),
-).annotate({ identifier: "ShardFilter" }) as any as S.Schema<ShardFilter>;
 export interface DescribeStreamInput {
   StreamArn: string;
   Limit?: number;
   ExclusiveStartShardId?: string;
   ShardFilter?: ShardFilter;
 }
-export const DescribeStreamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamArn: S.String,
-    Limit: S.optional(S.Number),
-    ExclusiveStartShardId: S.optional(S.String),
-    ShardFilter: S.optional(ShardFilter),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeStreamInput" }) as any as S.Schema<DescribeStreamInput>;
 export type StreamStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
-export const StreamStatus = S.String;
-
 export type StreamViewType =
   | "NEW_IMAGE"
   | "OLD_IMAGE"
   | "NEW_AND_OLD_IMAGES"
   | "KEYS_ONLY"
   | (string & {});
-export const StreamViewType = S.String;
-
 export type TableName = string;
 export type KeySchemaAttributeName = string;
 export type KeyType = "HASH" | "RANGE" | (string & {});
-export const KeyType = S.String;
-
 export interface KeySchemaElement {
   AttributeName: string;
   KeyType: KeyType;
 }
-export const KeySchemaElement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AttributeName: S.String, KeyType: KeyType }),
-).annotate({ identifier: "KeySchemaElement" }) as any as S.Schema<KeySchemaElement>;
 export type KeySchema = KeySchemaElement[];
-export const KeySchema = /*@__PURE__*/ S.Array(KeySchemaElement);
 export type SequenceNumber = string;
 export interface SequenceNumberRange {
   StartingSequenceNumber?: string;
   EndingSequenceNumber?: string;
 }
-export const SequenceNumberRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartingSequenceNumber: S.optional(S.String),
-    EndingSequenceNumber: S.optional(S.String),
-  }),
-).annotate({ identifier: "SequenceNumberRange" }) as any as S.Schema<SequenceNumberRange>;
 export interface Shard {
   ShardId?: string;
   SequenceNumberRange?: SequenceNumberRange;
   ParentShardId?: string;
 }
-export const Shard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ShardId: S.optional(S.String),
-    SequenceNumberRange: S.optional(SequenceNumberRange),
-    ParentShardId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Shard" }) as any as S.Schema<Shard>;
 export type ShardDescriptionList = Shard[];
-export const ShardDescriptionList = /*@__PURE__*/ S.Array(Shard);
 export interface StreamDescription {
   StreamArn?: string;
   StreamLabel?: string;
@@ -242,59 +208,24 @@ export interface StreamDescription {
   Shards?: Shard[];
   LastEvaluatedShardId?: string;
 }
-export const StreamDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamArn: S.optional(S.String),
-    StreamLabel: S.optional(S.String),
-    StreamStatus: S.optional(StreamStatus),
-    StreamViewType: S.optional(StreamViewType),
-    CreationRequestDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TableName: S.optional(S.String),
-    KeySchema: S.optional(KeySchema),
-    Shards: S.optional(ShardDescriptionList),
-    LastEvaluatedShardId: S.optional(S.String),
-  }),
-).annotate({ identifier: "StreamDescription" }) as any as S.Schema<StreamDescription>;
 export interface DescribeStreamOutput {
   StreamDescription?: StreamDescription;
 }
-export const DescribeStreamOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StreamDescription: S.optional(StreamDescription) }).pipe(ns),
-).annotate({ identifier: "DescribeStreamOutput" }) as any as S.Schema<DescribeStreamOutput>;
 export type ShardIterator = string;
 export interface GetRecordsInput {
   ShardIterator: string;
   Limit?: number;
 }
-export const GetRecordsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ShardIterator: S.String, Limit: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetRecordsInput" }) as any as S.Schema<GetRecordsInput>;
 export type OperationType = "INSERT" | "MODIFY" | "REMOVE" | (string & {});
-export const OperationType = S.String;
-
 export type AttributeName = string;
 export type StringAttributeValue = string;
 export type NumberAttributeValue = string;
 export type BinaryAttributeValue = Uint8Array;
 export type StringSetAttributeValue = string[];
-export const StringSetAttributeValue = /*@__PURE__*/ S.Array(S.String);
 export type NumberSetAttributeValue = string[];
-export const NumberSetAttributeValue = /*@__PURE__*/ S.Array(S.String);
 export type BinarySetAttributeValue = Uint8Array[];
-export const BinarySetAttributeValue = /*@__PURE__*/ S.Array(T.Blob);
 export type MapAttributeValue = { [key: string]: AttributeValue | undefined };
-export const MapAttributeValue = /*@__PURE__*/ S.Record(
-  S.String,
-  S.suspend(() => AttributeValue)
-    .annotate({ identifier: "AttributeValue" })
-    .pipe(S.optional),
-) as any as S.Schema<MapAttributeValue>;
 export type ListAttributeValue = AttributeValue[];
-export const ListAttributeValue = /*@__PURE__*/ S.Array(
-  S.suspend(() => AttributeValue).annotate({ identifier: "AttributeValue" }),
-) as any as S.Schema<ListAttributeValue>;
 export type NullAttributeValue = boolean;
 export type BooleanAttributeValue = boolean;
 export type AttributeValue =
@@ -418,27 +349,7 @@ export type AttributeValue =
       NULL?: never;
       BOOL: boolean;
     };
-export const AttributeValue = /*@__PURE__*/ S.Union([
-  S.Struct({ S: S.String }),
-  S.Struct({ N: S.String }),
-  S.Struct({ B: T.Blob }),
-  S.Struct({ SS: StringSetAttributeValue }),
-  S.Struct({ NS: NumberSetAttributeValue }),
-  S.Struct({ BS: BinarySetAttributeValue }),
-  S.Struct({ M: S.suspend(() => MapAttributeValue).annotate({ identifier: "MapAttributeValue" }) }),
-  S.Struct({
-    L: S.suspend(() => ListAttributeValue).annotate({ identifier: "ListAttributeValue" }),
-  }),
-  S.Struct({ NULL: S.Boolean }),
-  S.Struct({ BOOL: S.Boolean }),
-]) as any as S.Schema<AttributeValue>;
 export type AttributeMap = { [key: string]: AttributeValue | undefined };
-export const AttributeMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.suspend(() => AttributeValue)
-    .annotate({ identifier: "AttributeValue" })
-    .pipe(S.optional),
-);
 export type PositiveLongObject = number;
 export interface StreamRecord {
   ApproximateCreationDateTime?: Date;
@@ -449,24 +360,10 @@ export interface StreamRecord {
   SizeBytes?: number;
   StreamViewType?: StreamViewType;
 }
-export const StreamRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApproximateCreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Keys: S.optional(AttributeMap),
-    NewImage: S.optional(AttributeMap),
-    OldImage: S.optional(AttributeMap),
-    SequenceNumber: S.optional(S.String),
-    SizeBytes: S.optional(S.Number),
-    StreamViewType: S.optional(StreamViewType),
-  }),
-).annotate({ identifier: "StreamRecord" }) as any as S.Schema<StreamRecord>;
 export interface Identity {
   PrincipalId?: string;
   Type?: string;
 }
-export const Identity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PrincipalId: S.optional(S.String), Type: S.optional(S.String) }),
-).annotate({ identifier: "Identity" }) as any as S.Schema<Identity>;
 export interface Record {
   eventID?: string;
   eventName?: OperationType;
@@ -476,89 +373,41 @@ export interface Record {
   dynamodb?: StreamRecord;
   userIdentity?: Identity;
 }
-export const Record = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    eventID: S.optional(S.String),
-    eventName: S.optional(OperationType),
-    eventVersion: S.optional(S.String),
-    eventSource: S.optional(S.String),
-    awsRegion: S.optional(S.String),
-    dynamodb: S.optional(StreamRecord),
-    userIdentity: S.optional(Identity),
-  }),
-).annotate({ identifier: "Record" }) as any as S.Schema<Record>;
 export type RecordList = Record[];
-export const RecordList = /*@__PURE__*/ S.Array(Record);
 export interface GetRecordsOutput {
   Records?: Record[];
   NextShardIterator?: string;
 }
-export const GetRecordsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Records: S.optional(RecordList), NextShardIterator: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "GetRecordsOutput" }) as any as S.Schema<GetRecordsOutput>;
 export type ShardIteratorType =
   | "TRIM_HORIZON"
   | "LATEST"
   | "AT_SEQUENCE_NUMBER"
   | "AFTER_SEQUENCE_NUMBER"
   | (string & {});
-export const ShardIteratorType = S.String;
-
 export interface GetShardIteratorInput {
   StreamArn: string;
   ShardId: string;
   ShardIteratorType: ShardIteratorType;
   SequenceNumber?: string;
 }
-export const GetShardIteratorInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamArn: S.String,
-    ShardId: S.String,
-    ShardIteratorType: ShardIteratorType,
-    SequenceNumber: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetShardIteratorInput" }) as any as S.Schema<GetShardIteratorInput>;
 export interface GetShardIteratorOutput {
   ShardIterator?: string;
 }
-export const GetShardIteratorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ShardIterator: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "GetShardIteratorOutput" }) as any as S.Schema<GetShardIteratorOutput>;
 export interface ListStreamsInput {
   TableName?: string;
   Limit?: number;
   ExclusiveStartStreamArn?: string;
 }
-export const ListStreamsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TableName: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    ExclusiveStartStreamArn: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListStreamsInput" }) as any as S.Schema<ListStreamsInput>;
 export interface Stream {
   StreamArn?: string;
   TableName?: string;
   StreamLabel?: string;
 }
-export const Stream = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamArn: S.optional(S.String),
-    TableName: S.optional(S.String),
-    StreamLabel: S.optional(S.String),
-  }),
-).annotate({ identifier: "Stream" }) as any as S.Schema<Stream>;
 export type StreamList = Stream[];
-export const StreamList = /*@__PURE__*/ S.Array(Stream);
 export interface ListStreamsOutput {
   Streams?: Stream[];
   LastEvaluatedStreamArn?: string;
 }
-export const ListStreamsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Streams: S.optional(StreamList), LastEvaluatedStreamArn: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({ identifier: "ListStreamsOutput" }) as any as S.Schema<ListStreamsOutput>;
 export type ErrorMessage = string;
 export type DescribeStreamError = InternalServerError | ResourceNotFoundException | CommonErrors;
 /**
@@ -578,8 +427,8 @@ export const describeStream: API.OperationMethod<
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeStreamInput,
-  output: DescribeStreamOutput,
+  input: __S(1, __c0, 1) as any as S.Schema<DescribeStreamInput>,
+  output: __S(8, __c0, 8) as any as S.Schema<DescribeStreamOutput>,
   errors: [InternalServerError, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -611,8 +460,8 @@ export const getRecords: API.OperationMethod<
   GetRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRecordsInput,
-  output: GetRecordsOutput,
+  input: __S(16, __c1, 0) as any as S.Schema<GetRecordsInput>,
+  output: __S(27, __c1, 11) as any as S.Schema<GetRecordsOutput>,
   errors: [
     ExpiredIteratorException,
     InternalServerError,
@@ -645,8 +494,8 @@ export const getShardIterator: API.OperationMethod<
   GetShardIteratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetShardIteratorInput,
-  output: GetShardIteratorOutput,
+  input: __S(32, __c2, 0) as any as S.Schema<GetShardIteratorInput>,
+  output: __S(33, __c2, 1) as any as S.Schema<GetShardIteratorOutput>,
   errors: [InternalServerError, ResourceNotFoundException, TrimmedDataAccessException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -667,10 +516,210 @@ export const listStreams: API.OperationMethod<
   ListStreamsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListStreamsInput,
-  output: ListStreamsOutput,
+  input: __S(48, __c3, 0) as any as S.Schema<ListStreamsInput>,
+  output: __S(51, __c3, 3) as any as S.Schema<ListStreamsOutput>,
   errors: [InternalServerError, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Type: S.optional(S.String), ShardId: S.optional(S.String) }),
+      ).annotate({ identifier: "ShardFilter" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          StreamArn: S.String,
+          Limit: S.optional(S.Number),
+          ExclusiveStartShardId: S.optional(S.String),
+          ShardFilter: S.optional(__S(0, __c0, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeStreamInput" });
+    case 2:
+      return S.suspend(() => S.Struct({ AttributeName: S.String, KeyType: S.String })).annotate({
+        identifier: "KeySchemaElement",
+      });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          StartingSequenceNumber: S.optional(S.String),
+          EndingSequenceNumber: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SequenceNumberRange" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          ShardId: S.optional(S.String),
+          SequenceNumberRange: S.optional(__S(4, __c0, 4)),
+          ParentShardId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Shard" });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          StreamArn: S.optional(S.String),
+          StreamLabel: S.optional(S.String),
+          StreamStatus: S.optional(S.String),
+          StreamViewType: S.optional(S.String),
+          CreationRequestDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TableName: S.optional(S.String),
+          KeySchema: S.optional(__S(3, __c0, 3)),
+          Shards: S.optional(__S(6, __c0, 6)),
+          LastEvaluatedShardId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamDescription" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ StreamDescription: S.optional(__S(7, __c0, 7)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeStreamOutput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ShardIterator: S.String, Limit: S.optional(S.Number) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetRecordsInput" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.Array(T.Blob);
+    case 3:
+      return S.Record(
+        S.String,
+        /*@__PURE__*/ S.suspend(() => __S(21, __c1, 5))
+          .annotate({ identifier: "AttributeValue" })
+          .pipe(S.optional),
+      );
+    case 4:
+      return S.Array(
+        /*@__PURE__*/ S.suspend(() => __S(21, __c1, 5)).annotate({ identifier: "AttributeValue" }),
+      );
+    case 5:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ S: S.String }),
+        /*@__PURE__*/ S.Struct({ N: S.String }),
+        /*@__PURE__*/ S.Struct({ B: T.Blob }),
+        /*@__PURE__*/ S.Struct({ SS: __S(17, __c1, 1) }),
+        /*@__PURE__*/ S.Struct({ NS: __S(17, __c1, 1) }),
+        /*@__PURE__*/ S.Struct({ BS: __S(18, __c1, 2) }),
+        /*@__PURE__*/ S.Struct({
+          M: /*@__PURE__*/ S.suspend(() => __S(19, __c1, 3)).annotate({
+            identifier: "MapAttributeValue",
+          }),
+        }),
+        /*@__PURE__*/ S.Struct({
+          L: /*@__PURE__*/ S.suspend(() => __S(20, __c1, 4)).annotate({
+            identifier: "ListAttributeValue",
+          }),
+        }),
+        /*@__PURE__*/ S.Struct({ NULL: S.Boolean }),
+        /*@__PURE__*/ S.Struct({ BOOL: S.Boolean }),
+      ]);
+    case 6:
+      return S.Record(
+        S.String,
+        /*@__PURE__*/ S.suspend(() => __S(21, __c1, 5))
+          .annotate({ identifier: "AttributeValue" })
+          .pipe(S.optional),
+      );
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ApproximateCreationDateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Keys: S.optional(__S(22, __c1, 6)),
+          NewImage: S.optional(__S(22, __c1, 6)),
+          OldImage: S.optional(__S(22, __c1, 6)),
+          SequenceNumber: S.optional(S.String),
+          SizeBytes: S.optional(S.Number),
+          StreamViewType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamRecord" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ PrincipalId: S.optional(S.String), Type: S.optional(S.String) }),
+      ).annotate({ identifier: "Identity" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          eventID: S.optional(S.String),
+          eventName: S.optional(S.String),
+          eventVersion: S.optional(S.String),
+          eventSource: S.optional(S.String),
+          awsRegion: S.optional(S.String),
+          dynamodb: S.optional(__S(23, __c1, 7)),
+          userIdentity: S.optional(__S(24, __c1, 8)),
+        }),
+      ).annotate({ identifier: "Record" });
+    case 10:
+      return S.Array(__S(25, __c1, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          Records: S.optional(__S(26, __c1, 10)),
+          NextShardIterator: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetRecordsOutput" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StreamArn: S.String,
+          ShardId: S.String,
+          ShardIteratorType: S.String,
+          SequenceNumber: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetShardIteratorInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ ShardIterator: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "GetShardIteratorOutput",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TableName: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          ExclusiveStartStreamArn: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListStreamsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          StreamArn: S.optional(S.String),
+          TableName: S.optional(S.String),
+          StreamLabel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Stream" });
+    case 2:
+      return S.Array(__S(49, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Streams: S.optional(__S(50, __c3, 2)),
+          LastEvaluatedStreamArn: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListStreamsOutput" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

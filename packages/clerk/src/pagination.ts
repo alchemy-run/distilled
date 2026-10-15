@@ -1,5 +1,5 @@
 /**
- * Clerk pagination — hand-written.
+ * Clerk pagination -- hand-written.
  *
  * List operations that the converter marks as cursor-paginated are traversed
  * by core's {@link paginateCursor}. Clerk's typical list shape is

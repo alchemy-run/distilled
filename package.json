@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsc -b && node scripts/bundle-lib.ts && node scripts/strip-lib-docs.ts",
     "generate": "node scripts/generate-all.ts",
     "specs:sync": "git submodule sync && git submodule update --force --init --depth=1",
     "specs:local": "node scripts/specs.ts local",

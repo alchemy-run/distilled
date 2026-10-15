@@ -1,5 +1,5 @@
 /**
- * EAS-specific error types — hand-written.
+ * EAS-specific error types -- hand-written.
  *
  * Re-exports common HTTP errors from core and adds typed wrappers for the
  * GraphQL error envelope returned by api.expo.dev. EAS GraphQL errors carry a
@@ -36,170 +36,163 @@ import type {
   NotFound,
   UnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
  * Catch-all for EAS GraphQL errors that don't match any other tagged class.
  * Carries the raw `errors[]` envelope and a best-effort `code` / `message`.
  */
-export class UnknownEasError extends Schema.TaggedError<UnknownEasError>()("UnknownEasError", {
-  code: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  body: Schema.Unknown,
-}).pipe(Category.withServerError) {}
+export class UnknownEasError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownEasError>()("UnknownEasError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    body: Schema.Unknown,
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper (response body did not match the operation schema). */
-export class EasParseError extends Schema.TaggedError<EasParseError>()("EasParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class EasParseError
+  extends /*@__PURE__*/ Schema.TaggedError<EasParseError>()("EasParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}
 
 /**
  * The installed eas-cli / API client is too old. Returned with errorCode
  * `EAS_CLI_UPGRADE_REQUIRED_ERROR` after a backward-incompatible schema change.
  */
-export class EasUpgradeRequired extends Schema.TaggedError<EasUpgradeRequired>()(
-  "EasUpgradeRequired",
-  {
+export class EasUpgradeRequired
+  extends /*@__PURE__*/ Schema.TaggedError<EasUpgradeRequired>()("EasUpgradeRequired", {
     message: Schema.String,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Generic input validation failure (errorCode `VALIDATION_ERROR`). */
-export class EasValidationError extends Schema.TaggedError<EasValidationError>()(
-  "EasValidationError",
-  {
+export class EasValidationError
+  extends /*@__PURE__*/ Schema.TaggedError<EasValidationError>()("EasValidationError", {
     message: Schema.String,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /**
  * Build was submitted using a deprecated job format
  * (errorCode `TURTLE_DEPRECATED_JOB_FORMAT`).
  */
-export class EasDeprecatedJobFormat extends Schema.TaggedError<EasDeprecatedJobFormat>()(
-  "EasDeprecatedJobFormat",
-  {
+export class EasDeprecatedJobFormat
+  extends /*@__PURE__*/ Schema.TaggedError<EasDeprecatedJobFormat>()("EasDeprecatedJobFormat", {
     message: Schema.String,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** EAS Build is temporarily down for maintenance. */
-export class EasBuildDownForMaintenance extends Schema.TaggedError<EasBuildDownForMaintenance>()(
-  "EasBuildDownForMaintenance",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withServerError) {}
+export class EasBuildDownForMaintenance
+  extends /*@__PURE__*/ Schema.TaggedError<EasBuildDownForMaintenance>()(
+    "EasBuildDownForMaintenance",
+    {
+      message: Schema.String,
+    },
+  ).pipe(Category.withServerError) {}
 
 /** Account is on the free tier and EAS Build has been disabled for it. */
-export class EasBuildFreeTierDisabled extends Schema.TaggedError<EasBuildFreeTierDisabled>()(
-  "EasBuildFreeTierDisabled",
-  {
+export class EasBuildFreeTierDisabled
+  extends /*@__PURE__*/ Schema.TaggedError<EasBuildFreeTierDisabled>()("EasBuildFreeTierDisabled", {
     message: Schema.String,
-    platform: Schema.optional(Schema.Literals(["ios", "android"])),
-  },
-).pipe(Category.withServerError) {}
+    platform: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.Literals(["ios", "android"])),
+  }).pipe(Category.withServerError) {}
 
 /** Free-tier monthly build quota has been exhausted. */
-export class EasBuildFreeTierLimitExceeded extends Schema.TaggedError<EasBuildFreeTierLimitExceeded>()(
-  "EasBuildFreeTierLimitExceeded",
-  {
-    message: Schema.String,
-    platform: Schema.optional(Schema.Literals(["ios", "android"])),
-  },
-).pipe(Category.withServerError) {}
+export class EasBuildFreeTierLimitExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<EasBuildFreeTierLimitExceeded>()(
+    "EasBuildFreeTierLimitExceeded",
+    {
+      message: Schema.String,
+      platform: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.Literals(["ios", "android"])),
+    },
+  ).pipe(Category.withServerError) {}
 
 /** Account already has too many pending builds queued (back-pressure). */
-export class EasBuildTooManyPendingBuilds extends Schema.TaggedError<EasBuildTooManyPendingBuilds>()(
-  "EasBuildTooManyPendingBuilds",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withServerError) {}
+export class EasBuildTooManyPendingBuilds
+  extends /*@__PURE__*/ Schema.TaggedError<EasBuildTooManyPendingBuilds>()(
+    "EasBuildTooManyPendingBuilds",
+    {
+      message: Schema.String,
+    },
+  ).pipe(Category.withServerError) {}
 
 /**
  * The selected build resource class is not available on the free tier
  * (errorCode `EAS_BUILD_RESOURCE_CLASS_NOT_AVAILABLE_IN_FREE_TIER`).
  * Upgrade the account or pick a free-tier-eligible resource class.
  */
-export class EasBuildResourceClassNotAvailableInFreeTier extends Schema.TaggedError<EasBuildResourceClassNotAvailableInFreeTier>()(
-  "EasBuildResourceClassNotAvailableInFreeTier",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withServerError) {}
+export class EasBuildResourceClassNotAvailableInFreeTier
+  extends /*@__PURE__*/ Schema.TaggedError<EasBuildResourceClassNotAvailableInFreeTier>()(
+    "EasBuildResourceClassNotAvailableInFreeTier",
+    {
+      message: Schema.String,
+    },
+  ).pipe(Category.withServerError) {}
 
 /**
  * The requested legacy build resource class has been retired
  * (errorCode `EAS_BUILD_LEGACY_RESOURCE_CLASS_NOT_AVAILABLE`).
  */
-export class EasBuildLegacyResourceClassNotAvailable extends Schema.TaggedError<EasBuildLegacyResourceClassNotAvailable>()(
-  "EasBuildLegacyResourceClassNotAvailable",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withServerError) {}
+export class EasBuildLegacyResourceClassNotAvailable
+  extends /*@__PURE__*/ Schema.TaggedError<EasBuildLegacyResourceClassNotAvailable>()(
+    "EasBuildLegacyResourceClassNotAvailable",
+    {
+      message: Schema.String,
+    },
+  ).pipe(Category.withServerError) {}
 
 /**
  * Update channel with the same name already exists for the app
  * (errorCode `CHANNEL_ALREADY_EXISTS`).
  */
-export class EasChannelAlreadyExists extends Schema.TaggedError<EasChannelAlreadyExists>()(
-  "EasChannelAlreadyExists",
-  {
+export class EasChannelAlreadyExists
+  extends /*@__PURE__*/ Schema.TaggedError<EasChannelAlreadyExists>()("EasChannelAlreadyExists", {
     message: Schema.String,
-  },
-).pipe(Category.withCategory(Category.ConflictError, Category.AlreadyExistsError)) {}
+  }).pipe(
+    /*@__PURE__*/ Category.withCategory(Category.ConflictError, Category.AlreadyExistsError),
+  ) {}
 
 /**
  * The authenticated actor does not have permission to perform this operation
- * (errorCode `UNAUTHORIZED_ERROR`). Distinct from a missing/invalid token —
+ * (errorCode `UNAUTHORIZED_ERROR`). Distinct from a missing/invalid token --
  * the token is valid but lacks the privacy/role grant required for the request.
  */
-export class EasUnauthorizedOperation extends Schema.TaggedError<EasUnauthorizedOperation>()(
-  "EasUnauthorizedOperation",
-  {
+export class EasUnauthorizedOperation
+  extends /*@__PURE__*/ Schema.TaggedError<EasUnauthorizedOperation>()("EasUnauthorizedOperation", {
     message: Schema.String,
-  },
-).pipe(Category.withAuthError) {}
+  }).pipe(Category.withAuthError) {}
 
 /**
  * The Expo experience (project) referenced by slug/account does not exist
  * (errorCode `EXPERIENCE_NOT_FOUND`).
  */
-export class EasExperienceNotFound extends Schema.TaggedError<EasExperienceNotFound>()(
-  "EasExperienceNotFound",
-  {
+export class EasExperienceNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<EasExperienceNotFound>()("EasExperienceNotFound", {
     message: Schema.String,
-  },
-).pipe(Category.withNotFoundError) {}
+  }).pipe(Category.withNotFoundError) {}
 
 /**
  * The app does not yet have a `*.expo.app` dev domain name assigned
  * (errorCode `APP_NO_DEV_DOMAIN_NAME`). Required before creating
- * a hosting deployment URL — call `assignDevDomainName` first.
+ * a hosting deployment URL -- call `assignDevDomainName` first.
  */
-export class EasAppNoDevDomainName extends Schema.TaggedError<EasAppNoDevDomainName>()(
-  "EasAppNoDevDomainName",
-  {
+export class EasAppNoDevDomainName
+  extends /*@__PURE__*/ Schema.TaggedError<EasAppNoDevDomainName>()("EasAppNoDevDomainName", {
     message: Schema.String,
-  },
-).pipe(Category.withBadRequestError) {}
+  }).pipe(Category.withBadRequestError) {}
 
 /**
  * The requested dev domain name is already taken by another app
  * (errorCode `DEV_DOMAIN_NAME_TAKEN`).
  */
-export class EasDevDomainNameTaken extends Schema.TaggedError<EasDevDomainNameTaken>()(
-  "EasDevDomainNameTaken",
-  {
+export class EasDevDomainNameTaken
+  extends /*@__PURE__*/ Schema.TaggedError<EasDevDomainNameTaken>()("EasDevDomainNameTaken", {
     message: Schema.String,
-  },
-).pipe(Category.withCategory(Category.ConflictError, Category.AlreadyExistsError)) {}
+  }).pipe(
+    /*@__PURE__*/ Category.withCategory(Category.ConflictError, Category.AlreadyExistsError),
+  ) {}
 
 /**
- * Map from EAS GraphQL `extensions.errorCode` → typed error class.
+ * Map from EAS GraphQL `extensions.errorCode` -> typed error class.
  * Used by the protocol to surface known errors with a dedicated tag.
  */
 // oxlint-disable-next-line no-explicit-any -- heterogeneous error class map

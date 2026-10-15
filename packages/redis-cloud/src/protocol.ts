@@ -2,13 +2,13 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * RedisCloudProtocol — hand-written.
+ * RedisCloudProtocol -- hand-written.
  *
  * Redis Cloud speaks plain JSON REST (no response envelope), authenticated
  * with account + user API key headers, so the whole protocol is one
  * `makeRestProtocol` call from `core/protocol-rest`:
  *
- *   request:  credentials → `x-api-key` + `x-api-secret-key` (+ optional
+ *   request:  credentials -> `x-api-key` + `x-api-secret-key` (+ optional
  *             `x-auth-token`) + base URL (default https://api.redislabs.com),
  *             resolved from the calling fiber on every request
  *
@@ -40,20 +40,19 @@ export type RedisCloudOpError =
 /** Context (requirements) shared by every generated Redis Cloud operation. */
 export type RedisCloudOpContext = Credentials | HttpClient.HttpClient;
 
-export const RedisCloudProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => formatHeaders(creds),
-  unknownError: ({ code, message, body }) =>
-    new UnknownRedisCloudError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
-  parseError: ({ body, cause }) => new RedisCloudParseError({ body, cause }),
-});
+export const RedisCloudProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>(
+  {
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => formatHeaders(creds),
+    unknownError: ({ code, message, body }) =>
+      new UnknownRedisCloudError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new RedisCloudParseError({ body, cause }),
+  },
+);

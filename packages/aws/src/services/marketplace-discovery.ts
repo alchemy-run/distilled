@@ -1,58 +1,78 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Marketplace Discovery",
   serviceShapeName: "AWSMarketplaceDiscovery",
 });
-const auth = T.AwsAuthSigv4({ name: "aws-marketplace" });
-const ver = T.ServiceVersion("2026-02-05");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "aws-marketplace" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2026-02-05");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver(
+  (p, _) => {
+    const { UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+      }
+      return e(Endpoint);
     }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (UseFIPS === true) {
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (UseFIPS === true) {
+            return e(
+              `https://discovery-marketplace-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
           return e(
-            `https://discovery-marketplace-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            `https://discovery-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
-        return e(
-          `https://discovery-marketplace.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-        );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+  '{"url":"https://discovery-marketplace.{R}.api.aws","properties":{},"headers":{}}',
+  [
+    "cn-north-1",
+    "cn-northwest-1",
+    "aws-cn-global",
+    "us-iso-east-1",
+    "us-iso-west-1",
+    "aws-iso-global",
+    "us-isob-east-1",
+    "aws-iso-b-global",
+    "aws-iso-f-global",
+    "us-isof-east-1",
+    "us-isof-south-1",
+    "eusc-de-east-1",
+  ],
+);
 
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export type Locale = string;
 export type ListingId = string;
@@ -60,11 +80,6 @@ export interface GetListingInput {
   locale?: string;
   listingId: string;
 }
-export const GetListingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ locale: S.optional(S.String), listingId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/2026-02-05/getListing" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetListingInput" }) as any as S.Schema<GetListingInput>;
 export type ProductId = string;
 export type NonEmptyString = string;
 export type SellerProfileId = string;
@@ -72,17 +87,11 @@ export interface SellerInformation {
   sellerProfileId: string;
   displayName: string;
 }
-export const SellerInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sellerProfileId: S.String, displayName: S.String }),
-).annotate({ identifier: "SellerInformation" }) as any as S.Schema<SellerInformation>;
 export interface ProductInformation {
   productId: string;
   productName: string;
   manufacturer: SellerInformation;
 }
-export const ProductInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ productId: S.String, productName: S.String, manufacturer: SellerInformation }),
-).annotate({ identifier: "ProductInformation" }) as any as S.Schema<ProductInformation>;
 export type OfferId = string;
 export type NullableString = string;
 export interface OfferInformation {
@@ -90,22 +99,11 @@ export interface OfferInformation {
   offerName?: string;
   sellerOfRecord: SellerInformation;
 }
-export const OfferInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    offerId: S.String,
-    offerName: S.optional(S.String),
-    sellerOfRecord: SellerInformation,
-  }),
-).annotate({ identifier: "OfferInformation" }) as any as S.Schema<OfferInformation>;
 export interface ListingAssociatedEntity {
   product?: ProductInformation;
   offer?: OfferInformation;
 }
-export const ListingAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ product: S.optional(ProductInformation), offer: S.optional(OfferInformation) }),
-).annotate({ identifier: "ListingAssociatedEntity" }) as any as S.Schema<ListingAssociatedEntity>;
 export type ListingAssociatedEntityList = ListingAssociatedEntity[];
-export const ListingAssociatedEntityList = /*@__PURE__*/ S.Array(ListingAssociatedEntity);
 export type ListingBadgeType =
   | "AWS_FREE_TIER"
   | "FREE_TRIAL"
@@ -113,27 +111,17 @@ export type ListingBadgeType =
   | "QUICK_LAUNCH"
   | "MULTI_PRODUCT"
   | (string & {});
-export const ListingBadgeType = S.String;
-
 export interface ListingBadge {
   displayName: string;
   badgeType: ListingBadgeType;
 }
-export const ListingBadge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ displayName: S.String, badgeType: ListingBadgeType }),
-).annotate({ identifier: "ListingBadge" }) as any as S.Schema<ListingBadge>;
 export type ListingBadgeList = ListingBadge[];
-export const ListingBadgeList = /*@__PURE__*/ S.Array(ListingBadge);
 export type Catalog = string;
 export interface Category {
   categoryId: string;
   displayName: string;
 }
-export const Category = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ categoryId: S.String, displayName: S.String }),
-).annotate({ identifier: "Category" }) as any as S.Schema<Category>;
 export type CategoryList = Category[];
-export const CategoryList = /*@__PURE__*/ S.Array(Category);
 export type FulfillmentOptionType =
   | "AMAZON_MACHINE_IMAGE"
   | "API"
@@ -148,32 +136,19 @@ export type FulfillmentOptionType =
   | "SAGEMAKER_ALGORITHM"
   | "SAGEMAKER_MODEL"
   | (string & {});
-export const FulfillmentOptionType = S.String;
-
 export interface FulfillmentOptionSummary {
   fulfillmentOptionType: FulfillmentOptionType;
   displayName: string;
 }
-export const FulfillmentOptionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ fulfillmentOptionType: FulfillmentOptionType, displayName: S.String }),
-).annotate({ identifier: "FulfillmentOptionSummary" }) as any as S.Schema<FulfillmentOptionSummary>;
 export type FulfillmentOptionSummaryList = FulfillmentOptionSummary[];
-export const FulfillmentOptionSummaryList = /*@__PURE__*/ S.Array(FulfillmentOptionSummary);
 export type HighlightList = string[];
-export const HighlightList = /*@__PURE__*/ S.Array(S.String);
 export type URL = string;
 export type PricingModelType = "USAGE" | "CONTRACT" | "BYOL" | "FREE" | (string & {});
-export const PricingModelType = S.String;
-
 export interface PricingModel {
   pricingModelType: PricingModelType;
   displayName: string;
 }
-export const PricingModel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pricingModelType: PricingModelType, displayName: S.String }),
-).annotate({ identifier: "PricingModel" }) as any as S.Schema<PricingModel>;
 export type PricingModelList = PricingModel[];
-export const PricingModelList = /*@__PURE__*/ S.Array(PricingModel);
 export type PricingUnitType =
   | "USERS"
   | "HOSTS"
@@ -183,25 +158,16 @@ export type PricingUnitType =
   | "REQUESTS"
   | "UNITS"
   | (string & {});
-export const PricingUnitType = S.String;
-
 export interface PricingUnit {
   pricingUnitType: PricingUnitType;
   displayName: string;
 }
-export const PricingUnit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ pricingUnitType: PricingUnitType, displayName: S.String }),
-).annotate({ identifier: "PricingUnit" }) as any as S.Schema<PricingUnit>;
 export type PricingUnitList = PricingUnit[];
-export const PricingUnitList = /*@__PURE__*/ S.Array(PricingUnit);
 export interface PromotionalEmbeddedImage {
   title: string;
   url: string;
   description?: string;
 }
-export const PromotionalEmbeddedImage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ title: S.String, url: S.String, description: S.optional(S.String) }),
-).annotate({ identifier: "PromotionalEmbeddedImage" }) as any as S.Schema<PromotionalEmbeddedImage>;
 export interface PromotionalEmbeddedVideo {
   title: string;
   url: string;
@@ -209,49 +175,20 @@ export interface PromotionalEmbeddedVideo {
   thumbnail: string;
   description?: string;
 }
-export const PromotionalEmbeddedVideo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.String,
-    url: S.String,
-    preview: S.String,
-    thumbnail: S.String,
-    description: S.optional(S.String),
-  }),
-).annotate({ identifier: "PromotionalEmbeddedVideo" }) as any as S.Schema<PromotionalEmbeddedVideo>;
 export type PromotionalMedia =
   | { embeddedImage: PromotionalEmbeddedImage; embeddedVideo?: never }
   | { embeddedImage?: never; embeddedVideo: PromotionalEmbeddedVideo };
-export const PromotionalMedia = /*@__PURE__*/ S.Union([
-  S.Struct({ embeddedImage: PromotionalEmbeddedImage }),
-  S.Struct({ embeddedVideo: PromotionalEmbeddedVideo }),
-]);
 export type PromotionalMediaList = PromotionalMedia[];
-export const PromotionalMediaList = /*@__PURE__*/ S.Array(PromotionalMedia);
 export type ResourceType = "MANUFACTURER_SUPPORT" | "MANUFACTURER_INSTRUCTIONS" | (string & {});
-export const ResourceType = S.String;
-
 export type ResourceContentType = "EMAIL" | "PHONE_NUMBER" | "LINK" | "OTHER" | (string & {});
-export const ResourceContentType = S.String;
-
 export interface Resource {
   resourceType: ResourceType;
   contentType: ResourceContentType;
   value: string;
   displayName?: string;
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: ResourceType,
-    contentType: ResourceContentType,
-    value: S.String,
-    displayName: S.optional(S.String),
-  }),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type ResourceList = Resource[];
-export const ResourceList = /*@__PURE__*/ S.Array(Resource);
 export type ReviewSourceId = "AWS_MARKETPLACE" | (string & {});
-export const ReviewSourceId = S.String;
-
 export type NonNegativeCount = number;
 export interface ReviewSourceSummary {
   sourceName: string;
@@ -260,59 +197,27 @@ export interface ReviewSourceSummary {
   averageRating: string;
   totalReviews: number;
 }
-export const ReviewSourceSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceName: S.String,
-    sourceId: ReviewSourceId,
-    sourceUrl: S.optional(S.String),
-    averageRating: S.String,
-    totalReviews: S.Number,
-  }),
-).annotate({ identifier: "ReviewSourceSummary" }) as any as S.Schema<ReviewSourceSummary>;
 export type ReviewSourceSummaryList = ReviewSourceSummary[];
-export const ReviewSourceSummaryList = /*@__PURE__*/ S.Array(ReviewSourceSummary);
 export interface ReviewSummary {
   reviewSourceSummaries: ReviewSourceSummary[];
 }
-export const ReviewSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ reviewSourceSummaries: ReviewSourceSummaryList }),
-).annotate({ identifier: "ReviewSummary" }) as any as S.Schema<ReviewSummary>;
 export type SellerEngagementType = "REQUEST_FOR_PRIVATE_OFFER" | "REQUEST_FOR_DEMO" | (string & {});
-export const SellerEngagementType = S.String;
-
 export type SellerEngagementContentType = "LINK" | (string & {});
-export const SellerEngagementContentType = S.String;
-
 export interface SellerEngagement {
   engagementType: SellerEngagementType;
   contentType: SellerEngagementContentType;
   value: string;
 }
-export const SellerEngagement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    engagementType: SellerEngagementType,
-    contentType: SellerEngagementContentType,
-    value: S.String,
-  }),
-).annotate({ identifier: "SellerEngagement" }) as any as S.Schema<SellerEngagement>;
 export type SellerEngagementList = SellerEngagement[];
-export const SellerEngagementList = /*@__PURE__*/ S.Array(SellerEngagement);
 export interface UseCase {
   description: string;
   displayName: string;
   value: string;
 }
-export const UseCase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ description: S.String, displayName: S.String, value: S.String }),
-).annotate({ identifier: "UseCase" }) as any as S.Schema<UseCase>;
 export interface UseCaseEntry {
   useCase: UseCase;
 }
-export const UseCaseEntry = /*@__PURE__*/ S.suspend(() => S.Struct({ useCase: UseCase })).annotate({
-  identifier: "UseCaseEntry",
-}) as any as S.Schema<UseCaseEntry>;
 export type UseCaseList = UseCaseEntry[];
-export const UseCaseList = /*@__PURE__*/ S.Array(UseCaseEntry);
 export interface GetListingOutput {
   locale?: string;
   associatedEntities: ListingAssociatedEntity[];
@@ -336,57 +241,20 @@ export interface GetListingOutput {
   shortDescription: string;
   useCases: UseCaseEntry[];
 }
-export const GetListingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    associatedEntities: ListingAssociatedEntityList,
-    badges: ListingBadgeList,
-    catalog: S.String,
-    categories: CategoryList,
-    fulfillmentOptionSummaries: FulfillmentOptionSummaryList,
-    highlights: HighlightList,
-    integrationGuide: S.optional(S.String),
-    listingId: S.String,
-    listingName: S.String,
-    logoThumbnailUrl: S.String,
-    longDescription: S.String,
-    pricingModels: PricingModelList,
-    pricingUnits: PricingUnitList,
-    promotionalMedia: PromotionalMediaList,
-    publisher: SellerInformation,
-    resources: ResourceList,
-    reviewSummary: S.optional(ReviewSummary),
-    sellerEngagements: SellerEngagementList,
-    shortDescription: S.String,
-    useCases: UseCaseList,
-  }),
-).annotate({ identifier: "GetListingOutput" }) as any as S.Schema<GetListingOutput>;
 export interface GetOfferInput {
   locale?: string;
   offerId: string;
 }
-export const GetOfferInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ locale: S.optional(S.String), offerId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/2026-02-05/getOffer" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetOfferInput" }) as any as S.Schema<GetOfferInput>;
 export type OfferSetId = string;
 export interface OfferSetInformation {
   offerSetId: string;
   sellerOfRecord: SellerInformation;
 }
-export const OfferSetInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ offerSetId: S.String, sellerOfRecord: SellerInformation }),
-).annotate({ identifier: "OfferSetInformation" }) as any as S.Schema<OfferSetInformation>;
 export interface OfferAssociatedEntity {
   product: ProductInformation;
   offerSet?: OfferSetInformation;
 }
-export const OfferAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ product: ProductInformation, offerSet: S.optional(OfferSetInformation) }),
-).annotate({ identifier: "OfferAssociatedEntity" }) as any as S.Schema<OfferAssociatedEntity>;
 export type OfferAssociatedEntityList = OfferAssociatedEntity[];
-export const OfferAssociatedEntityList = /*@__PURE__*/ S.Array(OfferAssociatedEntity);
 export type AgreementResourceId = string;
 export type PurchaseOptionBadgeType =
   | "PRIVATE_PRICING"
@@ -394,17 +262,11 @@ export type PurchaseOptionBadgeType =
   | "REPLACEMENT_OFFER"
   | "AUTO_RENEW"
   | (string & {});
-export const PurchaseOptionBadgeType = S.String;
-
 export interface PurchaseOptionBadge {
   displayName: string;
   badgeType: PurchaseOptionBadgeType;
 }
-export const PurchaseOptionBadge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ displayName: S.String, badgeType: PurchaseOptionBadgeType }),
-).annotate({ identifier: "PurchaseOptionBadge" }) as any as S.Schema<PurchaseOptionBadge>;
 export type PurchaseOptionBadgeList = PurchaseOptionBadge[];
-export const PurchaseOptionBadgeList = /*@__PURE__*/ S.Array(PurchaseOptionBadge);
 export interface GetOfferOutput {
   locale?: string;
   offerId: string;
@@ -419,40 +281,15 @@ export interface GetOfferOutput {
   pricingModel: PricingModel;
   badges: PurchaseOptionBadge[];
 }
-export const GetOfferOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    offerId: S.String,
-    catalog: S.String,
-    offerName: S.optional(S.String),
-    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    sellerOfRecord: SellerInformation,
-    associatedEntities: OfferAssociatedEntityList,
-    agreementProposalId: S.String,
-    replacementAgreementId: S.optional(S.String),
-    pricingModel: PricingModel,
-    badges: PurchaseOptionBadgeList,
-  }),
-).annotate({ identifier: "GetOfferOutput" }) as any as S.Schema<GetOfferOutput>;
 export interface GetOfferSetInput {
   locale?: string;
   offerSetId: string;
 }
-export const GetOfferSetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ locale: S.optional(S.String), offerSetId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/2026-02-05/getOfferSet" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetOfferSetInput" }) as any as S.Schema<GetOfferSetInput>;
 export interface OfferSetAssociatedEntity {
   product: ProductInformation;
   offer: OfferInformation;
 }
-export const OfferSetAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ product: ProductInformation, offer: OfferInformation }),
-).annotate({ identifier: "OfferSetAssociatedEntity" }) as any as S.Schema<OfferSetAssociatedEntity>;
 export type OfferSetAssociatedEntityList = OfferSetAssociatedEntity[];
-export const OfferSetAssociatedEntityList = /*@__PURE__*/ S.Array(OfferSetAssociatedEntity);
 export interface GetOfferSetOutput {
   locale?: string;
   offerSetId: string;
@@ -465,20 +302,6 @@ export interface GetOfferSetOutput {
   badges: PurchaseOptionBadge[];
   associatedEntities: OfferSetAssociatedEntity[];
 }
-export const GetOfferSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    offerSetId: S.String,
-    catalog: S.String,
-    offerSetName: S.optional(S.String),
-    availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    buyerNotes: S.optional(S.String),
-    sellerOfRecord: SellerInformation,
-    badges: PurchaseOptionBadgeList,
-    associatedEntities: OfferSetAssociatedEntityList,
-  }),
-).annotate({ identifier: "GetOfferSetOutput" }) as any as S.Schema<GetOfferSetOutput>;
 export type NextToken = string;
 export interface GetOfferTermsInput {
   locale?: string;
@@ -486,23 +309,6 @@ export interface GetOfferTermsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const GetOfferTermsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    offerId: S.String,
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2026-02-05/getOfferTerms" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetOfferTermsInput" }) as any as S.Schema<GetOfferTermsInput>;
 export type TermId = string;
 export type TermType =
   | "ByolPricingTerm"
@@ -519,57 +325,29 @@ export type TermType =
   | "VariablePaymentTerm"
   | "NetPaymentTerm"
   | (string & {});
-export const TermType = S.String;
-
 export interface ByolPricingTerm {
   id: string;
   type: TermType;
 }
-export const ByolPricingTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, type: TermType }),
-).annotate({ identifier: "ByolPricingTerm" }) as any as S.Schema<ByolPricingTerm>;
 export type CurrencyCode = string;
 export type SelectorType = "Duration" | (string & {});
-export const SelectorType = S.String;
-
 export type BoundedString = string;
 export interface Selector {
   type: SelectorType;
   value: string;
 }
-export const Selector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: SelectorType, value: S.String }),
-).annotate({ identifier: "Selector" }) as any as S.Schema<Selector>;
 export type RateCardConstraintType = "Allowed" | "Disallowed" | (string & {});
-export const RateCardConstraintType = S.String;
-
 export interface Constraints {
   multipleDimensionSelection: RateCardConstraintType;
   quantityConfiguration: RateCardConstraintType;
 }
-export const Constraints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    multipleDimensionSelection: RateCardConstraintType,
-    quantityConfiguration: RateCardConstraintType,
-  }),
-).annotate({ identifier: "Constraints" }) as any as S.Schema<Constraints>;
 export type DimensionLabelType = "Region" | "SagemakerOption" | (string & {});
-export const DimensionLabelType = S.String;
-
 export interface DimensionLabel {
   labelType: DimensionLabelType;
   labelValue: string;
   displayName?: string;
 }
-export const DimensionLabel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    labelType: DimensionLabelType,
-    labelValue: S.String,
-    displayName: S.optional(S.String),
-  }),
-).annotate({ identifier: "DimensionLabel" }) as any as S.Schema<DimensionLabel>;
 export type DimensionLabelList = DimensionLabel[];
-export const DimensionLabelList = /*@__PURE__*/ S.Array(DimensionLabel);
 export interface RateCardItem {
   dimensionKey: string;
   displayName: string;
@@ -578,48 +356,19 @@ export interface RateCardItem {
   unit: string;
   price: string;
 }
-export const RateCardItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dimensionKey: S.String,
-    displayName: S.String,
-    description: S.optional(S.String),
-    dimensionLabels: S.optional(DimensionLabelList),
-    unit: S.String,
-    price: S.String,
-  }),
-).annotate({ identifier: "RateCardItem" }) as any as S.Schema<RateCardItem>;
 export type RateCardList = RateCardItem[];
-export const RateCardList = /*@__PURE__*/ S.Array(RateCardItem);
 export interface ConfigurableUpfrontRateCardItem {
   selector: Selector;
   constraints: Constraints;
   rateCard: RateCardItem[];
 }
-export const ConfigurableUpfrontRateCardItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ selector: Selector, constraints: Constraints, rateCard: RateCardList }),
-).annotate({
-  identifier: "ConfigurableUpfrontRateCardItem",
-}) as any as S.Schema<ConfigurableUpfrontRateCardItem>;
 export type ConfigurableUpfrontRateCardList = ConfigurableUpfrontRateCardItem[];
-export const ConfigurableUpfrontRateCardList = /*@__PURE__*/ S.Array(
-  ConfigurableUpfrontRateCardItem,
-);
 export interface ConfigurableUpfrontPricingTerm {
   id: string;
   type: TermType;
   currencyCode: string;
   rateCards?: ConfigurableUpfrontRateCardItem[];
 }
-export const ConfigurableUpfrontPricingTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: TermType,
-    currencyCode: S.String,
-    rateCards: S.optional(ConfigurableUpfrontRateCardList),
-  }),
-).annotate({
-  identifier: "ConfigurableUpfrontPricingTerm",
-}) as any as S.Schema<ConfigurableUpfrontPricingTerm>;
 export interface GrantItem {
   dimensionKey: string;
   displayName: string;
@@ -628,18 +377,7 @@ export interface GrantItem {
   unit: string;
   maxQuantity?: number;
 }
-export const GrantItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dimensionKey: S.String,
-    displayName: S.String,
-    description: S.optional(S.String),
-    dimensionLabels: S.optional(DimensionLabelList),
-    unit: S.String,
-    maxQuantity: S.optional(S.Number),
-  }),
-).annotate({ identifier: "GrantItem" }) as any as S.Schema<GrantItem>;
 export type GrantList = GrantItem[];
-export const GrantList = /*@__PURE__*/ S.Array(GrantItem);
 export interface FixedUpfrontPricingTerm {
   id: string;
   type: TermType;
@@ -648,25 +386,12 @@ export interface FixedUpfrontPricingTerm {
   price: string;
   grants: GrantItem[];
 }
-export const FixedUpfrontPricingTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: TermType,
-    currencyCode: S.String,
-    duration: S.optional(S.String),
-    price: S.String,
-    grants: GrantList,
-  }),
-).annotate({ identifier: "FixedUpfrontPricingTerm" }) as any as S.Schema<FixedUpfrontPricingTerm>;
 export interface FreeTrialPricingTerm {
   id: string;
   type: TermType;
   duration?: string;
   grants: GrantItem[];
 }
-export const FreeTrialPricingTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, type: TermType, duration: S.optional(S.String), grants: GrantList }),
-).annotate({ identifier: "FreeTrialPricingTerm" }) as any as S.Schema<FreeTrialPricingTerm>;
 export type LegalDocumentType =
   | "CustomEula"
   | "CustomDsa"
@@ -674,47 +399,29 @@ export type LegalDocumentType =
   | "StandardEula"
   | "StandardDsa"
   | (string & {});
-export const LegalDocumentType = S.String;
-
 export interface DocumentItem {
   type: LegalDocumentType;
   url: string;
   version?: string;
 }
-export const DocumentItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: LegalDocumentType, url: S.String, version: S.optional(S.String) }),
-).annotate({ identifier: "DocumentItem" }) as any as S.Schema<DocumentItem>;
 export type DocumentList = DocumentItem[];
-export const DocumentList = /*@__PURE__*/ S.Array(DocumentItem);
 export interface LegalTerm {
   id: string;
   type: TermType;
   documents: DocumentItem[];
 }
-export const LegalTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, type: TermType, documents: DocumentList }),
-).annotate({ identifier: "LegalTerm" }) as any as S.Schema<LegalTerm>;
 export interface ScheduleItem {
   chargeDate: Date;
   chargeAmount: string;
 }
-export const ScheduleItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ chargeDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")), chargeAmount: S.String }),
-).annotate({ identifier: "ScheduleItem" }) as any as S.Schema<ScheduleItem>;
 export type ScheduleList = ScheduleItem[];
-export const ScheduleList = /*@__PURE__*/ S.Array(ScheduleItem);
 export interface PaymentScheduleTerm {
   id: string;
   type: TermType;
   currencyCode: string;
   schedule: ScheduleItem[];
 }
-export const PaymentScheduleTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, type: TermType, currencyCode: S.String, schedule: ScheduleList }),
-).annotate({ identifier: "PaymentScheduleTerm" }) as any as S.Schema<PaymentScheduleTerm>;
 export type BillingPeriodType = "Monthly" | (string & {});
-export const BillingPeriodType = S.String;
-
 export interface RecurringPaymentTerm {
   id: string;
   type: TermType;
@@ -722,64 +429,28 @@ export interface RecurringPaymentTerm {
   billingPeriod: BillingPeriodType;
   price: string;
 }
-export const RecurringPaymentTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: TermType,
-    currencyCode: S.String,
-    billingPeriod: BillingPeriodType,
-    price: S.String,
-  }),
-).annotate({ identifier: "RecurringPaymentTerm" }) as any as S.Schema<RecurringPaymentTerm>;
 export interface FixedPercentage {
   percentageValue: string;
 }
-export const FixedPercentage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ percentageValue: S.String }),
-).annotate({ identifier: "FixedPercentage" }) as any as S.Schema<FixedPercentage>;
 export interface PercentageRange {
   minimumValue: string;
   maximumValue: string;
   defaultValue: string;
 }
-export const PercentageRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ minimumValue: S.String, maximumValue: S.String, defaultValue: S.String }),
-).annotate({ identifier: "PercentageRange" }) as any as S.Schema<PercentageRange>;
 export type PriceIncrease =
   | { fixedPercentage: FixedPercentage; percentageRange?: never }
   | { fixedPercentage?: never; percentageRange: PercentageRange };
-export const PriceIncrease = /*@__PURE__*/ S.Union([
-  S.Struct({ fixedPercentage: FixedPercentage }),
-  S.Struct({ percentageRange: PercentageRange }),
-]);
 export interface PaymentScheduleEntry {
   chargeDateOffset: string;
   chargePercentage: string;
   dayOfMonth?: number;
 }
-export const PaymentScheduleEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    chargeDateOffset: S.String,
-    chargePercentage: S.String,
-    dayOfMonth: S.optional(S.Number),
-  }),
-).annotate({ identifier: "PaymentScheduleEntry" }) as any as S.Schema<PaymentScheduleEntry>;
 export type PaymentScheduleEntryList = PaymentScheduleEntry[];
-export const PaymentScheduleEntryList = /*@__PURE__*/ S.Array(PaymentScheduleEntry);
 export interface PaymentScheduleTermTemplate {
   schedule: PaymentScheduleEntry[];
 }
-export const PaymentScheduleTermTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ schedule: PaymentScheduleEntryList }),
-).annotate({
-  identifier: "PaymentScheduleTermTemplate",
-}) as any as S.Schema<PaymentScheduleTermTemplate>;
 export type TermTemplate = { paymentScheduleTermTemplate: PaymentScheduleTermTemplate };
-export const TermTemplate = /*@__PURE__*/ S.Union([
-  S.Struct({ paymentScheduleTermTemplate: PaymentScheduleTermTemplate }),
-]);
 export type TermTemplateList = TermTemplate[];
-export const TermTemplateList = /*@__PURE__*/ S.Array(TermTemplate);
 export interface RenewalTerm {
   id: string;
   type: TermType;
@@ -789,47 +460,21 @@ export interface RenewalTerm {
   priceIncrease?: PriceIncrease;
   termTemplates?: TermTemplate[];
 }
-export const RenewalTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: TermType,
-    maxRenewals: S.optional(S.Number),
-    lockoutPeriod: S.optional(S.String),
-    adjustmentDeadline: S.optional(S.String),
-    priceIncrease: S.optional(PriceIncrease),
-    termTemplates: S.optional(TermTemplateList),
-  }),
-).annotate({ identifier: "RenewalTerm" }) as any as S.Schema<RenewalTerm>;
 export interface SupportTerm {
   id: string;
   type: TermType;
   refundPolicy: string;
 }
-export const SupportTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, type: TermType, refundPolicy: S.String }),
-).annotate({ identifier: "SupportTerm" }) as any as S.Schema<SupportTerm>;
 export interface UsageBasedRateCardItem {
   rateCard: RateCardItem[];
 }
-export const UsageBasedRateCardItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ rateCard: RateCardList }),
-).annotate({ identifier: "UsageBasedRateCardItem" }) as any as S.Schema<UsageBasedRateCardItem>;
 export type UsageBasedRateCardList = UsageBasedRateCardItem[];
-export const UsageBasedRateCardList = /*@__PURE__*/ S.Array(UsageBasedRateCardItem);
 export interface UsageBasedPricingTerm {
   id: string;
   type: TermType;
   currencyCode: string;
   rateCards: UsageBasedRateCardItem[];
 }
-export const UsageBasedPricingTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: TermType,
-    currencyCode: S.String,
-    rateCards: UsageBasedRateCardList,
-  }),
-).annotate({ identifier: "UsageBasedPricingTerm" }) as any as S.Schema<UsageBasedPricingTerm>;
 export interface ValidityTerm {
   id: string;
   type: TermType;
@@ -837,37 +482,17 @@ export interface ValidityTerm {
   agreementEndDate?: Date;
   agreementStartDate?: Date;
 }
-export const ValidityTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: TermType,
-    agreementDuration: S.optional(S.String),
-    agreementEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    agreementStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ValidityTerm" }) as any as S.Schema<ValidityTerm>;
 export interface VariablePaymentTerm {
   id: string;
   type: TermType;
   currencyCode: string;
   maxTotalChargeAmount: string;
 }
-export const VariablePaymentTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    type: TermType,
-    currencyCode: S.String,
-    maxTotalChargeAmount: S.String,
-  }),
-).annotate({ identifier: "VariablePaymentTerm" }) as any as S.Schema<VariablePaymentTerm>;
 export interface NetPaymentTerm {
   id: string;
   type: TermType;
   paymentDuePeriod: string;
 }
-export const NetPaymentTerm = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, type: TermType, paymentDuePeriod: S.String }),
-).annotate({ identifier: "NetPaymentTerm" }) as any as S.Schema<NetPaymentTerm>;
 export type OfferTerm =
   | {
       byolPricingTerm: ByolPricingTerm;
@@ -1064,47 +689,17 @@ export type OfferTerm =
       variablePaymentTerm?: never;
       netPaymentTerm: NetPaymentTerm;
     };
-export const OfferTerm = /*@__PURE__*/ S.Union([
-  S.Struct({ byolPricingTerm: ByolPricingTerm }),
-  S.Struct({ configurableUpfrontPricingTerm: ConfigurableUpfrontPricingTerm }),
-  S.Struct({ fixedUpfrontPricingTerm: FixedUpfrontPricingTerm }),
-  S.Struct({ freeTrialPricingTerm: FreeTrialPricingTerm }),
-  S.Struct({ legalTerm: LegalTerm }),
-  S.Struct({ paymentScheduleTerm: PaymentScheduleTerm }),
-  S.Struct({ recurringPaymentTerm: RecurringPaymentTerm }),
-  S.Struct({ renewalTerm: RenewalTerm }),
-  S.Struct({ supportTerm: SupportTerm }),
-  S.Struct({ usageBasedPricingTerm: UsageBasedPricingTerm }),
-  S.Struct({ validityTerm: ValidityTerm }),
-  S.Struct({ variablePaymentTerm: VariablePaymentTerm }),
-  S.Struct({ netPaymentTerm: NetPaymentTerm }),
-]);
 export type OfferTermsList = OfferTerm[];
-export const OfferTermsList = /*@__PURE__*/ S.Array(OfferTerm);
 export interface GetOfferTermsOutput {
   locale?: string;
   offerTerms: OfferTerm[];
   nextToken?: string;
 }
-export const GetOfferTermsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    offerTerms: OfferTermsList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "GetOfferTermsOutput" }) as any as S.Schema<GetOfferTermsOutput>;
 export interface GetProductInput {
   locale?: string;
   productId: string;
 }
-export const GetProductInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ locale: S.optional(S.String), productId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/2026-02-05/getProduct" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetProductInput" }) as any as S.Schema<GetProductInput>;
 export type DeployedOnAwsStatus = "DEPLOYED" | "NOT_DEPLOYED" | "NOT_APPLICABLE" | (string & {});
-export const DeployedOnAwsStatus = S.String;
-
 export interface GetProductOutput {
   locale?: string;
   productId: string;
@@ -1123,114 +718,35 @@ export interface GetProductOutput {
   sellerEngagements: SellerEngagement[];
   listingId: string;
 }
-export const GetProductOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    productId: S.String,
-    catalog: S.String,
-    productName: S.String,
-    manufacturer: SellerInformation,
-    deployedOnAws: DeployedOnAwsStatus,
-    shortDescription: S.String,
-    longDescription: S.String,
-    logoThumbnailUrl: S.String,
-    fulfillmentOptionSummaries: FulfillmentOptionSummaryList,
-    categories: CategoryList,
-    highlights: HighlightList,
-    promotionalMedia: PromotionalMediaList,
-    resources: ResourceList,
-    sellerEngagements: SellerEngagementList,
-    listingId: S.String,
-  }),
-).annotate({ identifier: "GetProductOutput" }) as any as S.Schema<GetProductOutput>;
 export interface ListFulfillmentOptionsInput {
   locale?: string;
   productId: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListFulfillmentOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    productId: S.String,
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2026-02-05/listFulfillmentOptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFulfillmentOptionsInput",
-}) as any as S.Schema<ListFulfillmentOptionsInput>;
 export interface AmazonMachineImageOperatingSystem {
   operatingSystemFamilyName: string;
   operatingSystemName: string;
   operatingSystemVersion?: string;
 }
-export const AmazonMachineImageOperatingSystem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    operatingSystemFamilyName: S.String,
-    operatingSystemName: S.String,
-    operatingSystemVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AmazonMachineImageOperatingSystem",
-}) as any as S.Schema<AmazonMachineImageOperatingSystem>;
 export type AmazonMachineImageOperatingSystemList = AmazonMachineImageOperatingSystem[];
-export const AmazonMachineImageOperatingSystemList = /*@__PURE__*/ S.Array(
-  AmazonMachineImageOperatingSystem,
-);
 export type AmazonMachineImageCidrIpAddressList = string[];
-export const AmazonMachineImageCidrIpAddressList = /*@__PURE__*/ S.Array(S.String);
 export interface AmazonMachineImageSecurityGroup {
   protocol: string;
   fromPort: number;
   toPort: number;
   cidrIpAddresses: string[];
 }
-export const AmazonMachineImageSecurityGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    protocol: S.String,
-    fromPort: S.Number,
-    toPort: S.Number,
-    cidrIpAddresses: AmazonMachineImageCidrIpAddressList,
-  }),
-).annotate({
-  identifier: "AmazonMachineImageSecurityGroup",
-}) as any as S.Schema<AmazonMachineImageSecurityGroup>;
 export type AmazonMachineImageSecurityGroupList = AmazonMachineImageSecurityGroup[];
-export const AmazonMachineImageSecurityGroupList = /*@__PURE__*/ S.Array(
-  AmazonMachineImageSecurityGroup,
-);
 export interface AmazonMachineImageRecommendation {
   instanceType: string;
   securityGroups?: AmazonMachineImageSecurityGroup[];
 }
-export const AmazonMachineImageRecommendation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceType: S.String,
-    securityGroups: S.optional(AmazonMachineImageSecurityGroupList),
-  }),
-).annotate({
-  identifier: "AmazonMachineImageRecommendation",
-}) as any as S.Schema<AmazonMachineImageRecommendation>;
 export type AmazonMachineImageEbsVolumeTypeList = string[];
-export const AmazonMachineImageEbsVolumeTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface AmazonMachineImageEbsVolume {
   volumeTypes: string[];
   iops?: number;
 }
-export const AmazonMachineImageEbsVolume = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ volumeTypes: AmazonMachineImageEbsVolumeTypeList, iops: S.optional(S.Number) }),
-).annotate({
-  identifier: "AmazonMachineImageEbsVolume",
-}) as any as S.Schema<AmazonMachineImageEbsVolume>;
 export interface AmazonMachineImageFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
@@ -1248,37 +764,12 @@ export interface AmazonMachineImageFulfillmentOption {
   ebsVolume?: AmazonMachineImageEbsVolume;
   shortDescription?: string;
 }
-export const AmazonMachineImageFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionName: S.String,
-    fulfillmentOptionVersion: S.optional(S.String),
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    operatingSystems: AmazonMachineImageOperatingSystemList,
-    recommendation: S.optional(AmazonMachineImageRecommendation),
-    releaseNotes: S.optional(S.String),
-    usageInstructions: S.optional(S.String),
-    availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    accessUrlTemplate: S.optional(S.String),
-    architecture: S.String,
-    amiAlias: S.optional(S.String),
-    ebsVolume: S.optional(AmazonMachineImageEbsVolume),
-    shortDescription: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AmazonMachineImageFulfillmentOption",
-}) as any as S.Schema<AmazonMachineImageFulfillmentOption>;
 export interface AwsSupportedService {
   supportedServiceType: string;
   displayName: string;
   description: string;
 }
-export const AwsSupportedService = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ supportedServiceType: S.String, displayName: S.String, description: S.String }),
-).annotate({ identifier: "AwsSupportedService" }) as any as S.Schema<AwsSupportedService>;
 export type AwsSupportedServiceList = AwsSupportedService[];
-export const AwsSupportedServiceList = /*@__PURE__*/ S.Array(AwsSupportedService);
 export interface ApiFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
@@ -1286,15 +777,6 @@ export interface ApiFulfillmentOption {
   usageInstructions?: string;
   awsSupportedServices: AwsSupportedService[];
 }
-export const ApiFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    usageInstructions: S.optional(S.String),
-    awsSupportedServices: AwsSupportedServiceList,
-  }),
-).annotate({ identifier: "ApiFulfillmentOption" }) as any as S.Schema<ApiFulfillmentOption>;
 export interface CloudFormationFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
@@ -1307,31 +789,11 @@ export interface CloudFormationFulfillmentOption {
   shortDescription?: string;
   longDescription?: string;
 }
-export const CloudFormationFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionName: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    fulfillmentOptionVersion: S.optional(S.String),
-    releaseNotes: S.optional(S.String),
-    usageInstructions: S.optional(S.String),
-    availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    shortDescription: S.optional(S.String),
-    longDescription: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CloudFormationFulfillmentOption",
-}) as any as S.Schema<CloudFormationFulfillmentOption>;
 export interface ContainerOperatingSystem {
   operatingSystemFamilyName: string;
   operatingSystemName: string;
 }
-export const ContainerOperatingSystem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ operatingSystemFamilyName: S.String, operatingSystemName: S.String }),
-).annotate({ identifier: "ContainerOperatingSystem" }) as any as S.Schema<ContainerOperatingSystem>;
 export type ContainerOperatingSystemList = ContainerOperatingSystem[];
-export const ContainerOperatingSystemList = /*@__PURE__*/ S.Array(ContainerOperatingSystem);
 export interface ContainerFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
@@ -1343,30 +805,11 @@ export interface ContainerFulfillmentOption {
   releaseNotes?: string;
   usageInstructions?: string;
 }
-export const ContainerFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionName: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    fulfillmentOptionVersion: S.optional(S.String),
-    operatingSystems: S.optional(ContainerOperatingSystemList),
-    awsSupportedServices: S.optional(AwsSupportedServiceList),
-    releaseNotes: S.optional(S.String),
-    usageInstructions: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ContainerFulfillmentOption",
-}) as any as S.Schema<ContainerFulfillmentOption>;
 export interface HelmOperatingSystem {
   operatingSystemFamilyName: string;
   operatingSystemName: string;
 }
-export const HelmOperatingSystem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ operatingSystemFamilyName: S.String, operatingSystemName: S.String }),
-).annotate({ identifier: "HelmOperatingSystem" }) as any as S.Schema<HelmOperatingSystem>;
 export type HelmOperatingSystemList = HelmOperatingSystem[];
-export const HelmOperatingSystemList = /*@__PURE__*/ S.Array(HelmOperatingSystem);
 export interface HelmFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
@@ -1378,28 +821,11 @@ export interface HelmFulfillmentOption {
   awsSupportedServices?: AwsSupportedService[];
   usageInstructions?: string;
 }
-export const HelmFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionName: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    fulfillmentOptionVersion: S.optional(S.String),
-    operatingSystems: S.optional(HelmOperatingSystemList),
-    releaseNotes: S.optional(S.String),
-    awsSupportedServices: S.optional(AwsSupportedServiceList),
-    usageInstructions: S.optional(S.String),
-  }),
-).annotate({ identifier: "HelmFulfillmentOption" }) as any as S.Schema<HelmFulfillmentOption>;
 export interface EksAddOnOperatingSystem {
   operatingSystemFamilyName: string;
   operatingSystemName: string;
 }
-export const EksAddOnOperatingSystem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ operatingSystemFamilyName: S.String, operatingSystemName: S.String }),
-).annotate({ identifier: "EksAddOnOperatingSystem" }) as any as S.Schema<EksAddOnOperatingSystem>;
 export type EksAddOnOperatingSystemList = EksAddOnOperatingSystem[];
-export const EksAddOnOperatingSystemList = /*@__PURE__*/ S.Array(EksAddOnOperatingSystem);
 export interface EksAddOnFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
@@ -1411,21 +837,6 @@ export interface EksAddOnFulfillmentOption {
   usageInstructions?: string;
   awsSupportedServices?: AwsSupportedService[];
 }
-export const EksAddOnFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionName: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    fulfillmentOptionVersion: S.optional(S.String),
-    operatingSystems: S.optional(EksAddOnOperatingSystemList),
-    releaseNotes: S.optional(S.String),
-    usageInstructions: S.optional(S.String),
-    awsSupportedServices: S.optional(AwsSupportedServiceList),
-  }),
-).annotate({
-  identifier: "EksAddOnFulfillmentOption",
-}) as any as S.Schema<EksAddOnFulfillmentOption>;
 export interface Ec2ImageBuilderComponentFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
@@ -1437,70 +848,25 @@ export interface Ec2ImageBuilderComponentFulfillmentOption {
   releaseNotes?: string;
   usageInstructions?: string;
 }
-export const Ec2ImageBuilderComponentFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionName: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    fulfillmentOptionVersion: S.optional(S.String),
-    operatingSystems: S.optional(ContainerOperatingSystemList),
-    awsSupportedServices: S.optional(AwsSupportedServiceList),
-    releaseNotes: S.optional(S.String),
-    usageInstructions: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "Ec2ImageBuilderComponentFulfillmentOption",
-}) as any as S.Schema<Ec2ImageBuilderComponentFulfillmentOption>;
 export interface DataArtifact {
   description?: string;
   resourceArn?: string;
   resourceType: string;
   dataClassification: string;
 }
-export const DataArtifact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    resourceType: S.String,
-    dataClassification: S.String,
-  }),
-).annotate({ identifier: "DataArtifact" }) as any as S.Schema<DataArtifact>;
 export type DataArtifactList = DataArtifact[];
-export const DataArtifactList = /*@__PURE__*/ S.Array(DataArtifact);
 export interface DataExchangeFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
   dataArtifacts?: DataArtifact[];
 }
-export const DataExchangeFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    dataArtifacts: S.optional(DataArtifactList),
-  }),
-).annotate({
-  identifier: "DataExchangeFulfillmentOption",
-}) as any as S.Schema<DataExchangeFulfillmentOption>;
 export interface ProfessionalServicesFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
 }
-export const ProfessionalServicesFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-  }),
-).annotate({
-  identifier: "ProfessionalServicesFulfillmentOption",
-}) as any as S.Schema<ProfessionalServicesFulfillmentOption>;
 export type SaasQuickLaunchStatus = "ENABLED" | "DISABLED" | (string & {});
-export const SaasQuickLaunchStatus = S.String;
-
 export interface SaasFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
@@ -1511,32 +877,11 @@ export interface SaasFulfillmentOption {
   launchUrl?: string;
   quickLaunch: SaasQuickLaunchStatus;
 }
-export const SaasFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    fulfillmentUrl: S.optional(S.String),
-    usageInstructions: S.optional(S.String),
-    availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    launchUrl: S.optional(S.String),
-    quickLaunch: SaasQuickLaunchStatus,
-  }),
-).annotate({ identifier: "SaasFulfillmentOption" }) as any as S.Schema<SaasFulfillmentOption>;
 export interface SageMakerAlgorithmRecommendation {
   recommendedBatchTransformInstanceType: string;
   recommendedRealtimeInferenceInstanceType?: string;
   recommendedTrainingInstanceType: string;
 }
-export const SageMakerAlgorithmRecommendation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendedBatchTransformInstanceType: S.String,
-    recommendedRealtimeInferenceInstanceType: S.optional(S.String),
-    recommendedTrainingInstanceType: S.String,
-  }),
-).annotate({
-  identifier: "SageMakerAlgorithmRecommendation",
-}) as any as S.Schema<SageMakerAlgorithmRecommendation>;
 export interface SageMakerAlgorithmFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
@@ -1546,35 +891,12 @@ export interface SageMakerAlgorithmFulfillmentOption {
   usageInstructions?: string;
   recommendation?: SageMakerAlgorithmRecommendation;
 }
-export const SageMakerAlgorithmFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    fulfillmentOptionVersion: S.optional(S.String),
-    releaseNotes: S.optional(S.String),
-    usageInstructions: S.optional(S.String),
-    recommendation: S.optional(SageMakerAlgorithmRecommendation),
-  }),
-).annotate({
-  identifier: "SageMakerAlgorithmFulfillmentOption",
-}) as any as S.Schema<SageMakerAlgorithmFulfillmentOption>;
 export interface SageMakerModelRecommendation {
   recommendedBatchTransformInstanceType: string;
   recommendedRealtimeInferenceInstanceType?: string;
 }
-export const SageMakerModelRecommendation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendedBatchTransformInstanceType: S.String,
-    recommendedRealtimeInferenceInstanceType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SageMakerModelRecommendation",
-}) as any as S.Schema<SageMakerModelRecommendation>;
 export type SageMakerModelContentTypeList = string[];
-export const SageMakerModelContentTypeList = /*@__PURE__*/ S.Array(S.String);
 export type SageMakerModelResponseMimeTypeList = string[];
-export const SageMakerModelResponseMimeTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface SageMakerModelFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
@@ -1586,21 +908,6 @@ export interface SageMakerModelFulfillmentOption {
   supportedContentTypes?: string[];
   supportedResponseMimeTypes?: string[];
 }
-export const SageMakerModelFulfillmentOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fulfillmentOptionId: S.String,
-    fulfillmentOptionType: FulfillmentOptionType,
-    fulfillmentOptionDisplayName: S.String,
-    fulfillmentOptionVersion: S.optional(S.String),
-    releaseNotes: S.optional(S.String),
-    usageInstructions: S.optional(S.String),
-    recommendation: S.optional(SageMakerModelRecommendation),
-    supportedContentTypes: S.optional(SageMakerModelContentTypeList),
-    supportedResponseMimeTypes: S.optional(SageMakerModelResponseMimeTypeList),
-  }),
-).annotate({
-  identifier: "SageMakerModelFulfillmentOption",
-}) as any as S.Schema<SageMakerModelFulfillmentOption>;
 export type FulfillmentOption =
   | {
       amazonMachineImageFulfillmentOption: AmazonMachineImageFulfillmentOption;
@@ -1770,38 +1077,12 @@ export type FulfillmentOption =
       sageMakerAlgorithmFulfillmentOption?: never;
       sageMakerModelFulfillmentOption: SageMakerModelFulfillmentOption;
     };
-export const FulfillmentOption = /*@__PURE__*/ S.Union([
-  S.Struct({ amazonMachineImageFulfillmentOption: AmazonMachineImageFulfillmentOption }),
-  S.Struct({ apiFulfillmentOption: ApiFulfillmentOption }),
-  S.Struct({ cloudFormationFulfillmentOption: CloudFormationFulfillmentOption }),
-  S.Struct({ containerFulfillmentOption: ContainerFulfillmentOption }),
-  S.Struct({ helmFulfillmentOption: HelmFulfillmentOption }),
-  S.Struct({ eksAddOnFulfillmentOption: EksAddOnFulfillmentOption }),
-  S.Struct({
-    ec2ImageBuilderComponentFulfillmentOption: Ec2ImageBuilderComponentFulfillmentOption,
-  }),
-  S.Struct({ dataExchangeFulfillmentOption: DataExchangeFulfillmentOption }),
-  S.Struct({ professionalServicesFulfillmentOption: ProfessionalServicesFulfillmentOption }),
-  S.Struct({ saasFulfillmentOption: SaasFulfillmentOption }),
-  S.Struct({ sageMakerAlgorithmFulfillmentOption: SageMakerAlgorithmFulfillmentOption }),
-  S.Struct({ sageMakerModelFulfillmentOption: SageMakerModelFulfillmentOption }),
-]);
 export type FulfillmentOptionsList = FulfillmentOption[];
-export const FulfillmentOptionsList = /*@__PURE__*/ S.Array(FulfillmentOption);
 export interface ListFulfillmentOptionsOutput {
   locale?: string;
   fulfillmentOptions: FulfillmentOption[];
   nextToken?: string;
 }
-export const ListFulfillmentOptionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    fulfillmentOptions: FulfillmentOptionsList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListFulfillmentOptionsOutput",
-}) as any as S.Schema<ListFulfillmentOptionsOutput>;
 export type PurchaseOptionFilterType =
   | "PRODUCT_ID"
   | "SELLER_OF_RECORD_PROFILE_ID"
@@ -1809,20 +1090,13 @@ export type PurchaseOptionFilterType =
   | "VISIBILITY_SCOPE"
   | "AVAILABILITY_STATUS"
   | (string & {});
-export const PurchaseOptionFilterType = S.String;
-
 export type PurchaseOptionFilterValue = string;
 export type PurchaseOptionFilterValueList = string[];
-export const PurchaseOptionFilterValueList = /*@__PURE__*/ S.Array(S.String);
 export interface PurchaseOptionFilter {
   filterType: PurchaseOptionFilterType;
   filterValues: string[];
 }
-export const PurchaseOptionFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ filterType: PurchaseOptionFilterType, filterValues: PurchaseOptionFilterValueList }),
-).annotate({ identifier: "PurchaseOptionFilter" }) as any as S.Schema<PurchaseOptionFilter>;
 export type PurchaseOptionFilterList = PurchaseOptionFilter[];
-export const PurchaseOptionFilterList = /*@__PURE__*/ S.Array(PurchaseOptionFilter);
 export type MaxResults = number;
 export interface ListPurchaseOptionsInput {
   locale?: string;
@@ -1830,44 +1104,13 @@ export interface ListPurchaseOptionsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListPurchaseOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    filters: S.optional(PurchaseOptionFilterList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2026-02-05/listPurchaseOptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListPurchaseOptionsInput" }) as any as S.Schema<ListPurchaseOptionsInput>;
 export type PurchaseOptionType = "OFFER" | "OFFERSET" | (string & {});
-export const PurchaseOptionType = S.String;
-
 export interface PurchaseOptionAssociatedEntity {
   product: ProductInformation;
   offer: OfferInformation;
   offerSet?: OfferSetInformation;
 }
-export const PurchaseOptionAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    product: ProductInformation,
-    offer: OfferInformation,
-    offerSet: S.optional(OfferSetInformation),
-  }),
-).annotate({
-  identifier: "PurchaseOptionAssociatedEntity",
-}) as any as S.Schema<PurchaseOptionAssociatedEntity>;
 export type PurchaseOptionAssociatedEntityList = PurchaseOptionAssociatedEntity[];
-export const PurchaseOptionAssociatedEntityList = /*@__PURE__*/ S.Array(
-  PurchaseOptionAssociatedEntity,
-);
 export interface PurchaseOptionSummary {
   purchaseOptionId: string;
   catalog: string;
@@ -1879,33 +1122,11 @@ export interface PurchaseOptionSummary {
   badges?: PurchaseOptionBadge[];
   associatedEntities: PurchaseOptionAssociatedEntity[];
 }
-export const PurchaseOptionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    purchaseOptionId: S.String,
-    catalog: S.String,
-    purchaseOptionType: PurchaseOptionType,
-    purchaseOptionName: S.optional(S.String),
-    availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    sellerOfRecord: SellerInformation,
-    badges: S.optional(PurchaseOptionBadgeList),
-    associatedEntities: PurchaseOptionAssociatedEntityList,
-  }),
-).annotate({ identifier: "PurchaseOptionSummary" }) as any as S.Schema<PurchaseOptionSummary>;
 export type PurchaseOptionSummaryList = PurchaseOptionSummary[];
-export const PurchaseOptionSummaryList = /*@__PURE__*/ S.Array(PurchaseOptionSummary);
 export interface ListPurchaseOptionsOutput {
   purchaseOptions?: PurchaseOptionSummary[];
   nextToken?: string;
 }
-export const ListPurchaseOptionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    purchaseOptions: S.optional(PurchaseOptionSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListPurchaseOptionsOutput",
-}) as any as S.Schema<ListPurchaseOptionsOutput>;
 export type SearchText = string;
 export type SearchFilterType =
   | "MIN_AVERAGE_CUSTOMER_RATING"
@@ -1918,20 +1139,13 @@ export type SearchFilterType =
   | "DEPLOYED_ON_AWS"
   | "NUMBER_OF_PRODUCTS"
   | (string & {});
-export const SearchFilterType = S.String;
-
 export type SearchFilterValue = string;
 export type SearchFilterValueList = string[];
-export const SearchFilterValueList = /*@__PURE__*/ S.Array(S.String);
 export interface SearchFilter {
   filterType: SearchFilterType;
   filterValues: string[];
 }
-export const SearchFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ filterType: SearchFilterType, filterValues: SearchFilterValueList }),
-).annotate({ identifier: "SearchFilter" }) as any as S.Schema<SearchFilter>;
 export type SearchFilterList = SearchFilter[];
-export const SearchFilterList = /*@__PURE__*/ S.Array(SearchFilter);
 export type SearchFacetType =
   | "AVERAGE_CUSTOMER_RATING"
   | "CATEGORY"
@@ -1942,10 +1156,7 @@ export type SearchFacetType =
   | "DEPLOYED_ON_AWS"
   | "NUMBER_OF_PRODUCTS"
   | (string & {});
-export const SearchFacetType = S.String;
-
 export type FacetTypeList = SearchFacetType[];
-export const FacetTypeList = /*@__PURE__*/ S.Array(SearchFacetType);
 export interface SearchFacetsInput {
   locale?: string;
   searchText?: string;
@@ -1953,63 +1164,21 @@ export interface SearchFacetsInput {
   facetTypes?: SearchFacetType[];
   nextToken?: string;
 }
-export const SearchFacetsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    searchText: S.optional(S.String),
-    filters: S.optional(SearchFilterList),
-    facetTypes: S.optional(FacetTypeList),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2026-02-05/searchFacets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "SearchFacetsInput" }) as any as S.Schema<SearchFacetsInput>;
 export interface ListingFacet {
   value: string;
   displayName: string;
   parent?: string;
   count: number;
 }
-export const ListingFacet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.String,
-    displayName: S.String,
-    parent: S.optional(S.String),
-    count: S.Number,
-  }),
-).annotate({ identifier: "ListingFacet" }) as any as S.Schema<ListingFacet>;
 export type ListingFacetList = ListingFacet[];
-export const ListingFacetList = /*@__PURE__*/ S.Array(ListingFacet);
 export type TypeToFacetMap = { [key in SearchFacetType]?: ListingFacet[] };
-export const TypeToFacetMap = /*@__PURE__*/ S.Record(
-  SearchFacetType,
-  ListingFacetList.pipe(S.optional),
-);
 export interface SearchFacetsOutput {
   totalResults: number;
   listingFacets: { [key: string]: ListingFacet[] | undefined };
   nextToken?: string;
 }
-export const SearchFacetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    totalResults: S.Number,
-    listingFacets: TypeToFacetMap,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "SearchFacetsOutput" }) as any as S.Schema<SearchFacetsOutput>;
 export type SearchListingsSortBy = "RELEVANCE" | "AVERAGE_CUSTOMER_RATING" | (string & {});
-export const SearchListingsSortBy = S.String;
-
 export type SearchListingsSortOrder = "DESCENDING" | "ASCENDING" | (string & {});
-export const SearchListingsSortOrder = S.String;
-
 export interface SearchListingsInput {
   locale?: string;
   searchText?: string;
@@ -2019,38 +1188,10 @@ export interface SearchListingsInput {
   sortOrder?: SearchListingsSortOrder;
   nextToken?: string;
 }
-export const SearchListingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    locale: S.optional(S.String),
-    searchText: S.optional(S.String),
-    filters: S.optional(SearchFilterList),
-    maxResults: S.optional(S.Number),
-    sortBy: S.optional(SearchListingsSortBy),
-    sortOrder: S.optional(SearchListingsSortOrder),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2026-02-05/searchListings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "SearchListingsInput" }) as any as S.Schema<SearchListingsInput>;
 export interface ListingSummaryAssociatedEntity {
   product?: ProductInformation;
 }
-export const ListingSummaryAssociatedEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ product: S.optional(ProductInformation) }),
-).annotate({
-  identifier: "ListingSummaryAssociatedEntity",
-}) as any as S.Schema<ListingSummaryAssociatedEntity>;
 export type ListingSummaryAssociatedEntityList = ListingSummaryAssociatedEntity[];
-export const ListingSummaryAssociatedEntityList = /*@__PURE__*/ S.Array(
-  ListingSummaryAssociatedEntity,
-);
 export interface ListingSummary {
   listingId: string;
   listingName: string;
@@ -2066,37 +1207,12 @@ export interface ListingSummary {
   pricingUnits: PricingUnit[];
   associatedEntities: ListingSummaryAssociatedEntity[];
 }
-export const ListingSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    listingId: S.String,
-    listingName: S.String,
-    publisher: SellerInformation,
-    fulfillmentOptionSummaries: FulfillmentOptionSummaryList,
-    catalog: S.String,
-    shortDescription: S.String,
-    logoThumbnailUrl: S.String,
-    categories: CategoryList,
-    badges: ListingBadgeList,
-    reviewSummary: ReviewSummary,
-    pricingModels: PricingModelList,
-    pricingUnits: PricingUnitList,
-    associatedEntities: ListingSummaryAssociatedEntityList,
-  }),
-).annotate({ identifier: "ListingSummary" }) as any as S.Schema<ListingSummary>;
 export type ListingSummaryList = ListingSummary[];
-export const ListingSummaryList = /*@__PURE__*/ S.Array(ListingSummary);
 export interface SearchListingsOutput {
   totalResults: number;
   listingSummaries: ListingSummary[];
   nextToken?: string;
 }
-export const SearchListingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    totalResults: S.Number,
-    listingSummaries: ListingSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "SearchListingsOutput" }) as any as S.Schema<SearchListingsOutput>;
 export type ExceptionMessage = string;
 export type GetListingError = ResourceNotFoundException | CommonErrors;
 /**
@@ -2108,8 +1224,8 @@ export const getListing: API.OperationMethod<
   GetListingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetListingInput,
-  output: GetListingOutput,
+  input: __S(0, __c0, 0) as any as S.Schema<GetListingInput>,
+  output: __S(6, __c0, 6) as any as S.Schema<GetListingOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2126,8 +1242,8 @@ export const getOffer: API.OperationMethod<
   GetOfferError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOfferInput,
-  output: GetOfferOutput,
+  input: __S(288, __c9, 0) as any as S.Schema<GetOfferInput>,
+  output: __S(291, __c9, 3) as any as S.Schema<GetOfferOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2144,8 +1260,8 @@ export const getOfferSet: API.OperationMethod<
   GetOfferSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOfferSetInput,
-  output: GetOfferSetOutput,
+  input: __S(352, __c11, 0) as any as S.Schema<GetOfferSetInput>,
+  output: __S(355, __c11, 3) as any as S.Schema<GetOfferSetOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2163,8 +1279,8 @@ export const getOfferTerms: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OfferTerm
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetOfferTermsInput,
-  output: GetOfferTermsOutput,
+  input: __S(384, __c12, 0) as any as S.Schema<GetOfferTermsInput>,
+  output: __S(424, __c13, 8) as any as S.Schema<GetOfferTermsOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2187,8 +1303,8 @@ export const getProduct: API.OperationMethod<
   GetProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProductInput,
-  output: GetProductOutput,
+  input: __S(448, __c14, 0) as any as S.Schema<GetProductInput>,
+  output: __S(449, __c14, 1) as any as S.Schema<GetProductOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2206,8 +1322,8 @@ export const listFulfillmentOptions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FulfillmentOption
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFulfillmentOptionsInput,
-  output: ListFulfillmentOptionsOutput,
+  input: __S(480, __c15, 0) as any as S.Schema<ListFulfillmentOptionsInput>,
+  output: __S(508, __c15, 28) as any as S.Schema<ListFulfillmentOptionsOutput>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2233,8 +1349,8 @@ export const listPurchaseOptions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PurchaseOptionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPurchaseOptionsInput,
-  output: ListPurchaseOptionsOutput,
+  input: __S(512, __c16, 0) as any as S.Schema<ListPurchaseOptionsInput>,
+  output: __S(517, __c16, 5) as any as S.Schema<ListPurchaseOptionsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2257,8 +1373,8 @@ export const searchFacets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchFacetsInput,
-  output: SearchFacetsOutput,
+  input: __S(577, __c18, 1) as any as S.Schema<SearchFacetsInput>,
+  output: __S(581, __c18, 5) as any as S.Schema<SearchFacetsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2281,8 +1397,8 @@ export const searchListings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListingSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchListingsInput,
-  output: SearchListingsOutput,
+  input: __S(608, __c19, 0) as any as S.Schema<SearchListingsInput>,
+  output: __S(613, __c19, 5) as any as S.Schema<SearchListingsOutput>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2294,3 +1410,1013 @@ export const searchListings: API.PaginatedOperationMethod<
     pageSize: "maxResults",
   } as const,
 })) as any;
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ locale: S.optional(S.String), listingId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2026-02-05/getListing" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetListingInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ product: S.optional(__S(64, __c2, 0)), offer: S.optional(__S(128, __c4, 0)) }),
+      ).annotate({ identifier: "ListingAssociatedEntity" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ description: S.String, displayName: S.String, value: S.String }),
+      ).annotate({ identifier: "UseCase" });
+    case 4:
+      return S.suspend(() => S.Struct({ useCase: __S(3, __c0, 3) })).annotate({
+        identifier: "UseCaseEntry",
+      });
+    case 5:
+      return S.Array(__S(4, __c0, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          associatedEntities: __S(2, __c0, 2),
+          badges: __S(66, __c2, 2),
+          catalog: S.String,
+          categories: __S(225, __c7, 1),
+          fulfillmentOptionSummaries: __S(227, __c7, 3),
+          highlights: __S(192, __c6, 0),
+          integrationGuide: S.optional(S.String),
+          listingId: S.String,
+          listingName: S.String,
+          logoThumbnailUrl: S.String,
+          longDescription: S.String,
+          pricingModels: __S(256, __c8, 0),
+          pricingUnits: __S(258, __c8, 2),
+          promotionalMedia: __S(163, __c5, 3),
+          publisher: __S(32, __c1, 0),
+          resources: __S(165, __c5, 5),
+          reviewSummary: S.optional(__S(261, __c8, 5)),
+          sellerEngagements: __S(167, __c5, 7),
+          shortDescription: S.String,
+          useCases: __S(5, __c0, 5),
+        }),
+      ).annotate({ identifier: "GetListingOutput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ sellerProfileId: S.String, displayName: S.String }),
+      ).annotate({ identifier: "SellerInformation" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ productId: S.String, productName: S.String, manufacturer: __S(32, __c1, 0) }),
+      ).annotate({ identifier: "ProductInformation" });
+    case 1:
+      return S.suspend(() => S.Struct({ displayName: S.String, badgeType: S.String })).annotate({
+        identifier: "ListingBadge",
+      });
+    case 2:
+      return S.Array(__S(65, __c2, 1));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ pricingModelType: S.String, displayName: S.String }),
+      ).annotate({ identifier: "PricingModel" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          offerId: S.String,
+          offerName: S.optional(S.String),
+          sellerOfRecord: __S(32, __c1, 0),
+        }),
+      ).annotate({ identifier: "OfferInformation" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ title: S.String, url: S.String, description: S.optional(S.String) }),
+      ).annotate({ identifier: "PromotionalEmbeddedImage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.String,
+          url: S.String,
+          preview: S.String,
+          thumbnail: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PromotionalEmbeddedVideo" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ embeddedImage: __S(160, __c5, 0) }),
+        /*@__PURE__*/ S.Struct({ embeddedVideo: __S(161, __c5, 1) }),
+      ]);
+    case 3:
+      return S.Array(__S(162, __c5, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          contentType: S.String,
+          value: S.String,
+          displayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Resource" });
+    case 5:
+      return S.Array(__S(164, __c5, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ engagementType: S.String, contentType: S.String, value: S.String }),
+      ).annotate({ identifier: "SellerEngagement" });
+    case 7:
+      return S.Array(__S(166, __c5, 6));
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ categoryId: S.String, displayName: S.String })).annotate({
+        identifier: "Category",
+      });
+    case 1:
+      return S.Array(__S(224, __c7, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ fulfillmentOptionType: S.String, displayName: S.String }),
+      ).annotate({ identifier: "FulfillmentOptionSummary" });
+    case 3:
+      return S.Array(__S(226, __c7, 2));
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(96, __c3, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ pricingUnitType: S.String, displayName: S.String }),
+      ).annotate({ identifier: "PricingUnit" });
+    case 2:
+      return S.Array(__S(257, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          sourceName: S.String,
+          sourceId: S.String,
+          sourceUrl: S.optional(S.String),
+          averageRating: S.String,
+          totalReviews: S.Number,
+        }),
+      ).annotate({ identifier: "ReviewSourceSummary" });
+    case 4:
+      return S.Array(__S(259, __c8, 3));
+    case 5:
+      return S.suspend(() => S.Struct({ reviewSourceSummaries: __S(260, __c8, 4) })).annotate({
+        identifier: "ReviewSummary",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ locale: S.optional(S.String), offerId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2026-02-05/getOffer" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetOfferInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ product: __S(64, __c2, 0), offerSet: S.optional(__S(320, __c10, 0)) }),
+      ).annotate({ identifier: "OfferAssociatedEntity" });
+    case 2:
+      return S.Array(__S(289, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          offerId: S.String,
+          catalog: S.String,
+          offerName: S.optional(S.String),
+          expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          sellerOfRecord: __S(32, __c1, 0),
+          associatedEntities: __S(290, __c9, 2),
+          agreementProposalId: S.String,
+          replacementAgreementId: S.optional(S.String),
+          pricingModel: __S(96, __c3, 0),
+          badges: __S(66, __c2, 2),
+        }),
+      ).annotate({ identifier: "GetOfferOutput" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ offerSetId: S.String, sellerOfRecord: __S(32, __c1, 0) }),
+      ).annotate({ identifier: "OfferSetInformation" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ locale: S.optional(S.String), offerSetId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2026-02-05/getOfferSet" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetOfferSetInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ product: __S(64, __c2, 0), offer: __S(128, __c4, 0) }),
+      ).annotate({ identifier: "OfferSetAssociatedEntity" });
+    case 2:
+      return S.Array(__S(353, __c11, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          offerSetId: S.String,
+          catalog: S.String,
+          offerSetName: S.optional(S.String),
+          availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          buyerNotes: S.optional(S.String),
+          sellerOfRecord: __S(32, __c1, 0),
+          badges: __S(66, __c2, 2),
+          associatedEntities: __S(354, __c11, 2),
+        }),
+      ).annotate({ identifier: "GetOfferSetOutput" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          offerId: S.String,
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2026-02-05/getOfferTerms" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetOfferTermsInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ id: S.String, type: S.String })).annotate({
+        identifier: "ByolPricingTerm",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ type: S.String, value: S.String })).annotate({
+        identifier: "Selector",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ multipleDimensionSelection: S.String, quantityConfiguration: S.String }),
+      ).annotate({ identifier: "Constraints" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ labelType: S.String, labelValue: S.String, displayName: S.optional(S.String) }),
+      ).annotate({ identifier: "DimensionLabel" });
+    case 5:
+      return S.Array(__S(388, __c12, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          dimensionKey: S.String,
+          displayName: S.String,
+          description: S.optional(S.String),
+          dimensionLabels: S.optional(__S(389, __c12, 5)),
+          unit: S.String,
+          price: S.String,
+        }),
+      ).annotate({ identifier: "RateCardItem" });
+    case 7:
+      return S.Array(__S(390, __c12, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          selector: __S(386, __c12, 2),
+          constraints: __S(387, __c12, 3),
+          rateCard: __S(391, __c12, 7),
+        }),
+      ).annotate({ identifier: "ConfigurableUpfrontRateCardItem" });
+    case 9:
+      return S.Array(__S(392, __c12, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          currencyCode: S.String,
+          rateCards: S.optional(__S(393, __c12, 9)),
+        }),
+      ).annotate({ identifier: "ConfigurableUpfrontPricingTerm" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          dimensionKey: S.String,
+          displayName: S.String,
+          description: S.optional(S.String),
+          dimensionLabels: S.optional(__S(389, __c12, 5)),
+          unit: S.String,
+          maxQuantity: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GrantItem" });
+    case 12:
+      return S.Array(__S(395, __c12, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          currencyCode: S.String,
+          duration: S.optional(S.String),
+          price: S.String,
+          grants: __S(396, __c12, 12),
+        }),
+      ).annotate({ identifier: "FixedUpfrontPricingTerm" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          duration: S.optional(S.String),
+          grants: __S(396, __c12, 12),
+        }),
+      ).annotate({ identifier: "FreeTrialPricingTerm" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({ type: S.String, url: S.String, version: S.optional(S.String) }),
+      ).annotate({ identifier: "DocumentItem" });
+    case 16:
+      return S.Array(__S(399, __c12, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, type: S.String, documents: __S(400, __c12, 16) }),
+      ).annotate({ identifier: "LegalTerm" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          chargeDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          chargeAmount: S.String,
+        }),
+      ).annotate({ identifier: "ScheduleItem" });
+    case 19:
+      return S.Array(__S(402, __c12, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          currencyCode: S.String,
+          schedule: __S(403, __c12, 19),
+        }),
+      ).annotate({ identifier: "PaymentScheduleTerm" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          currencyCode: S.String,
+          billingPeriod: S.String,
+          price: S.String,
+        }),
+      ).annotate({ identifier: "RecurringPaymentTerm" });
+    case 22:
+      return S.suspend(() => S.Struct({ percentageValue: S.String })).annotate({
+        identifier: "FixedPercentage",
+      });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({ minimumValue: S.String, maximumValue: S.String, defaultValue: S.String }),
+      ).annotate({ identifier: "PercentageRange" });
+    case 24:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ fixedPercentage: __S(406, __c12, 22) }),
+        /*@__PURE__*/ S.Struct({ percentageRange: __S(407, __c12, 23) }),
+      ]);
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          chargeDateOffset: S.String,
+          chargePercentage: S.String,
+          dayOfMonth: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PaymentScheduleEntry" });
+    case 26:
+      return S.Array(__S(409, __c12, 25));
+    case 27:
+      return S.suspend(() => S.Struct({ schedule: __S(410, __c12, 26) })).annotate({
+        identifier: "PaymentScheduleTermTemplate",
+      });
+    case 28:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ paymentScheduleTermTemplate: __S(411, __c12, 27) }),
+      ]);
+    case 29:
+      return S.Array(__S(412, __c12, 28));
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          maxRenewals: S.optional(S.Number),
+          lockoutPeriod: S.optional(S.String),
+          adjustmentDeadline: S.optional(S.String),
+          priceIncrease: S.optional(__S(408, __c12, 24)),
+          termTemplates: S.optional(__S(413, __c12, 29)),
+        }),
+      ).annotate({ identifier: "RenewalTerm" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, type: S.String, refundPolicy: S.String }),
+      ).annotate({ identifier: "SupportTerm" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ rateCard: __S(391, __c12, 7) })).annotate({
+        identifier: "UsageBasedRateCardItem",
+      });
+    case 1:
+      return S.Array(__S(416, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          currencyCode: S.String,
+          rateCards: __S(417, __c13, 1),
+        }),
+      ).annotate({ identifier: "UsageBasedPricingTerm" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          agreementDuration: S.optional(S.String),
+          agreementEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          agreementStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ValidityTerm" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          currencyCode: S.String,
+          maxTotalChargeAmount: S.String,
+        }),
+      ).annotate({ identifier: "VariablePaymentTerm" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, type: S.String, paymentDuePeriod: S.String }),
+      ).annotate({ identifier: "NetPaymentTerm" });
+    case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ byolPricingTerm: __S(385, __c12, 1) }),
+        /*@__PURE__*/ S.Struct({ configurableUpfrontPricingTerm: __S(394, __c12, 10) }),
+        /*@__PURE__*/ S.Struct({ fixedUpfrontPricingTerm: __S(397, __c12, 13) }),
+        /*@__PURE__*/ S.Struct({ freeTrialPricingTerm: __S(398, __c12, 14) }),
+        /*@__PURE__*/ S.Struct({ legalTerm: __S(401, __c12, 17) }),
+        /*@__PURE__*/ S.Struct({ paymentScheduleTerm: __S(404, __c12, 20) }),
+        /*@__PURE__*/ S.Struct({ recurringPaymentTerm: __S(405, __c12, 21) }),
+        /*@__PURE__*/ S.Struct({ renewalTerm: __S(414, __c12, 30) }),
+        /*@__PURE__*/ S.Struct({ supportTerm: __S(415, __c12, 31) }),
+        /*@__PURE__*/ S.Struct({ usageBasedPricingTerm: __S(418, __c13, 2) }),
+        /*@__PURE__*/ S.Struct({ validityTerm: __S(419, __c13, 3) }),
+        /*@__PURE__*/ S.Struct({ variablePaymentTerm: __S(420, __c13, 4) }),
+        /*@__PURE__*/ S.Struct({ netPaymentTerm: __S(421, __c13, 5) }),
+      ]);
+    case 7:
+      return S.Array(__S(422, __c13, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          offerTerms: __S(423, __c13, 7),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetOfferTermsOutput" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ locale: S.optional(S.String), productId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2026-02-05/getProduct" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetProductInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          productId: S.String,
+          catalog: S.String,
+          productName: S.String,
+          manufacturer: __S(32, __c1, 0),
+          deployedOnAws: S.String,
+          shortDescription: S.String,
+          longDescription: S.String,
+          logoThumbnailUrl: S.String,
+          fulfillmentOptionSummaries: __S(227, __c7, 3),
+          categories: __S(225, __c7, 1),
+          highlights: __S(192, __c6, 0),
+          promotionalMedia: __S(163, __c5, 3),
+          resources: __S(165, __c5, 5),
+          sellerEngagements: __S(167, __c5, 7),
+          listingId: S.String,
+        }),
+      ).annotate({ identifier: "GetProductOutput" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          productId: S.String,
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2026-02-05/listFulfillmentOptions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListFulfillmentOptionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          operatingSystemFamilyName: S.String,
+          operatingSystemName: S.String,
+          operatingSystemVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AmazonMachineImageOperatingSystem" });
+    case 2:
+      return S.Array(__S(481, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          protocol: S.String,
+          fromPort: S.Number,
+          toPort: S.Number,
+          cidrIpAddresses: __S(192, __c6, 0),
+        }),
+      ).annotate({ identifier: "AmazonMachineImageSecurityGroup" });
+    case 4:
+      return S.Array(__S(483, __c15, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ instanceType: S.String, securityGroups: S.optional(__S(484, __c15, 4)) }),
+      ).annotate({ identifier: "AmazonMachineImageRecommendation" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ volumeTypes: __S(192, __c6, 0), iops: S.optional(S.Number) }),
+      ).annotate({ identifier: "AmazonMachineImageEbsVolume" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionName: S.String,
+          fulfillmentOptionVersion: S.optional(S.String),
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          operatingSystems: __S(482, __c15, 2),
+          recommendation: S.optional(__S(485, __c15, 5)),
+          releaseNotes: S.optional(S.String),
+          usageInstructions: S.optional(S.String),
+          availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          accessUrlTemplate: S.optional(S.String),
+          architecture: S.String,
+          amiAlias: S.optional(S.String),
+          ebsVolume: S.optional(__S(486, __c15, 6)),
+          shortDescription: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AmazonMachineImageFulfillmentOption" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ supportedServiceType: S.String, displayName: S.String, description: S.String }),
+      ).annotate({ identifier: "AwsSupportedService" });
+    case 9:
+      return S.Array(__S(488, __c15, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          usageInstructions: S.optional(S.String),
+          awsSupportedServices: __S(489, __c15, 9),
+        }),
+      ).annotate({ identifier: "ApiFulfillmentOption" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionName: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          fulfillmentOptionVersion: S.optional(S.String),
+          releaseNotes: S.optional(S.String),
+          usageInstructions: S.optional(S.String),
+          availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          shortDescription: S.optional(S.String),
+          longDescription: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudFormationFulfillmentOption" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({ operatingSystemFamilyName: S.String, operatingSystemName: S.String }),
+      ).annotate({ identifier: "ContainerOperatingSystem" });
+    case 13:
+      return S.Array(__S(492, __c15, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionName: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          fulfillmentOptionVersion: S.optional(S.String),
+          operatingSystems: S.optional(__S(493, __c15, 13)),
+          awsSupportedServices: S.optional(__S(489, __c15, 9)),
+          releaseNotes: S.optional(S.String),
+          usageInstructions: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerFulfillmentOption" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionName: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          fulfillmentOptionVersion: S.optional(S.String),
+          operatingSystems: S.optional(__S(493, __c15, 13)),
+          releaseNotes: S.optional(S.String),
+          awsSupportedServices: S.optional(__S(489, __c15, 9)),
+          usageInstructions: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HelmFulfillmentOption" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionName: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          fulfillmentOptionVersion: S.optional(S.String),
+          operatingSystems: S.optional(__S(493, __c15, 13)),
+          releaseNotes: S.optional(S.String),
+          usageInstructions: S.optional(S.String),
+          awsSupportedServices: S.optional(__S(489, __c15, 9)),
+        }),
+      ).annotate({ identifier: "EksAddOnFulfillmentOption" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          resourceArn: S.optional(S.String),
+          resourceType: S.String,
+          dataClassification: S.String,
+        }),
+      ).annotate({ identifier: "DataArtifact" });
+    case 18:
+      return S.Array(__S(497, __c15, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          dataArtifacts: S.optional(__S(498, __c15, 18)),
+        }),
+      ).annotate({ identifier: "DataExchangeFulfillmentOption" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+        }),
+      ).annotate({ identifier: "ProfessionalServicesFulfillmentOption" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          fulfillmentUrl: S.optional(S.String),
+          usageInstructions: S.optional(S.String),
+          availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          launchUrl: S.optional(S.String),
+          quickLaunch: S.String,
+        }),
+      ).annotate({ identifier: "SaasFulfillmentOption" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          recommendedBatchTransformInstanceType: S.String,
+          recommendedRealtimeInferenceInstanceType: S.optional(S.String),
+          recommendedTrainingInstanceType: S.String,
+        }),
+      ).annotate({ identifier: "SageMakerAlgorithmRecommendation" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          fulfillmentOptionVersion: S.optional(S.String),
+          releaseNotes: S.optional(S.String),
+          usageInstructions: S.optional(S.String),
+          recommendation: S.optional(__S(502, __c15, 22)),
+        }),
+      ).annotate({ identifier: "SageMakerAlgorithmFulfillmentOption" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          recommendedBatchTransformInstanceType: S.String,
+          recommendedRealtimeInferenceInstanceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SageMakerModelRecommendation" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          fulfillmentOptionId: S.String,
+          fulfillmentOptionType: S.String,
+          fulfillmentOptionDisplayName: S.String,
+          fulfillmentOptionVersion: S.optional(S.String),
+          releaseNotes: S.optional(S.String),
+          usageInstructions: S.optional(S.String),
+          recommendation: S.optional(__S(504, __c15, 24)),
+          supportedContentTypes: S.optional(__S(192, __c6, 0)),
+          supportedResponseMimeTypes: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "SageMakerModelFulfillmentOption" });
+    case 26:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ amazonMachineImageFulfillmentOption: __S(487, __c15, 7) }),
+        /*@__PURE__*/ S.Struct({ apiFulfillmentOption: __S(490, __c15, 10) }),
+        /*@__PURE__*/ S.Struct({ cloudFormationFulfillmentOption: __S(491, __c15, 11) }),
+        /*@__PURE__*/ S.Struct({ containerFulfillmentOption: __S(494, __c15, 14) }),
+        /*@__PURE__*/ S.Struct({ helmFulfillmentOption: __S(495, __c15, 15) }),
+        /*@__PURE__*/ S.Struct({ eksAddOnFulfillmentOption: __S(496, __c15, 16) }),
+        /*@__PURE__*/ S.Struct({ ec2ImageBuilderComponentFulfillmentOption: __S(494, __c15, 14) }),
+        /*@__PURE__*/ S.Struct({ dataExchangeFulfillmentOption: __S(499, __c15, 19) }),
+        /*@__PURE__*/ S.Struct({ professionalServicesFulfillmentOption: __S(500, __c15, 20) }),
+        /*@__PURE__*/ S.Struct({ saasFulfillmentOption: __S(501, __c15, 21) }),
+        /*@__PURE__*/ S.Struct({ sageMakerAlgorithmFulfillmentOption: __S(503, __c15, 23) }),
+        /*@__PURE__*/ S.Struct({ sageMakerModelFulfillmentOption: __S(505, __c15, 25) }),
+      ]);
+    case 27:
+      return S.Array(__S(506, __c15, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          fulfillmentOptions: __S(507, __c15, 27),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListFulfillmentOptionsOutput" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          filters: S.optional(__S(545, __c17, 1)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2026-02-05/listPurchaseOptions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListPurchaseOptionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          product: __S(64, __c2, 0),
+          offer: __S(128, __c4, 0),
+          offerSet: S.optional(__S(320, __c10, 0)),
+        }),
+      ).annotate({ identifier: "PurchaseOptionAssociatedEntity" });
+    case 2:
+      return S.Array(__S(513, __c16, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          purchaseOptionId: S.String,
+          catalog: S.String,
+          purchaseOptionType: S.String,
+          purchaseOptionName: S.optional(S.String),
+          availableFromTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          expirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          sellerOfRecord: __S(32, __c1, 0),
+          badges: S.optional(__S(66, __c2, 2)),
+          associatedEntities: __S(514, __c16, 2),
+        }),
+      ).annotate({ identifier: "PurchaseOptionSummary" });
+    case 4:
+      return S.Array(__S(515, __c16, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          purchaseOptions: S.optional(__S(516, __c16, 4)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPurchaseOptionsOutput" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ filterType: S.String, filterValues: __S(192, __c6, 0) }),
+      ).annotate({ identifier: "PurchaseOptionFilter" });
+    case 1:
+      return S.Array(__S(544, __c17, 0));
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          searchText: S.optional(S.String),
+          filters: S.optional(__S(545, __c17, 1)),
+          facetTypes: S.optional(__S(576, __c18, 0)),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2026-02-05/searchFacets" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "SearchFacetsInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.String,
+          displayName: S.String,
+          parent: S.optional(S.String),
+          count: S.Number,
+        }),
+      ).annotate({ identifier: "ListingFacet" });
+    case 3:
+      return S.Array(__S(578, __c18, 2));
+    case 4:
+      return S.Record(S.String, /*@__PURE__*/ __S(579, __c18, 3).pipe(S.optional));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          totalResults: S.Number,
+          listingFacets: __S(580, __c18, 4),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchFacetsOutput" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          locale: S.optional(S.String),
+          searchText: S.optional(S.String),
+          filters: S.optional(__S(545, __c17, 1)),
+          maxResults: S.optional(S.Number),
+          sortBy: S.optional(S.String),
+          sortOrder: S.optional(S.String),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2026-02-05/searchListings" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "SearchListingsInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ product: S.optional(__S(64, __c2, 0)) })).annotate({
+        identifier: "ListingSummaryAssociatedEntity",
+      });
+    case 2:
+      return S.Array(__S(609, __c19, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          listingId: S.String,
+          listingName: S.String,
+          publisher: __S(32, __c1, 0),
+          fulfillmentOptionSummaries: __S(227, __c7, 3),
+          catalog: S.String,
+          shortDescription: S.String,
+          logoThumbnailUrl: S.String,
+          categories: __S(225, __c7, 1),
+          badges: __S(66, __c2, 2),
+          reviewSummary: __S(261, __c8, 5),
+          pricingModels: __S(256, __c8, 0),
+          pricingUnits: __S(258, __c8, 2),
+          associatedEntities: __S(610, __c19, 2),
+        }),
+      ).annotate({ identifier: "ListingSummary" });
+    case 4:
+      return S.Array(__S(611, __c19, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          totalResults: S.Number,
+          listingSummaries: __S(612, __c19, 4),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchListingsOutput" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

@@ -1,5 +1,5 @@
 /**
- * Adyen pagination — hand-written.
+ * Adyen pagination -- hand-written.
  *
  * Checkout list-style endpoints are not cursor-paginated; this re-export is
  * kept so generated operations can pass core's {@link paginateCursor}

@@ -1,5 +1,5 @@
 /**
- * Argo CD pagination — hand-written.
+ * Argo CD pagination -- hand-written.
  *
  * Generated operations that stamp `smithy.api#paginated` pass core's
  * {@link paginateCursor} strategy to `API.makePaginated`. List endpoints

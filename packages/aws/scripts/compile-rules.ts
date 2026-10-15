@@ -846,7 +846,9 @@ import {
   isVirtualHostableS3Bucket,
   parseArn,
   partition,
+  regionDnsSuffix,
 } from "../src/rules-engine/aws-functions.ts";
+import partitionsData from "../src/rules-engine/partitions.json" with { type: "json" };
 import {
   getAttr,
   isValidHostLabel,
@@ -918,4 +920,51 @@ export const resolveEndpointCompiled = (
   }
 
   return result.endpoint;
+};
+
+/**
+ * The Region-only endpoint template of a rule set (see `T.EndpointTemplate`):
+ * the rules run once for every region partitions.json names, with `Region`
+ * as the only parameter; each endpoint is written as JSON with the region
+ * replaced by `{R}` and its partition's DNS suffix by `{D}`, and the most
+ * common form becomes the template. A region is an exception unless the
+ * template reproduces its endpoint exactly. `undefined` when no template
+ * covers at least half of the regions.
+ */
+export const endpointTemplate = (
+  ruleSet: RuleSetObject,
+): { template: string; exceptions: string[] } | undefined => {
+  const resolve = compileRuleSet(ruleSet);
+  const regions = [...new Set(partitionsData.partitions.flatMap((p) => Object.keys(p.regions)))];
+  const fill = (template: string, region: string, dns: string) =>
+    template.replaceAll("{R}", region).replaceAll("{D}", dns);
+  const expected = new Map<string, string | undefined>();
+  const counts = new Map<string, number>();
+  for (const region of regions) {
+    const dns = regionDnsSuffix(region)!;
+    let result: CompiledResult;
+    try {
+      result = resolve({ Region: region });
+    } catch {
+      expected.set(region, undefined);
+      continue;
+    }
+    if (result.type !== "endpoint") {
+      expected.set(region, undefined);
+      continue;
+    }
+    const json = JSON.stringify(result.endpoint);
+    expected.set(region, json);
+    if (json.includes("{R}") || json.includes("{D}")) continue;
+    const template = json.split(region).join("{R}").split(dns).join("{D}");
+    counts.set(template, (counts.get(template) ?? 0) + 1);
+  }
+  const [best] = [...counts].sort((a, b) => b[1] - a[1]);
+  if (!best) return undefined;
+  const template = best[0];
+  const exceptions = regions.filter(
+    (region) => fill(template, region, regionDnsSuffix(region)!) !== expected.get(region),
+  );
+  if (exceptions.length * 2 > regions.length) return undefined;
+  return { template, exceptions };
 };

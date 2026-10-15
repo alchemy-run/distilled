@@ -3,8 +3,8 @@
  *
  * Re-exports the common HTTP errors from core and adds the OVH fallback
  * errors. Note the generated service modules additionally define their own
- * per-status matcher classes (BadRequest/NotFound/…) for the statuses each
- * operation declares — those share `_tag`s with the core classes here, so
+ * per-status matcher classes (BadRequest/NotFound/...) for the statuses each
+ * operation declares -- those share `_tag`s with the core classes here, so
  * `catchTag` works against either.
  */
 export {
@@ -28,17 +28,19 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
-/** Unknown OVH error — returned when nothing else matches the failure. */
-export class UnknownOvhError extends Schema.TaggedError<UnknownOvhError>()("UnknownOvhError", {
-  code: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  body: Schema.Unknown,
-}).pipe(Category.withServerError) {}
+/** Unknown OVH error -- returned when nothing else matches the failure. */
+export class UnknownOvhError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownOvhError>()("UnknownOvhError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    body: Schema.Unknown,
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class OvhParseError extends Schema.TaggedError<OvhParseError>()("OvhParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class OvhParseError
+  extends /*@__PURE__*/ Schema.TaggedError<OvhParseError>()("OvhParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}

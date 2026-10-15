@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
-import * as redacted from "effect/Redacted";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -9,11 +10,16 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "Agent Registry", serviceShapeName: "AgentRegistry" });
-const auth = T.AwsAuthSigv4({ name: "agent-registry" });
-const ver = T.ServiceVersion("2025-12-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "Agent Registry",
+  serviceShapeName: "AgentRegistry",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "agent-registry" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2025-12-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p) => {
   const { Region, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -32,84 +38,65 @@ const rules = T.EndpointResolver((p) => {
   return err(
     "Unable to resolve an Agent Registry endpoint: Region was not set and no explicit Endpoint override was provided.",
   );
-});
+}, '{"url":"https://agent-registry.{R}.api.aws","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(401),
   ).pipe(C.withAuthError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      reason: S.suspend(() => ValidationExceptionReason).annotate({
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      reason: /*@__PURE__*/ S.suspend(() => S.String).annotate({
         identifier: "ValidationExceptionReason",
       }),
-      fieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
+      fieldList: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type RegistryIdentifier = string;
 export type RecordIdentifier = string;
 export type RegistryRecordIdList = string[];
-export const RegistryRecordIdList = /*@__PURE__*/ S.Array(S.String);
 export interface RegistryRecordsEntry {
   registryId: string;
   recordIds: string[];
 }
-export const RegistryRecordsEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ registryId: S.String, recordIds: RegistryRecordIdList }),
-).annotate({ identifier: "RegistryRecordsEntry" }) as any as S.Schema<RegistryRecordsEntry>;
 export type RegistryRecordsEntryList = RegistryRecordsEntry[];
-export const RegistryRecordsEntryList = /*@__PURE__*/ S.Array(RegistryRecordsEntry);
 export interface BatchGetDiscoverableRegistryRecordRequest {
   entries: RegistryRecordsEntry[];
 }
-export const BatchGetDiscoverableRegistryRecordRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ entries: RegistryRecordsEntryList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/discoverable-records-batch" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetDiscoverableRegistryRecordRequest",
-}) as any as S.Schema<BatchGetDiscoverableRegistryRecordRequest>;
 export type RegistryArn = string;
 export type RegistryRecordArn = string;
 export type RegistryRecordId = string;
@@ -117,114 +104,55 @@ export type RegistryRecordName = string;
 export type Description = string | redacted.Redacted<string>;
 export type RegistryRecordDisplayName = string;
 export type RecordType = "MCP" | "AGENT" | "CUSTOM" | "SKILL" | "GATEWAY" | (string & {});
-export const RecordType = S.String;
-
 export type DescriptorData = string | redacted.Redacted<string>;
 export type DataSchemaVersion = string;
 export interface McpToolsDescriptor {
   data?: string | redacted.Redacted<string>;
   dataSchemaVersion?: string;
 }
-export const McpToolsDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ data: S.optional(SensitiveString), dataSchemaVersion: S.optional(S.String) }),
-).annotate({ identifier: "McpToolsDescriptor" }) as any as S.Schema<McpToolsDescriptor>;
 export interface McpServerAdditionalData {
   tools?: McpToolsDescriptor;
 }
-export const McpServerAdditionalData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tools: S.optional(McpToolsDescriptor) }),
-).annotate({ identifier: "McpServerAdditionalData" }) as any as S.Schema<McpServerAdditionalData>;
 export type DescriptorSourceUrl = string;
 export interface DescriptorSourceFromUrl {
   url: string;
 }
-export const DescriptorSourceFromUrl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ url: S.String }),
-).annotate({ identifier: "DescriptorSourceFromUrl" }) as any as S.Schema<DescriptorSourceFromUrl>;
 export interface DescriptorSource {
   fromUrl?: DescriptorSourceFromUrl;
 }
-export const DescriptorSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ fromUrl: S.optional(DescriptorSourceFromUrl) }),
-).annotate({ identifier: "DescriptorSource" }) as any as S.Schema<DescriptorSource>;
 export interface McpServerDescriptor {
   data?: string | redacted.Redacted<string>;
   dataSchemaVersion?: string;
   additionalData?: McpServerAdditionalData;
   source?: DescriptorSource;
 }
-export const McpServerDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: S.optional(SensitiveString),
-    dataSchemaVersion: S.optional(S.String),
-    additionalData: S.optional(McpServerAdditionalData),
-    source: S.optional(DescriptorSource),
-  }),
-).annotate({ identifier: "McpServerDescriptor" }) as any as S.Schema<McpServerDescriptor>;
 export interface A2aAgentCardDescriptor {
   data?: string | redacted.Redacted<string>;
   dataSchemaVersion?: string;
   source?: DescriptorSource;
 }
-export const A2aAgentCardDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: S.optional(SensitiveString),
-    dataSchemaVersion: S.optional(S.String),
-    source: S.optional(DescriptorSource),
-  }),
-).annotate({ identifier: "A2aAgentCardDescriptor" }) as any as S.Schema<A2aAgentCardDescriptor>;
 export interface AgentSkillsMdDescriptor {
   data?: string | redacted.Redacted<string>;
   dataSchemaVersion?: string;
   source?: DescriptorSource;
 }
-export const AgentSkillsMdDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: S.optional(SensitiveString),
-    dataSchemaVersion: S.optional(S.String),
-    source: S.optional(DescriptorSource),
-  }),
-).annotate({ identifier: "AgentSkillsMdDescriptor" }) as any as S.Schema<AgentSkillsMdDescriptor>;
 export interface AgentSkillsAdditionalData {
   skillMd?: AgentSkillsMdDescriptor;
 }
-export const AgentSkillsAdditionalData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ skillMd: S.optional(AgentSkillsMdDescriptor) }),
-).annotate({
-  identifier: "AgentSkillsAdditionalData",
-}) as any as S.Schema<AgentSkillsAdditionalData>;
 export interface AgentSkillsDefinitionDescriptor {
   data?: string | redacted.Redacted<string>;
   dataSchemaVersion?: string;
   additionalData?: AgentSkillsAdditionalData;
 }
-export const AgentSkillsDefinitionDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: S.optional(SensitiveString),
-    dataSchemaVersion: S.optional(S.String),
-    additionalData: S.optional(AgentSkillsAdditionalData),
-  }),
-).annotate({
-  identifier: "AgentSkillsDefinitionDescriptor",
-}) as any as S.Schema<AgentSkillsDefinitionDescriptor>;
 export interface CustomDescriptor {
   data?: string | redacted.Redacted<string>;
 }
-export const CustomDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ data: S.optional(SensitiveString) }),
-).annotate({ identifier: "CustomDescriptor" }) as any as S.Schema<CustomDescriptor>;
 export interface HttpDescriptor {
   source?: DescriptorSource;
 }
-export const HttpDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ source: S.optional(DescriptorSource) }),
-).annotate({ identifier: "HttpDescriptor" }) as any as S.Schema<HttpDescriptor>;
 export interface AgUiDescriptor {
   source?: DescriptorSource;
 }
-export const AgUiDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ source: S.optional(DescriptorSource) }),
-).annotate({ identifier: "AgUiDescriptor" }) as any as S.Schema<AgUiDescriptor>;
 export interface Descriptors {
   mcpServer?: McpServerDescriptor;
   a2aAgentCard?: A2aAgentCardDescriptor;
@@ -233,16 +161,6 @@ export interface Descriptors {
   http?: HttpDescriptor;
   agui?: AgUiDescriptor;
 }
-export const Descriptors = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mcpServer: S.optional(McpServerDescriptor),
-    a2aAgentCard: S.optional(A2aAgentCardDescriptor),
-    agentSkillsDefinition: S.optional(AgentSkillsDefinitionDescriptor),
-    custom: S.optional(CustomDescriptor),
-    http: S.optional(HttpDescriptor),
-    agui: S.optional(AgUiDescriptor),
-  }),
-).annotate({ identifier: "Descriptors" }) as any as S.Schema<Descriptors>;
 export type RegistryRecordVersion = string;
 export type RegistryRecordStatus =
   | "DRAFT"
@@ -255,8 +173,6 @@ export type RegistryRecordStatus =
   | "CREATE_FAILED"
   | "UPDATE_FAILED"
   | (string & {});
-export const RegistryRecordStatus = S.String;
-
 export type CustomMetadataDocument = unknown;
 export interface RegistryRecordSummary {
   registryArn: string;
@@ -273,107 +189,39 @@ export interface RegistryRecordSummary {
   updatedAt: Date;
   customMetadata?: any;
 }
-export const RegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    registryArn: S.String,
-    recordArn: S.String,
-    recordId: S.String,
-    name: S.String,
-    description: S.optional(SensitiveString),
-    displayName: S.optional(S.String),
-    recordType: RecordType,
-    descriptors: Descriptors,
-    recordVersion: S.String,
-    status: RegistryRecordStatus,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    customMetadata: S.optional(S.Any),
-  }),
-).annotate({ identifier: "RegistryRecordSummary" }) as any as S.Schema<RegistryRecordSummary>;
 export type RegistryRecordSummaryList = RegistryRecordSummary[];
-export const RegistryRecordSummaryList = /*@__PURE__*/ S.Array(RegistryRecordSummary);
 export type BatchGetDiscoverableRegistryRecordErrorCode =
   | "RESOURCE_NOT_FOUND"
   | "ACCESS_DENIED"
   | "INTERNAL_ERROR"
   | (string & {});
-export const BatchGetDiscoverableRegistryRecordErrorCode = S.String;
-
 export interface BatchGetDiscoverableRegistryRecordError_ {
   registryId: string;
   recordId: string;
   errorCode: BatchGetDiscoverableRegistryRecordErrorCode;
   message?: string;
 }
-export const BatchGetDiscoverableRegistryRecordError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    registryId: S.String,
-    recordId: S.String,
-    errorCode: BatchGetDiscoverableRegistryRecordErrorCode,
-    message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchGetDiscoverableRegistryRecordError",
-}) as any as S.Schema<BatchGetDiscoverableRegistryRecordError_>;
 export type BatchGetDiscoverableRegistryRecordErrorList =
   BatchGetDiscoverableRegistryRecordError_[];
-export const BatchGetDiscoverableRegistryRecordErrorList = /*@__PURE__*/ S.Array(
-  BatchGetDiscoverableRegistryRecordError_,
-);
 export interface BatchGetDiscoverableRegistryRecordResponse {
   registryRecords: RegistryRecordSummary[];
   errors: BatchGetDiscoverableRegistryRecordError_[];
 }
-export const BatchGetDiscoverableRegistryRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    registryRecords: RegistryRecordSummaryList,
-    errors: BatchGetDiscoverableRegistryRecordErrorList,
-  }),
-).annotate({
-  identifier: "BatchGetDiscoverableRegistryRecordResponse",
-}) as any as S.Schema<BatchGetDiscoverableRegistryRecordResponse>;
 export type RegistryRecordFilterName = "recordType" | "descriptorType" | (string & {});
-export const RegistryRecordFilterName = S.String;
-
 export type FilterValue = string;
 export type DiscoverableFilterValues = string[];
-export const DiscoverableFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface RegistryRecordFilter {
   name: RegistryRecordFilterName;
   values: string[];
 }
-export const RegistryRecordFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: RegistryRecordFilterName, values: DiscoverableFilterValues }),
-).annotate({ identifier: "RegistryRecordFilter" }) as any as S.Schema<RegistryRecordFilter>;
 export type RegistryRecordFilterList = RegistryRecordFilter[];
-export const RegistryRecordFilterList = /*@__PURE__*/ S.Array(RegistryRecordFilter);
 export interface ListDiscoverableRegistryRecordsRequest {
   registryId: string;
   maxResults?: number;
   nextToken?: string;
   filters?: RegistryRecordFilter[];
 }
-export const ListDiscoverableRegistryRecordsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    registryId: S.String.pipe(T.HttpLabel("registryId")),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-    filters: S.optional(RegistryRecordFilterList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/registries/{registryId}/discoverable-records-list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDiscoverableRegistryRecordsRequest",
-}) as any as S.Schema<ListDiscoverableRegistryRecordsRequest>;
 export type DescriptorTypeList = string[];
-export const DescriptorTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface DiscoverableRegistryRecordSummary {
   registryArn: string;
   recordArn: string;
@@ -388,43 +236,13 @@ export interface DiscoverableRegistryRecordSummary {
   updatedAt: Date;
   descriptorTypes?: string[];
 }
-export const DiscoverableRegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    registryArn: S.String,
-    recordArn: S.String,
-    recordId: S.String,
-    name: S.String,
-    description: S.optional(SensitiveString),
-    displayName: S.optional(S.String),
-    recordType: RecordType,
-    recordVersion: S.String,
-    status: RegistryRecordStatus,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    descriptorTypes: S.optional(DescriptorTypeList),
-  }),
-).annotate({
-  identifier: "DiscoverableRegistryRecordSummary",
-}) as any as S.Schema<DiscoverableRegistryRecordSummary>;
 export type DiscoverableRegistryRecordSummaryList = DiscoverableRegistryRecordSummary[];
-export const DiscoverableRegistryRecordSummaryList = /*@__PURE__*/ S.Array(
-  DiscoverableRegistryRecordSummary,
-);
 export interface ListDiscoverableRegistryRecordsResponse {
   registryRecords: DiscoverableRegistryRecordSummary[];
   nextToken?: string;
 }
-export const ListDiscoverableRegistryRecordsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    registryRecords: DiscoverableRegistryRecordSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDiscoverableRegistryRecordsResponse",
-}) as any as S.Schema<ListDiscoverableRegistryRecordsResponse>;
 export type SearchQuery = string | redacted.Redacted<string>;
 export type RegistryIdList = string[];
-export const RegistryIdList = /*@__PURE__*/ S.Array(S.String);
 export type MetadataFilterExpression = unknown;
 export interface SearchDiscoverableRegistryRecordsRequest {
   searchQuery: string | redacted.Redacted<string>;
@@ -432,33 +250,9 @@ export interface SearchDiscoverableRegistryRecordsRequest {
   maxResults?: number;
   filters?: any;
 }
-export const SearchDiscoverableRegistryRecordsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    searchQuery: SensitiveString,
-    registryIds: RegistryIdList,
-    maxResults: S.optional(S.Number),
-    filters: S.optional(S.Any),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/discoverable-records-search" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchDiscoverableRegistryRecordsRequest",
-}) as any as S.Schema<SearchDiscoverableRegistryRecordsRequest>;
 export interface SearchDiscoverableRegistryRecordsResponse {
   registryRecords: RegistryRecordSummary[];
 }
-export const SearchDiscoverableRegistryRecordsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ registryRecords: RegistryRecordSummaryList }),
-).annotate({
-  identifier: "SearchDiscoverableRegistryRecordsResponse",
-}) as any as S.Schema<SearchDiscoverableRegistryRecordsResponse>;
 export type NonBlankString = string;
 export type ValidationExceptionReason =
   | "CannotParse"
@@ -467,17 +261,11 @@ export type ValidationExceptionReason =
   | "EventInOtherSession"
   | "ResourceConflict"
   | (string & {});
-export const ValidationExceptionReason = S.String;
-
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type BatchGetDiscoverableRegistryRecordError =
   | AccessDeniedException
   | InternalServerException
@@ -495,8 +283,8 @@ export const batchGetDiscoverableRegistryRecord: API.OperationMethod<
   BatchGetDiscoverableRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetDiscoverableRegistryRecordRequest,
-  output: BatchGetDiscoverableRegistryRecordResponse,
+  input: __S(18, __c1, 2) as any as S.Schema<BatchGetDiscoverableRegistryRecordRequest>,
+  output: __S(21, __c1, 5) as any as S.Schema<BatchGetDiscoverableRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -528,8 +316,8 @@ export const listDiscoverableRegistryRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DiscoverableRegistryRecordSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDiscoverableRegistryRecordsRequest,
-  output: ListDiscoverableRegistryRecordsResponse,
+  input: __S(66, __c4, 2) as any as S.Schema<ListDiscoverableRegistryRecordsRequest>,
+  output: __S(69, __c4, 5) as any as S.Schema<ListDiscoverableRegistryRecordsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -566,8 +354,8 @@ export const searchDiscoverableRegistryRecords: API.OperationMethod<
   SearchDiscoverableRegistryRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SearchDiscoverableRegistryRecordsRequest,
-  output: SearchDiscoverableRegistryRecordsResponse,
+  input: __S(80, __c5, 0) as any as S.Schema<SearchDiscoverableRegistryRecordsRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<SearchDiscoverableRegistryRecordsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -580,3 +368,228 @@ export const searchDiscoverableRegistryRecords: API.OperationMethod<
   retry: Retry,
   operationName: "SearchDiscoverableRegistryRecords",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ registryId: S.String, recordIds: __S(32, __c2, 0) }),
+      ).annotate({ identifier: "RegistryRecordsEntry" });
+    case 1:
+      return S.Array(__S(16, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ entries: __S(17, __c1, 1) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/discoverable-records-batch" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchGetDiscoverableRegistryRecordRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.String,
+          recordId: S.String,
+          errorCode: S.String,
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchGetDiscoverableRegistryRecordError" });
+    case 4:
+      return S.Array(__S(19, __c1, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ registryRecords: __S(60, __c3, 12), errors: __S(20, __c1, 4) }),
+      ).annotate({ identifier: "BatchGetDiscoverableRegistryRecordResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ data: S.optional(SensitiveString), dataSchemaVersion: S.optional(S.String) }),
+      ).annotate({ identifier: "McpToolsDescriptor" });
+    case 1:
+      return S.suspend(() => S.Struct({ tools: S.optional(__S(48, __c3, 0)) })).annotate({
+        identifier: "McpServerAdditionalData",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ url: S.String })).annotate({
+        identifier: "DescriptorSourceFromUrl",
+      });
+    case 3:
+      return S.suspend(() => S.Struct({ fromUrl: S.optional(__S(50, __c3, 2)) })).annotate({
+        identifier: "DescriptorSource",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(SensitiveString),
+          dataSchemaVersion: S.optional(S.String),
+          additionalData: S.optional(__S(49, __c3, 1)),
+          source: S.optional(__S(51, __c3, 3)),
+        }),
+      ).annotate({ identifier: "McpServerDescriptor" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(SensitiveString),
+          dataSchemaVersion: S.optional(S.String),
+          source: S.optional(__S(51, __c3, 3)),
+        }),
+      ).annotate({ identifier: "A2aAgentCardDescriptor" });
+    case 6:
+      return S.suspend(() => S.Struct({ skillMd: S.optional(__S(53, __c3, 5)) })).annotate({
+        identifier: "AgentSkillsAdditionalData",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(SensitiveString),
+          dataSchemaVersion: S.optional(S.String),
+          additionalData: S.optional(__S(54, __c3, 6)),
+        }),
+      ).annotate({ identifier: "AgentSkillsDefinitionDescriptor" });
+    case 8:
+      return S.suspend(() => S.Struct({ data: S.optional(SensitiveString) })).annotate({
+        identifier: "CustomDescriptor",
+      });
+    case 9:
+      return S.suspend(() => S.Struct({ source: S.optional(__S(51, __c3, 3)) })).annotate({
+        identifier: "HttpDescriptor",
+      });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          mcpServer: S.optional(__S(52, __c3, 4)),
+          a2aAgentCard: S.optional(__S(53, __c3, 5)),
+          agentSkillsDefinition: S.optional(__S(55, __c3, 7)),
+          custom: S.optional(__S(56, __c3, 8)),
+          http: S.optional(__S(57, __c3, 9)),
+          agui: S.optional(__S(57, __c3, 9)),
+        }),
+      ).annotate({ identifier: "Descriptors" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          registryArn: S.String,
+          recordArn: S.String,
+          recordId: S.String,
+          name: S.String,
+          description: S.optional(SensitiveString),
+          displayName: S.optional(S.String),
+          recordType: S.String,
+          descriptors: __S(58, __c3, 10),
+          recordVersion: S.String,
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          customMetadata: S.optional(S.Any),
+        }),
+      ).annotate({ identifier: "RegistryRecordSummary" });
+    case 12:
+      return S.Array(__S(59, __c3, 11));
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, values: __S(32, __c2, 0) })).annotate({
+        identifier: "RegistryRecordFilter",
+      });
+    case 1:
+      return S.Array(__S(64, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          registryId: S.String.pipe(T.HttpLabel("registryId")),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+          filters: S.optional(__S(65, __c4, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/registries/{registryId}/discoverable-records-list" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDiscoverableRegistryRecordsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          registryArn: S.String,
+          recordArn: S.String,
+          recordId: S.String,
+          name: S.String,
+          description: S.optional(SensitiveString),
+          displayName: S.optional(S.String),
+          recordType: S.String,
+          recordVersion: S.String,
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          descriptorTypes: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "DiscoverableRegistryRecordSummary" });
+    case 4:
+      return S.Array(__S(67, __c4, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ registryRecords: __S(68, __c4, 4), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListDiscoverableRegistryRecordsResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          searchQuery: SensitiveString,
+          registryIds: __S(32, __c2, 0),
+          maxResults: S.optional(S.Number),
+          filters: S.optional(S.Any),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/discoverable-records-search" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "SearchDiscoverableRegistryRecordsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ registryRecords: __S(60, __c3, 12) })).annotate({
+        identifier: "SearchDiscoverableRegistryRecordsResponse",
+      });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

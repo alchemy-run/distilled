@@ -6,13 +6,14 @@ export interface XmlObject {
   [name: string]: XmlValue;
 }
 
-export class XmlParseError extends Data.TaggedError("XmlParseError")<{
-  readonly message: string;
-  /** UTF-16 offset in the original input; line and column are one-based. */
-  readonly offset: number;
-  readonly line: number;
-  readonly column: number;
-}> {}
+export class XmlParseError
+  extends /*@__PURE__*/ Data.TaggedError("XmlParseError")<{
+    readonly message: string;
+    /** UTF-16 offset in the original input; line and column are one-based. */
+    readonly offset: number;
+    readonly line: number;
+    readonly column: number;
+  }> {}
 
 export interface XmlParseOptions {
   /** Maximum open elements, including the root. Defaults to 256. */
@@ -34,10 +35,21 @@ const xmlSpace = /^[\t\n\r ]*$/;
 const declarationPattern =
   /^xml[\t\n\r ]+version[\t\n\r ]*=[\t\n\r ]*(?:"1\.0"|'1\.0')(?:[\t\n\r ]+encoding[\t\n\r ]*=[\t\n\r ]*(?:"[A-Za-z][A-Za-z0-9._-]*"|'[A-Za-z][A-Za-z0-9._-]*'))?(?:[\t\n\r ]+standalone[\t\n\r ]*=[\t\n\r ]*(?:"(?:yes|no)"|'(?:yes|no)'))?[\t\n\r ]*$/;
 
+/**
+ * The prototype of every object the parser returns. It has no prototype
+ * itself, so element names such as `__proto__` or `constructor` are plain
+ * own keys, as with a null prototype -- but V8 keeps objects with a
+ * non-null prototype in fast mode, which makes parsing several times faster.
+ */
+const nodeProto: object = /*@__PURE__*/ Object.create(null);
+
+/** An ASCII XML name not followed by a non-ASCII (possibly name) character. */
+const asciiName = /[A-Za-z_:][\w:.-]*(?![^\0-\x7f])/y;
+
 interface Element {
   name: string;
   object: XmlObject;
-  text: string[];
+  text: string;
   hasChildren: boolean;
   hasAttributes: boolean;
   hasCdata: boolean;
@@ -58,7 +70,7 @@ export function parseXmlSync(xml: string, options: XmlParseOptions = {}): XmlObj
   const maxDepth = options.maxDepth ?? 256;
   const maxLength = options.maxLength ?? 64 * 1024 * 1024;
   const stack: Element[] = [];
-  const document: XmlObject = Object.create(null);
+  const document: XmlObject = Object.create(nodeProto);
   let hasRoot = false;
 
   function fail(message: string, offset = pos): never {
@@ -92,14 +104,16 @@ export function parseXmlSync(xml: string, options: XmlParseOptions = {}): XmlObj
   }
 
   function readName(): string {
-    namePattern.lastIndex = pos;
-    const match = namePattern.exec(xml);
+    // ASCII names (most documents) match a cheaper, non-Unicode pattern first.
+    asciiName.lastIndex = namePattern.lastIndex = pos;
+    const match = asciiName.exec(xml) ?? namePattern.exec(xml);
     if (!match) fail("Expected XML name");
-    pos = namePattern.lastIndex;
+    pos += match[0].length;
     return match[0];
   }
 
   function decode(raw: string, offset: number, attribute = false): string {
+    if (raw.indexOf("&") < 0 && !(attribute ? /[\t\r\n]/ : /\r/).test(raw)) return raw;
     const parts: string[] = [];
     let from = 0;
     while (from < raw.length) {
@@ -158,7 +172,7 @@ export function parseXmlSync(xml: string, options: XmlParseOptions = {}): XmlObj
   }
 
   function finish(element: Element): void {
-    const text = element.text.join("");
+    const text = element.text;
     let value: XmlValue;
     if (!element.hasChildren && !element.hasAttributes) {
       value = text;
@@ -191,7 +205,7 @@ export function parseXmlSync(xml: string, options: XmlParseOptions = {}): XmlObj
       } else {
         const cdataEnd = raw.indexOf("]]>");
         if (cdataEnd >= 0) fail("Unexpected CDATA terminator", offset + cdataEnd);
-        element.text.push(decode(raw, offset));
+        element.text += decode(raw, offset);
       }
       continue;
     }
@@ -207,7 +221,7 @@ export function parseXmlSync(xml: string, options: XmlParseOptions = {}): XmlObj
       if (!element) fail("CDATA outside root element");
       const end = xml.indexOf("]]>", pos + 9);
       if (end < 0) fail("Unterminated CDATA");
-      element.text.push(xml.slice(pos + 9, end).replace(/\r\n?/g, "\n"));
+      element.text += xml.slice(pos + 9, end).replace(/\r\n?/g, "\n");
       element.hasCdata = true;
       pos = end + 3;
     } else if (xml.startsWith("<?", pos)) {
@@ -243,8 +257,8 @@ export function parseXmlSync(xml: string, options: XmlParseOptions = {}): XmlObj
       pos++;
       const element: Element = {
         name: readName(),
-        object: Object.create(null),
-        text: [],
+        object: Object.create(nodeProto),
+        text: "",
         hasChildren: false,
         hasAttributes: false,
         hasCdata: false,

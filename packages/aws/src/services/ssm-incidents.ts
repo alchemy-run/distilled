@@ -1,17 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "SSM Incidents", serviceShapeName: "SSMIncidents" });
-const auth = T.AwsAuthSigv4({ name: "ssm-incidents" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "SSM Incidents",
+  serviceShapeName: "SSMIncidents",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "ssm-incidents" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-05-10");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -68,208 +74,132 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://ssm-incidents.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceIdentifier: S.optional(S.String),
-      resourceType: S.optional(S.String),
-      retryAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceIdentifier: /*@__PURE__*/ S.optional(S.String),
+      resourceType: /*@__PURE__*/ S.optional(S.String),
+      retryAfter: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Date.pipe(/*@__PURE__*/ T.TimestampFormat("epoch-seconds")),
+      ),
     },
-    T.HttpError(409),
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceIdentifier: S.optional(S.String),
-      resourceType: S.optional(S.String),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceIdentifier: /*@__PURE__*/ S.optional(S.String),
+      resourceType: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceIdentifier: S.optional(S.String),
-      resourceType: S.optional(S.String),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceIdentifier: /*@__PURE__*/ S.optional(S.String),
+      resourceType: /*@__PURE__*/ S.optional(S.String),
       serviceCode: S.String,
       quotaCode: S.String,
     },
-    T.HttpError(402),
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()), serviceCode: S.String, quotaCode: S.String },
-    T.HttpError(429),
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      serviceCode: S.String,
+      quotaCode: S.String,
+    },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class UnsupportedOperationException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
     "UnsupportedOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type Arn = string;
 export type FindingId = string;
 export type FindingIdList = string[];
-export const FindingIdList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetIncidentFindingsInput {
   incidentRecordArn: string;
   findingIds: string[];
 }
-export const BatchGetIncidentFindingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ incidentRecordArn: S.String, findingIds: FindingIdList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/batchGetIncidentFindings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchGetIncidentFindingsInput",
-}) as any as S.Schema<BatchGetIncidentFindingsInput>;
 export interface CodeDeployDeployment {
   startTime: Date;
   endTime?: Date;
   deploymentGroupArn: string;
   deploymentId: string;
 }
-export const CodeDeployDeployment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    deploymentGroupArn: S.String,
-    deploymentId: S.String,
-  }),
-).annotate({ identifier: "CodeDeployDeployment" }) as any as S.Schema<CodeDeployDeployment>;
 export interface CloudFormationStackUpdate {
   startTime: Date;
   endTime?: Date;
   stackArn: string;
 }
-export const CloudFormationStackUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    stackArn: S.String,
-  }),
-).annotate({
-  identifier: "CloudFormationStackUpdate",
-}) as any as S.Schema<CloudFormationStackUpdate>;
 export type FindingDetails =
   | { codeDeployDeployment: CodeDeployDeployment; cloudFormationStackUpdate?: never }
   | { codeDeployDeployment?: never; cloudFormationStackUpdate: CloudFormationStackUpdate };
-export const FindingDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ codeDeployDeployment: CodeDeployDeployment }),
-  S.Struct({ cloudFormationStackUpdate: CloudFormationStackUpdate }),
-]);
 export interface Finding {
   id: string;
   creationTime: Date;
   lastModifiedTime: Date;
   details?: FindingDetails;
 }
-export const Finding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    details: S.optional(FindingDetails),
-  }),
-).annotate({ identifier: "Finding" }) as any as S.Schema<Finding>;
 export type FindingList = Finding[];
-export const FindingList = /*@__PURE__*/ S.Array(Finding);
 export interface BatchGetIncidentFindingsError_ {
   findingId: string;
   code: string;
   message: string;
 }
-export const BatchGetIncidentFindingsError_ = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ findingId: S.String, code: S.String, message: S.String }),
-).annotate({
-  identifier: "BatchGetIncidentFindingsError",
-}) as any as S.Schema<BatchGetIncidentFindingsError_>;
 export type BatchGetIncidentFindingsErrorList = BatchGetIncidentFindingsError_[];
-export const BatchGetIncidentFindingsErrorList = /*@__PURE__*/ S.Array(
-  BatchGetIncidentFindingsError_,
-);
 export interface BatchGetIncidentFindingsOutput {
   findings: Finding[];
   errors: BatchGetIncidentFindingsError_[];
 }
-export const BatchGetIncidentFindingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ findings: FindingList, errors: BatchGetIncidentFindingsErrorList }),
-).annotate({
-  identifier: "BatchGetIncidentFindingsOutput",
-}) as any as S.Schema<BatchGetIncidentFindingsOutput>;
 export type RegionName = string;
 export type SseKmsKey = string;
 export interface RegionMapInputValue {
   sseKmsKeyId?: string;
 }
-export const RegionMapInputValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sseKmsKeyId: S.optional(S.String) }),
-).annotate({ identifier: "RegionMapInputValue" }) as any as S.Schema<RegionMapInputValue>;
 export type RegionMapInput = { [key: string]: RegionMapInputValue | undefined };
-export const RegionMapInput = /*@__PURE__*/ S.Record(
-  S.String,
-  RegionMapInputValue.pipe(S.optional),
-);
 export type ClientToken = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateReplicationSetInput {
   regions: { [key: string]: RegionMapInputValue | undefined };
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateReplicationSetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    regions: RegionMapInput,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    tags: S.optional(TagMap),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/createReplicationSet" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateReplicationSetInput",
-}) as any as S.Schema<CreateReplicationSetInput>;
 export interface CreateReplicationSetOutput {
   arn: string;
 }
-export const CreateReplicationSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }),
-).annotate({
-  identifier: "CreateReplicationSetOutput",
-}) as any as S.Schema<CreateReplicationSetOutput>;
 export type ResponsePlanName = string;
 export type ResponsePlanDisplayName = string;
 export type IncidentTitle = string;
@@ -277,9 +207,7 @@ export type Impact = number;
 export type IncidentSummary = string;
 export type DedupeString = string;
 export type NotificationTargetItem = { snsTopicArn: string };
-export const NotificationTargetItem = /*@__PURE__*/ S.Union([S.Struct({ snsTopicArn: S.String })]);
 export type NotificationTargetSet = NotificationTargetItem[];
-export const NotificationTargetSet = /*@__PURE__*/ S.Array(NotificationTargetItem);
 export interface IncidentTemplate {
   title: string;
   impact: number;
@@ -288,47 +216,21 @@ export interface IncidentTemplate {
   notificationTargets?: NotificationTargetItem[];
   incidentTags?: { [key: string]: string | undefined };
 }
-export const IncidentTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.String,
-    impact: S.Number,
-    summary: S.optional(S.String),
-    dedupeString: S.optional(S.String),
-    notificationTargets: S.optional(NotificationTargetSet),
-    incidentTags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "IncidentTemplate" }) as any as S.Schema<IncidentTemplate>;
 export interface EmptyChatChannel {}
-export const EmptyChatChannel = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "EmptyChatChannel",
-}) as any as S.Schema<EmptyChatChannel>;
 export type SnsArn = string;
 export type ChatbotSnsConfigurationSet = string[];
-export const ChatbotSnsConfigurationSet = /*@__PURE__*/ S.Array(S.String);
 export type ChatChannel =
   | { empty: EmptyChatChannel; chatbotSns?: never }
   | { empty?: never; chatbotSns: string[] };
-export const ChatChannel = /*@__PURE__*/ S.Union([
-  S.Struct({ empty: EmptyChatChannel }),
-  S.Struct({ chatbotSns: ChatbotSnsConfigurationSet }),
-]);
 export type SsmContactsArn = string;
 export type EngagementSet = string[];
-export const EngagementSet = /*@__PURE__*/ S.Array(S.String);
 export type RoleArn = string;
 export type SsmTargetAccount = string;
 export type SsmParameterValues = string[];
-export const SsmParameterValues = /*@__PURE__*/ S.Array(S.String);
 export type SsmParameters = { [key: string]: string[] | undefined };
-export const SsmParameters = /*@__PURE__*/ S.Record(S.String, SsmParameterValues.pipe(S.optional));
 export type VariableType = string;
 export type DynamicSsmParameterValue = { variable: string };
-export const DynamicSsmParameterValue = /*@__PURE__*/ S.Union([S.Struct({ variable: S.String })]);
 export type DynamicSsmParameters = { [key: string]: DynamicSsmParameterValue | undefined };
-export const DynamicSsmParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  DynamicSsmParameterValue.pipe(S.optional),
-);
 export interface SsmAutomation {
   roleArn: string;
   documentName: string;
@@ -337,46 +239,18 @@ export interface SsmAutomation {
   parameters?: { [key: string]: string[] | undefined };
   dynamicParameters?: { [key: string]: DynamicSsmParameterValue | undefined };
 }
-export const SsmAutomation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    roleArn: S.String,
-    documentName: S.String,
-    documentVersion: S.optional(S.String),
-    targetAccount: S.optional(S.String),
-    parameters: S.optional(SsmParameters),
-    dynamicParameters: S.optional(DynamicSsmParameters),
-  }),
-).annotate({ identifier: "SsmAutomation" }) as any as S.Schema<SsmAutomation>;
 export type Action = { ssmAutomation: SsmAutomation };
-export const Action = /*@__PURE__*/ S.Union([S.Struct({ ssmAutomation: SsmAutomation })]);
 export type ActionsList = Action[];
-export const ActionsList = /*@__PURE__*/ S.Array(Action);
 export interface PagerDutyIncidentConfiguration {
   serviceId: string;
 }
-export const PagerDutyIncidentConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ serviceId: S.String }),
-).annotate({
-  identifier: "PagerDutyIncidentConfiguration",
-}) as any as S.Schema<PagerDutyIncidentConfiguration>;
 export interface PagerDutyConfiguration {
   name: string;
   secretId: string;
   pagerDutyIncidentConfiguration: PagerDutyIncidentConfiguration;
 }
-export const PagerDutyConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    secretId: S.String,
-    pagerDutyIncidentConfiguration: PagerDutyIncidentConfiguration,
-  }),
-).annotate({ identifier: "PagerDutyConfiguration" }) as any as S.Schema<PagerDutyConfiguration>;
 export type Integration = { pagerDutyConfiguration: PagerDutyConfiguration };
-export const Integration = /*@__PURE__*/ S.Union([
-  S.Struct({ pagerDutyConfiguration: PagerDutyConfiguration }),
-]);
 export type Integrations = Integration[];
-export const Integrations = /*@__PURE__*/ S.Array(Integration);
 export interface CreateResponsePlanInput {
   clientToken?: string;
   name: string;
@@ -388,39 +262,16 @@ export interface CreateResponsePlanInput {
   tags?: { [key: string]: string | undefined };
   integrations?: Integration[];
 }
-export const CreateResponsePlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    name: S.String,
-    displayName: S.optional(S.String),
-    incidentTemplate: IncidentTemplate,
-    chatChannel: S.optional(ChatChannel),
-    engagements: S.optional(EngagementSet),
-    actions: S.optional(ActionsList),
-    tags: S.optional(TagMap),
-    integrations: S.optional(Integrations),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/createResponsePlan" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CreateResponsePlanInput" }) as any as S.Schema<CreateResponsePlanInput>;
 export interface CreateResponsePlanOutput {
   arn: string;
 }
-export const CreateResponsePlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }),
-).annotate({ identifier: "CreateResponsePlanOutput" }) as any as S.Schema<CreateResponsePlanOutput>;
 export type TimelineEventType = string;
 export type EventData = string;
 export type GeneratedId = string;
 export type EventReference =
   | { resource: string; relatedItemId?: never }
   | { resource?: never; relatedItemId: string };
-export const EventReference = /*@__PURE__*/ S.Union([
-  S.Struct({ resource: S.String }),
-  S.Struct({ relatedItemId: S.String }),
-]);
 export type EventReferenceList = EventReference[];
-export const EventReferenceList = /*@__PURE__*/ S.Array(EventReference);
 export interface CreateTimelineEventInput {
   clientToken?: string;
   incidentRecordArn: string;
@@ -429,110 +280,40 @@ export interface CreateTimelineEventInput {
   eventData: string;
   eventReferences?: EventReference[];
 }
-export const CreateTimelineEventInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    incidentRecordArn: S.String,
-    eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    eventType: S.String,
-    eventData: S.String,
-    eventReferences: S.optional(EventReferenceList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/createTimelineEvent" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CreateTimelineEventInput" }) as any as S.Schema<CreateTimelineEventInput>;
 export type UUID = string;
 export interface CreateTimelineEventOutput {
   incidentRecordArn: string;
   eventId: string;
 }
-export const CreateTimelineEventOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ incidentRecordArn: S.String, eventId: S.String }),
-).annotate({
-  identifier: "CreateTimelineEventOutput",
-}) as any as S.Schema<CreateTimelineEventOutput>;
 export interface DeleteIncidentRecordInput {
   arn: string;
 }
-export const DeleteIncidentRecordInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/deleteIncidentRecord" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteIncidentRecordInput",
-}) as any as S.Schema<DeleteIncidentRecordInput>;
 export interface DeleteIncidentRecordOutput {}
-export const DeleteIncidentRecordOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteIncidentRecordOutput",
-}) as any as S.Schema<DeleteIncidentRecordOutput>;
 export interface DeleteReplicationSetInput {
   arn: string;
 }
-export const DeleteReplicationSetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/deleteReplicationSet" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteReplicationSetInput",
-}) as any as S.Schema<DeleteReplicationSetInput>;
 export interface DeleteReplicationSetOutput {}
-export const DeleteReplicationSetOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteReplicationSetOutput",
-}) as any as S.Schema<DeleteReplicationSetOutput>;
 export type PolicyId = string;
 export interface DeleteResourcePolicyInput {
   resourceArn: string;
   policyId: string;
 }
-export const DeleteResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String, policyId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/deleteResourcePolicy" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteResourcePolicyInput",
-}) as any as S.Schema<DeleteResourcePolicyInput>;
 export interface DeleteResourcePolicyOutput {}
-export const DeleteResourcePolicyOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteResourcePolicyOutput",
-}) as any as S.Schema<DeleteResourcePolicyOutput>;
 export interface DeleteResponsePlanInput {
   arn: string;
 }
-export const DeleteResponsePlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/deleteResponsePlan" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteResponsePlanInput" }) as any as S.Schema<DeleteResponsePlanInput>;
 export interface DeleteResponsePlanOutput {}
-export const DeleteResponsePlanOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteResponsePlanOutput",
-}) as any as S.Schema<DeleteResponsePlanOutput>;
 export interface DeleteTimelineEventInput {
   incidentRecordArn: string;
   eventId: string;
 }
-export const DeleteTimelineEventInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ incidentRecordArn: S.String, eventId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/deleteTimelineEvent" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteTimelineEventInput" }) as any as S.Schema<DeleteTimelineEventInput>;
 export interface DeleteTimelineEventOutput {}
-export const DeleteTimelineEventOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteTimelineEventOutput",
-}) as any as S.Schema<DeleteTimelineEventOutput>;
 export interface GetIncidentRecordInput {
   arn: string;
 }
-export const GetIncidentRecordInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/getIncidentRecord" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetIncidentRecordInput" }) as any as S.Schema<GetIncidentRecordInput>;
 export type IncidentRecordStatus = string;
 export type AutomationExecution = { ssmExecutionArn: string };
-export const AutomationExecution = /*@__PURE__*/ S.Union([S.Struct({ ssmExecutionArn: S.String })]);
 export type AutomationExecutionSet = AutomationExecution[];
-export const AutomationExecutionSet = /*@__PURE__*/ S.Array(AutomationExecution);
 export type ServicePrincipal = string;
 export type IncidentSource = string;
 export interface IncidentRecordSource {
@@ -541,14 +322,6 @@ export interface IncidentRecordSource {
   resourceArn?: string;
   source: string;
 }
-export const IncidentRecordSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdBy: S.String,
-    invokedBy: S.optional(S.String),
-    resourceArn: S.optional(S.String),
-    source: S.String,
-  }),
-).annotate({ identifier: "IncidentRecordSource" }) as any as S.Schema<IncidentRecordSource>;
 export interface IncidentRecord {
   arn: string;
   title: string;
@@ -565,38 +338,12 @@ export interface IncidentRecord {
   chatChannel?: ChatChannel;
   notificationTargets?: NotificationTargetItem[];
 }
-export const IncidentRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    title: S.String,
-    summary: S.optional(S.String),
-    status: S.String,
-    impact: S.Number,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    resolvedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    lastModifiedBy: S.String,
-    automationExecutions: S.optional(AutomationExecutionSet),
-    incidentRecordSource: IncidentRecordSource,
-    dedupeString: S.String,
-    chatChannel: S.optional(ChatChannel),
-    notificationTargets: S.optional(NotificationTargetSet),
-  }),
-).annotate({ identifier: "IncidentRecord" }) as any as S.Schema<IncidentRecord>;
 export interface GetIncidentRecordOutput {
   incidentRecord: IncidentRecord;
 }
-export const GetIncidentRecordOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ incidentRecord: IncidentRecord }),
-).annotate({ identifier: "GetIncidentRecordOutput" }) as any as S.Schema<GetIncidentRecordOutput>;
 export interface GetReplicationSetInput {
   arn: string;
 }
-export const GetReplicationSetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/getReplicationSet" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetReplicationSetInput" }) as any as S.Schema<GetReplicationSetInput>;
 export type RegionStatus = string;
 export interface RegionInfo {
   sseKmsKeyId?: string;
@@ -604,16 +351,7 @@ export interface RegionInfo {
   statusMessage?: string;
   statusUpdateDateTime: Date;
 }
-export const RegionInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sseKmsKeyId: S.optional(S.String),
-    status: S.String,
-    statusMessage: S.optional(S.String),
-    statusUpdateDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "RegionInfo" }) as any as S.Schema<RegionInfo>;
 export type RegionInfoMap = { [key: string]: RegionInfo | undefined };
-export const RegionInfoMap = /*@__PURE__*/ S.Record(S.String, RegionInfo.pipe(S.optional));
 export type ReplicationSetStatus = string;
 export interface ReplicationSet {
   arn?: string;
@@ -625,24 +363,9 @@ export interface ReplicationSet {
   lastModifiedTime: Date;
   lastModifiedBy: string;
 }
-export const ReplicationSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    regionMap: RegionInfoMap,
-    status: S.String,
-    deletionProtected: S.Boolean,
-    createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    createdBy: S.String,
-    lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    lastModifiedBy: S.String,
-  }),
-).annotate({ identifier: "ReplicationSet" }) as any as S.Schema<ReplicationSet>;
 export interface GetReplicationSetOutput {
   replicationSet: ReplicationSet;
 }
-export const GetReplicationSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ replicationSet: ReplicationSet }),
-).annotate({ identifier: "GetReplicationSetOutput" }) as any as S.Schema<GetReplicationSetOutput>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface GetResourcePoliciesInput {
@@ -650,43 +373,20 @@ export interface GetResourcePoliciesInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const GetResourcePoliciesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/getResourcePolicies" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetResourcePoliciesInput" }) as any as S.Schema<GetResourcePoliciesInput>;
 export type Policy = string;
 export interface ResourcePolicy {
   policyDocument: string;
   policyId: string;
   ramResourceShareRegion: string;
 }
-export const ResourcePolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ policyDocument: S.String, policyId: S.String, ramResourceShareRegion: S.String }),
-).annotate({ identifier: "ResourcePolicy" }) as any as S.Schema<ResourcePolicy>;
 export type ResourcePolicyList = ResourcePolicy[];
-export const ResourcePolicyList = /*@__PURE__*/ S.Array(ResourcePolicy);
 export interface GetResourcePoliciesOutput {
   resourcePolicies: ResourcePolicy[];
   nextToken?: string;
 }
-export const GetResourcePoliciesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourcePolicies: ResourcePolicyList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "GetResourcePoliciesOutput",
-}) as any as S.Schema<GetResourcePoliciesOutput>;
 export interface GetResponsePlanInput {
   arn: string;
 }
-export const GetResponsePlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/getResponsePlan" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetResponsePlanInput" }) as any as S.Schema<GetResponsePlanInput>;
 export interface GetResponsePlanOutput {
   arn: string;
   name: string;
@@ -697,28 +397,10 @@ export interface GetResponsePlanOutput {
   actions?: Action[];
   integrations?: Integration[];
 }
-export const GetResponsePlanOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.String,
-    displayName: S.optional(S.String),
-    incidentTemplate: IncidentTemplate,
-    chatChannel: S.optional(ChatChannel),
-    engagements: S.optional(EngagementSet),
-    actions: S.optional(ActionsList),
-    integrations: S.optional(Integrations),
-  }),
-).annotate({ identifier: "GetResponsePlanOutput" }) as any as S.Schema<GetResponsePlanOutput>;
 export interface GetTimelineEventInput {
   incidentRecordArn: string;
   eventId: string;
 }
-export const GetTimelineEventInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    incidentRecordArn: S.String.pipe(T.HttpQuery("incidentRecordArn")),
-    eventId: S.String.pipe(T.HttpQuery("eventId")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/getTimelineEvent" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetTimelineEventInput" }) as any as S.Schema<GetTimelineEventInput>;
 export interface TimelineEvent {
   incidentRecordArn: string;
   eventId: string;
@@ -728,100 +410,42 @@ export interface TimelineEvent {
   eventData: string;
   eventReferences?: EventReference[];
 }
-export const TimelineEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    incidentRecordArn: S.String,
-    eventId: S.String,
-    eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    eventUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    eventType: S.String,
-    eventData: S.String,
-    eventReferences: S.optional(EventReferenceList),
-  }),
-).annotate({ identifier: "TimelineEvent" }) as any as S.Schema<TimelineEvent>;
 export interface GetTimelineEventOutput {
   event: TimelineEvent;
 }
-export const GetTimelineEventOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ event: TimelineEvent }),
-).annotate({ identifier: "GetTimelineEventOutput" }) as any as S.Schema<GetTimelineEventOutput>;
 export interface ListIncidentFindingsInput {
   incidentRecordArn: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListIncidentFindingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    incidentRecordArn: S.String,
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/listIncidentFindings" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListIncidentFindingsInput",
-}) as any as S.Schema<ListIncidentFindingsInput>;
 export interface FindingSummary {
   id: string;
   lastModifiedTime: Date;
 }
-export const FindingSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
-).annotate({ identifier: "FindingSummary" }) as any as S.Schema<FindingSummary>;
 export type FindingSummaryList = FindingSummary[];
-export const FindingSummaryList = /*@__PURE__*/ S.Array(FindingSummary);
 export interface ListIncidentFindingsOutput {
   findings: FindingSummary[];
   nextToken?: string;
 }
-export const ListIncidentFindingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ findings: FindingSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListIncidentFindingsOutput",
-}) as any as S.Schema<ListIncidentFindingsOutput>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type IntegerList = number[];
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number);
 export type AttributeValueList =
   | { stringValues: string[]; integerValues?: never }
   | { stringValues?: never; integerValues: number[] };
-export const AttributeValueList = /*@__PURE__*/ S.Union([
-  S.Struct({ stringValues: StringList }),
-  S.Struct({ integerValues: IntegerList }),
-]);
 export type Condition =
   | { before: Date; after?: never; equals?: never }
   | { before?: never; after: Date; equals?: never }
   | { before?: never; after?: never; equals: AttributeValueList };
-export const Condition = /*@__PURE__*/ S.Union([
-  S.Struct({ before: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
-  S.Struct({ after: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
-  S.Struct({ equals: AttributeValueList }),
-]);
 export interface Filter {
   key: string;
   condition: Condition;
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, condition: Condition }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = /*@__PURE__*/ S.Array(Filter);
 export interface ListIncidentRecordsInput {
   filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
-export const ListIncidentRecordsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.optional(FilterList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/listIncidentRecords" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListIncidentRecordsInput" }) as any as S.Schema<ListIncidentRecordsInput>;
 export interface IncidentRecordSummary {
   arn: string;
   title: string;
@@ -831,42 +455,16 @@ export interface IncidentRecordSummary {
   resolvedTime?: Date;
   incidentRecordSource: IncidentRecordSource;
 }
-export const IncidentRecordSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    title: S.String,
-    status: S.String,
-    impact: S.Number,
-    creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    resolvedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    incidentRecordSource: IncidentRecordSource,
-  }),
-).annotate({ identifier: "IncidentRecordSummary" }) as any as S.Schema<IncidentRecordSummary>;
 export type IncidentRecordSummaryList = IncidentRecordSummary[];
-export const IncidentRecordSummaryList = /*@__PURE__*/ S.Array(IncidentRecordSummary);
 export interface ListIncidentRecordsOutput {
   incidentRecordSummaries: IncidentRecordSummary[];
   nextToken?: string;
 }
-export const ListIncidentRecordsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ incidentRecordSummaries: IncidentRecordSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListIncidentRecordsOutput",
-}) as any as S.Schema<ListIncidentRecordsOutput>;
 export interface ListRelatedItemsInput {
   incidentRecordArn: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListRelatedItemsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    incidentRecordArn: S.String,
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/listRelatedItems" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListRelatedItemsInput" }) as any as S.Schema<ListRelatedItemsInput>;
 export type Url = string;
 export type MetricDefinition = string;
 export interface PagerDutyIncidentDetail {
@@ -874,9 +472,6 @@ export interface PagerDutyIncidentDetail {
   autoResolve?: boolean;
   secretId?: string;
 }
-export const PagerDutyIncidentDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, autoResolve: S.optional(S.Boolean), secretId: S.optional(S.String) }),
-).annotate({ identifier: "PagerDutyIncidentDetail" }) as any as S.Schema<PagerDutyIncidentDetail>;
 export type ItemValue =
   | { arn: string; url?: never; metricDefinition?: never; pagerDutyIncidentDetail?: never }
   | { arn?: never; url: string; metricDefinition?: never; pagerDutyIncidentDetail?: never }
@@ -887,105 +482,50 @@ export type ItemValue =
       metricDefinition?: never;
       pagerDutyIncidentDetail: PagerDutyIncidentDetail;
     };
-export const ItemValue = /*@__PURE__*/ S.Union([
-  S.Struct({ arn: S.String }),
-  S.Struct({ url: S.String }),
-  S.Struct({ metricDefinition: S.String }),
-  S.Struct({ pagerDutyIncidentDetail: PagerDutyIncidentDetail }),
-]);
 export type ItemType = string;
 export interface ItemIdentifier {
   value: ItemValue;
   type: string;
 }
-export const ItemIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ value: ItemValue, type: S.String }),
-).annotate({ identifier: "ItemIdentifier" }) as any as S.Schema<ItemIdentifier>;
 export interface RelatedItem {
   identifier: ItemIdentifier;
   title?: string;
   generatedId?: string;
 }
-export const RelatedItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: ItemIdentifier,
-    title: S.optional(S.String),
-    generatedId: S.optional(S.String),
-  }),
-).annotate({ identifier: "RelatedItem" }) as any as S.Schema<RelatedItem>;
 export type RelatedItemList = RelatedItem[];
-export const RelatedItemList = /*@__PURE__*/ S.Array(RelatedItem);
 export interface ListRelatedItemsOutput {
   relatedItems: RelatedItem[];
   nextToken?: string;
 }
-export const ListRelatedItemsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ relatedItems: RelatedItemList, nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListRelatedItemsOutput" }) as any as S.Schema<ListRelatedItemsOutput>;
 export interface ListReplicationSetsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListReplicationSetsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/listReplicationSets" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListReplicationSetsInput" }) as any as S.Schema<ListReplicationSetsInput>;
 export type ReplicationSetArnList = string[];
-export const ReplicationSetArnList = /*@__PURE__*/ S.Array(S.String);
 export interface ListReplicationSetsOutput {
   replicationSetArns: string[];
   nextToken?: string;
 }
-export const ListReplicationSetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ replicationSetArns: ReplicationSetArnList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListReplicationSetsOutput",
-}) as any as S.Schema<ListReplicationSetsOutput>;
 export interface ListResponsePlansInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListResponsePlansInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/listResponsePlans" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListResponsePlansInput" }) as any as S.Schema<ListResponsePlansInput>;
 export interface ResponsePlanSummary {
   arn: string;
   name: string;
   displayName?: string;
 }
-export const ResponsePlanSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.String, name: S.String, displayName: S.optional(S.String) }),
-).annotate({ identifier: "ResponsePlanSummary" }) as any as S.Schema<ResponsePlanSummary>;
 export type ResponsePlanSummaryList = ResponsePlanSummary[];
-export const ResponsePlanSummaryList = /*@__PURE__*/ S.Array(ResponsePlanSummary);
 export interface ListResponsePlansOutput {
   responsePlanSummaries: ResponsePlanSummary[];
   nextToken?: string;
 }
-export const ListResponsePlansOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ responsePlanSummaries: ResponsePlanSummaryList, nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListResponsePlansOutput" }) as any as S.Schema<ListResponsePlansOutput>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: TagMap }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export type TimelineEventSort = string;
 export type SortOrder = string;
 export interface ListTimelineEventsInput {
@@ -996,18 +536,6 @@ export interface ListTimelineEventsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListTimelineEventsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    incidentRecordArn: S.String,
-    filters: S.optional(FilterList),
-    sortBy: S.optional(S.String),
-    sortOrder: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/listTimelineEvents" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListTimelineEventsInput" }) as any as S.Schema<ListTimelineEventsInput>;
 export interface EventSummary {
   incidentRecordArn: string;
   eventId: string;
@@ -1016,40 +544,18 @@ export interface EventSummary {
   eventType: string;
   eventReferences?: EventReference[];
 }
-export const EventSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    incidentRecordArn: S.String,
-    eventId: S.String,
-    eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    eventUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    eventType: S.String,
-    eventReferences: S.optional(EventReferenceList),
-  }),
-).annotate({ identifier: "EventSummary" }) as any as S.Schema<EventSummary>;
 export type EventSummaryList = EventSummary[];
-export const EventSummaryList = /*@__PURE__*/ S.Array(EventSummary);
 export interface ListTimelineEventsOutput {
   eventSummaries: EventSummary[];
   nextToken?: string;
 }
-export const ListTimelineEventsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ eventSummaries: EventSummaryList, nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListTimelineEventsOutput" }) as any as S.Schema<ListTimelineEventsOutput>;
 export interface PutResourcePolicyInput {
   resourceArn: string;
   policy: string;
 }
-export const PutResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String, policy: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/putResourcePolicy" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutResourcePolicyInput" }) as any as S.Schema<PutResourcePolicyInput>;
 export interface PutResourcePolicyOutput {
   policyId: string;
 }
-export const PutResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ policyId: S.String }),
-).annotate({ identifier: "PutResourcePolicyOutput" }) as any as S.Schema<PutResourcePolicyOutput>;
 export type RawData = string;
 export interface TriggerDetails {
   source: string;
@@ -1057,14 +563,6 @@ export interface TriggerDetails {
   timestamp: Date;
   rawData?: string;
 }
-export const TriggerDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    source: S.String,
-    triggerArn: S.optional(S.String),
-    timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    rawData: S.optional(S.String),
-  }),
-).annotate({ identifier: "TriggerDetails" }) as any as S.Schema<TriggerDetails>;
 export interface StartIncidentInput {
   clientToken?: string;
   responsePlanArn: string;
@@ -1073,80 +571,26 @@ export interface StartIncidentInput {
   triggerDetails?: TriggerDetails;
   relatedItems?: RelatedItem[];
 }
-export const StartIncidentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    responsePlanArn: S.String,
-    title: S.optional(S.String),
-    impact: S.optional(S.Number),
-    triggerDetails: S.optional(TriggerDetails),
-    relatedItems: S.optional(RelatedItemList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/startIncident" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "StartIncidentInput" }) as any as S.Schema<StartIncidentInput>;
 export interface StartIncidentOutput {
   incidentRecordArn: string;
 }
-export const StartIncidentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ incidentRecordArn: S.String }),
-).annotate({ identifier: "StartIncidentOutput" }) as any as S.Schema<StartIncidentOutput>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDeletionProtectionInput {
   arn: string;
   deletionProtected: boolean;
   clientToken?: string;
 }
-export const UpdateDeletionProtectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    deletionProtected: S.Boolean,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/updateDeletionProtection" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDeletionProtectionInput",
-}) as any as S.Schema<UpdateDeletionProtectionInput>;
 export interface UpdateDeletionProtectionOutput {}
-export const UpdateDeletionProtectionOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UpdateDeletionProtectionOutput",
-}) as any as S.Schema<UpdateDeletionProtectionOutput>;
 export interface UpdateIncidentRecordInput {
   clientToken?: string;
   arn: string;
@@ -1157,95 +601,34 @@ export interface UpdateIncidentRecordInput {
   chatChannel?: ChatChannel;
   notificationTargets?: NotificationTargetItem[];
 }
-export const UpdateIncidentRecordInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    arn: S.String,
-    title: S.optional(S.String),
-    summary: S.optional(S.String),
-    impact: S.optional(S.Number),
-    status: S.optional(S.String),
-    chatChannel: S.optional(ChatChannel),
-    notificationTargets: S.optional(NotificationTargetSet),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/updateIncidentRecord" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateIncidentRecordInput",
-}) as any as S.Schema<UpdateIncidentRecordInput>;
 export interface UpdateIncidentRecordOutput {}
-export const UpdateIncidentRecordOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UpdateIncidentRecordOutput",
-}) as any as S.Schema<UpdateIncidentRecordOutput>;
 export type RelatedItemsUpdate =
   | { itemToAdd: RelatedItem; itemToRemove?: never }
   | { itemToAdd?: never; itemToRemove: ItemIdentifier };
-export const RelatedItemsUpdate = /*@__PURE__*/ S.Union([
-  S.Struct({ itemToAdd: RelatedItem }),
-  S.Struct({ itemToRemove: ItemIdentifier }),
-]);
 export interface UpdateRelatedItemsInput {
   clientToken?: string;
   incidentRecordArn: string;
   relatedItemsUpdate: RelatedItemsUpdate;
 }
-export const UpdateRelatedItemsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    incidentRecordArn: S.String,
-    relatedItemsUpdate: RelatedItemsUpdate,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/updateRelatedItems" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UpdateRelatedItemsInput" }) as any as S.Schema<UpdateRelatedItemsInput>;
 export interface UpdateRelatedItemsOutput {}
-export const UpdateRelatedItemsOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UpdateRelatedItemsOutput",
-}) as any as S.Schema<UpdateRelatedItemsOutput>;
 export interface AddRegionAction {
   regionName: string;
   sseKmsKeyId?: string;
 }
-export const AddRegionAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ regionName: S.String, sseKmsKeyId: S.optional(S.String) }),
-).annotate({ identifier: "AddRegionAction" }) as any as S.Schema<AddRegionAction>;
 export interface DeleteRegionAction {
   regionName: string;
 }
-export const DeleteRegionAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ regionName: S.String }),
-).annotate({ identifier: "DeleteRegionAction" }) as any as S.Schema<DeleteRegionAction>;
 export type UpdateReplicationSetAction =
   | { addRegionAction: AddRegionAction; deleteRegionAction?: never }
   | { addRegionAction?: never; deleteRegionAction: DeleteRegionAction };
-export const UpdateReplicationSetAction = /*@__PURE__*/ S.Union([
-  S.Struct({ addRegionAction: AddRegionAction }),
-  S.Struct({ deleteRegionAction: DeleteRegionAction }),
-]);
 export type UpdateActionList = UpdateReplicationSetAction[];
-export const UpdateActionList = /*@__PURE__*/ S.Array(UpdateReplicationSetAction);
 export interface UpdateReplicationSetInput {
   arn: string;
   actions: UpdateReplicationSetAction[];
   clientToken?: string;
 }
-export const UpdateReplicationSetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    actions: UpdateActionList,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/updateReplicationSet" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateReplicationSetInput",
-}) as any as S.Schema<UpdateReplicationSetInput>;
 export interface UpdateReplicationSetOutput {}
-export const UpdateReplicationSetOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UpdateReplicationSetOutput",
-}) as any as S.Schema<UpdateReplicationSetOutput>;
 export type TagMapUpdate = { [key: string]: string | undefined };
-export const TagMapUpdate = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface UpdateResponsePlanInput {
   clientToken?: string;
   arn: string;
@@ -1261,29 +644,7 @@ export interface UpdateResponsePlanInput {
   incidentTemplateTags?: { [key: string]: string | undefined };
   integrations?: Integration[];
 }
-export const UpdateResponsePlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    arn: S.String,
-    displayName: S.optional(S.String),
-    incidentTemplateTitle: S.optional(S.String),
-    incidentTemplateImpact: S.optional(S.Number),
-    incidentTemplateSummary: S.optional(S.String),
-    incidentTemplateDedupeString: S.optional(S.String),
-    incidentTemplateNotificationTargets: S.optional(NotificationTargetSet),
-    chatChannel: S.optional(ChatChannel),
-    engagements: S.optional(EngagementSet),
-    actions: S.optional(ActionsList),
-    incidentTemplateTags: S.optional(TagMapUpdate),
-    integrations: S.optional(Integrations),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/updateResponsePlan" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UpdateResponsePlanInput" }) as any as S.Schema<UpdateResponsePlanInput>;
 export interface UpdateResponsePlanOutput {}
-export const UpdateResponsePlanOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UpdateResponsePlanOutput",
-}) as any as S.Schema<UpdateResponsePlanOutput>;
 export interface UpdateTimelineEventInput {
   clientToken?: string;
   incidentRecordArn: string;
@@ -1293,23 +654,7 @@ export interface UpdateTimelineEventInput {
   eventData?: string;
   eventReferences?: EventReference[];
 }
-export const UpdateTimelineEventInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    incidentRecordArn: S.String,
-    eventId: S.String,
-    eventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    eventType: S.optional(S.String),
-    eventData: S.optional(S.String),
-    eventReferences: S.optional(EventReferenceList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/updateTimelineEvent" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UpdateTimelineEventInput" }) as any as S.Schema<UpdateTimelineEventInput>;
 export interface UpdateTimelineEventOutput {}
-export const UpdateTimelineEventOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UpdateTimelineEventOutput",
-}) as any as S.Schema<UpdateTimelineEventOutput>;
 export type ExceptionMessage = string;
 export type ResourceType = string;
 export type ServiceCode = string;
@@ -1332,8 +677,8 @@ export const batchGetIncidentFindings: API.OperationMethod<
   BatchGetIncidentFindingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetIncidentFindingsInput,
-  output: BatchGetIncidentFindingsOutput,
+  input: __S(608, __c38, 0) as any as S.Schema<BatchGetIncidentFindingsInput>,
+  output: __S(616, __c38, 8) as any as S.Schema<BatchGetIncidentFindingsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1365,8 +710,8 @@ export const createReplicationSet: API.OperationMethod<
   CreateReplicationSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReplicationSetInput,
-  output: CreateReplicationSetOutput,
+  input: __S(642, __c40, 2) as any as S.Schema<CreateReplicationSetInput>,
+  output: __S(656, __c41, 0) as any as S.Schema<CreateReplicationSetOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1400,8 +745,8 @@ export const createResponsePlan: API.OperationMethod<
   CreateResponsePlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResponsePlanInput,
-  output: CreateResponsePlanOutput,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateResponsePlanInput>,
+  output: __S(656, __c41, 0) as any as S.Schema<CreateResponsePlanOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1435,8 +780,8 @@ export const createTimelineEvent: API.OperationMethod<
   CreateTimelineEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTimelineEventInput,
-  output: CreateTimelineEventOutput,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateTimelineEventInput>,
+  output: __S(81, __c5, 1) as any as S.Schema<CreateTimelineEventOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1465,8 +810,8 @@ export const deleteIncidentRecord: API.OperationMethod<
   DeleteIncidentRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIncidentRecordInput,
-  output: DeleteIncidentRecordOutput,
+  input: __S(112, __c7, 0) as any as S.Schema<DeleteIncidentRecordInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteIncidentRecordOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1495,8 +840,8 @@ export const deleteReplicationSet: API.OperationMethod<
   DeleteReplicationSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReplicationSetInput,
-  output: DeleteReplicationSetOutput,
+  input: __S(128, __c8, 0) as any as S.Schema<DeleteReplicationSetInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteReplicationSetOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1526,8 +871,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourcePolicyInput,
-  output: DeleteResourcePolicyOutput,
+  input: __S(144, __c9, 0) as any as S.Schema<DeleteResourcePolicyInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteResourcePolicyOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1556,8 +901,8 @@ export const deleteResponsePlan: API.OperationMethod<
   DeleteResponsePlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResponsePlanInput,
-  output: DeleteResponsePlanOutput,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteResponsePlanInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteResponsePlanOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1584,8 +929,8 @@ export const deleteTimelineEvent: API.OperationMethod<
   DeleteTimelineEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTimelineEventInput,
-  output: DeleteTimelineEventOutput,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteTimelineEventInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteTimelineEventOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1613,8 +958,8 @@ export const getIncidentRecord: API.OperationMethod<
   GetIncidentRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIncidentRecordInput,
-  output: GetIncidentRecordOutput,
+  input: __S(192, __c12, 0) as any as S.Schema<GetIncidentRecordInput>,
+  output: __S(196, __c12, 4) as any as S.Schema<GetIncidentRecordOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1643,8 +988,8 @@ export const getReplicationSet: API.OperationMethod<
   GetReplicationSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetReplicationSetInput,
-  output: GetReplicationSetOutput,
+  input: __S(224, __c14, 0) as any as S.Schema<GetReplicationSetInput>,
+  output: __S(228, __c14, 4) as any as S.Schema<GetReplicationSetOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1674,8 +1019,8 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResourcePolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetResourcePoliciesInput,
-  output: GetResourcePoliciesOutput,
+  input: __S(240, __c15, 0) as any as S.Schema<GetResourcePoliciesInput>,
+  output: __S(243, __c15, 3) as any as S.Schema<GetResourcePoliciesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1710,8 +1055,8 @@ export const getResponsePlan: API.OperationMethod<
   GetResponsePlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResponsePlanInput,
-  output: GetResponsePlanOutput,
+  input: __S(256, __c16, 0) as any as S.Schema<GetResponsePlanInput>,
+  output: __S(257, __c16, 1) as any as S.Schema<GetResponsePlanOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1740,8 +1085,8 @@ export const getTimelineEvent: API.OperationMethod<
   GetTimelineEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTimelineEventInput,
-  output: GetTimelineEventOutput,
+  input: __S(272, __c17, 0) as any as S.Schema<GetTimelineEventInput>,
+  output: __S(274, __c17, 2) as any as S.Schema<GetTimelineEventOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1774,8 +1119,8 @@ export const listIncidentFindings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FindingSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListIncidentFindingsInput,
-  output: ListIncidentFindingsOutput,
+  input: __S(288, __c18, 0) as any as S.Schema<ListIncidentFindingsInput>,
+  output: __S(291, __c18, 3) as any as S.Schema<ListIncidentFindingsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1811,8 +1156,8 @@ export const listIncidentRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IncidentRecordSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListIncidentRecordsInput,
-  output: ListIncidentRecordsOutput,
+  input: __S(304, __c19, 0) as any as S.Schema<ListIncidentRecordsInput>,
+  output: __S(307, __c19, 3) as any as S.Schema<ListIncidentRecordsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1846,8 +1191,8 @@ export const listRelatedItems: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RelatedItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRelatedItemsInput,
-  output: ListRelatedItemsOutput,
+  input: __S(336, __c21, 0) as any as S.Schema<ListRelatedItemsInput>,
+  output: __S(337, __c21, 1) as any as S.Schema<ListRelatedItemsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1881,8 +1226,8 @@ export const listReplicationSets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Arn
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListReplicationSetsInput,
-  output: ListReplicationSetsOutput,
+  input: __S(384, __c24, 0) as any as S.Schema<ListReplicationSetsInput>,
+  output: __S(385, __c24, 1) as any as S.Schema<ListReplicationSetsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1916,8 +1261,8 @@ export const listResponsePlans: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResponsePlanSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResponsePlansInput,
-  output: ListResponsePlansOutput,
+  input: __S(400, __c25, 0) as any as S.Schema<ListResponsePlansInput>,
+  output: __S(403, __c25, 3) as any as S.Schema<ListResponsePlansOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1951,8 +1296,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(416, __c26, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1981,8 +1326,8 @@ export const listTimelineEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EventSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTimelineEventsInput,
-  output: ListTimelineEventsOutput,
+  input: __S(432, __c27, 0) as any as S.Schema<ListTimelineEventsInput>,
+  output: __S(435, __c27, 3) as any as S.Schema<ListTimelineEventsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2018,8 +1363,8 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyInput,
-  output: PutResourcePolicyOutput,
+  input: __S(448, __c28, 0) as any as S.Schema<PutResourcePolicyInput>,
+  output: __S(449, __c28, 1) as any as S.Schema<PutResourcePolicyOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2050,8 +1395,8 @@ export const startIncident: API.OperationMethod<
   StartIncidentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartIncidentInput,
-  output: StartIncidentOutput,
+  input: __S(465, __c29, 1) as any as S.Schema<StartIncidentInput>,
+  output: __S(466, __c29, 2) as any as S.Schema<StartIncidentOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2083,8 +1428,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(480, __c30, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2116,8 +1461,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(496, __c31, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2148,8 +1493,8 @@ export const updateDeletionProtection: API.OperationMethod<
   UpdateDeletionProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDeletionProtectionInput,
-  output: UpdateDeletionProtectionOutput,
+  input: __S(512, __c32, 0) as any as S.Schema<UpdateDeletionProtectionInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<UpdateDeletionProtectionOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2181,8 +1526,8 @@ export const updateIncidentRecord: API.OperationMethod<
   UpdateIncidentRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateIncidentRecordInput,
-  output: UpdateIncidentRecordOutput,
+  input: __S(528, __c33, 0) as any as S.Schema<UpdateIncidentRecordInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<UpdateIncidentRecordOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2213,8 +1558,8 @@ export const updateRelatedItems: API.OperationMethod<
   UpdateRelatedItemsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRelatedItemsInput,
-  output: UpdateRelatedItemsOutput,
+  input: __S(545, __c34, 1) as any as S.Schema<UpdateRelatedItemsInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<UpdateRelatedItemsOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2245,8 +1590,8 @@ export const updateReplicationSet: API.OperationMethod<
   UpdateReplicationSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateReplicationSetInput,
-  output: UpdateReplicationSetOutput,
+  input: __S(564, __c35, 4) as any as S.Schema<UpdateReplicationSetInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<UpdateReplicationSetOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2277,8 +1622,8 @@ export const updateResponsePlan: API.OperationMethod<
   UpdateResponsePlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResponsePlanInput,
-  output: UpdateResponsePlanOutput,
+  input: __S(576, __c36, 0) as any as S.Schema<UpdateResponsePlanInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<UpdateResponsePlanOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2309,8 +1654,8 @@ export const updateTimelineEvent: API.OperationMethod<
   UpdateTimelineEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTimelineEventInput,
-  output: UpdateTimelineEventOutput,
+  input: __S(592, __c37, 0) as any as S.Schema<UpdateTimelineEventInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<UpdateTimelineEventOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2323,3 +1668,1038 @@ export const updateTimelineEvent: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTimelineEvent",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          name: S.String,
+          displayName: S.optional(S.String),
+          incidentTemplate: __S(48, __c3, 0),
+          chatChannel: S.optional(__S(34, __c2, 2)),
+          engagements: S.optional(__S(624, __c39, 0)),
+          actions: S.optional(__S(69, __c4, 5)),
+          tags: S.optional(__S(672, __c42, 0)),
+          integrations: S.optional(__S(73, __c4, 9)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/createResponsePlan" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateResponsePlanInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "EmptyChatChannel" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([/*@__PURE__*/ S.Struct({ snsTopicArn: S.String })]);
+    case 1:
+      return S.Array(__S(32, __c2, 0));
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ empty: __S(16, __c1, 0) }),
+        /*@__PURE__*/ S.Struct({ chatbotSns: __S(624, __c39, 0) }),
+      ]);
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.String,
+          impact: S.Number,
+          summary: S.optional(S.String),
+          dedupeString: S.optional(S.String),
+          notificationTargets: S.optional(__S(33, __c2, 1)),
+          incidentTags: S.optional(__S(672, __c42, 0)),
+        }),
+      ).annotate({ identifier: "IncidentTemplate" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ __S(624, __c39, 0).pipe(S.optional));
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ variable: S.String })]);
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ __S(65, __c4, 1).pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          roleArn: S.String,
+          documentName: S.String,
+          documentVersion: S.optional(S.String),
+          targetAccount: S.optional(S.String),
+          parameters: S.optional(__S(64, __c4, 0)),
+          dynamicParameters: S.optional(__S(66, __c4, 2)),
+        }),
+      ).annotate({ identifier: "SsmAutomation" });
+    case 4:
+      return S.Union([/*@__PURE__*/ S.Struct({ ssmAutomation: __S(67, __c4, 3) })]);
+    case 5:
+      return S.Array(__S(68, __c4, 4));
+    case 6:
+      return S.suspend(() => S.Struct({ serviceId: S.String })).annotate({
+        identifier: "PagerDutyIncidentConfiguration",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          secretId: S.String,
+          pagerDutyIncidentConfiguration: __S(70, __c4, 6),
+        }),
+      ).annotate({ identifier: "PagerDutyConfiguration" });
+    case 8:
+      return S.Union([/*@__PURE__*/ S.Struct({ pagerDutyConfiguration: __S(71, __c4, 7) })]);
+    case 9:
+      return S.Array(__S(72, __c4, 8));
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          incidentRecordArn: S.String,
+          eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          eventType: S.String,
+          eventData: S.String,
+          eventReferences: S.optional(__S(97, __c6, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/createTimelineEvent" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateTimelineEventInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ incidentRecordArn: S.String, eventId: S.String })).annotate(
+        { identifier: "CreateTimelineEventOutput" },
+      );
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ resource: S.String }),
+        /*@__PURE__*/ S.Struct({ relatedItemId: S.String }),
+      ]);
+    case 1:
+      return S.Array(__S(96, __c6, 0));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/deleteIncidentRecord" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteIncidentRecordInput" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/deleteReplicationSet" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteReplicationSetInput" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, policyId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/deleteResourcePolicy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteResourcePolicyInput" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/deleteResponsePlan" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteResponsePlanInput" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ incidentRecordArn: S.String, eventId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/deleteTimelineEvent" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteTimelineEventInput" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/getIncidentRecord" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetIncidentRecordInput" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ ssmExecutionArn: S.String })]);
+    case 2:
+      return S.Array(__S(193, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          title: S.String,
+          summary: S.optional(S.String),
+          status: S.String,
+          impact: S.Number,
+          creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          resolvedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          lastModifiedBy: S.String,
+          automationExecutions: S.optional(__S(194, __c12, 2)),
+          incidentRecordSource: __S(208, __c13, 0),
+          dedupeString: S.String,
+          chatChannel: S.optional(__S(34, __c2, 2)),
+          notificationTargets: S.optional(__S(33, __c2, 1)),
+        }),
+      ).annotate({ identifier: "IncidentRecord" });
+    case 4:
+      return S.suspend(() => S.Struct({ incidentRecord: __S(195, __c12, 3) })).annotate({
+        identifier: "GetIncidentRecordOutput",
+      });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdBy: S.String,
+          invokedBy: S.optional(S.String),
+          resourceArn: S.optional(S.String),
+          source: S.String,
+        }),
+      ).annotate({ identifier: "IncidentRecordSource" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/getReplicationSet" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetReplicationSetInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sseKmsKeyId: S.optional(S.String),
+          status: S.String,
+          statusMessage: S.optional(S.String),
+          statusUpdateDateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "RegionInfo" });
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ __S(225, __c14, 1).pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          regionMap: __S(226, __c14, 2),
+          status: S.String,
+          deletionProtected: S.Boolean,
+          createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          createdBy: S.String,
+          lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          lastModifiedBy: S.String,
+        }),
+      ).annotate({ identifier: "ReplicationSet" });
+    case 4:
+      return S.suspend(() => S.Struct({ replicationSet: __S(227, __c14, 3) })).annotate({
+        identifier: "GetReplicationSetOutput",
+      });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/getResourcePolicies" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetResourcePoliciesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          policyDocument: S.String,
+          policyId: S.String,
+          ramResourceShareRegion: S.String,
+        }),
+      ).annotate({ identifier: "ResourcePolicy" });
+    case 2:
+      return S.Array(__S(241, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ resourcePolicies: __S(242, __c15, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "GetResourcePoliciesOutput" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/getResponsePlan" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResponsePlanInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          name: S.String,
+          displayName: S.optional(S.String),
+          incidentTemplate: __S(48, __c3, 0),
+          chatChannel: S.optional(__S(34, __c2, 2)),
+          engagements: S.optional(__S(624, __c39, 0)),
+          actions: S.optional(__S(69, __c4, 5)),
+          integrations: S.optional(__S(73, __c4, 9)),
+        }),
+      ).annotate({ identifier: "GetResponsePlanOutput" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          incidentRecordArn: S.String.pipe(T.HttpQuery("incidentRecordArn")),
+          eventId: S.String.pipe(T.HttpQuery("eventId")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/getTimelineEvent" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetTimelineEventInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          incidentRecordArn: S.String,
+          eventId: S.String,
+          eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          eventUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          eventType: S.String,
+          eventData: S.String,
+          eventReferences: S.optional(__S(97, __c6, 1)),
+        }),
+      ).annotate({ identifier: "TimelineEvent" });
+    case 2:
+      return S.suspend(() => S.Struct({ event: __S(273, __c17, 1) })).annotate({
+        identifier: "GetTimelineEventOutput",
+      });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          incidentRecordArn: S.String,
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/listIncidentFindings" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListIncidentFindingsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "FindingSummary" });
+    case 2:
+      return S.Array(__S(289, __c18, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ findings: __S(290, __c18, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListIncidentFindingsOutput" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(324, __c20, 4)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/listIncidentRecords" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListIncidentRecordsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          title: S.String,
+          status: S.String,
+          impact: S.Number,
+          creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          resolvedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          incidentRecordSource: __S(208, __c13, 0),
+        }),
+      ).annotate({ identifier: "IncidentRecordSummary" });
+    case 2:
+      return S.Array(__S(305, __c19, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ incidentRecordSummaries: __S(306, __c19, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListIncidentRecordsOutput" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ stringValues: __S(624, __c39, 0) }),
+        /*@__PURE__*/ S.Struct({ integerValues: __S(320, __c20, 0) }),
+      ]);
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({
+          before: /*@__PURE__*/ S.Date.pipe(/*@__PURE__*/ T.TimestampFormat("epoch-seconds")),
+        }),
+        /*@__PURE__*/ S.Struct({
+          after: /*@__PURE__*/ S.Date.pipe(/*@__PURE__*/ T.TimestampFormat("epoch-seconds")),
+        }),
+        /*@__PURE__*/ S.Struct({ equals: __S(321, __c20, 1) }),
+      ]);
+    case 3:
+      return S.suspend(() => S.Struct({ key: S.String, condition: __S(322, __c20, 2) })).annotate({
+        identifier: "Filter",
+      });
+    case 4:
+      return S.Array(__S(323, __c20, 3));
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          incidentRecordArn: S.String,
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/listRelatedItems" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListRelatedItemsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ relatedItems: __S(352, __c22, 0), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListRelatedItemsOutput" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(371, __c23, 3));
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          autoResolve: S.optional(S.Boolean),
+          secretId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PagerDutyIncidentDetail" });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ arn: S.String }),
+        /*@__PURE__*/ S.Struct({ url: S.String }),
+        /*@__PURE__*/ S.Struct({ metricDefinition: S.String }),
+        /*@__PURE__*/ S.Struct({ pagerDutyIncidentDetail: __S(368, __c23, 0) }),
+      ]);
+    case 2:
+      return S.suspend(() => S.Struct({ value: __S(369, __c23, 1), type: S.String })).annotate({
+        identifier: "ItemIdentifier",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          identifier: __S(370, __c23, 2),
+          title: S.optional(S.String),
+          generatedId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RelatedItem" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/listReplicationSets" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListReplicationSetsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ replicationSetArns: __S(624, __c39, 0), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListReplicationSetsOutput" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ maxResults: S.optional(S.Number), nextToken: S.optional(S.String) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/listResponsePlans" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListResponsePlansInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, name: S.String, displayName: S.optional(S.String) }),
+      ).annotate({ identifier: "ResponsePlanSummary" });
+    case 2:
+      return S.Array(__S(401, __c25, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ responsePlanSummaries: __S(402, __c25, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListResponsePlansOutput" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: __S(672, __c42, 0) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          incidentRecordArn: S.String,
+          filters: S.optional(__S(324, __c20, 4)),
+          sortBy: S.optional(S.String),
+          sortOrder: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/listTimelineEvents" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTimelineEventsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          incidentRecordArn: S.String,
+          eventId: S.String,
+          eventTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          eventUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          eventType: S.String,
+          eventReferences: S.optional(__S(97, __c6, 1)),
+        }),
+      ).annotate({ identifier: "EventSummary" });
+    case 2:
+      return S.Array(__S(433, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ eventSummaries: __S(434, __c27, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListTimelineEventsOutput" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, policy: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/putResourcePolicy" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutResourcePolicyInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ policyId: S.String })).annotate({
+        identifier: "PutResourcePolicyOutput",
+      });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.String,
+          triggerArn: S.optional(S.String),
+          timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          rawData: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TriggerDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          responsePlanArn: S.String,
+          title: S.optional(S.String),
+          impact: S.optional(S.Number),
+          triggerDetails: S.optional(__S(464, __c29, 0)),
+          relatedItems: S.optional(__S(352, __c22, 0)),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/startIncident" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartIncidentInput" });
+    case 2:
+      return S.suspend(() => S.Struct({ incidentRecordArn: S.String })).annotate({
+        identifier: "StartIncidentOutput",
+      });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tags: __S(672, __c42, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(624, __c39, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          deletionProtected: S.Boolean,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/updateDeletionProtection" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateDeletionProtectionInput" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          arn: S.String,
+          title: S.optional(S.String),
+          summary: S.optional(S.String),
+          impact: S.optional(S.Number),
+          status: S.optional(S.String),
+          chatChannel: S.optional(__S(34, __c2, 2)),
+          notificationTargets: S.optional(__S(33, __c2, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/updateIncidentRecord" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateIncidentRecordInput" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ itemToAdd: __S(371, __c23, 3) }),
+        /*@__PURE__*/ S.Struct({ itemToRemove: __S(370, __c23, 2) }),
+      ]);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          incidentRecordArn: S.String,
+          relatedItemsUpdate: __S(544, __c34, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/updateRelatedItems" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateRelatedItemsInput" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ regionName: S.String, sseKmsKeyId: S.optional(S.String) }),
+      ).annotate({ identifier: "AddRegionAction" });
+    case 1:
+      return S.suspend(() => S.Struct({ regionName: S.String })).annotate({
+        identifier: "DeleteRegionAction",
+      });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ addRegionAction: __S(560, __c35, 0) }),
+        /*@__PURE__*/ S.Struct({ deleteRegionAction: __S(561, __c35, 1) }),
+      ]);
+    case 3:
+      return S.Array(__S(562, __c35, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          actions: __S(563, __c35, 3),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/updateReplicationSet" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateReplicationSetInput" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          arn: S.String,
+          displayName: S.optional(S.String),
+          incidentTemplateTitle: S.optional(S.String),
+          incidentTemplateImpact: S.optional(S.Number),
+          incidentTemplateSummary: S.optional(S.String),
+          incidentTemplateDedupeString: S.optional(S.String),
+          incidentTemplateNotificationTargets: S.optional(__S(33, __c2, 1)),
+          chatChannel: S.optional(__S(34, __c2, 2)),
+          engagements: S.optional(__S(624, __c39, 0)),
+          actions: S.optional(__S(69, __c4, 5)),
+          incidentTemplateTags: S.optional(__S(672, __c42, 0)),
+          integrations: S.optional(__S(73, __c4, 9)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/updateResponsePlan" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateResponsePlanInput" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          incidentRecordArn: S.String,
+          eventId: S.String,
+          eventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          eventType: S.optional(S.String),
+          eventData: S.optional(S.String),
+          eventReferences: S.optional(__S(97, __c6, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/updateTimelineEvent" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateTimelineEventInput" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ incidentRecordArn: S.String, findingIds: __S(624, __c39, 0) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/batchGetIncidentFindings" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchGetIncidentFindingsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          deploymentGroupArn: S.String,
+          deploymentId: S.String,
+        }),
+      ).annotate({ identifier: "CodeDeployDeployment" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          stackArn: S.String,
+        }),
+      ).annotate({ identifier: "CloudFormationStackUpdate" });
+    case 3:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ codeDeployDeployment: __S(609, __c38, 1) }),
+        /*@__PURE__*/ S.Struct({ cloudFormationStackUpdate: __S(610, __c38, 2) }),
+      ]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          lastModifiedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          details: S.optional(__S(611, __c38, 3)),
+        }),
+      ).annotate({ identifier: "Finding" });
+    case 5:
+      return S.Array(__S(612, __c38, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ findingId: S.String, code: S.String, message: S.String }),
+      ).annotate({ identifier: "BatchGetIncidentFindingsError" });
+    case 7:
+      return S.Array(__S(614, __c38, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ findings: __S(613, __c38, 5), errors: __S(615, __c38, 7) }),
+      ).annotate({ identifier: "BatchGetIncidentFindingsOutput" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ sseKmsKeyId: S.optional(S.String) })).annotate({
+        identifier: "RegionMapInputValue",
+      });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(640, __c40, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          regions: __S(641, __c40, 1),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          tags: S.optional(__S(672, __c42, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/createReplicationSet" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateReplicationSetInput" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ arn: S.String })).annotate({
+        identifier: "CreateReplicationSetOutput",
+      });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

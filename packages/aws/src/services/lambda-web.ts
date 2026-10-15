@@ -1,17 +1,20 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "Lambda Web", serviceShapeName: "LambdaWeb" });
-const auth = T.AwsAuthSigv4({ name: "lambda" });
-const ver = T.ServiceVersion("2025-03-07");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "Lambda Web", serviceShapeName: "LambdaWeb" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "lambda" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2025-03-07");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -66,29 +69,29 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://lambda.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-      resourceType: S.optional(S.String),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceId: /*@__PURE__*/ S.optional(S.String),
+      resourceType: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(409),
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ExecutionRoleNotAssumable
   extends /*@__PURE__*/ S.TaggedError<ExecutionRoleNotAssumable>()(
     "ExecutionRoleNotAssumable",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.SyntheticError({
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.SyntheticError({
       from: "ValidationException",
       message: { includes: "cannot be assumed by lambda.amazonaws.com" },
     }),
@@ -96,47 +99,52 @@ export class ExecutionRoleNotAssumable
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-      resourceType: S.optional(S.String),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceId: /*@__PURE__*/ S.optional(S.String),
+      resourceType: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-      resourceType: S.optional(S.String),
-      serviceCode: S.optional(S.String),
-      quotaCode: S.optional(S.String),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceId: /*@__PURE__*/ S.optional(S.String),
+      resourceType: /*@__PURE__*/ S.optional(S.String),
+      serviceCode: /*@__PURE__*/ S.optional(S.String),
+      quotaCode: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(402),
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
-      serviceCode: S.optional(S.String),
-      quotaCode: S.optional(S.String),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
+        /*@__PURE__*/ T.HttpHeader("Retry-After"),
+      ),
+      serviceCode: /*@__PURE__*/ S.optional(S.String),
+      quotaCode: /*@__PURE__*/ S.optional(S.String),
     },
-    T.all(T.HttpError(429), T.Retryable({ throttling: true })),
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.HttpError(429),
+      /*@__PURE__*/ T.Retryable({ throttling: true }),
+    ),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type FunctionName = string;
 export type Description = string;
@@ -146,31 +154,18 @@ export interface S3Object {
   key: string;
   versionId?: string;
 }
-export const S3Object = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucket: S.String, key: S.String, versionId: S.optional(S.String) }),
-).annotate({ identifier: "S3Object" }) as any as S.Schema<S3Object>;
 export interface CodeConfig {
   s3Object: S3Object;
 }
-export const CodeConfig = /*@__PURE__*/ S.suspend(() => S.Struct({ s3Object: S3Object })).annotate({
-  identifier: "CodeConfig",
-}) as any as S.Schema<CodeConfig>;
 export interface RuntimeConfig {
   runtime: string;
 }
-export const RuntimeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ runtime: S.String }),
-).annotate({ identifier: "RuntimeConfig" }) as any as S.Schema<RuntimeConfig>;
 export interface BuildConfig {
   codeConfig: CodeConfig;
   runtimeConfig: RuntimeConfig;
 }
-export const BuildConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ codeConfig: CodeConfig, runtimeConfig: RuntimeConfig }),
-).annotate({ identifier: "BuildConfig" }) as any as S.Schema<BuildConfig>;
 export type RoleArn = string;
 export type EnvironmentVariables = { [key: string]: string | undefined };
-export const EnvironmentVariables = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ApplicationLogLevel =
   | "TRACE"
   | "DEBUG"
@@ -179,29 +174,15 @@ export type ApplicationLogLevel =
   | "ERROR"
   | "FATAL"
   | (string & {});
-export const ApplicationLogLevel = S.String;
-
 export type SystemLogLevel = "DEBUG" | "INFO" | "WARN" | (string & {});
-export const SystemLogLevel = S.String;
-
 export interface LoggingConfig {
   logGroup?: string;
   applicationLogLevel?: ApplicationLogLevel;
   systemLogLevel?: SystemLogLevel;
 }
-export const LoggingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    logGroup: S.optional(S.String),
-    applicationLogLevel: S.optional(ApplicationLogLevel),
-    systemLogLevel: S.optional(SystemLogLevel),
-  }),
-).annotate({ identifier: "LoggingConfig" }) as any as S.Schema<LoggingConfig>;
 export interface TelemetryConfig {
   loggingConfig?: LoggingConfig;
 }
-export const TelemetryConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ loggingConfig: S.optional(LoggingConfig) }),
-).annotate({ identifier: "TelemetryConfig" }) as any as S.Schema<TelemetryConfig>;
 export interface ServiceConfig {
   executionRoleArn: string;
   timeoutSeconds?: number;
@@ -210,55 +191,24 @@ export interface ServiceConfig {
   environmentVariables?: { [key: string]: string | undefined };
   telemetryConfig?: TelemetryConfig;
 }
-export const ServiceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    executionRoleArn: S.String,
-    timeoutSeconds: S.optional(S.Number),
-    egressNetworkConnectorArn: S.optional(S.String),
-    maxConcurrencyPerEnvironment: S.optional(S.Number),
-    environmentVariables: S.optional(EnvironmentVariables),
-    telemetryConfig: S.optional(TelemetryConfig),
-  }),
-).annotate({ identifier: "ServiceConfig" }) as any as S.Schema<ServiceConfig>;
 export interface RevisionConfig {
   description?: string;
   kmsKeyArn?: string;
   buildConfig: BuildConfig;
   serviceConfig: ServiceConfig;
 }
-export const RevisionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    buildConfig: BuildConfig,
-    serviceConfig: ServiceConfig,
-  }),
-).annotate({ identifier: "RevisionConfig" }) as any as S.Schema<RevisionConfig>;
 export type EndpointName = string;
 export type EndpointType = "HomeRegion" | "MultiRegion" | "PerRegion" | (string & {});
-export const EndpointType = S.String;
-
 export type AuthType = "ApplicationManaged" | "IamAuth" | (string & {});
-export const AuthType = S.String;
-
 export type AutoDeploymentMode = "LatestRevision" | "Disabled" | (string & {});
-export const AutoDeploymentMode = S.String;
-
 export type Region = string;
 export type RegionList = string[];
-export const RegionList = /*@__PURE__*/ S.Array(S.String);
 export interface ScalingConfig {
   maxEnvironments?: number;
 }
-export const ScalingConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ maxEnvironments: S.optional(S.Number) }),
-).annotate({ identifier: "ScalingConfig" }) as any as S.Schema<ScalingConfig>;
 export interface ThrottleConfig {
   rateLimit?: number;
 }
-export const ThrottleConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ rateLimit: S.optional(S.Number) }),
-).annotate({ identifier: "ThrottleConfig" }) as any as S.Schema<ThrottleConfig>;
 export interface EndpointConfig {
   endpointName: string;
   description?: string;
@@ -269,53 +219,19 @@ export interface EndpointConfig {
   scalingConfig?: ScalingConfig;
   throttleConfig?: ThrottleConfig;
 }
-export const EndpointConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endpointName: S.String,
-    description: S.optional(S.String),
-    endpointType: EndpointType,
-    authType: AuthType,
-    autoDeploymentMode: S.optional(AutoDeploymentMode),
-    regions: S.optional(RegionList),
-    scalingConfig: S.optional(ScalingConfig),
-    throttleConfig: S.optional(ThrottleConfig),
-  }),
-).annotate({ identifier: "EndpointConfig" }) as any as S.Schema<EndpointConfig>;
 export type TagKey = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateWebFunctionRequest {
   functionName: string;
   revisionConfig?: RevisionConfig;
   endpointConfig?: EndpointConfig;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateWebFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String,
-    revisionConfig: S.optional(RevisionConfig),
-    endpointConfig: S.optional(EndpointConfig),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2025-03-07/web-functions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "CreateWebFunctionRequest" }) as any as S.Schema<CreateWebFunctionRequest>;
 export type FunctionArn = string;
 export type FunctionState = "Pending" | "Active" | "Failed" | "Deleting" | (string & {});
-export const FunctionState = S.String;
-
 export type RevisionArn = string;
 export type RevisionId = string;
 export type RevisionState = "Pending" | "Active" | "Failed" | (string & {});
-export const RevisionState = S.String;
-
 export interface FunctionRevisionSummary {
   revisionArn: string;
   revisionId: string;
@@ -324,33 +240,15 @@ export interface FunctionRevisionSummary {
   stateReason: string;
   createdAt: Date;
 }
-export const FunctionRevisionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    revisionArn: S.String,
-    revisionId: S.String,
-    description: S.optional(S.String),
-    state: RevisionState,
-    stateReason: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "FunctionRevisionSummary" }) as any as S.Schema<FunctionRevisionSummary>;
 export type EndpointArn = string;
 export type DomainName = string;
 export interface RevisionWeight {
   revisionId: string;
   weight: number;
 }
-export const RevisionWeight = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ revisionId: S.String, weight: S.Number }),
-).annotate({ identifier: "RevisionWeight" }) as any as S.Schema<RevisionWeight>;
 export type RevisionWeightList = RevisionWeight[];
-export const RevisionWeightList = /*@__PURE__*/ S.Array(RevisionWeight);
 export type EndpointState = "Pending" | "Active" | "Failed" | "Deleting" | (string & {});
-export const EndpointState = S.String;
-
 export type EndpointUpdateStatus = "InProgress" | "Successful" | "Failed" | (string & {});
-export const EndpointUpdateStatus = S.String;
-
 export interface FunctionEndpointSummary {
   endpointArn: string;
   endpointName: string;
@@ -370,27 +268,6 @@ export interface FunctionEndpointSummary {
   createdAt: Date;
   updatedAt: Date;
 }
-export const FunctionEndpointSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endpointArn: S.String,
-    endpointName: S.String,
-    description: S.optional(S.String),
-    endpointType: EndpointType,
-    domainName: S.String,
-    authType: AuthType,
-    autoDeploymentMode: AutoDeploymentMode,
-    revisionWeights: RevisionWeightList,
-    regions: RegionList,
-    scalingConfig: S.optional(ScalingConfig),
-    throttleConfig: S.optional(ThrottleConfig),
-    state: EndpointState,
-    stateReason: S.String,
-    updateStatus: S.optional(EndpointUpdateStatus),
-    updateStatusReason: S.optional(S.String),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "FunctionEndpointSummary" }) as any as S.Schema<FunctionEndpointSummary>;
 export interface CreateWebFunctionResponse {
   functionName: string;
   functionArn: string;
@@ -402,21 +279,6 @@ export interface CreateWebFunctionResponse {
   endpoint?: FunctionEndpointSummary;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateWebFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String,
-    functionArn: S.String,
-    state: FunctionState,
-    stateReason: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    revision: S.optional(FunctionRevisionSummary),
-    endpoint: S.optional(FunctionEndpointSummary),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "CreateWebFunctionResponse",
-}) as any as S.Schema<CreateWebFunctionResponse>;
 export interface CreateWebFunctionEndpointRequest {
   functionName: string;
   endpointName: string;
@@ -429,31 +291,6 @@ export interface CreateWebFunctionEndpointRequest {
   scalingConfig?: ScalingConfig;
   throttleConfig?: ThrottleConfig;
 }
-export const CreateWebFunctionEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String.pipe(T.HttpLabel("functionName")),
-    endpointName: S.String,
-    description: S.optional(S.String),
-    endpointType: EndpointType,
-    authType: AuthType,
-    autoDeploymentMode: S.optional(AutoDeploymentMode),
-    revisionWeights: S.optional(RevisionWeightList),
-    regions: S.optional(RegionList),
-    scalingConfig: S.optional(ScalingConfig),
-    throttleConfig: S.optional(ThrottleConfig),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/2025-03-07/web-functions/{functionName}/endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateWebFunctionEndpointRequest",
-}) as any as S.Schema<CreateWebFunctionEndpointRequest>;
 export interface RegionalEndpoint {
   domainName?: string;
   authType: AuthType;
@@ -465,24 +302,7 @@ export interface RegionalEndpoint {
   updateStatus?: EndpointUpdateStatus;
   updateStatusReason?: string;
 }
-export const RegionalEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.optional(S.String),
-    authType: AuthType,
-    revisionWeights: RevisionWeightList,
-    scalingConfig: S.optional(ScalingConfig),
-    throttleConfig: S.optional(ThrottleConfig),
-    state: EndpointState,
-    stateReason: S.String,
-    updateStatus: S.optional(EndpointUpdateStatus),
-    updateStatusReason: S.optional(S.String),
-  }),
-).annotate({ identifier: "RegionalEndpoint" }) as any as S.Schema<RegionalEndpoint>;
 export type RegionalEndpoints = { [key: string]: RegionalEndpoint | undefined };
-export const RegionalEndpoints = /*@__PURE__*/ S.Record(
-  S.String,
-  RegionalEndpoint.pipe(S.optional),
-);
 export interface CreateWebFunctionEndpointResponse {
   functionArn: string;
   endpointArn: string;
@@ -504,31 +324,6 @@ export interface CreateWebFunctionEndpointResponse {
   createdAt: Date;
   updatedAt: Date;
 }
-export const CreateWebFunctionEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionArn: S.String,
-    endpointArn: S.String,
-    endpointName: S.String,
-    description: S.optional(S.String),
-    endpointType: EndpointType,
-    domainName: S.String,
-    authType: AuthType,
-    autoDeploymentMode: AutoDeploymentMode,
-    revisionWeights: RevisionWeightList,
-    regions: RegionList,
-    scalingConfig: S.optional(ScalingConfig),
-    throttleConfig: S.optional(ThrottleConfig),
-    state: EndpointState,
-    stateReason: S.String,
-    updateStatus: S.optional(EndpointUpdateStatus),
-    updateStatusReason: S.optional(S.String),
-    regionalEndpoints: RegionalEndpoints,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "CreateWebFunctionEndpointResponse",
-}) as any as S.Schema<CreateWebFunctionEndpointResponse>;
 export interface CreateWebFunctionRevisionRequest {
   functionName: string;
   description?: string;
@@ -536,36 +331,12 @@ export interface CreateWebFunctionRevisionRequest {
   buildConfig: BuildConfig;
   serviceConfig: ServiceConfig;
 }
-export const CreateWebFunctionRevisionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String.pipe(T.HttpLabel("functionName")),
-    description: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    buildConfig: BuildConfig,
-    serviceConfig: ServiceConfig,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2025-03-07/web-functions/{functionName}/revisions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateWebFunctionRevisionRequest",
-}) as any as S.Schema<CreateWebFunctionRevisionRequest>;
 export interface RevisionError {
   attribute: string;
   errorCode: string;
   errorMessage: string;
 }
-export const RevisionError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attribute: S.String, errorCode: S.String, errorMessage: S.String }),
-).annotate({ identifier: "RevisionError" }) as any as S.Schema<RevisionError>;
 export type RevisionErrors = RevisionError[];
-export const RevisionErrors = /*@__PURE__*/ S.Array(RevisionError);
 export interface CreateWebFunctionRevisionResponse {
   functionArn: string;
   revisionArn: string;
@@ -579,215 +350,52 @@ export interface CreateWebFunctionRevisionResponse {
   errors?: RevisionError[];
   createdAt: Date;
 }
-export const CreateWebFunctionRevisionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionArn: S.String,
-    revisionArn: S.String,
-    revisionId: S.String,
-    description: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    buildConfig: BuildConfig,
-    serviceConfig: ServiceConfig,
-    state: RevisionState,
-    stateReason: S.String,
-    errors: S.optional(RevisionErrors),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "CreateWebFunctionRevisionResponse",
-}) as any as S.Schema<CreateWebFunctionRevisionResponse>;
 export type ResourceArn = string;
 export type PolicyRevisionId = string;
 export interface DeleteResourcePolicyRequest {
   resourceArn: string;
   revisionId?: string;
 }
-export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    revisionId: S.optional(S.String).pipe(T.HttpQuery("RevisionId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2025-03-07/resource-policy/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResourcePolicyRequest",
-}) as any as S.Schema<DeleteResourcePolicyRequest>;
 export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteResourcePolicyResponse",
-}) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteWebFunctionRequest {
   functionName: string;
 }
-export const DeleteWebFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ functionName: S.String.pipe(T.HttpLabel("functionName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2025-03-07/web-functions/{functionName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "DeleteWebFunctionRequest" }) as any as S.Schema<DeleteWebFunctionRequest>;
 export interface DeleteWebFunctionResponse {}
-export const DeleteWebFunctionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteWebFunctionResponse",
-}) as any as S.Schema<DeleteWebFunctionResponse>;
 export interface DeleteWebFunctionEndpointRequest {
   functionName: string;
   endpointName: string;
 }
-export const DeleteWebFunctionEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String.pipe(T.HttpLabel("functionName")),
-    endpointName: S.String.pipe(T.HttpLabel("endpointName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2025-03-07/web-functions/{functionName}/endpoints/{endpointName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteWebFunctionEndpointRequest",
-}) as any as S.Schema<DeleteWebFunctionEndpointRequest>;
 export interface DeleteWebFunctionEndpointResponse {}
-export const DeleteWebFunctionEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteWebFunctionEndpointResponse",
-}) as any as S.Schema<DeleteWebFunctionEndpointResponse>;
 export interface DeleteWebFunctionRevisionRequest {
   functionName: string;
   revisionId: string;
 }
-export const DeleteWebFunctionRevisionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String.pipe(T.HttpLabel("functionName")),
-    revisionId: S.String.pipe(T.HttpLabel("revisionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2025-03-07/web-functions/{functionName}/revisions/{revisionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteWebFunctionRevisionRequest",
-}) as any as S.Schema<DeleteWebFunctionRevisionRequest>;
 export interface DeleteWebFunctionRevisionResponse {}
-export const DeleteWebFunctionRevisionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteWebFunctionRevisionResponse",
-}) as any as S.Schema<DeleteWebFunctionRevisionResponse>;
 export interface GetResourcePolicyRequest {
   resourceArn: string;
 }
-export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2025-03-07/resource-policy/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetResourcePolicyRequest" }) as any as S.Schema<GetResourcePolicyRequest>;
 export type ResourcePolicy = string;
 export interface GetResourcePolicyResponse {
   policy: string;
   revisionId: string;
 }
-export const GetResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ policy: S.String, revisionId: S.String }).pipe(
-    S.encodeKeys({ policy: "Policy", revisionId: "RevisionId" }),
-  ),
-).annotate({
-  identifier: "GetResourcePolicyResponse",
-}) as any as S.Schema<GetResourcePolicyResponse>;
 export interface GetWebAccountSettingsRequest {}
-export const GetWebAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2025-03-07/web-account-settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetWebAccountSettingsRequest",
-}) as any as S.Schema<GetWebAccountSettingsRequest>;
 export interface AccountQuotas {
   maxTotalArmVCpus: number;
   maxTotalRateLimit: number;
   maxRevisionsPerFunction: number;
   maxEndpointsPerFunction: number;
 }
-export const AccountQuotas = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxTotalArmVCpus: S.Number,
-    maxTotalRateLimit: S.Number,
-    maxRevisionsPerFunction: S.Number,
-    maxEndpointsPerFunction: S.Number,
-  }),
-).annotate({ identifier: "AccountQuotas" }) as any as S.Schema<AccountQuotas>;
 export interface AccountUsage {
   functionCount: number;
 }
-export const AccountUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ functionCount: S.Number }),
-).annotate({ identifier: "AccountUsage" }) as any as S.Schema<AccountUsage>;
 export interface GetWebAccountSettingsResponse {
   accountQuotas: AccountQuotas;
   accountUsage: AccountUsage;
 }
-export const GetWebAccountSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountQuotas: AccountQuotas, accountUsage: AccountUsage }),
-).annotate({
-  identifier: "GetWebAccountSettingsResponse",
-}) as any as S.Schema<GetWebAccountSettingsResponse>;
 export interface GetWebFunctionRequest {
   functionName: string;
 }
-export const GetWebFunctionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ functionName: S.String.pipe(T.HttpLabel("functionName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2025-03-07/web-functions/{functionName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetWebFunctionRequest" }) as any as S.Schema<GetWebFunctionRequest>;
 export interface GetWebFunctionResponse {
   functionName: string;
   functionArn: string;
@@ -796,40 +404,10 @@ export interface GetWebFunctionResponse {
   createdAt: Date;
   updatedAt: Date;
 }
-export const GetWebFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String,
-    functionArn: S.String,
-    state: FunctionState,
-    stateReason: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "GetWebFunctionResponse" }) as any as S.Schema<GetWebFunctionResponse>;
 export interface GetWebFunctionEndpointRequest {
   functionName: string;
   endpointName: string;
 }
-export const GetWebFunctionEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String.pipe(T.HttpLabel("functionName")),
-    endpointName: S.String.pipe(T.HttpLabel("endpointName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2025-03-07/web-functions/{functionName}/endpoints/{endpointName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetWebFunctionEndpointRequest",
-}) as any as S.Schema<GetWebFunctionEndpointRequest>;
 export interface GetWebFunctionEndpointResponse {
   functionArn: string;
   endpointArn: string;
@@ -851,55 +429,10 @@ export interface GetWebFunctionEndpointResponse {
   createdAt: Date;
   updatedAt: Date;
 }
-export const GetWebFunctionEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionArn: S.String,
-    endpointArn: S.String,
-    endpointName: S.String,
-    description: S.optional(S.String),
-    endpointType: EndpointType,
-    domainName: S.String,
-    authType: AuthType,
-    autoDeploymentMode: AutoDeploymentMode,
-    revisionWeights: RevisionWeightList,
-    regions: RegionList,
-    scalingConfig: S.optional(ScalingConfig),
-    throttleConfig: S.optional(ThrottleConfig),
-    state: EndpointState,
-    stateReason: S.String,
-    updateStatus: S.optional(EndpointUpdateStatus),
-    updateStatusReason: S.optional(S.String),
-    regionalEndpoints: RegionalEndpoints,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "GetWebFunctionEndpointResponse",
-}) as any as S.Schema<GetWebFunctionEndpointResponse>;
 export interface GetWebFunctionRevisionRequest {
   functionName: string;
   revisionId: string;
 }
-export const GetWebFunctionRevisionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String.pipe(T.HttpLabel("functionName")),
-    revisionId: S.String.pipe(T.HttpLabel("revisionId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2025-03-07/web-functions/{functionName}/revisions/{revisionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetWebFunctionRevisionRequest",
-}) as any as S.Schema<GetWebFunctionRevisionRequest>;
 export interface GetWebFunctionRevisionResponse {
   functionArn: string;
   revisionArn: string;
@@ -913,55 +446,18 @@ export interface GetWebFunctionRevisionResponse {
   errors?: RevisionError[];
   createdAt: Date;
 }
-export const GetWebFunctionRevisionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionArn: S.String,
-    revisionArn: S.String,
-    revisionId: S.String,
-    description: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    buildConfig: BuildConfig,
-    serviceConfig: ServiceConfig,
-    state: RevisionState,
-    stateReason: S.String,
-    errors: S.optional(RevisionErrors),
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "GetWebFunctionRevisionResponse",
-}) as any as S.Schema<GetWebFunctionRevisionResponse>;
 export interface ListTagsRequest {
   resource: string;
 }
-export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resource: S.String.pipe(T.HttpLabel("resource")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2025-03-07/tags/{resource}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListTagsRequest" }) as any as S.Schema<ListTagsRequest>;
 export interface ListTagsResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }).pipe(S.encodeKeys({ tags: "Tags" })),
-).annotate({ identifier: "ListTagsResponse" }) as any as S.Schema<ListTagsResponse>;
 export type FilterValueList = string[];
-export const FilterValueList = /*@__PURE__*/ S.Array(S.String);
 export interface Filter {
   name: string;
   values: string[];
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, values: FilterValueList }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = /*@__PURE__*/ S.Array(Filter);
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListWebFunctionEndpointsRequest {
@@ -970,93 +466,27 @@ export interface ListWebFunctionEndpointsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListWebFunctionEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String.pipe(T.HttpLabel("functionName")),
-    filters: S.optional(FilterList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2025-03-07/web-functions/{functionName}/list-endpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListWebFunctionEndpointsRequest",
-}) as any as S.Schema<ListWebFunctionEndpointsRequest>;
 export type FunctionEndpointSummaryList = FunctionEndpointSummary[];
-export const FunctionEndpointSummaryList = /*@__PURE__*/ S.Array(FunctionEndpointSummary);
 export interface ListWebFunctionEndpointsResponse {
   endpoints: FunctionEndpointSummary[];
   nextToken?: string;
 }
-export const ListWebFunctionEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ endpoints: FunctionEndpointSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListWebFunctionEndpointsResponse",
-}) as any as S.Schema<ListWebFunctionEndpointsResponse>;
 export interface ListWebFunctionRevisionsRequest {
   functionName: string;
   filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
-export const ListWebFunctionRevisionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String.pipe(T.HttpLabel("functionName")),
-    filters: S.optional(FilterList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2025-03-07/web-functions/{functionName}/list-revisions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListWebFunctionRevisionsRequest",
-}) as any as S.Schema<ListWebFunctionRevisionsRequest>;
 export type FunctionRevisionSummaryList = FunctionRevisionSummary[];
-export const FunctionRevisionSummaryList = /*@__PURE__*/ S.Array(FunctionRevisionSummary);
 export interface ListWebFunctionRevisionsResponse {
   revisions: FunctionRevisionSummary[];
   nextToken?: string;
 }
-export const ListWebFunctionRevisionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ revisions: FunctionRevisionSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListWebFunctionRevisionsResponse",
-}) as any as S.Schema<ListWebFunctionRevisionsResponse>;
 export interface ListWebFunctionsRequest {
   filters?: Filter[];
   maxResults?: number;
   nextToken?: string;
 }
-export const ListWebFunctionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filters: S.optional(FilterList),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/2025-03-07/web-functions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListWebFunctionsRequest" }) as any as S.Schema<ListWebFunctionsRequest>;
 export interface FunctionSummary {
   functionName: string;
   functionArn: string;
@@ -1065,106 +495,31 @@ export interface FunctionSummary {
   createdAt: Date;
   updatedAt: Date;
 }
-export const FunctionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String,
-    functionArn: S.String,
-    state: FunctionState,
-    stateReason: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "FunctionSummary" }) as any as S.Schema<FunctionSummary>;
 export type FunctionSummaryList = FunctionSummary[];
-export const FunctionSummaryList = /*@__PURE__*/ S.Array(FunctionSummary);
 export interface ListWebFunctionsResponse {
   functions: FunctionSummary[];
   nextToken?: string;
 }
-export const ListWebFunctionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ functions: FunctionSummaryList, nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListWebFunctionsResponse" }) as any as S.Schema<ListWebFunctionsResponse>;
 export interface PutResourcePolicyRequest {
   resourceArn: string;
   policy: string;
   revisionId?: string;
 }
-export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    policy: S.String,
-    revisionId: S.optional(S.String),
-  })
-    .pipe(S.encodeKeys({ policy: "Policy", revisionId: "RevisionId" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/2025-03-07/resource-policy/{resourceArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({ identifier: "PutResourcePolicyRequest" }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {
   policy: string;
   revisionId: string;
 }
-export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ policy: S.String, revisionId: S.String }).pipe(
-    S.encodeKeys({ policy: "Policy", revisionId: "RevisionId" }),
-  ),
-).annotate({
-  identifier: "PutResourcePolicyResponse",
-}) as any as S.Schema<PutResourcePolicyResponse>;
 export interface TagResourceRequest {
   resource: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resource: S.String.pipe(T.HttpLabel("resource")), tags: Tags })
-    .pipe(S.encodeKeys({ tags: "Tags" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/2025-03-07/tags/{resource}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resource: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resource: S.String.pipe(T.HttpLabel("resource")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/2025-03-07/tags/{resource}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateWebFunctionEndpointRequest {
   functionName: string;
   endpointName: string;
@@ -1175,32 +530,6 @@ export interface UpdateWebFunctionEndpointRequest {
   scalingConfig?: ScalingConfig;
   throttleConfig?: ThrottleConfig;
 }
-export const UpdateWebFunctionEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionName: S.String.pipe(T.HttpLabel("functionName")),
-    endpointName: S.String.pipe(T.HttpLabel("endpointName")),
-    description: S.optional(S.String),
-    authType: S.optional(AuthType),
-    autoDeploymentMode: S.optional(AutoDeploymentMode),
-    revisionWeights: S.optional(RevisionWeightList),
-    scalingConfig: S.optional(ScalingConfig),
-    throttleConfig: S.optional(ThrottleConfig),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/2025-03-07/web-functions/{functionName}/endpoints/{endpointName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateWebFunctionEndpointRequest",
-}) as any as S.Schema<UpdateWebFunctionEndpointRequest>;
 export interface UpdateWebFunctionEndpointResponse {
   functionArn: string;
   endpointArn: string;
@@ -1222,31 +551,6 @@ export interface UpdateWebFunctionEndpointResponse {
   createdAt: Date;
   updatedAt: Date;
 }
-export const UpdateWebFunctionEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    functionArn: S.String,
-    endpointArn: S.String,
-    endpointName: S.String,
-    description: S.optional(S.String),
-    endpointType: EndpointType,
-    domainName: S.String,
-    authType: AuthType,
-    autoDeploymentMode: AutoDeploymentMode,
-    revisionWeights: RevisionWeightList,
-    regions: RegionList,
-    scalingConfig: S.optional(ScalingConfig),
-    throttleConfig: S.optional(ThrottleConfig),
-    state: EndpointState,
-    stateReason: S.String,
-    updateStatus: S.optional(EndpointUpdateStatus),
-    updateStatusReason: S.optional(S.String),
-    regionalEndpoints: RegionalEndpoints,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({
-  identifier: "UpdateWebFunctionEndpointResponse",
-}) as any as S.Schema<UpdateWebFunctionEndpointResponse>;
 export type CreateWebFunctionError =
   | AccessDeniedException
   | ConflictException
@@ -1268,8 +572,8 @@ export const createWebFunction: API.OperationMethod<
   CreateWebFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateWebFunctionRequest,
-  output: CreateWebFunctionResponse,
+  input: __S(186, __c23, 2) as any as S.Schema<CreateWebFunctionRequest>,
+  output: __S(187, __c23, 3) as any as S.Schema<CreateWebFunctionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1305,8 +609,8 @@ export const createWebFunctionEndpoint: API.OperationMethod<
   CreateWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateWebFunctionEndpointRequest,
-  output: CreateWebFunctionEndpointResponse,
+  input: __S(240, __c30, 0) as any as S.Schema<CreateWebFunctionEndpointRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<CreateWebFunctionEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1342,8 +646,8 @@ export const createWebFunctionRevision: API.OperationMethod<
   CreateWebFunctionRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateWebFunctionRevisionRequest,
-  output: CreateWebFunctionRevisionResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateWebFunctionRevisionRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<CreateWebFunctionRevisionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1376,8 +680,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourcePolicyRequest,
-  output: DeleteResourcePolicyResponse,
+  input: __S(16, __c2, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1410,8 +714,8 @@ export const deleteWebFunction: API.OperationMethod<
   DeleteWebFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteWebFunctionRequest,
-  output: DeleteWebFunctionResponse,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteWebFunctionRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteWebFunctionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1442,8 +746,8 @@ export const deleteWebFunctionEndpoint: API.OperationMethod<
   DeleteWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteWebFunctionEndpointRequest,
-  output: DeleteWebFunctionEndpointResponse,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteWebFunctionEndpointRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteWebFunctionEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1474,8 +778,8 @@ export const deleteWebFunctionRevision: API.OperationMethod<
   DeleteWebFunctionRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteWebFunctionRevisionRequest,
-  output: DeleteWebFunctionRevisionResponse,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteWebFunctionRevisionRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteWebFunctionRevisionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1505,8 +809,8 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourcePolicyRequest,
-  output: GetResourcePolicyResponse,
+  input: __S(56, __c7, 0) as any as S.Schema<GetResourcePolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<GetResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1533,8 +837,8 @@ export const getWebAccountSettings: API.OperationMethod<
   GetWebAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetWebAccountSettingsRequest,
-  output: GetWebAccountSettingsResponse,
+  input: __S(72, __c9, 0) as any as S.Schema<GetWebAccountSettingsRequest>,
+  output: __S(75, __c9, 3) as any as S.Schema<GetWebAccountSettingsResponse>,
   errors: [AccessDeniedException, InternalServerException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1557,8 +861,8 @@ export const getWebFunction: API.OperationMethod<
   GetWebFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetWebFunctionRequest,
-  output: GetWebFunctionResponse,
+  input: __S(80, __c10, 0) as any as S.Schema<GetWebFunctionRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<GetWebFunctionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1587,8 +891,8 @@ export const getWebFunctionEndpoint: API.OperationMethod<
   GetWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetWebFunctionEndpointRequest,
-  output: GetWebFunctionEndpointResponse,
+  input: __S(96, __c12, 0) as any as S.Schema<GetWebFunctionEndpointRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<GetWebFunctionEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1617,8 +921,8 @@ export const getWebFunctionRevision: API.OperationMethod<
   GetWebFunctionRevisionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetWebFunctionRevisionRequest,
-  output: GetWebFunctionRevisionResponse,
+  input: __S(104, __c13, 0) as any as S.Schema<GetWebFunctionRevisionRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<GetWebFunctionRevisionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1647,8 +951,8 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
+  input: __S(112, __c14, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<ListTagsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1678,8 +982,8 @@ export const listWebFunctionEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FunctionEndpointSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListWebFunctionEndpointsRequest,
-  output: ListWebFunctionEndpointsResponse,
+  input: __S(120, __c15, 0) as any as S.Schema<ListWebFunctionEndpointsRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<ListWebFunctionEndpointsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1715,8 +1019,8 @@ export const listWebFunctionRevisions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FunctionRevisionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListWebFunctionRevisionsRequest,
-  output: ListWebFunctionRevisionsResponse,
+  input: __S(136, __c17, 0) as any as S.Schema<ListWebFunctionRevisionsRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<ListWebFunctionRevisionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1751,8 +1055,8 @@ export const listWebFunctions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FunctionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListWebFunctionsRequest,
-  output: ListWebFunctionsResponse,
+  input: __S(144, __c18, 0) as any as S.Schema<ListWebFunctionsRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<ListWebFunctionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1788,8 +1092,8 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourcePolicyRequest,
-  output: PutResourcePolicyResponse,
+  input: __S(152, __c19, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1822,8 +1126,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(160, __c20, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1855,8 +1159,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(168, __c21, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1888,8 +1192,8 @@ export const updateWebFunctionEndpoint: API.OperationMethod<
   UpdateWebFunctionEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateWebFunctionEndpointRequest,
-  output: UpdateWebFunctionEndpointResponse,
+  input: __S(176, __c22, 0) as any as S.Schema<UpdateWebFunctionEndpointRequest>,
+  output: __S(250, __c31, 2) as any as S.Schema<UpdateWebFunctionEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1903,3 +1207,741 @@ export const updateWebFunctionEndpoint: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWebFunctionEndpoint",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String.pipe(T.HttpLabel("functionName")),
+          description: S.optional(S.String),
+          kmsKeyArn: S.optional(S.String),
+          buildConfig: __S(195, __c24, 3),
+          serviceConfig: __S(198, __c24, 6),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2025-03-07/web-functions/{functionName}/revisions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateWebFunctionRevisionRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ attribute: S.String, errorCode: S.String, errorMessage: S.String }),
+      ).annotate({ identifier: "RevisionError" });
+    case 1:
+      return S.Array(__S(8, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          functionArn: S.String,
+          revisionArn: S.String,
+          revisionId: S.String,
+          description: S.optional(S.String),
+          kmsKeyArn: S.optional(S.String),
+          buildConfig: __S(195, __c24, 3),
+          serviceConfig: __S(198, __c24, 6),
+          state: S.String,
+          stateReason: S.String,
+          errors: S.optional(__S(9, __c1, 1)),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "CreateWebFunctionRevisionResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          revisionId: S.optional(S.String).pipe(T.HttpQuery("RevisionId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/2025-03-07/resource-policy/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteResourcePolicyRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteResourcePolicyResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ functionName: S.String.pipe(T.HttpLabel("functionName")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/2025-03-07/web-functions/{functionName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteWebFunctionRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String.pipe(T.HttpLabel("functionName")),
+          endpointName: S.String.pipe(T.HttpLabel("endpointName")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/2025-03-07/web-functions/{functionName}/endpoints/{endpointName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteWebFunctionEndpointRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String.pipe(T.HttpLabel("functionName")),
+          revisionId: S.String.pipe(T.HttpLabel("revisionId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/2025-03-07/web-functions/{functionName}/revisions/{revisionId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteWebFunctionRevisionRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/2025-03-07/resource-policy/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetResourcePolicyRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ policy: S.String, revisionId: S.String }).pipe(
+          S.encodeKeys({ policy: "Policy", revisionId: "RevisionId" }),
+        ),
+      ).annotate({ identifier: "GetResourcePolicyResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/2025-03-07/web-account-settings" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetWebAccountSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          maxTotalArmVCpus: S.Number,
+          maxTotalRateLimit: S.Number,
+          maxRevisionsPerFunction: S.Number,
+          maxEndpointsPerFunction: S.Number,
+        }),
+      ).annotate({ identifier: "AccountQuotas" });
+    case 2:
+      return S.suspend(() => S.Struct({ functionCount: S.Number })).annotate({
+        identifier: "AccountUsage",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ accountQuotas: __S(73, __c9, 1), accountUsage: __S(74, __c9, 2) }),
+      ).annotate({ identifier: "GetWebAccountSettingsResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ functionName: S.String.pipe(T.HttpLabel("functionName")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/2025-03-07/web-functions/{functionName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetWebFunctionRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String,
+          functionArn: S.String,
+          state: S.String,
+          stateReason: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "GetWebFunctionResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String.pipe(T.HttpLabel("functionName")),
+          endpointName: S.String.pipe(T.HttpLabel("endpointName")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/2025-03-07/web-functions/{functionName}/endpoints/{endpointName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetWebFunctionEndpointRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String.pipe(T.HttpLabel("functionName")),
+          revisionId: S.String.pipe(T.HttpLabel("revisionId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/2025-03-07/web-functions/{functionName}/revisions/{revisionId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetWebFunctionRevisionRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resource: S.String.pipe(T.HttpLabel("resource")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/2025-03-07/tags/{resource}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ tags: S.optional(__S(200, __c25, 0)) }).pipe(S.encodeKeys({ tags: "Tags" })),
+      ).annotate({ identifier: "ListTagsResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String.pipe(T.HttpLabel("functionName")),
+          filters: S.optional(__S(129, __c16, 1)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/2025-03-07/web-functions/{functionName}/list-endpoints",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListWebFunctionEndpointsRequest" });
+    case 1:
+      return S.Array(__S(208, __c26, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ endpoints: __S(121, __c15, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListWebFunctionEndpointsResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, values: __S(224, __c28, 0) })).annotate({
+        identifier: "Filter",
+      });
+    case 1:
+      return S.Array(__S(128, __c16, 0));
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String.pipe(T.HttpLabel("functionName")),
+          filters: S.optional(__S(129, __c16, 1)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/2025-03-07/web-functions/{functionName}/list-revisions",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListWebFunctionRevisionsRequest" });
+    case 1:
+      return S.Array(__S(216, __c27, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ revisions: __S(137, __c17, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListWebFunctionRevisionsResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filters: S.optional(__S(129, __c16, 1)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/2025-03-07/web-functions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListWebFunctionsRequest" });
+    case 1:
+      return S.Array(__S(88, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ functions: __S(145, __c18, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListWebFunctionsResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          policy: S.String,
+          revisionId: S.optional(S.String),
+        })
+          .pipe(S.encodeKeys({ policy: "Policy", revisionId: "RevisionId" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "PUT", uri: "/2025-03-07/resource-policy/{resourceArn}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "PutResourcePolicyRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resource: S.String.pipe(T.HttpLabel("resource")), tags: __S(200, __c25, 0) })
+          .pipe(S.encodeKeys({ tags: "Tags" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "POST", uri: "/2025-03-07/tags/{resource}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.HttpLabel("resource")),
+          tagKeys: __S(224, __c28, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/2025-03-07/tags/{resource}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String.pipe(T.HttpLabel("functionName")),
+          endpointName: S.String.pipe(T.HttpLabel("endpointName")),
+          description: S.optional(S.String),
+          authType: S.optional(S.String),
+          autoDeploymentMode: S.optional(S.String),
+          revisionWeights: S.optional(__S(235, __c29, 3)),
+          scalingConfig: S.optional(__S(232, __c29, 0)),
+          throttleConfig: S.optional(__S(233, __c29, 1)),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/2025-03-07/web-functions/{functionName}/endpoints/{endpointName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateWebFunctionEndpointRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          kmsKeyArn: S.optional(S.String),
+          buildConfig: __S(195, __c24, 3),
+          serviceConfig: __S(198, __c24, 6),
+        }),
+      ).annotate({ identifier: "RevisionConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          endpointName: S.String,
+          description: S.optional(S.String),
+          endpointType: S.String,
+          authType: S.String,
+          autoDeploymentMode: S.optional(S.String),
+          regions: S.optional(__S(224, __c28, 0)),
+          scalingConfig: S.optional(__S(232, __c29, 0)),
+          throttleConfig: S.optional(__S(233, __c29, 1)),
+        }),
+      ).annotate({ identifier: "EndpointConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String,
+          revisionConfig: S.optional(__S(184, __c23, 0)),
+          endpointConfig: S.optional(__S(185, __c23, 1)),
+          tags: S.optional(__S(200, __c25, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/2025-03-07/web-functions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateWebFunctionRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String,
+          functionArn: S.String,
+          state: S.String,
+          stateReason: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          revision: S.optional(__S(216, __c27, 0)),
+          endpoint: S.optional(__S(208, __c26, 0)),
+          tags: S.optional(__S(200, __c25, 0)),
+        }),
+      ).annotate({ identifier: "CreateWebFunctionResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucket: S.String, key: S.String, versionId: S.optional(S.String) }),
+      ).annotate({ identifier: "S3Object" });
+    case 1:
+      return S.suspend(() => S.Struct({ s3Object: __S(192, __c24, 0) })).annotate({
+        identifier: "CodeConfig",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ runtime: S.String })).annotate({
+        identifier: "RuntimeConfig",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ codeConfig: __S(193, __c24, 1), runtimeConfig: __S(194, __c24, 2) }),
+      ).annotate({ identifier: "BuildConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          logGroup: S.optional(S.String),
+          applicationLogLevel: S.optional(S.String),
+          systemLogLevel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LoggingConfig" });
+    case 5:
+      return S.suspend(() => S.Struct({ loggingConfig: S.optional(__S(196, __c24, 4)) })).annotate({
+        identifier: "TelemetryConfig",
+      });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          executionRoleArn: S.String,
+          timeoutSeconds: S.optional(S.Number),
+          egressNetworkConnectorArn: S.optional(S.String),
+          maxConcurrencyPerEnvironment: S.optional(S.Number),
+          environmentVariables: S.optional(__S(200, __c25, 0)),
+          telemetryConfig: S.optional(__S(197, __c24, 5)),
+        }),
+      ).annotate({ identifier: "ServiceConfig" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          endpointArn: S.String,
+          endpointName: S.String,
+          description: S.optional(S.String),
+          endpointType: S.String,
+          domainName: S.String,
+          authType: S.String,
+          autoDeploymentMode: S.String,
+          revisionWeights: __S(235, __c29, 3),
+          regions: __S(224, __c28, 0),
+          scalingConfig: S.optional(__S(232, __c29, 0)),
+          throttleConfig: S.optional(__S(233, __c29, 1)),
+          state: S.String,
+          stateReason: S.String,
+          updateStatus: S.optional(S.String),
+          updateStatusReason: S.optional(S.String),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "FunctionEndpointSummary" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          revisionArn: S.String,
+          revisionId: S.String,
+          description: S.optional(S.String),
+          state: S.String,
+          stateReason: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "FunctionRevisionSummary" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ maxEnvironments: S.optional(S.Number) })).annotate({
+        identifier: "ScalingConfig",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ rateLimit: S.optional(S.Number) })).annotate({
+        identifier: "ThrottleConfig",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ revisionId: S.String, weight: S.Number })).annotate({
+        identifier: "RevisionWeight",
+      });
+    case 3:
+      return S.Array(__S(234, __c29, 2));
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.String.pipe(T.HttpLabel("functionName")),
+          endpointName: S.String,
+          description: S.optional(S.String),
+          endpointType: S.String,
+          authType: S.String,
+          autoDeploymentMode: S.optional(S.String),
+          revisionWeights: S.optional(__S(235, __c29, 3)),
+          regions: S.optional(__S(224, __c28, 0)),
+          scalingConfig: S.optional(__S(232, __c29, 0)),
+          throttleConfig: S.optional(__S(233, __c29, 1)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/2025-03-07/web-functions/{functionName}/endpoints" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateWebFunctionEndpointRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainName: S.optional(S.String),
+          authType: S.String,
+          revisionWeights: __S(235, __c29, 3),
+          scalingConfig: S.optional(__S(232, __c29, 0)),
+          throttleConfig: S.optional(__S(233, __c29, 1)),
+          state: S.String,
+          stateReason: S.String,
+          updateStatus: S.optional(S.String),
+          updateStatusReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegionalEndpoint" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(248, __c31, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          functionArn: S.String,
+          endpointArn: S.String,
+          endpointName: S.String,
+          description: S.optional(S.String),
+          endpointType: S.String,
+          domainName: S.String,
+          authType: S.String,
+          autoDeploymentMode: S.String,
+          revisionWeights: __S(235, __c29, 3),
+          regions: __S(224, __c28, 0),
+          scalingConfig: S.optional(__S(232, __c29, 0)),
+          throttleConfig: S.optional(__S(233, __c29, 1)),
+          state: S.String,
+          stateReason: S.String,
+          updateStatus: S.optional(S.String),
+          updateStatusReason: S.optional(S.String),
+          regionalEndpoints: __S(249, __c31, 1),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "CreateWebFunctionEndpointResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

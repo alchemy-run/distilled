@@ -1,5 +1,5 @@
 /**
- * Plaid SDK trait surface — hand-written.
+ * Plaid SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Plaid has no envelope of its own; the

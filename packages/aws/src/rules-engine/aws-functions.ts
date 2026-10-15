@@ -65,6 +65,24 @@ export function partition(region: RulesValue): PartitionInfo | undefined {
   return defaultPartition ? toPartitionInfo(defaultPartition.outputs) : undefined;
 }
 
+let knownRegions: Map<string, string> | undefined;
+
+/**
+ * The DNS suffix of a region listed by name in partitions.json, or
+ * `undefined` for a region known only by a partition's regex.
+ */
+export function regionDnsSuffix(region: string): string | undefined {
+  if (!knownRegions) {
+    knownRegions = new Map();
+    for (const { regions, outputs } of partitions.partitions) {
+      for (const name of Object.keys(regions)) {
+        if (!knownRegions.has(name)) knownRegions.set(name, outputs.dnsSuffix);
+      }
+    }
+  }
+  return knownRegions.get(region);
+}
+
 /** Parses an ARN string into its components. */
 export function parseArn(value: RulesValue): ParsedArn | undefined {
   if (typeof value !== "string") return undefined;

@@ -3,8 +3,8 @@
  *
  * Re-exports the common HTTP errors from core and adds the unknown-error
  * and parse-error wrappers. Daytona declares failures as HTTP statuses
- * against a shared `{ message }` (toolbox) or untyped (platform) body —
- * no operation narrows which codes it can produce — so the SDK dispatches
+ * against a shared `{ message }` (toolbox) or untyped (platform) body --
+ * no operation narrows which codes it can produce -- so the SDK dispatches
  * on the status (the classes here) and carries any machine-readable `code`
  * through on {@link UnknownDaytonaError}.
  */
@@ -36,29 +36,25 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * Unknown Daytona error — returned when a failed response's HTTP status has
+ * Unknown Daytona error -- returned when a failed response's HTTP status has
  * no mapped error class.
  */
-export class UnknownDaytonaError extends Schema.TaggedError<UnknownDaytonaError>()(
-  "UnknownDaytonaError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownDaytonaError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownDaytonaError>()("UnknownDaytonaError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class DaytonaParseError extends Schema.TaggedError<DaytonaParseError>()(
-  "DaytonaParseError",
-  {
+export class DaytonaParseError
+  extends /*@__PURE__*/ Schema.TaggedError<DaytonaParseError>()("DaytonaParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any Daytona operation may surface in addition to the shared HTTP

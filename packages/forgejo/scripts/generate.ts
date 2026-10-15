@@ -109,8 +109,8 @@ const spec: SdkSpec = {
     let out = code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, "");
     if (out.includes("Redacted.Redacted<")) {
       out = out.replace(
-        `import * as S from "@distilled.cloud/core/schema";`,
-        `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";`,
+        `import * as S from "@distilled.cloud/core/schema-lite";`,
+        `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";`,
       );
     }
     return out;

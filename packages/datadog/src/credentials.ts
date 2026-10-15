@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Datadog credentials — hand-written.
+ * Datadog credentials -- hand-written.
  *
  * API-compatible port of the distilled v0 Neon credentials module, adapted
  * for Datadog's dual-header auth (`DD-API-KEY` + optional
@@ -16,10 +16,10 @@ import * as Redacted from "effect/Redacted";
 /** Default Datadog site (US1). */
 export const DEFAULT_SITE = "datadoghq.com";
 
-/** US1 REST API root — `https://api.${DEFAULT_SITE}`. */
+/** US1 REST API root -- `https://api.${DEFAULT_SITE}`. */
 export const DEFAULT_API_BASE_URL = "https://api.datadoghq.com";
 
-/** Map a Datadog site (`datadoghq.eu`, `us3.datadoghq.com`, …) to its API origin. */
+/** Map a Datadog site (`datadoghq.eu`, `us3.datadoghq.com`, ...) to its API origin. */
 export const apiBaseUrlForSite = (site: string): string => `https://api.${site}`;
 
 export interface Config {
@@ -29,9 +29,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "DatadogCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "DatadogCredentials",
+  ) {}
 
 /** Layer from a redacted API key + optional application key / site / base URL. */
 export const fromApiKey = (config: {
@@ -56,9 +57,9 @@ export const fromApiKey = (config: {
  * Reads DD_API_KEY (required), DD_APP_KEY (optional), DD_SITE (optional)
  * and DD_API_BASE_URL (optional override of `https://api.${site}`).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.DD_API_KEY;
 
     if (!apiKey) {

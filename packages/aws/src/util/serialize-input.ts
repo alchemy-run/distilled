@@ -37,16 +37,63 @@ export const encodeLabel = (value: string): string =>
 export const encodeGreedyLabel = (value: string): string =>
   value.split("/").map(encodeLabel).join("/");
 
+/** The @http trait of each input schema, read once. */
+const httpTraits = /*@__PURE__*/ new WeakMap<AST.AST, { trait: ReturnType<typeof getHttpTrait> }>();
+
 /**
  * Apply the @http trait (method, uri) to the request.
  */
 export function applyHttpTrait(ast: AST.AST, request: Request): void {
-  const httpTrait = getHttpTrait(ast);
+  let cached = httpTraits.get(ast);
+  if (cached === undefined) {
+    cached = { trait: getHttpTrait(ast) };
+    httpTraits.set(ast, cached);
+  }
+  const httpTrait = cached.trait;
   if (httpTrait) {
     request.method = httpTrait.method;
     request.path = httpTrait.uri;
   }
 }
+
+/** How one input member binds to the request, read from its traits once. */
+interface MemberBinding {
+  readonly name: string;
+  readonly type: AST.AST;
+  readonly header: string | undefined;
+  /** The `{Label}` / `{Label+}` placeholder of an @httpLabel member. */
+  readonly label: RegExp | undefined;
+  readonly queryParam: string | undefined;
+  readonly queryParams: boolean;
+  readonly prefixHeaders: string | undefined;
+  readonly isPayload: boolean;
+}
+
+const bindings = /*@__PURE__*/ new WeakMap<AST.AST, ReadonlyArray<MemberBinding>>();
+
+const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
+  let members = bindings.get(ast);
+  if (members === undefined) {
+    // Use encoded property signatures - these have wire format keys matching the encoded input
+    members = getEncodedPropertySignatures(ast).map((prop) => {
+      const name = prop.name as string;
+      // Use explicit label name if provided (needed when JsonName differs from URI template placeholder)
+      const labelName = getHttpLabelName(prop) ?? name;
+      return {
+        name,
+        type: prop.type,
+        header: getHttpHeader(prop),
+        label: hasHttpLabel(prop) ? new RegExp(`\\{${labelName}(\\+?)\\}`) : undefined,
+        queryParam: getHttpQuery(prop),
+        queryParams: hasHttpQueryParams(prop),
+        prefixHeaders: getHttpPrefixHeaders(prop),
+        isPayload: hasHttpPayload(prop),
+      };
+    });
+    bindings.set(ast, members);
+  }
+  return members;
+};
 
 /**
  * Bind input values to HTTP request based on trait annotations.
@@ -60,56 +107,42 @@ export function applyHttpTrait(ast: AST.AST, request: Request): void {
  * - Collects remaining members as body content
  */
 export function bindInputToRequest(ast: AST.AST, input: Record<string, unknown>, request: Request) {
-  // Use encoded property signatures - these have wire format keys matching the encoded input
-  const props = getEncodedPropertySignatures(ast);
-
   let payloadValue: unknown = undefined;
   let payloadAst: AST.AST | undefined = undefined;
   const bodyMembers: Record<string, unknown> = {};
   let hasBodyMembers = false;
 
-  for (const prop of props) {
-    const name = prop.name as string;
+  for (const member of bindingsOf(ast)) {
+    const name = member.name;
     const value = input[name];
     if (value === undefined) continue;
 
-    const header = getHttpHeader(prop);
-    const label = hasHttpLabel(prop);
-    const queryParam = getHttpQuery(prop);
-    const queryParams = hasHttpQueryParams(prop);
-    const prefixHeaders = getHttpPrefixHeaders(prop);
-    const isPayload = hasHttpPayload(prop);
-
-    if (header !== undefined) {
+    if (member.header !== undefined) {
       // Value should already be encoded (dates as formatted strings, etc.)
-      request.headers[header] = String(value);
-    } else if (label) {
-      // Use explicit label name if provided (needed when JsonName differs from URI template placeholder)
-      const labelName = getHttpLabelName(prop) ?? name;
-      request.path = request.path.replace(
-        new RegExp(`\\{${labelName}(\\+?)\\}`),
-        (_, greedy: string) =>
-          greedy ? encodeGreedyLabel(String(value)) : encodeLabel(String(value)),
+      request.headers[member.header] = String(value);
+    } else if (member.label !== undefined) {
+      request.path = request.path.replace(member.label, (_, greedy: string) =>
+        greedy ? encodeGreedyLabel(String(value)) : encodeLabel(String(value)),
       );
-    } else if (queryParam !== undefined) {
+    } else if (member.queryParam !== undefined) {
       // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
       if (Array.isArray(value)) {
-        request.query[queryParam] = value.map(String);
+        request.query[member.queryParam] = value.map(String);
       } else {
-        request.query[queryParam] = String(value);
+        request.query[member.queryParam] = String(value);
       }
-    } else if (queryParams && typeof value === "object") {
+    } else if (member.queryParams && typeof value === "object") {
       Object.assign(request.query, value);
-    } else if (prefixHeaders !== undefined && typeof value === "object") {
+    } else if (member.prefixHeaders !== undefined && typeof value === "object") {
       for (const [k, v] of Object.entries(value as Record<string, string>)) {
         // Skip undefined values (allowed in schema for user convenience, dropped on wire)
         if (v !== undefined) {
-          request.headers[`${prefixHeaders}${k}`] = v;
+          request.headers[`${member.prefixHeaders}${k}`] = v;
         }
       }
-    } else if (isPayload) {
+    } else if (member.isPayload) {
       payloadValue = value;
-      payloadAst = prop.type;
+      payloadAst = member.type;
     } else {
       bodyMembers[name] = value;
       hasBodyMembers = true;

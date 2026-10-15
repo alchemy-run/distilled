@@ -34,46 +34,47 @@ import type {
   Forbidden as CoreForbidden,
   NotFound as CoreNotFound,
 } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * Unknown ACME error — a problem document whose `type` matches no typed
+ * Unknown ACME error -- a problem document whose `type` matches no typed
  * class on the operation. Carries structured problem fields and a redacted
  * body. Add newly observed URNs to the authored model.
  */
-export class UnknownAcmeError extends Schema.TaggedError<UnknownAcmeError>()("UnknownAcmeError", {
-  /** The problem `type` URN, when the body was a problem document. */
-  type: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  status: Schema.optional(Schema.Number),
-  detail: Schema.optional(Schema.String),
-  subproblems: Schema.optional(Schema.Array(Schema.Unknown)),
-  body: Schema.Unknown,
-}) {}
+export class UnknownAcmeError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownAcmeError>()("UnknownAcmeError", {
+    /** The problem `type` URN, when the body was a problem document. */
+    type: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    status: /*@__PURE__*/ Schema.optional(Schema.Number),
+    detail: /*@__PURE__*/ Schema.optional(Schema.String),
+    subproblems: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.Array(Schema.Unknown)),
+    body: Schema.Unknown,
+  }) {}
 
 /** Schema parse error wrapper. */
-export class AcmeParseError extends Schema.TaggedError<AcmeParseError>()("AcmeParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class AcmeParseError
+  extends /*@__PURE__*/ Schema.TaggedError<AcmeParseError>()("AcmeParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}
 
 /** The account key could not be parsed or used to sign (client-side). */
-export class JoseError extends Schema.TaggedError<JoseError>()("JoseError", {
-  message: Schema.String,
-  cause: Schema.optional(Schema.Unknown),
-}).pipe(Category.withBadRequestError) {}
+export class JoseError
+  extends /*@__PURE__*/ Schema.TaggedError<JoseError>()("JoseError", {
+    message: Schema.String,
+    cause: /*@__PURE__*/ Schema.optional(Schema.Unknown),
+  }).pipe(Category.withBadRequestError) {}
 
 /**
  * The directory has no URL for the requested resource (a CA without
  * `newAuthz`/`keyChange`, or a stale directory URL).
  */
-export class DirectoryMissingResource extends Schema.TaggedError<DirectoryMissingResource>()(
-  "DirectoryMissingResource",
-  {
+export class DirectoryMissingResource
+  extends /*@__PURE__*/ Schema.TaggedError<DirectoryMissingResource>()("DirectoryMissingResource", {
     resource: Schema.String,
     directoryUrl: Schema.String,
-  },
-).pipe(Category.withBadRequestError) {}
+  }).pipe(Category.withBadRequestError) {}
 
 /** Errors any ACME operation may surface beyond the core HTTP defaults. */
 export type ClientErrors = UnknownAcmeError | AcmeParseError | JoseError | DirectoryMissingResource;

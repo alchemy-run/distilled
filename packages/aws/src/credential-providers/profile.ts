@@ -18,7 +18,7 @@ export type Profiles = Readonly<Record<string, Profile | undefined>>;
 export const ENV_PROFILE = "AWS_PROFILE";
 const DEFAULT_PROFILE = "default";
 
-/** `profile`, else `AWS_PROFILE`, else `default` — as the AWS CLI. */
+/** `profile`, else `AWS_PROFILE`, else `default` -- as the AWS CLI. */
 export const getProfileName = (profile?: string): string =>
   profile || env(ENV_PROFILE) || DEFAULT_PROFILE;
 
@@ -46,7 +46,7 @@ export const loadConfigProfile = (profile?: string): Effect.Effect<Profile | und
 /**
  * The region STS is called in for a profile: the profile's own `region`,
  * else the environment, else the default profile's `region`, else
- * `us-east-1` — the order of the SDK's `stsRegionDefaultResolver`.
+ * `us-east-1` -- the order of the SDK's `stsRegionDefaultResolver`.
  */
 export const profileStsRegion = (
   profileRegion: string | undefined,

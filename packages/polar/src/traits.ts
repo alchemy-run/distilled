@@ -1,5 +1,5 @@
 /**
- * Polar SDK trait surface — hand-written.
+ * Polar SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Polar has no envelope of its own; the

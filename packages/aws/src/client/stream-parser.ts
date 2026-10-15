@@ -9,12 +9,12 @@
  */
 
 import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
+import type * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import * as Stream from "effect/Stream";
-import { parseEventStream } from "../eventstream/parser.ts";
-import { isStreamingType } from "../traits.ts";
+import { eventStreamWith, isStreamingType } from "../traits.ts";
 import { getEncodedPropertySignatures } from "../util/ast.ts";
+import { decode } from "../util/codec.ts";
 
 /**
  * Stream parser function - transforms deserialized response if it contains an event stream.
@@ -76,7 +76,9 @@ function parseTypedEventStream<A>(
   eventSchema?: Schema.Schema<A>,
 ): Stream.Stream<A, Error, never> {
   // Parse wire format into StreamEvent objects
-  const wireEventStream = parseEventStream(rawStream);
+  const wireEventStream = eventStreamWith(eventSchema, (codec) =>
+    codec.parseEventStream(rawStream),
+  );
 
   if (!eventSchema) {
     // No schema provided - return raw wire events
@@ -84,36 +86,33 @@ function parseTypedEventStream<A>(
   }
 
   // Decode each event's payload into the typed event
-  // @ts-expect-error
-  return Stream.mapEffect(wireEventStream, (wireEvent) =>
-    Effect.gen(function* () {
-      // Only decode MessageEvent payloads that have an event type
-      if (
-        wireEvent._tag === "MessageEvent" &&
-        wireEvent.eventType &&
-        wireEvent.eventType !== "initial-response"
-      ) {
-        // Parse the JSON payload
-        const payloadText = new TextDecoder().decode(wireEvent.payload);
-        const payloadData = JSON.parse(payloadText);
+  return Stream.map(wireEventStream, (wireEvent: any): A | null => {
+    // Only decode MessageEvent payloads that have an event type
+    if (
+      wireEvent._tag === "MessageEvent" &&
+      wireEvent.eventType &&
+      wireEvent.eventType !== "initial-response"
+    ) {
+      // Parse the JSON payload
+      const payloadText = new TextDecoder().decode(wireEvent.payload);
+      const payloadData = JSON.parse(payloadText);
 
-        // Decode using the event schema (union of event types)
-        // The _tag should match the eventType for TaggedClass matching
-        const decoded = yield* Schema.decodeUnknownEffect(eventSchema)({
-          _tag: wireEvent.eventType,
-          ...payloadData,
-        }).pipe(
-          Effect.catch(() =>
-            // If decoding fails, return the raw payload data
-            Effect.succeed(payloadData as A),
-          ),
-        );
-        return decoded;
+      // Decode using the event schema (union of event types)
+      // The _tag should match the eventType for TaggedClass matching
+      try {
+        return decode(
+          eventSchema.ast as any,
+          { _tag: wireEvent.eventType, ...payloadData },
+          true,
+        ) as A;
+      } catch {
+        // If decoding fails, return the raw payload data
+        return payloadData as A;
       }
-      // For initial-response or other events, skip them
-      return null as A | null;
-    }),
-  ).pipe(
+    }
+    // For initial-response or other events, skip them
+    return null;
+  }).pipe(
     // Filter out null values (skipped events)
     Stream.filter((e): e is A => e !== null),
   );

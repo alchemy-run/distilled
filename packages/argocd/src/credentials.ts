@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Argo CD credentials — hand-written.
+ * Argo CD credentials -- hand-written.
  *
  * API-compatible port of the distilled v0 credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
@@ -25,9 +25,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "ArgocdCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "ArgocdCredentials",
+  ) {}
 
 /** Layer from a redacted bearer token + optional instance URL. */
 export const fromToken = (config: {
@@ -45,9 +46,9 @@ export const fromToken = (config: {
 /**
  * Reads ARGOCD_TOKEN (required) and ARGOCD_SERVER (optional instance origin).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const token = process.env.ARGOCD_TOKEN;
 
     if (!token) {

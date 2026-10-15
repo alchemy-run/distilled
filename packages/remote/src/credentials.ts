@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Remote credentials — hand-written.
+ * Remote credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -19,9 +19,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "RemoteCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "RemoteCredentials",
+  ) {}
 
 /** Layer from a redacted API token + optional base URL. */
 export const fromApiKey = (config: {
@@ -41,9 +42,9 @@ export const fromApiKey = (config: {
  * REMOTE_API_BASE_URL (optional). Sandbox is
  * `https://gateway.remote-sandbox.com`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.REMOTE_API_KEY ?? process.env.REMOTE_ACCESS_TOKEN;
 
     if (!apiKey) {

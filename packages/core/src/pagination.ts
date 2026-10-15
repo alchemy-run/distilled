@@ -6,7 +6,7 @@
  * - Cursor-based: cursor/limit with an opaque next-cursor string
  * - Token-based (AWS style): NextToken/MaxResults continuation tokens
  * - Relay (GraphQL connections): after/first with a `pageInfo` block whose
- *   `hasNextPage` — not the cursor — marks the end
+ *   `hasNextPage` -- not the cursor -- marks the end
  * - Single: one-shot list endpoints that still expose the paginated surface
  *
  * Each SDK stores a {@link PaginatedTrait} on its operations (sourced from the
@@ -14,6 +14,7 @@
  * {@link PaginationStrategy}; these shared utilities handle the streaming.
  * Ported from the distilled repo's `core/pagination`.
  */
+import type * as Arr from "effect/Array";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
 
@@ -39,8 +40,8 @@ export const getPath = (obj: unknown, path: string): unknown => {
  * cursors/tokens), every segment here fans out over whatever the previous one
  * produced, so a path may cross a list:
  *
- * - `"items"` on `{ items: [a, b] }` → `[a, b]` (the common flat case)
- * - `"edges.node"` on a Relay connection → every edge's `node`
+ * - `"items"` on `{ items: [a, b] }` -> `[a, b]` (the common flat case)
+ * - `"edges.node"` on a Relay connection -> every edge's `node`
  *
  * `null`/`undefined` links are dropped rather than propagated, so a partially
  * null page yields the items it does have instead of nothing.
@@ -74,7 +75,7 @@ export interface PaginatedTrait {
   readonly outputToken?: string;
   /**
    * The path to the output member containing the paginated items. Segments
-   * may cross arrays — `"edges.node"` walks every edge and collects its
+   * may cross arrays -- `"edges.node"` walks every edge and collects its
    * `node` (see {@link getItems}).
    */
   readonly items?: string;
@@ -84,7 +85,7 @@ export interface PaginatedTrait {
    * Relay extension: the path to the boolean that says whether another page
    * exists (`"pageInfo.hasNextPage"`). Relay connections keep returning the
    * last page's `endCursor` after the end, so the cursor alone can't
-   * terminate traversal — see {@link paginateRelay}.
+   * terminate traversal -- see {@link paginateRelay}.
    */
   readonly hasNextPage?: string;
 }
@@ -102,7 +103,7 @@ const missingPaginationConfig = (kind: string) => Stream.die(new Error(kind));
  * means "no more pages".
  *
  * APIs mark the terminal page by omitting the output token, returning it
- * as `null`, or — for several services (e.g. SSM, CloudWatch Logs) — as an
+ * as `null`, or -- for several services (e.g. SSM, CloudWatch Logs) -- as an
  * empty string. Treating `""` as a live token re-requests the first page
  * forever (or fails with a ValidationException). Object tokens (e.g.
  * DynamoDB's `LastEvaluatedKey`) are always truthy and unaffected.
@@ -112,10 +113,11 @@ export const isTerminalToken = (token: unknown): boolean =>
 
 /**
  * Stream for single-shot list endpoints that still expose the paginated
- * surface — emits exactly one page.
+ * surface -- emits exactly one page.
  */
 export const paginateSingle: PaginationStrategy = (operation, input) =>
-  Stream.make(input).pipe(Stream.mapEffect((requestPayload) => operation(requestPayload)));
+  // `Stream.fromEffect` keeps `mapEffect`'s concurrency machinery out of bundles.
+  Stream.fromEffect(Effect.suspend(() => operation(input)));
 
 // ============================================================================
 // Page-based Pagination
@@ -175,7 +177,7 @@ export const paginatePageNumber = <Input extends Record<string, unknown>, Output
 // ============================================================================
 
 /**
- * Stream of pages using cursor-based pagination — follow `outputToken`
+ * Stream of pages using cursor-based pagination -- follow `outputToken`
  * cursors until one comes back absent or repeats a previously requested cursor.
  * Empty pages still advance when they return a new cursor.
  */
@@ -227,7 +229,7 @@ export const paginateCursor = <Input extends Record<string, unknown>, Output, E,
 // ============================================================================
 
 /**
- * Stream of pages using token-based pagination — pass `outputToken` back as
+ * Stream of pages using token-based pagination -- pass `outputToken` back as
  * `inputToken` until it comes back absent.
  */
 export const paginateToken = <Input extends Record<string, unknown>, Output, E, R>(
@@ -269,7 +271,7 @@ export const paginateToken = <Input extends Record<string, unknown>, Output, E, 
 // ============================================================================
 
 /**
- * Stream of pages over a Relay connection — pass `pageInfo.endCursor` back as
+ * Stream of pages over a Relay connection -- pass `pageInfo.endCursor` back as
  * `after` for as long as `pageInfo.hasNextPage` is true.
  *
  * Relay is cursor pagination with one twist that breaks
@@ -290,7 +292,7 @@ export const paginateRelay = <Input extends Record<string, unknown>, Output, E, 
   if (!inputToken || !outputToken) {
     return missingPaginationConfig("Relay pagination requires inputToken and outputToken");
   }
-  // `pageInfo.endCursor` → `pageInfo.hasNextPage` when the trait doesn't say.
+  // `pageInfo.endCursor` -> `pageInfo.hasNextPage` when the trait doesn't say.
   const hasNextPath =
     pagination.hasNextPage ??
     `${outputToken.split(".").slice(0, -1).concat("hasNextPage").join(".")}`;
@@ -313,7 +315,7 @@ export const paginateRelay = <Input extends Record<string, unknown>, Output, E, 
       const nextCursor = getPath(response, outputToken) as string | null | undefined;
       const hasNext = getPath(response, hasNextPath) === true;
       // An empty page means the connection is exhausted regardless of what
-      // `hasNextPage` claims — re-requesting the same cursor would loop.
+      // `hasNextPage` claims -- re-requesting the same cursor would loop.
       const emptyPage =
         pagination.items !== undefined && getItems(response, pagination.items).length === 0;
       // A connection that keeps returning the same `endCursor` with
@@ -373,6 +375,22 @@ export const extractItems = <Output, Item, E, R>(
   pages: Stream.Stream<Output, E, R>,
   itemsPath: string,
 ): Stream.Stream<Item, E, R> =>
-  pages.pipe(
-    Stream.flatMap((page) => Stream.fromIterable(getItems(page, itemsPath) as readonly Item[])),
-  );
+  // Flattens each pulled chunk of pages directly, skipping pages with no
+  // items. `Stream.flatMap` / `flattenIterable` would do the same but pull in
+  // Effect's concurrent-merge machinery (Queue, Semaphore, ...): about 5 KB
+  // gzip in every bundle that uses a paginated operation.
+  Stream.transformPull(pages, (pull) => {
+    // Same error channel as `pull` (its `Done` included), so the stream ends where the pages end.
+    const next: Effect.Effect<Arr.NonEmptyReadonlyArray<Item>, unknown> = Effect.flatMap(
+      pull,
+      (chunk) => {
+        const items: Item[] = [];
+        for (const page of chunk)
+          for (const item of getItems(page, itemsPath)) items.push(item as Item);
+        return items.length > 0
+          ? Effect.succeed(items as unknown as Arr.NonEmptyReadonlyArray<Item>)
+          : next;
+      },
+    );
+    return Effect.succeed(next);
+  }) as unknown as Stream.Stream<Item, E, R>;

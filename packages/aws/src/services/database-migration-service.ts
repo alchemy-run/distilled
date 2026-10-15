@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
-import * as redacted from "effect/Redacted";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -9,15 +10,17 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const ns = T.XmlNamespace("http://dms.amazonaws.com/doc/2016-01-01/");
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://dms.amazonaws.com/doc/2016-01-01/");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Database Migration Service",
   serviceShapeName: "AmazonDMSv20160101",
 });
-const auth = T.AwsAuthSigv4({ name: "dms" });
-const ver = T.ServiceVersion("2016-01-01");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "dms" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2016-01-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -79,175 +82,148 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://dms.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedFault
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedFault>()("AccessDeniedFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withAuthError) {}
 export class CollectorNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<CollectorNotFoundFault>()(
     "CollectorNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class FailedDependencyFault
   extends /*@__PURE__*/ S.TaggedError<FailedDependencyFault>()("FailedDependencyFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InsufficientResourceCapacityFault
   extends /*@__PURE__*/ S.TaggedError<InsufficientResourceCapacityFault>()(
     "InsufficientResourceCapacityFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidCertificateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidCertificateFault>()("InvalidCertificateFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InvalidOperationFault
   extends /*@__PURE__*/ S.TaggedError<InvalidOperationFault>()("InvalidOperationFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InvalidParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
     "InvalidParameterValueException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ).pipe(C.withBadRequestError) {}
 export class InvalidReplicationInstanceClass
   extends /*@__PURE__*/ S.TaggedError<InvalidReplicationInstanceClass>()(
     "InvalidReplicationInstanceClass",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.SyntheticError({
       from: "InvalidParameterValueException",
       message: { includes: "Invalid ReplicationInstance class" },
     }),
   ).pipe(C.withBadRequestError) {}
 export class InvalidResourceStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidResourceStateFault>()("InvalidResourceStateFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InvalidSubnet
   extends /*@__PURE__*/ S.TaggedError<InvalidSubnet>()("InvalidSubnet", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class KMSAccessDeniedFault
   extends /*@__PURE__*/ S.TaggedError<KMSAccessDeniedFault>()("KMSAccessDeniedFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withAuthError) {}
 export class KMSDisabledFault
   extends /*@__PURE__*/ S.TaggedError<KMSDisabledFault>()("KMSDisabledFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class KMSFault
   extends /*@__PURE__*/ S.TaggedError<KMSFault>()("KMSFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class KMSInvalidStateFault
   extends /*@__PURE__*/ S.TaggedError<KMSInvalidStateFault>()("KMSInvalidStateFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class KMSKeyNotAccessibleFault
   extends /*@__PURE__*/ S.TaggedError<KMSKeyNotAccessibleFault>()("KMSKeyNotAccessibleFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class KMSNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<KMSNotFoundFault>()("KMSNotFoundFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class KMSThrottlingFault
   extends /*@__PURE__*/ S.TaggedError<KMSThrottlingFault>()("KMSThrottlingFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ReplicationSubnetGroupDoesNotCoverEnoughAZs
   extends /*@__PURE__*/ S.TaggedError<ReplicationSubnetGroupDoesNotCoverEnoughAZs>()(
     "ReplicationSubnetGroupDoesNotCoverEnoughAZs",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class ResourceAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsFault>()("ResourceAlreadyExistsFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
-    resourceArn: S.optional(S.String),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    resourceArn: /*@__PURE__*/ S.optional(S.String),
   }).pipe(C.withAlreadyExistsError) {}
 export class ResourceNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundFault>()("ResourceNotFoundFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ResourceQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<ResourceQuotaExceededFault>()("ResourceQuotaExceededFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class S3AccessDeniedFault
   extends /*@__PURE__*/ S.TaggedError<S3AccessDeniedFault>()("S3AccessDeniedFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withAuthError) {}
 export class S3ResourceNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<S3ResourceNotFoundFault>()("S3ResourceNotFoundFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class SNSInvalidTopicFault
   extends /*@__PURE__*/ S.TaggedError<SNSInvalidTopicFault>()("SNSInvalidTopicFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class SNSNoAuthorizationFault
   extends /*@__PURE__*/ S.TaggedError<SNSNoAuthorizationFault>()("SNSNoAuthorizationFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class StorageQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<StorageQuotaExceededFault>()("StorageQuotaExceededFault", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class SubnetAlreadyInUse
   extends /*@__PURE__*/ S.TaggedError<SubnetAlreadyInUse>()("SubnetAlreadyInUse", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withDependencyViolationError) {}
 export class UpgradeDependencyFailureFault
   extends /*@__PURE__*/ S.TaggedError<UpgradeDependencyFailureFault>()(
     "UpgradeDependencyFailureFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export interface Tag {
   Key?: string;
   Value?: string;
   ResourceArn?: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Key: S.optional(S.String),
-    Value: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(
-  Tag.pipe(T.XmlName("Tag")).annotate({ identifier: "Tag" }),
-);
 export interface AddTagsToResourceMessage {
   ResourceArn: string;
   Tags: Tag[];
 }
-export const AddTagsToResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "AddTagsToResourceMessage" }) as any as S.Schema<AddTagsToResourceMessage>;
 export interface AddTagsToResourceResponse {}
-export const AddTagsToResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddTagsToResourceResponse",
-}) as any as S.Schema<AddTagsToResourceResponse>;
 export interface ApplyPendingMaintenanceActionMessage {
   ReplicationInstanceArn: string;
   ApplyAction: string;
   OptInType: string;
 }
-export const ApplyPendingMaintenanceActionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationInstanceArn: S.String, ApplyAction: S.String, OptInType: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ApplyPendingMaintenanceActionMessage",
-}) as any as S.Schema<ApplyPendingMaintenanceActionMessage>;
 export interface PendingMaintenanceAction {
   Action?: string;
   AutoAppliedAfterDate?: Date;
@@ -256,155 +232,59 @@ export interface PendingMaintenanceAction {
   CurrentApplyDate?: Date;
   Description?: string;
 }
-export const PendingMaintenanceAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Action: S.optional(S.String),
-    AutoAppliedAfterDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ForcedApplyDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    OptInStatus: S.optional(S.String),
-    CurrentApplyDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Description: S.optional(S.String),
-  }),
-).annotate({ identifier: "PendingMaintenanceAction" }) as any as S.Schema<PendingMaintenanceAction>;
 export type PendingMaintenanceActionDetails = PendingMaintenanceAction[];
-export const PendingMaintenanceActionDetails = /*@__PURE__*/ S.Array(
-  PendingMaintenanceAction.pipe(T.XmlName("PendingMaintenanceAction")).annotate({
-    identifier: "PendingMaintenanceAction",
-  }),
-);
 export interface ResourcePendingMaintenanceActions {
   ResourceIdentifier?: string;
   PendingMaintenanceActionDetails?: PendingMaintenanceAction[];
 }
-export const ResourcePendingMaintenanceActions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceIdentifier: S.optional(S.String),
-    PendingMaintenanceActionDetails: S.optional(PendingMaintenanceActionDetails),
-  }),
-).annotate({
-  identifier: "ResourcePendingMaintenanceActions",
-}) as any as S.Schema<ResourcePendingMaintenanceActions>;
 export interface ApplyPendingMaintenanceActionResponse {
   ResourcePendingMaintenanceActions?: ResourcePendingMaintenanceActions;
 }
-export const ApplyPendingMaintenanceActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourcePendingMaintenanceActions: S.optional(ResourcePendingMaintenanceActions),
-  }).pipe(ns),
-).annotate({
-  identifier: "ApplyPendingMaintenanceActionResponse",
-}) as any as S.Schema<ApplyPendingMaintenanceActionResponse>;
 export interface RecommendationSettings {
   InstanceSizingType: string;
   WorkloadType: string;
 }
-export const RecommendationSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceSizingType: S.String, WorkloadType: S.String }),
-).annotate({ identifier: "RecommendationSettings" }) as any as S.Schema<RecommendationSettings>;
 export interface StartRecommendationsRequestEntry {
   DatabaseId: string;
   Settings: RecommendationSettings;
 }
-export const StartRecommendationsRequestEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DatabaseId: S.String, Settings: RecommendationSettings }),
-).annotate({
-  identifier: "StartRecommendationsRequestEntry",
-}) as any as S.Schema<StartRecommendationsRequestEntry>;
 export type StartRecommendationsRequestEntryList = StartRecommendationsRequestEntry[];
-export const StartRecommendationsRequestEntryList = /*@__PURE__*/ S.Array(
-  StartRecommendationsRequestEntry,
-);
 export interface BatchStartRecommendationsRequest {
   Data?: StartRecommendationsRequestEntry[];
 }
-export const BatchStartRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Data: S.optional(StartRecommendationsRequestEntryList) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchStartRecommendationsRequest",
-}) as any as S.Schema<BatchStartRecommendationsRequest>;
 export interface BatchStartRecommendationsErrorEntry {
   DatabaseId?: string;
   Message?: string;
   Code?: string;
 }
-export const BatchStartRecommendationsErrorEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseId: S.optional(S.String),
-    Message: S.optional(S.String),
-    Code: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchStartRecommendationsErrorEntry",
-}) as any as S.Schema<BatchStartRecommendationsErrorEntry>;
 export type BatchStartRecommendationsErrorEntryList = BatchStartRecommendationsErrorEntry[];
-export const BatchStartRecommendationsErrorEntryList = /*@__PURE__*/ S.Array(
-  BatchStartRecommendationsErrorEntry,
-);
 export interface BatchStartRecommendationsResponse {
   ErrorEntries?: BatchStartRecommendationsErrorEntry[];
 }
-export const BatchStartRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ErrorEntries: S.optional(BatchStartRecommendationsErrorEntryList) }).pipe(ns),
-).annotate({
-  identifier: "BatchStartRecommendationsResponse",
-}) as any as S.Schema<BatchStartRecommendationsResponse>;
 export type MigrationProjectIdentifier = string;
 export interface CancelMetadataModelConversionMessage {
   MigrationProjectIdentifier: string;
   RequestIdentifier: string;
 }
-export const CancelMetadataModelConversionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.String, RequestIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CancelMetadataModelConversionMessage",
-}) as any as S.Schema<CancelMetadataModelConversionMessage>;
 export interface DefaultErrorDetails {
   Message?: string;
 }
-export const DefaultErrorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }),
-).annotate({ identifier: "DefaultErrorDetails" }) as any as S.Schema<DefaultErrorDetails>;
 export type ErrorDetails = { defaultErrorDetails: DefaultErrorDetails };
-export const ErrorDetails = /*@__PURE__*/ S.Union([
-  S.Struct({ defaultErrorDetails: DefaultErrorDetails }),
-]);
 export interface ExportSqlDetails {
   S3ObjectKey?: string;
   ObjectURL?: string;
 }
-export const ExportSqlDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3ObjectKey: S.optional(S.String), ObjectURL: S.optional(S.String) }),
-).annotate({ identifier: "ExportSqlDetails" }) as any as S.Schema<ExportSqlDetails>;
 export interface ProcessedObject {
   Name?: string;
   Type?: string;
   EndpointType?: string;
 }
-export const ProcessedObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Type: S.optional(S.String),
-    EndpointType: S.optional(S.String),
-  }),
-).annotate({ identifier: "ProcessedObject" }) as any as S.Schema<ProcessedObject>;
 export interface Progress {
   ProgressPercent?: number;
   TotalObjects?: number;
   ProgressStep?: string;
   ProcessedObject?: ProcessedObject;
 }
-export const Progress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProgressPercent: S.optional(S.Number),
-    TotalObjects: S.optional(S.Number),
-    ProgressStep: S.optional(S.String),
-    ProcessedObject: S.optional(ProcessedObject),
-  }),
-).annotate({ identifier: "Progress" }) as any as S.Schema<Progress>;
 export interface SchemaConversionRequest {
   Status?: string;
   RequestIdentifier?: string;
@@ -413,65 +293,23 @@ export interface SchemaConversionRequest {
   ExportSqlDetails?: ExportSqlDetails;
   Progress?: Progress;
 }
-export const SchemaConversionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(S.String),
-    RequestIdentifier: S.optional(S.String),
-    MigrationProjectArn: S.optional(S.String),
-    Error: S.optional(ErrorDetails),
-    ExportSqlDetails: S.optional(ExportSqlDetails),
-    Progress: S.optional(Progress),
-  }),
-).annotate({ identifier: "SchemaConversionRequest" }) as any as S.Schema<SchemaConversionRequest>;
 export interface CancelMetadataModelConversionResponse {
   Request?: SchemaConversionRequest;
 }
-export const CancelMetadataModelConversionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Request: S.optional(SchemaConversionRequest) }).pipe(ns),
-).annotate({
-  identifier: "CancelMetadataModelConversionResponse",
-}) as any as S.Schema<CancelMetadataModelConversionResponse>;
 export interface CancelMetadataModelCreationMessage {
   MigrationProjectIdentifier: string;
   RequestIdentifier: string;
 }
-export const CancelMetadataModelCreationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.String, RequestIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CancelMetadataModelCreationMessage",
-}) as any as S.Schema<CancelMetadataModelCreationMessage>;
 export interface CancelMetadataModelCreationResponse {
   Request?: SchemaConversionRequest;
 }
-export const CancelMetadataModelCreationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Request: S.optional(SchemaConversionRequest) }).pipe(ns),
-).annotate({
-  identifier: "CancelMetadataModelCreationResponse",
-}) as any as S.Schema<CancelMetadataModelCreationResponse>;
 export interface CancelReplicationTaskAssessmentRunMessage {
   ReplicationTaskAssessmentRunArn: string;
 }
-export const CancelReplicationTaskAssessmentRunMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskAssessmentRunArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CancelReplicationTaskAssessmentRunMessage",
-}) as any as S.Schema<CancelReplicationTaskAssessmentRunMessage>;
 export interface ReplicationTaskAssessmentRunProgress {
   IndividualAssessmentCount?: number;
   IndividualAssessmentCompletedCount?: number;
 }
-export const ReplicationTaskAssessmentRunProgress = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IndividualAssessmentCount: S.optional(S.Number),
-    IndividualAssessmentCompletedCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ReplicationTaskAssessmentRunProgress",
-}) as any as S.Schema<ReplicationTaskAssessmentRunProgress>;
 export interface ReplicationTaskAssessmentRunResultStatistic {
   Passed?: number;
   Failed?: number;
@@ -480,18 +318,6 @@ export interface ReplicationTaskAssessmentRunResultStatistic {
   Cancelled?: number;
   Skipped?: number;
 }
-export const ReplicationTaskAssessmentRunResultStatistic = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Passed: S.optional(S.Number),
-    Failed: S.optional(S.Number),
-    Error: S.optional(S.Number),
-    Warning: S.optional(S.Number),
-    Cancelled: S.optional(S.Number),
-    Skipped: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ReplicationTaskAssessmentRunResultStatistic",
-}) as any as S.Schema<ReplicationTaskAssessmentRunResultStatistic>;
 export interface ReplicationTaskAssessmentRun {
   ReplicationTaskAssessmentRunArn?: string;
   ReplicationTaskArn?: string;
@@ -508,39 +334,10 @@ export interface ReplicationTaskAssessmentRun {
   IsLatestTaskAssessmentRun?: boolean;
   ResultStatistic?: ReplicationTaskAssessmentRunResultStatistic;
 }
-export const ReplicationTaskAssessmentRun = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskAssessmentRunArn: S.optional(S.String),
-    ReplicationTaskArn: S.optional(S.String),
-    Status: S.optional(S.String),
-    ReplicationTaskAssessmentRunCreationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AssessmentProgress: S.optional(ReplicationTaskAssessmentRunProgress),
-    LastFailureMessage: S.optional(S.String),
-    ServiceAccessRoleArn: S.optional(S.String),
-    ResultLocationBucket: S.optional(S.String),
-    ResultLocationFolder: S.optional(S.String),
-    ResultEncryptionMode: S.optional(S.String),
-    ResultKmsKeyArn: S.optional(S.String),
-    AssessmentRunName: S.optional(S.String),
-    IsLatestTaskAssessmentRun: S.optional(S.Boolean),
-    ResultStatistic: S.optional(ReplicationTaskAssessmentRunResultStatistic),
-  }),
-).annotate({
-  identifier: "ReplicationTaskAssessmentRun",
-}) as any as S.Schema<ReplicationTaskAssessmentRun>;
 export interface CancelReplicationTaskAssessmentRunResponse {
   ReplicationTaskAssessmentRun?: ReplicationTaskAssessmentRun;
 }
-export const CancelReplicationTaskAssessmentRunResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskAssessmentRun: S.optional(ReplicationTaskAssessmentRun) }).pipe(ns),
-).annotate({
-  identifier: "CancelReplicationTaskAssessmentRunResponse",
-}) as any as S.Schema<CancelReplicationTaskAssessmentRunResponse>;
 export type MigrationTypeValue = "full-load" | "cdc" | "full-load-and-cdc" | (string & {});
-export const MigrationTypeValue = S.String;
-
 export type Iso8601DateTime = Date;
 export interface SourceDataSetting {
   CDCStartPosition?: string;
@@ -548,31 +345,16 @@ export interface SourceDataSetting {
   CDCStopTime?: Date;
   SlotName?: string;
 }
-export const SourceDataSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CDCStartPosition: S.optional(S.String),
-    CDCStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    CDCStopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    SlotName: S.optional(S.String),
-  }),
-).annotate({ identifier: "SourceDataSetting" }) as any as S.Schema<SourceDataSetting>;
 export type SourceDataSettings = SourceDataSetting[];
-export const SourceDataSettings = /*@__PURE__*/ S.Array(SourceDataSetting);
 export type TablePreparationMode =
   | "do-nothing"
   | "truncate"
   | "drop-tables-on-target"
   | (string & {});
-export const TablePreparationMode = S.String;
-
 export interface TargetDataSetting {
   TablePreparationMode?: TablePreparationMode;
 }
-export const TargetDataSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TablePreparationMode: S.optional(TablePreparationMode) }),
-).annotate({ identifier: "TargetDataSetting" }) as any as S.Schema<TargetDataSetting>;
 export type TargetDataSettings = TargetDataSetting[];
-export const TargetDataSettings = /*@__PURE__*/ S.Array(TargetDataSetting);
 export type SecretString = string | redacted.Redacted<string>;
 export interface CreateDataMigrationMessage {
   DataMigrationName?: string;
@@ -586,34 +368,11 @@ export interface CreateDataMigrationMessage {
   Tags?: Tag[];
   SelectionRules?: string | redacted.Redacted<string>;
 }
-export const CreateDataMigrationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataMigrationName: S.optional(S.String),
-    MigrationProjectIdentifier: S.String,
-    DataMigrationType: MigrationTypeValue,
-    ServiceAccessRoleArn: S.String,
-    EnableCloudwatchLogs: S.optional(S.Boolean),
-    SourceDataSettings: S.optional(SourceDataSettings),
-    TargetDataSettings: S.optional(TargetDataSettings),
-    NumberOfJobs: S.optional(S.Number),
-    Tags: S.optional(TagList),
-    SelectionRules: S.optional(SensitiveString),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDataMigrationMessage",
-}) as any as S.Schema<CreateDataMigrationMessage>;
 export interface DataMigrationSettings {
   NumberOfJobs?: number;
   CloudwatchLogsEnabled?: boolean;
   SelectionRules?: string | redacted.Redacted<string>;
 }
-export const DataMigrationSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NumberOfJobs: S.optional(S.Number),
-    CloudwatchLogsEnabled: S.optional(S.Boolean),
-    SelectionRules: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "DataMigrationSettings" }) as any as S.Schema<DataMigrationSettings>;
 export interface DataMigrationStatistics {
   TablesLoaded?: number;
   ElapsedTimeMillis?: number;
@@ -625,23 +384,8 @@ export interface DataMigrationStatistics {
   StartTime?: Date;
   StopTime?: Date;
 }
-export const DataMigrationStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TablesLoaded: S.optional(S.Number),
-    ElapsedTimeMillis: S.optional(S.Number),
-    TablesLoading: S.optional(S.Number),
-    FullLoadPercentage: S.optional(S.Number),
-    CDCLatency: S.optional(S.Number),
-    TablesQueued: S.optional(S.Number),
-    TablesErrored: S.optional(S.Number),
-    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    StopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({ identifier: "DataMigrationStatistics" }) as any as S.Schema<DataMigrationStatistics>;
 export type PublicIpAddressList = string[];
-export const PublicIpAddressList = /*@__PURE__*/ S.Array(S.String);
 export type DataMigrationCidrBlock = string[];
-export const DataMigrationCidrBlock = /*@__PURE__*/ S.Array(S.String);
 export interface DataMigration {
   DataMigrationName?: string;
   DataMigrationArn?: string;
@@ -661,35 +405,9 @@ export interface DataMigration {
   LastFailureMessage?: string;
   StopReason?: string;
 }
-export const DataMigration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataMigrationName: S.optional(S.String),
-    DataMigrationArn: S.optional(S.String),
-    DataMigrationCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    DataMigrationStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    DataMigrationEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    ServiceAccessRoleArn: S.optional(S.String),
-    MigrationProjectArn: S.optional(S.String),
-    DataMigrationType: S.optional(MigrationTypeValue),
-    DataMigrationSettings: S.optional(DataMigrationSettings),
-    SourceDataSettings: S.optional(SourceDataSettings),
-    TargetDataSettings: S.optional(TargetDataSettings),
-    DataMigrationStatistics: S.optional(DataMigrationStatistics),
-    DataMigrationStatus: S.optional(S.String),
-    PublicIpAddresses: S.optional(PublicIpAddressList),
-    DataMigrationCidrBlocks: S.optional(DataMigrationCidrBlock),
-    LastFailureMessage: S.optional(S.String),
-    StopReason: S.optional(S.String),
-  }),
-).annotate({ identifier: "DataMigration" }) as any as S.Schema<DataMigration>;
 export interface CreateDataMigrationResponse {
   DataMigration?: DataMigration;
 }
-export const CreateDataMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataMigration: S.optional(DataMigration) }).pipe(ns),
-).annotate({
-  identifier: "CreateDataMigrationResponse",
-}) as any as S.Schema<CreateDataMigrationResponse>;
 export interface RedshiftDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -697,20 +415,7 @@ export interface RedshiftDataProviderSettings {
   S3Path?: string;
   S3AccessRoleArn?: string;
 }
-export const RedshiftDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    S3Path: S.optional(S.String),
-    S3AccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RedshiftDataProviderSettings",
-}) as any as S.Schema<RedshiftDataProviderSettings>;
 export type DmsSslModeValue = "none" | "require" | "verify-ca" | "verify-full" | (string & {});
-export const DmsSslModeValue = S.String;
-
 export interface PostgreSqlDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -720,19 +425,6 @@ export interface PostgreSqlDataProviderSettings {
   S3Path?: string;
   S3AccessRoleArn?: string;
 }
-export const PostgreSqlDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    CertificateArn: S.optional(S.String),
-    S3Path: S.optional(S.String),
-    S3AccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PostgreSqlDataProviderSettings",
-}) as any as S.Schema<PostgreSqlDataProviderSettings>;
 export interface MySqlDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -741,18 +433,6 @@ export interface MySqlDataProviderSettings {
   S3Path?: string;
   S3AccessRoleArn?: string;
 }
-export const MySqlDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    SslMode: S.optional(DmsSslModeValue),
-    CertificateArn: S.optional(S.String),
-    S3Path: S.optional(S.String),
-    S3AccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MySqlDataProviderSettings",
-}) as any as S.Schema<MySqlDataProviderSettings>;
 export interface OracleDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -767,24 +447,6 @@ export interface OracleDataProviderSettings {
   S3Path?: string;
   S3AccessRoleArn?: string;
 }
-export const OracleDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    CertificateArn: S.optional(S.String),
-    AsmServer: S.optional(S.String),
-    SecretsManagerOracleAsmSecretId: S.optional(S.String),
-    SecretsManagerOracleAsmAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecurityDbEncryptionSecretId: S.optional(S.String),
-    SecretsManagerSecurityDbEncryptionAccessRoleArn: S.optional(S.String),
-    S3Path: S.optional(S.String),
-    S3AccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OracleDataProviderSettings",
-}) as any as S.Schema<OracleDataProviderSettings>;
 export interface SybaseAseDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -793,18 +455,6 @@ export interface SybaseAseDataProviderSettings {
   EncryptPassword?: boolean;
   CertificateArn?: string;
 }
-export const SybaseAseDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    EncryptPassword: S.optional(S.Boolean),
-    CertificateArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SybaseAseDataProviderSettings",
-}) as any as S.Schema<SybaseAseDataProviderSettings>;
 export interface MicrosoftSqlServerDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -814,19 +464,6 @@ export interface MicrosoftSqlServerDataProviderSettings {
   S3Path?: string;
   S3AccessRoleArn?: string;
 }
-export const MicrosoftSqlServerDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    CertificateArn: S.optional(S.String),
-    S3Path: S.optional(S.String),
-    S3AccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MicrosoftSqlServerDataProviderSettings",
-}) as any as S.Schema<MicrosoftSqlServerDataProviderSettings>;
 export interface DocDbDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -834,17 +471,6 @@ export interface DocDbDataProviderSettings {
   SslMode?: DmsSslModeValue;
   CertificateArn?: string;
 }
-export const DocDbDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    CertificateArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DocDbDataProviderSettings",
-}) as any as S.Schema<DocDbDataProviderSettings>;
 export interface MariaDbDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -853,18 +479,6 @@ export interface MariaDbDataProviderSettings {
   S3Path?: string;
   S3AccessRoleArn?: string;
 }
-export const MariaDbDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    SslMode: S.optional(DmsSslModeValue),
-    CertificateArn: S.optional(S.String),
-    S3Path: S.optional(S.String),
-    S3AccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MariaDbDataProviderSettings",
-}) as any as S.Schema<MariaDbDataProviderSettings>;
 export interface IbmDb2LuwDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -876,21 +490,6 @@ export interface IbmDb2LuwDataProviderSettings {
   S3Path?: string;
   S3AccessRoleArn?: string;
 }
-export const IbmDb2LuwDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    CertificateArn: S.optional(S.String),
-    EncryptionAlgorithm: S.optional(S.Number),
-    SecurityMechanism: S.optional(S.Number),
-    S3Path: S.optional(S.String),
-    S3AccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IbmDb2LuwDataProviderSettings",
-}) as any as S.Schema<IbmDb2LuwDataProviderSettings>;
 export interface IbmDb2zOsDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -900,25 +499,8 @@ export interface IbmDb2zOsDataProviderSettings {
   S3Path?: string;
   S3AccessRoleArn?: string;
 }
-export const IbmDb2zOsDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    CertificateArn: S.optional(S.String),
-    S3Path: S.optional(S.String),
-    S3AccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IbmDb2zOsDataProviderSettings",
-}) as any as S.Schema<IbmDb2zOsDataProviderSettings>;
 export type AuthTypeValue = "no" | "password" | (string & {});
-export const AuthTypeValue = S.String;
-
 export type AuthMechanismValue = "default" | "mongodb_cr" | "scram_sha_1" | (string & {});
-export const AuthMechanismValue = S.String;
-
 export interface MongoDbDataProviderSettings {
   ServerName?: string;
   Port?: number;
@@ -929,20 +511,6 @@ export interface MongoDbDataProviderSettings {
   AuthSource?: string;
   AuthMechanism?: AuthMechanismValue;
 }
-export const MongoDbDataProviderSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    CertificateArn: S.optional(S.String),
-    AuthType: S.optional(AuthTypeValue),
-    AuthSource: S.optional(S.String),
-    AuthMechanism: S.optional(AuthMechanismValue),
-  }),
-).annotate({
-  identifier: "MongoDbDataProviderSettings",
-}) as any as S.Schema<MongoDbDataProviderSettings>;
 export type DataProviderSettings =
   | {
       RedshiftSettings: RedshiftDataProviderSettings;
@@ -1087,19 +655,6 @@ export type DataProviderSettings =
       IbmDb2zOsSettings?: never;
       MongoDbSettings: MongoDbDataProviderSettings;
     };
-export const DataProviderSettings = /*@__PURE__*/ S.Union([
-  S.Struct({ RedshiftSettings: RedshiftDataProviderSettings }),
-  S.Struct({ PostgreSqlSettings: PostgreSqlDataProviderSettings }),
-  S.Struct({ MySqlSettings: MySqlDataProviderSettings }),
-  S.Struct({ OracleSettings: OracleDataProviderSettings }),
-  S.Struct({ SybaseAseSettings: SybaseAseDataProviderSettings }),
-  S.Struct({ MicrosoftSqlServerSettings: MicrosoftSqlServerDataProviderSettings }),
-  S.Struct({ DocDbSettings: DocDbDataProviderSettings }),
-  S.Struct({ MariaDbSettings: MariaDbDataProviderSettings }),
-  S.Struct({ IbmDb2LuwSettings: IbmDb2LuwDataProviderSettings }),
-  S.Struct({ IbmDb2zOsSettings: IbmDb2zOsDataProviderSettings }),
-  S.Struct({ MongoDbSettings: MongoDbDataProviderSettings }),
-]);
 export interface CreateDataProviderMessage {
   DataProviderName?: string;
   Description?: string;
@@ -1108,18 +663,6 @@ export interface CreateDataProviderMessage {
   Settings: DataProviderSettings;
   Tags?: Tag[];
 }
-export const CreateDataProviderMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataProviderName: S.optional(S.String),
-    Description: S.optional(S.String),
-    Engine: S.String,
-    Virtual: S.optional(S.Boolean),
-    Settings: DataProviderSettings,
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDataProviderMessage",
-}) as any as S.Schema<CreateDataProviderMessage>;
 export interface DataProvider {
   DataProviderName?: string;
   DataProviderArn?: string;
@@ -1129,49 +672,18 @@ export interface DataProvider {
   Virtual?: boolean;
   Settings?: DataProviderSettings;
 }
-export const DataProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataProviderName: S.optional(S.String),
-    DataProviderArn: S.optional(S.String),
-    DataProviderCreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Description: S.optional(S.String),
-    Engine: S.optional(S.String),
-    Virtual: S.optional(S.Boolean),
-    Settings: S.optional(DataProviderSettings),
-  }),
-).annotate({ identifier: "DataProvider" }) as any as S.Schema<DataProvider>;
 export interface CreateDataProviderResponse {
   DataProvider?: DataProvider;
 }
-export const CreateDataProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataProvider: S.optional(DataProvider) }).pipe(ns),
-).annotate({
-  identifier: "CreateDataProviderResponse",
-}) as any as S.Schema<CreateDataProviderResponse>;
 export type ReplicationEndpointTypeValue = "source" | "target" | (string & {});
-export const ReplicationEndpointTypeValue = S.String;
-
 export interface DynamoDbSettings {
   ServiceAccessRoleArn: string;
 }
-export const DynamoDbSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServiceAccessRoleArn: S.String }),
-).annotate({ identifier: "DynamoDbSettings" }) as any as S.Schema<DynamoDbSettings>;
 export type CompressionTypeValue = "none" | "gzip" | (string & {});
-export const CompressionTypeValue = S.String;
-
 export type EncryptionModeValue = "sse-s3" | "sse-kms" | (string & {});
-export const EncryptionModeValue = S.String;
-
 export type DataFormatValue = "csv" | "parquet" | (string & {});
-export const DataFormatValue = S.String;
-
 export type EncodingTypeValue = "plain" | "plain-dictionary" | "rle-dictionary" | (string & {});
-export const EncodingTypeValue = S.String;
-
 export type ParquetVersionValue = "parquet-1-0" | "parquet-2-0" | (string & {});
-export const ParquetVersionValue = S.String;
-
 export type DatePartitionSequenceValue =
   | "YYYYMMDD"
   | "YYYYMMDDHH"
@@ -1179,11 +691,7 @@ export type DatePartitionSequenceValue =
   | "MMYYYYDD"
   | "DDMMYYYY"
   | (string & {});
-export const DatePartitionSequenceValue = S.String;
-
 export type DatePartitionDelimiterValue = "SLASH" | "UNDERSCORE" | "DASH" | "NONE" | (string & {});
-export const DatePartitionDelimiterValue = S.String;
-
 export type CannedAclForObjectsValue =
   | "none"
   | "private"
@@ -1194,8 +702,6 @@ export type CannedAclForObjectsValue =
   | "bucket-owner-read"
   | "bucket-owner-full-control"
   | (string & {});
-export const CannedAclForObjectsValue = S.String;
-
 export interface S3Settings {
   ServiceAccessRoleArn?: string;
   ExternalTableDefinition?: string;
@@ -1239,61 +745,11 @@ export interface S3Settings {
   ExpectedBucketOwner?: string;
   GlueCatalogGeneration?: boolean;
 }
-export const S3Settings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceAccessRoleArn: S.optional(S.String),
-    ExternalTableDefinition: S.optional(S.String),
-    CsvRowDelimiter: S.optional(S.String),
-    CsvDelimiter: S.optional(S.String),
-    BucketFolder: S.optional(S.String),
-    BucketName: S.optional(S.String),
-    CompressionType: S.optional(CompressionTypeValue),
-    EncryptionMode: S.optional(EncryptionModeValue),
-    ServerSideEncryptionKmsKeyId: S.optional(S.String),
-    DataFormat: S.optional(DataFormatValue),
-    EncodingType: S.optional(EncodingTypeValue),
-    DictPageSizeLimit: S.optional(S.Number),
-    RowGroupLength: S.optional(S.Number),
-    DataPageSize: S.optional(S.Number),
-    ParquetVersion: S.optional(ParquetVersionValue),
-    EnableStatistics: S.optional(S.Boolean),
-    IncludeOpForFullLoad: S.optional(S.Boolean),
-    CdcInsertsOnly: S.optional(S.Boolean),
-    TimestampColumnName: S.optional(S.String),
-    ParquetTimestampInMillisecond: S.optional(S.Boolean),
-    CdcInsertsAndUpdates: S.optional(S.Boolean),
-    DatePartitionEnabled: S.optional(S.Boolean),
-    DatePartitionSequence: S.optional(DatePartitionSequenceValue),
-    DatePartitionDelimiter: S.optional(DatePartitionDelimiterValue),
-    UseCsvNoSupValue: S.optional(S.Boolean),
-    CsvNoSupValue: S.optional(S.String),
-    PreserveTransactions: S.optional(S.Boolean),
-    CdcPath: S.optional(S.String),
-    UseTaskStartTimeForFullLoadTimestamp: S.optional(S.Boolean),
-    CannedAclForObjects: S.optional(CannedAclForObjectsValue),
-    AddColumnName: S.optional(S.Boolean),
-    CdcMaxBatchInterval: S.optional(S.Number),
-    CdcMinFileSize: S.optional(S.Number),
-    CsvNullValue: S.optional(S.String),
-    IgnoreHeaderRows: S.optional(S.Number),
-    MaxFileSize: S.optional(S.Number),
-    Rfc4180: S.optional(S.Boolean),
-    DatePartitionTimezone: S.optional(S.String),
-    AddTrailingPaddingCharacter: S.optional(S.Boolean),
-    ExpectedBucketOwner: S.optional(S.String),
-    GlueCatalogGeneration: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "S3Settings" }) as any as S.Schema<S3Settings>;
 export interface DmsTransferSettings {
   ServiceAccessRoleArn?: string;
   BucketName?: string;
 }
-export const DmsTransferSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServiceAccessRoleArn: S.optional(S.String), BucketName: S.optional(S.String) }),
-).annotate({ identifier: "DmsTransferSettings" }) as any as S.Schema<DmsTransferSettings>;
 export type NestingLevelValue = "none" | "one" | (string & {});
-export const NestingLevelValue = S.String;
-
 export interface MongoDbSettings {
   Username?: string;
   Password?: string | redacted.Redacted<string>;
@@ -1312,29 +768,7 @@ export interface MongoDbSettings {
   UseUpdateLookUp?: boolean;
   ReplicateShardCollections?: boolean;
 }
-export const MongoDbSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Username: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    AuthType: S.optional(AuthTypeValue),
-    AuthMechanism: S.optional(AuthMechanismValue),
-    NestingLevel: S.optional(NestingLevelValue),
-    ExtractDocId: S.optional(S.String),
-    DocsToInvestigate: S.optional(S.String),
-    AuthSource: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-    UseUpdateLookUp: S.optional(S.Boolean),
-    ReplicateShardCollections: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "MongoDbSettings" }) as any as S.Schema<MongoDbSettings>;
 export type MessageFormatValue = "json" | "json-unformatted" | (string & {});
-export const MessageFormatValue = S.String;
-
 export interface KinesisSettings {
   StreamArn?: string;
   MessageFormat?: MessageFormatValue;
@@ -1348,35 +782,14 @@ export interface KinesisSettings {
   NoHexPrefix?: boolean;
   UseLargeIntegerValue?: boolean;
 }
-export const KinesisSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StreamArn: S.optional(S.String),
-    MessageFormat: S.optional(MessageFormatValue),
-    ServiceAccessRoleArn: S.optional(S.String),
-    IncludeTransactionDetails: S.optional(S.Boolean),
-    IncludePartitionValue: S.optional(S.Boolean),
-    PartitionIncludeSchemaTable: S.optional(S.Boolean),
-    IncludeTableAlterOperations: S.optional(S.Boolean),
-    IncludeControlDetails: S.optional(S.Boolean),
-    IncludeNullAndEmpty: S.optional(S.Boolean),
-    NoHexPrefix: S.optional(S.Boolean),
-    UseLargeIntegerValue: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "KinesisSettings" }) as any as S.Schema<KinesisSettings>;
 export type KafkaSecurityProtocol =
   | "plaintext"
   | "ssl-authentication"
   | "ssl-encryption"
   | "sasl-ssl"
   | (string & {});
-export const KafkaSecurityProtocol = S.String;
-
 export type KafkaSaslMechanism = "scram-sha-512" | "plain" | (string & {});
-export const KafkaSaslMechanism = S.String;
-
 export type KafkaSslEndpointIdentificationAlgorithm = "none" | "https" | (string & {});
-export const KafkaSslEndpointIdentificationAlgorithm = S.String;
-
 export interface KafkaSettings {
   Broker?: string;
   Topic?: string;
@@ -1400,31 +813,6 @@ export interface KafkaSettings {
   SslEndpointIdentificationAlgorithm?: KafkaSslEndpointIdentificationAlgorithm;
   UseLargeIntegerValue?: boolean;
 }
-export const KafkaSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Broker: S.optional(S.String),
-    Topic: S.optional(S.String),
-    MessageFormat: S.optional(MessageFormatValue),
-    IncludeTransactionDetails: S.optional(S.Boolean),
-    IncludePartitionValue: S.optional(S.Boolean),
-    PartitionIncludeSchemaTable: S.optional(S.Boolean),
-    IncludeTableAlterOperations: S.optional(S.Boolean),
-    IncludeControlDetails: S.optional(S.Boolean),
-    MessageMaxBytes: S.optional(S.Number),
-    IncludeNullAndEmpty: S.optional(S.Boolean),
-    SecurityProtocol: S.optional(KafkaSecurityProtocol),
-    SslClientCertificateArn: S.optional(S.String),
-    SslClientKeyArn: S.optional(S.String),
-    SslClientKeyPassword: S.optional(SensitiveString),
-    SslCaCertificateArn: S.optional(S.String),
-    SaslUsername: S.optional(S.String),
-    SaslPassword: S.optional(SensitiveString),
-    NoHexPrefix: S.optional(S.Boolean),
-    SaslMechanism: S.optional(KafkaSaslMechanism),
-    SslEndpointIdentificationAlgorithm: S.optional(KafkaSslEndpointIdentificationAlgorithm),
-    UseLargeIntegerValue: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "KafkaSettings" }) as any as S.Schema<KafkaSettings>;
 export interface ElasticsearchSettings {
   ServiceAccessRoleArn: string;
   EndpointUri: string;
@@ -1432,15 +820,6 @@ export interface ElasticsearchSettings {
   ErrorRetryDuration?: number;
   UseNewMappingType?: boolean;
 }
-export const ElasticsearchSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceAccessRoleArn: S.String,
-    EndpointUri: S.String,
-    FullLoadErrorPercentage: S.optional(S.Number),
-    ErrorRetryDuration: S.optional(S.Number),
-    UseNewMappingType: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ElasticsearchSettings" }) as any as S.Schema<ElasticsearchSettings>;
 export interface NeptuneSettings {
   ServiceAccessRoleArn?: string;
   S3BucketName: string;
@@ -1450,17 +829,6 @@ export interface NeptuneSettings {
   MaxRetryCount?: number;
   IamAuthEnabled?: boolean;
 }
-export const NeptuneSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceAccessRoleArn: S.optional(S.String),
-    S3BucketName: S.String,
-    S3BucketFolder: S.String,
-    ErrorRetryDuration: S.optional(S.Number),
-    MaxFileSize: S.optional(S.Number),
-    MaxRetryCount: S.optional(S.Number),
-    IamAuthEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "NeptuneSettings" }) as any as S.Schema<NeptuneSettings>;
 export interface RedshiftSettings {
   AcceptAnyDate?: boolean;
   AfterConnectScript?: string;
@@ -1494,53 +862,10 @@ export interface RedshiftSettings {
   SecretsManagerSecretId?: string;
   MapBooleanAsBoolean?: boolean;
 }
-export const RedshiftSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AcceptAnyDate: S.optional(S.Boolean),
-    AfterConnectScript: S.optional(S.String),
-    BucketFolder: S.optional(S.String),
-    BucketName: S.optional(S.String),
-    CaseSensitiveNames: S.optional(S.Boolean),
-    CompUpdate: S.optional(S.Boolean),
-    ConnectionTimeout: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    DateFormat: S.optional(S.String),
-    EmptyAsNull: S.optional(S.Boolean),
-    EncryptionMode: S.optional(EncryptionModeValue),
-    ExplicitIds: S.optional(S.Boolean),
-    FileTransferUploadStreams: S.optional(S.Number),
-    LoadTimeout: S.optional(S.Number),
-    MaxFileSize: S.optional(S.Number),
-    Password: S.optional(SensitiveString),
-    Port: S.optional(S.Number),
-    RemoveQuotes: S.optional(S.Boolean),
-    ReplaceInvalidChars: S.optional(S.String),
-    ReplaceChars: S.optional(S.String),
-    ServerName: S.optional(S.String),
-    ServiceAccessRoleArn: S.optional(S.String),
-    ServerSideEncryptionKmsKeyId: S.optional(S.String),
-    TimeFormat: S.optional(S.String),
-    TrimBlanks: S.optional(S.Boolean),
-    TruncateColumns: S.optional(S.Boolean),
-    Username: S.optional(S.String),
-    WriteBufferSize: S.optional(S.Number),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-    MapBooleanAsBoolean: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "RedshiftSettings" }) as any as S.Schema<RedshiftSettings>;
 export type PluginNameValue = "no-preference" | "test-decoding" | "pglogical" | (string & {});
-export const PluginNameValue = S.String;
-
 export type LongVarcharMappingType = "wstring" | "clob" | "nclob" | (string & {});
-export const LongVarcharMappingType = S.String;
-
 export type DatabaseMode = "default" | "babelfish" | (string & {});
-export const DatabaseMode = S.String;
-
 export type PostgreSQLAuthenticationMethod = "password" | "iam" | (string & {});
-export const PostgreSQLAuthenticationMethod = S.String;
-
 export interface PostgreSQLSettings {
   AfterConnectScript?: string;
   CaptureDdls?: boolean;
@@ -1570,43 +895,8 @@ export interface PostgreSQLSettings {
   ServiceAccessRoleArn?: string;
   AuthenticationMethod?: PostgreSQLAuthenticationMethod;
 }
-export const PostgreSQLSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AfterConnectScript: S.optional(S.String),
-    CaptureDdls: S.optional(S.Boolean),
-    MaxFileSize: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    DdlArtifactsSchema: S.optional(S.String),
-    ExecuteTimeout: S.optional(S.Number),
-    FailTasksOnLobTruncation: S.optional(S.Boolean),
-    HeartbeatEnable: S.optional(S.Boolean),
-    HeartbeatSchema: S.optional(S.String),
-    HeartbeatFrequency: S.optional(S.Number),
-    Password: S.optional(SensitiveString),
-    Port: S.optional(S.Number),
-    ServerName: S.optional(S.String),
-    Username: S.optional(S.String),
-    SlotName: S.optional(S.String),
-    PluginName: S.optional(PluginNameValue),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-    TrimSpaceInChar: S.optional(S.Boolean),
-    MapBooleanAsBoolean: S.optional(S.Boolean),
-    MapJsonbAsClob: S.optional(S.Boolean),
-    MapLongVarcharAs: S.optional(LongVarcharMappingType),
-    DatabaseMode: S.optional(DatabaseMode),
-    BabelfishDatabaseName: S.optional(S.String),
-    DisableUnicodeSourceFilter: S.optional(S.Boolean),
-    ServiceAccessRoleArn: S.optional(S.String),
-    AuthenticationMethod: S.optional(PostgreSQLAuthenticationMethod),
-  }),
-).annotate({ identifier: "PostgreSQLSettings" }) as any as S.Schema<PostgreSQLSettings>;
 export type TargetDbType = "specific-database" | "multiple-databases" | (string & {});
-export const TargetDbType = S.String;
-
 export type MySQLAuthenticationMethod = "password" | "iam" | (string & {});
-export const MySQLAuthenticationMethod = S.String;
-
 export interface MySQLSettings {
   AfterConnectScript?: string;
   CleanSourceMetadataOnMismatch?: boolean;
@@ -1626,35 +916,9 @@ export interface MySQLSettings {
   ServiceAccessRoleArn?: string;
   AuthenticationMethod?: MySQLAuthenticationMethod;
 }
-export const MySQLSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AfterConnectScript: S.optional(S.String),
-    CleanSourceMetadataOnMismatch: S.optional(S.Boolean),
-    DatabaseName: S.optional(S.String),
-    EventsPollInterval: S.optional(S.Number),
-    TargetDbType: S.optional(TargetDbType),
-    MaxFileSize: S.optional(S.Number),
-    ParallelLoadThreads: S.optional(S.Number),
-    Password: S.optional(SensitiveString),
-    Port: S.optional(S.Number),
-    ServerName: S.optional(S.String),
-    ServerTimezone: S.optional(S.String),
-    Username: S.optional(S.String),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-    ExecuteTimeout: S.optional(S.Number),
-    ServiceAccessRoleArn: S.optional(S.String),
-    AuthenticationMethod: S.optional(MySQLAuthenticationMethod),
-  }),
-).annotate({ identifier: "MySQLSettings" }) as any as S.Schema<MySQLSettings>;
 export type IntegerList = number[];
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number);
 export type CharLengthSemantics = "default" | "char" | "byte" | (string & {});
-export const CharLengthSemantics = S.String;
-
 export type OracleAuthenticationMethod = "password" | "kerberos" | (string & {});
-export const OracleAuthenticationMethod = S.String;
-
 export interface OracleSettings {
   AddSupplementalLogging?: boolean;
   ArchivedLogDestId?: number;
@@ -1701,54 +965,6 @@ export interface OracleSettings {
   OpenTransactionWindow?: number;
   AuthenticationMethod?: OracleAuthenticationMethod;
 }
-export const OracleSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AddSupplementalLogging: S.optional(S.Boolean),
-    ArchivedLogDestId: S.optional(S.Number),
-    AdditionalArchivedLogDestId: S.optional(S.Number),
-    ExtraArchivedLogDestIds: S.optional(IntegerList),
-    AllowSelectNestedTables: S.optional(S.Boolean),
-    ParallelAsmReadThreads: S.optional(S.Number),
-    ReadAheadBlocks: S.optional(S.Number),
-    AccessAlternateDirectly: S.optional(S.Boolean),
-    UseAlternateFolderForOnline: S.optional(S.Boolean),
-    OraclePathPrefix: S.optional(S.String),
-    UsePathPrefix: S.optional(S.String),
-    ReplacePathPrefix: S.optional(S.Boolean),
-    EnableHomogenousTablespace: S.optional(S.Boolean),
-    DirectPathNoLog: S.optional(S.Boolean),
-    ArchivedLogsOnly: S.optional(S.Boolean),
-    AsmPassword: S.optional(SensitiveString),
-    AsmServer: S.optional(S.String),
-    AsmUser: S.optional(S.String),
-    CharLengthSemantics: S.optional(CharLengthSemantics),
-    DatabaseName: S.optional(S.String),
-    DirectPathParallelLoad: S.optional(S.Boolean),
-    FailTasksOnLobTruncation: S.optional(S.Boolean),
-    NumberDatatypeScale: S.optional(S.Number),
-    Password: S.optional(SensitiveString),
-    Port: S.optional(S.Number),
-    ReadTableSpaceName: S.optional(S.Boolean),
-    RetryInterval: S.optional(S.Number),
-    SecurityDbEncryption: S.optional(SensitiveString),
-    SecurityDbEncryptionName: S.optional(S.String),
-    ServerName: S.optional(S.String),
-    SpatialDataOptionToGeoJsonFunctionName: S.optional(S.String),
-    StandbyDelayTime: S.optional(S.Number),
-    Username: S.optional(S.String),
-    UseBFile: S.optional(S.Boolean),
-    UseDirectPathFullLoad: S.optional(S.Boolean),
-    UseLogminerReader: S.optional(S.Boolean),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-    SecretsManagerOracleAsmAccessRoleArn: S.optional(S.String),
-    SecretsManagerOracleAsmSecretId: S.optional(S.String),
-    TrimSpaceInChar: S.optional(S.Boolean),
-    ConvertTimestampWithZoneToUTC: S.optional(S.Boolean),
-    OpenTransactionWindow: S.optional(S.Number),
-    AuthenticationMethod: S.optional(OracleAuthenticationMethod),
-  }),
-).annotate({ identifier: "OracleSettings" }) as any as S.Schema<OracleSettings>;
 export interface SybaseSettings {
   DatabaseName?: string;
   Password?: string | redacted.Redacted<string>;
@@ -1758,35 +974,18 @@ export interface SybaseSettings {
   SecretsManagerAccessRoleArn?: string;
   SecretsManagerSecretId?: string;
 }
-export const SybaseSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseName: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    Port: S.optional(S.Number),
-    ServerName: S.optional(S.String),
-    Username: S.optional(S.String),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-  }),
-).annotate({ identifier: "SybaseSettings" }) as any as S.Schema<SybaseSettings>;
 export type SafeguardPolicy =
   | "rely-on-sql-server-replication-agent"
   | "exclusive-automatic-truncation"
   | "shared-automatic-truncation"
   | (string & {});
-export const SafeguardPolicy = S.String;
-
 export type TlogAccessMode =
   | "BackupOnly"
   | "PreferBackup"
   | "PreferTlog"
   | "TlogOnly"
   | (string & {});
-export const TlogAccessMode = S.String;
-
 export type SqlServerAuthenticationMethod = "password" | "kerberos" | (string & {});
-export const SqlServerAuthenticationMethod = S.String;
-
 export interface MicrosoftSQLServerSettings {
   Port?: number;
   BcpPacketSize?: number;
@@ -1807,30 +1006,6 @@ export interface MicrosoftSQLServerSettings {
   ForceLobLookup?: boolean;
   AuthenticationMethod?: SqlServerAuthenticationMethod;
 }
-export const MicrosoftSQLServerSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Port: S.optional(S.Number),
-    BcpPacketSize: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    ControlTablesFileGroup: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    QuerySingleAlwaysOnNode: S.optional(S.Boolean),
-    ReadBackupOnly: S.optional(S.Boolean),
-    SafeguardPolicy: S.optional(SafeguardPolicy),
-    ServerName: S.optional(S.String),
-    Username: S.optional(S.String),
-    UseBcpFullLoad: S.optional(S.Boolean),
-    UseThirdPartyBackupDevice: S.optional(S.Boolean),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-    TrimSpaceInChar: S.optional(S.Boolean),
-    TlogAccessMode: S.optional(TlogAccessMode),
-    ForceLobLookup: S.optional(S.Boolean),
-    AuthenticationMethod: S.optional(SqlServerAuthenticationMethod),
-  }),
-).annotate({
-  identifier: "MicrosoftSQLServerSettings",
-}) as any as S.Schema<MicrosoftSQLServerSettings>;
 export interface IBMDb2Settings {
   DatabaseName?: string;
   Password?: string | redacted.Redacted<string>;
@@ -1847,24 +1022,6 @@ export interface IBMDb2Settings {
   MaxFileSize?: number;
   KeepCsvFiles?: boolean;
 }
-export const IBMDb2Settings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseName: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    Port: S.optional(S.Number),
-    ServerName: S.optional(S.String),
-    SetDataCaptureChanges: S.optional(S.Boolean),
-    CurrentLsn: S.optional(S.String),
-    MaxKBytesPerRead: S.optional(S.Number),
-    Username: S.optional(S.String),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-    LoadTimeout: S.optional(S.Number),
-    WriteBufferSize: S.optional(S.Number),
-    MaxFileSize: S.optional(S.Number),
-    KeepCsvFiles: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "IBMDb2Settings" }) as any as S.Schema<IBMDb2Settings>;
 export interface DocDbSettings {
   Username?: string;
   Password?: string | redacted.Redacted<string>;
@@ -1880,29 +1037,8 @@ export interface DocDbSettings {
   UseUpdateLookUp?: boolean;
   ReplicateShardCollections?: boolean;
 }
-export const DocDbSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Username: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    NestingLevel: S.optional(NestingLevelValue),
-    ExtractDocId: S.optional(S.Boolean),
-    DocsToInvestigate: S.optional(S.Number),
-    KmsKeyId: S.optional(S.String),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-    UseUpdateLookUp: S.optional(S.Boolean),
-    ReplicateShardCollections: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "DocDbSettings" }) as any as S.Schema<DocDbSettings>;
 export type SslSecurityProtocolValue = "plaintext" | "ssl-encryption" | (string & {});
-export const SslSecurityProtocolValue = S.String;
-
 export type RedisAuthTypeValue = "none" | "auth-role" | "auth-token" | (string & {});
-export const RedisAuthTypeValue = S.String;
-
 export interface RedisSettings {
   ServerName: string;
   Port: number;
@@ -1912,17 +1048,6 @@ export interface RedisSettings {
   AuthPassword?: string | redacted.Redacted<string>;
   SslCaCertificateArn?: string;
 }
-export const RedisSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerName: S.String,
-    Port: S.Number,
-    SslSecurityProtocol: S.optional(SslSecurityProtocolValue),
-    AuthType: S.optional(RedisAuthTypeValue),
-    AuthUserName: S.optional(S.String),
-    AuthPassword: S.optional(SensitiveString),
-    SslCaCertificateArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "RedisSettings" }) as any as S.Schema<RedisSettings>;
 export interface GcpMySQLSettings {
   AfterConnectScript?: string;
   CleanSourceMetadataOnMismatch?: boolean;
@@ -1939,24 +1064,6 @@ export interface GcpMySQLSettings {
   SecretsManagerAccessRoleArn?: string;
   SecretsManagerSecretId?: string;
 }
-export const GcpMySQLSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AfterConnectScript: S.optional(S.String),
-    CleanSourceMetadataOnMismatch: S.optional(S.Boolean),
-    DatabaseName: S.optional(S.String),
-    EventsPollInterval: S.optional(S.Number),
-    TargetDbType: S.optional(TargetDbType),
-    MaxFileSize: S.optional(S.Number),
-    ParallelLoadThreads: S.optional(S.Number),
-    Password: S.optional(SensitiveString),
-    Port: S.optional(S.Number),
-    ServerName: S.optional(S.String),
-    ServerTimezone: S.optional(S.String),
-    Username: S.optional(S.String),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    SecretsManagerSecretId: S.optional(S.String),
-  }),
-).annotate({ identifier: "GcpMySQLSettings" }) as any as S.Schema<GcpMySQLSettings>;
 export interface TimestreamSettings {
   DatabaseName: string;
   MemoryDuration: number;
@@ -1964,15 +1071,6 @@ export interface TimestreamSettings {
   CdcInsertsAndUpdates?: boolean;
   EnableMagneticStoreWrites?: boolean;
 }
-export const TimestreamSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseName: S.String,
-    MemoryDuration: S.Number,
-    MagneticDuration: S.Number,
-    CdcInsertsAndUpdates: S.optional(S.Boolean),
-    EnableMagneticStoreWrites: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "TimestreamSettings" }) as any as S.Schema<TimestreamSettings>;
 export interface CreateEndpointMessage {
   EndpointIdentifier: string;
   EndpointType: ReplicationEndpointTypeValue;
@@ -2010,51 +1108,9 @@ export interface CreateEndpointMessage {
   GcpMySQLSettings?: GcpMySQLSettings;
   TimestreamSettings?: TimestreamSettings;
 }
-export const CreateEndpointMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointIdentifier: S.String,
-    EndpointType: ReplicationEndpointTypeValue,
-    EngineName: S.String,
-    Username: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    ExtraConnectionAttributes: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    Tags: S.optional(TagList),
-    CertificateArn: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    ServiceAccessRoleArn: S.optional(S.String),
-    ExternalTableDefinition: S.optional(S.String),
-    DynamoDbSettings: S.optional(DynamoDbSettings),
-    S3Settings: S.optional(S3Settings),
-    DmsTransferSettings: S.optional(DmsTransferSettings),
-    MongoDbSettings: S.optional(MongoDbSettings),
-    KinesisSettings: S.optional(KinesisSettings),
-    KafkaSettings: S.optional(KafkaSettings),
-    ElasticsearchSettings: S.optional(ElasticsearchSettings),
-    NeptuneSettings: S.optional(NeptuneSettings),
-    RedshiftSettings: S.optional(RedshiftSettings),
-    PostgreSQLSettings: S.optional(PostgreSQLSettings),
-    MySQLSettings: S.optional(MySQLSettings),
-    OracleSettings: S.optional(OracleSettings),
-    SybaseSettings: S.optional(SybaseSettings),
-    MicrosoftSQLServerSettings: S.optional(MicrosoftSQLServerSettings),
-    IBMDb2Settings: S.optional(IBMDb2Settings),
-    ResourceIdentifier: S.optional(S.String),
-    DocDbSettings: S.optional(DocDbSettings),
-    RedisSettings: S.optional(RedisSettings),
-    GcpMySQLSettings: S.optional(GcpMySQLSettings),
-    TimestreamSettings: S.optional(TimestreamSettings),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateEndpointMessage" }) as any as S.Schema<CreateEndpointMessage>;
 export interface LakehouseSettings {
   Arn: string;
 }
-export const LakehouseSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String }),
-).annotate({ identifier: "LakehouseSettings" }) as any as S.Schema<LakehouseSettings>;
 export interface Endpoint {
   EndpointIdentifier?: string;
   EndpointType?: ReplicationEndpointTypeValue;
@@ -2095,58 +1151,12 @@ export interface Endpoint {
   TimestreamSettings?: TimestreamSettings;
   LakehouseSettings?: LakehouseSettings;
 }
-export const Endpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointIdentifier: S.optional(S.String),
-    EndpointType: S.optional(ReplicationEndpointTypeValue),
-    EngineName: S.optional(S.String),
-    EngineDisplayName: S.optional(S.String),
-    Username: S.optional(S.String),
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    ExtraConnectionAttributes: S.optional(S.String),
-    Status: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    EndpointArn: S.optional(S.String),
-    CertificateArn: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    ServiceAccessRoleArn: S.optional(S.String),
-    ExternalTableDefinition: S.optional(S.String),
-    ExternalId: S.optional(S.String),
-    IsReadOnly: S.optional(S.Boolean),
-    DynamoDbSettings: S.optional(DynamoDbSettings),
-    S3Settings: S.optional(S3Settings),
-    DmsTransferSettings: S.optional(DmsTransferSettings),
-    MongoDbSettings: S.optional(MongoDbSettings),
-    KinesisSettings: S.optional(KinesisSettings),
-    KafkaSettings: S.optional(KafkaSettings),
-    ElasticsearchSettings: S.optional(ElasticsearchSettings),
-    NeptuneSettings: S.optional(NeptuneSettings),
-    RedshiftSettings: S.optional(RedshiftSettings),
-    PostgreSQLSettings: S.optional(PostgreSQLSettings),
-    MySQLSettings: S.optional(MySQLSettings),
-    OracleSettings: S.optional(OracleSettings),
-    SybaseSettings: S.optional(SybaseSettings),
-    MicrosoftSQLServerSettings: S.optional(MicrosoftSQLServerSettings),
-    IBMDb2Settings: S.optional(IBMDb2Settings),
-    DocDbSettings: S.optional(DocDbSettings),
-    RedisSettings: S.optional(RedisSettings),
-    GcpMySQLSettings: S.optional(GcpMySQLSettings),
-    TimestreamSettings: S.optional(TimestreamSettings),
-    LakehouseSettings: S.optional(LakehouseSettings),
-  }),
-).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+const Endpoint = /*@__PURE__*/ __L.at(__c52, 21) as any as S.Schema<Endpoint>;
 export interface CreateEndpointResponse {
   Endpoint?: Endpoint;
 }
-export const CreateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Endpoint: S.optional(Endpoint) }).pipe(ns),
-).annotate({ identifier: "CreateEndpointResponse" }) as any as S.Schema<CreateEndpointResponse>;
 export type EventCategoriesList = string[];
-export const EventCategoriesList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("EventCategory")));
 export type SourceIdsList = string[];
-export const SourceIdsList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("SourceId")));
 export interface CreateEventSubscriptionMessage {
   SubscriptionName: string;
   SnsTopicArn: string;
@@ -2156,19 +1166,6 @@ export interface CreateEventSubscriptionMessage {
   Enabled?: boolean;
   Tags?: Tag[];
 }
-export const CreateEventSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubscriptionName: S.String,
-    SnsTopicArn: S.String,
-    SourceType: S.optional(S.String),
-    EventCategories: S.optional(EventCategoriesList),
-    SourceIds: S.optional(SourceIdsList),
-    Enabled: S.optional(S.Boolean),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateEventSubscriptionMessage",
-}) as any as S.Schema<CreateEventSubscriptionMessage>;
 export interface EventSubscription {
   CustomerAwsId?: string;
   CustSubscriptionId?: string;
@@ -2180,43 +1177,15 @@ export interface EventSubscription {
   EventCategoriesList?: string[];
   Enabled?: boolean;
 }
-export const EventSubscription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CustomerAwsId: S.optional(S.String),
-    CustSubscriptionId: S.optional(S.String),
-    SnsTopicArn: S.optional(S.String),
-    Status: S.optional(S.String),
-    SubscriptionCreationTime: S.optional(S.String),
-    SourceType: S.optional(S.String),
-    SourceIdsList: S.optional(SourceIdsList),
-    EventCategoriesList: S.optional(EventCategoriesList),
-    Enabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "EventSubscription" }) as any as S.Schema<EventSubscription>;
 export interface CreateEventSubscriptionResponse {
   EventSubscription?: EventSubscription;
 }
-export const CreateEventSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventSubscription: S.optional(EventSubscription) }).pipe(ns),
-).annotate({
-  identifier: "CreateEventSubscriptionResponse",
-}) as any as S.Schema<CreateEventSubscriptionResponse>;
 export interface CreateFleetAdvisorCollectorRequest {
   CollectorName: string;
   Description?: string;
   ServiceAccessRoleArn: string;
   S3BucketName: string;
 }
-export const CreateFleetAdvisorCollectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CollectorName: S.String,
-    Description: S.optional(S.String),
-    ServiceAccessRoleArn: S.String,
-    S3BucketName: S.String,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateFleetAdvisorCollectorRequest",
-}) as any as S.Schema<CreateFleetAdvisorCollectorRequest>;
 export interface CreateFleetAdvisorCollectorResponse {
   CollectorReferencedId?: string;
   CollectorName?: string;
@@ -2224,19 +1193,7 @@ export interface CreateFleetAdvisorCollectorResponse {
   ServiceAccessRoleArn?: string;
   S3BucketName?: string;
 }
-export const CreateFleetAdvisorCollectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CollectorReferencedId: S.optional(S.String),
-    CollectorName: S.optional(S.String),
-    Description: S.optional(S.String),
-    ServiceAccessRoleArn: S.optional(S.String),
-    S3BucketName: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateFleetAdvisorCollectorResponse",
-}) as any as S.Schema<CreateFleetAdvisorCollectorResponse>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateInstanceProfileMessage {
   AvailabilityZone?: string;
   KmsKeyArn?: string;
@@ -2248,21 +1205,6 @@ export interface CreateInstanceProfileMessage {
   SubnetGroupIdentifier?: string;
   VpcSecurityGroups?: string[];
 }
-export const CreateInstanceProfileMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZone: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-    PubliclyAccessible: S.optional(S.Boolean),
-    Tags: S.optional(TagList),
-    NetworkType: S.optional(S.String),
-    InstanceProfileName: S.optional(S.String),
-    Description: S.optional(S.String),
-    SubnetGroupIdentifier: S.optional(S.String),
-    VpcSecurityGroups: S.optional(StringList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateInstanceProfileMessage",
-}) as any as S.Schema<CreateInstanceProfileMessage>;
 export interface InstanceProfile {
   InstanceProfileArn?: string;
   AvailabilityZone?: string;
@@ -2275,53 +1217,19 @@ export interface InstanceProfile {
   SubnetGroupIdentifier?: string;
   VpcSecurityGroups?: string[];
 }
-export const InstanceProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceProfileArn: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-    PubliclyAccessible: S.optional(S.Boolean),
-    NetworkType: S.optional(S.String),
-    InstanceProfileName: S.optional(S.String),
-    Description: S.optional(S.String),
-    InstanceProfileCreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    SubnetGroupIdentifier: S.optional(S.String),
-    VpcSecurityGroups: S.optional(StringList),
-  }),
-).annotate({ identifier: "InstanceProfile" }) as any as S.Schema<InstanceProfile>;
 export interface CreateInstanceProfileResponse {
   InstanceProfile?: InstanceProfile;
 }
-export const CreateInstanceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfile: S.optional(InstanceProfile) }).pipe(ns),
-).annotate({
-  identifier: "CreateInstanceProfileResponse",
-}) as any as S.Schema<CreateInstanceProfileResponse>;
 export interface DataProviderDescriptorDefinition {
   DataProviderIdentifier: string;
   SecretsManagerSecretId?: string;
   SecretsManagerAccessRoleArn?: string;
 }
-export const DataProviderDescriptorDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataProviderIdentifier: S.String,
-    SecretsManagerSecretId: S.optional(S.String),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DataProviderDescriptorDefinition",
-}) as any as S.Schema<DataProviderDescriptorDefinition>;
 export type DataProviderDescriptorDefinitionList = DataProviderDescriptorDefinition[];
-export const DataProviderDescriptorDefinitionList = /*@__PURE__*/ S.Array(
-  DataProviderDescriptorDefinition,
-);
 export interface SCApplicationAttributes {
   S3BucketPath?: string;
   S3BucketRoleArn?: string;
 }
-export const SCApplicationAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3BucketPath: S.optional(S.String), S3BucketRoleArn: S.optional(S.String) }),
-).annotate({ identifier: "SCApplicationAttributes" }) as any as S.Schema<SCApplicationAttributes>;
 export interface CreateMigrationProjectMessage {
   MigrationProjectName?: string;
   SourceDataProviderDescriptors: DataProviderDescriptorDefinition[];
@@ -2332,36 +1240,13 @@ export interface CreateMigrationProjectMessage {
   Tags?: Tag[];
   SchemaConversionApplicationAttributes?: SCApplicationAttributes;
 }
-export const CreateMigrationProjectMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectName: S.optional(S.String),
-    SourceDataProviderDescriptors: DataProviderDescriptorDefinitionList,
-    TargetDataProviderDescriptors: DataProviderDescriptorDefinitionList,
-    InstanceProfileIdentifier: S.String,
-    TransformationRules: S.optional(S.String),
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-    SchemaConversionApplicationAttributes: S.optional(SCApplicationAttributes),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateMigrationProjectMessage",
-}) as any as S.Schema<CreateMigrationProjectMessage>;
 export interface DataProviderDescriptor {
   SecretsManagerSecretId?: string;
   SecretsManagerAccessRoleArn?: string;
   DataProviderName?: string;
   DataProviderArn?: string;
 }
-export const DataProviderDescriptor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SecretsManagerSecretId: S.optional(S.String),
-    SecretsManagerAccessRoleArn: S.optional(S.String),
-    DataProviderName: S.optional(S.String),
-    DataProviderArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "DataProviderDescriptor" }) as any as S.Schema<DataProviderDescriptor>;
 export type DataProviderDescriptorList = DataProviderDescriptor[];
-export const DataProviderDescriptorList = /*@__PURE__*/ S.Array(DataProviderDescriptor);
 export interface MigrationProject {
   MigrationProjectName?: string;
   MigrationProjectArn?: string;
@@ -2374,28 +1259,9 @@ export interface MigrationProject {
   Description?: string;
   SchemaConversionApplicationAttributes?: SCApplicationAttributes;
 }
-export const MigrationProject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectName: S.optional(S.String),
-    MigrationProjectArn: S.optional(S.String),
-    MigrationProjectCreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    SourceDataProviderDescriptors: S.optional(DataProviderDescriptorList),
-    TargetDataProviderDescriptors: S.optional(DataProviderDescriptorList),
-    InstanceProfileArn: S.optional(S.String),
-    InstanceProfileName: S.optional(S.String),
-    TransformationRules: S.optional(S.String),
-    Description: S.optional(S.String),
-    SchemaConversionApplicationAttributes: S.optional(SCApplicationAttributes),
-  }),
-).annotate({ identifier: "MigrationProject" }) as any as S.Schema<MigrationProject>;
 export interface CreateMigrationProjectResponse {
   MigrationProject?: MigrationProject;
 }
-export const CreateMigrationProjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProject: S.optional(MigrationProject) }).pipe(ns),
-).annotate({
-  identifier: "CreateMigrationProjectResponse",
-}) as any as S.Schema<CreateMigrationProjectResponse>;
 export interface ComputeConfig {
   AvailabilityZone?: string;
   DnsNameServers?: string;
@@ -2407,19 +1273,6 @@ export interface ComputeConfig {
   ReplicationSubnetGroupId?: string;
   VpcSecurityGroupIds?: string[];
 }
-export const ComputeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZone: S.optional(S.String),
-    DnsNameServers: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    MaxCapacityUnits: S.optional(S.Number),
-    MinCapacityUnits: S.optional(S.Number),
-    MultiAZ: S.optional(S.Boolean),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    ReplicationSubnetGroupId: S.optional(S.String),
-    VpcSecurityGroupIds: S.optional(StringList),
-  }),
-).annotate({ identifier: "ComputeConfig" }) as any as S.Schema<ComputeConfig>;
 export interface CreateReplicationConfigMessage {
   ReplicationConfigIdentifier: string;
   SourceEndpointArn: string;
@@ -2432,22 +1285,6 @@ export interface CreateReplicationConfigMessage {
   ResourceIdentifier?: string;
   Tags?: Tag[];
 }
-export const CreateReplicationConfigMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfigIdentifier: S.String,
-    SourceEndpointArn: S.String,
-    TargetEndpointArn: S.String,
-    ComputeConfig: ComputeConfig,
-    ReplicationType: MigrationTypeValue,
-    TableMappings: S.String,
-    ReplicationSettings: S.optional(S.String),
-    SupplementalSettings: S.optional(S.String),
-    ResourceIdentifier: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateReplicationConfigMessage",
-}) as any as S.Schema<CreateReplicationConfigMessage>;
 export interface ReplicationConfig {
   ReplicationConfigIdentifier?: string;
   ReplicationConfigArn?: string;
@@ -2462,49 +1299,16 @@ export interface ReplicationConfig {
   ReplicationConfigUpdateTime?: Date;
   IsReadOnly?: boolean;
 }
-export const ReplicationConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfigIdentifier: S.optional(S.String),
-    ReplicationConfigArn: S.optional(S.String),
-    SourceEndpointArn: S.optional(S.String),
-    TargetEndpointArn: S.optional(S.String),
-    ReplicationType: S.optional(MigrationTypeValue),
-    ComputeConfig: S.optional(ComputeConfig),
-    ReplicationSettings: S.optional(S.String),
-    SupplementalSettings: S.optional(S.String),
-    TableMappings: S.optional(S.String),
-    ReplicationConfigCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ReplicationConfigUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IsReadOnly: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ReplicationConfig" }) as any as S.Schema<ReplicationConfig>;
 export interface CreateReplicationConfigResponse {
   ReplicationConfig?: ReplicationConfig;
 }
-export const CreateReplicationConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationConfig: S.optional(ReplicationConfig) }).pipe(ns),
-).annotate({
-  identifier: "CreateReplicationConfigResponse",
-}) as any as S.Schema<CreateReplicationConfigResponse>;
 export type ReplicationInstanceClass = string;
 export type VpcSecurityGroupIdList = string[];
-export const VpcSecurityGroupIdList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("VpcSecurityGroupId")),
-);
 export interface KerberosAuthenticationSettings {
   KeyCacheSecretId?: string;
   KeyCacheSecretIamArn?: string;
   Krb5FileContents?: string;
 }
-export const KerberosAuthenticationSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyCacheSecretId: S.optional(S.String),
-    KeyCacheSecretIamArn: S.optional(S.String),
-    Krb5FileContents: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "KerberosAuthenticationSettings",
-}) as any as S.Schema<KerberosAuthenticationSettings>;
 export interface CreateReplicationInstanceMessage {
   ReplicationInstanceIdentifier: string;
   AllocatedStorage?: number;
@@ -2524,66 +1328,20 @@ export interface CreateReplicationInstanceMessage {
   NetworkType?: string;
   KerberosAuthenticationSettings?: KerberosAuthenticationSettings;
 }
-export const CreateReplicationInstanceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationInstanceIdentifier: S.String,
-    AllocatedStorage: S.optional(S.Number),
-    ReplicationInstanceClass: S.String,
-    VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-    AvailabilityZone: S.optional(S.String),
-    ReplicationSubnetGroupIdentifier: S.optional(S.String),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    MultiAZ: S.optional(S.Boolean),
-    EngineVersion: S.optional(S.String),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    Tags: S.optional(TagList),
-    KmsKeyId: S.optional(S.String),
-    PubliclyAccessible: S.optional(S.Boolean),
-    DnsNameServers: S.optional(S.String),
-    ResourceIdentifier: S.optional(S.String),
-    NetworkType: S.optional(S.String),
-    KerberosAuthenticationSettings: S.optional(KerberosAuthenticationSettings),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateReplicationInstanceMessage",
-}) as any as S.Schema<CreateReplicationInstanceMessage>;
 export interface VpcSecurityGroupMembership {
   VpcSecurityGroupId?: string;
   Status?: string;
 }
-export const VpcSecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcSecurityGroupId: S.optional(S.String), Status: S.optional(S.String) }),
-).annotate({
-  identifier: "VpcSecurityGroupMembership",
-}) as any as S.Schema<VpcSecurityGroupMembership>;
 export type VpcSecurityGroupMembershipList = VpcSecurityGroupMembership[];
-export const VpcSecurityGroupMembershipList = /*@__PURE__*/ S.Array(
-  VpcSecurityGroupMembership.pipe(T.XmlName("VpcSecurityGroupMembership")).annotate({
-    identifier: "VpcSecurityGroupMembership",
-  }),
-);
 export interface AvailabilityZone {
   Name?: string;
 }
-export const AvailabilityZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
-).annotate({ identifier: "AvailabilityZone" }) as any as S.Schema<AvailabilityZone>;
 export interface Subnet {
   SubnetIdentifier?: string;
   SubnetAvailabilityZone?: AvailabilityZone;
   SubnetStatus?: string;
 }
-export const Subnet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetIdentifier: S.optional(S.String),
-    SubnetAvailabilityZone: S.optional(AvailabilityZone),
-    SubnetStatus: S.optional(S.String),
-  }),
-).annotate({ identifier: "Subnet" }) as any as S.Schema<Subnet>;
 export type SubnetList = Subnet[];
-export const SubnetList = /*@__PURE__*/ S.Array(
-  Subnet.pipe(T.XmlName("Subnet")).annotate({ identifier: "Subnet" }),
-);
 export interface ReplicationSubnetGroup {
   ReplicationSubnetGroupIdentifier?: string;
   ReplicationSubnetGroupDescription?: string;
@@ -2593,17 +1351,6 @@ export interface ReplicationSubnetGroup {
   SupportedNetworkTypes?: string[];
   IsReadOnly?: boolean;
 }
-export const ReplicationSubnetGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationSubnetGroupIdentifier: S.optional(S.String),
-    ReplicationSubnetGroupDescription: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    SubnetGroupStatus: S.optional(S.String),
-    Subnets: S.optional(SubnetList),
-    SupportedNetworkTypes: S.optional(StringList),
-    IsReadOnly: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ReplicationSubnetGroup" }) as any as S.Schema<ReplicationSubnetGroup>;
 export interface ReplicationPendingModifiedValues {
   ReplicationInstanceClass?: string;
   AllocatedStorage?: number;
@@ -2611,23 +1358,9 @@ export interface ReplicationPendingModifiedValues {
   EngineVersion?: string;
   NetworkType?: string;
 }
-export const ReplicationPendingModifiedValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationInstanceClass: S.optional(S.String),
-    AllocatedStorage: S.optional(S.Number),
-    MultiAZ: S.optional(S.Boolean),
-    EngineVersion: S.optional(S.String),
-    NetworkType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReplicationPendingModifiedValues",
-}) as any as S.Schema<ReplicationPendingModifiedValues>;
 export type ReplicationInstancePublicIpAddressList = string[];
-export const ReplicationInstancePublicIpAddressList = /*@__PURE__*/ S.Array(S.String);
 export type ReplicationInstancePrivateIpAddressList = string[];
-export const ReplicationInstancePrivateIpAddressList = /*@__PURE__*/ S.Array(S.String);
 export type ReplicationInstanceIpv6AddressList = string[];
-export const ReplicationInstanceIpv6AddressList = /*@__PURE__*/ S.Array(S.String);
 export interface ReplicationInstance {
   ReplicationInstanceIdentifier?: string;
   ReplicationInstanceClass?: string;
@@ -2656,72 +1389,19 @@ export interface ReplicationInstance {
   NetworkType?: string;
   KerberosAuthenticationSettings?: KerberosAuthenticationSettings;
 }
-export const ReplicationInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationInstanceIdentifier: S.optional(S.String),
-    ReplicationInstanceClass: S.optional(S.String),
-    ReplicationInstanceStatus: S.optional(S.String),
-    AllocatedStorage: S.optional(S.Number),
-    InstanceCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VpcSecurityGroups: S.optional(VpcSecurityGroupMembershipList),
-    AvailabilityZone: S.optional(S.String),
-    ReplicationSubnetGroup: S.optional(ReplicationSubnetGroup),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    PendingModifiedValues: S.optional(ReplicationPendingModifiedValues),
-    MultiAZ: S.optional(S.Boolean),
-    EngineVersion: S.optional(S.String),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    KmsKeyId: S.optional(S.String),
-    ReplicationInstanceArn: S.optional(S.String),
-    ReplicationInstancePublicIpAddress: S.optional(S.String),
-    ReplicationInstancePrivateIpAddress: S.optional(S.String),
-    ReplicationInstancePublicIpAddresses: S.optional(ReplicationInstancePublicIpAddressList),
-    ReplicationInstancePrivateIpAddresses: S.optional(ReplicationInstancePrivateIpAddressList),
-    ReplicationInstanceIpv6Addresses: S.optional(ReplicationInstanceIpv6AddressList),
-    PubliclyAccessible: S.optional(S.Boolean),
-    SecondaryAvailabilityZone: S.optional(S.String),
-    FreeUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DnsNameServers: S.optional(S.String),
-    NetworkType: S.optional(S.String),
-    KerberosAuthenticationSettings: S.optional(KerberosAuthenticationSettings),
-  }),
-).annotate({ identifier: "ReplicationInstance" }) as any as S.Schema<ReplicationInstance>;
 export interface CreateReplicationInstanceResponse {
   ReplicationInstance?: ReplicationInstance;
 }
-export const CreateReplicationInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationInstance: S.optional(ReplicationInstance) }).pipe(ns),
-).annotate({
-  identifier: "CreateReplicationInstanceResponse",
-}) as any as S.Schema<CreateReplicationInstanceResponse>;
 export type SubnetIdentifierList = string[];
-export const SubnetIdentifierList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("SubnetIdentifier")),
-);
 export interface CreateReplicationSubnetGroupMessage {
   ReplicationSubnetGroupIdentifier: string;
   ReplicationSubnetGroupDescription: string;
   SubnetIds: string[];
   Tags?: Tag[];
 }
-export const CreateReplicationSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationSubnetGroupIdentifier: S.String,
-    ReplicationSubnetGroupDescription: S.String,
-    SubnetIds: SubnetIdentifierList,
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateReplicationSubnetGroupMessage",
-}) as any as S.Schema<CreateReplicationSubnetGroupMessage>;
 export interface CreateReplicationSubnetGroupResponse {
   ReplicationSubnetGroup?: ReplicationSubnetGroup;
 }
-export const CreateReplicationSubnetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationSubnetGroup: S.optional(ReplicationSubnetGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateReplicationSubnetGroupResponse",
-}) as any as S.Schema<CreateReplicationSubnetGroupResponse>;
 export interface CreateReplicationTaskMessage {
   ReplicationTaskIdentifier: string;
   SourceEndpointArn: string;
@@ -2737,25 +1417,6 @@ export interface CreateReplicationTaskMessage {
   TaskData?: string;
   ResourceIdentifier?: string;
 }
-export const CreateReplicationTaskMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskIdentifier: S.String,
-    SourceEndpointArn: S.String,
-    TargetEndpointArn: S.String,
-    ReplicationInstanceArn: S.String,
-    MigrationType: MigrationTypeValue,
-    TableMappings: S.String,
-    ReplicationTaskSettings: S.optional(S.String),
-    CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CdcStartPosition: S.optional(S.String),
-    CdcStopPosition: S.optional(S.String),
-    Tags: S.optional(TagList),
-    TaskData: S.optional(S.String),
-    ResourceIdentifier: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateReplicationTaskMessage",
-}) as any as S.Schema<CreateReplicationTaskMessage>;
 export interface ReplicationTaskStats {
   FullLoadProgressPercent?: number;
   ElapsedTimeMillis?: number;
@@ -2769,21 +1430,6 @@ export interface ReplicationTaskStats {
   FullLoadStartDate?: Date;
   FullLoadFinishDate?: Date;
 }
-export const ReplicationTaskStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FullLoadProgressPercent: S.optional(S.Number),
-    ElapsedTimeMillis: S.optional(S.Number),
-    TablesLoaded: S.optional(S.Number),
-    TablesLoading: S.optional(S.Number),
-    TablesQueued: S.optional(S.Number),
-    TablesErrored: S.optional(S.Number),
-    FreshStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FullLoadStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FullLoadFinishDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ReplicationTaskStats" }) as any as S.Schema<ReplicationTaskStats>;
 export interface ReplicationTask {
   ReplicationTaskIdentifier?: string;
   SourceEndpointArn?: string;
@@ -2805,45 +1451,12 @@ export interface ReplicationTask {
   TaskData?: string;
   TargetReplicationInstanceArn?: string;
 }
-export const ReplicationTask = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskIdentifier: S.optional(S.String),
-    SourceEndpointArn: S.optional(S.String),
-    TargetEndpointArn: S.optional(S.String),
-    ReplicationInstanceArn: S.optional(S.String),
-    MigrationType: S.optional(MigrationTypeValue),
-    TableMappings: S.optional(S.String),
-    ReplicationTaskSettings: S.optional(S.String),
-    Status: S.optional(S.String),
-    LastFailureMessage: S.optional(S.String),
-    StopReason: S.optional(S.String),
-    ReplicationTaskCreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ReplicationTaskStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CdcStartPosition: S.optional(S.String),
-    CdcStopPosition: S.optional(S.String),
-    RecoveryCheckpoint: S.optional(S.String),
-    ReplicationTaskArn: S.optional(S.String),
-    ReplicationTaskStats: S.optional(ReplicationTaskStats),
-    TaskData: S.optional(S.String),
-    TargetReplicationInstanceArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "ReplicationTask" }) as any as S.Schema<ReplicationTask>;
 export interface CreateReplicationTaskResponse {
   ReplicationTask?: ReplicationTask;
 }
-export const CreateReplicationTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTask: S.optional(ReplicationTask) }).pipe(ns),
-).annotate({
-  identifier: "CreateReplicationTaskResponse",
-}) as any as S.Schema<CreateReplicationTaskResponse>;
 export interface DeleteCertificateMessage {
   CertificateArn: string;
 }
-export const DeleteCertificateMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CertificateArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteCertificateMessage" }) as any as S.Schema<DeleteCertificateMessage>;
 export type CertificateWallet = Uint8Array;
 export interface Certificate {
   CertificateIdentifier?: string;
@@ -2858,38 +1471,13 @@ export interface Certificate {
   KeyLength?: number;
   KmsKeyId?: string;
 }
-export const Certificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateIdentifier: S.optional(S.String),
-    CertificateCreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CertificatePem: S.optional(S.String),
-    CertificateWallet: S.optional(T.Blob),
-    CertificateArn: S.optional(S.String),
-    CertificateOwner: S.optional(S.String),
-    ValidFromDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ValidToDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    SigningAlgorithm: S.optional(S.String),
-    KeyLength: S.optional(S.Number),
-    KmsKeyId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 export interface DeleteCertificateResponse {
   Certificate?: Certificate;
 }
-export const DeleteCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Certificate: S.optional(Certificate) }).pipe(ns),
-).annotate({
-  identifier: "DeleteCertificateResponse",
-}) as any as S.Schema<DeleteCertificateResponse>;
 export interface DeleteConnectionMessage {
   EndpointArn: string;
   ReplicationInstanceArn: string;
 }
-export const DeleteConnectionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EndpointArn: S.String, ReplicationInstanceArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteConnectionMessage" }) as any as S.Schema<DeleteConnectionMessage>;
 export interface Connection {
   ReplicationInstanceArn?: string;
   EndpointArn?: string;
@@ -2898,280 +1486,94 @@ export interface Connection {
   EndpointIdentifier?: string;
   ReplicationInstanceIdentifier?: string;
 }
-export const Connection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationInstanceArn: S.optional(S.String),
-    EndpointArn: S.optional(S.String),
-    Status: S.optional(S.String),
-    LastFailureMessage: S.optional(S.String),
-    EndpointIdentifier: S.optional(S.String),
-    ReplicationInstanceIdentifier: S.optional(S.String),
-  }),
-).annotate({ identifier: "Connection" }) as any as S.Schema<Connection>;
 export interface DeleteConnectionResponse {
   Connection?: Connection;
 }
-export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connection: S.optional(Connection) }).pipe(ns),
-).annotate({ identifier: "DeleteConnectionResponse" }) as any as S.Schema<DeleteConnectionResponse>;
 export interface DeleteDataMigrationMessage {
   DataMigrationIdentifier: string;
 }
-export const DeleteDataMigrationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataMigrationIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteDataMigrationMessage",
-}) as any as S.Schema<DeleteDataMigrationMessage>;
 export interface DeleteDataMigrationResponse {
   DataMigration?: DataMigration;
 }
-export const DeleteDataMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataMigration: S.optional(DataMigration) }).pipe(ns),
-).annotate({
-  identifier: "DeleteDataMigrationResponse",
-}) as any as S.Schema<DeleteDataMigrationResponse>;
 export interface DeleteDataProviderMessage {
   DataProviderIdentifier: string;
 }
-export const DeleteDataProviderMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataProviderIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteDataProviderMessage",
-}) as any as S.Schema<DeleteDataProviderMessage>;
 export interface DeleteDataProviderResponse {
   DataProvider?: DataProvider;
 }
-export const DeleteDataProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataProvider: S.optional(DataProvider) }).pipe(ns),
-).annotate({
-  identifier: "DeleteDataProviderResponse",
-}) as any as S.Schema<DeleteDataProviderResponse>;
 export interface DeleteEndpointMessage {
   EndpointArn: string;
 }
-export const DeleteEndpointMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EndpointArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteEndpointMessage" }) as any as S.Schema<DeleteEndpointMessage>;
 export interface DeleteEndpointResponse {
   Endpoint?: Endpoint;
 }
-export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Endpoint: S.optional(Endpoint) }).pipe(ns),
-).annotate({ identifier: "DeleteEndpointResponse" }) as any as S.Schema<DeleteEndpointResponse>;
 export interface DeleteEventSubscriptionMessage {
   SubscriptionName: string;
 }
-export const DeleteEventSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SubscriptionName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteEventSubscriptionMessage",
-}) as any as S.Schema<DeleteEventSubscriptionMessage>;
 export interface DeleteEventSubscriptionResponse {
   EventSubscription?: EventSubscription;
 }
-export const DeleteEventSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventSubscription: S.optional(EventSubscription) }).pipe(ns),
-).annotate({
-  identifier: "DeleteEventSubscriptionResponse",
-}) as any as S.Schema<DeleteEventSubscriptionResponse>;
 export interface DeleteCollectorRequest {
   CollectorReferencedId: string;
 }
-export const DeleteCollectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CollectorReferencedId: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteCollectorRequest" }) as any as S.Schema<DeleteCollectorRequest>;
 export interface DeleteFleetAdvisorCollectorResponse {}
-export const DeleteFleetAdvisorCollectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteFleetAdvisorCollectorResponse",
-}) as any as S.Schema<DeleteFleetAdvisorCollectorResponse>;
 export interface DeleteFleetAdvisorDatabasesRequest {
   DatabaseIds: string[];
 }
-export const DeleteFleetAdvisorDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DatabaseIds: StringList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteFleetAdvisorDatabasesRequest",
-}) as any as S.Schema<DeleteFleetAdvisorDatabasesRequest>;
 export interface DeleteFleetAdvisorDatabasesResponse {
   DatabaseIds?: string[];
 }
-export const DeleteFleetAdvisorDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DatabaseIds: S.optional(StringList) }).pipe(ns),
-).annotate({
-  identifier: "DeleteFleetAdvisorDatabasesResponse",
-}) as any as S.Schema<DeleteFleetAdvisorDatabasesResponse>;
 export interface DeleteInstanceProfileMessage {
   InstanceProfileIdentifier: string;
 }
-export const DeleteInstanceProfileMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfileIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteInstanceProfileMessage",
-}) as any as S.Schema<DeleteInstanceProfileMessage>;
 export interface DeleteInstanceProfileResponse {
   InstanceProfile?: InstanceProfile;
 }
-export const DeleteInstanceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfile: S.optional(InstanceProfile) }).pipe(ns),
-).annotate({
-  identifier: "DeleteInstanceProfileResponse",
-}) as any as S.Schema<DeleteInstanceProfileResponse>;
 export interface DeleteMigrationProjectMessage {
   MigrationProjectIdentifier: string;
 }
-export const DeleteMigrationProjectMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteMigrationProjectMessage",
-}) as any as S.Schema<DeleteMigrationProjectMessage>;
 export interface DeleteMigrationProjectResponse {
   MigrationProject?: MigrationProject;
 }
-export const DeleteMigrationProjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProject: S.optional(MigrationProject) }).pipe(ns),
-).annotate({
-  identifier: "DeleteMigrationProjectResponse",
-}) as any as S.Schema<DeleteMigrationProjectResponse>;
 export interface DeleteReplicationConfigMessage {
   ReplicationConfigArn: string;
 }
-export const DeleteReplicationConfigMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationConfigArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteReplicationConfigMessage",
-}) as any as S.Schema<DeleteReplicationConfigMessage>;
 export interface DeleteReplicationConfigResponse {
   ReplicationConfig?: ReplicationConfig;
 }
-export const DeleteReplicationConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationConfig: S.optional(ReplicationConfig) }).pipe(ns),
-).annotate({
-  identifier: "DeleteReplicationConfigResponse",
-}) as any as S.Schema<DeleteReplicationConfigResponse>;
 export interface DeleteReplicationInstanceMessage {
   ReplicationInstanceArn: string;
 }
-export const DeleteReplicationInstanceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationInstanceArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteReplicationInstanceMessage",
-}) as any as S.Schema<DeleteReplicationInstanceMessage>;
 export interface DeleteReplicationInstanceResponse {
   ReplicationInstance?: ReplicationInstance;
 }
-export const DeleteReplicationInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationInstance: S.optional(ReplicationInstance) }).pipe(ns),
-).annotate({
-  identifier: "DeleteReplicationInstanceResponse",
-}) as any as S.Schema<DeleteReplicationInstanceResponse>;
 export interface DeleteReplicationSubnetGroupMessage {
   ReplicationSubnetGroupIdentifier: string;
 }
-export const DeleteReplicationSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationSubnetGroupIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteReplicationSubnetGroupMessage",
-}) as any as S.Schema<DeleteReplicationSubnetGroupMessage>;
 export interface DeleteReplicationSubnetGroupResponse {}
-export const DeleteReplicationSubnetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteReplicationSubnetGroupResponse",
-}) as any as S.Schema<DeleteReplicationSubnetGroupResponse>;
 export interface DeleteReplicationTaskMessage {
   ReplicationTaskArn: string;
 }
-export const DeleteReplicationTaskMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteReplicationTaskMessage",
-}) as any as S.Schema<DeleteReplicationTaskMessage>;
 export interface DeleteReplicationTaskResponse {
   ReplicationTask?: ReplicationTask;
 }
-export const DeleteReplicationTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTask: S.optional(ReplicationTask) }).pipe(ns),
-).annotate({
-  identifier: "DeleteReplicationTaskResponse",
-}) as any as S.Schema<DeleteReplicationTaskResponse>;
 export interface DeleteReplicationTaskAssessmentRunMessage {
   ReplicationTaskAssessmentRunArn: string;
 }
-export const DeleteReplicationTaskAssessmentRunMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskAssessmentRunArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteReplicationTaskAssessmentRunMessage",
-}) as any as S.Schema<DeleteReplicationTaskAssessmentRunMessage>;
 export interface DeleteReplicationTaskAssessmentRunResponse {
   ReplicationTaskAssessmentRun?: ReplicationTaskAssessmentRun;
 }
-export const DeleteReplicationTaskAssessmentRunResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskAssessmentRun: S.optional(ReplicationTaskAssessmentRun) }).pipe(ns),
-).annotate({
-  identifier: "DeleteReplicationTaskAssessmentRunResponse",
-}) as any as S.Schema<DeleteReplicationTaskAssessmentRunResponse>;
 export interface DescribeAccountAttributesMessage {}
-export const DescribeAccountAttributesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeAccountAttributesMessage",
-}) as any as S.Schema<DescribeAccountAttributesMessage>;
 export interface AccountQuota {
   AccountQuotaName?: string;
   Used?: number;
   Max?: number;
 }
-export const AccountQuota = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountQuotaName: S.optional(S.String),
-    Used: S.optional(S.Number),
-    Max: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AccountQuota" }) as any as S.Schema<AccountQuota>;
 export type AccountQuotaList = AccountQuota[];
-export const AccountQuotaList = /*@__PURE__*/ S.Array(
-  AccountQuota.pipe(T.XmlName("AccountQuota")).annotate({ identifier: "AccountQuota" }),
-);
 export interface DescribeAccountAttributesResponse {
   AccountQuotas?: AccountQuota[];
   UniqueAccountIdentifier?: string;
 }
-export const DescribeAccountAttributesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountQuotas: S.optional(AccountQuotaList),
-    UniqueAccountIdentifier: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeAccountAttributesResponse",
-}) as any as S.Schema<DescribeAccountAttributesResponse>;
 export interface DescribeApplicableIndividualAssessmentsMessage {
   ReplicationTaskArn?: string;
   ReplicationInstanceArn?: string;
@@ -3182,123 +1584,44 @@ export interface DescribeApplicableIndividualAssessmentsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeApplicableIndividualAssessmentsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskArn: S.optional(S.String),
-    ReplicationInstanceArn: S.optional(S.String),
-    ReplicationConfigArn: S.optional(S.String),
-    SourceEngineName: S.optional(S.String),
-    TargetEngineName: S.optional(S.String),
-    MigrationType: S.optional(MigrationTypeValue),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeApplicableIndividualAssessmentsMessage",
-}) as any as S.Schema<DescribeApplicableIndividualAssessmentsMessage>;
 export type IndividualAssessmentNameList = string[];
-export const IndividualAssessmentNameList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeApplicableIndividualAssessmentsResponse {
   IndividualAssessmentNames?: string[];
   Marker?: string;
 }
-export const DescribeApplicableIndividualAssessmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IndividualAssessmentNames: S.optional(IndividualAssessmentNameList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeApplicableIndividualAssessmentsResponse",
-}) as any as S.Schema<DescribeApplicableIndividualAssessmentsResponse>;
 export type FilterValueList = string[];
-export const FilterValueList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("Value")));
 export interface Filter {
   Name: string;
   Values: string[];
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Values: FilterValueList }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = /*@__PURE__*/ S.Array(
-  Filter.pipe(T.XmlName("Filter")).annotate({ identifier: "Filter" }),
-);
 export interface DescribeCertificatesMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeCertificatesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeCertificatesMessage",
-}) as any as S.Schema<DescribeCertificatesMessage>;
 export type CertificateList = Certificate[];
-export const CertificateList = /*@__PURE__*/ S.Array(
-  Certificate.pipe(T.XmlName("Certificate")).annotate({ identifier: "Certificate" }),
-);
 export interface DescribeCertificatesResponse {
   Marker?: string;
   Certificates?: Certificate[];
 }
-export const DescribeCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), Certificates: S.optional(CertificateList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeCertificatesResponse",
-}) as any as S.Schema<DescribeCertificatesResponse>;
 export interface DescribeConnectionsMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeConnectionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeConnectionsMessage",
-}) as any as S.Schema<DescribeConnectionsMessage>;
 export type ConnectionList = Connection[];
-export const ConnectionList = /*@__PURE__*/ S.Array(
-  Connection.pipe(T.XmlName("Connection")).annotate({ identifier: "Connection" }),
-);
 export interface DescribeConnectionsResponse {
   Marker?: string;
   Connections?: Connection[];
 }
-export const DescribeConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), Connections: S.optional(ConnectionList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeConnectionsResponse",
-}) as any as S.Schema<DescribeConnectionsResponse>;
 export interface DescribeConversionConfigurationMessage {
   MigrationProjectIdentifier: string;
 }
-export const DescribeConversionConfigurationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeConversionConfigurationMessage",
-}) as any as S.Schema<DescribeConversionConfigurationMessage>;
 export interface DescribeConversionConfigurationResponse {
   MigrationProjectIdentifier?: string;
   ConversionConfiguration?: string;
 }
-export const DescribeConversionConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.optional(S.String),
-    ConversionConfiguration: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeConversionConfigurationResponse",
-}) as any as S.Schema<DescribeConversionConfigurationResponse>;
 export type Marker = string;
 export interface DescribeDataMigrationsMessage {
   Filters?: Filter[];
@@ -3307,99 +1630,38 @@ export interface DescribeDataMigrationsMessage {
   WithoutSettings?: boolean;
   WithoutStatistics?: boolean;
 }
-export const DescribeDataMigrationsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    WithoutSettings: S.optional(S.Boolean),
-    WithoutStatistics: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeDataMigrationsMessage",
-}) as any as S.Schema<DescribeDataMigrationsMessage>;
 export type DataMigrations = DataMigration[];
-export const DataMigrations = /*@__PURE__*/ S.Array(DataMigration);
 export interface DescribeDataMigrationsResponse {
   DataMigrations?: DataMigration[];
   Marker?: string;
 }
-export const DescribeDataMigrationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataMigrations: S.optional(DataMigrations), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DescribeDataMigrationsResponse",
-}) as any as S.Schema<DescribeDataMigrationsResponse>;
 export interface DescribeDataProvidersMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeDataProvidersMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeDataProvidersMessage",
-}) as any as S.Schema<DescribeDataProvidersMessage>;
 export type DataProviderList = DataProvider[];
-export const DataProviderList = /*@__PURE__*/ S.Array(
-  DataProvider.pipe(T.XmlName("DataProvider")).annotate({ identifier: "DataProvider" }),
-);
 export interface DescribeDataProvidersResponse {
   Marker?: string;
   DataProviders?: DataProvider[];
 }
-export const DescribeDataProvidersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), DataProviders: S.optional(DataProviderList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeDataProvidersResponse",
-}) as any as S.Schema<DescribeDataProvidersResponse>;
 export interface DescribeEndpointsMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEndpointsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeEndpointsMessage" }) as any as S.Schema<DescribeEndpointsMessage>;
 export type EndpointList = Endpoint[];
-export const EndpointList = /*@__PURE__*/ S.Array(
-  Endpoint.pipe(T.XmlName("Endpoint")).annotate({ identifier: "Endpoint" }),
-);
 export interface DescribeEndpointsResponse {
   Marker?: string;
   Endpoints?: Endpoint[];
 }
-export const DescribeEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), Endpoints: S.optional(EndpointList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeEndpointsResponse",
-}) as any as S.Schema<DescribeEndpointsResponse>;
 export interface DescribeEndpointSettingsMessage {
   EngineName: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEndpointSettingsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineName: S.String,
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeEndpointSettingsMessage",
-}) as any as S.Schema<DescribeEndpointSettingsMessage>;
 export type EndpointSettingTypeValue = "string" | "boolean" | "integer" | "enum" | (string & {});
-export const EndpointSettingTypeValue = S.String;
-
 export type EndpointSettingEnumValues = string[];
-export const EndpointSettingEnumValues = /*@__PURE__*/ S.Array(S.String);
 export interface EndpointSetting {
   Name?: string;
   Type?: EndpointSettingTypeValue;
@@ -3411,47 +1673,16 @@ export interface EndpointSetting {
   IntValueMax?: number;
   DefaultValue?: string;
 }
-export const EndpointSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Type: S.optional(EndpointSettingTypeValue),
-    EnumValues: S.optional(EndpointSettingEnumValues),
-    Sensitive: S.optional(S.Boolean),
-    Units: S.optional(S.String),
-    Applicability: S.optional(S.String),
-    IntValueMin: S.optional(S.Number),
-    IntValueMax: S.optional(S.Number),
-    DefaultValue: S.optional(S.String),
-  }),
-).annotate({ identifier: "EndpointSetting" }) as any as S.Schema<EndpointSetting>;
 export type EndpointSettingsList = EndpointSetting[];
-export const EndpointSettingsList = /*@__PURE__*/ S.Array(EndpointSetting);
 export interface DescribeEndpointSettingsResponse {
   Marker?: string;
   EndpointSettings?: EndpointSetting[];
 }
-export const DescribeEndpointSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    EndpointSettings: S.optional(EndpointSettingsList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeEndpointSettingsResponse",
-}) as any as S.Schema<DescribeEndpointSettingsResponse>;
 export interface DescribeEndpointTypesMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEndpointTypesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeEndpointTypesMessage",
-}) as any as S.Schema<DescribeEndpointTypesMessage>;
 export interface SupportedEndpointType {
   EngineName?: string;
   SupportsCDC?: boolean;
@@ -3459,49 +1690,17 @@ export interface SupportedEndpointType {
   ReplicationInstanceEngineMinimumVersion?: string;
   EngineDisplayName?: string;
 }
-export const SupportedEndpointType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineName: S.optional(S.String),
-    SupportsCDC: S.optional(S.Boolean),
-    EndpointType: S.optional(ReplicationEndpointTypeValue),
-    ReplicationInstanceEngineMinimumVersion: S.optional(S.String),
-    EngineDisplayName: S.optional(S.String),
-  }),
-).annotate({ identifier: "SupportedEndpointType" }) as any as S.Schema<SupportedEndpointType>;
 export type SupportedEndpointTypeList = SupportedEndpointType[];
-export const SupportedEndpointTypeList = /*@__PURE__*/ S.Array(
-  SupportedEndpointType.pipe(T.XmlName("SupportedEndpointType")).annotate({
-    identifier: "SupportedEndpointType",
-  }),
-);
 export interface DescribeEndpointTypesResponse {
   Marker?: string;
   SupportedEndpointTypes?: SupportedEndpointType[];
 }
-export const DescribeEndpointTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    SupportedEndpointTypes: S.optional(SupportedEndpointTypeList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeEndpointTypesResponse",
-}) as any as S.Schema<DescribeEndpointTypesResponse>;
 export interface DescribeEngineVersionsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEngineVersionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxRecords: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeEngineVersionsMessage",
-}) as any as S.Schema<DescribeEngineVersionsMessage>;
 export type ReleaseStatusValues = "beta" | "prod" | (string & {});
-export const ReleaseStatusValues = S.String;
-
 export type AvailableUpgradesList = string[];
-export const AvailableUpgradesList = /*@__PURE__*/ S.Array(S.String);
 export interface EngineVersion {
   Version?: string;
   Lifecycle?: string;
@@ -3512,68 +1711,24 @@ export interface EngineVersion {
   ForceUpgradeDate?: Date;
   AvailableUpgrades?: string[];
 }
-export const EngineVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Version: S.optional(S.String),
-    Lifecycle: S.optional(S.String),
-    ReleaseStatus: S.optional(ReleaseStatusValues),
-    LaunchDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AutoUpgradeDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DeprecationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ForceUpgradeDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AvailableUpgrades: S.optional(AvailableUpgradesList),
-  }),
-).annotate({ identifier: "EngineVersion" }) as any as S.Schema<EngineVersion>;
 export type EngineVersionList = EngineVersion[];
-export const EngineVersionList = /*@__PURE__*/ S.Array(
-  EngineVersion.pipe(T.XmlName("EngineVersion")).annotate({ identifier: "EngineVersion" }),
-);
 export interface DescribeEngineVersionsResponse {
   EngineVersions?: EngineVersion[];
   Marker?: string;
 }
-export const DescribeEngineVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EngineVersions: S.optional(EngineVersionList), Marker: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "DescribeEngineVersionsResponse",
-}) as any as S.Schema<DescribeEngineVersionsResponse>;
 export interface DescribeEventCategoriesMessage {
   SourceType?: string;
   Filters?: Filter[];
 }
-export const DescribeEventCategoriesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SourceType: S.optional(S.String), Filters: S.optional(FilterList) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeEventCategoriesMessage",
-}) as any as S.Schema<DescribeEventCategoriesMessage>;
 export interface EventCategoryGroup {
   SourceType?: string;
   EventCategories?: string[];
 }
-export const EventCategoryGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SourceType: S.optional(S.String), EventCategories: S.optional(EventCategoriesList) }),
-).annotate({ identifier: "EventCategoryGroup" }) as any as S.Schema<EventCategoryGroup>;
 export type EventCategoryGroupList = EventCategoryGroup[];
-export const EventCategoryGroupList = /*@__PURE__*/ S.Array(
-  EventCategoryGroup.pipe(T.XmlName("EventCategoryGroup")).annotate({
-    identifier: "EventCategoryGroup",
-  }),
-);
 export interface DescribeEventCategoriesResponse {
   EventCategoryGroupList?: EventCategoryGroup[];
 }
-export const DescribeEventCategoriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventCategoryGroupList: S.optional(EventCategoryGroupList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeEventCategoriesResponse",
-}) as any as S.Schema<DescribeEventCategoriesResponse>;
 export type SourceType = "replication-instance" | (string & {});
-export const SourceType = S.String;
-
 export interface DescribeEventsMessage {
   SourceIdentifier?: string;
   SourceType?: SourceType;
@@ -3585,19 +1740,6 @@ export interface DescribeEventsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEventsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(SourceType),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Duration: S.optional(S.Number),
-    EventCategories: S.optional(EventCategoriesList),
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeEventsMessage" }) as any as S.Schema<DescribeEventsMessage>;
 export interface Event {
   SourceIdentifier?: string;
   SourceType?: SourceType;
@@ -3605,131 +1747,50 @@ export interface Event {
   EventCategories?: string[];
   Date?: Date;
 }
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(SourceType),
-    Message: S.optional(S.String),
-    EventCategories: S.optional(EventCategoriesList),
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
-export const EventList = /*@__PURE__*/ S.Array(
-  Event.pipe(T.XmlName("Event")).annotate({ identifier: "Event" }),
-);
 export interface DescribeEventsResponse {
   Marker?: string;
   Events?: Event[];
 }
-export const DescribeEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), Events: S.optional(EventList) }).pipe(ns),
-).annotate({ identifier: "DescribeEventsResponse" }) as any as S.Schema<DescribeEventsResponse>;
 export interface DescribeEventSubscriptionsMessage {
   SubscriptionName?: string;
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEventSubscriptionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubscriptionName: S.optional(S.String),
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeEventSubscriptionsMessage",
-}) as any as S.Schema<DescribeEventSubscriptionsMessage>;
 export type EventSubscriptionsList = EventSubscription[];
-export const EventSubscriptionsList = /*@__PURE__*/ S.Array(
-  EventSubscription.pipe(T.XmlName("EventSubscription")).annotate({
-    identifier: "EventSubscription",
-  }),
-);
 export interface DescribeEventSubscriptionsResponse {
   Marker?: string;
   EventSubscriptionsList?: EventSubscription[];
 }
-export const DescribeEventSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    EventSubscriptionsList: S.optional(EventSubscriptionsList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeEventSubscriptionsResponse",
-}) as any as S.Schema<DescribeEventSubscriptionsResponse>;
 export interface DescribeExtensionPackAssociationsMessage {
   MigrationProjectIdentifier: string;
   Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribeExtensionPackAssociationsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    Filters: S.optional(FilterList),
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeExtensionPackAssociationsMessage",
-}) as any as S.Schema<DescribeExtensionPackAssociationsMessage>;
 export type SchemaConversionRequestList = SchemaConversionRequest[];
-export const SchemaConversionRequestList = /*@__PURE__*/ S.Array(SchemaConversionRequest);
 export interface DescribeExtensionPackAssociationsResponse {
   Marker?: string;
   Requests?: SchemaConversionRequest[];
 }
-export const DescribeExtensionPackAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Requests: S.optional(SchemaConversionRequestList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeExtensionPackAssociationsResponse",
-}) as any as S.Schema<DescribeExtensionPackAssociationsResponse>;
 export interface DescribeFleetAdvisorCollectorsRequest {
   Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
-export const DescribeFleetAdvisorCollectorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeFleetAdvisorCollectorsRequest",
-}) as any as S.Schema<DescribeFleetAdvisorCollectorsRequest>;
 export type VersionStatus = "UP_TO_DATE" | "OUTDATED" | "UNSUPPORTED" | (string & {});
-export const VersionStatus = S.String;
-
 export type CollectorStatus = "UNREGISTERED" | "ACTIVE" | (string & {});
-export const CollectorStatus = S.String;
-
 export interface CollectorHealthCheck {
   CollectorStatus?: CollectorStatus;
   LocalCollectorS3Access?: boolean;
   WebCollectorS3Access?: boolean;
   WebCollectorGrantedRoleBasedAccess?: boolean;
 }
-export const CollectorHealthCheck = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CollectorStatus: S.optional(CollectorStatus),
-    LocalCollectorS3Access: S.optional(S.Boolean),
-    WebCollectorS3Access: S.optional(S.Boolean),
-    WebCollectorGrantedRoleBasedAccess: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "CollectorHealthCheck" }) as any as S.Schema<CollectorHealthCheck>;
 export interface InventoryData {
   NumberOfDatabases?: number;
   NumberOfSchemas?: number;
 }
-export const InventoryData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NumberOfDatabases: S.optional(S.Number), NumberOfSchemas: S.optional(S.Number) }),
-).annotate({ identifier: "InventoryData" }) as any as S.Schema<InventoryData>;
 export interface CollectorResponse {
   CollectorReferencedId?: string;
   CollectorName?: string;
@@ -3745,62 +1806,21 @@ export interface CollectorResponse {
   ModifiedDate?: string;
   InventoryData?: InventoryData;
 }
-export const CollectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CollectorReferencedId: S.optional(S.String),
-    CollectorName: S.optional(S.String),
-    CollectorVersion: S.optional(S.String),
-    VersionStatus: S.optional(VersionStatus),
-    Description: S.optional(S.String),
-    S3BucketName: S.optional(S.String),
-    ServiceAccessRoleArn: S.optional(S.String),
-    CollectorHealthCheck: S.optional(CollectorHealthCheck),
-    LastDataReceived: S.optional(S.String),
-    RegisteredDate: S.optional(S.String),
-    CreatedDate: S.optional(S.String),
-    ModifiedDate: S.optional(S.String),
-    InventoryData: S.optional(InventoryData),
-  }),
-).annotate({ identifier: "CollectorResponse" }) as any as S.Schema<CollectorResponse>;
 export type CollectorResponses = CollectorResponse[];
-export const CollectorResponses = /*@__PURE__*/ S.Array(CollectorResponse);
 export interface DescribeFleetAdvisorCollectorsResponse {
   Collectors?: CollectorResponse[];
   NextToken?: string;
 }
-export const DescribeFleetAdvisorCollectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Collectors: S.optional(CollectorResponses), NextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "DescribeFleetAdvisorCollectorsResponse",
-}) as any as S.Schema<DescribeFleetAdvisorCollectorsResponse>;
 export interface DescribeFleetAdvisorDatabasesRequest {
   Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
-export const DescribeFleetAdvisorDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeFleetAdvisorDatabasesRequest",
-}) as any as S.Schema<DescribeFleetAdvisorDatabasesRequest>;
 export interface ServerShortInfoResponse {
   ServerId?: string;
   IpAddress?: string;
   ServerName?: string;
 }
-export const ServerShortInfoResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerId: S.optional(S.String),
-    IpAddress: S.optional(S.String),
-    ServerName: S.optional(S.String),
-  }),
-).annotate({ identifier: "ServerShortInfoResponse" }) as any as S.Schema<ServerShortInfoResponse>;
 export interface DatabaseInstanceSoftwareDetailsResponse {
   Engine?: string;
   EngineVersion?: string;
@@ -3810,30 +1830,11 @@ export interface DatabaseInstanceSoftwareDetailsResponse {
   OsArchitecture?: number;
   Tooltip?: string;
 }
-export const DatabaseInstanceSoftwareDetailsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    EngineEdition: S.optional(S.String),
-    ServicePack: S.optional(S.String),
-    SupportLevel: S.optional(S.String),
-    OsArchitecture: S.optional(S.Number),
-    Tooltip: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DatabaseInstanceSoftwareDetailsResponse",
-}) as any as S.Schema<DatabaseInstanceSoftwareDetailsResponse>;
 export interface CollectorShortInfoResponse {
   CollectorReferencedId?: string;
   CollectorName?: string;
 }
-export const CollectorShortInfoResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CollectorReferencedId: S.optional(S.String), CollectorName: S.optional(S.String) }),
-).annotate({
-  identifier: "CollectorShortInfoResponse",
-}) as any as S.Schema<CollectorShortInfoResponse>;
 export type CollectorsList = CollectorShortInfoResponse[];
-export const CollectorsList = /*@__PURE__*/ S.Array(CollectorShortInfoResponse);
 export interface DatabaseResponse {
   DatabaseId?: string;
   DatabaseName?: string;
@@ -3843,78 +1844,29 @@ export interface DatabaseResponse {
   SoftwareDetails?: DatabaseInstanceSoftwareDetailsResponse;
   Collectors?: CollectorShortInfoResponse[];
 }
-export const DatabaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseId: S.optional(S.String),
-    DatabaseName: S.optional(S.String),
-    IpAddress: S.optional(S.String),
-    NumberOfSchemas: S.optional(S.Number),
-    Server: S.optional(ServerShortInfoResponse),
-    SoftwareDetails: S.optional(DatabaseInstanceSoftwareDetailsResponse),
-    Collectors: S.optional(CollectorsList),
-  }),
-).annotate({ identifier: "DatabaseResponse" }) as any as S.Schema<DatabaseResponse>;
 export type DatabaseList = DatabaseResponse[];
-export const DatabaseList = /*@__PURE__*/ S.Array(DatabaseResponse);
 export interface DescribeFleetAdvisorDatabasesResponse {
   Databases?: DatabaseResponse[];
   NextToken?: string;
 }
-export const DescribeFleetAdvisorDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Databases: S.optional(DatabaseList), NextToken: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetAdvisorDatabasesResponse",
-}) as any as S.Schema<DescribeFleetAdvisorDatabasesResponse>;
 export interface DescribeFleetAdvisorLsaAnalysisRequest {
   MaxRecords?: number;
   NextToken?: string;
 }
-export const DescribeFleetAdvisorLsaAnalysisRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxRecords: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFleetAdvisorLsaAnalysisRequest",
-}) as any as S.Schema<DescribeFleetAdvisorLsaAnalysisRequest>;
 export interface FleetAdvisorLsaAnalysisResponse {
   LsaAnalysisId?: string;
   Status?: string;
 }
-export const FleetAdvisorLsaAnalysisResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LsaAnalysisId: S.optional(S.String), Status: S.optional(S.String) }),
-).annotate({
-  identifier: "FleetAdvisorLsaAnalysisResponse",
-}) as any as S.Schema<FleetAdvisorLsaAnalysisResponse>;
 export type FleetAdvisorLsaAnalysisResponseList = FleetAdvisorLsaAnalysisResponse[];
-export const FleetAdvisorLsaAnalysisResponseList = /*@__PURE__*/ S.Array(
-  FleetAdvisorLsaAnalysisResponse,
-);
 export interface DescribeFleetAdvisorLsaAnalysisResponse {
   Analysis?: FleetAdvisorLsaAnalysisResponse[];
   NextToken?: string;
 }
-export const DescribeFleetAdvisorLsaAnalysisResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Analysis: S.optional(FleetAdvisorLsaAnalysisResponseList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetAdvisorLsaAnalysisResponse",
-}) as any as S.Schema<DescribeFleetAdvisorLsaAnalysisResponse>;
 export interface DescribeFleetAdvisorSchemaObjectSummaryRequest {
   Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
-export const DescribeFleetAdvisorSchemaObjectSummaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeFleetAdvisorSchemaObjectSummaryRequest",
-}) as any as S.Schema<DescribeFleetAdvisorSchemaObjectSummaryRequest>;
 export interface FleetAdvisorSchemaObjectResponse {
   SchemaId?: string;
   ObjectType?: string;
@@ -3922,61 +1874,22 @@ export interface FleetAdvisorSchemaObjectResponse {
   CodeLineCount?: number;
   CodeSize?: number;
 }
-export const FleetAdvisorSchemaObjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SchemaId: S.optional(S.String),
-    ObjectType: S.optional(S.String),
-    NumberOfObjects: S.optional(S.Number),
-    CodeLineCount: S.optional(S.Number),
-    CodeSize: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "FleetAdvisorSchemaObjectResponse",
-}) as any as S.Schema<FleetAdvisorSchemaObjectResponse>;
 export type FleetAdvisorSchemaObjectList = FleetAdvisorSchemaObjectResponse[];
-export const FleetAdvisorSchemaObjectList = /*@__PURE__*/ S.Array(FleetAdvisorSchemaObjectResponse);
 export interface DescribeFleetAdvisorSchemaObjectSummaryResponse {
   FleetAdvisorSchemaObjects?: FleetAdvisorSchemaObjectResponse[];
   NextToken?: string;
 }
-export const DescribeFleetAdvisorSchemaObjectSummaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetAdvisorSchemaObjects: S.optional(FleetAdvisorSchemaObjectList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetAdvisorSchemaObjectSummaryResponse",
-}) as any as S.Schema<DescribeFleetAdvisorSchemaObjectSummaryResponse>;
 export interface DescribeFleetAdvisorSchemasRequest {
   Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
-export const DescribeFleetAdvisorSchemasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeFleetAdvisorSchemasRequest",
-}) as any as S.Schema<DescribeFleetAdvisorSchemasRequest>;
 export interface DatabaseShortInfoResponse {
   DatabaseId?: string;
   DatabaseName?: string;
   DatabaseIpAddress?: string;
   DatabaseEngine?: string;
 }
-export const DatabaseShortInfoResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseId: S.optional(S.String),
-    DatabaseName: S.optional(S.String),
-    DatabaseIpAddress: S.optional(S.String),
-    DatabaseEngine: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DatabaseShortInfoResponse",
-}) as any as S.Schema<DatabaseShortInfoResponse>;
 export interface SchemaShortInfoResponse {
   SchemaId?: string;
   SchemaName?: string;
@@ -3984,15 +1897,6 @@ export interface SchemaShortInfoResponse {
   DatabaseName?: string;
   DatabaseIpAddress?: string;
 }
-export const SchemaShortInfoResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SchemaId: S.optional(S.String),
-    SchemaName: S.optional(S.String),
-    DatabaseId: S.optional(S.String),
-    DatabaseName: S.optional(S.String),
-    DatabaseIpAddress: S.optional(S.String),
-  }),
-).annotate({ identifier: "SchemaShortInfoResponse" }) as any as S.Schema<SchemaShortInfoResponse>;
 export interface SchemaResponse {
   CodeLineCount?: number;
   CodeSize?: number;
@@ -4004,133 +1908,48 @@ export interface SchemaResponse {
   OriginalSchema?: SchemaShortInfoResponse;
   Similarity?: number;
 }
-export const SchemaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CodeLineCount: S.optional(S.Number),
-    CodeSize: S.optional(S.Number),
-    Complexity: S.optional(S.String),
-    Server: S.optional(ServerShortInfoResponse),
-    DatabaseInstance: S.optional(DatabaseShortInfoResponse),
-    SchemaId: S.optional(S.String),
-    SchemaName: S.optional(S.String),
-    OriginalSchema: S.optional(SchemaShortInfoResponse),
-    Similarity: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SchemaResponse" }) as any as S.Schema<SchemaResponse>;
 export type FleetAdvisorSchemaList = SchemaResponse[];
-export const FleetAdvisorSchemaList = /*@__PURE__*/ S.Array(SchemaResponse);
 export interface DescribeFleetAdvisorSchemasResponse {
   FleetAdvisorSchemas?: SchemaResponse[];
   NextToken?: string;
 }
-export const DescribeFleetAdvisorSchemasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetAdvisorSchemas: S.optional(FleetAdvisorSchemaList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetAdvisorSchemasResponse",
-}) as any as S.Schema<DescribeFleetAdvisorSchemasResponse>;
 export interface DescribeInstanceProfilesMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeInstanceProfilesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeInstanceProfilesMessage",
-}) as any as S.Schema<DescribeInstanceProfilesMessage>;
 export type InstanceProfileList = InstanceProfile[];
-export const InstanceProfileList = /*@__PURE__*/ S.Array(
-  InstanceProfile.pipe(T.XmlName("InstanceProfile")).annotate({ identifier: "InstanceProfile" }),
-);
 export interface DescribeInstanceProfilesResponse {
   Marker?: string;
   InstanceProfiles?: InstanceProfile[];
 }
-export const DescribeInstanceProfilesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    InstanceProfiles: S.optional(InstanceProfileList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeInstanceProfilesResponse",
-}) as any as S.Schema<DescribeInstanceProfilesResponse>;
 export type OriginTypeValue = "SOURCE" | "TARGET" | (string & {});
-export const OriginTypeValue = S.String;
-
 export interface DescribeMetadataModelMessage {
   SelectionRules: string;
   MigrationProjectIdentifier: string;
   Origin: OriginTypeValue;
 }
-export const DescribeMetadataModelMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SelectionRules: S.String,
-    MigrationProjectIdentifier: S.String,
-    Origin: OriginTypeValue,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMetadataModelMessage",
-}) as any as S.Schema<DescribeMetadataModelMessage>;
 export interface MetadataModelReference {
   MetadataModelName?: string;
   SelectionRules?: string;
 }
-export const MetadataModelReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MetadataModelName: S.optional(S.String), SelectionRules: S.optional(S.String) }),
-).annotate({ identifier: "MetadataModelReference" }) as any as S.Schema<MetadataModelReference>;
 export type MetadataModelReferenceList = MetadataModelReference[];
-export const MetadataModelReferenceList = /*@__PURE__*/ S.Array(MetadataModelReference);
 export interface DescribeMetadataModelResponse {
   MetadataModelName?: string;
   MetadataModelType?: string;
   TargetMetadataModels?: MetadataModelReference[];
   Definition?: string;
 }
-export const DescribeMetadataModelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MetadataModelName: S.optional(S.String),
-    MetadataModelType: S.optional(S.String),
-    TargetMetadataModels: S.optional(MetadataModelReferenceList),
-    Definition: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMetadataModelResponse",
-}) as any as S.Schema<DescribeMetadataModelResponse>;
 export interface DescribeMetadataModelAssessmentsMessage {
   MigrationProjectIdentifier: string;
   Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribeMetadataModelAssessmentsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    Filters: S.optional(FilterList),
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMetadataModelAssessmentsMessage",
-}) as any as S.Schema<DescribeMetadataModelAssessmentsMessage>;
 export interface DescribeMetadataModelAssessmentsResponse {
   Marker?: string;
   Requests?: SchemaConversionRequest[];
 }
-export const DescribeMetadataModelAssessmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Requests: S.optional(SchemaConversionRequestList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMetadataModelAssessmentsResponse",
-}) as any as S.Schema<DescribeMetadataModelAssessmentsResponse>;
 export interface DescribeMetadataModelChildrenMessage {
   SelectionRules: string;
   MigrationProjectIdentifier: string;
@@ -4138,212 +1957,75 @@ export interface DescribeMetadataModelChildrenMessage {
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribeMetadataModelChildrenMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SelectionRules: S.String,
-    MigrationProjectIdentifier: S.String,
-    Origin: OriginTypeValue,
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMetadataModelChildrenMessage",
-}) as any as S.Schema<DescribeMetadataModelChildrenMessage>;
 export interface DescribeMetadataModelChildrenResponse {
   Marker?: string;
   MetadataModelChildren?: MetadataModelReference[];
 }
-export const DescribeMetadataModelChildrenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    MetadataModelChildren: S.optional(MetadataModelReferenceList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMetadataModelChildrenResponse",
-}) as any as S.Schema<DescribeMetadataModelChildrenResponse>;
 export interface DescribeMetadataModelConversionsMessage {
   MigrationProjectIdentifier: string;
   Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribeMetadataModelConversionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    Filters: S.optional(FilterList),
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMetadataModelConversionsMessage",
-}) as any as S.Schema<DescribeMetadataModelConversionsMessage>;
 export interface DescribeMetadataModelConversionsResponse {
   Marker?: string;
   Requests?: SchemaConversionRequest[];
 }
-export const DescribeMetadataModelConversionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Requests: S.optional(SchemaConversionRequestList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMetadataModelConversionsResponse",
-}) as any as S.Schema<DescribeMetadataModelConversionsResponse>;
 export interface DescribeMetadataModelCreationsMessage {
   Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
   MigrationProjectIdentifier: string;
 }
-export const DescribeMetadataModelCreationsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    MigrationProjectIdentifier: S.String,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMetadataModelCreationsMessage",
-}) as any as S.Schema<DescribeMetadataModelCreationsMessage>;
 export interface DescribeMetadataModelCreationsResponse {
   Marker?: string;
   Requests?: SchemaConversionRequest[];
 }
-export const DescribeMetadataModelCreationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Requests: S.optional(SchemaConversionRequestList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMetadataModelCreationsResponse",
-}) as any as S.Schema<DescribeMetadataModelCreationsResponse>;
 export interface DescribeMetadataModelExportsAsScriptMessage {
   MigrationProjectIdentifier: string;
   Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribeMetadataModelExportsAsScriptMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    Filters: S.optional(FilterList),
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMetadataModelExportsAsScriptMessage",
-}) as any as S.Schema<DescribeMetadataModelExportsAsScriptMessage>;
 export interface DescribeMetadataModelExportsAsScriptResponse {
   Marker?: string;
   Requests?: SchemaConversionRequest[];
 }
-export const DescribeMetadataModelExportsAsScriptResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Requests: S.optional(SchemaConversionRequestList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMetadataModelExportsAsScriptResponse",
-}) as any as S.Schema<DescribeMetadataModelExportsAsScriptResponse>;
 export interface DescribeMetadataModelExportsToTargetMessage {
   MigrationProjectIdentifier: string;
   Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribeMetadataModelExportsToTargetMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    Filters: S.optional(FilterList),
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMetadataModelExportsToTargetMessage",
-}) as any as S.Schema<DescribeMetadataModelExportsToTargetMessage>;
 export interface DescribeMetadataModelExportsToTargetResponse {
   Marker?: string;
   Requests?: SchemaConversionRequest[];
 }
-export const DescribeMetadataModelExportsToTargetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Requests: S.optional(SchemaConversionRequestList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMetadataModelExportsToTargetResponse",
-}) as any as S.Schema<DescribeMetadataModelExportsToTargetResponse>;
 export interface DescribeMetadataModelImportsMessage {
   MigrationProjectIdentifier: string;
   Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribeMetadataModelImportsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    Filters: S.optional(FilterList),
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMetadataModelImportsMessage",
-}) as any as S.Schema<DescribeMetadataModelImportsMessage>;
 export interface DescribeMetadataModelImportsResponse {
   Marker?: string;
   Requests?: SchemaConversionRequest[];
 }
-export const DescribeMetadataModelImportsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Requests: S.optional(SchemaConversionRequestList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMetadataModelImportsResponse",
-}) as any as S.Schema<DescribeMetadataModelImportsResponse>;
 export interface DescribeMigrationProjectsMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeMigrationProjectsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMigrationProjectsMessage",
-}) as any as S.Schema<DescribeMigrationProjectsMessage>;
 export type MigrationProjectList = MigrationProject[];
-export const MigrationProjectList = /*@__PURE__*/ S.Array(
-  MigrationProject.pipe(T.XmlName("MigrationProject")).annotate({ identifier: "MigrationProject" }),
-);
 export interface DescribeMigrationProjectsResponse {
   Marker?: string;
   MigrationProjects?: MigrationProject[];
 }
-export const DescribeMigrationProjectsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    MigrationProjects: S.optional(MigrationProjectList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMigrationProjectsResponse",
-}) as any as S.Schema<DescribeMigrationProjectsResponse>;
 export interface DescribeOrderableReplicationInstancesMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeOrderableReplicationInstancesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxRecords: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeOrderableReplicationInstancesMessage",
-}) as any as S.Schema<DescribeOrderableReplicationInstancesMessage>;
 export type AvailabilityZonesList = string[];
-export const AvailabilityZonesList = /*@__PURE__*/ S.Array(S.String);
 export interface OrderableReplicationInstance {
   EngineVersion?: string;
   ReplicationInstanceClass?: string;
@@ -4355,87 +2037,27 @@ export interface OrderableReplicationInstance {
   AvailabilityZones?: string[];
   ReleaseStatus?: ReleaseStatusValues;
 }
-export const OrderableReplicationInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineVersion: S.optional(S.String),
-    ReplicationInstanceClass: S.optional(S.String),
-    StorageType: S.optional(S.String),
-    MinAllocatedStorage: S.optional(S.Number),
-    MaxAllocatedStorage: S.optional(S.Number),
-    DefaultAllocatedStorage: S.optional(S.Number),
-    IncludedAllocatedStorage: S.optional(S.Number),
-    AvailabilityZones: S.optional(AvailabilityZonesList),
-    ReleaseStatus: S.optional(ReleaseStatusValues),
-  }),
-).annotate({
-  identifier: "OrderableReplicationInstance",
-}) as any as S.Schema<OrderableReplicationInstance>;
 export type OrderableReplicationInstanceList = OrderableReplicationInstance[];
-export const OrderableReplicationInstanceList = /*@__PURE__*/ S.Array(
-  OrderableReplicationInstance.pipe(T.XmlName("OrderableReplicationInstance")).annotate({
-    identifier: "OrderableReplicationInstance",
-  }),
-);
 export interface DescribeOrderableReplicationInstancesResponse {
   OrderableReplicationInstances?: OrderableReplicationInstance[];
   Marker?: string;
 }
-export const DescribeOrderableReplicationInstancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OrderableReplicationInstances: S.optional(OrderableReplicationInstanceList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeOrderableReplicationInstancesResponse",
-}) as any as S.Schema<DescribeOrderableReplicationInstancesResponse>;
 export interface DescribePendingMaintenanceActionsMessage {
   ReplicationInstanceArn?: string;
   Filters?: Filter[];
   Marker?: string;
   MaxRecords?: number;
 }
-export const DescribePendingMaintenanceActionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationInstanceArn: S.optional(S.String),
-    Filters: S.optional(FilterList),
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribePendingMaintenanceActionsMessage",
-}) as any as S.Schema<DescribePendingMaintenanceActionsMessage>;
 export type PendingMaintenanceActions = ResourcePendingMaintenanceActions[];
-export const PendingMaintenanceActions = /*@__PURE__*/ S.Array(
-  ResourcePendingMaintenanceActions.pipe(T.XmlName("ResourcePendingMaintenanceActions")).annotate({
-    identifier: "ResourcePendingMaintenanceActions",
-  }),
-);
 export interface DescribePendingMaintenanceActionsResponse {
   PendingMaintenanceActions?: ResourcePendingMaintenanceActions[];
   Marker?: string;
 }
-export const DescribePendingMaintenanceActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PendingMaintenanceActions: S.optional(PendingMaintenanceActions),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribePendingMaintenanceActionsResponse",
-}) as any as S.Schema<DescribePendingMaintenanceActionsResponse>;
 export interface DescribeRecommendationLimitationsRequest {
   Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
-export const DescribeRecommendationLimitationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeRecommendationLimitationsRequest",
-}) as any as S.Schema<DescribeRecommendationLimitationsRequest>;
 export interface Limitation {
   DatabaseId?: string;
   EngineName?: string;
@@ -4444,41 +2066,16 @@ export interface Limitation {
   Impact?: string;
   Type?: string;
 }
-export const Limitation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseId: S.optional(S.String),
-    EngineName: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Impact: S.optional(S.String),
-    Type: S.optional(S.String),
-  }),
-).annotate({ identifier: "Limitation" }) as any as S.Schema<Limitation>;
 export type LimitationList = Limitation[];
-export const LimitationList = /*@__PURE__*/ S.Array(Limitation);
 export interface DescribeRecommendationLimitationsResponse {
   NextToken?: string;
   Limitations?: Limitation[];
 }
-export const DescribeRecommendationLimitationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), Limitations: S.optional(LimitationList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeRecommendationLimitationsResponse",
-}) as any as S.Schema<DescribeRecommendationLimitationsResponse>;
 export interface DescribeRecommendationsRequest {
   Filters?: Filter[];
   MaxRecords?: number;
   NextToken?: string;
 }
-export const DescribeRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeRecommendationsRequest",
-}) as any as S.Schema<DescribeRecommendationsRequest>;
 export interface RdsRequirements {
   EngineEdition?: string;
   InstanceVcpu?: number;
@@ -4488,17 +2085,6 @@ export interface RdsRequirements {
   DeploymentOption?: string;
   EngineVersion?: string;
 }
-export const RdsRequirements = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineEdition: S.optional(S.String),
-    InstanceVcpu: S.optional(S.Number),
-    InstanceMemory: S.optional(S.Number),
-    StorageSize: S.optional(S.Number),
-    StorageIops: S.optional(S.Number),
-    DeploymentOption: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "RdsRequirements" }) as any as S.Schema<RdsRequirements>;
 export interface RdsConfiguration {
   EngineEdition?: string;
   InstanceType?: string;
@@ -4510,35 +2096,13 @@ export interface RdsConfiguration {
   DeploymentOption?: string;
   EngineVersion?: string;
 }
-export const RdsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineEdition: S.optional(S.String),
-    InstanceType: S.optional(S.String),
-    InstanceVcpu: S.optional(S.Number),
-    InstanceMemory: S.optional(S.Number),
-    StorageType: S.optional(S.String),
-    StorageSize: S.optional(S.Number),
-    StorageIops: S.optional(S.Number),
-    DeploymentOption: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "RdsConfiguration" }) as any as S.Schema<RdsConfiguration>;
 export interface RdsRecommendation {
   RequirementsToTarget?: RdsRequirements;
   TargetConfiguration?: RdsConfiguration;
 }
-export const RdsRecommendation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RequirementsToTarget: S.optional(RdsRequirements),
-    TargetConfiguration: S.optional(RdsConfiguration),
-  }),
-).annotate({ identifier: "RdsRecommendation" }) as any as S.Schema<RdsRecommendation>;
 export interface RecommendationData {
   RdsEngine?: RdsRecommendation;
 }
-export const RecommendationData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RdsEngine: S.optional(RdsRecommendation) }),
-).annotate({ identifier: "RecommendationData" }) as any as S.Schema<RecommendationData>;
 export interface Recommendation {
   DatabaseId?: string;
   EngineName?: string;
@@ -4548,44 +2112,15 @@ export interface Recommendation {
   Settings?: RecommendationSettings;
   Data?: RecommendationData;
 }
-export const Recommendation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DatabaseId: S.optional(S.String),
-    EngineName: S.optional(S.String),
-    CreatedDate: S.optional(S.String),
-    Status: S.optional(S.String),
-    Preferred: S.optional(S.Boolean),
-    Settings: S.optional(RecommendationSettings),
-    Data: S.optional(RecommendationData),
-  }),
-).annotate({ identifier: "Recommendation" }) as any as S.Schema<Recommendation>;
 export type RecommendationList = Recommendation[];
-export const RecommendationList = /*@__PURE__*/ S.Array(Recommendation);
 export interface DescribeRecommendationsResponse {
   NextToken?: string;
   Recommendations?: Recommendation[];
 }
-export const DescribeRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Recommendations: S.optional(RecommendationList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeRecommendationsResponse",
-}) as any as S.Schema<DescribeRecommendationsResponse>;
 export interface DescribeRefreshSchemasStatusMessage {
   EndpointArn: string;
 }
-export const DescribeRefreshSchemasStatusMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EndpointArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeRefreshSchemasStatusMessage",
-}) as any as S.Schema<DescribeRefreshSchemasStatusMessage>;
 export type RefreshSchemasStatusTypeValue = "successful" | "failed" | "refreshing" | (string & {});
-export const RefreshSchemasStatusTypeValue = S.String;
-
 export interface RefreshSchemasStatus {
   EndpointArn?: string;
   ReplicationInstanceArn?: string;
@@ -4593,145 +2128,50 @@ export interface RefreshSchemasStatus {
   LastRefreshDate?: Date;
   LastFailureMessage?: string;
 }
-export const RefreshSchemasStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointArn: S.optional(S.String),
-    ReplicationInstanceArn: S.optional(S.String),
-    Status: S.optional(RefreshSchemasStatusTypeValue),
-    LastRefreshDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastFailureMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "RefreshSchemasStatus" }) as any as S.Schema<RefreshSchemasStatus>;
 export interface DescribeRefreshSchemasStatusResponse {
   RefreshSchemasStatus?: RefreshSchemasStatus;
 }
-export const DescribeRefreshSchemasStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RefreshSchemasStatus: S.optional(RefreshSchemasStatus) }).pipe(ns),
-).annotate({
-  identifier: "DescribeRefreshSchemasStatusResponse",
-}) as any as S.Schema<DescribeRefreshSchemasStatusResponse>;
 export interface DescribeReplicationConfigsMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReplicationConfigsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationConfigsMessage",
-}) as any as S.Schema<DescribeReplicationConfigsMessage>;
 export type ReplicationConfigList = ReplicationConfig[];
-export const ReplicationConfigList = /*@__PURE__*/ S.Array(
-  ReplicationConfig.pipe(T.XmlName("ReplicationConfig")).annotate({
-    identifier: "ReplicationConfig",
-  }),
-);
 export interface DescribeReplicationConfigsResponse {
   Marker?: string;
   ReplicationConfigs?: ReplicationConfig[];
 }
-export const DescribeReplicationConfigsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReplicationConfigs: S.optional(ReplicationConfigList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationConfigsResponse",
-}) as any as S.Schema<DescribeReplicationConfigsResponse>;
 export interface DescribeReplicationInstancesMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReplicationInstancesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationInstancesMessage",
-}) as any as S.Schema<DescribeReplicationInstancesMessage>;
 export type ReplicationInstanceList = ReplicationInstance[];
-export const ReplicationInstanceList = /*@__PURE__*/ S.Array(
-  ReplicationInstance.pipe(T.XmlName("ReplicationInstance")).annotate({
-    identifier: "ReplicationInstance",
-  }),
-);
 export interface DescribeReplicationInstancesResponse {
   Marker?: string;
   ReplicationInstances?: ReplicationInstance[];
 }
-export const DescribeReplicationInstancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReplicationInstances: S.optional(ReplicationInstanceList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationInstancesResponse",
-}) as any as S.Schema<DescribeReplicationInstancesResponse>;
 export interface DescribeReplicationInstanceTaskLogsMessage {
   ReplicationInstanceArn: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReplicationInstanceTaskLogsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationInstanceArn: S.String,
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationInstanceTaskLogsMessage",
-}) as any as S.Schema<DescribeReplicationInstanceTaskLogsMessage>;
 export interface ReplicationInstanceTaskLog {
   ReplicationTaskName?: string;
   ReplicationTaskArn?: string;
   ReplicationInstanceTaskLogSize?: number;
 }
-export const ReplicationInstanceTaskLog = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskName: S.optional(S.String),
-    ReplicationTaskArn: S.optional(S.String),
-    ReplicationInstanceTaskLogSize: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ReplicationInstanceTaskLog",
-}) as any as S.Schema<ReplicationInstanceTaskLog>;
 export type ReplicationInstanceTaskLogsList = ReplicationInstanceTaskLog[];
-export const ReplicationInstanceTaskLogsList = /*@__PURE__*/ S.Array(ReplicationInstanceTaskLog);
 export interface DescribeReplicationInstanceTaskLogsResponse {
   ReplicationInstanceArn?: string;
   ReplicationInstanceTaskLogs?: ReplicationInstanceTaskLog[];
   Marker?: string;
 }
-export const DescribeReplicationInstanceTaskLogsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationInstanceArn: S.optional(S.String),
-    ReplicationInstanceTaskLogs: S.optional(ReplicationInstanceTaskLogsList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationInstanceTaskLogsResponse",
-}) as any as S.Schema<DescribeReplicationInstanceTaskLogsResponse>;
 export interface DescribeReplicationsMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReplicationsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationsMessage",
-}) as any as S.Schema<DescribeReplicationsMessage>;
 export interface ProvisionData {
   ProvisionState?: string;
   ProvisionedCapacityUnits?: number;
@@ -4740,16 +2180,6 @@ export interface ProvisionData {
   DateNewProvisioningDataAvailable?: Date;
   ReasonForNewProvisioningData?: string;
 }
-export const ProvisionData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProvisionState: S.optional(S.String),
-    ProvisionedCapacityUnits: S.optional(S.Number),
-    DateProvisioned: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IsNewProvisioningAvailable: S.optional(S.Boolean),
-    DateNewProvisioningDataAvailable: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ReasonForNewProvisioningData: S.optional(S.String),
-  }),
-).annotate({ identifier: "ProvisionData" }) as any as S.Schema<ProvisionData>;
 export interface PremigrationAssessmentStatus {
   PremigrationAssessmentRunArn?: string;
   FailOnAssessmentFailure?: boolean;
@@ -4763,27 +2193,7 @@ export interface PremigrationAssessmentStatus {
   ResultKmsKeyArn?: string;
   ResultStatistic?: ReplicationTaskAssessmentRunResultStatistic;
 }
-export const PremigrationAssessmentStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PremigrationAssessmentRunArn: S.optional(S.String),
-    FailOnAssessmentFailure: S.optional(S.Boolean),
-    Status: S.optional(S.String),
-    PremigrationAssessmentRunCreationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AssessmentProgress: S.optional(ReplicationTaskAssessmentRunProgress),
-    LastFailureMessage: S.optional(S.String),
-    ResultLocationBucket: S.optional(S.String),
-    ResultLocationFolder: S.optional(S.String),
-    ResultEncryptionMode: S.optional(S.String),
-    ResultKmsKeyArn: S.optional(S.String),
-    ResultStatistic: S.optional(ReplicationTaskAssessmentRunResultStatistic),
-  }),
-).annotate({
-  identifier: "PremigrationAssessmentStatus",
-}) as any as S.Schema<PremigrationAssessmentStatus>;
 export type PremigrationAssessmentStatusList = PremigrationAssessmentStatus[];
-export const PremigrationAssessmentStatusList = /*@__PURE__*/ S.Array(PremigrationAssessmentStatus);
 export interface ReplicationStats {
   FullLoadProgressPercent?: number;
   ElapsedTimeMillis?: number;
@@ -4797,21 +2207,6 @@ export interface ReplicationStats {
   FullLoadStartDate?: Date;
   FullLoadFinishDate?: Date;
 }
-export const ReplicationStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FullLoadProgressPercent: S.optional(S.Number),
-    ElapsedTimeMillis: S.optional(S.Number),
-    TablesLoaded: S.optional(S.Number),
-    TablesLoading: S.optional(S.Number),
-    TablesQueued: S.optional(S.Number),
-    TablesErrored: S.optional(S.Number),
-    FreshStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FullLoadStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FullLoadFinishDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ReplicationStats" }) as any as S.Schema<ReplicationStats>;
 export interface Replication {
   ReplicationConfigIdentifier?: string;
   ReplicationConfigArn?: string;
@@ -4835,92 +2230,27 @@ export interface Replication {
   ReplicationDeprovisionTime?: Date;
   IsReadOnly?: boolean;
 }
-export const Replication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfigIdentifier: S.optional(S.String),
-    ReplicationConfigArn: S.optional(S.String),
-    SourceEndpointArn: S.optional(S.String),
-    TargetEndpointArn: S.optional(S.String),
-    ReplicationType: S.optional(MigrationTypeValue),
-    Status: S.optional(S.String),
-    ProvisionData: S.optional(ProvisionData),
-    PremigrationAssessmentStatuses: S.optional(PremigrationAssessmentStatusList),
-    StopReason: S.optional(S.String),
-    FailureMessages: S.optional(StringList),
-    ReplicationStats: S.optional(ReplicationStats),
-    StartReplicationType: S.optional(S.String),
-    CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CdcStartPosition: S.optional(S.String),
-    CdcStopPosition: S.optional(S.String),
-    RecoveryCheckpoint: S.optional(S.String),
-    ReplicationCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ReplicationUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ReplicationLastStopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ReplicationDeprovisionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IsReadOnly: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Replication" }) as any as S.Schema<Replication>;
 export type ReplicationList = Replication[];
-export const ReplicationList = /*@__PURE__*/ S.Array(
-  Replication.pipe(T.XmlName("Replication")).annotate({ identifier: "Replication" }),
-);
 export interface DescribeReplicationsResponse {
   Marker?: string;
   Replications?: Replication[];
 }
-export const DescribeReplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), Replications: S.optional(ReplicationList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationsResponse",
-}) as any as S.Schema<DescribeReplicationsResponse>;
 export interface DescribeReplicationSubnetGroupsMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReplicationSubnetGroupsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationSubnetGroupsMessage",
-}) as any as S.Schema<DescribeReplicationSubnetGroupsMessage>;
 export type ReplicationSubnetGroups = ReplicationSubnetGroup[];
-export const ReplicationSubnetGroups = /*@__PURE__*/ S.Array(
-  ReplicationSubnetGroup.pipe(T.XmlName("ReplicationSubnetGroup")).annotate({
-    identifier: "ReplicationSubnetGroup",
-  }),
-);
 export interface DescribeReplicationSubnetGroupsResponse {
   Marker?: string;
   ReplicationSubnetGroups?: ReplicationSubnetGroup[];
 }
-export const DescribeReplicationSubnetGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReplicationSubnetGroups: S.optional(ReplicationSubnetGroups),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationSubnetGroupsResponse",
-}) as any as S.Schema<DescribeReplicationSubnetGroupsResponse>;
 export interface DescribeReplicationTableStatisticsMessage {
   ReplicationConfigArn: string;
   MaxRecords?: number;
   Marker?: string;
   Filters?: Filter[];
 }
-export const DescribeReplicationTableStatisticsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfigArn: S.String,
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    Filters: S.optional(FilterList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationTableStatisticsMessage",
-}) as any as S.Schema<DescribeReplicationTableStatisticsMessage>;
 export interface TableStatistics {
   SchemaName?: string;
   TableName?: string;
@@ -4951,68 +2281,17 @@ export interface TableStatistics {
   ResyncRowsFailed?: number;
   ResyncProgress?: number;
 }
-export const TableStatistics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SchemaName: S.optional(S.String),
-    TableName: S.optional(S.String),
-    Inserts: S.optional(S.Number),
-    Deletes: S.optional(S.Number),
-    Updates: S.optional(S.Number),
-    Ddls: S.optional(S.Number),
-    AppliedInserts: S.optional(S.Number),
-    AppliedDeletes: S.optional(S.Number),
-    AppliedUpdates: S.optional(S.Number),
-    AppliedDdls: S.optional(S.Number),
-    FullLoadRows: S.optional(S.Number),
-    FullLoadCondtnlChkFailedRows: S.optional(S.Number),
-    FullLoadErrorRows: S.optional(S.Number),
-    FullLoadStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FullLoadEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    FullLoadReloaded: S.optional(S.Boolean),
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TableState: S.optional(S.String),
-    ValidationPendingRecords: S.optional(S.Number),
-    ValidationFailedRecords: S.optional(S.Number),
-    ValidationSuspendedRecords: S.optional(S.Number),
-    ValidationState: S.optional(S.String),
-    ValidationStateDetails: S.optional(S.String),
-    ResyncState: S.optional(S.String),
-    ResyncRowsAttempted: S.optional(S.Number),
-    ResyncRowsSucceeded: S.optional(S.Number),
-    ResyncRowsFailed: S.optional(S.Number),
-    ResyncProgress: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TableStatistics" }) as any as S.Schema<TableStatistics>;
 export type ReplicationTableStatisticsList = TableStatistics[];
-export const ReplicationTableStatisticsList = /*@__PURE__*/ S.Array(TableStatistics);
 export interface DescribeReplicationTableStatisticsResponse {
   ReplicationConfigArn?: string;
   Marker?: string;
   ReplicationTableStatistics?: TableStatistics[];
 }
-export const DescribeReplicationTableStatisticsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfigArn: S.optional(S.String),
-    Marker: S.optional(S.String),
-    ReplicationTableStatistics: S.optional(ReplicationTableStatisticsList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationTableStatisticsResponse",
-}) as any as S.Schema<DescribeReplicationTableStatisticsResponse>;
 export interface DescribeReplicationTaskAssessmentResultsMessage {
   ReplicationTaskArn?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReplicationTaskAssessmentResultsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskArn: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationTaskAssessmentResultsMessage",
-}) as any as S.Schema<DescribeReplicationTaskAssessmentResultsMessage>;
 export interface ReplicationTaskAssessmentResult {
   ReplicationTaskIdentifier?: string;
   ReplicationTaskArn?: string;
@@ -5022,81 +2301,27 @@ export interface ReplicationTaskAssessmentResult {
   AssessmentResults?: string;
   S3ObjectUrl?: string | redacted.Redacted<string>;
 }
-export const ReplicationTaskAssessmentResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskIdentifier: S.optional(S.String),
-    ReplicationTaskArn: S.optional(S.String),
-    ReplicationTaskLastAssessmentDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AssessmentStatus: S.optional(S.String),
-    AssessmentResultsFile: S.optional(S.String),
-    AssessmentResults: S.optional(S.String),
-    S3ObjectUrl: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "ReplicationTaskAssessmentResult",
-}) as any as S.Schema<ReplicationTaskAssessmentResult>;
 export type ReplicationTaskAssessmentResultList = ReplicationTaskAssessmentResult[];
-export const ReplicationTaskAssessmentResultList = /*@__PURE__*/ S.Array(
-  ReplicationTaskAssessmentResult.pipe(T.XmlName("ReplicationTaskAssessmentResult")).annotate({
-    identifier: "ReplicationTaskAssessmentResult",
-  }),
-);
 export interface DescribeReplicationTaskAssessmentResultsResponse {
   Marker?: string;
   BucketName?: string;
   ReplicationTaskAssessmentResults?: ReplicationTaskAssessmentResult[];
 }
-export const DescribeReplicationTaskAssessmentResultsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    BucketName: S.optional(S.String),
-    ReplicationTaskAssessmentResults: S.optional(ReplicationTaskAssessmentResultList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationTaskAssessmentResultsResponse",
-}) as any as S.Schema<DescribeReplicationTaskAssessmentResultsResponse>;
 export interface DescribeReplicationTaskAssessmentRunsMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReplicationTaskAssessmentRunsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationTaskAssessmentRunsMessage",
-}) as any as S.Schema<DescribeReplicationTaskAssessmentRunsMessage>;
 export type ReplicationTaskAssessmentRunList = ReplicationTaskAssessmentRun[];
-export const ReplicationTaskAssessmentRunList = /*@__PURE__*/ S.Array(ReplicationTaskAssessmentRun);
 export interface DescribeReplicationTaskAssessmentRunsResponse {
   Marker?: string;
   ReplicationTaskAssessmentRuns?: ReplicationTaskAssessmentRun[];
 }
-export const DescribeReplicationTaskAssessmentRunsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReplicationTaskAssessmentRuns: S.optional(ReplicationTaskAssessmentRunList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationTaskAssessmentRunsResponse",
-}) as any as S.Schema<DescribeReplicationTaskAssessmentRunsResponse>;
 export interface DescribeReplicationTaskIndividualAssessmentsMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReplicationTaskIndividualAssessmentsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationTaskIndividualAssessmentsMessage",
-}) as any as S.Schema<DescribeReplicationTaskIndividualAssessmentsMessage>;
 export interface ReplicationTaskIndividualAssessment {
   ReplicationTaskIndividualAssessmentArn?: string;
   ReplicationTaskAssessmentRunArn?: string;
@@ -5104,181 +2329,67 @@ export interface ReplicationTaskIndividualAssessment {
   Status?: string;
   ReplicationTaskIndividualAssessmentStartDate?: Date;
 }
-export const ReplicationTaskIndividualAssessment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskIndividualAssessmentArn: S.optional(S.String),
-    ReplicationTaskAssessmentRunArn: S.optional(S.String),
-    IndividualAssessmentName: S.optional(S.String),
-    Status: S.optional(S.String),
-    ReplicationTaskIndividualAssessmentStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "ReplicationTaskIndividualAssessment",
-}) as any as S.Schema<ReplicationTaskIndividualAssessment>;
 export type ReplicationTaskIndividualAssessmentList = ReplicationTaskIndividualAssessment[];
-export const ReplicationTaskIndividualAssessmentList = /*@__PURE__*/ S.Array(
-  ReplicationTaskIndividualAssessment,
-);
 export interface DescribeReplicationTaskIndividualAssessmentsResponse {
   Marker?: string;
   ReplicationTaskIndividualAssessments?: ReplicationTaskIndividualAssessment[];
 }
-export const DescribeReplicationTaskIndividualAssessmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReplicationTaskIndividualAssessments: S.optional(ReplicationTaskIndividualAssessmentList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationTaskIndividualAssessmentsResponse",
-}) as any as S.Schema<DescribeReplicationTaskIndividualAssessmentsResponse>;
 export interface DescribeReplicationTasksMessage {
   Filters?: Filter[];
   MaxRecords?: number;
   Marker?: string;
   WithoutSettings?: boolean;
 }
-export const DescribeReplicationTasksMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    WithoutSettings: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationTasksMessage",
-}) as any as S.Schema<DescribeReplicationTasksMessage>;
 export type ReplicationTaskList = ReplicationTask[];
-export const ReplicationTaskList = /*@__PURE__*/ S.Array(
-  ReplicationTask.pipe(T.XmlName("ReplicationTask")).annotate({ identifier: "ReplicationTask" }),
-);
 export interface DescribeReplicationTasksResponse {
   Marker?: string;
   ReplicationTasks?: ReplicationTask[];
 }
-export const DescribeReplicationTasksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReplicationTasks: S.optional(ReplicationTaskList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReplicationTasksResponse",
-}) as any as S.Schema<DescribeReplicationTasksResponse>;
 export interface DescribeSchemasMessage {
   EndpointArn: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeSchemasMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointArn: S.String,
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeSchemasMessage" }) as any as S.Schema<DescribeSchemasMessage>;
 export type SchemaList = string[];
-export const SchemaList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeSchemasResponse {
   Marker?: string;
   Schemas?: string[];
 }
-export const DescribeSchemasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), Schemas: S.optional(SchemaList) }).pipe(ns),
-).annotate({ identifier: "DescribeSchemasResponse" }) as any as S.Schema<DescribeSchemasResponse>;
 export interface DescribeTableStatisticsMessage {
   ReplicationTaskArn: string;
   MaxRecords?: number;
   Marker?: string;
   Filters?: Filter[];
 }
-export const DescribeTableStatisticsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskArn: S.String,
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    Filters: S.optional(FilterList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeTableStatisticsMessage",
-}) as any as S.Schema<DescribeTableStatisticsMessage>;
 export type TableStatisticsList = TableStatistics[];
-export const TableStatisticsList = /*@__PURE__*/ S.Array(TableStatistics);
 export interface DescribeTableStatisticsResponse {
   ReplicationTaskArn?: string;
   TableStatistics?: TableStatistics[];
   Marker?: string;
 }
-export const DescribeTableStatisticsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskArn: S.optional(S.String),
-    TableStatistics: S.optional(TableStatisticsList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeTableStatisticsResponse",
-}) as any as S.Schema<DescribeTableStatisticsResponse>;
 export type AssessmentReportType = "pdf" | "csv" | (string & {});
-export const AssessmentReportType = S.String;
-
 export type AssessmentReportTypesList = AssessmentReportType[];
-export const AssessmentReportTypesList = /*@__PURE__*/ S.Array(AssessmentReportType);
 export interface ExportMetadataModelAssessmentMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
   FileName?: string;
   AssessmentReportTypes?: AssessmentReportType[];
 }
-export const ExportMetadataModelAssessmentMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    SelectionRules: S.String,
-    FileName: S.optional(S.String),
-    AssessmentReportTypes: S.optional(AssessmentReportTypesList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExportMetadataModelAssessmentMessage",
-}) as any as S.Schema<ExportMetadataModelAssessmentMessage>;
 export interface ExportMetadataModelAssessmentResultEntry {
   S3ObjectKey?: string;
   ObjectURL?: string;
 }
-export const ExportMetadataModelAssessmentResultEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3ObjectKey: S.optional(S.String), ObjectURL: S.optional(S.String) }),
-).annotate({
-  identifier: "ExportMetadataModelAssessmentResultEntry",
-}) as any as S.Schema<ExportMetadataModelAssessmentResultEntry>;
 export interface ExportMetadataModelAssessmentResponse {
   PdfReport?: ExportMetadataModelAssessmentResultEntry;
   CsvReport?: ExportMetadataModelAssessmentResultEntry;
 }
-export const ExportMetadataModelAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PdfReport: S.optional(ExportMetadataModelAssessmentResultEntry),
-    CsvReport: S.optional(ExportMetadataModelAssessmentResultEntry),
-  }).pipe(ns),
-).annotate({
-  identifier: "ExportMetadataModelAssessmentResponse",
-}) as any as S.Schema<ExportMetadataModelAssessmentResponse>;
 export interface GetTargetSelectionRulesMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
 }
-export const GetTargetSelectionRulesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.String, SelectionRules: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetTargetSelectionRulesMessage",
-}) as any as S.Schema<GetTargetSelectionRulesMessage>;
 export interface GetTargetSelectionRulesResponse {
   TargetSelectionRules?: string;
 }
-export const GetTargetSelectionRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetSelectionRules: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetTargetSelectionRulesResponse",
-}) as any as S.Schema<GetTargetSelectionRulesResponse>;
 export interface ImportCertificateMessage {
   CertificateIdentifier: string;
   CertificatePem?: string | redacted.Redacted<string>;
@@ -5286,63 +2397,24 @@ export interface ImportCertificateMessage {
   Tags?: Tag[];
   KmsKeyId?: string;
 }
-export const ImportCertificateMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateIdentifier: S.String,
-    CertificatePem: S.optional(SensitiveString),
-    CertificateWallet: S.optional(T.Blob),
-    Tags: S.optional(TagList),
-    KmsKeyId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ImportCertificateMessage" }) as any as S.Schema<ImportCertificateMessage>;
 export interface ImportCertificateResponse {
   Certificate?: Certificate;
 }
-export const ImportCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Certificate: S.optional(Certificate) }).pipe(ns),
-).annotate({
-  identifier: "ImportCertificateResponse",
-}) as any as S.Schema<ImportCertificateResponse>;
 export type ArnList = string[];
-export const ArnList = /*@__PURE__*/ S.Array(S.String);
 export interface ListTagsForResourceMessage {
   ResourceArn?: string;
   ResourceArnList?: string[];
 }
-export const ListTagsForResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.optional(S.String), ResourceArnList: S.optional(ArnList) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceMessage",
-}) as any as S.Schema<ListTagsForResourceMessage>;
 export interface ListTagsForResourceResponse {
   TagList?: Tag[];
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ModifyConversionConfigurationMessage {
   MigrationProjectIdentifier: string;
   ConversionConfiguration: string;
 }
-export const ModifyConversionConfigurationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.String, ConversionConfiguration: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ModifyConversionConfigurationMessage",
-}) as any as S.Schema<ModifyConversionConfigurationMessage>;
 export interface ModifyConversionConfigurationResponse {
   MigrationProjectIdentifier?: string;
 }
-export const ModifyConversionConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ModifyConversionConfigurationResponse",
-}) as any as S.Schema<ModifyConversionConfigurationResponse>;
 export interface ModifyDataMigrationMessage {
   DataMigrationIdentifier: string;
   DataMigrationName?: string;
@@ -5354,29 +2426,9 @@ export interface ModifyDataMigrationMessage {
   NumberOfJobs?: number;
   SelectionRules?: string | redacted.Redacted<string>;
 }
-export const ModifyDataMigrationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataMigrationIdentifier: S.String,
-    DataMigrationName: S.optional(S.String),
-    EnableCloudwatchLogs: S.optional(S.Boolean),
-    ServiceAccessRoleArn: S.optional(S.String),
-    DataMigrationType: S.optional(MigrationTypeValue),
-    SourceDataSettings: S.optional(SourceDataSettings),
-    TargetDataSettings: S.optional(TargetDataSettings),
-    NumberOfJobs: S.optional(S.Number),
-    SelectionRules: S.optional(SensitiveString),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyDataMigrationMessage",
-}) as any as S.Schema<ModifyDataMigrationMessage>;
 export interface ModifyDataMigrationResponse {
   DataMigration?: DataMigration;
 }
-export const ModifyDataMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataMigration: S.optional(DataMigration) }).pipe(ns),
-).annotate({
-  identifier: "ModifyDataMigrationResponse",
-}) as any as S.Schema<ModifyDataMigrationResponse>;
 export interface ModifyDataProviderMessage {
   DataProviderIdentifier: string;
   DataProviderName?: string;
@@ -5386,27 +2438,9 @@ export interface ModifyDataProviderMessage {
   ExactSettings?: boolean;
   Settings?: DataProviderSettings;
 }
-export const ModifyDataProviderMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataProviderIdentifier: S.String,
-    DataProviderName: S.optional(S.String),
-    Description: S.optional(S.String),
-    Engine: S.optional(S.String),
-    Virtual: S.optional(S.Boolean),
-    ExactSettings: S.optional(S.Boolean),
-    Settings: S.optional(DataProviderSettings),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyDataProviderMessage",
-}) as any as S.Schema<ModifyDataProviderMessage>;
 export interface ModifyDataProviderResponse {
   DataProvider?: DataProvider;
 }
-export const ModifyDataProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataProvider: S.optional(DataProvider) }).pipe(ns),
-).annotate({
-  identifier: "ModifyDataProviderResponse",
-}) as any as S.Schema<ModifyDataProviderResponse>;
 export interface ModifyEndpointMessage {
   EndpointArn: string;
   EndpointIdentifier?: string;
@@ -5443,50 +2477,9 @@ export interface ModifyEndpointMessage {
   GcpMySQLSettings?: GcpMySQLSettings;
   TimestreamSettings?: TimestreamSettings;
 }
-export const ModifyEndpointMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EndpointArn: S.String,
-    EndpointIdentifier: S.optional(S.String),
-    EndpointType: S.optional(ReplicationEndpointTypeValue),
-    EngineName: S.optional(S.String),
-    Username: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    ServerName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    DatabaseName: S.optional(S.String),
-    ExtraConnectionAttributes: S.optional(S.String),
-    CertificateArn: S.optional(S.String),
-    SslMode: S.optional(DmsSslModeValue),
-    ServiceAccessRoleArn: S.optional(S.String),
-    ExternalTableDefinition: S.optional(S.String),
-    DynamoDbSettings: S.optional(DynamoDbSettings),
-    S3Settings: S.optional(S3Settings),
-    DmsTransferSettings: S.optional(DmsTransferSettings),
-    MongoDbSettings: S.optional(MongoDbSettings),
-    KinesisSettings: S.optional(KinesisSettings),
-    KafkaSettings: S.optional(KafkaSettings),
-    ElasticsearchSettings: S.optional(ElasticsearchSettings),
-    NeptuneSettings: S.optional(NeptuneSettings),
-    RedshiftSettings: S.optional(RedshiftSettings),
-    PostgreSQLSettings: S.optional(PostgreSQLSettings),
-    MySQLSettings: S.optional(MySQLSettings),
-    OracleSettings: S.optional(OracleSettings),
-    SybaseSettings: S.optional(SybaseSettings),
-    MicrosoftSQLServerSettings: S.optional(MicrosoftSQLServerSettings),
-    IBMDb2Settings: S.optional(IBMDb2Settings),
-    DocDbSettings: S.optional(DocDbSettings),
-    RedisSettings: S.optional(RedisSettings),
-    ExactSettings: S.optional(S.Boolean),
-    GcpMySQLSettings: S.optional(GcpMySQLSettings),
-    TimestreamSettings: S.optional(TimestreamSettings),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ModifyEndpointMessage" }) as any as S.Schema<ModifyEndpointMessage>;
 export interface ModifyEndpointResponse {
   Endpoint?: Endpoint;
 }
-export const ModifyEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Endpoint: S.optional(Endpoint) }).pipe(ns),
-).annotate({ identifier: "ModifyEndpointResponse" }) as any as S.Schema<ModifyEndpointResponse>;
 export interface ModifyEventSubscriptionMessage {
   SubscriptionName: string;
   SnsTopicArn?: string;
@@ -5494,25 +2487,9 @@ export interface ModifyEventSubscriptionMessage {
   EventCategories?: string[];
   Enabled?: boolean;
 }
-export const ModifyEventSubscriptionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubscriptionName: S.String,
-    SnsTopicArn: S.optional(S.String),
-    SourceType: S.optional(S.String),
-    EventCategories: S.optional(EventCategoriesList),
-    Enabled: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyEventSubscriptionMessage",
-}) as any as S.Schema<ModifyEventSubscriptionMessage>;
 export interface ModifyEventSubscriptionResponse {
   EventSubscription?: EventSubscription;
 }
-export const ModifyEventSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EventSubscription: S.optional(EventSubscription) }).pipe(ns),
-).annotate({
-  identifier: "ModifyEventSubscriptionResponse",
-}) as any as S.Schema<ModifyEventSubscriptionResponse>;
 export interface ModifyInstanceProfileMessage {
   InstanceProfileIdentifier: string;
   AvailabilityZone?: string;
@@ -5524,29 +2501,9 @@ export interface ModifyInstanceProfileMessage {
   SubnetGroupIdentifier?: string;
   VpcSecurityGroups?: string[];
 }
-export const ModifyInstanceProfileMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceProfileIdentifier: S.String,
-    AvailabilityZone: S.optional(S.String),
-    KmsKeyArn: S.optional(S.String),
-    PubliclyAccessible: S.optional(S.Boolean),
-    NetworkType: S.optional(S.String),
-    InstanceProfileName: S.optional(S.String),
-    Description: S.optional(S.String),
-    SubnetGroupIdentifier: S.optional(S.String),
-    VpcSecurityGroups: S.optional(StringList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyInstanceProfileMessage",
-}) as any as S.Schema<ModifyInstanceProfileMessage>;
 export interface ModifyInstanceProfileResponse {
   InstanceProfile?: InstanceProfile;
 }
-export const ModifyInstanceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceProfile: S.optional(InstanceProfile) }).pipe(ns),
-).annotate({
-  identifier: "ModifyInstanceProfileResponse",
-}) as any as S.Schema<ModifyInstanceProfileResponse>;
 export interface ModifyMigrationProjectMessage {
   MigrationProjectIdentifier: string;
   MigrationProjectName?: string;
@@ -5557,28 +2514,9 @@ export interface ModifyMigrationProjectMessage {
   Description?: string;
   SchemaConversionApplicationAttributes?: SCApplicationAttributes;
 }
-export const ModifyMigrationProjectMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    MigrationProjectName: S.optional(S.String),
-    SourceDataProviderDescriptors: S.optional(DataProviderDescriptorDefinitionList),
-    TargetDataProviderDescriptors: S.optional(DataProviderDescriptorDefinitionList),
-    InstanceProfileIdentifier: S.optional(S.String),
-    TransformationRules: S.optional(S.String),
-    Description: S.optional(S.String),
-    SchemaConversionApplicationAttributes: S.optional(SCApplicationAttributes),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyMigrationProjectMessage",
-}) as any as S.Schema<ModifyMigrationProjectMessage>;
 export interface ModifyMigrationProjectResponse {
   MigrationProject?: MigrationProject;
 }
-export const ModifyMigrationProjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProject: S.optional(MigrationProject) }).pipe(ns),
-).annotate({
-  identifier: "ModifyMigrationProjectResponse",
-}) as any as S.Schema<ModifyMigrationProjectResponse>;
 export interface ModifyReplicationConfigMessage {
   ReplicationConfigArn: string;
   ReplicationConfigIdentifier?: string;
@@ -5590,29 +2528,9 @@ export interface ModifyReplicationConfigMessage {
   SourceEndpointArn?: string;
   TargetEndpointArn?: string;
 }
-export const ModifyReplicationConfigMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfigArn: S.String,
-    ReplicationConfigIdentifier: S.optional(S.String),
-    ReplicationType: S.optional(MigrationTypeValue),
-    TableMappings: S.optional(S.String),
-    ReplicationSettings: S.optional(S.String),
-    SupplementalSettings: S.optional(S.String),
-    ComputeConfig: S.optional(ComputeConfig),
-    SourceEndpointArn: S.optional(S.String),
-    TargetEndpointArn: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyReplicationConfigMessage",
-}) as any as S.Schema<ModifyReplicationConfigMessage>;
 export interface ModifyReplicationConfigResponse {
   ReplicationConfig?: ReplicationConfig;
 }
-export const ModifyReplicationConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationConfig: S.optional(ReplicationConfig) }).pipe(ns),
-).annotate({
-  identifier: "ModifyReplicationConfigResponse",
-}) as any as S.Schema<ModifyReplicationConfigResponse>;
 export interface ModifyReplicationInstanceMessage {
   ReplicationInstanceArn: string;
   AllocatedStorage?: number;
@@ -5628,55 +2546,17 @@ export interface ModifyReplicationInstanceMessage {
   NetworkType?: string;
   KerberosAuthenticationSettings?: KerberosAuthenticationSettings;
 }
-export const ModifyReplicationInstanceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationInstanceArn: S.String,
-    AllocatedStorage: S.optional(S.Number),
-    ApplyImmediately: S.optional(S.Boolean),
-    ReplicationInstanceClass: S.optional(S.String),
-    VpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    MultiAZ: S.optional(S.Boolean),
-    EngineVersion: S.optional(S.String),
-    AllowMajorVersionUpgrade: S.optional(S.Boolean),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    ReplicationInstanceIdentifier: S.optional(S.String),
-    NetworkType: S.optional(S.String),
-    KerberosAuthenticationSettings: S.optional(KerberosAuthenticationSettings),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyReplicationInstanceMessage",
-}) as any as S.Schema<ModifyReplicationInstanceMessage>;
 export interface ModifyReplicationInstanceResponse {
   ReplicationInstance?: ReplicationInstance;
 }
-export const ModifyReplicationInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationInstance: S.optional(ReplicationInstance) }).pipe(ns),
-).annotate({
-  identifier: "ModifyReplicationInstanceResponse",
-}) as any as S.Schema<ModifyReplicationInstanceResponse>;
 export interface ModifyReplicationSubnetGroupMessage {
   ReplicationSubnetGroupIdentifier: string;
   ReplicationSubnetGroupDescription?: string;
   SubnetIds: string[];
 }
-export const ModifyReplicationSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationSubnetGroupIdentifier: S.String,
-    ReplicationSubnetGroupDescription: S.optional(S.String),
-    SubnetIds: SubnetIdentifierList,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyReplicationSubnetGroupMessage",
-}) as any as S.Schema<ModifyReplicationSubnetGroupMessage>;
 export interface ModifyReplicationSubnetGroupResponse {
   ReplicationSubnetGroup?: ReplicationSubnetGroup;
 }
-export const ModifyReplicationSubnetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationSubnetGroup: S.optional(ReplicationSubnetGroup) }).pipe(ns),
-).annotate({
-  identifier: "ModifyReplicationSubnetGroupResponse",
-}) as any as S.Schema<ModifyReplicationSubnetGroupResponse>;
 export interface ModifyReplicationTaskMessage {
   ReplicationTaskArn: string;
   ReplicationTaskIdentifier?: string;
@@ -5688,375 +2568,140 @@ export interface ModifyReplicationTaskMessage {
   CdcStopPosition?: string;
   TaskData?: string;
 }
-export const ModifyReplicationTaskMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskArn: S.String,
-    ReplicationTaskIdentifier: S.optional(S.String),
-    MigrationType: S.optional(MigrationTypeValue),
-    TableMappings: S.optional(S.String),
-    ReplicationTaskSettings: S.optional(S.String),
-    CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CdcStartPosition: S.optional(S.String),
-    CdcStopPosition: S.optional(S.String),
-    TaskData: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyReplicationTaskMessage",
-}) as any as S.Schema<ModifyReplicationTaskMessage>;
 export interface ModifyReplicationTaskResponse {
   ReplicationTask?: ReplicationTask;
 }
-export const ModifyReplicationTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTask: S.optional(ReplicationTask) }).pipe(ns),
-).annotate({
-  identifier: "ModifyReplicationTaskResponse",
-}) as any as S.Schema<ModifyReplicationTaskResponse>;
 export interface MoveReplicationTaskMessage {
   ReplicationTaskArn: string;
   TargetReplicationInstanceArn: string;
 }
-export const MoveReplicationTaskMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskArn: S.String, TargetReplicationInstanceArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "MoveReplicationTaskMessage",
-}) as any as S.Schema<MoveReplicationTaskMessage>;
 export interface MoveReplicationTaskResponse {
   ReplicationTask?: ReplicationTask;
 }
-export const MoveReplicationTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTask: S.optional(ReplicationTask) }).pipe(ns),
-).annotate({
-  identifier: "MoveReplicationTaskResponse",
-}) as any as S.Schema<MoveReplicationTaskResponse>;
 export interface RebootReplicationInstanceMessage {
   ReplicationInstanceArn: string;
   ForceFailover?: boolean;
   ForcePlannedFailover?: boolean;
 }
-export const RebootReplicationInstanceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationInstanceArn: S.String,
-    ForceFailover: S.optional(S.Boolean),
-    ForcePlannedFailover: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RebootReplicationInstanceMessage",
-}) as any as S.Schema<RebootReplicationInstanceMessage>;
 export interface RebootReplicationInstanceResponse {
   ReplicationInstance?: ReplicationInstance;
 }
-export const RebootReplicationInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationInstance: S.optional(ReplicationInstance) }).pipe(ns),
-).annotate({
-  identifier: "RebootReplicationInstanceResponse",
-}) as any as S.Schema<RebootReplicationInstanceResponse>;
 export interface RefreshSchemasMessage {
   EndpointArn: string;
   ReplicationInstanceArn: string;
 }
-export const RefreshSchemasMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EndpointArn: S.String, ReplicationInstanceArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "RefreshSchemasMessage" }) as any as S.Schema<RefreshSchemasMessage>;
 export interface RefreshSchemasResponse {
   RefreshSchemasStatus?: RefreshSchemasStatus;
 }
-export const RefreshSchemasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RefreshSchemasStatus: S.optional(RefreshSchemasStatus) }).pipe(ns),
-).annotate({ identifier: "RefreshSchemasResponse" }) as any as S.Schema<RefreshSchemasResponse>;
 export interface TableToReload {
   SchemaName: string;
   TableName: string;
 }
-export const TableToReload = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SchemaName: S.String, TableName: S.String }),
-).annotate({ identifier: "TableToReload" }) as any as S.Schema<TableToReload>;
 export type TableListToReload = TableToReload[];
-export const TableListToReload = /*@__PURE__*/ S.Array(TableToReload);
 export type ReloadOptionValue = "data-reload" | "validate-only" | (string & {});
-export const ReloadOptionValue = S.String;
-
 export interface ReloadReplicationTablesMessage {
   ReplicationConfigArn: string;
   TablesToReload: TableToReload[];
   ReloadOption?: ReloadOptionValue;
 }
-export const ReloadReplicationTablesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfigArn: S.String,
-    TablesToReload: TableListToReload,
-    ReloadOption: S.optional(ReloadOptionValue),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ReloadReplicationTablesMessage",
-}) as any as S.Schema<ReloadReplicationTablesMessage>;
 export interface ReloadReplicationTablesResponse {
   ReplicationConfigArn?: string;
 }
-export const ReloadReplicationTablesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationConfigArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ReloadReplicationTablesResponse",
-}) as any as S.Schema<ReloadReplicationTablesResponse>;
 export interface ReloadTablesMessage {
   ReplicationTaskArn: string;
   TablesToReload: TableToReload[];
   ReloadOption?: ReloadOptionValue;
 }
-export const ReloadTablesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskArn: S.String,
-    TablesToReload: TableListToReload,
-    ReloadOption: S.optional(ReloadOptionValue),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ReloadTablesMessage" }) as any as S.Schema<ReloadTablesMessage>;
 export interface ReloadTablesResponse {
   ReplicationTaskArn?: string;
 }
-export const ReloadTablesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskArn: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ReloadTablesResponse" }) as any as S.Schema<ReloadTablesResponse>;
 export type KeyList = string[];
-export const KeyList = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveTagsFromResourceMessage {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const RemoveTagsFromResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: KeyList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RemoveTagsFromResourceMessage",
-}) as any as S.Schema<RemoveTagsFromResourceMessage>;
 export interface RemoveTagsFromResourceResponse {}
-export const RemoveTagsFromResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveTagsFromResourceResponse",
-}) as any as S.Schema<RemoveTagsFromResourceResponse>;
 export interface RunFleetAdvisorLsaAnalysisRequest {}
-export const RunFleetAdvisorLsaAnalysisRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RunFleetAdvisorLsaAnalysisRequest",
-}) as any as S.Schema<RunFleetAdvisorLsaAnalysisRequest>;
 export interface RunFleetAdvisorLsaAnalysisResponse {
   LsaAnalysisId?: string;
   Status?: string;
 }
-export const RunFleetAdvisorLsaAnalysisResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LsaAnalysisId: S.optional(S.String), Status: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "RunFleetAdvisorLsaAnalysisResponse",
-}) as any as S.Schema<RunFleetAdvisorLsaAnalysisResponse>;
 export type StartReplicationMigrationTypeValue =
   | "reload-target"
   | "resume-processing"
   | "start-replication"
   | (string & {});
-export const StartReplicationMigrationTypeValue = S.String;
-
 export interface StartDataMigrationMessage {
   DataMigrationIdentifier: string;
   StartType: StartReplicationMigrationTypeValue;
 }
-export const StartDataMigrationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataMigrationIdentifier: S.String,
-    StartType: StartReplicationMigrationTypeValue,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartDataMigrationMessage",
-}) as any as S.Schema<StartDataMigrationMessage>;
 export interface StartDataMigrationResponse {
   DataMigration?: DataMigration;
 }
-export const StartDataMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataMigration: S.optional(DataMigration) }).pipe(ns),
-).annotate({
-  identifier: "StartDataMigrationResponse",
-}) as any as S.Schema<StartDataMigrationResponse>;
 export interface StartExtensionPackAssociationMessage {
   MigrationProjectIdentifier: string;
 }
-export const StartExtensionPackAssociationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartExtensionPackAssociationMessage",
-}) as any as S.Schema<StartExtensionPackAssociationMessage>;
 export interface StartExtensionPackAssociationResponse {
   RequestIdentifier?: string;
 }
-export const StartExtensionPackAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RequestIdentifier: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartExtensionPackAssociationResponse",
-}) as any as S.Schema<StartExtensionPackAssociationResponse>;
 export interface StartMetadataModelAssessmentMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
 }
-export const StartMetadataModelAssessmentMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.String, SelectionRules: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartMetadataModelAssessmentMessage",
-}) as any as S.Schema<StartMetadataModelAssessmentMessage>;
 export interface StartMetadataModelAssessmentResponse {
   RequestIdentifier?: string;
 }
-export const StartMetadataModelAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RequestIdentifier: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartMetadataModelAssessmentResponse",
-}) as any as S.Schema<StartMetadataModelAssessmentResponse>;
 export interface StartMetadataModelConversionMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
 }
-export const StartMetadataModelConversionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MigrationProjectIdentifier: S.String, SelectionRules: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartMetadataModelConversionMessage",
-}) as any as S.Schema<StartMetadataModelConversionMessage>;
 export interface StartMetadataModelConversionResponse {
   RequestIdentifier?: string;
 }
-export const StartMetadataModelConversionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RequestIdentifier: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartMetadataModelConversionResponse",
-}) as any as S.Schema<StartMetadataModelConversionResponse>;
 export interface StatementProperties {
   Definition: string;
 }
-export const StatementProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Definition: S.String }),
-).annotate({ identifier: "StatementProperties" }) as any as S.Schema<StatementProperties>;
 export type MetadataModelProperties = { StatementProperties: StatementProperties };
-export const MetadataModelProperties = /*@__PURE__*/ S.Union([
-  S.Struct({ StatementProperties: StatementProperties }),
-]);
 export interface StartMetadataModelCreationMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
   MetadataModelName: string;
   Properties: MetadataModelProperties;
 }
-export const StartMetadataModelCreationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    SelectionRules: S.String,
-    MetadataModelName: S.String,
-    Properties: MetadataModelProperties,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartMetadataModelCreationMessage",
-}) as any as S.Schema<StartMetadataModelCreationMessage>;
 export interface StartMetadataModelCreationResponse {
   RequestIdentifier?: string;
 }
-export const StartMetadataModelCreationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RequestIdentifier: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartMetadataModelCreationResponse",
-}) as any as S.Schema<StartMetadataModelCreationResponse>;
 export interface StartMetadataModelExportAsScriptMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
   Origin: OriginTypeValue;
   FileName?: string;
 }
-export const StartMetadataModelExportAsScriptMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    SelectionRules: S.String,
-    Origin: OriginTypeValue,
-    FileName: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartMetadataModelExportAsScriptMessage",
-}) as any as S.Schema<StartMetadataModelExportAsScriptMessage>;
 export interface StartMetadataModelExportAsScriptResponse {
   RequestIdentifier?: string;
 }
-export const StartMetadataModelExportAsScriptResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RequestIdentifier: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartMetadataModelExportAsScriptResponse",
-}) as any as S.Schema<StartMetadataModelExportAsScriptResponse>;
 export interface StartMetadataModelExportToTargetMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
   OverwriteExtensionPack?: boolean;
 }
-export const StartMetadataModelExportToTargetMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    SelectionRules: S.String,
-    OverwriteExtensionPack: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartMetadataModelExportToTargetMessage",
-}) as any as S.Schema<StartMetadataModelExportToTargetMessage>;
 export interface StartMetadataModelExportToTargetResponse {
   RequestIdentifier?: string;
 }
-export const StartMetadataModelExportToTargetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RequestIdentifier: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartMetadataModelExportToTargetResponse",
-}) as any as S.Schema<StartMetadataModelExportToTargetResponse>;
 export interface StartMetadataModelImportMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
   Origin: OriginTypeValue;
   Refresh?: boolean;
 }
-export const StartMetadataModelImportMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MigrationProjectIdentifier: S.String,
-    SelectionRules: S.String,
-    Origin: OriginTypeValue,
-    Refresh: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartMetadataModelImportMessage",
-}) as any as S.Schema<StartMetadataModelImportMessage>;
 export interface StartMetadataModelImportResponse {
   RequestIdentifier?: string;
 }
-export const StartMetadataModelImportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RequestIdentifier: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartMetadataModelImportResponse",
-}) as any as S.Schema<StartMetadataModelImportResponse>;
 export interface StartRecommendationsRequest {
   DatabaseId: string;
   Settings: RecommendationSettings;
 }
-export const StartRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DatabaseId: S.String, Settings: RecommendationSettings }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartRecommendationsRequest",
-}) as any as S.Schema<StartRecommendationsRequest>;
 export interface StartRecommendationsResponse {}
-export const StartRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StartRecommendationsResponse",
-}) as any as S.Schema<StartRecommendationsResponse>;
 export interface StartReplicationMessage {
   ReplicationConfigArn: string;
   StartReplicationType: string;
@@ -6065,29 +2710,14 @@ export interface StartReplicationMessage {
   CdcStartPosition?: string;
   CdcStopPosition?: string;
 }
-export const StartReplicationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationConfigArn: S.String,
-    StartReplicationType: S.String,
-    PremigrationAssessmentSettings: S.optional(S.String),
-    CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CdcStartPosition: S.optional(S.String),
-    CdcStopPosition: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "StartReplicationMessage" }) as any as S.Schema<StartReplicationMessage>;
 export interface StartReplicationResponse {
   Replication?: Replication;
 }
-export const StartReplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Replication: S.optional(Replication) }).pipe(ns),
-).annotate({ identifier: "StartReplicationResponse" }) as any as S.Schema<StartReplicationResponse>;
 export type StartReplicationTaskTypeValue =
   | "start-replication"
   | "resume-processing"
   | "reload-target"
   | (string & {});
-export const StartReplicationTaskTypeValue = S.String;
-
 export interface StartReplicationTaskMessage {
   ReplicationTaskArn: string;
   StartReplicationTaskType: StartReplicationTaskTypeValue;
@@ -6095,47 +2725,17 @@ export interface StartReplicationTaskMessage {
   CdcStartPosition?: string;
   CdcStopPosition?: string;
 }
-export const StartReplicationTaskMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskArn: S.String,
-    StartReplicationTaskType: StartReplicationTaskTypeValue,
-    CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    CdcStartPosition: S.optional(S.String),
-    CdcStopPosition: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartReplicationTaskMessage",
-}) as any as S.Schema<StartReplicationTaskMessage>;
 export interface StartReplicationTaskResponse {
   ReplicationTask?: ReplicationTask;
 }
-export const StartReplicationTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTask: S.optional(ReplicationTask) }).pipe(ns),
-).annotate({
-  identifier: "StartReplicationTaskResponse",
-}) as any as S.Schema<StartReplicationTaskResponse>;
 export interface StartReplicationTaskAssessmentMessage {
   ReplicationTaskArn: string;
 }
-export const StartReplicationTaskAssessmentMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartReplicationTaskAssessmentMessage",
-}) as any as S.Schema<StartReplicationTaskAssessmentMessage>;
 export interface StartReplicationTaskAssessmentResponse {
   ReplicationTask?: ReplicationTask;
 }
-export const StartReplicationTaskAssessmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTask: S.optional(ReplicationTask) }).pipe(ns),
-).annotate({
-  identifier: "StartReplicationTaskAssessmentResponse",
-}) as any as S.Schema<StartReplicationTaskAssessmentResponse>;
 export type IncludeTestList = string[];
-export const IncludeTestList = /*@__PURE__*/ S.Array(S.String);
 export type ExcludeTestList = string[];
-export const ExcludeTestList = /*@__PURE__*/ S.Array(S.String);
 export interface StartReplicationTaskAssessmentRunMessage {
   ReplicationTaskArn: string;
   ServiceAccessRoleArn: string;
@@ -6148,111 +2748,40 @@ export interface StartReplicationTaskAssessmentRunMessage {
   Exclude?: string[];
   Tags?: Tag[];
 }
-export const StartReplicationTaskAssessmentRunMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationTaskArn: S.String,
-    ServiceAccessRoleArn: S.String,
-    ResultLocationBucket: S.String,
-    ResultLocationFolder: S.optional(S.String),
-    ResultEncryptionMode: S.optional(S.String),
-    ResultKmsKeyArn: S.optional(S.String),
-    AssessmentRunName: S.String,
-    IncludeOnly: S.optional(IncludeTestList),
-    Exclude: S.optional(ExcludeTestList),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartReplicationTaskAssessmentRunMessage",
-}) as any as S.Schema<StartReplicationTaskAssessmentRunMessage>;
 export interface StartReplicationTaskAssessmentRunResponse {
   ReplicationTaskAssessmentRun?: ReplicationTaskAssessmentRun;
 }
-export const StartReplicationTaskAssessmentRunResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskAssessmentRun: S.optional(ReplicationTaskAssessmentRun) }).pipe(ns),
-).annotate({
-  identifier: "StartReplicationTaskAssessmentRunResponse",
-}) as any as S.Schema<StartReplicationTaskAssessmentRunResponse>;
 export interface StopDataMigrationMessage {
   DataMigrationIdentifier: string;
 }
-export const StopDataMigrationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataMigrationIdentifier: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "StopDataMigrationMessage" }) as any as S.Schema<StopDataMigrationMessage>;
 export interface StopDataMigrationResponse {
   DataMigration?: DataMigration;
 }
-export const StopDataMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataMigration: S.optional(DataMigration) }).pipe(ns),
-).annotate({
-  identifier: "StopDataMigrationResponse",
-}) as any as S.Schema<StopDataMigrationResponse>;
 export interface StopReplicationMessage {
   ReplicationConfigArn: string;
 }
-export const StopReplicationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationConfigArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "StopReplicationMessage" }) as any as S.Schema<StopReplicationMessage>;
 export interface StopReplicationResponse {
   Replication?: Replication;
 }
-export const StopReplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Replication: S.optional(Replication) }).pipe(ns),
-).annotate({ identifier: "StopReplicationResponse" }) as any as S.Schema<StopReplicationResponse>;
 export interface StopReplicationTaskMessage {
   ReplicationTaskArn: string;
 }
-export const StopReplicationTaskMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTaskArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StopReplicationTaskMessage",
-}) as any as S.Schema<StopReplicationTaskMessage>;
 export interface StopReplicationTaskResponse {
   ReplicationTask?: ReplicationTask;
 }
-export const StopReplicationTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationTask: S.optional(ReplicationTask) }).pipe(ns),
-).annotate({
-  identifier: "StopReplicationTaskResponse",
-}) as any as S.Schema<StopReplicationTaskResponse>;
 export interface TestConnectionMessage {
   ReplicationInstanceArn: string;
   EndpointArn: string;
 }
-export const TestConnectionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationInstanceArn: S.String, EndpointArn: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TestConnectionMessage" }) as any as S.Schema<TestConnectionMessage>;
 export interface TestConnectionResponse {
   Connection?: Connection;
 }
-export const TestConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connection: S.optional(Connection) }).pipe(ns),
-).annotate({ identifier: "TestConnectionResponse" }) as any as S.Schema<TestConnectionResponse>;
 export interface UpdateSubscriptionsToEventBridgeMessage {
   ForceMove?: boolean;
 }
-export const UpdateSubscriptionsToEventBridgeMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ForceMove: S.optional(S.Boolean) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSubscriptionsToEventBridgeMessage",
-}) as any as S.Schema<UpdateSubscriptionsToEventBridgeMessage>;
 export interface UpdateSubscriptionsToEventBridgeResponse {
   Result?: string;
 }
-export const UpdateSubscriptionsToEventBridgeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Result: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateSubscriptionsToEventBridgeResponse",
-}) as any as S.Schema<UpdateSubscriptionsToEventBridgeResponse>;
 export type ExceptionMessage = string;
 export type ResourceArn = string;
 export type AddTagsToResourceError =
@@ -6274,8 +2803,8 @@ export const addTagsToResource: API.OperationMethod<
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsToResourceMessage,
-  output: AddTagsToResourceResponse,
+  input: __S(1632, __c51, 0) as any as S.Schema<AddTagsToResourceMessage>,
+  output: __S(1728, __c54, 0) as any as S.Schema<AddTagsToResourceResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6293,8 +2822,8 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   ApplyPendingMaintenanceActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ApplyPendingMaintenanceActionMessage,
-  output: ApplyPendingMaintenanceActionResponse,
+  input: __S(1760, __c55, 0) as any as S.Schema<ApplyPendingMaintenanceActionMessage>,
+  output: __S(1761, __c55, 1) as any as S.Schema<ApplyPendingMaintenanceActionResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6323,8 +2852,8 @@ export const batchStartRecommendations: API.OperationMethod<
   BatchStartRecommendationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchStartRecommendationsRequest,
-  output: BatchStartRecommendationsResponse,
+  input: __S(1826, __c57, 2) as any as S.Schema<BatchStartRecommendationsRequest>,
+  output: __S(1829, __c57, 5) as any as S.Schema<BatchStartRecommendationsResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6349,8 +2878,8 @@ export const cancelMetadataModelConversion: API.OperationMethod<
   CancelMetadataModelConversionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelMetadataModelConversionMessage,
-  output: CancelMetadataModelConversionResponse,
+  input: __S(1888, __c59, 0) as any as S.Schema<CancelMetadataModelConversionMessage>,
+  output: __S(1920, __c60, 0) as any as S.Schema<CancelMetadataModelConversionResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6375,8 +2904,8 @@ export const cancelMetadataModelCreation: API.OperationMethod<
   CancelMetadataModelCreationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelMetadataModelCreationMessage,
-  output: CancelMetadataModelCreationResponse,
+  input: __S(2016, __c63, 0) as any as S.Schema<CancelMetadataModelCreationMessage>,
+  output: __S(1920, __c60, 0) as any as S.Schema<CancelMetadataModelCreationResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6401,8 +2930,8 @@ export const cancelReplicationTaskAssessmentRun: API.OperationMethod<
   CancelReplicationTaskAssessmentRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelReplicationTaskAssessmentRunMessage,
-  output: CancelReplicationTaskAssessmentRunResponse,
+  input: __S(2048, __c64, 0) as any as S.Schema<CancelReplicationTaskAssessmentRunMessage>,
+  output: __S(2112, __c66, 0) as any as S.Schema<CancelReplicationTaskAssessmentRunResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6425,8 +2954,8 @@ export const createDataMigration: API.OperationMethod<
   CreateDataMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDataMigrationMessage,
-  output: CreateDataMigrationResponse,
+  input: __S(2176, __c68, 0) as any as S.Schema<CreateDataMigrationMessage>,
+  output: __S(2240, __c70, 0) as any as S.Schema<CreateDataMigrationResponse>,
   errors: [
     FailedDependencyFault,
     InvalidOperationFault,
@@ -6459,8 +2988,8 @@ export const createDataProvider: API.OperationMethod<
   CreateDataProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDataProviderMessage,
-  output: CreateDataProviderResponse,
+  input: __S(2304, __c72, 0) as any as S.Schema<CreateDataProviderMessage>,
+  output: __S(2336, __c73, 0) as any as S.Schema<CreateDataProviderResponse>,
   errors: [
     AccessDeniedFault,
     FailedDependencyFault,
@@ -6497,8 +3026,8 @@ export const createEndpoint: API.OperationMethod<
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEndpointMessage,
-  output: CreateEndpointResponse,
+  input: __S(2400, __c75, 0) as any as S.Schema<CreateEndpointMessage>,
+  output: __S(2432, __c76, 0) as any as S.Schema<CreateEndpointResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -6549,8 +3078,8 @@ export const createEventSubscription: API.OperationMethod<
   CreateEventSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateEventSubscriptionMessage,
-  output: CreateEventSubscriptionResponse,
+  input: __S(2464, __c77, 0) as any as S.Schema<CreateEventSubscriptionMessage>,
+  output: __S(2496, __c78, 0) as any as S.Schema<CreateEventSubscriptionResponse>,
   errors: [
     KMSAccessDeniedFault,
     KMSDisabledFault,
@@ -6586,8 +3115,8 @@ export const createFleetAdvisorCollector: API.OperationMethod<
   CreateFleetAdvisorCollectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFleetAdvisorCollectorRequest,
-  output: CreateFleetAdvisorCollectorResponse,
+  input: __S(2592, __c81, 0) as any as S.Schema<CreateFleetAdvisorCollectorRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<CreateFleetAdvisorCollectorResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -6624,8 +3153,8 @@ export const createInstanceProfile: API.OperationMethod<
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateInstanceProfileMessage,
-  output: CreateInstanceProfileResponse,
+  input: __S(2624, __c82, 0) as any as S.Schema<CreateInstanceProfileMessage>,
+  output: __S(2656, __c83, 0) as any as S.Schema<CreateInstanceProfileResponse>,
   errors: [
     AccessDeniedFault,
     FailedDependencyFault,
@@ -6667,8 +3196,8 @@ export const createMigrationProject: API.OperationMethod<
   CreateMigrationProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMigrationProjectMessage,
-  output: CreateMigrationProjectResponse,
+  input: __S(2720, __c85, 0) as any as S.Schema<CreateMigrationProjectMessage>,
+  output: __S(2784, __c87, 0) as any as S.Schema<CreateMigrationProjectResponse>,
   errors: [
     AccessDeniedFault,
     FailedDependencyFault,
@@ -6704,8 +3233,8 @@ export const createReplicationConfig: API.OperationMethod<
   CreateReplicationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReplicationConfigMessage,
-  output: CreateReplicationConfigResponse,
+  input: __S(2848, __c89, 0) as any as S.Schema<CreateReplicationConfigMessage>,
+  output: __S(2880, __c90, 0) as any as S.Schema<CreateReplicationConfigResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -6753,8 +3282,8 @@ export const createReplicationInstance: API.OperationMethod<
   CreateReplicationInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReplicationInstanceMessage,
-  output: CreateReplicationInstanceResponse,
+  input: __S(2944, __c92, 0) as any as S.Schema<CreateReplicationInstanceMessage>,
+  output: __S(3040, __c95, 0) as any as S.Schema<CreateReplicationInstanceResponse>,
   errors: [
     AccessDeniedFault,
     InsufficientResourceCapacityFault,
@@ -6801,8 +3330,8 @@ export const createReplicationSubnetGroup: API.OperationMethod<
   CreateReplicationSubnetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReplicationSubnetGroupMessage,
-  output: CreateReplicationSubnetGroupResponse,
+  input: __S(3104, __c97, 0) as any as S.Schema<CreateReplicationSubnetGroupMessage>,
+  output: __S(3137, __c98, 1) as any as S.Schema<CreateReplicationSubnetGroupResponse>,
   errors: [
     AccessDeniedFault,
     InvalidSubnet,
@@ -6833,8 +3362,8 @@ export const createReplicationTask: API.OperationMethod<
   CreateReplicationTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReplicationTaskMessage,
-  output: CreateReplicationTaskResponse,
+  input: __S(3168, __c99, 0) as any as S.Schema<CreateReplicationTaskMessage>,
+  output: __S(3232, __c101, 0) as any as S.Schema<CreateReplicationTaskResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -6861,8 +3390,8 @@ export const deleteCertificate: API.OperationMethod<
   DeleteCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCertificateMessage,
-  output: DeleteCertificateResponse,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteCertificateMessage>,
+  output: __S(3328, __c104, 0) as any as S.Schema<DeleteCertificateResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6883,8 +3412,8 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConnectionMessage,
-  output: DeleteConnectionResponse,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteConnectionMessage>,
+  output: __S(3424, __c107, 0) as any as S.Schema<DeleteConnectionResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6905,8 +3434,8 @@ export const deleteDataMigration: API.OperationMethod<
   DeleteDataMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDataMigrationMessage,
-  output: DeleteDataMigrationResponse,
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteDataMigrationMessage>,
+  output: __S(2240, __c70, 0) as any as S.Schema<DeleteDataMigrationResponse>,
   errors: [FailedDependencyFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6935,8 +3464,8 @@ export const deleteDataProvider: API.OperationMethod<
   DeleteDataProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDataProviderMessage,
-  output: DeleteDataProviderResponse,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteDataProviderMessage>,
+  output: __S(2336, __c73, 0) as any as S.Schema<DeleteDataProviderResponse>,
   errors: [
     AccessDeniedFault,
     FailedDependencyFault,
@@ -6961,8 +3490,8 @@ export const deleteEndpoint: API.OperationMethod<
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEndpointMessage,
-  output: DeleteEndpointResponse,
+  input: __S(3552, __c111, 0) as any as S.Schema<DeleteEndpointMessage>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteEndpointResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6983,8 +3512,8 @@ export const deleteEventSubscription: API.OperationMethod<
   DeleteEventSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteEventSubscriptionMessage,
-  output: DeleteEventSubscriptionResponse,
+  input: __S(3584, __c112, 0) as any as S.Schema<DeleteEventSubscriptionMessage>,
+  output: __S(2496, __c78, 0) as any as S.Schema<DeleteEventSubscriptionResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7007,8 +3536,8 @@ export const deleteFleetAdvisorCollector: API.OperationMethod<
   DeleteFleetAdvisorCollectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCollectorRequest,
-  output: DeleteFleetAdvisorCollectorResponse,
+  input: __S(3616, __c113, 0) as any as S.Schema<DeleteCollectorRequest>,
+  output: __S(1728, __c54, 0) as any as S.Schema<DeleteFleetAdvisorCollectorResponse>,
   errors: [AccessDeniedFault, CollectorNotFoundFault, InvalidResourceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7031,8 +3560,8 @@ export const deleteFleetAdvisorDatabases: API.OperationMethod<
   DeleteFleetAdvisorDatabasesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFleetAdvisorDatabasesRequest,
-  output: DeleteFleetAdvisorDatabasesResponse,
+  input: __S(3648, __c114, 0) as any as S.Schema<DeleteFleetAdvisorDatabasesRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<DeleteFleetAdvisorDatabasesResponse>,
   errors: [AccessDeniedFault, InvalidOperationFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7061,8 +3590,8 @@ export const deleteInstanceProfile: API.OperationMethod<
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteInstanceProfileMessage,
-  output: DeleteInstanceProfileResponse,
+  input: __S(3680, __c115, 0) as any as S.Schema<DeleteInstanceProfileMessage>,
+  output: __S(2656, __c83, 0) as any as S.Schema<DeleteInstanceProfileResponse>,
   errors: [
     AccessDeniedFault,
     FailedDependencyFault,
@@ -7095,8 +3624,8 @@ export const deleteMigrationProject: API.OperationMethod<
   DeleteMigrationProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMigrationProjectMessage,
-  output: DeleteMigrationProjectResponse,
+  input: __S(3712, __c116, 0) as any as S.Schema<DeleteMigrationProjectMessage>,
+  output: __S(2784, __c87, 0) as any as S.Schema<DeleteMigrationProjectResponse>,
   errors: [
     AccessDeniedFault,
     FailedDependencyFault,
@@ -7125,8 +3654,8 @@ export const deleteReplicationConfig: API.OperationMethod<
   DeleteReplicationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReplicationConfigMessage,
-  output: DeleteReplicationConfigResponse,
+  input: __S(3744, __c117, 0) as any as S.Schema<DeleteReplicationConfigMessage>,
+  output: __S(2880, __c90, 0) as any as S.Schema<DeleteReplicationConfigResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7149,8 +3678,8 @@ export const deleteReplicationInstance: API.OperationMethod<
   DeleteReplicationInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReplicationInstanceMessage,
-  output: DeleteReplicationInstanceResponse,
+  input: __S(3776, __c118, 0) as any as S.Schema<DeleteReplicationInstanceMessage>,
+  output: __S(3040, __c95, 0) as any as S.Schema<DeleteReplicationInstanceResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7171,8 +3700,8 @@ export const deleteReplicationSubnetGroup: API.OperationMethod<
   DeleteReplicationSubnetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReplicationSubnetGroupMessage,
-  output: DeleteReplicationSubnetGroupResponse,
+  input: __S(3808, __c119, 0) as any as S.Schema<DeleteReplicationSubnetGroupMessage>,
+  output: __S(1728, __c54, 0) as any as S.Schema<DeleteReplicationSubnetGroupResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7192,8 +3721,8 @@ export const deleteReplicationTask: API.OperationMethod<
   DeleteReplicationTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReplicationTaskMessage,
-  output: DeleteReplicationTaskResponse,
+  input: __S(3840, __c120, 0) as any as S.Schema<DeleteReplicationTaskMessage>,
+  output: __S(3232, __c101, 0) as any as S.Schema<DeleteReplicationTaskResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7218,8 +3747,8 @@ export const deleteReplicationTaskAssessmentRun: API.OperationMethod<
   DeleteReplicationTaskAssessmentRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReplicationTaskAssessmentRunMessage,
-  output: DeleteReplicationTaskAssessmentRunResponse,
+  input: __S(3872, __c121, 0) as any as S.Schema<DeleteReplicationTaskAssessmentRunMessage>,
+  output: __S(2112, __c66, 0) as any as S.Schema<DeleteReplicationTaskAssessmentRunResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7243,8 +3772,8 @@ export const describeAccountAttributes: API.OperationMethod<
   DescribeAccountAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAccountAttributesMessage,
-  output: DescribeAccountAttributesResponse,
+  input: __S(3904, __c122, 0) as any as S.Schema<DescribeAccountAttributesMessage>,
+  output: __S(3907, __c122, 3) as any as S.Schema<DescribeAccountAttributesResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7284,8 +3813,8 @@ export const describeApplicableIndividualAssessments: API.PaginatedOperationMeth
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeApplicableIndividualAssessmentsMessage,
-  output: DescribeApplicableIndividualAssessmentsResponse,
+  input: __S(3936, __c123, 0) as any as S.Schema<DescribeApplicableIndividualAssessmentsMessage>,
+  output: __S(3937, __c123, 1) as any as S.Schema<DescribeApplicableIndividualAssessmentsResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7304,8 +3833,8 @@ export const describeCertificates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeCertificatesMessage,
-  output: DescribeCertificatesResponse,
+  input: __S(3968, __c124, 0) as any as S.Schema<DescribeCertificatesMessage>,
+  output: __S(3970, __c124, 2) as any as S.Schema<DescribeCertificatesResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7325,8 +3854,8 @@ export const describeConnections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeConnectionsMessage,
-  output: DescribeConnectionsResponse,
+  input: __S(4032, __c126, 0) as any as S.Schema<DescribeConnectionsMessage>,
+  output: __S(4034, __c126, 2) as any as S.Schema<DescribeConnectionsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7348,8 +3877,8 @@ export const describeConversionConfiguration: API.OperationMethod<
   DescribeConversionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeConversionConfigurationMessage,
-  output: DescribeConversionConfigurationResponse,
+  input: __S(4064, __c127, 0) as any as S.Schema<DescribeConversionConfigurationMessage>,
+  output: __S(4065, __c127, 1) as any as S.Schema<DescribeConversionConfigurationResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7371,8 +3900,8 @@ export const describeDataMigrations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataMigration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeDataMigrationsMessage,
-  output: DescribeDataMigrationsResponse,
+  input: __S(4096, __c128, 0) as any as S.Schema<DescribeDataMigrationsMessage>,
+  output: __S(4098, __c128, 2) as any as S.Schema<DescribeDataMigrationsResponse>,
   errors: [FailedDependencyFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7405,8 +3934,8 @@ export const describeDataProviders: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeDataProvidersMessage,
-  output: DescribeDataProvidersResponse,
+  input: __S(4128, __c129, 0) as any as S.Schema<DescribeDataProvidersMessage>,
+  output: __S(4130, __c129, 2) as any as S.Schema<DescribeDataProvidersResponse>,
   errors: [AccessDeniedFault, FailedDependencyFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7425,8 +3954,8 @@ export const describeEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEndpointsMessage,
-  output: DescribeEndpointsResponse,
+  input: __S(4160, __c130, 0) as any as S.Schema<DescribeEndpointsMessage>,
+  output: __S(4162, __c130, 2) as any as S.Schema<DescribeEndpointsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7446,8 +3975,8 @@ export const describeEndpointSettings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEndpointSettingsMessage,
-  output: DescribeEndpointSettingsResponse,
+  input: __S(4192, __c131, 0) as any as S.Schema<DescribeEndpointSettingsMessage>,
+  output: __S(4195, __c131, 3) as any as S.Schema<DescribeEndpointSettingsResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7466,8 +3995,8 @@ export const describeEndpointTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEndpointTypesMessage,
-  output: DescribeEndpointTypesResponse,
+  input: __S(4224, __c132, 0) as any as S.Schema<DescribeEndpointTypesMessage>,
+  output: __S(4227, __c132, 3) as any as S.Schema<DescribeEndpointTypesResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7486,8 +4015,8 @@ export const describeEngineVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEngineVersionsMessage,
-  output: DescribeEngineVersionsResponse,
+  input: __S(4256, __c133, 0) as any as S.Schema<DescribeEngineVersionsMessage>,
+  output: __S(4259, __c133, 3) as any as S.Schema<DescribeEngineVersionsResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7507,8 +4036,8 @@ export const describeEventCategories: API.OperationMethod<
   DescribeEventCategoriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeEventCategoriesMessage,
-  output: DescribeEventCategoriesResponse,
+  input: __S(4288, __c134, 0) as any as S.Schema<DescribeEventCategoriesMessage>,
+  output: __S(4291, __c134, 3) as any as S.Schema<DescribeEventCategoriesResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7528,8 +4057,8 @@ export const describeEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEventsMessage,
-  output: DescribeEventsResponse,
+  input: __S(4320, __c135, 0) as any as S.Schema<DescribeEventsMessage>,
+  output: __S(4323, __c135, 3) as any as S.Schema<DescribeEventsResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7554,8 +4083,8 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEventSubscriptionsMessage,
-  output: DescribeEventSubscriptionsResponse,
+  input: __S(4352, __c136, 0) as any as S.Schema<DescribeEventSubscriptionsMessage>,
+  output: __S(4354, __c136, 2) as any as S.Schema<DescribeEventSubscriptionsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7580,8 +4109,8 @@ export const describeExtensionPackAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeExtensionPackAssociationsMessage,
-  output: DescribeExtensionPackAssociationsResponse,
+  input: __S(4384, __c137, 0) as any as S.Schema<DescribeExtensionPackAssociationsMessage>,
+  output: __S(4417, __c138, 1) as any as S.Schema<DescribeExtensionPackAssociationsResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7602,8 +4131,8 @@ export const describeFleetAdvisorCollectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetAdvisorCollectorsRequest,
-  output: DescribeFleetAdvisorCollectorsResponse,
+  input: __S(4448, __c139, 0) as any as S.Schema<DescribeFleetAdvisorCollectorsRequest>,
+  output: __S(4453, __c139, 5) as any as S.Schema<DescribeFleetAdvisorCollectorsResponse>,
   errors: [InvalidResourceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7628,8 +4157,8 @@ export const describeFleetAdvisorDatabases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetAdvisorDatabasesRequest,
-  output: DescribeFleetAdvisorDatabasesResponse,
+  input: __S(4480, __c140, 0) as any as S.Schema<DescribeFleetAdvisorDatabasesRequest>,
+  output: __S(4486, __c140, 6) as any as S.Schema<DescribeFleetAdvisorDatabasesResponse>,
   errors: [InvalidResourceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7655,8 +4184,8 @@ export const describeFleetAdvisorLsaAnalysis: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetAdvisorLsaAnalysisRequest,
-  output: DescribeFleetAdvisorLsaAnalysisResponse,
+  input: __S(4544, __c142, 0) as any as S.Schema<DescribeFleetAdvisorLsaAnalysisRequest>,
+  output: __S(4547, __c142, 3) as any as S.Schema<DescribeFleetAdvisorLsaAnalysisResponse>,
   errors: [InvalidResourceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7682,8 +4211,8 @@ export const describeFleetAdvisorSchemaObjectSummary: API.PaginatedOperationMeth
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
-  output: DescribeFleetAdvisorSchemaObjectSummaryResponse,
+  input: __S(4576, __c143, 0) as any as S.Schema<DescribeFleetAdvisorSchemaObjectSummaryRequest>,
+  output: __S(4579, __c143, 3) as any as S.Schema<DescribeFleetAdvisorSchemaObjectSummaryResponse>,
   errors: [InvalidResourceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7708,8 +4237,8 @@ export const describeFleetAdvisorSchemas: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetAdvisorSchemasRequest,
-  output: DescribeFleetAdvisorSchemasResponse,
+  input: __S(4608, __c144, 0) as any as S.Schema<DescribeFleetAdvisorSchemasRequest>,
+  output: __S(4613, __c144, 5) as any as S.Schema<DescribeFleetAdvisorSchemasResponse>,
   errors: [InvalidResourceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7741,8 +4270,8 @@ export const describeInstanceProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeInstanceProfilesMessage,
-  output: DescribeInstanceProfilesResponse,
+  input: __S(4640, __c145, 0) as any as S.Schema<DescribeInstanceProfilesMessage>,
+  output: __S(4642, __c145, 2) as any as S.Schema<DescribeInstanceProfilesResponse>,
   errors: [AccessDeniedFault, FailedDependencyFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7764,8 +4293,8 @@ export const describeMetadataModel: API.OperationMethod<
   DescribeMetadataModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeMetadataModelMessage,
-  output: DescribeMetadataModelResponse,
+  input: __S(4672, __c146, 0) as any as S.Schema<DescribeMetadataModelMessage>,
+  output: __S(4673, __c146, 1) as any as S.Schema<DescribeMetadataModelResponse>,
   errors: [AccessDeniedFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7789,8 +4318,8 @@ export const describeMetadataModelAssessments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMetadataModelAssessmentsMessage,
-  output: DescribeMetadataModelAssessmentsResponse,
+  input: __S(4736, __c148, 0) as any as S.Schema<DescribeMetadataModelAssessmentsMessage>,
+  output: __S(4417, __c138, 1) as any as S.Schema<DescribeMetadataModelAssessmentsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7816,8 +4345,8 @@ export const describeMetadataModelChildren: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MetadataModelReference
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMetadataModelChildrenMessage,
-  output: DescribeMetadataModelChildrenResponse,
+  input: __S(4768, __c149, 0) as any as S.Schema<DescribeMetadataModelChildrenMessage>,
+  output: __S(4769, __c149, 1) as any as S.Schema<DescribeMetadataModelChildrenResponse>,
   errors: [AccessDeniedFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7850,8 +4379,8 @@ export const describeMetadataModelConversions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMetadataModelConversionsMessage,
-  output: DescribeMetadataModelConversionsResponse,
+  input: __S(4800, __c150, 0) as any as S.Schema<DescribeMetadataModelConversionsMessage>,
+  output: __S(4417, __c138, 1) as any as S.Schema<DescribeMetadataModelConversionsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7882,8 +4411,8 @@ export const describeMetadataModelCreations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SchemaConversionRequest
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMetadataModelCreationsMessage,
-  output: DescribeMetadataModelCreationsResponse,
+  input: __S(4832, __c151, 0) as any as S.Schema<DescribeMetadataModelCreationsMessage>,
+  output: __S(4417, __c138, 1) as any as S.Schema<DescribeMetadataModelCreationsResponse>,
   errors: [AccessDeniedFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7913,8 +4442,8 @@ export const describeMetadataModelExportsAsScript: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMetadataModelExportsAsScriptMessage,
-  output: DescribeMetadataModelExportsAsScriptResponse,
+  input: __S(4864, __c152, 0) as any as S.Schema<DescribeMetadataModelExportsAsScriptMessage>,
+  output: __S(4417, __c138, 1) as any as S.Schema<DescribeMetadataModelExportsAsScriptResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7939,8 +4468,8 @@ export const describeMetadataModelExportsToTarget: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMetadataModelExportsToTargetMessage,
-  output: DescribeMetadataModelExportsToTargetResponse,
+  input: __S(4896, __c153, 0) as any as S.Schema<DescribeMetadataModelExportsToTargetMessage>,
+  output: __S(4417, __c138, 1) as any as S.Schema<DescribeMetadataModelExportsToTargetResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7965,8 +4494,8 @@ export const describeMetadataModelImports: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMetadataModelImportsMessage,
-  output: DescribeMetadataModelImportsResponse,
+  input: __S(4928, __c154, 0) as any as S.Schema<DescribeMetadataModelImportsMessage>,
+  output: __S(4417, __c138, 1) as any as S.Schema<DescribeMetadataModelImportsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7994,8 +4523,8 @@ export const describeMigrationProjects: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMigrationProjectsMessage,
-  output: DescribeMigrationProjectsResponse,
+  input: __S(4960, __c155, 0) as any as S.Schema<DescribeMigrationProjectsMessage>,
+  output: __S(4962, __c155, 2) as any as S.Schema<DescribeMigrationProjectsResponse>,
   errors: [AccessDeniedFault, FailedDependencyFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8015,8 +4544,8 @@ export const describeOrderableReplicationInstances: API.PaginatedOperationMethod
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeOrderableReplicationInstancesMessage,
-  output: DescribeOrderableReplicationInstancesResponse,
+  input: __S(4992, __c156, 0) as any as S.Schema<DescribeOrderableReplicationInstancesMessage>,
+  output: __S(4995, __c156, 3) as any as S.Schema<DescribeOrderableReplicationInstancesResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8036,8 +4565,8 @@ export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribePendingMaintenanceActionsMessage,
-  output: DescribePendingMaintenanceActionsResponse,
+  input: __S(5024, __c157, 0) as any as S.Schema<DescribePendingMaintenanceActionsMessage>,
+  output: __S(5026, __c157, 2) as any as S.Schema<DescribePendingMaintenanceActionsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8062,8 +4591,8 @@ export const describeRecommendationLimitations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeRecommendationLimitationsRequest,
-  output: DescribeRecommendationLimitationsResponse,
+  input: __S(5056, __c158, 0) as any as S.Schema<DescribeRecommendationLimitationsRequest>,
+  output: __S(5059, __c158, 3) as any as S.Schema<DescribeRecommendationLimitationsResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8092,8 +4621,8 @@ export const describeRecommendations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeRecommendationsRequest,
-  output: DescribeRecommendationsResponse,
+  input: __S(5088, __c159, 0) as any as S.Schema<DescribeRecommendationsRequest>,
+  output: __S(5095, __c159, 7) as any as S.Schema<DescribeRecommendationsResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8118,8 +4647,8 @@ export const describeRefreshSchemasStatus: API.OperationMethod<
   DescribeRefreshSchemasStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeRefreshSchemasStatusMessage,
-  output: DescribeRefreshSchemasStatusResponse,
+  input: __S(5120, __c160, 0) as any as S.Schema<DescribeRefreshSchemasStatusMessage>,
+  output: __S(5153, __c161, 1) as any as S.Schema<DescribeRefreshSchemasStatusResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8138,8 +4667,8 @@ export const describeReplicationConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationConfigsMessage,
-  output: DescribeReplicationConfigsResponse,
+  input: __S(5184, __c162, 0) as any as S.Schema<DescribeReplicationConfigsMessage>,
+  output: __S(5186, __c162, 2) as any as S.Schema<DescribeReplicationConfigsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8159,8 +4688,8 @@ export const describeReplicationInstances: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationInstancesMessage,
-  output: DescribeReplicationInstancesResponse,
+  input: __S(5216, __c163, 0) as any as S.Schema<DescribeReplicationInstancesMessage>,
+  output: __S(5218, __c163, 2) as any as S.Schema<DescribeReplicationInstancesResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8182,8 +4711,8 @@ export const describeReplicationInstanceTaskLogs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationInstanceTaskLogsMessage,
-  output: DescribeReplicationInstanceTaskLogsResponse,
+  input: __S(5248, __c164, 0) as any as S.Schema<DescribeReplicationInstanceTaskLogsMessage>,
+  output: __S(5251, __c164, 3) as any as S.Schema<DescribeReplicationInstanceTaskLogsResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8203,8 +4732,8 @@ export const describeReplications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationsMessage,
-  output: DescribeReplicationsResponse,
+  input: __S(5280, __c165, 0) as any as S.Schema<DescribeReplicationsMessage>,
+  output: __S(5282, __c165, 2) as any as S.Schema<DescribeReplicationsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8223,8 +4752,8 @@ export const describeReplicationSubnetGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationSubnetGroupsMessage,
-  output: DescribeReplicationSubnetGroupsResponse,
+  input: __S(5344, __c167, 0) as any as S.Schema<DescribeReplicationSubnetGroupsMessage>,
+  output: __S(5346, __c167, 2) as any as S.Schema<DescribeReplicationSubnetGroupsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8247,8 +4776,8 @@ export const describeReplicationTableStatistics: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationTableStatisticsMessage,
-  output: DescribeReplicationTableStatisticsResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<DescribeReplicationTableStatisticsMessage>,
+  output: __S(1, __c0, 1) as any as S.Schema<DescribeReplicationTableStatisticsResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8271,8 +4800,8 @@ export const describeReplicationTaskAssessmentResults: API.PaginatedOperationMet
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationTaskAssessmentResultsMessage,
-  output: DescribeReplicationTaskAssessmentResultsResponse,
+  input: __S(64, __c2, 0) as any as S.Schema<DescribeReplicationTaskAssessmentResultsMessage>,
+  output: __S(67, __c2, 3) as any as S.Schema<DescribeReplicationTaskAssessmentResultsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8299,8 +4828,8 @@ export const describeReplicationTaskAssessmentRuns: API.PaginatedOperationMethod
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationTaskAssessmentRunsMessage,
-  output: DescribeReplicationTaskAssessmentRunsResponse,
+  input: __S(96, __c3, 0) as any as S.Schema<DescribeReplicationTaskAssessmentRunsMessage>,
+  output: __S(98, __c3, 2) as any as S.Schema<DescribeReplicationTaskAssessmentRunsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8324,8 +4853,12 @@ export const describeReplicationTaskIndividualAssessments: API.PaginatedOperatio
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationTaskIndividualAssessmentsMessage,
-  output: DescribeReplicationTaskIndividualAssessmentsResponse,
+  input: __S(128, __c4, 0) as any as S.Schema<DescribeReplicationTaskIndividualAssessmentsMessage>,
+  output: __S(
+    131,
+    __c4,
+    3,
+  ) as any as S.Schema<DescribeReplicationTaskIndividualAssessmentsResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8345,8 +4878,8 @@ export const describeReplicationTasks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationTasksMessage,
-  output: DescribeReplicationTasksResponse,
+  input: __S(160, __c5, 0) as any as S.Schema<DescribeReplicationTasksMessage>,
+  output: __S(162, __c5, 2) as any as S.Schema<DescribeReplicationTasksResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8365,8 +4898,8 @@ export const describeSchemas: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeSchemasMessage,
-  output: DescribeSchemasResponse,
+  input: __S(192, __c6, 0) as any as S.Schema<DescribeSchemasMessage>,
+  output: __S(193, __c6, 1) as any as S.Schema<DescribeSchemasResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8394,8 +4927,8 @@ export const describeTableStatistics: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTableStatisticsMessage,
-  output: DescribeTableStatisticsResponse,
+  input: __S(224, __c7, 0) as any as S.Schema<DescribeTableStatisticsMessage>,
+  output: __S(225, __c7, 1) as any as S.Schema<DescribeTableStatisticsResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8418,8 +4951,8 @@ export const exportMetadataModelAssessment: API.OperationMethod<
   ExportMetadataModelAssessmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExportMetadataModelAssessmentMessage,
-  output: ExportMetadataModelAssessmentResponse,
+  input: __S(257, __c8, 1) as any as S.Schema<ExportMetadataModelAssessmentMessage>,
+  output: __S(258, __c8, 2) as any as S.Schema<ExportMetadataModelAssessmentResponse>,
   errors: [ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8444,8 +4977,8 @@ export const getTargetSelectionRules: API.OperationMethod<
   GetTargetSelectionRulesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTargetSelectionRulesMessage,
-  output: GetTargetSelectionRulesResponse,
+  input: __S(288, __c9, 0) as any as S.Schema<GetTargetSelectionRulesMessage>,
+  output: __S(289, __c9, 1) as any as S.Schema<GetTargetSelectionRulesResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8467,8 +5000,8 @@ export const importCertificate: API.OperationMethod<
   ImportCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ImportCertificateMessage,
-  output: ImportCertificateResponse,
+  input: __S(320, __c10, 0) as any as S.Schema<ImportCertificateMessage>,
+  output: __S(3328, __c104, 0) as any as S.Schema<ImportCertificateResponse>,
   errors: [
     InvalidCertificateFault,
     KMSKeyNotAccessibleFault,
@@ -8497,8 +5030,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceMessage,
-  output: ListTagsForResourceResponse,
+  input: __S(352, __c11, 0) as any as S.Schema<ListTagsForResourceMessage>,
+  output: __S(353, __c11, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8522,8 +5055,8 @@ export const modifyConversionConfiguration: API.OperationMethod<
   ModifyConversionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyConversionConfigurationMessage,
-  output: ModifyConversionConfigurationResponse,
+  input: __S(384, __c12, 0) as any as S.Schema<ModifyConversionConfigurationMessage>,
+  output: __S(385, __c12, 1) as any as S.Schema<ModifyConversionConfigurationResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8544,8 +5077,8 @@ export const modifyDataMigration: API.OperationMethod<
   ModifyDataMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyDataMigrationMessage,
-  output: ModifyDataMigrationResponse,
+  input: __S(416, __c13, 0) as any as S.Schema<ModifyDataMigrationMessage>,
+  output: __S(2240, __c70, 0) as any as S.Schema<ModifyDataMigrationResponse>,
   errors: [FailedDependencyFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8574,8 +5107,8 @@ export const modifyDataProvider: API.OperationMethod<
   ModifyDataProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyDataProviderMessage,
-  output: ModifyDataProviderResponse,
+  input: __S(448, __c14, 0) as any as S.Schema<ModifyDataProviderMessage>,
+  output: __S(2336, __c73, 0) as any as S.Schema<ModifyDataProviderResponse>,
   errors: [
     AccessDeniedFault,
     FailedDependencyFault,
@@ -8610,8 +5143,8 @@ export const modifyEndpoint: API.OperationMethod<
   ModifyEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyEndpointMessage,
-  output: ModifyEndpointResponse,
+  input: __S(480, __c15, 0) as any as S.Schema<ModifyEndpointMessage>,
+  output: __S(2432, __c76, 0) as any as S.Schema<ModifyEndpointResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -8645,8 +5178,8 @@ export const modifyEventSubscription: API.OperationMethod<
   ModifyEventSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyEventSubscriptionMessage,
-  output: ModifyEventSubscriptionResponse,
+  input: __S(512, __c16, 0) as any as S.Schema<ModifyEventSubscriptionMessage>,
+  output: __S(2496, __c78, 0) as any as S.Schema<ModifyEventSubscriptionResponse>,
   errors: [
     AccessDeniedFault,
     KMSAccessDeniedFault,
@@ -8689,8 +5222,8 @@ export const modifyInstanceProfile: API.OperationMethod<
   ModifyInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyInstanceProfileMessage,
-  output: ModifyInstanceProfileResponse,
+  input: __S(544, __c17, 0) as any as S.Schema<ModifyInstanceProfileMessage>,
+  output: __S(2656, __c83, 0) as any as S.Schema<ModifyInstanceProfileResponse>,
   errors: [
     AccessDeniedFault,
     FailedDependencyFault,
@@ -8728,8 +5261,8 @@ export const modifyMigrationProject: API.OperationMethod<
   ModifyMigrationProjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyMigrationProjectMessage,
-  output: ModifyMigrationProjectResponse,
+  input: __S(576, __c18, 0) as any as S.Schema<ModifyMigrationProjectMessage>,
+  output: __S(2784, __c87, 0) as any as S.Schema<ModifyMigrationProjectResponse>,
   errors: [
     AccessDeniedFault,
     FailedDependencyFault,
@@ -8768,8 +5301,8 @@ export const modifyReplicationConfig: API.OperationMethod<
   ModifyReplicationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyReplicationConfigMessage,
-  output: ModifyReplicationConfigResponse,
+  input: __S(608, __c19, 0) as any as S.Schema<ModifyReplicationConfigMessage>,
+  output: __S(2880, __c90, 0) as any as S.Schema<ModifyReplicationConfigResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -8806,8 +5339,8 @@ export const modifyReplicationInstance: API.OperationMethod<
   ModifyReplicationInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyReplicationInstanceMessage,
-  output: ModifyReplicationInstanceResponse,
+  input: __S(640, __c20, 0) as any as S.Schema<ModifyReplicationInstanceMessage>,
+  output: __S(3040, __c95, 0) as any as S.Schema<ModifyReplicationInstanceResponse>,
   errors: [
     AccessDeniedFault,
     InsufficientResourceCapacityFault,
@@ -8841,8 +5374,8 @@ export const modifyReplicationSubnetGroup: API.OperationMethod<
   ModifyReplicationSubnetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyReplicationSubnetGroupMessage,
-  output: ModifyReplicationSubnetGroupResponse,
+  input: __S(672, __c21, 0) as any as S.Schema<ModifyReplicationSubnetGroupMessage>,
+  output: __S(3137, __c98, 1) as any as S.Schema<ModifyReplicationSubnetGroupResponse>,
   errors: [
     AccessDeniedFault,
     InvalidSubnet,
@@ -8876,8 +5409,8 @@ export const modifyReplicationTask: API.OperationMethod<
   ModifyReplicationTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyReplicationTaskMessage,
-  output: ModifyReplicationTaskResponse,
+  input: __S(704, __c22, 0) as any as S.Schema<ModifyReplicationTaskMessage>,
+  output: __S(3232, __c101, 0) as any as S.Schema<ModifyReplicationTaskResponse>,
   errors: [
     InvalidResourceStateFault,
     KMSKeyNotAccessibleFault,
@@ -8907,8 +5440,8 @@ export const moveReplicationTask: API.OperationMethod<
   MoveReplicationTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: MoveReplicationTaskMessage,
-  output: MoveReplicationTaskResponse,
+  input: __S(736, __c23, 0) as any as S.Schema<MoveReplicationTaskMessage>,
+  output: __S(3232, __c101, 0) as any as S.Schema<MoveReplicationTaskResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -8935,8 +5468,8 @@ export const rebootReplicationInstance: API.OperationMethod<
   RebootReplicationInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RebootReplicationInstanceMessage,
-  output: RebootReplicationInstanceResponse,
+  input: __S(768, __c24, 0) as any as S.Schema<RebootReplicationInstanceMessage>,
+  output: __S(3040, __c95, 0) as any as S.Schema<RebootReplicationInstanceResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8960,8 +5493,8 @@ export const refreshSchemas: API.OperationMethod<
   RefreshSchemasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RefreshSchemasMessage,
-  output: RefreshSchemasResponse,
+  input: __S(800, __c25, 0) as any as S.Schema<RefreshSchemasMessage>,
+  output: __S(5153, __c161, 1) as any as S.Schema<RefreshSchemasResponse>,
   errors: [
     InvalidResourceStateFault,
     KMSKeyNotAccessibleFault,
@@ -8990,8 +5523,8 @@ export const reloadReplicationTables: API.OperationMethod<
   ReloadReplicationTablesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ReloadReplicationTablesMessage,
-  output: ReloadReplicationTablesResponse,
+  input: __S(832, __c26, 0) as any as S.Schema<ReloadReplicationTablesMessage>,
+  output: __S(833, __c26, 1) as any as S.Schema<ReloadReplicationTablesResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9011,8 +5544,8 @@ export const reloadTables: API.OperationMethod<
   ReloadTablesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ReloadTablesMessage,
-  output: ReloadTablesResponse,
+  input: __S(896, __c28, 0) as any as S.Schema<ReloadTablesMessage>,
+  output: __S(897, __c28, 1) as any as S.Schema<ReloadTablesResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9036,8 +5569,8 @@ export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTagsFromResourceMessage,
-  output: RemoveTagsFromResourceResponse,
+  input: __S(928, __c29, 0) as any as S.Schema<RemoveTagsFromResourceMessage>,
+  output: __S(1728, __c54, 0) as any as S.Schema<RemoveTagsFromResourceResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9059,8 +5592,8 @@ export const runFleetAdvisorLsaAnalysis: API.OperationMethod<
   RunFleetAdvisorLsaAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RunFleetAdvisorLsaAnalysisRequest,
-  output: RunFleetAdvisorLsaAnalysisResponse,
+  input: __S(960, __c30, 0) as any as S.Schema<RunFleetAdvisorLsaAnalysisRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<RunFleetAdvisorLsaAnalysisResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9083,8 +5616,8 @@ export const startDataMigration: API.OperationMethod<
   StartDataMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDataMigrationMessage,
-  output: StartDataMigrationResponse,
+  input: __S(992, __c31, 0) as any as S.Schema<StartDataMigrationMessage>,
+  output: __S(2240, __c70, 0) as any as S.Schema<StartDataMigrationResponse>,
   errors: [
     FailedDependencyFault,
     InvalidOperationFault,
@@ -9132,8 +5665,8 @@ export const startExtensionPackAssociation: API.OperationMethod<
   StartExtensionPackAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartExtensionPackAssociationMessage,
-  output: StartExtensionPackAssociationResponse,
+  input: __S(1024, __c32, 0) as any as S.Schema<StartExtensionPackAssociationMessage>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StartExtensionPackAssociationResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -9187,8 +5720,8 @@ export const startMetadataModelAssessment: API.OperationMethod<
   StartMetadataModelAssessmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMetadataModelAssessmentMessage,
-  output: StartMetadataModelAssessmentResponse,
+  input: __S(1088, __c34, 0) as any as S.Schema<StartMetadataModelAssessmentMessage>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StartMetadataModelAssessmentResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -9245,13 +5778,13 @@ export type StartMetadataModelConversionError =
  * options:
  *
  * - DescribeMetadataModel and
- * DescribeMetadataModelChildren – navigate the target metadata
+ * DescribeMetadataModelChildren - navigate the target metadata
  * tree and retrieve converted definitions.
  *
- * - StartMetadataModelExportAsScript – export as data definition
+ * - StartMetadataModelExportAsScript - export as data definition
  * language (DDL) scripts to your Amazon S3 bucket.
  *
- * - StartMetadataModelExportToTarget – apply directly to your
+ * - StartMetadataModelExportToTarget - apply directly to your
  * target database.
  *
  * **Required permissions:**
@@ -9264,8 +5797,8 @@ export const startMetadataModelConversion: API.OperationMethod<
   StartMetadataModelConversionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMetadataModelConversionMessage,
-  output: StartMetadataModelConversionResponse,
+  input: __S(1120, __c35, 0) as any as S.Schema<StartMetadataModelConversionMessage>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StartMetadataModelConversionResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -9325,8 +5858,8 @@ export const startMetadataModelCreation: API.OperationMethod<
   StartMetadataModelCreationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMetadataModelCreationMessage,
-  output: StartMetadataModelCreationResponse,
+  input: __S(1154, __c36, 2) as any as S.Schema<StartMetadataModelCreationMessage>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StartMetadataModelCreationResponse>,
   errors: [
     AccessDeniedFault,
     ResourceAlreadyExistsFault,
@@ -9373,8 +5906,8 @@ export const startMetadataModelExportAsScript: API.OperationMethod<
   StartMetadataModelExportAsScriptError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMetadataModelExportAsScriptMessage,
-  output: StartMetadataModelExportAsScriptResponse,
+  input: __S(1184, __c37, 0) as any as S.Schema<StartMetadataModelExportAsScriptMessage>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StartMetadataModelExportAsScriptResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -9431,8 +5964,8 @@ export const startMetadataModelExportToTarget: API.OperationMethod<
   StartMetadataModelExportToTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMetadataModelExportToTargetMessage,
-  output: StartMetadataModelExportToTargetResponse,
+  input: __S(1216, __c38, 0) as any as S.Schema<StartMetadataModelExportToTargetMessage>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StartMetadataModelExportToTargetResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -9478,8 +6011,8 @@ export const startMetadataModelImport: API.OperationMethod<
   StartMetadataModelImportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMetadataModelImportMessage,
-  output: StartMetadataModelImportResponse,
+  input: __S(1248, __c39, 0) as any as S.Schema<StartMetadataModelImportMessage>,
+  output: __S(1056, __c33, 0) as any as S.Schema<StartMetadataModelImportResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -9514,8 +6047,8 @@ export const startRecommendations: API.OperationMethod<
   StartRecommendationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartRecommendationsRequest,
-  output: StartRecommendationsResponse,
+  input: __S(1280, __c40, 0) as any as S.Schema<StartRecommendationsRequest>,
+  output: __S(1728, __c54, 0) as any as S.Schema<StartRecommendationsResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9540,8 +6073,8 @@ export const startReplication: API.OperationMethod<
   StartReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartReplicationMessage,
-  output: StartReplicationResponse,
+  input: __S(1312, __c41, 0) as any as S.Schema<StartReplicationMessage>,
+  output: __S(1344, __c42, 0) as any as S.Schema<StartReplicationResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9565,8 +6098,8 @@ export const startReplicationTask: API.OperationMethod<
   StartReplicationTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartReplicationTaskMessage,
-  output: StartReplicationTaskResponse,
+  input: __S(1376, __c43, 0) as any as S.Schema<StartReplicationTaskMessage>,
+  output: __S(3232, __c101, 0) as any as S.Schema<StartReplicationTaskResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9599,8 +6132,8 @@ export const startReplicationTaskAssessment: API.OperationMethod<
   StartReplicationTaskAssessmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartReplicationTaskAssessmentMessage,
-  output: StartReplicationTaskAssessmentResponse,
+  input: __S(1408, __c44, 0) as any as S.Schema<StartReplicationTaskAssessmentMessage>,
+  output: __S(3232, __c101, 0) as any as S.Schema<StartReplicationTaskAssessmentResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9637,8 +6170,8 @@ export const startReplicationTaskAssessmentRun: API.OperationMethod<
   StartReplicationTaskAssessmentRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartReplicationTaskAssessmentRunMessage,
-  output: StartReplicationTaskAssessmentRunResponse,
+  input: __S(1440, __c45, 0) as any as S.Schema<StartReplicationTaskAssessmentRunMessage>,
+  output: __S(2112, __c66, 0) as any as S.Schema<StartReplicationTaskAssessmentRunResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -9672,8 +6205,8 @@ export const stopDataMigration: API.OperationMethod<
   StopDataMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopDataMigrationMessage,
-  output: StopDataMigrationResponse,
+  input: __S(1472, __c46, 0) as any as S.Schema<StopDataMigrationMessage>,
+  output: __S(2240, __c70, 0) as any as S.Schema<StopDataMigrationResponse>,
   errors: [FailedDependencyFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9696,8 +6229,8 @@ export const stopReplication: API.OperationMethod<
   StopReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopReplicationMessage,
-  output: StopReplicationResponse,
+  input: __S(1504, __c47, 0) as any as S.Schema<StopReplicationMessage>,
+  output: __S(1344, __c42, 0) as any as S.Schema<StopReplicationResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9717,8 +6250,8 @@ export const stopReplicationTask: API.OperationMethod<
   StopReplicationTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopReplicationTaskMessage,
-  output: StopReplicationTaskResponse,
+  input: __S(1536, __c48, 0) as any as S.Schema<StopReplicationTaskMessage>,
+  output: __S(3232, __c101, 0) as any as S.Schema<StopReplicationTaskResponse>,
   errors: [InvalidResourceStateFault, ResourceNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9741,8 +6274,8 @@ export const testConnection: API.OperationMethod<
   TestConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TestConnectionMessage,
-  output: TestConnectionResponse,
+  input: __S(1568, __c49, 0) as any as S.Schema<TestConnectionMessage>,
+  output: __S(3424, __c107, 0) as any as S.Schema<TestConnectionResponse>,
   errors: [
     AccessDeniedFault,
     InvalidResourceStateFault,
@@ -9779,10 +6312,3780 @@ export const updateSubscriptionsToEventBridge: API.OperationMethod<
   UpdateSubscriptionsToEventBridgeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSubscriptionsToEventBridgeMessage,
-  output: UpdateSubscriptionsToEventBridgeResponse,
+  input: __S(1600, __c50, 0) as any as S.Schema<UpdateSubscriptionsToEventBridgeMessage>,
+  output: __S(1601, __c50, 1) as any as S.Schema<UpdateSubscriptionsToEventBridgeResponse>,
   errors: [AccessDeniedFault, InvalidResourceStateFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionsToEventBridge",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationConfigArn: S.String,
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+          Filters: S.optional(__S(4002, __c125, 2)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationTableStatisticsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationConfigArn: S.optional(S.String),
+          Marker: S.optional(S.String),
+          ReplicationTableStatistics: S.optional(__S(33, __c1, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationTableStatisticsResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SchemaName: S.optional(S.String),
+          TableName: S.optional(S.String),
+          Inserts: S.optional(S.Number),
+          Deletes: S.optional(S.Number),
+          Updates: S.optional(S.Number),
+          Ddls: S.optional(S.Number),
+          AppliedInserts: S.optional(S.Number),
+          AppliedDeletes: S.optional(S.Number),
+          AppliedUpdates: S.optional(S.Number),
+          AppliedDdls: S.optional(S.Number),
+          FullLoadRows: S.optional(S.Number),
+          FullLoadCondtnlChkFailedRows: S.optional(S.Number),
+          FullLoadErrorRows: S.optional(S.Number),
+          FullLoadStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          FullLoadEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          FullLoadReloaded: S.optional(S.Boolean),
+          LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TableState: S.optional(S.String),
+          ValidationPendingRecords: S.optional(S.Number),
+          ValidationFailedRecords: S.optional(S.Number),
+          ValidationSuspendedRecords: S.optional(S.Number),
+          ValidationState: S.optional(S.String),
+          ValidationStateDetails: S.optional(S.String),
+          ResyncState: S.optional(S.String),
+          ResyncRowsAttempted: S.optional(S.Number),
+          ResyncRowsSucceeded: S.optional(S.Number),
+          ResyncRowsFailed: S.optional(S.Number),
+          ResyncProgress: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TableStatistics" });
+    case 1:
+      return S.Array(__S(32, __c1, 0));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskArn: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationTaskAssessmentResultsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskIdentifier: S.optional(S.String),
+          ReplicationTaskArn: S.optional(S.String),
+          ReplicationTaskLastAssessmentDate: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
+          AssessmentStatus: S.optional(S.String),
+          AssessmentResultsFile: S.optional(S.String),
+          AssessmentResults: S.optional(S.String),
+          S3ObjectUrl: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "ReplicationTaskAssessmentResult" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(65, __c2, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("ReplicationTaskAssessmentResult"))
+          .annotate({ identifier: "ReplicationTaskAssessmentResult" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          BucketName: S.optional(S.String),
+          ReplicationTaskAssessmentResults: S.optional(__S(66, __c2, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationTaskAssessmentResultsResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationTaskAssessmentRunsMessage" });
+    case 1:
+      return S.Array(__S(2080, __c65, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ReplicationTaskAssessmentRuns: S.optional(__S(97, __c3, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationTaskAssessmentRunsResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationTaskIndividualAssessmentsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskIndividualAssessmentArn: S.optional(S.String),
+          ReplicationTaskAssessmentRunArn: S.optional(S.String),
+          IndividualAssessmentName: S.optional(S.String),
+          Status: S.optional(S.String),
+          ReplicationTaskIndividualAssessmentStartDate: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
+        }),
+      ).annotate({ identifier: "ReplicationTaskIndividualAssessment" });
+    case 2:
+      return S.Array(__S(129, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ReplicationTaskIndividualAssessments: S.optional(__S(130, __c4, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationTaskIndividualAssessmentsResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+          WithoutSettings: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationTasksMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(3200, __c100, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("ReplicationTask"))
+          .annotate({ identifier: "ReplicationTask" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ReplicationTasks: S.optional(__S(161, __c5, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationTasksResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EndpointArn: S.String,
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeSchemasMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Marker: S.optional(S.String), Schemas: S.optional(__S(2208, __c69, 0)) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeSchemasResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskArn: S.String,
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+          Filters: S.optional(__S(4002, __c125, 2)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeTableStatisticsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskArn: S.optional(S.String),
+          TableStatistics: S.optional(__S(33, __c1, 1)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeTableStatisticsResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          SelectionRules: S.String,
+          FileName: S.optional(S.String),
+          AssessmentReportTypes: S.optional(__S(256, __c8, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ExportMetadataModelAssessmentMessage" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PdfReport: S.optional(__S(1984, __c62, 0)),
+          CsvReport: S.optional(__S(1984, __c62, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ExportMetadataModelAssessmentResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.String, SelectionRules: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetTargetSelectionRulesMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ TargetSelectionRules: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "GetTargetSelectionRulesResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CertificateIdentifier: S.String,
+          CertificatePem: S.optional(SensitiveString),
+          CertificateWallet: S.optional(T.Blob),
+          Tags: S.optional(__S(1697, __c53, 1)),
+          KmsKeyId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ImportCertificateMessage" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.optional(S.String),
+          ResourceArnList: S.optional(__S(2208, __c69, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTagsForResourceMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ TagList: S.optional(__S(1697, __c53, 1)) }).pipe(ns),
+      ).annotate({ identifier: "ListTagsForResourceResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.String, ConversionConfiguration: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ModifyConversionConfigurationMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ModifyConversionConfigurationResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataMigrationIdentifier: S.String,
+          DataMigrationName: S.optional(S.String),
+          EnableCloudwatchLogs: S.optional(S.Boolean),
+          ServiceAccessRoleArn: S.optional(S.String),
+          DataMigrationType: S.optional(S.String),
+          SourceDataSettings: S.optional(__S(2273, __c71, 1)),
+          TargetDataSettings: S.optional(__S(2275, __c71, 3)),
+          NumberOfJobs: S.optional(S.Number),
+          SelectionRules: S.optional(SensitiveString),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyDataMigrationMessage" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataProviderIdentifier: S.String,
+          DataProviderName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Engine: S.optional(S.String),
+          Virtual: S.optional(S.Boolean),
+          ExactSettings: S.optional(S.Boolean),
+          Settings: S.optional(__S(2376, __c74, 8)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyDataProviderMessage" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EndpointArn: S.String,
+          EndpointIdentifier: S.optional(S.String),
+          EndpointType: S.optional(S.String),
+          EngineName: S.optional(S.String),
+          Username: S.optional(S.String),
+          Password: S.optional(SensitiveString),
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          ExtraConnectionAttributes: S.optional(S.String),
+          CertificateArn: S.optional(S.String),
+          SslMode: S.optional(S.String),
+          ServiceAccessRoleArn: S.optional(S.String),
+          ExternalTableDefinition: S.optional(S.String),
+          DynamoDbSettings: S.optional(__S(1664, __c52, 0)),
+          S3Settings: S.optional(__S(1665, __c52, 1)),
+          DmsTransferSettings: S.optional(__S(1666, __c52, 2)),
+          MongoDbSettings: S.optional(__S(1667, __c52, 3)),
+          KinesisSettings: S.optional(__S(1668, __c52, 4)),
+          KafkaSettings: S.optional(__S(1669, __c52, 5)),
+          ElasticsearchSettings: S.optional(__S(1670, __c52, 6)),
+          NeptuneSettings: S.optional(__S(1671, __c52, 7)),
+          RedshiftSettings: S.optional(__S(1672, __c52, 8)),
+          PostgreSQLSettings: S.optional(__S(1673, __c52, 9)),
+          MySQLSettings: S.optional(__S(1674, __c52, 10)),
+          OracleSettings: S.optional(__S(1676, __c52, 12)),
+          SybaseSettings: S.optional(__S(1677, __c52, 13)),
+          MicrosoftSQLServerSettings: S.optional(__S(1678, __c52, 14)),
+          IBMDb2Settings: S.optional(__S(1679, __c52, 15)),
+          DocDbSettings: S.optional(__S(1680, __c52, 16)),
+          RedisSettings: S.optional(__S(1681, __c52, 17)),
+          ExactSettings: S.optional(S.Boolean),
+          GcpMySQLSettings: S.optional(__S(1682, __c52, 18)),
+          TimestreamSettings: S.optional(__S(1683, __c52, 19)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyEndpointMessage" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubscriptionName: S.String,
+          SnsTopicArn: S.optional(S.String),
+          SourceType: S.optional(S.String),
+          EventCategories: S.optional(__S(2528, __c79, 0)),
+          Enabled: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyEventSubscriptionMessage" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceProfileIdentifier: S.String,
+          AvailabilityZone: S.optional(S.String),
+          KmsKeyArn: S.optional(S.String),
+          PubliclyAccessible: S.optional(S.Boolean),
+          NetworkType: S.optional(S.String),
+          InstanceProfileName: S.optional(S.String),
+          Description: S.optional(S.String),
+          SubnetGroupIdentifier: S.optional(S.String),
+          VpcSecurityGroups: S.optional(__S(2208, __c69, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyInstanceProfileMessage" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          MigrationProjectName: S.optional(S.String),
+          SourceDataProviderDescriptors: S.optional(__S(2753, __c86, 1)),
+          TargetDataProviderDescriptors: S.optional(__S(2753, __c86, 1)),
+          InstanceProfileIdentifier: S.optional(S.String),
+          TransformationRules: S.optional(S.String),
+          Description: S.optional(S.String),
+          SchemaConversionApplicationAttributes: S.optional(__S(2816, __c88, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyMigrationProjectMessage" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationConfigArn: S.String,
+          ReplicationConfigIdentifier: S.optional(S.String),
+          ReplicationType: S.optional(S.String),
+          TableMappings: S.optional(S.String),
+          ReplicationSettings: S.optional(S.String),
+          SupplementalSettings: S.optional(S.String),
+          ComputeConfig: S.optional(__S(2912, __c91, 0)),
+          SourceEndpointArn: S.optional(S.String),
+          TargetEndpointArn: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyReplicationConfigMessage" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceArn: S.String,
+          AllocatedStorage: S.optional(S.Number),
+          ApplyImmediately: S.optional(S.Boolean),
+          ReplicationInstanceClass: S.optional(S.String),
+          VpcSecurityGroupIds: S.optional(__S(2976, __c93, 0)),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          MultiAZ: S.optional(S.Boolean),
+          EngineVersion: S.optional(S.String),
+          AllowMajorVersionUpgrade: S.optional(S.Boolean),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          ReplicationInstanceIdentifier: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+          KerberosAuthenticationSettings: S.optional(__S(3072, __c96, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyReplicationInstanceMessage" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationSubnetGroupIdentifier: S.String,
+          ReplicationSubnetGroupDescription: S.optional(S.String),
+          SubnetIds: __S(3136, __c98, 0),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyReplicationSubnetGroupMessage" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskArn: S.String,
+          ReplicationTaskIdentifier: S.optional(S.String),
+          MigrationType: S.optional(S.String),
+          TableMappings: S.optional(S.String),
+          ReplicationTaskSettings: S.optional(S.String),
+          CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CdcStartPosition: S.optional(S.String),
+          CdcStopPosition: S.optional(S.String),
+          TaskData: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyReplicationTaskMessage" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationTaskArn: S.String, TargetReplicationInstanceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "MoveReplicationTaskMessage" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceArn: S.String,
+          ForceFailover: S.optional(S.Boolean),
+          ForcePlannedFailover: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RebootReplicationInstanceMessage" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EndpointArn: S.String, ReplicationInstanceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RefreshSchemasMessage" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationConfigArn: S.String,
+          TablesToReload: __S(865, __c27, 1),
+          ReloadOption: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ReloadReplicationTablesMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationConfigArn: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ReloadReplicationTablesResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ SchemaName: S.String, TableName: S.String })).annotate({
+        identifier: "TableToReload",
+      });
+    case 1:
+      return S.Array(__S(864, __c27, 0));
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskArn: S.String,
+          TablesToReload: __S(865, __c27, 1),
+          ReloadOption: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ReloadTablesMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationTaskArn: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ReloadTablesResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(2208, __c69, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RemoveTagsFromResourceMessage" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RunFleetAdvisorLsaAnalysisRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ LsaAnalysisId: S.optional(S.String), Status: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "RunFleetAdvisorLsaAnalysisResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataMigrationIdentifier: S.String, StartType: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartDataMigrationMessage" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartExtensionPackAssociationMessage" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ RequestIdentifier: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "StartExtensionPackAssociationResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.String, SelectionRules: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartMetadataModelAssessmentMessage" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.String, SelectionRules: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartMetadataModelConversionMessage" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Definition: S.String })).annotate({
+        identifier: "StatementProperties",
+      });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ StatementProperties: __S(1152, __c36, 0) })]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          SelectionRules: S.String,
+          MetadataModelName: S.String,
+          Properties: __S(1153, __c36, 1),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartMetadataModelCreationMessage" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          SelectionRules: S.String,
+          Origin: S.String,
+          FileName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartMetadataModelExportAsScriptMessage" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          SelectionRules: S.String,
+          OverwriteExtensionPack: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartMetadataModelExportToTargetMessage" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          SelectionRules: S.String,
+          Origin: S.String,
+          Refresh: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartMetadataModelImportMessage" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DatabaseId: S.String, Settings: __S(1856, __c58, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartRecommendationsRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationConfigArn: S.String,
+          StartReplicationType: S.String,
+          PremigrationAssessmentSettings: S.optional(S.String),
+          CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CdcStartPosition: S.optional(S.String),
+          CdcStopPosition: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartReplicationMessage" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Replication: S.optional(__S(5315, __c166, 3)) }).pipe(ns),
+      ).annotate({ identifier: "StartReplicationResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskArn: S.String,
+          StartReplicationTaskType: S.String,
+          CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CdcStartPosition: S.optional(S.String),
+          CdcStopPosition: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartReplicationTaskMessage" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationTaskArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartReplicationTaskAssessmentMessage" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskArn: S.String,
+          ServiceAccessRoleArn: S.String,
+          ResultLocationBucket: S.String,
+          ResultLocationFolder: S.optional(S.String),
+          ResultEncryptionMode: S.optional(S.String),
+          ResultKmsKeyArn: S.optional(S.String),
+          AssessmentRunName: S.String,
+          IncludeOnly: S.optional(__S(2208, __c69, 0)),
+          Exclude: S.optional(__S(2208, __c69, 0)),
+          Tags: S.optional(__S(1697, __c53, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartReplicationTaskAssessmentRunMessage" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataMigrationIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopDataMigrationMessage" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationConfigArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopReplicationMessage" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationTaskArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopReplicationTaskMessage" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationInstanceArn: S.String, EndpointArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TestConnectionMessage" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ForceMove: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateSubscriptionsToEventBridgeMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({ Result: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "UpdateSubscriptionsToEventBridgeResponse",
+      });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, Tags: __S(1697, __c53, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AddTagsToResourceMessage" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ServiceAccessRoleArn: S.String })).annotate({
+        identifier: "DynamoDbSettings",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ServiceAccessRoleArn: S.optional(S.String),
+          ExternalTableDefinition: S.optional(S.String),
+          CsvRowDelimiter: S.optional(S.String),
+          CsvDelimiter: S.optional(S.String),
+          BucketFolder: S.optional(S.String),
+          BucketName: S.optional(S.String),
+          CompressionType: S.optional(S.String),
+          EncryptionMode: S.optional(S.String),
+          ServerSideEncryptionKmsKeyId: S.optional(S.String),
+          DataFormat: S.optional(S.String),
+          EncodingType: S.optional(S.String),
+          DictPageSizeLimit: S.optional(S.Number),
+          RowGroupLength: S.optional(S.Number),
+          DataPageSize: S.optional(S.Number),
+          ParquetVersion: S.optional(S.String),
+          EnableStatistics: S.optional(S.Boolean),
+          IncludeOpForFullLoad: S.optional(S.Boolean),
+          CdcInsertsOnly: S.optional(S.Boolean),
+          TimestampColumnName: S.optional(S.String),
+          ParquetTimestampInMillisecond: S.optional(S.Boolean),
+          CdcInsertsAndUpdates: S.optional(S.Boolean),
+          DatePartitionEnabled: S.optional(S.Boolean),
+          DatePartitionSequence: S.optional(S.String),
+          DatePartitionDelimiter: S.optional(S.String),
+          UseCsvNoSupValue: S.optional(S.Boolean),
+          CsvNoSupValue: S.optional(S.String),
+          PreserveTransactions: S.optional(S.Boolean),
+          CdcPath: S.optional(S.String),
+          UseTaskStartTimeForFullLoadTimestamp: S.optional(S.Boolean),
+          CannedAclForObjects: S.optional(S.String),
+          AddColumnName: S.optional(S.Boolean),
+          CdcMaxBatchInterval: S.optional(S.Number),
+          CdcMinFileSize: S.optional(S.Number),
+          CsvNullValue: S.optional(S.String),
+          IgnoreHeaderRows: S.optional(S.Number),
+          MaxFileSize: S.optional(S.Number),
+          Rfc4180: S.optional(S.Boolean),
+          DatePartitionTimezone: S.optional(S.String),
+          AddTrailingPaddingCharacter: S.optional(S.Boolean),
+          ExpectedBucketOwner: S.optional(S.String),
+          GlueCatalogGeneration: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "S3Settings" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ServiceAccessRoleArn: S.optional(S.String), BucketName: S.optional(S.String) }),
+      ).annotate({ identifier: "DmsTransferSettings" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Username: S.optional(S.String),
+          Password: S.optional(SensitiveString),
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          AuthType: S.optional(S.String),
+          AuthMechanism: S.optional(S.String),
+          NestingLevel: S.optional(S.String),
+          ExtractDocId: S.optional(S.String),
+          DocsToInvestigate: S.optional(S.String),
+          AuthSource: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+          UseUpdateLookUp: S.optional(S.Boolean),
+          ReplicateShardCollections: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MongoDbSettings" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          StreamArn: S.optional(S.String),
+          MessageFormat: S.optional(S.String),
+          ServiceAccessRoleArn: S.optional(S.String),
+          IncludeTransactionDetails: S.optional(S.Boolean),
+          IncludePartitionValue: S.optional(S.Boolean),
+          PartitionIncludeSchemaTable: S.optional(S.Boolean),
+          IncludeTableAlterOperations: S.optional(S.Boolean),
+          IncludeControlDetails: S.optional(S.Boolean),
+          IncludeNullAndEmpty: S.optional(S.Boolean),
+          NoHexPrefix: S.optional(S.Boolean),
+          UseLargeIntegerValue: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "KinesisSettings" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Broker: S.optional(S.String),
+          Topic: S.optional(S.String),
+          MessageFormat: S.optional(S.String),
+          IncludeTransactionDetails: S.optional(S.Boolean),
+          IncludePartitionValue: S.optional(S.Boolean),
+          PartitionIncludeSchemaTable: S.optional(S.Boolean),
+          IncludeTableAlterOperations: S.optional(S.Boolean),
+          IncludeControlDetails: S.optional(S.Boolean),
+          MessageMaxBytes: S.optional(S.Number),
+          IncludeNullAndEmpty: S.optional(S.Boolean),
+          SecurityProtocol: S.optional(S.String),
+          SslClientCertificateArn: S.optional(S.String),
+          SslClientKeyArn: S.optional(S.String),
+          SslClientKeyPassword: S.optional(SensitiveString),
+          SslCaCertificateArn: S.optional(S.String),
+          SaslUsername: S.optional(S.String),
+          SaslPassword: S.optional(SensitiveString),
+          NoHexPrefix: S.optional(S.Boolean),
+          SaslMechanism: S.optional(S.String),
+          SslEndpointIdentificationAlgorithm: S.optional(S.String),
+          UseLargeIntegerValue: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "KafkaSettings" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          ServiceAccessRoleArn: S.String,
+          EndpointUri: S.String,
+          FullLoadErrorPercentage: S.optional(S.Number),
+          ErrorRetryDuration: S.optional(S.Number),
+          UseNewMappingType: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ElasticsearchSettings" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ServiceAccessRoleArn: S.optional(S.String),
+          S3BucketName: S.String,
+          S3BucketFolder: S.String,
+          ErrorRetryDuration: S.optional(S.Number),
+          MaxFileSize: S.optional(S.Number),
+          MaxRetryCount: S.optional(S.Number),
+          IamAuthEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "NeptuneSettings" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          AcceptAnyDate: S.optional(S.Boolean),
+          AfterConnectScript: S.optional(S.String),
+          BucketFolder: S.optional(S.String),
+          BucketName: S.optional(S.String),
+          CaseSensitiveNames: S.optional(S.Boolean),
+          CompUpdate: S.optional(S.Boolean),
+          ConnectionTimeout: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          DateFormat: S.optional(S.String),
+          EmptyAsNull: S.optional(S.Boolean),
+          EncryptionMode: S.optional(S.String),
+          ExplicitIds: S.optional(S.Boolean),
+          FileTransferUploadStreams: S.optional(S.Number),
+          LoadTimeout: S.optional(S.Number),
+          MaxFileSize: S.optional(S.Number),
+          Password: S.optional(SensitiveString),
+          Port: S.optional(S.Number),
+          RemoveQuotes: S.optional(S.Boolean),
+          ReplaceInvalidChars: S.optional(S.String),
+          ReplaceChars: S.optional(S.String),
+          ServerName: S.optional(S.String),
+          ServiceAccessRoleArn: S.optional(S.String),
+          ServerSideEncryptionKmsKeyId: S.optional(S.String),
+          TimeFormat: S.optional(S.String),
+          TrimBlanks: S.optional(S.Boolean),
+          TruncateColumns: S.optional(S.Boolean),
+          Username: S.optional(S.String),
+          WriteBufferSize: S.optional(S.Number),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+          MapBooleanAsBoolean: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "RedshiftSettings" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          AfterConnectScript: S.optional(S.String),
+          CaptureDdls: S.optional(S.Boolean),
+          MaxFileSize: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          DdlArtifactsSchema: S.optional(S.String),
+          ExecuteTimeout: S.optional(S.Number),
+          FailTasksOnLobTruncation: S.optional(S.Boolean),
+          HeartbeatEnable: S.optional(S.Boolean),
+          HeartbeatSchema: S.optional(S.String),
+          HeartbeatFrequency: S.optional(S.Number),
+          Password: S.optional(SensitiveString),
+          Port: S.optional(S.Number),
+          ServerName: S.optional(S.String),
+          Username: S.optional(S.String),
+          SlotName: S.optional(S.String),
+          PluginName: S.optional(S.String),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+          TrimSpaceInChar: S.optional(S.Boolean),
+          MapBooleanAsBoolean: S.optional(S.Boolean),
+          MapJsonbAsClob: S.optional(S.Boolean),
+          MapLongVarcharAs: S.optional(S.String),
+          DatabaseMode: S.optional(S.String),
+          BabelfishDatabaseName: S.optional(S.String),
+          DisableUnicodeSourceFilter: S.optional(S.Boolean),
+          ServiceAccessRoleArn: S.optional(S.String),
+          AuthenticationMethod: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostgreSQLSettings" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          AfterConnectScript: S.optional(S.String),
+          CleanSourceMetadataOnMismatch: S.optional(S.Boolean),
+          DatabaseName: S.optional(S.String),
+          EventsPollInterval: S.optional(S.Number),
+          TargetDbType: S.optional(S.String),
+          MaxFileSize: S.optional(S.Number),
+          ParallelLoadThreads: S.optional(S.Number),
+          Password: S.optional(SensitiveString),
+          Port: S.optional(S.Number),
+          ServerName: S.optional(S.String),
+          ServerTimezone: S.optional(S.String),
+          Username: S.optional(S.String),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+          ExecuteTimeout: S.optional(S.Number),
+          ServiceAccessRoleArn: S.optional(S.String),
+          AuthenticationMethod: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MySQLSettings" });
+    case 11:
+      return S.Array(S.Number);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          AddSupplementalLogging: S.optional(S.Boolean),
+          ArchivedLogDestId: S.optional(S.Number),
+          AdditionalArchivedLogDestId: S.optional(S.Number),
+          ExtraArchivedLogDestIds: S.optional(__S(1675, __c52, 11)),
+          AllowSelectNestedTables: S.optional(S.Boolean),
+          ParallelAsmReadThreads: S.optional(S.Number),
+          ReadAheadBlocks: S.optional(S.Number),
+          AccessAlternateDirectly: S.optional(S.Boolean),
+          UseAlternateFolderForOnline: S.optional(S.Boolean),
+          OraclePathPrefix: S.optional(S.String),
+          UsePathPrefix: S.optional(S.String),
+          ReplacePathPrefix: S.optional(S.Boolean),
+          EnableHomogenousTablespace: S.optional(S.Boolean),
+          DirectPathNoLog: S.optional(S.Boolean),
+          ArchivedLogsOnly: S.optional(S.Boolean),
+          AsmPassword: S.optional(SensitiveString),
+          AsmServer: S.optional(S.String),
+          AsmUser: S.optional(S.String),
+          CharLengthSemantics: S.optional(S.String),
+          DatabaseName: S.optional(S.String),
+          DirectPathParallelLoad: S.optional(S.Boolean),
+          FailTasksOnLobTruncation: S.optional(S.Boolean),
+          NumberDatatypeScale: S.optional(S.Number),
+          Password: S.optional(SensitiveString),
+          Port: S.optional(S.Number),
+          ReadTableSpaceName: S.optional(S.Boolean),
+          RetryInterval: S.optional(S.Number),
+          SecurityDbEncryption: S.optional(SensitiveString),
+          SecurityDbEncryptionName: S.optional(S.String),
+          ServerName: S.optional(S.String),
+          SpatialDataOptionToGeoJsonFunctionName: S.optional(S.String),
+          StandbyDelayTime: S.optional(S.Number),
+          Username: S.optional(S.String),
+          UseBFile: S.optional(S.Boolean),
+          UseDirectPathFullLoad: S.optional(S.Boolean),
+          UseLogminerReader: S.optional(S.Boolean),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+          SecretsManagerOracleAsmAccessRoleArn: S.optional(S.String),
+          SecretsManagerOracleAsmSecretId: S.optional(S.String),
+          TrimSpaceInChar: S.optional(S.Boolean),
+          ConvertTimestampWithZoneToUTC: S.optional(S.Boolean),
+          OpenTransactionWindow: S.optional(S.Number),
+          AuthenticationMethod: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OracleSettings" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseName: S.optional(S.String),
+          Password: S.optional(SensitiveString),
+          Port: S.optional(S.Number),
+          ServerName: S.optional(S.String),
+          Username: S.optional(S.String),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SybaseSettings" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          Port: S.optional(S.Number),
+          BcpPacketSize: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          ControlTablesFileGroup: S.optional(S.String),
+          Password: S.optional(SensitiveString),
+          QuerySingleAlwaysOnNode: S.optional(S.Boolean),
+          ReadBackupOnly: S.optional(S.Boolean),
+          SafeguardPolicy: S.optional(S.String),
+          ServerName: S.optional(S.String),
+          Username: S.optional(S.String),
+          UseBcpFullLoad: S.optional(S.Boolean),
+          UseThirdPartyBackupDevice: S.optional(S.Boolean),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+          TrimSpaceInChar: S.optional(S.Boolean),
+          TlogAccessMode: S.optional(S.String),
+          ForceLobLookup: S.optional(S.Boolean),
+          AuthenticationMethod: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MicrosoftSQLServerSettings" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseName: S.optional(S.String),
+          Password: S.optional(SensitiveString),
+          Port: S.optional(S.Number),
+          ServerName: S.optional(S.String),
+          SetDataCaptureChanges: S.optional(S.Boolean),
+          CurrentLsn: S.optional(S.String),
+          MaxKBytesPerRead: S.optional(S.Number),
+          Username: S.optional(S.String),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+          LoadTimeout: S.optional(S.Number),
+          WriteBufferSize: S.optional(S.Number),
+          MaxFileSize: S.optional(S.Number),
+          KeepCsvFiles: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "IBMDb2Settings" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          Username: S.optional(S.String),
+          Password: S.optional(SensitiveString),
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          NestingLevel: S.optional(S.String),
+          ExtractDocId: S.optional(S.Boolean),
+          DocsToInvestigate: S.optional(S.Number),
+          KmsKeyId: S.optional(S.String),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+          UseUpdateLookUp: S.optional(S.Boolean),
+          ReplicateShardCollections: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DocDbSettings" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          ServerName: S.String,
+          Port: S.Number,
+          SslSecurityProtocol: S.optional(S.String),
+          AuthType: S.optional(S.String),
+          AuthUserName: S.optional(S.String),
+          AuthPassword: S.optional(SensitiveString),
+          SslCaCertificateArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RedisSettings" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          AfterConnectScript: S.optional(S.String),
+          CleanSourceMetadataOnMismatch: S.optional(S.Boolean),
+          DatabaseName: S.optional(S.String),
+          EventsPollInterval: S.optional(S.Number),
+          TargetDbType: S.optional(S.String),
+          MaxFileSize: S.optional(S.Number),
+          ParallelLoadThreads: S.optional(S.Number),
+          Password: S.optional(SensitiveString),
+          Port: S.optional(S.Number),
+          ServerName: S.optional(S.String),
+          ServerTimezone: S.optional(S.String),
+          Username: S.optional(S.String),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecretId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GcpMySQLSettings" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseName: S.String,
+          MemoryDuration: S.Number,
+          MagneticDuration: S.Number,
+          CdcInsertsAndUpdates: S.optional(S.Boolean),
+          EnableMagneticStoreWrites: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TimestreamSettings" });
+    case 20:
+      return S.suspend(() => S.Struct({ Arn: S.String })).annotate({
+        identifier: "LakehouseSettings",
+      });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          EndpointIdentifier: S.optional(S.String),
+          EndpointType: S.optional(S.String),
+          EngineName: S.optional(S.String),
+          EngineDisplayName: S.optional(S.String),
+          Username: S.optional(S.String),
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          ExtraConnectionAttributes: S.optional(S.String),
+          Status: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          EndpointArn: S.optional(S.String),
+          CertificateArn: S.optional(S.String),
+          SslMode: S.optional(S.String),
+          ServiceAccessRoleArn: S.optional(S.String),
+          ExternalTableDefinition: S.optional(S.String),
+          ExternalId: S.optional(S.String),
+          IsReadOnly: S.optional(S.Boolean),
+          DynamoDbSettings: S.optional(__S(1664, __c52, 0)),
+          S3Settings: S.optional(__S(1665, __c52, 1)),
+          DmsTransferSettings: S.optional(__S(1666, __c52, 2)),
+          MongoDbSettings: S.optional(__S(1667, __c52, 3)),
+          KinesisSettings: S.optional(__S(1668, __c52, 4)),
+          KafkaSettings: S.optional(__S(1669, __c52, 5)),
+          ElasticsearchSettings: S.optional(__S(1670, __c52, 6)),
+          NeptuneSettings: S.optional(__S(1671, __c52, 7)),
+          RedshiftSettings: S.optional(__S(1672, __c52, 8)),
+          PostgreSQLSettings: S.optional(__S(1673, __c52, 9)),
+          MySQLSettings: S.optional(__S(1674, __c52, 10)),
+          OracleSettings: S.optional(__S(1676, __c52, 12)),
+          SybaseSettings: S.optional(__S(1677, __c52, 13)),
+          MicrosoftSQLServerSettings: S.optional(__S(1678, __c52, 14)),
+          IBMDb2Settings: S.optional(__S(1679, __c52, 15)),
+          DocDbSettings: S.optional(__S(1680, __c52, 16)),
+          RedisSettings: S.optional(__S(1681, __c52, 17)),
+          GcpMySQLSettings: S.optional(__S(1682, __c52, 18)),
+          TimestreamSettings: S.optional(__S(1683, __c52, 19)),
+          LakehouseSettings: S.optional(__S(1684, __c52, 20)),
+        }),
+      ).annotate({ identifier: "Endpoint" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Key: S.optional(S.String),
+          Value: S.optional(S.String),
+          ResourceArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Tag" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1696, __c53, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("Tag"))
+          .annotate({ identifier: "Tag" }),
+      );
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "AddTagsToResourceResponse",
+      });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceArn: S.String,
+          ApplyAction: S.String,
+          OptInType: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ApplyPendingMaintenanceActionMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ResourcePendingMaintenanceActions: S.optional(__S(1794, __c56, 2)) }).pipe(ns),
+      ).annotate({ identifier: "ApplyPendingMaintenanceActionResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Action: S.optional(S.String),
+          AutoAppliedAfterDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ForcedApplyDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          OptInStatus: S.optional(S.String),
+          CurrentApplyDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PendingMaintenanceAction" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1792, __c56, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("PendingMaintenanceAction"))
+          .annotate({ identifier: "PendingMaintenanceAction" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceIdentifier: S.optional(S.String),
+          PendingMaintenanceActionDetails: S.optional(__S(1793, __c56, 1)),
+        }),
+      ).annotate({ identifier: "ResourcePendingMaintenanceActions" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DatabaseId: S.String, Settings: __S(1856, __c58, 0) }),
+      ).annotate({ identifier: "StartRecommendationsRequestEntry" });
+    case 1:
+      return S.Array(__S(1824, __c57, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Data: S.optional(__S(1825, __c57, 1)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchStartRecommendationsRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseId: S.optional(S.String),
+          Message: S.optional(S.String),
+          Code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BatchStartRecommendationsErrorEntry" });
+    case 4:
+      return S.Array(__S(1827, __c57, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ ErrorEntries: S.optional(__S(1828, __c57, 4)) }).pipe(ns),
+      ).annotate({ identifier: "BatchStartRecommendationsResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ InstanceSizingType: S.String, WorkloadType: S.String }),
+      ).annotate({ identifier: "RecommendationSettings" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.String, RequestIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CancelMetadataModelConversionMessage" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Request: S.optional(__S(1956, __c61, 4)) }).pipe(ns),
+      ).annotate({ identifier: "CancelMetadataModelConversionResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Message: S.optional(S.String) })).annotate({
+        identifier: "DefaultErrorDetails",
+      });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ defaultErrorDetails: __S(1952, __c61, 0) })]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Type: S.optional(S.String),
+          EndpointType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProcessedObject" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ProgressPercent: S.optional(S.Number),
+          TotalObjects: S.optional(S.Number),
+          ProgressStep: S.optional(S.String),
+          ProcessedObject: S.optional(__S(1954, __c61, 2)),
+        }),
+      ).annotate({ identifier: "Progress" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          RequestIdentifier: S.optional(S.String),
+          MigrationProjectArn: S.optional(S.String),
+          Error: S.optional(__S(1953, __c61, 1)),
+          ExportSqlDetails: S.optional(__S(1984, __c62, 0)),
+          Progress: S.optional(__S(1955, __c61, 3)),
+        }),
+      ).annotate({ identifier: "SchemaConversionRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ S3ObjectKey: S.optional(S.String), ObjectURL: S.optional(S.String) }),
+      ).annotate({ identifier: "ExportSqlDetails" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.String, RequestIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CancelMetadataModelCreationMessage" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationTaskAssessmentRunArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CancelReplicationTaskAssessmentRunMessage" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskAssessmentRunArn: S.optional(S.String),
+          ReplicationTaskArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          ReplicationTaskAssessmentRunCreationDate: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
+          AssessmentProgress: S.optional(__S(2144, __c67, 0)),
+          LastFailureMessage: S.optional(S.String),
+          ServiceAccessRoleArn: S.optional(S.String),
+          ResultLocationBucket: S.optional(S.String),
+          ResultLocationFolder: S.optional(S.String),
+          ResultEncryptionMode: S.optional(S.String),
+          ResultKmsKeyArn: S.optional(S.String),
+          AssessmentRunName: S.optional(S.String),
+          IsLatestTaskAssessmentRun: S.optional(S.Boolean),
+          ResultStatistic: S.optional(__S(2145, __c67, 1)),
+        }),
+      ).annotate({ identifier: "ReplicationTaskAssessmentRun" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationTaskAssessmentRun: S.optional(__S(2080, __c65, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CancelReplicationTaskAssessmentRunResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          IndividualAssessmentCount: S.optional(S.Number),
+          IndividualAssessmentCompletedCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ReplicationTaskAssessmentRunProgress" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Passed: S.optional(S.Number),
+          Failed: S.optional(S.Number),
+          Error: S.optional(S.Number),
+          Warning: S.optional(S.Number),
+          Cancelled: S.optional(S.Number),
+          Skipped: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ReplicationTaskAssessmentRunResultStatistic" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataMigrationName: S.optional(S.String),
+          MigrationProjectIdentifier: S.String,
+          DataMigrationType: S.String,
+          ServiceAccessRoleArn: S.String,
+          EnableCloudwatchLogs: S.optional(S.Boolean),
+          SourceDataSettings: S.optional(__S(2273, __c71, 1)),
+          TargetDataSettings: S.optional(__S(2275, __c71, 3)),
+          NumberOfJobs: S.optional(S.Number),
+          Tags: S.optional(__S(1697, __c53, 1)),
+          SelectionRules: S.optional(SensitiveString),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateDataMigrationMessage" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataMigration: S.optional(__S(2278, __c71, 6)) }).pipe(ns),
+      ).annotate({ identifier: "CreateDataMigrationResponse" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CDCStartPosition: S.optional(S.String),
+          CDCStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          CDCStopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          SlotName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SourceDataSetting" });
+    case 1:
+      return S.Array(__S(2272, __c71, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ TablePreparationMode: S.optional(S.String) })).annotate({
+        identifier: "TargetDataSetting",
+      });
+    case 3:
+      return S.Array(__S(2274, __c71, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          NumberOfJobs: S.optional(S.Number),
+          CloudwatchLogsEnabled: S.optional(S.Boolean),
+          SelectionRules: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "DataMigrationSettings" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          TablesLoaded: S.optional(S.Number),
+          ElapsedTimeMillis: S.optional(S.Number),
+          TablesLoading: S.optional(S.Number),
+          FullLoadPercentage: S.optional(S.Number),
+          CDCLatency: S.optional(S.Number),
+          TablesQueued: S.optional(S.Number),
+          TablesErrored: S.optional(S.Number),
+          StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          StopTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "DataMigrationStatistics" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          DataMigrationName: S.optional(S.String),
+          DataMigrationArn: S.optional(S.String),
+          DataMigrationCreateTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          DataMigrationStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          DataMigrationEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          ServiceAccessRoleArn: S.optional(S.String),
+          MigrationProjectArn: S.optional(S.String),
+          DataMigrationType: S.optional(S.String),
+          DataMigrationSettings: S.optional(__S(2276, __c71, 4)),
+          SourceDataSettings: S.optional(__S(2273, __c71, 1)),
+          TargetDataSettings: S.optional(__S(2275, __c71, 3)),
+          DataMigrationStatistics: S.optional(__S(2277, __c71, 5)),
+          DataMigrationStatus: S.optional(S.String),
+          PublicIpAddresses: S.optional(__S(2208, __c69, 0)),
+          DataMigrationCidrBlocks: S.optional(__S(2208, __c69, 0)),
+          LastFailureMessage: S.optional(S.String),
+          StopReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataMigration" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataProviderName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Engine: S.String,
+          Virtual: S.optional(S.Boolean),
+          Settings: __S(2376, __c74, 8),
+          Tags: S.optional(__S(1697, __c53, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateDataProviderMessage" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataProvider: S.optional(__S(2377, __c74, 9)) }).pipe(ns),
+      ).annotate({ identifier: "CreateDataProviderResponse" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          S3Path: S.optional(S.String),
+          S3AccessRoleArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RedshiftDataProviderSettings" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          SslMode: S.optional(S.String),
+          CertificateArn: S.optional(S.String),
+          S3Path: S.optional(S.String),
+          S3AccessRoleArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostgreSqlDataProviderSettings" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          SslMode: S.optional(S.String),
+          CertificateArn: S.optional(S.String),
+          S3Path: S.optional(S.String),
+          S3AccessRoleArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MySqlDataProviderSettings" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          SslMode: S.optional(S.String),
+          CertificateArn: S.optional(S.String),
+          AsmServer: S.optional(S.String),
+          SecretsManagerOracleAsmSecretId: S.optional(S.String),
+          SecretsManagerOracleAsmAccessRoleArn: S.optional(S.String),
+          SecretsManagerSecurityDbEncryptionSecretId: S.optional(S.String),
+          SecretsManagerSecurityDbEncryptionAccessRoleArn: S.optional(S.String),
+          S3Path: S.optional(S.String),
+          S3AccessRoleArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OracleDataProviderSettings" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          SslMode: S.optional(S.String),
+          EncryptPassword: S.optional(S.Boolean),
+          CertificateArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SybaseAseDataProviderSettings" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          SslMode: S.optional(S.String),
+          CertificateArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DocDbDataProviderSettings" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          SslMode: S.optional(S.String),
+          CertificateArn: S.optional(S.String),
+          EncryptionAlgorithm: S.optional(S.Number),
+          SecurityMechanism: S.optional(S.Number),
+          S3Path: S.optional(S.String),
+          S3AccessRoleArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IbmDb2LuwDataProviderSettings" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          SslMode: S.optional(S.String),
+          CertificateArn: S.optional(S.String),
+          AuthType: S.optional(S.String),
+          AuthSource: S.optional(S.String),
+          AuthMechanism: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MongoDbDataProviderSettings" });
+    case 8:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ RedshiftSettings: __S(2368, __c74, 0) }),
+        /*@__PURE__*/ S.Struct({ PostgreSqlSettings: __S(2369, __c74, 1) }),
+        /*@__PURE__*/ S.Struct({ MySqlSettings: __S(2370, __c74, 2) }),
+        /*@__PURE__*/ S.Struct({ OracleSettings: __S(2371, __c74, 3) }),
+        /*@__PURE__*/ S.Struct({ SybaseAseSettings: __S(2372, __c74, 4) }),
+        /*@__PURE__*/ S.Struct({ MicrosoftSqlServerSettings: __S(2369, __c74, 1) }),
+        /*@__PURE__*/ S.Struct({ DocDbSettings: __S(2373, __c74, 5) }),
+        /*@__PURE__*/ S.Struct({ MariaDbSettings: __S(2370, __c74, 2) }),
+        /*@__PURE__*/ S.Struct({ IbmDb2LuwSettings: __S(2374, __c74, 6) }),
+        /*@__PURE__*/ S.Struct({ IbmDb2zOsSettings: __S(2369, __c74, 1) }),
+        /*@__PURE__*/ S.Struct({ MongoDbSettings: __S(2375, __c74, 7) }),
+      ]);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          DataProviderName: S.optional(S.String),
+          DataProviderArn: S.optional(S.String),
+          DataProviderCreationTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          Description: S.optional(S.String),
+          Engine: S.optional(S.String),
+          Virtual: S.optional(S.Boolean),
+          Settings: S.optional(__S(2376, __c74, 8)),
+        }),
+      ).annotate({ identifier: "DataProvider" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EndpointIdentifier: S.String,
+          EndpointType: S.String,
+          EngineName: S.String,
+          Username: S.optional(S.String),
+          Password: S.optional(SensitiveString),
+          ServerName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          DatabaseName: S.optional(S.String),
+          ExtraConnectionAttributes: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          Tags: S.optional(__S(1697, __c53, 1)),
+          CertificateArn: S.optional(S.String),
+          SslMode: S.optional(S.String),
+          ServiceAccessRoleArn: S.optional(S.String),
+          ExternalTableDefinition: S.optional(S.String),
+          DynamoDbSettings: S.optional(__S(1664, __c52, 0)),
+          S3Settings: S.optional(__S(1665, __c52, 1)),
+          DmsTransferSettings: S.optional(__S(1666, __c52, 2)),
+          MongoDbSettings: S.optional(__S(1667, __c52, 3)),
+          KinesisSettings: S.optional(__S(1668, __c52, 4)),
+          KafkaSettings: S.optional(__S(1669, __c52, 5)),
+          ElasticsearchSettings: S.optional(__S(1670, __c52, 6)),
+          NeptuneSettings: S.optional(__S(1671, __c52, 7)),
+          RedshiftSettings: S.optional(__S(1672, __c52, 8)),
+          PostgreSQLSettings: S.optional(__S(1673, __c52, 9)),
+          MySQLSettings: S.optional(__S(1674, __c52, 10)),
+          OracleSettings: S.optional(__S(1676, __c52, 12)),
+          SybaseSettings: S.optional(__S(1677, __c52, 13)),
+          MicrosoftSQLServerSettings: S.optional(__S(1678, __c52, 14)),
+          IBMDb2Settings: S.optional(__S(1679, __c52, 15)),
+          ResourceIdentifier: S.optional(S.String),
+          DocDbSettings: S.optional(__S(1680, __c52, 16)),
+          RedisSettings: S.optional(__S(1681, __c52, 17)),
+          GcpMySQLSettings: S.optional(__S(1682, __c52, 18)),
+          TimestreamSettings: S.optional(__S(1683, __c52, 19)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateEndpointMessage" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Endpoint: S.optional(Endpoint) }).pipe(ns)).annotate({
+        identifier: "CreateEndpointResponse",
+      });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubscriptionName: S.String,
+          SnsTopicArn: S.String,
+          SourceType: S.optional(S.String),
+          EventCategories: S.optional(__S(2528, __c79, 0)),
+          SourceIds: S.optional(__S(2560, __c80, 0)),
+          Enabled: S.optional(S.Boolean),
+          Tags: S.optional(__S(1697, __c53, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateEventSubscriptionMessage" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EventSubscription: S.optional(__S(2561, __c80, 1)) }).pipe(ns),
+      ).annotate({ identifier: "CreateEventSubscriptionResponse" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("EventCategory")));
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("SourceId")));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CustomerAwsId: S.optional(S.String),
+          CustSubscriptionId: S.optional(S.String),
+          SnsTopicArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          SubscriptionCreationTime: S.optional(S.String),
+          SourceType: S.optional(S.String),
+          SourceIdsList: S.optional(__S(2560, __c80, 0)),
+          EventCategoriesList: S.optional(__S(2528, __c79, 0)),
+          Enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EventSubscription" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CollectorName: S.String,
+          Description: S.optional(S.String),
+          ServiceAccessRoleArn: S.String,
+          S3BucketName: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateFleetAdvisorCollectorRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CollectorReferencedId: S.optional(S.String),
+          CollectorName: S.optional(S.String),
+          Description: S.optional(S.String),
+          ServiceAccessRoleArn: S.optional(S.String),
+          S3BucketName: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateFleetAdvisorCollectorResponse" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AvailabilityZone: S.optional(S.String),
+          KmsKeyArn: S.optional(S.String),
+          PubliclyAccessible: S.optional(S.Boolean),
+          Tags: S.optional(__S(1697, __c53, 1)),
+          NetworkType: S.optional(S.String),
+          InstanceProfileName: S.optional(S.String),
+          Description: S.optional(S.String),
+          SubnetGroupIdentifier: S.optional(S.String),
+          VpcSecurityGroups: S.optional(__S(2208, __c69, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateInstanceProfileMessage" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ InstanceProfile: S.optional(__S(2688, __c84, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateInstanceProfileResponse" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceProfileArn: S.optional(S.String),
+          AvailabilityZone: S.optional(S.String),
+          KmsKeyArn: S.optional(S.String),
+          PubliclyAccessible: S.optional(S.Boolean),
+          NetworkType: S.optional(S.String),
+          InstanceProfileName: S.optional(S.String),
+          Description: S.optional(S.String),
+          InstanceProfileCreationTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          SubnetGroupIdentifier: S.optional(S.String),
+          VpcSecurityGroups: S.optional(__S(2208, __c69, 0)),
+        }),
+      ).annotate({ identifier: "InstanceProfile" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectName: S.optional(S.String),
+          SourceDataProviderDescriptors: __S(2753, __c86, 1),
+          TargetDataProviderDescriptors: __S(2753, __c86, 1),
+          InstanceProfileIdentifier: S.String,
+          TransformationRules: S.optional(S.String),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(1697, __c53, 1)),
+          SchemaConversionApplicationAttributes: S.optional(__S(2816, __c88, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateMigrationProjectMessage" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataProviderIdentifier: S.String,
+          SecretsManagerSecretId: S.optional(S.String),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataProviderDescriptorDefinition" });
+    case 1:
+      return S.Array(__S(2752, __c86, 0));
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProject: S.optional(__S(2819, __c88, 3)) }).pipe(ns),
+      ).annotate({ identifier: "CreateMigrationProjectResponse" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ S3BucketPath: S.optional(S.String), S3BucketRoleArn: S.optional(S.String) }),
+      ).annotate({ identifier: "SCApplicationAttributes" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SecretsManagerSecretId: S.optional(S.String),
+          SecretsManagerAccessRoleArn: S.optional(S.String),
+          DataProviderName: S.optional(S.String),
+          DataProviderArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataProviderDescriptor" });
+    case 2:
+      return S.Array(__S(2817, __c88, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectName: S.optional(S.String),
+          MigrationProjectArn: S.optional(S.String),
+          MigrationProjectCreationTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          SourceDataProviderDescriptors: S.optional(__S(2818, __c88, 2)),
+          TargetDataProviderDescriptors: S.optional(__S(2818, __c88, 2)),
+          InstanceProfileArn: S.optional(S.String),
+          InstanceProfileName: S.optional(S.String),
+          TransformationRules: S.optional(S.String),
+          Description: S.optional(S.String),
+          SchemaConversionApplicationAttributes: S.optional(__S(2816, __c88, 0)),
+        }),
+      ).annotate({ identifier: "MigrationProject" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationConfigIdentifier: S.String,
+          SourceEndpointArn: S.String,
+          TargetEndpointArn: S.String,
+          ComputeConfig: __S(2912, __c91, 0),
+          ReplicationType: S.String,
+          TableMappings: S.String,
+          ReplicationSettings: S.optional(S.String),
+          SupplementalSettings: S.optional(S.String),
+          ResourceIdentifier: S.optional(S.String),
+          Tags: S.optional(__S(1697, __c53, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateReplicationConfigMessage" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationConfig: S.optional(__S(2913, __c91, 1)) }).pipe(ns),
+      ).annotate({ identifier: "CreateReplicationConfigResponse" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AvailabilityZone: S.optional(S.String),
+          DnsNameServers: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          MaxCapacityUnits: S.optional(S.Number),
+          MinCapacityUnits: S.optional(S.Number),
+          MultiAZ: S.optional(S.Boolean),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          ReplicationSubnetGroupId: S.optional(S.String),
+          VpcSecurityGroupIds: S.optional(__S(2208, __c69, 0)),
+        }),
+      ).annotate({ identifier: "ComputeConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationConfigIdentifier: S.optional(S.String),
+          ReplicationConfigArn: S.optional(S.String),
+          SourceEndpointArn: S.optional(S.String),
+          TargetEndpointArn: S.optional(S.String),
+          ReplicationType: S.optional(S.String),
+          ComputeConfig: S.optional(__S(2912, __c91, 0)),
+          ReplicationSettings: S.optional(S.String),
+          SupplementalSettings: S.optional(S.String),
+          TableMappings: S.optional(S.String),
+          ReplicationConfigCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ReplicationConfigUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          IsReadOnly: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ReplicationConfig" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceIdentifier: S.String,
+          AllocatedStorage: S.optional(S.Number),
+          ReplicationInstanceClass: S.String,
+          VpcSecurityGroupIds: S.optional(__S(2976, __c93, 0)),
+          AvailabilityZone: S.optional(S.String),
+          ReplicationSubnetGroupIdentifier: S.optional(S.String),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          MultiAZ: S.optional(S.Boolean),
+          EngineVersion: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          Tags: S.optional(__S(1697, __c53, 1)),
+          KmsKeyId: S.optional(S.String),
+          PubliclyAccessible: S.optional(S.Boolean),
+          DnsNameServers: S.optional(S.String),
+          ResourceIdentifier: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+          KerberosAuthenticationSettings: S.optional(__S(3072, __c96, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateReplicationInstanceMessage" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("VpcSecurityGroupId")));
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
+        identifier: "AvailabilityZone",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetIdentifier: S.optional(S.String),
+          SubnetAvailabilityZone: S.optional(__S(3008, __c94, 0)),
+          SubnetStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Subnet" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(3009, __c94, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("Subnet"))
+          .annotate({ identifier: "Subnet" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationSubnetGroupIdentifier: S.optional(S.String),
+          ReplicationSubnetGroupDescription: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          SubnetGroupStatus: S.optional(S.String),
+          Subnets: S.optional(__S(3010, __c94, 2)),
+          SupportedNetworkTypes: S.optional(__S(2208, __c69, 0)),
+          IsReadOnly: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ReplicationSubnetGroup" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationInstance: S.optional(__S(3076, __c96, 4)) }).pipe(ns),
+      ).annotate({ identifier: "CreateReplicationInstanceResponse" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          KeyCacheSecretId: S.optional(S.String),
+          KeyCacheSecretIamArn: S.optional(S.String),
+          Krb5FileContents: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KerberosAuthenticationSettings" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ VpcSecurityGroupId: S.optional(S.String), Status: S.optional(S.String) }),
+      ).annotate({ identifier: "VpcSecurityGroupMembership" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(3073, __c96, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("VpcSecurityGroupMembership"))
+          .annotate({ identifier: "VpcSecurityGroupMembership" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceClass: S.optional(S.String),
+          AllocatedStorage: S.optional(S.Number),
+          MultiAZ: S.optional(S.Boolean),
+          EngineVersion: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplicationPendingModifiedValues" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceIdentifier: S.optional(S.String),
+          ReplicationInstanceClass: S.optional(S.String),
+          ReplicationInstanceStatus: S.optional(S.String),
+          AllocatedStorage: S.optional(S.Number),
+          InstanceCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          VpcSecurityGroups: S.optional(__S(3074, __c96, 2)),
+          AvailabilityZone: S.optional(S.String),
+          ReplicationSubnetGroup: S.optional(__S(3011, __c94, 3)),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          PendingModifiedValues: S.optional(__S(3075, __c96, 3)),
+          MultiAZ: S.optional(S.Boolean),
+          EngineVersion: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          KmsKeyId: S.optional(S.String),
+          ReplicationInstanceArn: S.optional(S.String),
+          ReplicationInstancePublicIpAddress: S.optional(S.String),
+          ReplicationInstancePrivateIpAddress: S.optional(S.String),
+          ReplicationInstancePublicIpAddresses: S.optional(__S(2208, __c69, 0)),
+          ReplicationInstancePrivateIpAddresses: S.optional(__S(2208, __c69, 0)),
+          ReplicationInstanceIpv6Addresses: S.optional(__S(2208, __c69, 0)),
+          PubliclyAccessible: S.optional(S.Boolean),
+          SecondaryAvailabilityZone: S.optional(S.String),
+          FreeUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DnsNameServers: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+          KerberosAuthenticationSettings: S.optional(__S(3072, __c96, 0)),
+        }),
+      ).annotate({ identifier: "ReplicationInstance" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationSubnetGroupIdentifier: S.String,
+          ReplicationSubnetGroupDescription: S.String,
+          SubnetIds: __S(3136, __c98, 0),
+          Tags: S.optional(__S(1697, __c53, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateReplicationSubnetGroupMessage" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("SubnetIdentifier")));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationSubnetGroup: S.optional(__S(3011, __c94, 3)) }).pipe(ns),
+      ).annotate({ identifier: "CreateReplicationSubnetGroupResponse" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskIdentifier: S.String,
+          SourceEndpointArn: S.String,
+          TargetEndpointArn: S.String,
+          ReplicationInstanceArn: S.String,
+          MigrationType: S.String,
+          TableMappings: S.String,
+          ReplicationTaskSettings: S.optional(S.String),
+          CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CdcStartPosition: S.optional(S.String),
+          CdcStopPosition: S.optional(S.String),
+          Tags: S.optional(__S(1697, __c53, 1)),
+          TaskData: S.optional(S.String),
+          ResourceIdentifier: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateReplicationTaskMessage" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskIdentifier: S.optional(S.String),
+          SourceEndpointArn: S.optional(S.String),
+          TargetEndpointArn: S.optional(S.String),
+          ReplicationInstanceArn: S.optional(S.String),
+          MigrationType: S.optional(S.String),
+          TableMappings: S.optional(S.String),
+          ReplicationTaskSettings: S.optional(S.String),
+          Status: S.optional(S.String),
+          LastFailureMessage: S.optional(S.String),
+          StopReason: S.optional(S.String),
+          ReplicationTaskCreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ReplicationTaskStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CdcStartPosition: S.optional(S.String),
+          CdcStopPosition: S.optional(S.String),
+          RecoveryCheckpoint: S.optional(S.String),
+          ReplicationTaskArn: S.optional(S.String),
+          ReplicationTaskStats: S.optional(__S(3264, __c102, 0)),
+          TaskData: S.optional(S.String),
+          TargetReplicationInstanceArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplicationTask" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationTask: S.optional(__S(3200, __c100, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateReplicationTaskResponse" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FullLoadProgressPercent: S.optional(S.Number),
+          ElapsedTimeMillis: S.optional(S.Number),
+          TablesLoaded: S.optional(S.Number),
+          TablesLoading: S.optional(S.Number),
+          TablesQueued: S.optional(S.Number),
+          TablesErrored: S.optional(S.Number),
+          FreshStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StopDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          FullLoadStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          FullLoadFinishDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ReplicationTaskStats" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CertificateArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteCertificateMessage" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Certificate: S.optional(__S(3360, __c105, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteCertificateResponse" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CertificateIdentifier: S.optional(S.String),
+          CertificateCreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CertificatePem: S.optional(S.String),
+          CertificateWallet: S.optional(T.Blob),
+          CertificateArn: S.optional(S.String),
+          CertificateOwner: S.optional(S.String),
+          ValidFromDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ValidToDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          SigningAlgorithm: S.optional(S.String),
+          KeyLength: S.optional(S.Number),
+          KmsKeyId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Certificate" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EndpointArn: S.String, ReplicationInstanceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteConnectionMessage" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Connection: S.optional(__S(3456, __c108, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteConnectionResponse" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceArn: S.optional(S.String),
+          EndpointArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          LastFailureMessage: S.optional(S.String),
+          EndpointIdentifier: S.optional(S.String),
+          ReplicationInstanceIdentifier: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Connection" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataMigrationIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteDataMigrationMessage" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataProviderIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteDataProviderMessage" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EndpointArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteEndpointMessage" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SubscriptionName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteEventSubscriptionMessage" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CollectorReferencedId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteCollectorRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DatabaseIds: __S(2208, __c69, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteFleetAdvisorDatabasesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ DatabaseIds: S.optional(__S(2208, __c69, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteFleetAdvisorDatabasesResponse" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ InstanceProfileIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteInstanceProfileMessage" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteMigrationProjectMessage" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationConfigArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteReplicationConfigMessage" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationInstanceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteReplicationInstanceMessage" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationSubnetGroupIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteReplicationSubnetGroupMessage" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationTaskArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteReplicationTaskMessage" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationTaskAssessmentRunArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteReplicationTaskAssessmentRunMessage" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeAccountAttributesMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AccountQuotaName: S.optional(S.String),
+          Used: S.optional(S.Number),
+          Max: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AccountQuota" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(3905, __c122, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("AccountQuota"))
+          .annotate({ identifier: "AccountQuota" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          AccountQuotas: S.optional(__S(3906, __c122, 2)),
+          UniqueAccountIdentifier: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeAccountAttributesResponse" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskArn: S.optional(S.String),
+          ReplicationInstanceArn: S.optional(S.String),
+          ReplicationConfigArn: S.optional(S.String),
+          SourceEngineName: S.optional(S.String),
+          TargetEngineName: S.optional(S.String),
+          MigrationType: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeApplicableIndividualAssessmentsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          IndividualAssessmentNames: S.optional(__S(2208, __c69, 0)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeApplicableIndividualAssessmentsResponse" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeCertificatesMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(3360, __c105, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("Certificate"))
+          .annotate({ identifier: "Certificate" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          Certificates: S.optional(__S(3969, __c124, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeCertificatesResponse" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Value")));
+    case 1:
+      return S.suspend(() => S.Struct({ Name: S.String, Values: __S(4000, __c125, 0) })).annotate({
+        identifier: "Filter",
+      });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(4001, __c125, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("Filter"))
+          .annotate({ identifier: "Filter" }),
+      );
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeConnectionsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(3456, __c108, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("Connection"))
+          .annotate({ identifier: "Connection" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          Connections: S.optional(__S(4033, __c126, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeConnectionsResponse" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MigrationProjectIdentifier: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeConversionConfigurationMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.optional(S.String),
+          ConversionConfiguration: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeConversionConfigurationResponse" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+          WithoutSettings: S.optional(S.Boolean),
+          WithoutStatistics: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeDataMigrationsMessage" });
+    case 1:
+      return S.Array(__S(2278, __c71, 6));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DataMigrations: S.optional(__S(4097, __c128, 1)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeDataMigrationsResponse" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeDataProvidersMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(2377, __c74, 9)
+          .pipe(/*@__PURE__*/ T.XmlName("DataProvider"))
+          .annotate({ identifier: "DataProvider" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          DataProviders: S.optional(__S(4129, __c129, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeDataProvidersResponse" });
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEndpointsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ Endpoint.pipe(/*@__PURE__*/ T.XmlName("Endpoint")).annotate({
+          identifier: "Endpoint",
+        }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          Endpoints: S.optional(__S(4161, __c130, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeEndpointsResponse" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EngineName: S.String,
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEndpointSettingsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Type: S.optional(S.String),
+          EnumValues: S.optional(__S(2208, __c69, 0)),
+          Sensitive: S.optional(S.Boolean),
+          Units: S.optional(S.String),
+          Applicability: S.optional(S.String),
+          IntValueMin: S.optional(S.Number),
+          IntValueMax: S.optional(S.Number),
+          DefaultValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EndpointSetting" });
+    case 2:
+      return S.Array(__S(4193, __c131, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          EndpointSettings: S.optional(__S(4194, __c131, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeEndpointSettingsResponse" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEndpointTypesMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EngineName: S.optional(S.String),
+          SupportsCDC: S.optional(S.Boolean),
+          EndpointType: S.optional(S.String),
+          ReplicationInstanceEngineMinimumVersion: S.optional(S.String),
+          EngineDisplayName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SupportedEndpointType" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(4225, __c132, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("SupportedEndpointType"))
+          .annotate({ identifier: "SupportedEndpointType" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          SupportedEndpointTypes: S.optional(__S(4226, __c132, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeEndpointTypesResponse" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxRecords: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeEngineVersionsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Version: S.optional(S.String),
+          Lifecycle: S.optional(S.String),
+          ReleaseStatus: S.optional(S.String),
+          LaunchDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          AutoUpgradeDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DeprecationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ForceUpgradeDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          AvailableUpgrades: S.optional(__S(2208, __c69, 0)),
+        }),
+      ).annotate({ identifier: "EngineVersion" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(4257, __c133, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("EngineVersion"))
+          .annotate({ identifier: "EngineVersion" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          EngineVersions: S.optional(__S(4258, __c133, 2)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeEngineVersionsResponse" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceType: S.optional(S.String),
+          Filters: S.optional(__S(4002, __c125, 2)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEventCategoriesMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SourceType: S.optional(S.String),
+          EventCategories: S.optional(__S(2528, __c79, 0)),
+        }),
+      ).annotate({ identifier: "EventCategoryGroup" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(4289, __c134, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("EventCategoryGroup"))
+          .annotate({ identifier: "EventCategoryGroup" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ EventCategoryGroupList: S.optional(__S(4290, __c134, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeEventCategoriesResponse" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceIdentifier: S.optional(S.String),
+          SourceType: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Duration: S.optional(S.Number),
+          EventCategories: S.optional(__S(2528, __c79, 0)),
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEventsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SourceIdentifier: S.optional(S.String),
+          SourceType: S.optional(S.String),
+          Message: S.optional(S.String),
+          EventCategories: S.optional(__S(2528, __c79, 0)),
+          Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Event" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(4321, __c135, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("Event"))
+          .annotate({ identifier: "Event" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Marker: S.optional(S.String), Events: S.optional(__S(4322, __c135, 2)) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeEventsResponse" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubscriptionName: S.optional(S.String),
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEventSubscriptionsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(2561, __c80, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("EventSubscription"))
+          .annotate({ identifier: "EventSubscription" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          EventSubscriptionsList: S.optional(__S(4353, __c136, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeEventSubscriptionsResponse" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          Filters: S.optional(__S(4002, __c125, 2)),
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeExtensionPackAssociationsMessage" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1956, __c61, 4));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Marker: S.optional(S.String), Requests: S.optional(__S(4416, __c138, 0)) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeExtensionPackAssociationsResponse" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFleetAdvisorCollectorsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CollectorStatus: S.optional(S.String),
+          LocalCollectorS3Access: S.optional(S.Boolean),
+          WebCollectorS3Access: S.optional(S.Boolean),
+          WebCollectorGrantedRoleBasedAccess: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CollectorHealthCheck" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NumberOfDatabases: S.optional(S.Number),
+          NumberOfSchemas: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InventoryData" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          CollectorReferencedId: S.optional(S.String),
+          CollectorName: S.optional(S.String),
+          CollectorVersion: S.optional(S.String),
+          VersionStatus: S.optional(S.String),
+          Description: S.optional(S.String),
+          S3BucketName: S.optional(S.String),
+          ServiceAccessRoleArn: S.optional(S.String),
+          CollectorHealthCheck: S.optional(__S(4449, __c139, 1)),
+          LastDataReceived: S.optional(S.String),
+          RegisteredDate: S.optional(S.String),
+          CreatedDate: S.optional(S.String),
+          ModifiedDate: S.optional(S.String),
+          InventoryData: S.optional(__S(4450, __c139, 2)),
+        }),
+      ).annotate({ identifier: "CollectorResponse" });
+    case 4:
+      return S.Array(__S(4451, __c139, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Collectors: S.optional(__S(4452, __c139, 4)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetAdvisorCollectorsResponse" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFleetAdvisorDatabasesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          EngineEdition: S.optional(S.String),
+          ServicePack: S.optional(S.String),
+          SupportLevel: S.optional(S.String),
+          OsArchitecture: S.optional(S.Number),
+          Tooltip: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseInstanceSoftwareDetailsResponse" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CollectorReferencedId: S.optional(S.String),
+          CollectorName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectorShortInfoResponse" });
+    case 3:
+      return S.Array(__S(4482, __c140, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseId: S.optional(S.String),
+          DatabaseName: S.optional(S.String),
+          IpAddress: S.optional(S.String),
+          NumberOfSchemas: S.optional(S.Number),
+          Server: S.optional(__S(4512, __c141, 0)),
+          SoftwareDetails: S.optional(__S(4481, __c140, 1)),
+          Collectors: S.optional(__S(4483, __c140, 3)),
+        }),
+      ).annotate({ identifier: "DatabaseResponse" });
+    case 5:
+      return S.Array(__S(4484, __c140, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Databases: S.optional(__S(4485, __c140, 5)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetAdvisorDatabasesResponse" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerId: S.optional(S.String),
+          IpAddress: S.optional(S.String),
+          ServerName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServerShortInfoResponse" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxRecords: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeFleetAdvisorLsaAnalysisRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ LsaAnalysisId: S.optional(S.String), Status: S.optional(S.String) }),
+      ).annotate({ identifier: "FleetAdvisorLsaAnalysisResponse" });
+    case 2:
+      return S.Array(__S(4545, __c142, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Analysis: S.optional(__S(4546, __c142, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetAdvisorLsaAnalysisResponse" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFleetAdvisorSchemaObjectSummaryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SchemaId: S.optional(S.String),
+          ObjectType: S.optional(S.String),
+          NumberOfObjects: S.optional(S.Number),
+          CodeLineCount: S.optional(S.Number),
+          CodeSize: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FleetAdvisorSchemaObjectResponse" });
+    case 2:
+      return S.Array(__S(4577, __c143, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FleetAdvisorSchemaObjects: S.optional(__S(4578, __c143, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetAdvisorSchemaObjectSummaryResponse" });
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFleetAdvisorSchemasRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseId: S.optional(S.String),
+          DatabaseName: S.optional(S.String),
+          DatabaseIpAddress: S.optional(S.String),
+          DatabaseEngine: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseShortInfoResponse" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SchemaId: S.optional(S.String),
+          SchemaName: S.optional(S.String),
+          DatabaseId: S.optional(S.String),
+          DatabaseName: S.optional(S.String),
+          DatabaseIpAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SchemaShortInfoResponse" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          CodeLineCount: S.optional(S.Number),
+          CodeSize: S.optional(S.Number),
+          Complexity: S.optional(S.String),
+          Server: S.optional(__S(4512, __c141, 0)),
+          DatabaseInstance: S.optional(__S(4609, __c144, 1)),
+          SchemaId: S.optional(S.String),
+          SchemaName: S.optional(S.String),
+          OriginalSchema: S.optional(__S(4610, __c144, 2)),
+          Similarity: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SchemaResponse" });
+    case 4:
+      return S.Array(__S(4611, __c144, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          FleetAdvisorSchemas: S.optional(__S(4612, __c144, 4)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetAdvisorSchemasResponse" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeInstanceProfilesMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(2688, __c84, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("InstanceProfile"))
+          .annotate({ identifier: "InstanceProfile" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          InstanceProfiles: S.optional(__S(4641, __c145, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeInstanceProfilesResponse" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SelectionRules: S.String,
+          MigrationProjectIdentifier: S.String,
+          Origin: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMetadataModelMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MetadataModelName: S.optional(S.String),
+          MetadataModelType: S.optional(S.String),
+          TargetMetadataModels: S.optional(__S(4705, __c147, 1)),
+          Definition: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeMetadataModelResponse" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MetadataModelName: S.optional(S.String), SelectionRules: S.optional(S.String) }),
+      ).annotate({ identifier: "MetadataModelReference" });
+    case 1:
+      return S.Array(__S(4704, __c147, 0));
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          Filters: S.optional(__S(4002, __c125, 2)),
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMetadataModelAssessmentsMessage" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SelectionRules: S.String,
+          MigrationProjectIdentifier: S.String,
+          Origin: S.String,
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMetadataModelChildrenMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          MetadataModelChildren: S.optional(__S(4705, __c147, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeMetadataModelChildrenResponse" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          Filters: S.optional(__S(4002, __c125, 2)),
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMetadataModelConversionsMessage" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          MigrationProjectIdentifier: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMetadataModelCreationsMessage" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          Filters: S.optional(__S(4002, __c125, 2)),
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMetadataModelExportsAsScriptMessage" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          Filters: S.optional(__S(4002, __c125, 2)),
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMetadataModelExportsToTargetMessage" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MigrationProjectIdentifier: S.String,
+          Filters: S.optional(__S(4002, __c125, 2)),
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMetadataModelImportsMessage" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMigrationProjectsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(2819, __c88, 3)
+          .pipe(/*@__PURE__*/ T.XmlName("MigrationProject"))
+          .annotate({ identifier: "MigrationProject" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          MigrationProjects: S.optional(__S(4961, __c155, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeMigrationProjectsResponse" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MaxRecords: S.optional(S.Number), Marker: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeOrderableReplicationInstancesMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EngineVersion: S.optional(S.String),
+          ReplicationInstanceClass: S.optional(S.String),
+          StorageType: S.optional(S.String),
+          MinAllocatedStorage: S.optional(S.Number),
+          MaxAllocatedStorage: S.optional(S.Number),
+          DefaultAllocatedStorage: S.optional(S.Number),
+          IncludedAllocatedStorage: S.optional(S.Number),
+          AvailabilityZones: S.optional(__S(2208, __c69, 0)),
+          ReleaseStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OrderableReplicationInstance" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(4993, __c156, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("OrderableReplicationInstance"))
+          .annotate({ identifier: "OrderableReplicationInstance" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          OrderableReplicationInstances: S.optional(__S(4994, __c156, 2)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeOrderableReplicationInstancesResponse" });
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceArn: S.optional(S.String),
+          Filters: S.optional(__S(4002, __c125, 2)),
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribePendingMaintenanceActionsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1794, __c56, 2)
+          .pipe(/*@__PURE__*/ T.XmlName("ResourcePendingMaintenanceActions"))
+          .annotate({ identifier: "ResourcePendingMaintenanceActions" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PendingMaintenanceActions: S.optional(__S(5025, __c157, 1)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribePendingMaintenanceActionsResponse" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeRecommendationLimitationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseId: S.optional(S.String),
+          EngineName: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Impact: S.optional(S.String),
+          Type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Limitation" });
+    case 2:
+      return S.Array(__S(5057, __c158, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          Limitations: S.optional(__S(5058, __c158, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeRecommendationLimitationsResponse" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeRecommendationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EngineEdition: S.optional(S.String),
+          InstanceVcpu: S.optional(S.Number),
+          InstanceMemory: S.optional(S.Number),
+          StorageSize: S.optional(S.Number),
+          StorageIops: S.optional(S.Number),
+          DeploymentOption: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RdsRequirements" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          EngineEdition: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+          InstanceVcpu: S.optional(S.Number),
+          InstanceMemory: S.optional(S.Number),
+          StorageType: S.optional(S.String),
+          StorageSize: S.optional(S.Number),
+          StorageIops: S.optional(S.Number),
+          DeploymentOption: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RdsConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          RequirementsToTarget: S.optional(__S(5089, __c159, 1)),
+          TargetConfiguration: S.optional(__S(5090, __c159, 2)),
+        }),
+      ).annotate({ identifier: "RdsRecommendation" });
+    case 4:
+      return S.suspend(() => S.Struct({ RdsEngine: S.optional(__S(5091, __c159, 3)) })).annotate({
+        identifier: "RecommendationData",
+      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          DatabaseId: S.optional(S.String),
+          EngineName: S.optional(S.String),
+          CreatedDate: S.optional(S.String),
+          Status: S.optional(S.String),
+          Preferred: S.optional(S.Boolean),
+          Settings: S.optional(__S(1856, __c58, 0)),
+          Data: S.optional(__S(5092, __c159, 4)),
+        }),
+      ).annotate({ identifier: "Recommendation" });
+    case 6:
+      return S.Array(__S(5093, __c159, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          Recommendations: S.optional(__S(5094, __c159, 6)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeRecommendationsResponse" });
+  }
+}
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EndpointArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeRefreshSchemasStatusMessage" });
+  }
+}
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EndpointArn: S.optional(S.String),
+          ReplicationInstanceArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          LastRefreshDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastFailureMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RefreshSchemasStatus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ RefreshSchemasStatus: S.optional(__S(5152, __c161, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeRefreshSchemasStatusResponse" });
+  }
+}
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationConfigsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(2913, __c91, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("ReplicationConfig"))
+          .annotate({ identifier: "ReplicationConfig" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ReplicationConfigs: S.optional(__S(5185, __c162, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationConfigsResponse" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationInstancesMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(3076, __c96, 4)
+          .pipe(/*@__PURE__*/ T.XmlName("ReplicationInstance"))
+          .annotate({ identifier: "ReplicationInstance" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ReplicationInstances: S.optional(__S(5217, __c163, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationInstancesResponse" });
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceArn: S.String,
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationInstanceTaskLogsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationTaskName: S.optional(S.String),
+          ReplicationTaskArn: S.optional(S.String),
+          ReplicationInstanceTaskLogSize: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ReplicationInstanceTaskLog" });
+    case 2:
+      return S.Array(__S(5249, __c164, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationInstanceArn: S.optional(S.String),
+          ReplicationInstanceTaskLogs: S.optional(__S(5250, __c164, 2)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationInstanceTaskLogsResponse" });
+  }
+}
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(5315, __c166, 3)
+          .pipe(/*@__PURE__*/ T.XmlName("Replication"))
+          .annotate({ identifier: "Replication" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          Replications: S.optional(__S(5281, __c165, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationsResponse" });
+  }
+}
+function __c166(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProvisionState: S.optional(S.String),
+          ProvisionedCapacityUnits: S.optional(S.Number),
+          DateProvisioned: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          IsNewProvisioningAvailable: S.optional(S.Boolean),
+          DateNewProvisioningDataAvailable: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
+          ReasonForNewProvisioningData: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProvisionData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PremigrationAssessmentRunArn: S.optional(S.String),
+          FailOnAssessmentFailure: S.optional(S.Boolean),
+          Status: S.optional(S.String),
+          PremigrationAssessmentRunCreationDate: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
+          AssessmentProgress: S.optional(__S(2144, __c67, 0)),
+          LastFailureMessage: S.optional(S.String),
+          ResultLocationBucket: S.optional(S.String),
+          ResultLocationFolder: S.optional(S.String),
+          ResultEncryptionMode: S.optional(S.String),
+          ResultKmsKeyArn: S.optional(S.String),
+          ResultStatistic: S.optional(__S(2145, __c67, 1)),
+        }),
+      ).annotate({ identifier: "PremigrationAssessmentStatus" });
+    case 2:
+      return S.Array(__S(5313, __c166, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationConfigIdentifier: S.optional(S.String),
+          ReplicationConfigArn: S.optional(S.String),
+          SourceEndpointArn: S.optional(S.String),
+          TargetEndpointArn: S.optional(S.String),
+          ReplicationType: S.optional(S.String),
+          Status: S.optional(S.String),
+          ProvisionData: S.optional(__S(5312, __c166, 0)),
+          PremigrationAssessmentStatuses: S.optional(__S(5314, __c166, 2)),
+          StopReason: S.optional(S.String),
+          FailureMessages: S.optional(__S(2208, __c69, 0)),
+          ReplicationStats: S.optional(__S(3264, __c102, 0)),
+          StartReplicationType: S.optional(S.String),
+          CdcStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CdcStartPosition: S.optional(S.String),
+          CdcStopPosition: S.optional(S.String),
+          RecoveryCheckpoint: S.optional(S.String),
+          ReplicationCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ReplicationUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ReplicationLastStopTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ReplicationDeprovisionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          IsReadOnly: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Replication" });
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(4002, __c125, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationSubnetGroupsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(3011, __c94, 3)
+          .pipe(/*@__PURE__*/ T.XmlName("ReplicationSubnetGroup"))
+          .annotate({ identifier: "ReplicationSubnetGroup" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ReplicationSubnetGroups: S.optional(__S(5345, __c167, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReplicationSubnetGroupsResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

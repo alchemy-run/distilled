@@ -4,14 +4,14 @@
  * Re-exports the common HTTP errors from core and adds the Forgejo-specific
  * unknown-error and parse-error wrappers.
  *
- * Forgejo's failure envelope is `{ message, url }` — a human-readable message
+ * Forgejo's failure envelope is `{ message, url }` -- a human-readable message
  * and a link to the API documentation. There is no machine-readable code, so
  * the SDK dispatches on the HTTP status: the per-operation classes generated
  * from each operation's declared responses (`NotFound`, `Forbidden`,
- * `Conflict`, `UnprocessableEntity`, `Locked`, …) first, then core's shared
+ * `Conflict`, `UnprocessableEntity`, `Locked`, ...) first, then core's shared
  * status map, then {@link UnknownForgejoError}. The handful of failures
- * Forgejo reports under a misleading status — an organization delete refused
- * because it still owns repositories answers `500` — are typed per operation
+ * Forgejo reports under a misleading status -- an organization delete refused
+ * because it still owns repositories answers `500` -- are typed per operation
  * by message under `patches/`.
  */
 export {
@@ -34,29 +34,25 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * Unknown Forgejo error — returned when a failed response's HTTP status has
+ * Unknown Forgejo error -- returned when a failed response's HTTP status has
  * no mapped error class. Carries the raw body for later cataloging.
  */
-export class UnknownForgejoError extends Schema.TaggedError<UnknownForgejoError>()(
-  "UnknownForgejoError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownForgejoError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownForgejoError>()("UnknownForgejoError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class ForgejoParseError extends Schema.TaggedError<ForgejoParseError>()(
-  "ForgejoParseError",
-  {
+export class ForgejoParseError
+  extends /*@__PURE__*/ Schema.TaggedError<ForgejoParseError>()("ForgejoParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any Forgejo operation may surface in addition to the per-operation

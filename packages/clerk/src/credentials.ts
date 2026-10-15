@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Clerk credentials — hand-written.
+ * Clerk credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -23,9 +23,8 @@ export interface Config {
   readonly apiVersion: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "ClerkCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("ClerkCredentials") {}
 
 /** Layer from a redacted secret key + optional base URL and API version. */
 export const fromApiKey = (config: {
@@ -43,9 +42,9 @@ export const fromApiKey = (config: {
   );
 
 /** Reads CLERK_SECRET_KEY (required), CLERK_API_BASE_URL, CLERK_API_VERSION. */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.CLERK_SECRET_KEY;
 
     if (!apiKey) {

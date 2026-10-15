@@ -25,49 +25,50 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * HTTP 402 — the account cannot be billed for the request: a missing payment
+ * HTTP 402 -- the account cannot be billed for the request: a missing payment
  * method, an unpaid invoice, or a spend cap the team has already hit (Vercel
  * pauses the account at the cap until an owner disables it). Declared on the
  * ~95 operations that provision billable resources; the rest reach it through
  * the protocol's status map.
  */
-export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
-  message: Schema.String,
-}).pipe(Category.withQuotaError) {}
+export class PaymentRequired
+  extends /*@__PURE__*/ Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
+    message: Schema.String,
+  }).pipe(Category.withQuotaError) {}
 
 /**
- * HTTP 410 — Vercel's "Invalid API version": the versioned path segment
+ * HTTP 410 -- Vercel's "Invalid API version": the versioned path segment
  * (`/v5/domains`, `/v9/projects`) is no longer served. The spec declares it on
  * nearly every operation as boilerplate, so it rides the common error channel
- * instead of every generated operation's error list — a 410 means the SDK's
+ * instead of every generated operation's error list -- a 410 means the SDK's
  * pinned path version was retired and needs a regeneration, not something a
  * caller can branch on per operation.
  */
-export class Gone extends Schema.TaggedError<Gone>()("Gone", {
-  message: Schema.String,
-}).pipe(Category.withNotFoundError) {}
+export class Gone
+  extends /*@__PURE__*/ Schema.TaggedError<Gone>()("Gone", {
+    message: Schema.String,
+  }).pipe(Category.withNotFoundError) {}
 
 /**
- * Unknown Vercel error — returned when a failed response's HTTP status has no
+ * Unknown Vercel error -- returned when a failed response's HTTP status has no
  * mapped error class. Carries the raw body for later cataloging.
  */
-export class UnknownVercelError extends Schema.TaggedError<UnknownVercelError>()(
-  "UnknownVercelError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownVercelError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownVercelError>()("UnknownVercelError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class VercelParseError extends Schema.TaggedError<VercelParseError>()("VercelParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class VercelParseError
+  extends /*@__PURE__*/ Schema.TaggedError<VercelParseError>()("VercelParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any Vercel operation may surface in addition to the per-operation

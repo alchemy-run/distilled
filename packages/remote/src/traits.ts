@@ -1,5 +1,5 @@
 /**
- * Remote SDK trait surface — hand-written.
+ * Remote SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Remote has no envelope of its own; the

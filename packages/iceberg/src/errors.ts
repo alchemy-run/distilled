@@ -1,9 +1,9 @@
 /**
  * Iceberg REST Catalog error types.
  *
- * Every failure carries one envelope — `{ "error": { "message", "type",
- * "code" } }` — where `type` names the exception (`NoSuchTableException`,
- * `CommitFailedException`, …). The exceptions an operation documents are
+ * Every failure carries one envelope -- `{ "error": { "message", "type",
+ * "code" } }` -- where `type` names the exception (`NoSuchTableException`,
+ * `CommitFailedException`, ...). The exceptions an operation documents are
  * generated per operation in `services/catalog.ts` and matched on status
  * plus `error.type`; this module holds what every route shares: core's
  * HTTP status errors, the 419 the spec adds, and the unknown-error and
@@ -36,40 +36,34 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * HTTP 419 — `AuthenticationTimeoutException`: the token expired. The spec
+ * HTTP 419 -- `AuthenticationTimeoutException`: the token expired. The spec
  * lets a catalog send this instead of 401; refresh the token and retry.
  */
-export class AuthenticationTimeout extends Schema.TaggedError<AuthenticationTimeout>()(
-  "AuthenticationTimeout",
-  {
+export class AuthenticationTimeout
+  extends /*@__PURE__*/ Schema.TaggedError<AuthenticationTimeout>()("AuthenticationTimeout", {
     message: Schema.String,
-  },
-).pipe(Category.withAuthError) {}
+  }).pipe(Category.withAuthError) {}
 
 /**
- * Unknown Iceberg error — a failed response nothing else matched. `code` is
+ * Unknown Iceberg error -- a failed response nothing else matched. `code` is
  * the envelope's `error.code` (the HTTP status the server reported).
  */
-export class UnknownIcebergError extends Schema.TaggedError<UnknownIcebergError>()(
-  "UnknownIcebergError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownIcebergError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownIcebergError>()("UnknownIcebergError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class IcebergParseError extends Schema.TaggedError<IcebergParseError>()(
-  "IcebergParseError",
-  {
+export class IcebergParseError
+  extends /*@__PURE__*/ Schema.TaggedError<IcebergParseError>()("IcebergParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any Iceberg operation may surface in addition to the shared HTTP

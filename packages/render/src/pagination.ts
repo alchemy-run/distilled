@@ -1,6 +1,6 @@
 import * as Pagination from "@distilled.cloud/core/pagination";
 /**
- * Render pagination — hand-written.
+ * Render pagination -- hand-written.
  *
  * Render's list operations are cursor-mode (`cursor`/`limit` in). Most lists
  * return a bare array of `{ cursor, <resource> }` objects; the next page is

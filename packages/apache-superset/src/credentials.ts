@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Apache Superset credentials — hand-written.
+ * Apache Superset credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -24,9 +24,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "ApacheSupersetCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "ApacheSupersetCredentials",
+  ) {}
 
 /** Layer from a JWT access token + optional instance URL. */
 export const fromApiKey = (config: {
@@ -45,9 +46,9 @@ export const fromApiKey = (config: {
  * Reads SUPERSET_ACCESS_TOKEN (required) and SUPERSET_URL (optional instance
  * origin).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.SUPERSET_ACCESS_TOKEN;
 
     if (!apiKey) {

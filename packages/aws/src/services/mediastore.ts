@@ -1,17 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const ns = T.XmlNamespace("https://mediastore.amazonaws.com/doc/2017-09-01");
-const svc = T.AwsApiService({ sdkId: "MediaStore", serviceShapeName: "MediaStore_20170901" });
-const auth = T.AwsAuthSigv4({ name: "mediastore" });
-const ver = T.ServiceVersion("2017-09-01");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("https://mediastore.amazonaws.com/doc/2017-09-01");
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "MediaStore",
+  serviceShapeName: "MediaStore_20170901",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "mediastore" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2017-09-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -68,32 +74,32 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://mediastore.{R}.{D}","properties":{},"headers":{}}');
 
 export class ContainerInUseException
   extends /*@__PURE__*/ S.TaggedError<ContainerInUseException>()("ContainerInUseException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ContainerNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ContainerNotFoundException>()("ContainerNotFoundException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class CorsPolicyNotFoundException
   extends /*@__PURE__*/ S.TaggedError<CorsPolicyNotFoundException>()(
     "CorsPolicyNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()("InternalServerError", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class PolicyNotFoundException
   extends /*@__PURE__*/ S.TaggedError<PolicyNotFoundException>()("PolicyNotFoundException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export type ContainerName = string;
 export type TagKey = string;
@@ -102,25 +108,14 @@ export interface Tag {
   Key: string;
   Value?: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface CreateContainerInput {
   ContainerName: string;
   Tags?: Tag[];
 }
-export const CreateContainerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String, Tags: S.optional(TagList) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CreateContainerInput" }) as any as S.Schema<CreateContainerInput>;
 export type Endpoint = string;
 export type ContainerARN = string;
 export type ContainerStatus = "ACTIVE" | "CREATING" | "DELETING" | (string & {});
-export const ContainerStatus = S.String;
-
 export type ContainerAccessLoggingEnabled = boolean;
 export interface Container {
   Endpoint?: string;
@@ -130,141 +125,53 @@ export interface Container {
   Status?: ContainerStatus;
   AccessLoggingEnabled?: boolean;
 }
-export const Container = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Endpoint: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ARN: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(ContainerStatus),
-    AccessLoggingEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Container" }) as any as S.Schema<Container>;
 export interface CreateContainerOutput {
   Container: Container;
 }
-export const CreateContainerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Container: Container }).pipe(ns),
-).annotate({ identifier: "CreateContainerOutput" }) as any as S.Schema<CreateContainerOutput>;
 export interface DeleteContainerInput {
   ContainerName: string;
 }
-export const DeleteContainerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteContainerInput" }) as any as S.Schema<DeleteContainerInput>;
 export interface DeleteContainerOutput {}
-export const DeleteContainerOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "DeleteContainerOutput",
-}) as any as S.Schema<DeleteContainerOutput>;
 export interface DeleteContainerPolicyInput {
   ContainerName: string;
 }
-export const DeleteContainerPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteContainerPolicyInput",
-}) as any as S.Schema<DeleteContainerPolicyInput>;
 export interface DeleteContainerPolicyOutput {}
-export const DeleteContainerPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteContainerPolicyOutput",
-}) as any as S.Schema<DeleteContainerPolicyOutput>;
 export interface DeleteCorsPolicyInput {
   ContainerName: string;
 }
-export const DeleteCorsPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteCorsPolicyInput" }) as any as S.Schema<DeleteCorsPolicyInput>;
 export interface DeleteCorsPolicyOutput {}
-export const DeleteCorsPolicyOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  { identifier: "DeleteCorsPolicyOutput" },
-) as any as S.Schema<DeleteCorsPolicyOutput>;
 export interface DeleteLifecyclePolicyInput {
   ContainerName: string;
 }
-export const DeleteLifecyclePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteLifecyclePolicyInput",
-}) as any as S.Schema<DeleteLifecyclePolicyInput>;
 export interface DeleteLifecyclePolicyOutput {}
-export const DeleteLifecyclePolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLifecyclePolicyOutput",
-}) as any as S.Schema<DeleteLifecyclePolicyOutput>;
 export interface DeleteMetricPolicyInput {
   ContainerName: string;
 }
-export const DeleteMetricPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteMetricPolicyInput" }) as any as S.Schema<DeleteMetricPolicyInput>;
 export interface DeleteMetricPolicyOutput {}
-export const DeleteMetricPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "DeleteMetricPolicyOutput" }) as any as S.Schema<DeleteMetricPolicyOutput>;
 export interface DescribeContainerInput {
   ContainerName?: string;
 }
-export const DescribeContainerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DescribeContainerInput" }) as any as S.Schema<DescribeContainerInput>;
 export interface DescribeContainerOutput {
   Container?: Container;
 }
-export const DescribeContainerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Container: S.optional(Container) }).pipe(ns),
-).annotate({ identifier: "DescribeContainerOutput" }) as any as S.Schema<DescribeContainerOutput>;
 export interface GetContainerPolicyInput {
   ContainerName: string;
 }
-export const GetContainerPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetContainerPolicyInput" }) as any as S.Schema<GetContainerPolicyInput>;
 export type ContainerPolicy = string;
 export interface GetContainerPolicyOutput {
   Policy: string;
 }
-export const GetContainerPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.String }).pipe(ns),
-).annotate({ identifier: "GetContainerPolicyOutput" }) as any as S.Schema<GetContainerPolicyOutput>;
 export interface GetCorsPolicyInput {
   ContainerName: string;
 }
-export const GetCorsPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetCorsPolicyInput" }) as any as S.Schema<GetCorsPolicyInput>;
 export type Origin = string;
 export type AllowedOrigins = string[];
-export const AllowedOrigins = /*@__PURE__*/ S.Array(S.String);
 export type MethodName = "PUT" | "GET" | "DELETE" | "HEAD" | (string & {});
-export const MethodName = S.String;
-
 export type AllowedMethods = MethodName[];
-export const AllowedMethods = /*@__PURE__*/ S.Array(MethodName);
 export type Header = string;
 export type AllowedHeaders = string[];
-export const AllowedHeaders = /*@__PURE__*/ S.Array(S.String);
 export type MaxAgeSeconds = number;
 export type ExposeHeaders = string[];
-export const ExposeHeaders = /*@__PURE__*/ S.Array(S.String);
 export interface CorsRule {
   AllowedOrigins: string[];
   AllowedMethods?: MethodName[];
@@ -272,216 +179,91 @@ export interface CorsRule {
   MaxAgeSeconds?: number;
   ExposeHeaders?: string[];
 }
-export const CorsRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AllowedOrigins: AllowedOrigins,
-    AllowedMethods: S.optional(AllowedMethods),
-    AllowedHeaders: AllowedHeaders,
-    MaxAgeSeconds: S.optional(S.Number),
-    ExposeHeaders: S.optional(ExposeHeaders),
-  }),
-).annotate({ identifier: "CorsRule" }) as any as S.Schema<CorsRule>;
 export type CorsPolicy = CorsRule[];
-export const CorsPolicy = /*@__PURE__*/ S.Array(CorsRule);
 export interface GetCorsPolicyOutput {
   CorsPolicy: CorsRule[];
 }
-export const GetCorsPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CorsPolicy: CorsPolicy }).pipe(ns),
-).annotate({ identifier: "GetCorsPolicyOutput" }) as any as S.Schema<GetCorsPolicyOutput>;
 export interface GetLifecyclePolicyInput {
   ContainerName: string;
 }
-export const GetLifecyclePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetLifecyclePolicyInput" }) as any as S.Schema<GetLifecyclePolicyInput>;
 export type LifecyclePolicy = string;
 export interface GetLifecyclePolicyOutput {
   LifecyclePolicy: string;
 }
-export const GetLifecyclePolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LifecyclePolicy: S.String }).pipe(ns),
-).annotate({ identifier: "GetLifecyclePolicyOutput" }) as any as S.Schema<GetLifecyclePolicyOutput>;
 export interface GetMetricPolicyInput {
   ContainerName: string;
 }
-export const GetMetricPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetMetricPolicyInput" }) as any as S.Schema<GetMetricPolicyInput>;
 export type ContainerLevelMetrics = "ENABLED" | "DISABLED" | (string & {});
-export const ContainerLevelMetrics = S.String;
-
 export type ObjectGroup = string;
 export type ObjectGroupName = string;
 export interface MetricPolicyRule {
   ObjectGroup: string;
   ObjectGroupName: string;
 }
-export const MetricPolicyRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ObjectGroup: S.String, ObjectGroupName: S.String }),
-).annotate({ identifier: "MetricPolicyRule" }) as any as S.Schema<MetricPolicyRule>;
 export type MetricPolicyRules = MetricPolicyRule[];
-export const MetricPolicyRules = /*@__PURE__*/ S.Array(MetricPolicyRule);
 export interface MetricPolicy {
   ContainerLevelMetrics: ContainerLevelMetrics;
   MetricPolicyRules?: MetricPolicyRule[];
 }
-export const MetricPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerLevelMetrics: ContainerLevelMetrics,
-    MetricPolicyRules: S.optional(MetricPolicyRules),
-  }),
-).annotate({ identifier: "MetricPolicy" }) as any as S.Schema<MetricPolicy>;
 export interface GetMetricPolicyOutput {
   MetricPolicy: MetricPolicy;
 }
-export const GetMetricPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MetricPolicy: MetricPolicy }).pipe(ns),
-).annotate({ identifier: "GetMetricPolicyOutput" }) as any as S.Schema<GetMetricPolicyOutput>;
 export type PaginationToken = string;
 export type ContainerListLimit = number;
 export interface ListContainersInput {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListContainersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListContainersInput" }) as any as S.Schema<ListContainersInput>;
 export type ContainerList = Container[];
-export const ContainerList = /*@__PURE__*/ S.Array(Container);
 export interface ListContainersOutput {
   Containers: Container[];
   NextToken?: string;
 }
-export const ListContainersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Containers: ContainerList, NextToken: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ListContainersOutput" }) as any as S.Schema<ListContainersOutput>;
 export interface ListTagsForResourceInput {
   Resource: string;
 }
-export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Resource: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: Tag[];
 }
-export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
 export interface PutContainerPolicyInput {
   ContainerName: string;
   Policy: string;
 }
-export const PutContainerPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String, Policy: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutContainerPolicyInput" }) as any as S.Schema<PutContainerPolicyInput>;
 export interface PutContainerPolicyOutput {}
-export const PutContainerPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "PutContainerPolicyOutput" }) as any as S.Schema<PutContainerPolicyOutput>;
 export interface PutCorsPolicyInput {
   ContainerName: string;
   CorsPolicy: CorsRule[];
 }
-export const PutCorsPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String, CorsPolicy: CorsPolicy }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutCorsPolicyInput" }) as any as S.Schema<PutCorsPolicyInput>;
 export interface PutCorsPolicyOutput {}
-export const PutCorsPolicyOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "PutCorsPolicyOutput",
-}) as any as S.Schema<PutCorsPolicyOutput>;
 export interface PutLifecyclePolicyInput {
   ContainerName: string;
   LifecyclePolicy: string;
 }
-export const PutLifecyclePolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String, LifecyclePolicy: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutLifecyclePolicyInput" }) as any as S.Schema<PutLifecyclePolicyInput>;
 export interface PutLifecyclePolicyOutput {}
-export const PutLifecyclePolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "PutLifecyclePolicyOutput" }) as any as S.Schema<PutLifecyclePolicyOutput>;
 export interface PutMetricPolicyInput {
   ContainerName: string;
   MetricPolicy: MetricPolicy;
 }
-export const PutMetricPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String, MetricPolicy: MetricPolicy }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutMetricPolicyInput" }) as any as S.Schema<PutMetricPolicyInput>;
 export interface PutMetricPolicyOutput {}
-export const PutMetricPolicyOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "PutMetricPolicyOutput",
-}) as any as S.Schema<PutMetricPolicyOutput>;
 export interface StartAccessLoggingInput {
   ContainerName: string;
 }
-export const StartAccessLoggingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "StartAccessLoggingInput" }) as any as S.Schema<StartAccessLoggingInput>;
 export interface StartAccessLoggingOutput {}
-export const StartAccessLoggingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "StartAccessLoggingOutput" }) as any as S.Schema<StartAccessLoggingOutput>;
 export interface StopAccessLoggingInput {
   ContainerName: string;
 }
-export const StopAccessLoggingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "StopAccessLoggingInput" }) as any as S.Schema<StopAccessLoggingInput>;
 export interface StopAccessLoggingOutput {}
-export const StopAccessLoggingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({ identifier: "StopAccessLoggingOutput" }) as any as S.Schema<StopAccessLoggingOutput>;
 export interface TagResourceInput {
   Resource: string;
   Tags: Tag[];
 }
-export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Resource: S.String, Tags: TagList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "TagResourceOutput",
-}) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   Resource: string;
   TagKeys: string[];
 }
-export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Resource: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "UntagResourceOutput",
-}) as any as S.Schema<UntagResourceOutput>;
 export type ErrorMessage = string;
 export type CreateContainerError =
   | ContainerInUseException
@@ -498,8 +280,8 @@ export const createContainer: API.OperationMethod<
   CreateContainerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateContainerInput,
-  output: CreateContainerOutput,
+  input: __S(80, __c20, 0) as any as S.Schema<CreateContainerInput>,
+  output: __S(81, __c20, 1) as any as S.Schema<CreateContainerOutput>,
   errors: [ContainerInUseException, InternalServerError, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -522,8 +304,8 @@ export const deleteContainer: API.OperationMethod<
   DeleteContainerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteContainerInput,
-  output: DeleteContainerOutput,
+  input: __S(92, __c23, 0) as any as S.Schema<DeleteContainerInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteContainerOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -545,8 +327,8 @@ export const deleteContainerPolicy: API.OperationMethod<
   DeleteContainerPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteContainerPolicyInput,
-  output: DeleteContainerPolicyOutput,
+  input: __S(100, __c25, 0) as any as S.Schema<DeleteContainerPolicyInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteContainerPolicyOutput>,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
@@ -578,8 +360,8 @@ export const deleteCorsPolicy: API.OperationMethod<
   DeleteCorsPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCorsPolicyInput,
-  output: DeleteCorsPolicyOutput,
+  input: __S(104, __c26, 0) as any as S.Schema<DeleteCorsPolicyInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteCorsPolicyOutput>,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
@@ -606,8 +388,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLifecyclePolicyInput,
-  output: DeleteLifecyclePolicyOutput,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteLifecyclePolicyInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteLifecyclePolicyOutput>,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
@@ -634,8 +416,8 @@ export const deleteMetricPolicy: API.OperationMethod<
   DeleteMetricPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMetricPolicyInput,
-  output: DeleteMetricPolicyOutput,
+  input: __S(4, __c1, 0) as any as S.Schema<DeleteMetricPolicyInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteMetricPolicyOutput>,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
@@ -666,8 +448,8 @@ export const describeContainer: API.OperationMethod<
   DescribeContainerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeContainerInput,
-  output: DescribeContainerOutput,
+  input: __S(8, __c2, 0) as any as S.Schema<DescribeContainerInput>,
+  output: __S(9, __c2, 1) as any as S.Schema<DescribeContainerOutput>,
   errors: [ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -691,8 +473,8 @@ export const getContainerPolicy: API.OperationMethod<
   GetContainerPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetContainerPolicyInput,
-  output: GetContainerPolicyOutput,
+  input: __S(12, __c3, 0) as any as S.Schema<GetContainerPolicyInput>,
+  output: __S(13, __c3, 1) as any as S.Schema<GetContainerPolicyOutput>,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
@@ -724,8 +506,8 @@ export const getCorsPolicy: API.OperationMethod<
   GetCorsPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCorsPolicyInput,
-  output: GetCorsPolicyOutput,
+  input: __S(16, __c4, 0) as any as S.Schema<GetCorsPolicyInput>,
+  output: __S(17, __c4, 1) as any as S.Schema<GetCorsPolicyOutput>,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
@@ -752,8 +534,8 @@ export const getLifecyclePolicy: API.OperationMethod<
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLifecyclePolicyInput,
-  output: GetLifecyclePolicyOutput,
+  input: __S(28, __c7, 0) as any as S.Schema<GetLifecyclePolicyInput>,
+  output: __S(29, __c7, 1) as any as S.Schema<GetLifecyclePolicyOutput>,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
@@ -780,8 +562,8 @@ export const getMetricPolicy: API.OperationMethod<
   GetMetricPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMetricPolicyInput,
-  output: GetMetricPolicyOutput,
+  input: __S(32, __c8, 0) as any as S.Schema<GetMetricPolicyInput>,
+  output: __S(33, __c8, 1) as any as S.Schema<GetMetricPolicyOutput>,
   errors: [
     ContainerInUseException,
     ContainerNotFoundException,
@@ -814,8 +596,8 @@ export const listContainers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListContainersInput,
-  output: ListContainersOutput,
+  input: __S(40, __c10, 0) as any as S.Schema<ListContainersInput>,
+  output: __S(42, __c10, 2) as any as S.Schema<ListContainersOutput>,
   errors: [InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -841,8 +623,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+  input: __S(44, __c11, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(45, __c11, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -870,8 +652,8 @@ export const putContainerPolicy: API.OperationMethod<
   PutContainerPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutContainerPolicyInput,
-  output: PutContainerPolicyOutput,
+  input: __S(48, __c12, 0) as any as S.Schema<PutContainerPolicyInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<PutContainerPolicyOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -904,8 +686,8 @@ export const putCorsPolicy: API.OperationMethod<
   PutCorsPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutCorsPolicyInput,
-  output: PutCorsPolicyOutput,
+  input: __S(52, __c13, 0) as any as S.Schema<PutCorsPolicyInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<PutCorsPolicyOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -928,8 +710,8 @@ export const putLifecyclePolicy: API.OperationMethod<
   PutLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutLifecyclePolicyInput,
-  output: PutLifecyclePolicyOutput,
+  input: __S(56, __c14, 0) as any as S.Schema<PutLifecyclePolicyInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<PutLifecyclePolicyOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -950,8 +732,8 @@ export const putMetricPolicy: API.OperationMethod<
   PutMetricPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutMetricPolicyInput,
-  output: PutMetricPolicyOutput,
+  input: __S(60, __c15, 0) as any as S.Schema<PutMetricPolicyInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<PutMetricPolicyOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -972,8 +754,8 @@ export const startAccessLogging: API.OperationMethod<
   StartAccessLoggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartAccessLoggingInput,
-  output: StartAccessLoggingOutput,
+  input: __S(64, __c16, 0) as any as S.Schema<StartAccessLoggingInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<StartAccessLoggingOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -994,8 +776,8 @@ export const stopAccessLogging: API.OperationMethod<
   StopAccessLoggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopAccessLoggingInput,
-  output: StopAccessLoggingOutput,
+  input: __S(68, __c17, 0) as any as S.Schema<StopAccessLoggingInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<StopAccessLoggingOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1018,8 +800,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceInput,
-  output: TagResourceOutput,
+  input: __S(72, __c18, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<TagResourceOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1040,10 +822,334 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceInput,
-  output: UntagResourceOutput,
+  input: __S(76, __c19, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(96, __c24, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [ContainerInUseException, ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteLifecyclePolicyInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteMetricPolicyInput" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeContainerInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Container: S.optional(__S(84, __c21, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeContainerOutput" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetContainerPolicyInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ Policy: S.String }).pipe(ns)).annotate({
+        identifier: "GetContainerPolicyOutput",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetCorsPolicyInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ CorsPolicy: __S(22, __c5, 2) }).pipe(ns)).annotate({
+        identifier: "GetCorsPolicyOutput",
+      });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AllowedOrigins: __S(24, __c6, 0),
+          AllowedMethods: S.optional(__S(20, __c5, 0)),
+          AllowedHeaders: __S(24, __c6, 0),
+          MaxAgeSeconds: S.optional(S.Number),
+          ExposeHeaders: S.optional(__S(24, __c6, 0)),
+        }),
+      ).annotate({ identifier: "CorsRule" });
+    case 2:
+      return S.Array(__S(21, __c5, 1));
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetLifecyclePolicyInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ LifecyclePolicy: S.String }).pipe(ns)).annotate({
+        identifier: "GetLifecyclePolicyOutput",
+      });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetMetricPolicyInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ MetricPolicy: __S(38, __c9, 2) }).pipe(ns)).annotate({
+        identifier: "GetMetricPolicyOutput",
+      });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ObjectGroup: S.String, ObjectGroupName: S.String }),
+      ).annotate({ identifier: "MetricPolicyRule" });
+    case 1:
+      return S.Array(__S(36, __c9, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerLevelMetrics: S.String,
+          MetricPolicyRules: S.optional(__S(37, __c9, 1)),
+        }),
+      ).annotate({ identifier: "MetricPolicy" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListContainersInput" });
+    case 1:
+      return S.Array(__S(84, __c21, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Containers: __S(41, __c10, 1), NextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListContainersOutput" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Resource: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(89, __c22, 1)) }).pipe(ns)).annotate({
+        identifier: "ListTagsForResourceOutput",
+      });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String, Policy: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutContainerPolicyInput" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String, CorsPolicy: __S(22, __c5, 2) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutCorsPolicyInput" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String, LifecyclePolicy: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutLifecyclePolicyInput" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String, MetricPolicy: __S(38, __c9, 2) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutMetricPolicyInput" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartAccessLoggingInput" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopAccessLoggingInput" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Resource: S.String, Tags: __S(89, __c22, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceInput" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Resource: S.String, TagKeys: __S(24, __c6, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceInput" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String, Tags: S.optional(__S(89, __c22, 1)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateContainerInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ Container: __S(84, __c21, 0) }).pipe(ns)).annotate({
+        identifier: "CreateContainerOutput",
+      });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Endpoint: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ARN: S.optional(S.String),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          AccessLoggingEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Container" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.optional(S.String) })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(88, __c22, 0));
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteContainerInput" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteContainerOutput",
+      });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteContainerPolicyInput" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteCorsPolicyInput" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

@@ -1,5 +1,5 @@
 /**
- * Fly.io SDK trait surface — hand-written.
+ * Fly.io SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. REST services use the bare-payload and
@@ -55,17 +55,21 @@ export interface GraphQLOpTrait {
   readonly type: "query" | "mutation";
 }
 
-export const graphqlOpSymbol = Symbol.for("@distilled.cloud/fly-io/graphql-op");
+export const graphqlOpSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/fly-io/graphql-op");
 
 /** Marks an operation input with its GraphQL document (`com.flyio.graphql#operation`). */
 export const GraphQLOp = (op: GraphQLOpTrait) => makeAnnotation(graphqlOpSymbol, op);
 
-export const responsePathSymbol = Symbol.for("@distilled.cloud/fly-io/graphql-response-path");
+export const responsePathSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/fly-io/graphql-response-path",
+);
 
 /** Dotted path under GraphQL `data` (`com.flyio.graphql#responsePath`). */
 export const ResponsePath = (path: string) => makeAnnotation(responsePathSymbol, path);
 
-export const graphqlPayloadRootSymbol = Symbol.for("@distilled.cloud/fly-io/graphql-payload-root");
+export const graphqlPayloadRootSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/fly-io/graphql-payload-root",
+);
 
 /** Marks a response whose entire value is `data.<responsePath>`. */
 export const GraphQLPayloadRoot = () => makeAnnotation(graphqlPayloadRootSymbol, true);

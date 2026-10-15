@@ -3,12 +3,12 @@ import type { ConfigError } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * HetznerProtocol — the shared bearer-REST protocol instantiated for Hetzner
+ * HetznerProtocol -- the shared bearer-REST protocol instantiated for Hetzner
  * Cloud.
  *
  * Hetzner speaks plain JSON with no success envelope: a single-resource read
  * returns `{ "server": {...} }`, a list returns
- * `{ "servers": [...], "meta": { "pagination": {...} } }` — the generated
+ * `{ "servers": [...], "meta": { "pagination": {...} } }` -- the generated
  * response shapes model those keys directly. FAILURES are enveloped, and
  * uniformly so: `{ "error": { "code": "invalid_input", "message": "...",
  * "details": {...} } }`, where `code` is the machine-readable half and
@@ -18,11 +18,11 @@ import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/
  * the generated operations carry version-less routes.
  *
  * Rate limits (429 `rate_limit_exceeded`) come back with `RateLimit-Limit`,
- * `RateLimit-Remaining` and `RateLimit-Reset` — the pre-IETF spelling, which
+ * `RateLimit-Remaining` and `RateLimit-Reset` -- the pre-IETF spelling, which
  * core's `RateLimit`-dictionary parser does not read, so `TooManyRequests`
  * carries no `retryAfter` and the default policy's backoff applies. That is
  * the right answer here rather than a gap to plug: `RateLimit-Reset` is the
- * timestamp at which the FULL hourly quota is restored — up to an hour out —
+ * timestamp at which the FULL hourly quota is restored -- up to an hour out --
  * while Hetzner refills the budget gradually (one request per second at the
  * default 3600/hour), so a caller that slept until the reset would wait
  * orders of magnitude longer than it needs to.
@@ -78,14 +78,11 @@ const errorDetails = (body: unknown): unknown => {
   return (err as Record<string, unknown>).details ?? undefined;
 };
 
-export const HetznerProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const HetznerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request (the layer is memoized per
   // process); the Credentials service holds an effect, so a token rotated
   // between calls is picked up without rebuilding the layer.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,

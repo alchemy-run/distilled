@@ -1,5 +1,5 @@
 /**
- * Docker credentials — hand-written.
+ * Docker credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -20,9 +20,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "DockerCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "DockerCredentials",
+  ) {}
 
 /** Layer from an optional API key + optional base URL. */
 export const fromApiKey = (config: {
@@ -41,10 +42,12 @@ export const fromApiKey = (config: {
  * Reads DOCKER_API_KEY (optional) and DOCKER_API_BASE_URL (optional).
  * Defaults to {@link DEFAULT_API_BASE_URL} with no Authorization header.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.succeed({
-    apiKey: process.env.DOCKER_API_KEY ? Redacted.make(process.env.DOCKER_API_KEY) : undefined,
+  /*@__PURE__*/ Effect.succeed({
+    apiKey: process.env.DOCKER_API_KEY
+      ? /*@__PURE__*/ Redacted.make(process.env.DOCKER_API_KEY)
+      : undefined,
     apiBaseUrl: process.env.DOCKER_API_BASE_URL ?? DEFAULT_API_BASE_URL,
   }),
 );

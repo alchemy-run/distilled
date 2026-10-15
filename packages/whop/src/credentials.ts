@@ -1,16 +1,15 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Whop credentials — hand-written.
+ * Whop credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ apiKey, apiBaseUrl, apiVersionDate }`
  * per request; the protocol layer formats the `Authorization: Bearer
  * <apiKey>` and `Api-Version-Date` headers from it.
  *
  * `apiKey` is whatever Whop's bearer scheme accepts:
- *   • an **Account API key** — acts on one account and the accounts connected
+ *   * an **Account API key** -- acts on one account and the accounts connected
  *     to it;
- *   • an **App API key** — acts on the accounts that installed your app;
- *   • a **user OAuth access token** — acts as that user, scoped to what they
+ *   * an **App API key** -- acts on the accounts that installed your app;
+ *   * a **user OAuth access token** -- acts as that user, scoped to what they
  *     granted.
  *
  * All three go in the same header, so the SDK does not distinguish them. Keep
@@ -18,7 +17,8 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *
  * @see https://docs.whop.com/developer/api/getting-started
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -43,7 +43,7 @@ export interface Config {
   readonly apiBaseUrl: string;
   /**
    * The dated API version to pin requests to. Defaults to
-   * {@link API_VERSION_DATE} — the version these services were generated
+   * {@link API_VERSION_DATE} -- the version these services were generated
    * from, and the only one whose shapes match the generated schemas.
    *
    * Override it only to reproduce an older account's behavior; a different
@@ -54,31 +54,30 @@ export interface Config {
   readonly apiVersionDate: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "WhopCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("WhopCredentials") {}
 
-const envConfig = EffectConfig.all({
+const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `WHOP_API_KEY` is what Whop's dashboard, CLI and app templates emit.
-  apiKey: EffectConfig.String("WHOP_API_KEY"),
-  apiBaseUrl: EffectConfig.String("WHOP_API_BASE_URL").pipe(
-    EffectConfig.withDefault(DEFAULT_API_BASE_URL),
+  apiKey: /*@__PURE__*/ EffectConfig.String("WHOP_API_KEY"),
+  apiBaseUrl: /*@__PURE__*/ EffectConfig.String("WHOP_API_BASE_URL").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
-  apiVersionDate: EffectConfig.String("WHOP_API_VERSION_DATE").pipe(
-    EffectConfig.withDefault(API_VERSION_DATE),
+  apiVersionDate: /*@__PURE__*/ EffectConfig.String("WHOP_API_VERSION_DATE").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(API_VERSION_DATE),
   ),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "WHOP_API_KEY environment variable is required",
         }),
     ),
-    Effect.map(({ apiKey, apiBaseUrl, apiVersionDate }) => ({
+    /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl, apiVersionDate }) => ({
       apiKey: Redacted.make(apiKey),
       apiBaseUrl,
       apiVersionDate,

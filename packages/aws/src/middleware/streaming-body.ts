@@ -13,7 +13,7 @@
 
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
-import * as AST from "effect/SchemaAST";
+import type * as AST from "effect/SchemaAST";
 import type { Request as ProtocolRequest } from "../client/request.ts";
 import {
   hasHttpPayload,
@@ -157,7 +157,7 @@ const checkIsEventStream = (ast: AST.AST): boolean => {
  * Returns whether the schema has a streaming payload, if it's an event stream,
  * and if it requires length.
  */
-const getStreamingPayloadInfo = (ast: AST.AST): StreamingPayloadInfo => {
+export const getStreamingPayloadInfo = (ast: AST.AST): StreamingPayloadInfo => {
   // For Suspend (S.suspend), unwrap and recurse
   if (ast._tag === "Suspend") {
     return getStreamingPayloadInfo(ast.thunk());

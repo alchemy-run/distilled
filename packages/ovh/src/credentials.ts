@@ -1,13 +1,13 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * OVH credentials — hand-written.
+ * OVH credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
  * on the calling fiber). OVH REST accepts an OAuth2 access token as
  * `Authorization: Bearer <token>` (`OVH_ACCESS_TOKEN`); callers hand an
  * already-fetched token. Application-key request signing is not modelled
- * here — `makeRestProtocol` injects static headers only.
+ * here -- `makeRestProtocol` injects static headers only.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -29,9 +29,8 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "OvhCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("OvhCredentials") {}
 
 const baseUrlFromEnv = (): string => {
   const explicit = process.env.OVH_API_BASE_URL;
@@ -57,9 +56,9 @@ export const fromApiKey = (config: {
   );
 
 /** Reads OVH_ACCESS_TOKEN (required) and OVH_API_BASE_URL / OVH_ENDPOINT. */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.OVH_ACCESS_TOKEN;
 
     if (!apiKey) {

@@ -1,152 +1,158 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Sustainability",
   serviceShapeName: "AwsSustainabilityApiService",
 });
-const auth = T.AwsAuthSigv4({ name: "sustainability" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
-  const { UseFIPS = false, Endpoint, Region } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = () => ({
-    authSchemes: [
-      { name: "sigv4a", signingRegionSet: ["*"] },
-      { name: "sigv4", signingRegion: "us-gov-west-1" },
-    ],
-  });
-  const _p1 = (_0: unknown) => ({
-    authSchemes: [
-      { name: "sigv4a", signingRegionSet: ["*"] },
-      { name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` },
-    ],
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "sustainability" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-05-10");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver(
+  (p, _) => {
+    const { UseFIPS = false, Endpoint, Region } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = () => ({
+      authSchemes: [
+        { name: "sigv4a", signingRegionSet: ["*"] },
+        { name: "sigv4", signingRegion: "us-gov-west-1" },
+      ],
+    });
+    const _p1 = (_0: unknown) => ({
+      authSchemes: [
+        { name: "sigv4a", signingRegionSet: ["*"] },
+        { name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` },
+      ],
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+      }
+      return e(
+        Endpoint,
+        { authSchemes: [{ name: "sigv4a", signingRegionSet: ["*"] }, { name: "sigv4" }] },
+        {},
+      );
     }
-    return e(
-      Endpoint,
-      { authSchemes: [{ name: "sigv4a", signingRegionSet: ["*"] }, { name: "sigv4" }] },
-      {},
-    );
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (_.getAttr(PartitionResult, "name") === "aws" && UseFIPS === false) {
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (_.getAttr(PartitionResult, "name") === "aws" && UseFIPS === false) {
+            return e(
+              `https://api.sustainability.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              {
+                authSchemes: [
+                  { name: "sigv4a", signingRegionSet: ["*"] },
+                  { name: "sigv4", signingRegion: "us-east-1" },
+                ],
+              },
+              {},
+            );
+          }
+          if (_.getAttr(PartitionResult, "name") === "aws-us-gov" && UseFIPS === false) {
+            return e(
+              `https://sustainability.us-gov.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              _p0(),
+              {},
+            );
+          }
+          if (_.getAttr(PartitionResult, "name") === "aws-us-gov" && UseFIPS === true) {
+            return e(
+              `https://sustainability-fips.us-gov.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              _p0(),
+              {},
+            );
+          }
+          if (UseFIPS === true) {
+            return e(
+              `https://sustainability-fips.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+              _p1(PartitionResult),
+              {},
+            );
+          }
           return e(
-            `https://api.sustainability.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            {
-              authSchemes: [
-                { name: "sigv4a", signingRegionSet: ["*"] },
-                { name: "sigv4", signingRegion: "us-east-1" },
-              ],
-            },
-            {},
-          );
-        }
-        if (_.getAttr(PartitionResult, "name") === "aws-us-gov" && UseFIPS === false) {
-          return e(
-            `https://sustainability.us-gov.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            _p0(),
-            {},
-          );
-        }
-        if (_.getAttr(PartitionResult, "name") === "aws-us-gov" && UseFIPS === true) {
-          return e(
-            `https://sustainability-fips.us-gov.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            _p0(),
-            {},
-          );
-        }
-        if (UseFIPS === true) {
-          return e(
-            `https://sustainability-fips.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            `https://sustainability.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             _p1(PartitionResult),
             {},
           );
         }
-        return e(
-          `https://sustainability.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          _p1(PartitionResult),
-          {},
-        );
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+  '{"url":"https://api.sustainability.{R}.api.aws","properties":{"authSchemes":[{"name":"sigv4a","signingRegionSet":["*"]},{"name":"sigv4","signingRegion":"us-east-1"}]},"headers":{}}',
+  [
+    "us-gov-west-1",
+    "us-gov-east-1",
+    "aws-us-gov-global",
+    "cn-north-1",
+    "cn-northwest-1",
+    "aws-cn-global",
+    "us-iso-east-1",
+    "us-iso-west-1",
+    "aws-iso-global",
+    "us-isob-east-1",
+    "aws-iso-b-global",
+    "aws-iso-f-global",
+    "us-isof-east-1",
+    "us-isof-south-1",
+    "eusc-de-east-1",
+  ],
+);
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(429), T.Retryable()),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(429), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export interface TimePeriod {
   Start: Date;
   End: Date;
 }
-export const TimePeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Start: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    End: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
-).annotate({ identifier: "TimePeriod" }) as any as S.Schema<TimePeriod>;
 export type Dimension = "USAGE_ACCOUNT_ID" | "REGION" | "SERVICE" | (string & {});
-export const Dimension = S.String;
-
 export type DimensionList = Dimension[];
-export const DimensionList = /*@__PURE__*/ S.Array(Dimension);
 export type DimensionValue = string;
 export type DimensionValueList = string[];
-export const DimensionValueList = /*@__PURE__*/ S.Array(S.String);
 export type DimensionListMap = { [key in Dimension]?: string[] };
-export const DimensionListMap = /*@__PURE__*/ S.Record(
-  Dimension,
-  DimensionValueList.pipe(S.optional),
-);
 export interface FilterExpression {
   Dimensions?: { [key: string]: string[] | undefined };
 }
-export const FilterExpression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Dimensions: S.optional(DimensionListMap) }),
-).annotate({ identifier: "FilterExpression" }) as any as S.Schema<FilterExpression>;
 export type EmissionsType =
   | "TOTAL_LBM_CARBON_EMISSIONS"
   | "TOTAL_MBM_CARBON_EMISSIONS"
@@ -156,10 +162,7 @@ export type EmissionsType =
   | "TOTAL_SCOPE_3_LBM_CARBON_EMISSIONS"
   | "TOTAL_SCOPE_3_MBM_CARBON_EMISSIONS"
   | (string & {});
-export const EmissionsType = S.String;
-
 export type EmissionsTypeList = EmissionsType[];
-export const EmissionsTypeList = /*@__PURE__*/ S.Array(EmissionsType);
 export type TimeGranularity =
   | "YEARLY_CALENDAR"
   | "YEARLY_FISCAL"
@@ -167,15 +170,10 @@ export type TimeGranularity =
   | "QUARTERLY_FISCAL"
   | "MONTHLY"
   | (string & {});
-export const TimeGranularity = S.String;
-
 export type Month = number;
 export interface GranularityConfiguration {
   FiscalYearStartMonth?: number;
 }
-export const GranularityConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FiscalYearStartMonth: S.optional(S.Number) }),
-).annotate({ identifier: "GranularityConfiguration" }) as any as S.Schema<GranularityConfiguration>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface GetEstimatedCarbonEmissionsRequest {
@@ -188,117 +186,42 @@ export interface GetEstimatedCarbonEmissionsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetEstimatedCarbonEmissionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimePeriod: TimePeriod,
-    GroupBy: S.optional(DimensionList),
-    FilterBy: S.optional(FilterExpression),
-    EmissionsTypes: S.optional(EmissionsTypeList),
-    Granularity: S.optional(TimeGranularity),
-    GranularityConfiguration: S.optional(GranularityConfiguration),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/estimated-carbon-emissions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEstimatedCarbonEmissionsRequest",
-}) as any as S.Schema<GetEstimatedCarbonEmissionsRequest>;
 export type DimensionsMap = { [key in Dimension]?: string };
-export const DimensionsMap = /*@__PURE__*/ S.Record(Dimension, S.String.pipe(S.optional));
 export type ModelVersion = string;
 export type EmissionsUnit = "MTCO2e" | (string & {});
-export const EmissionsUnit = S.String;
-
 export interface Emissions {
   Value: number;
   Unit: EmissionsUnit;
 }
-export const Emissions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.Number, Unit: EmissionsUnit }),
-).annotate({ identifier: "Emissions" }) as any as S.Schema<Emissions>;
 export type EmissionsMap = { [key in EmissionsType]?: Emissions };
-export const EmissionsMap = /*@__PURE__*/ S.Record(EmissionsType, Emissions.pipe(S.optional));
 export interface EstimatedCarbonEmissions {
   TimePeriod: TimePeriod;
   DimensionsValues: { [key: string]: string | undefined };
   ModelVersion: string;
   EmissionsValues: { [key: string]: Emissions | undefined };
 }
-export const EstimatedCarbonEmissions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimePeriod: TimePeriod,
-    DimensionsValues: DimensionsMap,
-    ModelVersion: S.String,
-    EmissionsValues: EmissionsMap,
-  }),
-).annotate({ identifier: "EstimatedCarbonEmissions" }) as any as S.Schema<EstimatedCarbonEmissions>;
 export type EstimatedCarbonEmissionsList = EstimatedCarbonEmissions[];
-export const EstimatedCarbonEmissionsList = /*@__PURE__*/ S.Array(EstimatedCarbonEmissions);
 export interface GetEstimatedCarbonEmissionsResponse {
   Results: EstimatedCarbonEmissions[];
   NextToken?: string;
 }
-export const GetEstimatedCarbonEmissionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Results: EstimatedCarbonEmissionsList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "GetEstimatedCarbonEmissionsResponse",
-}) as any as S.Schema<GetEstimatedCarbonEmissionsResponse>;
 export interface GetEstimatedCarbonEmissionsDimensionValuesRequest {
   TimePeriod: TimePeriod;
   Dimensions: Dimension[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetEstimatedCarbonEmissionsDimensionValuesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimePeriod: TimePeriod,
-    Dimensions: DimensionList,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/estimated-carbon-emissions-dimension-values" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEstimatedCarbonEmissionsDimensionValuesRequest",
-}) as any as S.Schema<GetEstimatedCarbonEmissionsDimensionValuesRequest>;
 export interface DimensionEntry {
   Dimension: Dimension;
   Value: string;
 }
-export const DimensionEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Dimension: Dimension, Value: S.String }),
-).annotate({ identifier: "DimensionEntry" }) as any as S.Schema<DimensionEntry>;
 export type DimensionEntryList = DimensionEntry[];
-export const DimensionEntryList = /*@__PURE__*/ S.Array(DimensionEntry);
 export interface GetEstimatedCarbonEmissionsDimensionValuesResponse {
   Results?: DimensionEntry[];
   NextToken?: string;
 }
-export const GetEstimatedCarbonEmissionsDimensionValuesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Results: S.optional(DimensionEntryList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "GetEstimatedCarbonEmissionsDimensionValuesResponse",
-}) as any as S.Schema<GetEstimatedCarbonEmissionsDimensionValuesResponse>;
 export type WaterAllocationType = "TOTAL_WATER_WITHDRAWALS" | (string & {});
-export const WaterAllocationType = S.String;
-
 export type WaterAllocationTypeList = WaterAllocationType[];
-export const WaterAllocationTypeList = /*@__PURE__*/ S.Array(WaterAllocationType);
 export interface GetEstimatedWaterAllocationRequest {
   TimePeriod: TimePeriod;
   GroupBy?: Dimension[];
@@ -308,102 +231,33 @@ export interface GetEstimatedWaterAllocationRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetEstimatedWaterAllocationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimePeriod: TimePeriod,
-    GroupBy: S.optional(DimensionList),
-    FilterBy: S.optional(FilterExpression),
-    AllocationTypes: S.optional(WaterAllocationTypeList),
-    Granularity: S.optional(TimeGranularity),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/estimated-water-allocation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEstimatedWaterAllocationRequest",
-}) as any as S.Schema<GetEstimatedWaterAllocationRequest>;
 export type WaterAllocationUnit = "m3" | (string & {});
-export const WaterAllocationUnit = S.String;
-
 export interface WaterAllocation {
   Value: number;
   Unit: WaterAllocationUnit;
 }
-export const WaterAllocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.Number, Unit: WaterAllocationUnit }),
-).annotate({ identifier: "WaterAllocation" }) as any as S.Schema<WaterAllocation>;
 export type WaterAllocationMap = { [key in WaterAllocationType]?: WaterAllocation };
-export const WaterAllocationMap = /*@__PURE__*/ S.Record(
-  WaterAllocationType,
-  WaterAllocation.pipe(S.optional),
-);
 export interface EstimatedWaterAllocation {
   TimePeriod: TimePeriod;
   DimensionsValues: { [key: string]: string | undefined };
   ModelVersion: string;
   AllocationValues: { [key: string]: WaterAllocation | undefined };
 }
-export const EstimatedWaterAllocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimePeriod: TimePeriod,
-    DimensionsValues: DimensionsMap,
-    ModelVersion: S.String,
-    AllocationValues: WaterAllocationMap,
-  }),
-).annotate({ identifier: "EstimatedWaterAllocation" }) as any as S.Schema<EstimatedWaterAllocation>;
 export type EstimatedWaterAllocationList = EstimatedWaterAllocation[];
-export const EstimatedWaterAllocationList = /*@__PURE__*/ S.Array(EstimatedWaterAllocation);
 export interface GetEstimatedWaterAllocationResponse {
   Results: EstimatedWaterAllocation[];
   NextToken?: string;
 }
-export const GetEstimatedWaterAllocationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Results: EstimatedWaterAllocationList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "GetEstimatedWaterAllocationResponse",
-}) as any as S.Schema<GetEstimatedWaterAllocationResponse>;
 export interface GetEstimatedWaterAllocationDimensionValuesRequest {
   TimePeriod: TimePeriod;
   Dimensions: Dimension[];
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetEstimatedWaterAllocationDimensionValuesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TimePeriod: TimePeriod,
-    Dimensions: DimensionList,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/estimated-water-allocation-dimension-values" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetEstimatedWaterAllocationDimensionValuesRequest",
-}) as any as S.Schema<GetEstimatedWaterAllocationDimensionValuesRequest>;
 export interface GetEstimatedWaterAllocationDimensionValuesResponse {
   Results: DimensionEntry[];
   NextToken?: string;
 }
-export const GetEstimatedWaterAllocationDimensionValuesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Results: DimensionEntryList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "GetEstimatedWaterAllocationDimensionValuesResponse",
-}) as any as S.Schema<GetEstimatedWaterAllocationDimensionValuesResponse>;
 export type GetEstimatedCarbonEmissionsError =
   | AccessDeniedException
   | InternalServerException
@@ -420,8 +274,8 @@ export const getEstimatedCarbonEmissions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EstimatedCarbonEmissions
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetEstimatedCarbonEmissionsRequest,
-  output: GetEstimatedCarbonEmissionsResponse,
+  input: __S(1, __c0, 1) as any as S.Schema<GetEstimatedCarbonEmissionsRequest>,
+  output: __S(4, __c0, 4) as any as S.Schema<GetEstimatedCarbonEmissionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -455,8 +309,8 @@ export const getEstimatedCarbonEmissionsDimensionValues: API.PaginatedOperationM
   Credentials | HttpClient.HttpClient,
   DimensionEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetEstimatedCarbonEmissionsDimensionValuesRequest,
-  output: GetEstimatedCarbonEmissionsDimensionValuesResponse,
+  input: __S(24, __c3, 0) as any as S.Schema<GetEstimatedCarbonEmissionsDimensionValuesRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<GetEstimatedCarbonEmissionsDimensionValuesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -490,8 +344,8 @@ export const getEstimatedWaterAllocation: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EstimatedWaterAllocation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetEstimatedWaterAllocationRequest,
-  output: GetEstimatedWaterAllocationResponse,
+  input: __S(40, __c5, 0) as any as S.Schema<GetEstimatedWaterAllocationRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<GetEstimatedWaterAllocationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -525,8 +379,8 @@ export const getEstimatedWaterAllocationDimensionValues: API.PaginatedOperationM
   Credentials | HttpClient.HttpClient,
   DimensionEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetEstimatedWaterAllocationDimensionValuesRequest,
-  output: GetEstimatedWaterAllocationDimensionValuesResponse,
+  input: __S(48, __c6, 0) as any as S.Schema<GetEstimatedWaterAllocationDimensionValuesRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<GetEstimatedWaterAllocationDimensionValuesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -543,3 +397,189 @@ export const getEstimatedWaterAllocationDimensionValues: API.PaginatedOperationM
     pageSize: "MaxResults",
   } as const,
 })) as any;
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ FiscalYearStartMonth: S.optional(S.Number) })).annotate({
+        identifier: "GranularityConfiguration",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TimePeriod: __S(8, __c1, 0),
+          GroupBy: S.optional(__S(9, __c1, 1)),
+          FilterBy: S.optional(__S(18, __c2, 2)),
+          EmissionsTypes: S.optional(__S(9, __c1, 1)),
+          Granularity: S.optional(S.String),
+          GranularityConfiguration: S.optional(__S(0, __c0, 0)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/estimated-carbon-emissions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetEstimatedCarbonEmissionsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          TimePeriod: __S(8, __c1, 0),
+          DimensionsValues: __S(19, __c2, 3),
+          ModelVersion: S.String,
+          EmissionsValues: __S(21, __c2, 5),
+        }),
+      ).annotate({ identifier: "EstimatedCarbonEmissions" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Results: __S(3, __c0, 3), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "GetEstimatedCarbonEmissionsResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Start: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          End: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "TimePeriod" });
+    case 1:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(16, __c2, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() => S.Struct({ Dimensions: S.optional(__S(17, __c2, 1)) })).annotate({
+        identifier: "FilterExpression",
+      });
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 4:
+      return S.suspend(() => S.Struct({ Value: S.Number, Unit: S.String })).annotate({
+        identifier: "Emissions",
+      });
+    case 5:
+      return S.Record(S.String, /*@__PURE__*/ __S(20, __c2, 4).pipe(S.optional));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TimePeriod: __S(8, __c1, 0),
+          Dimensions: __S(9, __c1, 1),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/estimated-carbon-emissions-dimension-values" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetEstimatedCarbonEmissionsDimensionValuesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Results: S.optional(__S(33, __c4, 1)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "GetEstimatedCarbonEmissionsDimensionValuesResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Dimension: S.String, Value: S.String })).annotate({
+        identifier: "DimensionEntry",
+      });
+    case 1:
+      return S.Array(__S(32, __c4, 0));
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TimePeriod: __S(8, __c1, 0),
+          GroupBy: S.optional(__S(9, __c1, 1)),
+          FilterBy: S.optional(__S(18, __c2, 2)),
+          AllocationTypes: S.optional(__S(9, __c1, 1)),
+          Granularity: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/estimated-water-allocation" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetEstimatedWaterAllocationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TimePeriod: __S(8, __c1, 0),
+          DimensionsValues: __S(19, __c2, 3),
+          ModelVersion: S.String,
+          AllocationValues: __S(21, __c2, 5),
+        }),
+      ).annotate({ identifier: "EstimatedWaterAllocation" });
+    case 2:
+      return S.Array(__S(41, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Results: __S(42, __c5, 2), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "GetEstimatedWaterAllocationResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TimePeriod: __S(8, __c1, 0),
+          Dimensions: __S(9, __c1, 1),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/estimated-water-allocation-dimension-values" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetEstimatedWaterAllocationDimensionValuesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Results: __S(33, __c4, 1), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "GetEstimatedWaterAllocationDimensionValuesResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

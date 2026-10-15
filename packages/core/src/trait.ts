@@ -1,4 +1,6 @@
-export const annotationMetaSymbol = Symbol.for("@distilled.cloud/core/annotation-meta");
+export const annotationMetaSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/annotation-meta",
+);
 
 export type Annotatable = {
   annotate(annotations: any): Annotatable;
@@ -18,7 +20,7 @@ export interface Annotation {
  * Build a pipeable schema annotation carrying `value` under `sym`. Exported
  * so SDK packages can define their own protocol traits (e.g. cloudflare's
  * envelope traits, aws's smithy traits) with the same mechanics as the
- * generic ones here. Keys may be symbols or plain strings — effect Schema
+ * generic ones here. Keys may be symbols or plain strings -- effect Schema
  * annotation dictionaries accept both.
  */
 export function makeAnnotation<T>(sym: symbol | string, value: T): Annotation {
@@ -29,7 +31,7 @@ export function makeAnnotation<T>(sym: symbol | string, value: T): Annotation {
 }
 
 /**
- * Combine several annotations into one — needed where only a single
+ * Combine several annotations into one -- needed where only a single
  * annotations object can be supplied (e.g. the second argument of
  * `S.Class`).
  */
@@ -63,7 +65,7 @@ export interface HttpTrait {
   readonly code?: number;
   /**
    * Request body encoding. Default is JSON; `"multipart"` sends
-   * multipart/form-data — body members become form parts (objects
+   * multipart/form-data -- body members become form parts (objects
    * JSON-encoded) and members marked `FormDataFile()` append their files.
    * `"form-urlencoded"` sends application/x-www-form-urlencoded with
    * Stripe-style bracket notation for nested objects and arrays (see
@@ -80,13 +82,13 @@ export interface HttpTrait {
   /**
    * Explicit `Accept` for the operation, when the API serves more than one
    * response media type. Atlas pins an API version this way (e.g.
-   * `application/vnd.atlas.2024-05-30+json` — `application/json` alone is a
+   * `application/vnd.atlas.2024-05-30+json` -- `application/json` alone is a
    * 406). Protocols that don't read it fall back to their own default.
    */
   readonly accept?: string;
 }
 
-export const httpSymbol = Symbol.for("@distilled.cloud/core/http");
+export const httpSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http");
 /**
  * Operation-level HTTP binding: the request method + URI template. Stamped on
  * the input schema so the protocol can build the request line. URI `{labels}`
@@ -94,11 +96,13 @@ export const httpSymbol = Symbol.for("@distilled.cloud/core/http");
  */
 export const Http = (trait: HttpTrait) => makeAnnotation(httpSymbol, trait);
 
-export const labelSymbol = Symbol.for("@distilled.cloud/core/http/label");
+export const labelSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/label");
 /** Bind a member to a `{name}` placeholder in the operation's URI template. */
 export const Label = (name?: string) => makeAnnotation(labelSymbol, name ?? true);
 
-export const labelEncodingSymbol = Symbol.for("@distilled.cloud/core/http/label-encoding");
+export const labelEncodingSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/http/label-encoding",
+);
 /** Preserve selected RFC 3986 pchar delimiters inside a single URI label. */
 export const LabelEncoding = (options: { readonly preserve: string }) => {
   if (!/^[!$&'()*+,;=:@]*$/.test(options.preserve)) {
@@ -107,41 +111,45 @@ export const LabelEncoding = (options: { readonly preserve: string }) => {
   return makeAnnotation(labelEncodingSymbol, options.preserve);
 };
 
-export const responseCodeSymbol = Symbol.for("@distilled.cloud/core/http/response-code");
+export const responseCodeSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/http/response-code",
+);
 export const ResponseCode = () => makeAnnotation(responseCodeSymbol, true);
 
-export const headerSymbol = Symbol.for("@distilled.cloud/core/http/header");
+export const headerSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/header");
 export const Header = (name?: string) => makeAnnotation(headerSymbol, name ?? true);
 
-export const bodySymbol = Symbol.for("@distilled.cloud/core/http/body");
+export const bodySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/body");
 export const Body = (name?: string) => makeAnnotation(bodySymbol, name ?? true);
 
-export const querySymbol = Symbol.for("@distilled.cloud/core/http/query");
+export const querySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/query");
 export const Query = (name?: string) => makeAnnotation(querySymbol, name ?? true);
 
-export const deepQuerySymbol = Symbol.for("@distilled.cloud/core/http/deep-query");
+export const deepQuerySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/deep-query");
 /**
  * Binds a struct-valued input member to a family of DOTTED query parameters:
  * `{ account: { id, name } }` with `DeepQuery("account")` serializes as
- * `?account.id=…&account.name=…` (null/undefined entries skipped). This is
+ * `?account.id=...&account.name=...` (null/undefined entries skipped). This is
  * how several list endpoints model their filters on the wire (e.g.
  * Cloudflare zones list `account.id` / `account.name`) while the TS surface
  * keeps the nested-object shape (v0 parity).
  */
 export const DeepQuery = (name?: string) => makeAnnotation(deepQuerySymbol, name ?? true);
 
-export const httpBodySymbol = Symbol.for("@distilled.cloud/core/http-body");
+export const httpBodySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http-body");
 /**
  * Marks the input member whose value IS the entire request body (raw arrays/
- * scalars — e.g. endpoints that POST a bare JSON array). Mirrors
+ * scalars -- e.g. endpoints that POST a bare JSON array). Mirrors
  * `smithy.api#httpPayload`.
  */
 export const HttpBody = () => makeAnnotation(httpBodySymbol, true);
 
-export const stringEncodedSymbol = Symbol.for("@distilled.cloud/core/http/string-encoded");
+export const stringEncodedSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/http/string-encoded",
+);
 /**
- * Marks a member the API only accepts as the STRING spelling of its value —
- * `true` travels as `"true"`, `3` as `"3"` — while the TS surface keeps the
+ * Marks a member the API only accepts as the STRING spelling of its value --
+ * `true` travels as `"true"`, `3` as `"3"` -- while the TS surface keeps the
  * natural type (e.g. Cloudflare's multipart `validation_enabled`, which the
  * docs model as the enum `"true" | "false"`). The protocol stringifies body
  * members on encode, element-wise for lists; `null` is left alone. Query and
@@ -150,7 +158,7 @@ export const stringEncodedSymbol = Symbol.for("@distilled.cloud/core/http/string
  */
 export const StringEncoded = () => makeAnnotation(stringEncodedSymbol, true);
 
-export const formDataFileSymbol = Symbol.for("@distilled.cloud/core/form-data-file");
+export const formDataFileSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/form-data-file");
 /**
  * Marks an input member holding `File`/`Blob` parts for a multipart upload
  * (`Http({ contentType: "multipart" })`). Each file is appended to the form
@@ -161,9 +169,9 @@ export const FormDataFile = () => makeAnnotation(formDataFileSymbol, true);
 
 //#region Generic JSON traits
 
-export const keyDictionarySymbol = Symbol.for("@distilled.cloud/core/key-dictionary");
+export const keyDictionarySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/key-dictionary");
 /**
- * Deep TS-name→wire-name key dictionary for members whose full structure is
+ * Deep TS-name->wire-name key dictionary for members whose full structure is
  * not modeled (opaque `Document` content). The protocol renames any matching
  * key at any depth on encode (and the reverse on decode); keys not in the
  * dictionary pass through verbatim.
@@ -179,10 +187,10 @@ export type KeyDictionaryEntries = Record<string, string | ReadonlyArray<string>
 export const KeyDictionary = (dict: KeyDictionaryEntries) =>
   makeAnnotation(keyDictionarySymbol, dict);
 
-export const unionCasesSymbol = Symbol.for("@distilled.cloud/core/union-cases");
+export const unionCasesSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/union-cases");
 
 /**
- * The literal member every case of a union fixes to its own value — what the
+ * The literal member every case of a union fixes to its own value -- what the
  * docs call the resource `type` or the action `id`. `values[i]` is the value
  * case `i` carries.
  */
@@ -198,8 +206,8 @@ export interface UnionDiscriminator {
  * sets to pick the active case and drop the others, so consumers' `"key" in
  * value` discrimination works.
  *
- * Key sets alone cannot tell apart cases that share them — the 41 resource
- * kinds of `resource_tagging`, the 34 page-rule actions — so when the union
+ * Key sets alone cannot tell apart cases that share them -- the 41 resource
+ * kinds of `resource_tagging`, the 34 page-rule actions -- so when the union
  * has a discriminator the protocol reads the case off it and only falls back
  * to key-set scoring for a value whose tag is missing or unknown.
  */
@@ -211,7 +219,7 @@ export const UnionCases = (
 
 //#region Error matcher traits
 
-export const errorMatchersSymbol = Symbol.for("@distilled.cloud/core/error-matchers");
+export const errorMatchersSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/error-matchers");
 
 /** Exact text, or the conjunction of substring and regular-expression constraints. */
 export type ErrorTextMatcher = string | { readonly includes?: string; readonly matches?: string };
@@ -246,7 +254,7 @@ export interface ErrorMatcher {
  * Stamp wire-matching rules onto a generated error class. Protocols consult
  * these to decide which of an operation's declared error classes a failed
  * response should surface as (most specific matcher wins; ties break by
- * declaration order — see `matchTypedError` in `core/protocol-http`).
+ * declaration order -- see `matchTypedError` in `core/protocol-http`).
  */
 export const applyErrorMatchers = <C>(cls: C, matchers: ReadonlyArray<ErrorMatcher>): C => {
   (cls as any)[errorMatchersSymbol] = matchers;

@@ -7,7 +7,7 @@ import {
 import { getAnn, getProps, hasPropAnn, mapKeys } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 /**
- * AcmeProtocol — hand-written.
+ * AcmeProtocol -- hand-written.
  *
  * ACME (RFC 8555) is JSON over HTTPS with two twists the generic REST
  * protocol cannot express:
@@ -70,28 +70,28 @@ export type AcmeOpContext = Credentials | HttpClient.HttpClient;
 // Directory + nonce caches (per CA, process-wide)
 // =============================================================================
 
-const DirectorySchema = Schema.Struct({
+const DirectorySchema = /*@__PURE__*/ Schema.Struct({
   newNonce: Schema.String,
   newAccount: Schema.String,
   newOrder: Schema.String,
   revokeCert: Schema.String,
-  newAuthz: Schema.optional(Schema.String),
-  keyChange: Schema.optional(Schema.String),
-  meta: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+  newAuthz: /*@__PURE__*/ Schema.optional(Schema.String),
+  keyChange: /*@__PURE__*/ Schema.optional(Schema.String),
+  meta: /*@__PURE__*/ Schema.optional(/*@__PURE__*/ Schema.Record(Schema.String, Schema.Unknown)),
 });
 type Directory = typeof DirectorySchema.Type;
 
-const directories = new Map<string, Directory>();
+const directories = /*@__PURE__*/ new Map<string, Directory>();
 /** The last unused `Replay-Nonce` per directory URL. Nonces are single-use. */
-const nonces = new Map<string, string>();
+const nonces = /*@__PURE__*/ new Map<string, string>();
 
 type SigningContext = Omit<SignOptions, "nonce"> & {
   readonly directoryUrl: string;
 };
 // HTTP request copies preserve the body identity; entries live only with a request.
-const signedRequests = new WeakMap<HttpBody.HttpBody, SigningContext>();
+const signedRequests = /*@__PURE__*/ new WeakMap<HttpBody.HttpBody, SigningContext>();
 
-const resolveCredentials = Effect.gen(function* () {
+const resolveCredentials = /*@__PURE__*/ Effect.gen(function* () {
   const resolve = yield* Credentials;
   return yield* resolve as Effect.Effect<Config>;
 });
@@ -193,7 +193,7 @@ const DIRECTORY_OPERATIONS: Record<string, keyof Directory> = {
 };
 
 /** Operations whose payload is the empty POST-as-GET. */
-const POST_AS_GET = new Set(["GetOrder", "GetAuthorization", "DownloadCertificate"]);
+const POST_AS_GET = /*@__PURE__*/ new Set(["GetOrder", "GetAuthorization", "DownloadCertificate"]);
 
 const JOSE_ACCEPT = "application/json, application/pem-certificate-chain";
 
@@ -515,9 +515,9 @@ const parseJson = (text: string) =>
 
 const fail = <E>(error: E) => Effect.fail(error) as Effect.Effect<never, E>;
 
-export const AcmeProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+export const AcmeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
-  API.Protocol.of({
+  /*@__PURE__*/ API.Protocol.of({
     encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: (args) => decode(args) as Effect.Effect<unknown>,
   }),

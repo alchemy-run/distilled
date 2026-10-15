@@ -1,4 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
+import { debugHttp } from "@distilled.cloud/core/debug";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import type { DefaultErrors } from "@distilled.cloud/core/errors";
 import { getAnn, getProps, hasPropAnn, nameOf } from "@distilled.cloud/core/protocol-http";
@@ -13,13 +14,13 @@ import {
   querySymbol,
 } from "@distilled.cloud/core/trait";
 /**
- * GoogleWorkspaceProtocol — hand-written.
+ * GoogleWorkspaceProtocol -- hand-written.
  *
  * Speaks Google's JSON REST protocol as the distilled google-workspace client did. The
  * generic trait helpers live in `@distilled.cloud/core/protocol-http`; this
  * module supplies Google's discovery REST protocol:
  *
- *   request:  credentials → `Authorization: Bearer <access token>`; the
+ *   request:  credentials -> `Authorization: Bearer <access token>`; the
  *             per-service base URL (rootUrl + servicePath) read from the
  *             extended `T.Http({ ... baseUrl })` trait; RFC 6570
  *             reserved-expansion for `{+param}` path tokens (Google
@@ -30,13 +31,13 @@ import {
  *
  *   response: 2xx JSON body returned as-is (Google wire names are already the
  *             TS-facing names). Failures carry the standard Google error
- *             envelope `{ error: { code, message, status, details } }` —
+ *             envelope `{ error: { code, message, status, details } }` --
  *             dispatch is purely by HTTP status via core's
  *             `HTTP_STATUS_MAP` (mirroring the distilled google-workspace client), with
  *             the envelope's gRPC-style `status` string and `details[]`
  *             tacked onto the instance so the per-service error classes'
  *             declared fields are populated at catch sites. Unmatched
- *             statuses → `UnknownGoogleWorkspaceError`.
+ *             statuses -> `UnknownGoogleWorkspaceError`.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
@@ -93,8 +94,8 @@ const appendQuery = (query: URLSearchParams, name: string, value: unknown): void
  * <https://cloud.google.com/apis/design/errors>:
  *
  * ```json
- * { "error": { "code": 400, "message": "…", "status": "FAILED_PRECONDITION",
- *   "details": [{ "@type": "type.googleapis.com/google.rpc.QuotaFailure", … }] } }
+ * { "error": { "code": 400, "message": "...", "status": "FAILED_PRECONDITION",
+ *   "details": [{ "@type": "type.googleapis.com/google.rpc.QuotaFailure", ... }] } }
  * ```
  */
 const extractGoogleErrorEnvelope = (
@@ -136,7 +137,7 @@ const extractGoogleErrorEnvelope = (
  * (string) and the runtime instance built here shares a tag with the
  * per-service class, so tacking the structured envelope fields onto the
  * instance after construction makes them visible at the per-service
- * narrowed type — core stays untouched (mirrors the distilled google-workspace client).
+ * narrowed type -- core stays untouched (mirrors the distilled google-workspace client).
  */
 type EnvelopeAddenda = {
   status?: string;
@@ -144,13 +145,13 @@ type EnvelopeAddenda = {
 };
 
 // The protocol layer is memoized per process by `API.make`, so the build
-// must not capture credentials — `encode` resolves Credentials from the
+// must not capture credentials -- `encode` resolves Credentials from the
 // calling fiber's context on every request. The requirement is erased at
 // this boundary (Protocol effects are typed with no requirements) and
 // reintroduced for callers by the generated `GoogleWorkspaceOpContext` annotations.
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
-    // The Credentials service holds an effect — resolving it here (per
+    // The Credentials service holds an effect -- resolving it here (per
     // request) picks up externally-rotated tokens.
     const resolveCredentials = yield* Credentials;
     const creds: Config = yield* resolveCredentials;
@@ -197,7 +198,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     const qs = query.toString();
     const url = `${http.baseUrl}${uri}${qs ? `?${qs}` : ""}`;
-    if (process.env.DISTILLED_DEBUG_HTTP) {
+    if (debugHttp()) {
       console.error(`[distilled] ${http.method} ${url}`);
     }
 
@@ -220,10 +221,10 @@ const decode = ({
   readonly errors: ReadonlyArray<unknown>;
 }) =>
   Effect.gen(function* () {
-    // Read as text and parse tolerantly — some error responses (proxies,
+    // Read as text and parse tolerantly -- some error responses (proxies,
     // HTML error pages) carry non-JSON bodies.
     const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-    if (process.env.DISTILLED_DEBUG_HTTP) {
+    if (debugHttp()) {
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
     }
     let json: unknown;
@@ -244,7 +245,7 @@ const decode = ({
 
       // Status-map dispatch, exactly like the distilled google-workspace client: the
       // constructed instance shares its `_tag` with the per-service typed
-      // error classes (NotFound/Forbidden/BadRequest/Conflict/…), and the
+      // error classes (NotFound/Forbidden/BadRequest/Conflict/...), and the
       // envelope's `status` / `details` are tacked on so the per-service
       // narrowed type sees them.
       const ErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
@@ -283,9 +284,9 @@ const decode = ({
     ).pipe(Effect.catch(fail));
   });
 
-export const GoogleWorkspaceProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+export const GoogleWorkspaceProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
-  API.Protocol.of({
+  /*@__PURE__*/ API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
     encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,

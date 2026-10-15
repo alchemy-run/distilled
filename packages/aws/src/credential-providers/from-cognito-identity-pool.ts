@@ -29,7 +29,7 @@ export interface IdentityIdCache {
   readonly remove: (key: string) => Effect.Effect<void>;
 }
 
-const memoryStore = new Map<string, string>();
+const memoryStore = /*@__PURE__*/ new Map<string, string>();
 
 /** `localStorage` where the runtime has a usable one; Node does not. */
 const storage = (): Storage | undefined => {

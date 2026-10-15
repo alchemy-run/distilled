@@ -1,16 +1,16 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Okta credentials — hand-written.
+ * Okta credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
  * on the calling fiber). Dual-mode auth:
  *
- *   SSWS API token → `Authorization: SSWS <apiToken>`
- *   OAuth access token → `Authorization: Bearer <apiToken>`
+ *   SSWS API token -> `Authorization: SSWS <apiToken>`
+ *   OAuth access token -> `Authorization: Bearer <apiToken>`
  *
- * There is no global Okta host — every org has its own domain
- * (`https://dev-123456.okta.com`, a custom domain, …), so `apiBaseUrl` is
+ * There is no global Okta host -- every org has its own domain
+ * (`https://dev-123456.okta.com`, a custom domain, ...), so `apiBaseUrl` is
  * required.
  */
 import * as Context from "effect/Context";
@@ -27,9 +27,8 @@ export interface Config {
   readonly authScheme: AuthScheme;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "OktaCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("OktaCredentials") {}
 
 const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -63,9 +62,9 @@ export const fromAccessToken = (config: {
  * Reads OKTA_API_TOKEN + OKTA_ORG_URL (required) and OKTA_AUTH_SCHEME
  * (optional, `SSWS` or `Bearer`; default SSWS).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiToken = process.env.OKTA_API_TOKEN;
     const apiBaseUrl = process.env.OKTA_ORG_URL;
     const scheme = process.env.OKTA_AUTH_SCHEME;

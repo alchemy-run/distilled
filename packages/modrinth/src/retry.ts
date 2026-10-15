@@ -32,17 +32,19 @@ export {
 } from "@distilled.cloud/core/retry";
 
 /** Context tag for configuring retry behavior of Modrinth API calls. */
-export class Retry extends Context.Service<Retry, Policy>()("ModrinthRetry") {}
+export class Retry extends /*@__PURE__*/ Context.Service<Retry, Policy>()("ModrinthRetry") {}
 
 /** Provides a custom retry policy to every Modrinth API call below it. */
 export const policy = (optionsOrFactory: Policy) =>
   Effect.provide(Layer.succeed(Retry, optionsOrFactory));
 
 /** Disables all automatic retries. */
-export const none = Effect.provide(Layer.succeed(Retry, { while: () => false }));
+export const none = /*@__PURE__*/ Effect.provide(
+  /*@__PURE__*/ Layer.succeed(Retry, { while: () => false }),
+);
 
 /** Apply the throttling retry policy (retries throttling errors indefinitely). */
-export const throttling = policy(throttlingFactory);
+export const throttling = /*@__PURE__*/ policy(throttlingFactory);
 
 /** Apply the transient retry policy (retries all transient errors indefinitely). */
-export const transient = policy(transientFactory);
+export const transient = /*@__PURE__*/ policy(transientFactory);

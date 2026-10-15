@@ -2,13 +2,13 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * AdyenProtocol — hand-written.
+ * AdyenProtocol -- hand-written.
  *
  * Adyen Checkout speaks JSON REST authenticated with `X-API-Key` (no
  * response envelope), so the whole protocol is one `makeRestProtocol` call
  * from `core/protocol-rest`:
  *
- *   request:  credentials → `X-API-Key: <apiKey>` + base URL
+ *   request:  credentials -> `X-API-Key: <apiKey>` + base URL
  *             (default https://checkout-test.adyen.com/v72), resolved from the
  *             calling fiber on every request
  *
@@ -57,13 +57,10 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const AdyenProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const AdyenProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     "X-API-Key": Redacted.value(creds.apiKey),

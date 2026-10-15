@@ -1,12 +1,12 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Modal credentials — hand-written.
+ * Modal credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ tokenId, tokenSecret, apiBaseUrl }`
  * per request; the protocol layer sends them as `x-modal-token-id` /
  * `x-modal-token-secret` (the same headers the official JS/Go clients use).
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -26,24 +26,23 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "ModalCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("ModalCredentials") {}
 
-const envConfig = EffectConfig.all({
-  tokenId: EffectConfig.Redacted("MODAL_TOKEN_ID"),
-  tokenSecret: EffectConfig.Redacted("MODAL_TOKEN_SECRET"),
-  apiBaseUrl: EffectConfig.String("MODAL_SERVER_URL").pipe(
-    EffectConfig.orElse(() =>
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  tokenId: /*@__PURE__*/ EffectConfig.Redacted("MODAL_TOKEN_ID"),
+  tokenSecret: /*@__PURE__*/ EffectConfig.Redacted("MODAL_TOKEN_SECRET"),
+  apiBaseUrl: /*@__PURE__*/ EffectConfig.String("MODAL_SERVER_URL").pipe(
+    /*@__PURE__*/ EffectConfig.orElse(() =>
       EffectConfig.String("MODAL_API_URL").pipe(EffectConfig.withDefault(DEFAULT_API_BASE_URL)),
     ),
   ),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "MODAL_TOKEN_ID and MODAL_TOKEN_SECRET environment variables are required",

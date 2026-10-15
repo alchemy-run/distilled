@@ -1,20 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Kinesis Video WebRTC Storage",
   serviceShapeName: "AWSAcuityRoutingServiceLambda",
 });
-const auth = T.AwsAuthSigv4({ name: "kinesisvideo" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "kinesisvideo" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-05-10");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -71,70 +74,43 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://kinesisvideo.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ClientLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ClientLimitExceededException>()(
     "ClientLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidArgumentException
   extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
     "InvalidArgumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export type ChannelArn = string;
 export interface JoinStorageSessionInput {
   channelArn: string;
 }
-export const JoinStorageSessionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/joinStorageSession" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "JoinStorageSessionInput" }) as any as S.Schema<JoinStorageSessionInput>;
 export interface JoinStorageSessionResponse {}
-export const JoinStorageSessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "JoinStorageSessionResponse",
-}) as any as S.Schema<JoinStorageSessionResponse>;
 export type ClientId = string;
 export interface JoinStorageSessionAsViewerInput {
   channelArn: string;
   clientId: string;
 }
-export const JoinStorageSessionAsViewerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ channelArn: S.String, clientId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/joinStorageSessionAsViewer" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "JoinStorageSessionAsViewerInput",
-}) as any as S.Schema<JoinStorageSessionAsViewerInput>;
 export interface JoinStorageSessionAsViewerResponse {}
-export const JoinStorageSessionAsViewerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "JoinStorageSessionAsViewerResponse",
-}) as any as S.Schema<JoinStorageSessionAsViewerResponse>;
 export type JoinStorageSessionError =
   | AccessDeniedException
   | ClientLimitExceededException
@@ -145,7 +121,7 @@ export type JoinStorageSessionError =
  * Before using this API, you must call the `GetSignalingChannelEndpoint` API to request the WEBRTC endpoint. You then specify the endpoint and region in your `JoinStorageSession` API request.
  *
  * Join the ongoing one way-video and/or multi-way audio WebRTC session as a video producing
- * device for an input channel. If there’s no existing session for the channel, a new streaming
+ * device for an input channel. If there's no existing session for the channel, a new streaming
  * session needs to be created, and the Amazon Resource Name (ARN) of the signaling channel must
  * be provided.
  *
@@ -192,8 +168,8 @@ export const joinStorageSession: API.OperationMethod<
   JoinStorageSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: JoinStorageSessionInput,
-  output: JoinStorageSessionResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<JoinStorageSessionInput>,
+  output: __S(2, __c1, 0) as any as S.Schema<JoinStorageSessionResponse>,
   errors: [
     AccessDeniedException,
     ClientLimitExceededException,
@@ -213,7 +189,7 @@ export type JoinStorageSessionAsViewerError =
   | CommonErrors;
 /**
  * Join the ongoing one way-video and/or multi-way audio WebRTC session as
- * a viewer for an input channel. If there’s
+ * a viewer for an input channel. If there's
  * no existing session for the channel, create a new streaming session and provide
  * the Amazon Resource Name (ARN) of the signaling channel (`channelArn`)
  * and client id (`clientId`).
@@ -227,7 +203,7 @@ export type JoinStorageSessionAsViewerError =
  *
  * Customers can also use existing Kinesis Video Streams features like
  * `HLS` or `DASH` playback, Image generation, and more
- * with ingested WebRTC media. If there’s an existing session with the same
+ * with ingested WebRTC media. If there's an existing session with the same
  * `clientId` that's found in the join session request, the new request takes precedence.
  */
 export const joinStorageSessionAsViewer: API.OperationMethod<
@@ -236,8 +212,8 @@ export const joinStorageSessionAsViewer: API.OperationMethod<
   JoinStorageSessionAsViewerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: JoinStorageSessionAsViewerInput,
-  output: JoinStorageSessionAsViewerResponse,
+  input: __S(4, __c2, 0) as any as S.Schema<JoinStorageSessionAsViewerInput>,
+  output: __S(2, __c1, 0) as any as S.Schema<JoinStorageSessionAsViewerResponse>,
   errors: [
     AccessDeniedException,
     ClientLimitExceededException,
@@ -248,3 +224,49 @@ export const joinStorageSessionAsViewer: API.OperationMethod<
   retry: Retry,
   operationName: "JoinStorageSessionAsViewer",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ channelArn: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/joinStorageSession" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "JoinStorageSessionInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "JoinStorageSessionResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ channelArn: S.String, clientId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/joinStorageSessionAsViewer" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "JoinStorageSessionAsViewerInput" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
-import * as redacted from "effect/Redacted";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -9,15 +10,17 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const ns = T.XmlNamespace("http://storagegateway.amazonaws.com/doc/2013-06-30");
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://storagegateway.amazonaws.com/doc/2013-06-30");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Storage Gateway",
   serviceShapeName: "StorageGateway_20130630",
 });
-const auth = T.AwsAuthSigv4({ name: "storagegateway" });
-const ver = T.ServiceVersion("2013-06-30");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "storagegateway" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2013-06-30");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -74,40 +77,46 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://storagegateway.{R}.{D}","properties":{},"headers":{}}');
 
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
     "InternalServerError",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      error: S.optional(
-        S.suspend(() => StorageGatewayError).annotate({ identifier: "StorageGatewayError" }),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      error: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)).annotate({
+          identifier: "StorageGatewayError",
+        }),
       ),
     },
-    T.HttpError(500),
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidGatewayRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidGatewayRequestException>()(
     "InvalidGatewayRequestException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      error: S.optional(
-        S.suspend(() => StorageGatewayError).annotate({ identifier: "StorageGatewayError" }),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      error: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)).annotate({
+          identifier: "StorageGatewayError",
+        }),
       ),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableError
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableError>()(
     "ServiceUnavailableError",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      error: S.optional(
-        S.suspend(() => StorageGatewayError).annotate({ identifier: "StorageGatewayError" }),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      error: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)).annotate({
+          identifier: "StorageGatewayError",
+        }),
       ),
     },
-    T.HttpError(503),
+    /*@__PURE__*/ T.HttpError(503),
   ).pipe(C.withServerError) {}
 export type ActivationKey = string;
 export type GatewayName = string;
@@ -122,11 +131,7 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
-export const Tags = /*@__PURE__*/ S.Array(Tag);
 export interface ActivateGatewayInput {
   ActivationKey: string;
   GatewayName: string;
@@ -137,89 +142,41 @@ export interface ActivateGatewayInput {
   MediumChangerType?: string;
   Tags?: Tag[];
 }
-export const ActivateGatewayInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActivationKey: S.String,
-    GatewayName: S.String,
-    GatewayTimezone: S.String,
-    GatewayRegion: S.String,
-    GatewayType: S.optional(S.String),
-    TapeDriveType: S.optional(S.String),
-    MediumChangerType: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ActivateGatewayInput" }) as any as S.Schema<ActivateGatewayInput>;
 export type GatewayARN = string;
 export interface ActivateGatewayOutput {
   GatewayARN?: string;
 }
-export const ActivateGatewayOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ActivateGatewayOutput" }) as any as S.Schema<ActivateGatewayOutput>;
 export type DiskId = string;
 export type DiskIds = string[];
-export const DiskIds = /*@__PURE__*/ S.Array(S.String);
 export interface AddCacheInput {
   GatewayARN: string;
   DiskIds: string[];
 }
-export const AddCacheInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, DiskIds: DiskIds }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "AddCacheInput" }) as any as S.Schema<AddCacheInput>;
 export interface AddCacheOutput {
   GatewayARN?: string;
 }
-export const AddCacheOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "AddCacheOutput" }) as any as S.Schema<AddCacheOutput>;
 export type ResourceARN = string;
 export interface AddTagsToResourceInput {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const AddTagsToResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, Tags: Tags }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "AddTagsToResourceInput" }) as any as S.Schema<AddTagsToResourceInput>;
 export interface AddTagsToResourceOutput {
   ResourceARN?: string;
 }
-export const AddTagsToResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "AddTagsToResourceOutput" }) as any as S.Schema<AddTagsToResourceOutput>;
 export interface AddUploadBufferInput {
   GatewayARN: string;
   DiskIds: string[];
 }
-export const AddUploadBufferInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, DiskIds: DiskIds }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "AddUploadBufferInput" }) as any as S.Schema<AddUploadBufferInput>;
 export interface AddUploadBufferOutput {
   GatewayARN?: string;
 }
-export const AddUploadBufferOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "AddUploadBufferOutput" }) as any as S.Schema<AddUploadBufferOutput>;
 export interface AddWorkingStorageInput {
   GatewayARN: string;
   DiskIds: string[];
 }
-export const AddWorkingStorageInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, DiskIds: DiskIds }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "AddWorkingStorageInput" }) as any as S.Schema<AddWorkingStorageInput>;
 export interface AddWorkingStorageOutput {
   GatewayARN?: string;
 }
-export const AddWorkingStorageOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "AddWorkingStorageOutput" }) as any as S.Schema<AddWorkingStorageOutput>;
 export type TapeARN = string;
 export type PoolId = string;
 export interface AssignTapePoolInput {
@@ -227,19 +184,9 @@ export interface AssignTapePoolInput {
   PoolId: string;
   BypassGovernanceRetention?: boolean;
 }
-export const AssignTapePoolInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeARN: S.String,
-    PoolId: S.String,
-    BypassGovernanceRetention: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "AssignTapePoolInput" }) as any as S.Schema<AssignTapePoolInput>;
 export interface AssignTapePoolOutput {
   TapeARN?: string;
 }
-export const AssignTapePoolOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "AssignTapePoolOutput" }) as any as S.Schema<AssignTapePoolOutput>;
 export type DomainUserName = string;
 export type DomainUserPassword = string | redacted.Redacted<string>;
 export type ClientToken = string;
@@ -249,20 +196,11 @@ export type CacheStaleTimeoutInSeconds = number;
 export interface CacheAttributes {
   CacheStaleTimeoutInSeconds?: number;
 }
-export const CacheAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheStaleTimeoutInSeconds: S.optional(S.Number) }),
-).annotate({ identifier: "CacheAttributes" }) as any as S.Schema<CacheAttributes>;
 export type IPV4Address = string;
 export type IpAddressList = string[];
-export const IpAddressList = /*@__PURE__*/ S.Array(S.String);
 export interface EndpointNetworkConfiguration {
   IpAddresses?: string[];
 }
-export const EndpointNetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IpAddresses: S.optional(IpAddressList) }),
-).annotate({
-  identifier: "EndpointNetworkConfiguration",
-}) as any as S.Schema<EndpointNetworkConfiguration>;
 export interface AssociateFileSystemInput {
   UserName: string;
   Password: string | redacted.Redacted<string>;
@@ -274,28 +212,10 @@ export interface AssociateFileSystemInput {
   CacheAttributes?: CacheAttributes;
   EndpointNetworkConfiguration?: EndpointNetworkConfiguration;
 }
-export const AssociateFileSystemInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    Password: SensitiveString,
-    ClientToken: S.String,
-    GatewayARN: S.String,
-    LocationARN: S.String,
-    Tags: S.optional(Tags),
-    AuditDestinationARN: S.optional(S.String),
-    CacheAttributes: S.optional(CacheAttributes),
-    EndpointNetworkConfiguration: S.optional(EndpointNetworkConfiguration),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "AssociateFileSystemInput" }) as any as S.Schema<AssociateFileSystemInput>;
 export type FileSystemAssociationARN = string;
 export interface AssociateFileSystemOutput {
   FileSystemAssociationARN?: string;
 }
-export const AssociateFileSystemOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileSystemAssociationARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "AssociateFileSystemOutput",
-}) as any as S.Schema<AssociateFileSystemOutput>;
 export type TargetName = string;
 export type VolumeARN = string;
 export type NetworkInterfaceId = string;
@@ -306,68 +226,32 @@ export interface AttachVolumeInput {
   NetworkInterfaceId: string;
   DiskId?: string;
 }
-export const AttachVolumeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    TargetName: S.optional(S.String),
-    VolumeARN: S.String,
-    NetworkInterfaceId: S.String,
-    DiskId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "AttachVolumeInput" }) as any as S.Schema<AttachVolumeInput>;
 export type TargetARN = string;
 export interface AttachVolumeOutput {
   VolumeARN?: string;
   TargetARN?: string;
 }
-export const AttachVolumeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.optional(S.String), TargetARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "AttachVolumeOutput" }) as any as S.Schema<AttachVolumeOutput>;
 export interface CancelArchivalInput {
   GatewayARN: string;
   TapeARN: string;
 }
-export const CancelArchivalInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, TapeARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CancelArchivalInput" }) as any as S.Schema<CancelArchivalInput>;
 export interface CancelArchivalOutput {
   TapeARN?: string;
 }
-export const CancelArchivalOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "CancelArchivalOutput" }) as any as S.Schema<CancelArchivalOutput>;
 export type CacheReportARN = string;
 export interface CancelCacheReportInput {
   CacheReportARN: string;
 }
-export const CancelCacheReportInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheReportARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CancelCacheReportInput" }) as any as S.Schema<CancelCacheReportInput>;
 export interface CancelCacheReportOutput {
   CacheReportARN?: string;
 }
-export const CancelCacheReportOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheReportARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "CancelCacheReportOutput" }) as any as S.Schema<CancelCacheReportOutput>;
 export interface CancelRetrievalInput {
   GatewayARN: string;
   TapeARN: string;
 }
-export const CancelRetrievalInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, TapeARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CancelRetrievalInput" }) as any as S.Schema<CancelRetrievalInput>;
 export interface CancelRetrievalOutput {
   TapeARN?: string;
 }
-export const CancelRetrievalOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "CancelRetrievalOutput" }) as any as S.Schema<CancelRetrievalOutput>;
 export type SnapshotId = string;
 export type KMSKey = string;
 export interface CreateCachediSCSIVolumeInput {
@@ -382,31 +266,10 @@ export interface CreateCachediSCSIVolumeInput {
   KMSKey?: string;
   Tags?: Tag[];
 }
-export const CreateCachediSCSIVolumeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    VolumeSizeInBytes: S.Number,
-    SnapshotId: S.optional(S.String),
-    TargetName: S.String,
-    SourceVolumeARN: S.optional(S.String),
-    NetworkInterfaceId: S.String,
-    ClientToken: S.String,
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCachediSCSIVolumeInput",
-}) as any as S.Schema<CreateCachediSCSIVolumeInput>;
 export interface CreateCachediSCSIVolumeOutput {
   VolumeARN?: string;
   TargetARN?: string;
 }
-export const CreateCachediSCSIVolumeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.optional(S.String), TargetARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateCachediSCSIVolumeOutput",
-}) as any as S.Schema<CreateCachediSCSIVolumeOutput>;
 export type PermissionMode = string;
 export type PermissionId = number;
 export interface NFSFileShareDefaults {
@@ -415,17 +278,7 @@ export interface NFSFileShareDefaults {
   GroupId?: number;
   OwnerId?: number;
 }
-export const NFSFileShareDefaults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileMode: S.optional(S.String),
-    DirectoryMode: S.optional(S.String),
-    GroupId: S.optional(S.Number),
-    OwnerId: S.optional(S.Number),
-  }),
-).annotate({ identifier: "NFSFileShareDefaults" }) as any as S.Schema<NFSFileShareDefaults>;
 export type EncryptionType = "SseS3" | "SseKms" | "DsseKms" | (string & {});
-export const EncryptionType = S.String;
-
 export type Role = string;
 export type LocationARN = string;
 export type StorageClass = string;
@@ -438,11 +291,8 @@ export type ObjectACL =
   | "bucket-owner-full-control"
   | "aws-exec-read"
   | (string & {});
-export const ObjectACL = S.String;
-
 export type Ipv4OrIpv6AddressCIDR = string;
 export type FileShareClientList = string[];
-export const FileShareClientList = /*@__PURE__*/ S.Array(S.String);
 export type Squash = string;
 export type FileShareName = string;
 export type NotificationPolicy = string;
@@ -471,46 +321,14 @@ export interface CreateNFSFileShareInput {
   BucketRegion?: string;
   AuditDestinationARN?: string;
 }
-export const CreateNFSFileShareInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.String,
-    NFSFileShareDefaults: S.optional(NFSFileShareDefaults),
-    GatewayARN: S.String,
-    EncryptionType: S.optional(EncryptionType),
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    Role: S.String,
-    LocationARN: S.String,
-    DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(ObjectACL),
-    ClientList: S.optional(FileShareClientList),
-    Squash: S.optional(S.String),
-    ReadOnly: S.optional(S.Boolean),
-    GuessMIMETypeEnabled: S.optional(S.Boolean),
-    RequesterPays: S.optional(S.Boolean),
-    Tags: S.optional(Tags),
-    FileShareName: S.optional(S.String),
-    CacheAttributes: S.optional(CacheAttributes),
-    NotificationPolicy: S.optional(S.String),
-    VPCEndpointDNSName: S.optional(S.String),
-    BucketRegion: S.optional(S.String),
-    AuditDestinationARN: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateNFSFileShareInput" }) as any as S.Schema<CreateNFSFileShareInput>;
 export type FileShareARN = string;
 export interface CreateNFSFileShareOutput {
   FileShareARN?: string;
 }
-export const CreateNFSFileShareOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "CreateNFSFileShareOutput" }) as any as S.Schema<CreateNFSFileShareOutput>;
 export type UserListUser = string;
 export type UserList = string[];
-export const UserList = /*@__PURE__*/ S.Array(S.String);
 export type Authentication = string;
 export type CaseSensitivity = "ClientSpecified" | "CaseSensitive" | (string & {});
-export const CaseSensitivity = S.String;
-
 export interface CreateSMBFileShareInput {
   ClientToken: string;
   GatewayARN: string;
@@ -540,87 +358,29 @@ export interface CreateSMBFileShareInput {
   BucketRegion?: string;
   OplocksEnabled?: boolean;
 }
-export const CreateSMBFileShareInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.String,
-    GatewayARN: S.String,
-    EncryptionType: S.optional(EncryptionType),
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    Role: S.String,
-    LocationARN: S.String,
-    DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(ObjectACL),
-    ReadOnly: S.optional(S.Boolean),
-    GuessMIMETypeEnabled: S.optional(S.Boolean),
-    RequesterPays: S.optional(S.Boolean),
-    SMBACLEnabled: S.optional(S.Boolean),
-    AccessBasedEnumeration: S.optional(S.Boolean),
-    AdminUserList: S.optional(UserList),
-    ValidUserList: S.optional(UserList),
-    InvalidUserList: S.optional(UserList),
-    AuditDestinationARN: S.optional(S.String),
-    Authentication: S.optional(S.String),
-    CaseSensitivity: S.optional(CaseSensitivity),
-    Tags: S.optional(Tags),
-    FileShareName: S.optional(S.String),
-    CacheAttributes: S.optional(CacheAttributes),
-    NotificationPolicy: S.optional(S.String),
-    VPCEndpointDNSName: S.optional(S.String),
-    BucketRegion: S.optional(S.String),
-    OplocksEnabled: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateSMBFileShareInput" }) as any as S.Schema<CreateSMBFileShareInput>;
 export interface CreateSMBFileShareOutput {
   FileShareARN?: string;
 }
-export const CreateSMBFileShareOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "CreateSMBFileShareOutput" }) as any as S.Schema<CreateSMBFileShareOutput>;
 export type SnapshotDescription = string;
 export interface CreateSnapshotInput {
   VolumeARN: string;
   SnapshotDescription: string;
   Tags?: Tag[];
 }
-export const CreateSnapshotInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.String, SnapshotDescription: S.String, Tags: S.optional(Tags) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CreateSnapshotInput" }) as any as S.Schema<CreateSnapshotInput>;
 export interface CreateSnapshotOutput {
   VolumeARN?: string;
   SnapshotId?: string;
 }
-export const CreateSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.optional(S.String), SnapshotId: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "CreateSnapshotOutput" }) as any as S.Schema<CreateSnapshotOutput>;
 export interface CreateSnapshotFromVolumeRecoveryPointInput {
   VolumeARN: string;
   SnapshotDescription: string;
   Tags?: Tag[];
 }
-export const CreateSnapshotFromVolumeRecoveryPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.String, SnapshotDescription: S.String, Tags: S.optional(Tags) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateSnapshotFromVolumeRecoveryPointInput",
-}) as any as S.Schema<CreateSnapshotFromVolumeRecoveryPointInput>;
 export interface CreateSnapshotFromVolumeRecoveryPointOutput {
   SnapshotId?: string;
   VolumeARN?: string;
   VolumeRecoveryPointTime?: string;
 }
-export const CreateSnapshotFromVolumeRecoveryPointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SnapshotId: S.optional(S.String),
-    VolumeARN: S.optional(S.String),
-    VolumeRecoveryPointTime: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateSnapshotFromVolumeRecoveryPointOutput",
-}) as any as S.Schema<CreateSnapshotFromVolumeRecoveryPointOutput>;
 export interface CreateStorediSCSIVolumeInput {
   GatewayARN: string;
   DiskId: string;
@@ -632,42 +392,14 @@ export interface CreateStorediSCSIVolumeInput {
   KMSKey?: string;
   Tags?: Tag[];
 }
-export const CreateStorediSCSIVolumeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    DiskId: S.String,
-    SnapshotId: S.optional(S.String),
-    PreserveExistingData: S.Boolean,
-    TargetName: S.String,
-    NetworkInterfaceId: S.String,
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateStorediSCSIVolumeInput",
-}) as any as S.Schema<CreateStorediSCSIVolumeInput>;
 export interface CreateStorediSCSIVolumeOutput {
   VolumeARN?: string;
   VolumeSizeInBytes?: number;
   TargetARN?: string;
 }
-export const CreateStorediSCSIVolumeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.optional(S.String),
-    VolumeSizeInBytes: S.optional(S.Number),
-    TargetARN: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateStorediSCSIVolumeOutput",
-}) as any as S.Schema<CreateStorediSCSIVolumeOutput>;
 export type PoolName = string;
 export type TapeStorageClass = "DEEP_ARCHIVE" | "GLACIER" | (string & {});
-export const TapeStorageClass = S.String;
-
 export type RetentionLockType = "COMPLIANCE" | "GOVERNANCE" | "NONE" | (string & {});
-export const RetentionLockType = S.String;
-
 export type RetentionLockTimeInDays = number;
 export interface CreateTapePoolInput {
   PoolName: string;
@@ -676,22 +408,10 @@ export interface CreateTapePoolInput {
   RetentionLockTimeInDays?: number;
   Tags?: Tag[];
 }
-export const CreateTapePoolInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PoolName: S.String,
-    StorageClass: TapeStorageClass,
-    RetentionLockType: S.optional(RetentionLockType),
-    RetentionLockTimeInDays: S.optional(S.Number),
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateTapePoolInput" }) as any as S.Schema<CreateTapePoolInput>;
 export type PoolARN = string;
 export interface CreateTapePoolOutput {
   PoolARN?: string;
 }
-export const CreateTapePoolOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PoolARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "CreateTapePoolOutput" }) as any as S.Schema<CreateTapePoolOutput>;
 export type TapeSize = number;
 export type NumTapesToCreate = number;
 export type TapeBarcodePrefix = string;
@@ -707,28 +427,10 @@ export interface CreateTapesInput {
   Worm?: boolean;
   Tags?: Tag[];
 }
-export const CreateTapesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    TapeSizeInBytes: S.Number,
-    ClientToken: S.String,
-    NumTapesToCreate: S.Number,
-    TapeBarcodePrefix: S.String,
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    PoolId: S.optional(S.String),
-    Worm: S.optional(S.Boolean),
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateTapesInput" }) as any as S.Schema<CreateTapesInput>;
 export type TapeARNs = string[];
-export const TapeARNs = /*@__PURE__*/ S.Array(S.String);
 export interface CreateTapesOutput {
   TapeARNs?: string[];
 }
-export const CreateTapesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARNs: S.optional(TapeARNs) }).pipe(ns),
-).annotate({ identifier: "CreateTapesOutput" }) as any as S.Schema<CreateTapesOutput>;
 export type TapeBarcode = string;
 export interface CreateTapeWithBarcodeInput {
   GatewayARN: string;
@@ -740,246 +442,96 @@ export interface CreateTapeWithBarcodeInput {
   Worm?: boolean;
   Tags?: Tag[];
 }
-export const CreateTapeWithBarcodeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    TapeSizeInBytes: S.Number,
-    TapeBarcode: S.String,
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    PoolId: S.optional(S.String),
-    Worm: S.optional(S.Boolean),
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTapeWithBarcodeInput",
-}) as any as S.Schema<CreateTapeWithBarcodeInput>;
 export interface CreateTapeWithBarcodeOutput {
   TapeARN?: string;
 }
-export const CreateTapeWithBarcodeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateTapeWithBarcodeOutput",
-}) as any as S.Schema<CreateTapeWithBarcodeOutput>;
 export interface DeleteAutomaticTapeCreationPolicyInput {
   GatewayARN: string;
 }
-export const DeleteAutomaticTapeCreationPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteAutomaticTapeCreationPolicyInput",
-}) as any as S.Schema<DeleteAutomaticTapeCreationPolicyInput>;
 export interface DeleteAutomaticTapeCreationPolicyOutput {
   GatewayARN?: string;
 }
-export const DeleteAutomaticTapeCreationPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteAutomaticTapeCreationPolicyOutput",
-}) as any as S.Schema<DeleteAutomaticTapeCreationPolicyOutput>;
 export type BandwidthType = string;
 export interface DeleteBandwidthRateLimitInput {
   GatewayARN: string;
   BandwidthType: string;
 }
-export const DeleteBandwidthRateLimitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, BandwidthType: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteBandwidthRateLimitInput",
-}) as any as S.Schema<DeleteBandwidthRateLimitInput>;
 export interface DeleteBandwidthRateLimitOutput {
   GatewayARN?: string;
 }
-export const DeleteBandwidthRateLimitOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteBandwidthRateLimitOutput",
-}) as any as S.Schema<DeleteBandwidthRateLimitOutput>;
 export interface DeleteCacheReportInput {
   CacheReportARN: string;
 }
-export const DeleteCacheReportInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheReportARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteCacheReportInput" }) as any as S.Schema<DeleteCacheReportInput>;
 export interface DeleteCacheReportOutput {
   CacheReportARN?: string;
 }
-export const DeleteCacheReportOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheReportARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DeleteCacheReportOutput" }) as any as S.Schema<DeleteCacheReportOutput>;
 export type IqnName = string;
 export interface DeleteChapCredentialsInput {
   TargetARN: string;
   InitiatorName: string;
 }
-export const DeleteChapCredentialsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetARN: S.String, InitiatorName: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteChapCredentialsInput",
-}) as any as S.Schema<DeleteChapCredentialsInput>;
 export interface DeleteChapCredentialsOutput {
   TargetARN?: string;
   InitiatorName?: string;
 }
-export const DeleteChapCredentialsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetARN: S.optional(S.String), InitiatorName: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteChapCredentialsOutput",
-}) as any as S.Schema<DeleteChapCredentialsOutput>;
 export interface DeleteFileShareInput {
   FileShareARN: string;
   ForceDelete?: boolean;
 }
-export const DeleteFileShareInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.String, ForceDelete: S.optional(S.Boolean) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteFileShareInput" }) as any as S.Schema<DeleteFileShareInput>;
 export interface DeleteFileShareOutput {
   FileShareARN?: string;
 }
-export const DeleteFileShareOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DeleteFileShareOutput" }) as any as S.Schema<DeleteFileShareOutput>;
 export interface DeleteGatewayInput {
   GatewayARN: string;
 }
-export const DeleteGatewayInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteGatewayInput" }) as any as S.Schema<DeleteGatewayInput>;
 export interface DeleteGatewayOutput {
   GatewayARN?: string;
 }
-export const DeleteGatewayOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DeleteGatewayOutput" }) as any as S.Schema<DeleteGatewayOutput>;
 export interface DeleteSnapshotScheduleInput {
   VolumeARN: string;
 }
-export const DeleteSnapshotScheduleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteSnapshotScheduleInput",
-}) as any as S.Schema<DeleteSnapshotScheduleInput>;
 export interface DeleteSnapshotScheduleOutput {
   VolumeARN?: string;
 }
-export const DeleteSnapshotScheduleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteSnapshotScheduleOutput",
-}) as any as S.Schema<DeleteSnapshotScheduleOutput>;
 export interface DeleteTapeInput {
   GatewayARN: string;
   TapeARN: string;
   BypassGovernanceRetention?: boolean;
 }
-export const DeleteTapeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    TapeARN: S.String,
-    BypassGovernanceRetention: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DeleteTapeInput" }) as any as S.Schema<DeleteTapeInput>;
 export interface DeleteTapeOutput {
   TapeARN?: string;
 }
-export const DeleteTapeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DeleteTapeOutput" }) as any as S.Schema<DeleteTapeOutput>;
 export interface DeleteTapeArchiveInput {
   TapeARN: string;
   BypassGovernanceRetention?: boolean;
 }
-export const DeleteTapeArchiveInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.String, BypassGovernanceRetention: S.optional(S.Boolean) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteTapeArchiveInput" }) as any as S.Schema<DeleteTapeArchiveInput>;
 export interface DeleteTapeArchiveOutput {
   TapeARN?: string;
 }
-export const DeleteTapeArchiveOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DeleteTapeArchiveOutput" }) as any as S.Schema<DeleteTapeArchiveOutput>;
 export interface DeleteTapePoolInput {
   PoolARN: string;
 }
-export const DeleteTapePoolInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PoolARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteTapePoolInput" }) as any as S.Schema<DeleteTapePoolInput>;
 export interface DeleteTapePoolOutput {
   PoolARN?: string;
 }
-export const DeleteTapePoolOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PoolARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DeleteTapePoolOutput" }) as any as S.Schema<DeleteTapePoolOutput>;
 export interface DeleteVolumeInput {
   VolumeARN: string;
 }
-export const DeleteVolumeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteVolumeInput" }) as any as S.Schema<DeleteVolumeInput>;
 export interface DeleteVolumeOutput {
   VolumeARN?: string;
 }
-export const DeleteVolumeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DeleteVolumeOutput" }) as any as S.Schema<DeleteVolumeOutput>;
 export interface DescribeAvailabilityMonitorTestInput {
   GatewayARN: string;
 }
-export const DescribeAvailabilityMonitorTestInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeAvailabilityMonitorTestInput",
-}) as any as S.Schema<DescribeAvailabilityMonitorTestInput>;
 export type AvailabilityMonitorTestStatus = "COMPLETE" | "FAILED" | "PENDING" | (string & {});
-export const AvailabilityMonitorTestStatus = S.String;
-
 export interface DescribeAvailabilityMonitorTestOutput {
   GatewayARN?: string;
   Status?: AvailabilityMonitorTestStatus;
   StartTime?: Date;
 }
-export const DescribeAvailabilityMonitorTestOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    Status: S.optional(AvailabilityMonitorTestStatus),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeAvailabilityMonitorTestOutput",
-}) as any as S.Schema<DescribeAvailabilityMonitorTestOutput>;
 export interface DescribeBandwidthRateLimitInput {
   GatewayARN: string;
 }
-export const DescribeBandwidthRateLimitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeBandwidthRateLimitInput",
-}) as any as S.Schema<DescribeBandwidthRateLimitInput>;
 export type BandwidthUploadRateLimit = number;
 export type BandwidthDownloadRateLimit = number;
 export interface DescribeBandwidthRateLimitOutput {
@@ -987,30 +539,13 @@ export interface DescribeBandwidthRateLimitOutput {
   AverageUploadRateLimitInBitsPerSec?: number;
   AverageDownloadRateLimitInBitsPerSec?: number;
 }
-export const DescribeBandwidthRateLimitOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    AverageUploadRateLimitInBitsPerSec: S.optional(S.Number),
-    AverageDownloadRateLimitInBitsPerSec: S.optional(S.Number),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeBandwidthRateLimitOutput",
-}) as any as S.Schema<DescribeBandwidthRateLimitOutput>;
 export interface DescribeBandwidthRateLimitScheduleInput {
   GatewayARN: string;
 }
-export const DescribeBandwidthRateLimitScheduleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeBandwidthRateLimitScheduleInput",
-}) as any as S.Schema<DescribeBandwidthRateLimitScheduleInput>;
 export type HourOfDay = number;
 export type MinuteOfHour = number;
 export type DayOfWeek = number;
 export type DaysOfWeek = number[];
-export const DaysOfWeek = /*@__PURE__*/ S.Array(S.Number);
 export interface BandwidthRateLimitInterval {
   StartHourOfDay: number;
   StartMinuteOfHour: number;
@@ -1020,41 +555,14 @@ export interface BandwidthRateLimitInterval {
   AverageUploadRateLimitInBitsPerSec?: number;
   AverageDownloadRateLimitInBitsPerSec?: number;
 }
-export const BandwidthRateLimitInterval = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartHourOfDay: S.Number,
-    StartMinuteOfHour: S.Number,
-    EndHourOfDay: S.Number,
-    EndMinuteOfHour: S.Number,
-    DaysOfWeek: DaysOfWeek,
-    AverageUploadRateLimitInBitsPerSec: S.optional(S.Number),
-    AverageDownloadRateLimitInBitsPerSec: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "BandwidthRateLimitInterval",
-}) as any as S.Schema<BandwidthRateLimitInterval>;
 export type BandwidthRateLimitIntervals = BandwidthRateLimitInterval[];
-export const BandwidthRateLimitIntervals = /*@__PURE__*/ S.Array(BandwidthRateLimitInterval);
 export interface DescribeBandwidthRateLimitScheduleOutput {
   GatewayARN?: string;
   BandwidthRateLimitIntervals?: BandwidthRateLimitInterval[];
 }
-export const DescribeBandwidthRateLimitScheduleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    BandwidthRateLimitIntervals: S.optional(BandwidthRateLimitIntervals),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeBandwidthRateLimitScheduleOutput",
-}) as any as S.Schema<DescribeBandwidthRateLimitScheduleOutput>;
 export interface DescribeCacheInput {
   GatewayARN: string;
 }
-export const DescribeCacheInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DescribeCacheInput" }) as any as S.Schema<DescribeCacheInput>;
 export interface DescribeCacheOutput {
   GatewayARN?: string;
   DiskIds?: string[];
@@ -1064,29 +572,10 @@ export interface DescribeCacheOutput {
   CacheHitPercentage?: number;
   CacheMissPercentage?: number;
 }
-export const DescribeCacheOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    DiskIds: S.optional(DiskIds),
-    CacheAllocatedInBytes: S.optional(S.Number),
-    CacheUsedPercentage: S.optional(S.Number),
-    CacheDirtyPercentage: S.optional(S.Number),
-    CacheHitPercentage: S.optional(S.Number),
-    CacheMissPercentage: S.optional(S.Number),
-  }).pipe(ns),
-).annotate({ identifier: "DescribeCacheOutput" }) as any as S.Schema<DescribeCacheOutput>;
 export type VolumeARNs = string[];
-export const VolumeARNs = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeCachediSCSIVolumesInput {
   VolumeARNs: string[];
 }
-export const DescribeCachediSCSIVolumesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARNs: VolumeARNs }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeCachediSCSIVolumesInput",
-}) as any as S.Schema<DescribeCachediSCSIVolumesInput>;
 export type VolumeId = string;
 export type VolumeType = string;
 export type VolumeStatus = string;
@@ -1100,15 +589,6 @@ export interface VolumeiSCSIAttributes {
   LunNumber?: number;
   ChapEnabled?: boolean;
 }
-export const VolumeiSCSIAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetARN: S.optional(S.String),
-    NetworkInterfaceId: S.optional(S.String),
-    NetworkInterfacePort: S.optional(S.Number),
-    LunNumber: S.optional(S.Number),
-    ChapEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "VolumeiSCSIAttributes" }) as any as S.Schema<VolumeiSCSIAttributes>;
 export type CreatedDate = Date;
 export type VolumeUsedInBytes = number;
 export interface CachediSCSIVolume {
@@ -1126,41 +606,13 @@ export interface CachediSCSIVolume {
   KMSKey?: string;
   TargetName?: string;
 }
-export const CachediSCSIVolume = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.optional(S.String),
-    VolumeId: S.optional(S.String),
-    VolumeType: S.optional(S.String),
-    VolumeStatus: S.optional(S.String),
-    VolumeAttachmentStatus: S.optional(S.String),
-    VolumeSizeInBytes: S.optional(S.Number),
-    VolumeProgress: S.optional(S.Number),
-    SourceSnapshotId: S.optional(S.String),
-    VolumeiSCSIAttributes: S.optional(VolumeiSCSIAttributes),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VolumeUsedInBytes: S.optional(S.Number),
-    KMSKey: S.optional(S.String),
-    TargetName: S.optional(S.String),
-  }),
-).annotate({ identifier: "CachediSCSIVolume" }) as any as S.Schema<CachediSCSIVolume>;
 export type CachediSCSIVolumes = CachediSCSIVolume[];
-export const CachediSCSIVolumes = /*@__PURE__*/ S.Array(CachediSCSIVolume);
 export interface DescribeCachediSCSIVolumesOutput {
   CachediSCSIVolumes?: CachediSCSIVolume[];
 }
-export const DescribeCachediSCSIVolumesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CachediSCSIVolumes: S.optional(CachediSCSIVolumes) }).pipe(ns),
-).annotate({
-  identifier: "DescribeCachediSCSIVolumesOutput",
-}) as any as S.Schema<DescribeCachediSCSIVolumesOutput>;
 export interface DescribeCacheReportInput {
   CacheReportARN: string;
 }
-export const DescribeCacheReportInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheReportARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DescribeCacheReportInput" }) as any as S.Schema<DescribeCacheReportInput>;
 export type CacheReportStatus =
   | "IN_PROGRESS"
   | "COMPLETED"
@@ -1168,24 +620,15 @@ export type CacheReportStatus =
   | "FAILED"
   | "ERROR"
   | (string & {});
-export const CacheReportStatus = S.String;
-
 export type ReportCompletionPercent = number;
 export type CacheReportFilterName = "UploadState" | "UploadFailureReason" | (string & {});
-export const CacheReportFilterName = S.String;
-
 export type CacheReportFilterValue = string;
 export type CacheReportFilterValues = string[];
-export const CacheReportFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface CacheReportFilter {
   Name: CacheReportFilterName;
   Values: string[];
 }
-export const CacheReportFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: CacheReportFilterName, Values: CacheReportFilterValues }),
-).annotate({ identifier: "CacheReportFilter" }) as any as S.Schema<CacheReportFilter>;
 export type CacheReportFilterList = CacheReportFilter[];
-export const CacheReportFilterList = /*@__PURE__*/ S.Array(CacheReportFilter);
 export type CacheReportName = string;
 export interface CacheReportInfo {
   CacheReportARN?: string;
@@ -1201,40 +644,12 @@ export interface CacheReportInfo {
   ReportName?: string;
   Tags?: Tag[];
 }
-export const CacheReportInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheReportARN: S.optional(S.String),
-    CacheReportStatus: S.optional(CacheReportStatus),
-    ReportCompletionPercent: S.optional(S.Number),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Role: S.optional(S.String),
-    FileShareARN: S.optional(S.String),
-    LocationARN: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    InclusionFilters: S.optional(CacheReportFilterList),
-    ExclusionFilters: S.optional(CacheReportFilterList),
-    ReportName: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }),
-).annotate({ identifier: "CacheReportInfo" }) as any as S.Schema<CacheReportInfo>;
 export interface DescribeCacheReportOutput {
   CacheReportInfo?: CacheReportInfo;
 }
-export const DescribeCacheReportOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheReportInfo: S.optional(CacheReportInfo) }).pipe(ns),
-).annotate({
-  identifier: "DescribeCacheReportOutput",
-}) as any as S.Schema<DescribeCacheReportOutput>;
 export interface DescribeChapCredentialsInput {
   TargetARN: string;
 }
-export const DescribeChapCredentialsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeChapCredentialsInput",
-}) as any as S.Schema<DescribeChapCredentialsInput>;
 export type ChapSecret = string | redacted.Redacted<string>;
 export interface ChapInfo {
   TargetARN?: string;
@@ -1242,50 +657,20 @@ export interface ChapInfo {
   InitiatorName?: string;
   SecretToAuthenticateTarget?: string | redacted.Redacted<string>;
 }
-export const ChapInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetARN: S.optional(S.String),
-    SecretToAuthenticateInitiator: S.optional(SensitiveString),
-    InitiatorName: S.optional(S.String),
-    SecretToAuthenticateTarget: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "ChapInfo" }) as any as S.Schema<ChapInfo>;
 export type ChapCredentials = ChapInfo[];
-export const ChapCredentials = /*@__PURE__*/ S.Array(ChapInfo);
 export interface DescribeChapCredentialsOutput {
   ChapCredentials?: ChapInfo[];
 }
-export const DescribeChapCredentialsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ChapCredentials: S.optional(ChapCredentials) }).pipe(ns),
-).annotate({
-  identifier: "DescribeChapCredentialsOutput",
-}) as any as S.Schema<DescribeChapCredentialsOutput>;
 export type FileSystemAssociationARNList = string[];
-export const FileSystemAssociationARNList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeFileSystemAssociationsInput {
   FileSystemAssociationARNList: string[];
 }
-export const DescribeFileSystemAssociationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileSystemAssociationARNList: FileSystemAssociationARNList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeFileSystemAssociationsInput",
-}) as any as S.Schema<DescribeFileSystemAssociationsInput>;
 export type FileSystemAssociationStatus = string;
 export type FileSystemAssociationSyncErrorCode = string;
 export interface FileSystemAssociationStatusDetail {
   ErrorCode?: string;
 }
-export const FileSystemAssociationStatusDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ErrorCode: S.optional(S.String) }),
-).annotate({
-  identifier: "FileSystemAssociationStatusDetail",
-}) as any as S.Schema<FileSystemAssociationStatusDetail>;
 export type FileSystemAssociationStatusDetails = FileSystemAssociationStatusDetail[];
-export const FileSystemAssociationStatusDetails = /*@__PURE__*/ S.Array(
-  FileSystemAssociationStatusDetail,
-);
 export interface FileSystemAssociationInfo {
   FileSystemAssociationARN?: string;
   LocationARN?: string;
@@ -1297,41 +682,13 @@ export interface FileSystemAssociationInfo {
   EndpointNetworkConfiguration?: EndpointNetworkConfiguration;
   FileSystemAssociationStatusDetails?: FileSystemAssociationStatusDetail[];
 }
-export const FileSystemAssociationInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileSystemAssociationARN: S.optional(S.String),
-    LocationARN: S.optional(S.String),
-    FileSystemAssociationStatus: S.optional(S.String),
-    AuditDestinationARN: S.optional(S.String),
-    GatewayARN: S.optional(S.String),
-    Tags: S.optional(Tags),
-    CacheAttributes: S.optional(CacheAttributes),
-    EndpointNetworkConfiguration: S.optional(EndpointNetworkConfiguration),
-    FileSystemAssociationStatusDetails: S.optional(FileSystemAssociationStatusDetails),
-  }),
-).annotate({
-  identifier: "FileSystemAssociationInfo",
-}) as any as S.Schema<FileSystemAssociationInfo>;
 export type FileSystemAssociationInfoList = FileSystemAssociationInfo[];
-export const FileSystemAssociationInfoList = /*@__PURE__*/ S.Array(FileSystemAssociationInfo);
 export interface DescribeFileSystemAssociationsOutput {
   FileSystemAssociationInfoList?: FileSystemAssociationInfo[];
 }
-export const DescribeFileSystemAssociationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileSystemAssociationInfoList: S.optional(FileSystemAssociationInfoList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeFileSystemAssociationsOutput",
-}) as any as S.Schema<DescribeFileSystemAssociationsOutput>;
 export interface DescribeGatewayInformationInput {
   GatewayARN: string;
 }
-export const DescribeGatewayInformationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeGatewayInformationInput",
-}) as any as S.Schema<DescribeGatewayInformationInput>;
 export type GatewayId = string;
 export type GatewayState = string;
 export interface NetworkInterface {
@@ -1339,15 +696,7 @@ export interface NetworkInterface {
   MacAddress?: string;
   Ipv6Address?: string;
 }
-export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Ipv4Address: S.optional(S.String),
-    MacAddress: S.optional(S.String),
-    Ipv6Address: S.optional(S.String),
-  }),
-).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 export type GatewayNetworkInterfaces = NetworkInterface[];
-export const GatewayNetworkInterfaces = /*@__PURE__*/ S.Array(NetworkInterface);
 export type NextUpdateAvailabilityDate = string;
 export type LastSoftwareUpdate = string;
 export type Ec2InstanceId = string;
@@ -1361,16 +710,11 @@ export type HostEnvironment =
   | "OTHER"
   | "SNOWBALL"
   | (string & {});
-export const HostEnvironment = S.String;
-
 export type EndpointType = string;
 export type SoftwareUpdatesEndDate = string;
 export type DeprecationDate = string;
 export type GatewayCapacity = "Small" | "Medium" | "Large" | (string & {});
-export const GatewayCapacity = S.String;
-
 export type SupportedGatewayCapacities = GatewayCapacity[];
-export const SupportedGatewayCapacities = /*@__PURE__*/ S.Array(GatewayCapacity);
 export type HostEnvironmentId = string;
 export type SoftwareVersion = string;
 export interface DescribeGatewayInformationOutput {
@@ -1397,56 +741,14 @@ export interface DescribeGatewayInformationOutput {
   HostEnvironmentId?: string;
   SoftwareVersion?: string;
 }
-export const DescribeGatewayInformationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    GatewayId: S.optional(S.String),
-    GatewayName: S.optional(S.String),
-    GatewayTimezone: S.optional(S.String),
-    GatewayState: S.optional(S.String),
-    GatewayNetworkInterfaces: S.optional(GatewayNetworkInterfaces),
-    GatewayType: S.optional(S.String),
-    NextUpdateAvailabilityDate: S.optional(S.String),
-    LastSoftwareUpdate: S.optional(S.String),
-    Ec2InstanceId: S.optional(S.String),
-    Ec2InstanceRegion: S.optional(S.String),
-    Tags: S.optional(Tags),
-    VPCEndpoint: S.optional(S.String),
-    CloudWatchLogGroupARN: S.optional(S.String),
-    HostEnvironment: S.optional(HostEnvironment),
-    EndpointType: S.optional(S.String),
-    SoftwareUpdatesEndDate: S.optional(S.String),
-    DeprecationDate: S.optional(S.String),
-    GatewayCapacity: S.optional(GatewayCapacity),
-    SupportedGatewayCapacities: S.optional(SupportedGatewayCapacities),
-    HostEnvironmentId: S.optional(S.String),
-    SoftwareVersion: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeGatewayInformationOutput",
-}) as any as S.Schema<DescribeGatewayInformationOutput>;
 export interface DescribeMaintenanceStartTimeInput {
   GatewayARN: string;
 }
-export const DescribeMaintenanceStartTimeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeMaintenanceStartTimeInput",
-}) as any as S.Schema<DescribeMaintenanceStartTimeInput>;
 export type DayOfMonth = number;
 export type AutomaticUpdatePolicy = "ALL_VERSIONS" | "EMERGENCY_VERSIONS_ONLY" | (string & {});
-export const AutomaticUpdatePolicy = S.String;
-
 export interface SoftwareUpdatePreferences {
   AutomaticUpdatePolicy?: AutomaticUpdatePolicy;
 }
-export const SoftwareUpdatePreferences = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AutomaticUpdatePolicy: S.optional(AutomaticUpdatePolicy) }),
-).annotate({
-  identifier: "SoftwareUpdatePreferences",
-}) as any as S.Schema<SoftwareUpdatePreferences>;
 export interface DescribeMaintenanceStartTimeOutput {
   GatewayARN?: string;
   HourOfDay?: number;
@@ -1456,31 +758,10 @@ export interface DescribeMaintenanceStartTimeOutput {
   Timezone?: string;
   SoftwareUpdatePreferences?: SoftwareUpdatePreferences;
 }
-export const DescribeMaintenanceStartTimeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    HourOfDay: S.optional(S.Number),
-    MinuteOfHour: S.optional(S.Number),
-    DayOfWeek: S.optional(S.Number),
-    DayOfMonth: S.optional(S.Number),
-    Timezone: S.optional(S.String),
-    SoftwareUpdatePreferences: S.optional(SoftwareUpdatePreferences),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMaintenanceStartTimeOutput",
-}) as any as S.Schema<DescribeMaintenanceStartTimeOutput>;
 export type FileShareARNList = string[];
-export const FileShareARNList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeNFSFileSharesInput {
   FileShareARNList: string[];
 }
-export const DescribeNFSFileSharesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARNList: FileShareARNList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeNFSFileSharesInput",
-}) as any as S.Schema<DescribeNFSFileSharesInput>;
 export type FileShareId = string;
 export type FileShareStatus = string;
 export type Path = string;
@@ -1511,55 +792,13 @@ export interface NFSFileShareInfo {
   BucketRegion?: string;
   AuditDestinationARN?: string;
 }
-export const NFSFileShareInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NFSFileShareDefaults: S.optional(NFSFileShareDefaults),
-    FileShareARN: S.optional(S.String),
-    FileShareId: S.optional(S.String),
-    FileShareStatus: S.optional(S.String),
-    GatewayARN: S.optional(S.String),
-    EncryptionType: S.optional(EncryptionType),
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    Path: S.optional(S.String),
-    Role: S.optional(S.String),
-    LocationARN: S.optional(S.String),
-    DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(ObjectACL),
-    ClientList: S.optional(FileShareClientList),
-    Squash: S.optional(S.String),
-    ReadOnly: S.optional(S.Boolean),
-    GuessMIMETypeEnabled: S.optional(S.Boolean),
-    RequesterPays: S.optional(S.Boolean),
-    Tags: S.optional(Tags),
-    FileShareName: S.optional(S.String),
-    CacheAttributes: S.optional(CacheAttributes),
-    NotificationPolicy: S.optional(S.String),
-    VPCEndpointDNSName: S.optional(S.String),
-    BucketRegion: S.optional(S.String),
-    AuditDestinationARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "NFSFileShareInfo" }) as any as S.Schema<NFSFileShareInfo>;
 export type NFSFileShareInfoList = NFSFileShareInfo[];
-export const NFSFileShareInfoList = /*@__PURE__*/ S.Array(NFSFileShareInfo);
 export interface DescribeNFSFileSharesOutput {
   NFSFileShareInfoList?: NFSFileShareInfo[];
 }
-export const DescribeNFSFileSharesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NFSFileShareInfoList: S.optional(NFSFileShareInfoList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeNFSFileSharesOutput",
-}) as any as S.Schema<DescribeNFSFileSharesOutput>;
 export interface DescribeSMBFileSharesInput {
   FileShareARNList: string[];
 }
-export const DescribeSMBFileSharesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARNList: FileShareARNList }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeSMBFileSharesInput",
-}) as any as S.Schema<DescribeSMBFileSharesInput>;
 export interface SMBFileShareInfo {
   FileShareARN?: string;
   FileShareId?: string;
@@ -1592,58 +831,13 @@ export interface SMBFileShareInfo {
   BucketRegion?: string;
   OplocksEnabled?: boolean;
 }
-export const SMBFileShareInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileShareARN: S.optional(S.String),
-    FileShareId: S.optional(S.String),
-    FileShareStatus: S.optional(S.String),
-    GatewayARN: S.optional(S.String),
-    EncryptionType: S.optional(EncryptionType),
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    Path: S.optional(S.String),
-    Role: S.optional(S.String),
-    LocationARN: S.optional(S.String),
-    DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(ObjectACL),
-    ReadOnly: S.optional(S.Boolean),
-    GuessMIMETypeEnabled: S.optional(S.Boolean),
-    RequesterPays: S.optional(S.Boolean),
-    SMBACLEnabled: S.optional(S.Boolean),
-    AccessBasedEnumeration: S.optional(S.Boolean),
-    AdminUserList: S.optional(UserList),
-    ValidUserList: S.optional(UserList),
-    InvalidUserList: S.optional(UserList),
-    AuditDestinationARN: S.optional(S.String),
-    Authentication: S.optional(S.String),
-    CaseSensitivity: S.optional(CaseSensitivity),
-    Tags: S.optional(Tags),
-    FileShareName: S.optional(S.String),
-    CacheAttributes: S.optional(CacheAttributes),
-    NotificationPolicy: S.optional(S.String),
-    VPCEndpointDNSName: S.optional(S.String),
-    BucketRegion: S.optional(S.String),
-    OplocksEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SMBFileShareInfo" }) as any as S.Schema<SMBFileShareInfo>;
 export type SMBFileShareInfoList = SMBFileShareInfo[];
-export const SMBFileShareInfoList = /*@__PURE__*/ S.Array(SMBFileShareInfo);
 export interface DescribeSMBFileSharesOutput {
   SMBFileShareInfoList?: SMBFileShareInfo[];
 }
-export const DescribeSMBFileSharesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SMBFileShareInfoList: S.optional(SMBFileShareInfoList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeSMBFileSharesOutput",
-}) as any as S.Schema<DescribeSMBFileSharesOutput>;
 export interface DescribeSMBSettingsInput {
   GatewayARN: string;
 }
-export const DescribeSMBSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DescribeSMBSettingsInput" }) as any as S.Schema<DescribeSMBSettingsInput>;
 export type DomainName = string;
 export type ActiveDirectoryStatus =
   | "ACCESS_DENIED"
@@ -1655,22 +849,15 @@ export type ActiveDirectoryStatus =
   | "UNKNOWN_ERROR"
   | "INSUFFICIENT_PERMISSIONS"
   | (string & {});
-export const ActiveDirectoryStatus = S.String;
-
 export type SMBSecurityStrategy =
   | "ClientSpecified"
   | "MandatorySigning"
   | "MandatoryEncryption"
   | "MandatoryEncryptionNoAes128"
   | (string & {});
-export const SMBSecurityStrategy = S.String;
-
 export interface SMBLocalGroups {
   GatewayAdmins?: string[];
 }
-export const SMBLocalGroups = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayAdmins: S.optional(UserList) }),
-).annotate({ identifier: "SMBLocalGroups" }) as any as S.Schema<SMBLocalGroups>;
 export interface DescribeSMBSettingsOutput {
   GatewayARN?: string;
   DomainName?: string;
@@ -1680,29 +867,9 @@ export interface DescribeSMBSettingsOutput {
   FileSharesVisible?: boolean;
   SMBLocalGroups?: SMBLocalGroups;
 }
-export const DescribeSMBSettingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    DomainName: S.optional(S.String),
-    ActiveDirectoryStatus: S.optional(ActiveDirectoryStatus),
-    SMBGuestPasswordSet: S.optional(S.Boolean),
-    SMBSecurityStrategy: S.optional(SMBSecurityStrategy),
-    FileSharesVisible: S.optional(S.Boolean),
-    SMBLocalGroups: S.optional(SMBLocalGroups),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeSMBSettingsOutput",
-}) as any as S.Schema<DescribeSMBSettingsOutput>;
 export interface DescribeSnapshotScheduleInput {
   VolumeARN: string;
 }
-export const DescribeSnapshotScheduleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeSnapshotScheduleInput",
-}) as any as S.Schema<DescribeSnapshotScheduleInput>;
 export type RecurrenceInHours = number;
 export type Description = string;
 export interface DescribeSnapshotScheduleOutput {
@@ -1713,28 +880,9 @@ export interface DescribeSnapshotScheduleOutput {
   Timezone?: string;
   Tags?: Tag[];
 }
-export const DescribeSnapshotScheduleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.optional(S.String),
-    StartAt: S.optional(S.Number),
-    RecurrenceInHours: S.optional(S.Number),
-    Description: S.optional(S.String),
-    Timezone: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeSnapshotScheduleOutput",
-}) as any as S.Schema<DescribeSnapshotScheduleOutput>;
 export interface DescribeStorediSCSIVolumesInput {
   VolumeARNs: string[];
 }
-export const DescribeStorediSCSIVolumesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARNs: VolumeARNs }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeStorediSCSIVolumesInput",
-}) as any as S.Schema<DescribeStorediSCSIVolumesInput>;
 export interface StorediSCSIVolume {
   VolumeARN?: string;
   VolumeId?: string;
@@ -1752,50 +900,16 @@ export interface StorediSCSIVolume {
   KMSKey?: string;
   TargetName?: string;
 }
-export const StorediSCSIVolume = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.optional(S.String),
-    VolumeId: S.optional(S.String),
-    VolumeType: S.optional(S.String),
-    VolumeStatus: S.optional(S.String),
-    VolumeAttachmentStatus: S.optional(S.String),
-    VolumeSizeInBytes: S.optional(S.Number),
-    VolumeProgress: S.optional(S.Number),
-    VolumeDiskId: S.optional(S.String),
-    SourceSnapshotId: S.optional(S.String),
-    PreservedExistingData: S.optional(S.Boolean),
-    VolumeiSCSIAttributes: S.optional(VolumeiSCSIAttributes),
-    CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    VolumeUsedInBytes: S.optional(S.Number),
-    KMSKey: S.optional(S.String),
-    TargetName: S.optional(S.String),
-  }),
-).annotate({ identifier: "StorediSCSIVolume" }) as any as S.Schema<StorediSCSIVolume>;
 export type StorediSCSIVolumes = StorediSCSIVolume[];
-export const StorediSCSIVolumes = /*@__PURE__*/ S.Array(StorediSCSIVolume);
 export interface DescribeStorediSCSIVolumesOutput {
   StorediSCSIVolumes?: StorediSCSIVolume[];
 }
-export const DescribeStorediSCSIVolumesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ StorediSCSIVolumes: S.optional(StorediSCSIVolumes) }).pipe(ns),
-).annotate({
-  identifier: "DescribeStorediSCSIVolumesOutput",
-}) as any as S.Schema<DescribeStorediSCSIVolumesOutput>;
 export type Marker = string;
 export interface DescribeTapeArchivesInput {
   TapeARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
-export const DescribeTapeArchivesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeARNs: S.optional(TapeARNs),
-    Marker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeTapeArchivesInput",
-}) as any as S.Schema<DescribeTapeArchivesInput>;
 export type TapeArchiveStatus = string;
 export type TapeUsage = number;
 export interface TapeArchive {
@@ -1813,48 +927,16 @@ export interface TapeArchive {
   RetentionStartDate?: Date;
   PoolEntryDate?: Date;
 }
-export const TapeArchive = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeARN: S.optional(S.String),
-    TapeBarcode: S.optional(S.String),
-    TapeCreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TapeSizeInBytes: S.optional(S.Number),
-    CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RetrievedTo: S.optional(S.String),
-    TapeStatus: S.optional(S.String),
-    TapeUsedInBytes: S.optional(S.Number),
-    KMSKey: S.optional(S.String),
-    PoolId: S.optional(S.String),
-    Worm: S.optional(S.Boolean),
-    RetentionStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    PoolEntryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "TapeArchive" }) as any as S.Schema<TapeArchive>;
 export type TapeArchives = TapeArchive[];
-export const TapeArchives = /*@__PURE__*/ S.Array(TapeArchive);
 export interface DescribeTapeArchivesOutput {
   TapeArchives?: TapeArchive[];
   Marker?: string;
 }
-export const DescribeTapeArchivesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeArchives: S.optional(TapeArchives), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DescribeTapeArchivesOutput",
-}) as any as S.Schema<DescribeTapeArchivesOutput>;
 export interface DescribeTapeRecoveryPointsInput {
   GatewayARN: string;
   Marker?: string;
   Limit?: number;
 }
-export const DescribeTapeRecoveryPointsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    Marker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeTapeRecoveryPointsInput",
-}) as any as S.Schema<DescribeTapeRecoveryPointsInput>;
 export type TapeRecoveryPointStatus = string;
 export interface TapeRecoveryPointInfo {
   TapeARN?: string;
@@ -1862,44 +944,18 @@ export interface TapeRecoveryPointInfo {
   TapeSizeInBytes?: number;
   TapeStatus?: string;
 }
-export const TapeRecoveryPointInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeARN: S.optional(S.String),
-    TapeRecoveryPointTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TapeSizeInBytes: S.optional(S.Number),
-    TapeStatus: S.optional(S.String),
-  }),
-).annotate({ identifier: "TapeRecoveryPointInfo" }) as any as S.Schema<TapeRecoveryPointInfo>;
 export type TapeRecoveryPointInfos = TapeRecoveryPointInfo[];
-export const TapeRecoveryPointInfos = /*@__PURE__*/ S.Array(TapeRecoveryPointInfo);
 export interface DescribeTapeRecoveryPointsOutput {
   GatewayARN?: string;
   TapeRecoveryPointInfos?: TapeRecoveryPointInfo[];
   Marker?: string;
 }
-export const DescribeTapeRecoveryPointsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    TapeRecoveryPointInfos: S.optional(TapeRecoveryPointInfos),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeTapeRecoveryPointsOutput",
-}) as any as S.Schema<DescribeTapeRecoveryPointsOutput>;
 export interface DescribeTapesInput {
   GatewayARN: string;
   TapeARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
-export const DescribeTapesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    TapeARNs: S.optional(TapeARNs),
-    Marker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeTapesInput" }) as any as S.Schema<DescribeTapesInput>;
 export type TapeStatus = string;
 export type VTLDeviceARN = string;
 export interface Tape {
@@ -1917,74 +973,27 @@ export interface Tape {
   RetentionStartDate?: Date;
   PoolEntryDate?: Date;
 }
-export const Tape = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeARN: S.optional(S.String),
-    TapeBarcode: S.optional(S.String),
-    TapeCreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TapeSizeInBytes: S.optional(S.Number),
-    TapeStatus: S.optional(S.String),
-    VTLDevice: S.optional(S.String),
-    Progress: S.optional(S.Number),
-    TapeUsedInBytes: S.optional(S.Number),
-    KMSKey: S.optional(S.String),
-    PoolId: S.optional(S.String),
-    Worm: S.optional(S.Boolean),
-    RetentionStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    PoolEntryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "Tape" }) as any as S.Schema<Tape>;
 export type Tapes = Tape[];
-export const Tapes = /*@__PURE__*/ S.Array(Tape);
 export interface DescribeTapesOutput {
   Tapes?: Tape[];
   Marker?: string;
 }
-export const DescribeTapesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tapes: S.optional(Tapes), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DescribeTapesOutput" }) as any as S.Schema<DescribeTapesOutput>;
 export interface DescribeUploadBufferInput {
   GatewayARN: string;
 }
-export const DescribeUploadBufferInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeUploadBufferInput",
-}) as any as S.Schema<DescribeUploadBufferInput>;
 export interface DescribeUploadBufferOutput {
   GatewayARN?: string;
   DiskIds?: string[];
   UploadBufferUsedInBytes?: number;
   UploadBufferAllocatedInBytes?: number;
 }
-export const DescribeUploadBufferOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    DiskIds: S.optional(DiskIds),
-    UploadBufferUsedInBytes: S.optional(S.Number),
-    UploadBufferAllocatedInBytes: S.optional(S.Number),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeUploadBufferOutput",
-}) as any as S.Schema<DescribeUploadBufferOutput>;
 export type VTLDeviceARNs = string[];
-export const VTLDeviceARNs = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeVTLDevicesInput {
   GatewayARN: string;
   VTLDeviceARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
-export const DescribeVTLDevicesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    VTLDeviceARNs: S.optional(VTLDeviceARNs),
-    Marker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeVTLDevicesInput" }) as any as S.Schema<DescribeVTLDevicesInput>;
 export type VTLDeviceType = string;
 export type VTLDeviceVendor = string;
 export type VTLDeviceProductIdentifier = string;
@@ -1994,14 +1003,6 @@ export interface DeviceiSCSIAttributes {
   NetworkInterfacePort?: number;
   ChapEnabled?: boolean;
 }
-export const DeviceiSCSIAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetARN: S.optional(S.String),
-    NetworkInterfaceId: S.optional(S.String),
-    NetworkInterfacePort: S.optional(S.Number),
-    ChapEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "DeviceiSCSIAttributes" }) as any as S.Schema<DeviceiSCSIAttributes>;
 export interface VTLDevice {
   VTLDeviceARN?: string;
   VTLDeviceType?: string;
@@ -2009,126 +1010,51 @@ export interface VTLDevice {
   VTLDeviceProductIdentifier?: string;
   DeviceiSCSIAttributes?: DeviceiSCSIAttributes;
 }
-export const VTLDevice = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VTLDeviceARN: S.optional(S.String),
-    VTLDeviceType: S.optional(S.String),
-    VTLDeviceVendor: S.optional(S.String),
-    VTLDeviceProductIdentifier: S.optional(S.String),
-    DeviceiSCSIAttributes: S.optional(DeviceiSCSIAttributes),
-  }),
-).annotate({ identifier: "VTLDevice" }) as any as S.Schema<VTLDevice>;
 export type VTLDevices = VTLDevice[];
-export const VTLDevices = /*@__PURE__*/ S.Array(VTLDevice);
 export interface DescribeVTLDevicesOutput {
   GatewayARN?: string;
   VTLDevices?: VTLDevice[];
   Marker?: string;
 }
-export const DescribeVTLDevicesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    VTLDevices: S.optional(VTLDevices),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({ identifier: "DescribeVTLDevicesOutput" }) as any as S.Schema<DescribeVTLDevicesOutput>;
 export interface DescribeWorkingStorageInput {
   GatewayARN: string;
 }
-export const DescribeWorkingStorageInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeWorkingStorageInput",
-}) as any as S.Schema<DescribeWorkingStorageInput>;
 export interface DescribeWorkingStorageOutput {
   GatewayARN?: string;
   DiskIds?: string[];
   WorkingStorageUsedInBytes?: number;
   WorkingStorageAllocatedInBytes?: number;
 }
-export const DescribeWorkingStorageOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    DiskIds: S.optional(DiskIds),
-    WorkingStorageUsedInBytes: S.optional(S.Number),
-    WorkingStorageAllocatedInBytes: S.optional(S.Number),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeWorkingStorageOutput",
-}) as any as S.Schema<DescribeWorkingStorageOutput>;
 export interface DetachVolumeInput {
   VolumeARN: string;
   ForceDetach?: boolean;
 }
-export const DetachVolumeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.String, ForceDetach: S.optional(S.Boolean) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DetachVolumeInput" }) as any as S.Schema<DetachVolumeInput>;
 export interface DetachVolumeOutput {
   VolumeARN?: string;
 }
-export const DetachVolumeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DetachVolumeOutput" }) as any as S.Schema<DetachVolumeOutput>;
 export interface DisableGatewayInput {
   GatewayARN: string;
 }
-export const DisableGatewayInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DisableGatewayInput" }) as any as S.Schema<DisableGatewayInput>;
 export interface DisableGatewayOutput {
   GatewayARN?: string;
 }
-export const DisableGatewayOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DisableGatewayOutput" }) as any as S.Schema<DisableGatewayOutput>;
 export interface DisassociateFileSystemInput {
   FileSystemAssociationARN: string;
   ForceDelete?: boolean;
 }
-export const DisassociateFileSystemInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileSystemAssociationARN: S.String, ForceDelete: S.optional(S.Boolean) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateFileSystemInput",
-}) as any as S.Schema<DisassociateFileSystemInput>;
 export interface DisassociateFileSystemOutput {
   FileSystemAssociationARN?: string;
 }
-export const DisassociateFileSystemOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileSystemAssociationARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DisassociateFileSystemOutput",
-}) as any as S.Schema<DisassociateFileSystemOutput>;
 export interface EvictFilesFailingUploadInput {
   FileShareARN: string;
   ForceRemove?: boolean;
 }
-export const EvictFilesFailingUploadInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.String, ForceRemove: S.optional(S.Boolean) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "EvictFilesFailingUploadInput",
-}) as any as S.Schema<EvictFilesFailingUploadInput>;
 export interface EvictFilesFailingUploadOutput {
   NotificationId?: string;
 }
-export const EvictFilesFailingUploadOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NotificationId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "EvictFilesFailingUploadOutput",
-}) as any as S.Schema<EvictFilesFailingUploadOutput>;
 export type OrganizationalUnit = string;
 export type Host = string;
 export type Hosts = string[];
-export const Hosts = /*@__PURE__*/ S.Array(S.String);
 export type TimeoutInSeconds = number;
 export interface JoinDomainInput {
   GatewayARN: string;
@@ -2139,37 +1065,13 @@ export interface JoinDomainInput {
   UserName: string;
   Password: string | redacted.Redacted<string>;
 }
-export const JoinDomainInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    DomainName: S.String,
-    OrganizationalUnit: S.optional(S.String),
-    DomainControllers: S.optional(Hosts),
-    TimeoutInSeconds: S.optional(S.Number),
-    UserName: S.String,
-    Password: SensitiveString,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "JoinDomainInput" }) as any as S.Schema<JoinDomainInput>;
 export interface JoinDomainOutput {
   GatewayARN?: string;
   ActiveDirectoryStatus?: ActiveDirectoryStatus;
 }
-export const JoinDomainOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    ActiveDirectoryStatus: S.optional(ActiveDirectoryStatus),
-  }).pipe(ns),
-).annotate({ identifier: "JoinDomainOutput" }) as any as S.Schema<JoinDomainOutput>;
 export interface ListAutomaticTapeCreationPoliciesInput {
   GatewayARN?: string;
 }
-export const ListAutomaticTapeCreationPoliciesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAutomaticTapeCreationPoliciesInput",
-}) as any as S.Schema<ListAutomaticTapeCreationPoliciesInput>;
 export type MinimumNumTapes = number;
 export interface AutomaticTapeCreationRule {
   TapeBarcodePrefix: string;
@@ -2178,77 +1080,29 @@ export interface AutomaticTapeCreationRule {
   MinimumNumTapes: number;
   Worm?: boolean;
 }
-export const AutomaticTapeCreationRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeBarcodePrefix: S.String,
-    PoolId: S.String,
-    TapeSizeInBytes: S.Number,
-    MinimumNumTapes: S.Number,
-    Worm: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AutomaticTapeCreationRule",
-}) as any as S.Schema<AutomaticTapeCreationRule>;
 export type AutomaticTapeCreationRules = AutomaticTapeCreationRule[];
-export const AutomaticTapeCreationRules = /*@__PURE__*/ S.Array(AutomaticTapeCreationRule);
 export interface AutomaticTapeCreationPolicyInfo {
   AutomaticTapeCreationRules?: AutomaticTapeCreationRule[];
   GatewayARN?: string;
 }
-export const AutomaticTapeCreationPolicyInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutomaticTapeCreationRules: S.optional(AutomaticTapeCreationRules),
-    GatewayARN: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AutomaticTapeCreationPolicyInfo",
-}) as any as S.Schema<AutomaticTapeCreationPolicyInfo>;
 export type AutomaticTapeCreationPolicyInfos = AutomaticTapeCreationPolicyInfo[];
-export const AutomaticTapeCreationPolicyInfos = /*@__PURE__*/ S.Array(
-  AutomaticTapeCreationPolicyInfo,
-);
 export interface ListAutomaticTapeCreationPoliciesOutput {
   AutomaticTapeCreationPolicyInfos?: AutomaticTapeCreationPolicyInfo[];
 }
-export const ListAutomaticTapeCreationPoliciesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AutomaticTapeCreationPolicyInfos: S.optional(AutomaticTapeCreationPolicyInfos) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "ListAutomaticTapeCreationPoliciesOutput",
-}) as any as S.Schema<ListAutomaticTapeCreationPoliciesOutput>;
 export interface ListCacheReportsInput {
   Marker?: string;
 }
-export const ListCacheReportsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListCacheReportsInput" }) as any as S.Schema<ListCacheReportsInput>;
 export type CacheReportList = CacheReportInfo[];
-export const CacheReportList = /*@__PURE__*/ S.Array(CacheReportInfo);
 export interface ListCacheReportsOutput {
   CacheReportList?: CacheReportInfo[];
   Marker?: string;
 }
-export const ListCacheReportsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheReportList: S.optional(CacheReportList), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ListCacheReportsOutput" }) as any as S.Schema<ListCacheReportsOutput>;
 export interface ListFileSharesInput {
   GatewayARN?: string;
   Limit?: number;
   Marker?: string;
 }
-export const ListFileSharesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListFileSharesInput" }) as any as S.Schema<ListFileSharesInput>;
 export type FileShareType = "NFS" | "SMB" | (string & {});
-export const FileShareType = S.String;
-
 export interface FileShareInfo {
   FileShareType?: FileShareType;
   FileShareARN?: string;
@@ -2256,43 +1110,17 @@ export interface FileShareInfo {
   FileShareStatus?: string;
   GatewayARN?: string;
 }
-export const FileShareInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileShareType: S.optional(FileShareType),
-    FileShareARN: S.optional(S.String),
-    FileShareId: S.optional(S.String),
-    FileShareStatus: S.optional(S.String),
-    GatewayARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "FileShareInfo" }) as any as S.Schema<FileShareInfo>;
 export type FileShareInfoList = FileShareInfo[];
-export const FileShareInfoList = /*@__PURE__*/ S.Array(FileShareInfo);
 export interface ListFileSharesOutput {
   Marker?: string;
   NextMarker?: string;
   FileShareInfoList?: FileShareInfo[];
 }
-export const ListFileSharesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    FileShareInfoList: S.optional(FileShareInfoList),
-  }).pipe(ns),
-).annotate({ identifier: "ListFileSharesOutput" }) as any as S.Schema<ListFileSharesOutput>;
 export interface ListFileSystemAssociationsInput {
   GatewayARN?: string;
   Limit?: number;
   Marker?: string;
 }
-export const ListFileSystemAssociationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListFileSystemAssociationsInput",
-}) as any as S.Schema<ListFileSystemAssociationsInput>;
 export type FileSystemAssociationId = string;
 export interface FileSystemAssociationSummary {
   FileSystemAssociationId?: string;
@@ -2300,41 +1128,16 @@ export interface FileSystemAssociationSummary {
   FileSystemAssociationStatus?: string;
   GatewayARN?: string;
 }
-export const FileSystemAssociationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileSystemAssociationId: S.optional(S.String),
-    FileSystemAssociationARN: S.optional(S.String),
-    FileSystemAssociationStatus: S.optional(S.String),
-    GatewayARN: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FileSystemAssociationSummary",
-}) as any as S.Schema<FileSystemAssociationSummary>;
 export type FileSystemAssociationSummaryList = FileSystemAssociationSummary[];
-export const FileSystemAssociationSummaryList = /*@__PURE__*/ S.Array(FileSystemAssociationSummary);
 export interface ListFileSystemAssociationsOutput {
   Marker?: string;
   NextMarker?: string;
   FileSystemAssociationSummaryList?: FileSystemAssociationSummary[];
 }
-export const ListFileSystemAssociationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    NextMarker: S.optional(S.String),
-    FileSystemAssociationSummaryList: S.optional(FileSystemAssociationSummaryList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListFileSystemAssociationsOutput",
-}) as any as S.Schema<ListFileSystemAssociationsOutput>;
 export interface ListGatewaysInput {
   Marker?: string;
   Limit?: number;
 }
-export const ListGatewaysInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListGatewaysInput" }) as any as S.Schema<ListGatewaysInput>;
 export type GatewayOperationalState = string;
 export interface GatewayInfo {
   GatewayId?: string;
@@ -2349,42 +1152,17 @@ export interface GatewayInfo {
   DeprecationDate?: string;
   SoftwareVersion?: string;
 }
-export const GatewayInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayId: S.optional(S.String),
-    GatewayARN: S.optional(S.String),
-    GatewayType: S.optional(S.String),
-    GatewayOperationalState: S.optional(S.String),
-    GatewayName: S.optional(S.String),
-    Ec2InstanceId: S.optional(S.String),
-    Ec2InstanceRegion: S.optional(S.String),
-    HostEnvironment: S.optional(HostEnvironment),
-    HostEnvironmentId: S.optional(S.String),
-    DeprecationDate: S.optional(S.String),
-    SoftwareVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "GatewayInfo" }) as any as S.Schema<GatewayInfo>;
 export type Gateways = GatewayInfo[];
-export const Gateways = /*@__PURE__*/ S.Array(GatewayInfo);
 export interface ListGatewaysOutput {
   Gateways?: GatewayInfo[];
   Marker?: string;
 }
-export const ListGatewaysOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Gateways: S.optional(Gateways), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ListGatewaysOutput" }) as any as S.Schema<ListGatewaysOutput>;
 export interface ListLocalDisksInput {
   GatewayARN: string;
 }
-export const ListLocalDisksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListLocalDisksInput" }) as any as S.Schema<ListLocalDisksInput>;
 export type DiskAllocationType = string;
 export type DiskAttribute = string;
 export type DiskAttributeList = string[];
-export const DiskAttributeList = /*@__PURE__*/ S.Array(S.String);
 export interface Disk {
   DiskId?: string;
   DiskPath?: string;
@@ -2395,70 +1173,28 @@ export interface Disk {
   DiskAllocationResource?: string;
   DiskAttributeList?: string[];
 }
-export const Disk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DiskId: S.optional(S.String),
-    DiskPath: S.optional(S.String),
-    DiskNode: S.optional(S.String),
-    DiskStatus: S.optional(S.String),
-    DiskSizeInBytes: S.optional(S.Number),
-    DiskAllocationType: S.optional(S.String),
-    DiskAllocationResource: S.optional(S.String),
-    DiskAttributeList: S.optional(DiskAttributeList),
-  }),
-).annotate({ identifier: "Disk" }) as any as S.Schema<Disk>;
 export type Disks = Disk[];
-export const Disks = /*@__PURE__*/ S.Array(Disk);
 export interface ListLocalDisksOutput {
   GatewayARN?: string;
   Disks?: Disk[];
 }
-export const ListLocalDisksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String), Disks: S.optional(Disks) }).pipe(ns),
-).annotate({ identifier: "ListLocalDisksOutput" }) as any as S.Schema<ListLocalDisksOutput>;
 export interface ListTagsForResourceInput {
   ResourceARN: string;
   Marker?: string;
   Limit?: number;
 }
-export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.String,
-    Marker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   ResourceARN?: string;
   Marker?: string;
   Tags?: Tag[];
 }
-export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    Marker: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceOutput",
-}) as any as S.Schema<ListTagsForResourceOutput>;
 export type PoolARNs = string[];
-export const PoolARNs = /*@__PURE__*/ S.Array(S.String);
 export interface ListTapePoolsInput {
   PoolARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
-export const ListTapePoolsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PoolARNs: S.optional(PoolARNs),
-    Marker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListTapePoolsInput" }) as any as S.Schema<ListTapePoolsInput>;
 export type PoolStatus = "ACTIVE" | "DELETED" | (string & {});
-export const PoolStatus = S.String;
-
 export interface PoolInfo {
   PoolARN?: string;
   PoolName?: string;
@@ -2467,37 +1203,16 @@ export interface PoolInfo {
   RetentionLockTimeInDays?: number;
   PoolStatus?: PoolStatus;
 }
-export const PoolInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PoolARN: S.optional(S.String),
-    PoolName: S.optional(S.String),
-    StorageClass: S.optional(TapeStorageClass),
-    RetentionLockType: S.optional(RetentionLockType),
-    RetentionLockTimeInDays: S.optional(S.Number),
-    PoolStatus: S.optional(PoolStatus),
-  }),
-).annotate({ identifier: "PoolInfo" }) as any as S.Schema<PoolInfo>;
 export type PoolInfos = PoolInfo[];
-export const PoolInfos = /*@__PURE__*/ S.Array(PoolInfo);
 export interface ListTapePoolsOutput {
   PoolInfos?: PoolInfo[];
   Marker?: string;
 }
-export const ListTapePoolsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PoolInfos: S.optional(PoolInfos), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ListTapePoolsOutput" }) as any as S.Schema<ListTapePoolsOutput>;
 export interface ListTapesInput {
   TapeARNs?: string[];
   Marker?: string;
   Limit?: number;
 }
-export const ListTapesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeARNs: S.optional(TapeARNs),
-    Marker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListTapesInput" }) as any as S.Schema<ListTapesInput>;
 export interface TapeInfo {
   TapeARN?: string;
   TapeBarcode?: string;
@@ -2508,98 +1223,38 @@ export interface TapeInfo {
   RetentionStartDate?: Date;
   PoolEntryDate?: Date;
 }
-export const TapeInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeARN: S.optional(S.String),
-    TapeBarcode: S.optional(S.String),
-    TapeSizeInBytes: S.optional(S.Number),
-    TapeStatus: S.optional(S.String),
-    GatewayARN: S.optional(S.String),
-    PoolId: S.optional(S.String),
-    RetentionStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    PoolEntryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "TapeInfo" }) as any as S.Schema<TapeInfo>;
 export type TapeInfos = TapeInfo[];
-export const TapeInfos = /*@__PURE__*/ S.Array(TapeInfo);
 export interface ListTapesOutput {
   TapeInfos?: TapeInfo[];
   Marker?: string;
 }
-export const ListTapesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeInfos: S.optional(TapeInfos), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ListTapesOutput" }) as any as S.Schema<ListTapesOutput>;
 export interface ListVolumeInitiatorsInput {
   VolumeARN: string;
 }
-export const ListVolumeInitiatorsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListVolumeInitiatorsInput",
-}) as any as S.Schema<ListVolumeInitiatorsInput>;
 export type Initiator = string;
 export type Initiators = string[];
-export const Initiators = /*@__PURE__*/ S.Array(S.String);
 export interface ListVolumeInitiatorsOutput {
   Initiators?: string[];
 }
-export const ListVolumeInitiatorsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Initiators: S.optional(Initiators) }).pipe(ns),
-).annotate({
-  identifier: "ListVolumeInitiatorsOutput",
-}) as any as S.Schema<ListVolumeInitiatorsOutput>;
 export interface ListVolumeRecoveryPointsInput {
   GatewayARN: string;
 }
-export const ListVolumeRecoveryPointsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListVolumeRecoveryPointsInput",
-}) as any as S.Schema<ListVolumeRecoveryPointsInput>;
 export interface VolumeRecoveryPointInfo {
   VolumeARN?: string;
   VolumeSizeInBytes?: number;
   VolumeUsageInBytes?: number;
   VolumeRecoveryPointTime?: string;
 }
-export const VolumeRecoveryPointInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.optional(S.String),
-    VolumeSizeInBytes: S.optional(S.Number),
-    VolumeUsageInBytes: S.optional(S.Number),
-    VolumeRecoveryPointTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "VolumeRecoveryPointInfo" }) as any as S.Schema<VolumeRecoveryPointInfo>;
 export type VolumeRecoveryPointInfos = VolumeRecoveryPointInfo[];
-export const VolumeRecoveryPointInfos = /*@__PURE__*/ S.Array(VolumeRecoveryPointInfo);
 export interface ListVolumeRecoveryPointsOutput {
   GatewayARN?: string;
   VolumeRecoveryPointInfos?: VolumeRecoveryPointInfo[];
 }
-export const ListVolumeRecoveryPointsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    VolumeRecoveryPointInfos: S.optional(VolumeRecoveryPointInfos),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListVolumeRecoveryPointsOutput",
-}) as any as S.Schema<ListVolumeRecoveryPointsOutput>;
 export interface ListVolumesInput {
   GatewayARN?: string;
   Marker?: string;
   Limit?: number;
 }
-export const ListVolumesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    Marker: S.optional(S.String),
-    Limit: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListVolumesInput" }) as any as S.Schema<ListVolumesInput>;
 export interface VolumeInfo {
   VolumeARN?: string;
   VolumeId?: string;
@@ -2609,210 +1264,87 @@ export interface VolumeInfo {
   VolumeSizeInBytes?: number;
   VolumeAttachmentStatus?: string;
 }
-export const VolumeInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.optional(S.String),
-    VolumeId: S.optional(S.String),
-    GatewayARN: S.optional(S.String),
-    GatewayId: S.optional(S.String),
-    VolumeType: S.optional(S.String),
-    VolumeSizeInBytes: S.optional(S.Number),
-    VolumeAttachmentStatus: S.optional(S.String),
-  }),
-).annotate({ identifier: "VolumeInfo" }) as any as S.Schema<VolumeInfo>;
 export type VolumeInfos = VolumeInfo[];
-export const VolumeInfos = /*@__PURE__*/ S.Array(VolumeInfo);
 export interface ListVolumesOutput {
   GatewayARN?: string;
   Marker?: string;
   VolumeInfos?: VolumeInfo[];
 }
-export const ListVolumesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    Marker: S.optional(S.String),
-    VolumeInfos: S.optional(VolumeInfos),
-  }).pipe(ns),
-).annotate({ identifier: "ListVolumesOutput" }) as any as S.Schema<ListVolumesOutput>;
 export interface NotifyWhenUploadedInput {
   FileShareARN: string;
 }
-export const NotifyWhenUploadedInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "NotifyWhenUploadedInput" }) as any as S.Schema<NotifyWhenUploadedInput>;
 export type NotificationId = string;
 export interface NotifyWhenUploadedOutput {
   FileShareARN?: string;
   NotificationId?: string;
 }
-export const NotifyWhenUploadedOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.optional(S.String), NotificationId: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "NotifyWhenUploadedOutput" }) as any as S.Schema<NotifyWhenUploadedOutput>;
 export type Folder = string;
 export type FolderList = string[];
-export const FolderList = /*@__PURE__*/ S.Array(S.String);
 export interface RefreshCacheInput {
   FileShareARN: string;
   FolderList?: string[];
   Recursive?: boolean;
 }
-export const RefreshCacheInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileShareARN: S.String,
-    FolderList: S.optional(FolderList),
-    Recursive: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "RefreshCacheInput" }) as any as S.Schema<RefreshCacheInput>;
 export interface RefreshCacheOutput {
   FileShareARN?: string;
   NotificationId?: string;
 }
-export const RefreshCacheOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.optional(S.String), NotificationId: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "RefreshCacheOutput" }) as any as S.Schema<RefreshCacheOutput>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveTagsFromResourceInput {
   ResourceARN: string;
   TagKeys: string[];
 }
-export const RemoveTagsFromResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.String, TagKeys: TagKeys }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RemoveTagsFromResourceInput",
-}) as any as S.Schema<RemoveTagsFromResourceInput>;
 export interface RemoveTagsFromResourceOutput {
   ResourceARN?: string;
 }
-export const RemoveTagsFromResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "RemoveTagsFromResourceOutput",
-}) as any as S.Schema<RemoveTagsFromResourceOutput>;
 export interface ResetCacheInput {
   GatewayARN: string;
 }
-export const ResetCacheInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ResetCacheInput" }) as any as S.Schema<ResetCacheInput>;
 export interface ResetCacheOutput {
   GatewayARN?: string;
 }
-export const ResetCacheOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ResetCacheOutput" }) as any as S.Schema<ResetCacheOutput>;
 export interface RetrieveTapeArchiveInput {
   TapeARN: string;
   GatewayARN: string;
 }
-export const RetrieveTapeArchiveInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.String, GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "RetrieveTapeArchiveInput" }) as any as S.Schema<RetrieveTapeArchiveInput>;
 export interface RetrieveTapeArchiveOutput {
   TapeARN?: string;
 }
-export const RetrieveTapeArchiveOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "RetrieveTapeArchiveOutput",
-}) as any as S.Schema<RetrieveTapeArchiveOutput>;
 export interface RetrieveTapeRecoveryPointInput {
   TapeARN: string;
   GatewayARN: string;
 }
-export const RetrieveTapeRecoveryPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.String, GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RetrieveTapeRecoveryPointInput",
-}) as any as S.Schema<RetrieveTapeRecoveryPointInput>;
 export interface RetrieveTapeRecoveryPointOutput {
   TapeARN?: string;
 }
-export const RetrieveTapeRecoveryPointOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "RetrieveTapeRecoveryPointOutput",
-}) as any as S.Schema<RetrieveTapeRecoveryPointOutput>;
 export type LocalConsolePassword = string | redacted.Redacted<string>;
 export interface SetLocalConsolePasswordInput {
   GatewayARN: string;
   LocalConsolePassword: string | redacted.Redacted<string>;
 }
-export const SetLocalConsolePasswordInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, LocalConsolePassword: SensitiveString }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "SetLocalConsolePasswordInput",
-}) as any as S.Schema<SetLocalConsolePasswordInput>;
 export interface SetLocalConsolePasswordOutput {
   GatewayARN?: string;
 }
-export const SetLocalConsolePasswordOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "SetLocalConsolePasswordOutput",
-}) as any as S.Schema<SetLocalConsolePasswordOutput>;
 export type SMBGuestPassword = string | redacted.Redacted<string>;
 export interface SetSMBGuestPasswordInput {
   GatewayARN: string;
   Password: string | redacted.Redacted<string>;
 }
-export const SetSMBGuestPasswordInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, Password: SensitiveString }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "SetSMBGuestPasswordInput" }) as any as S.Schema<SetSMBGuestPasswordInput>;
 export interface SetSMBGuestPasswordOutput {
   GatewayARN?: string;
 }
-export const SetSMBGuestPasswordOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "SetSMBGuestPasswordOutput",
-}) as any as S.Schema<SetSMBGuestPasswordOutput>;
 export interface ShutdownGatewayInput {
   GatewayARN: string;
 }
-export const ShutdownGatewayInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ShutdownGatewayInput" }) as any as S.Schema<ShutdownGatewayInput>;
 export interface ShutdownGatewayOutput {
   GatewayARN?: string;
 }
-export const ShutdownGatewayOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ShutdownGatewayOutput" }) as any as S.Schema<ShutdownGatewayOutput>;
 export interface StartAvailabilityMonitorTestInput {
   GatewayARN: string;
 }
-export const StartAvailabilityMonitorTestInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "StartAvailabilityMonitorTestInput",
-}) as any as S.Schema<StartAvailabilityMonitorTestInput>;
 export interface StartAvailabilityMonitorTestOutput {
   GatewayARN?: string;
 }
-export const StartAvailabilityMonitorTestOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartAvailabilityMonitorTestOutput",
-}) as any as S.Schema<StartAvailabilityMonitorTestOutput>;
 export interface StartCacheReportInput {
   FileShareARN: string;
   Role: string;
@@ -2824,124 +1356,47 @@ export interface StartCacheReportInput {
   ClientToken: string;
   Tags?: Tag[];
 }
-export const StartCacheReportInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileShareARN: S.String,
-    Role: S.String,
-    LocationARN: S.String,
-    BucketRegion: S.String,
-    VPCEndpointDNSName: S.optional(S.String),
-    InclusionFilters: S.optional(CacheReportFilterList),
-    ExclusionFilters: S.optional(CacheReportFilterList),
-    ClientToken: S.String,
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "StartCacheReportInput" }) as any as S.Schema<StartCacheReportInput>;
 export interface StartCacheReportOutput {
   CacheReportARN?: string;
 }
-export const StartCacheReportOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheReportARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "StartCacheReportOutput" }) as any as S.Schema<StartCacheReportOutput>;
 export interface StartGatewayInput {
   GatewayARN: string;
 }
-export const StartGatewayInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "StartGatewayInput" }) as any as S.Schema<StartGatewayInput>;
 export interface StartGatewayOutput {
   GatewayARN?: string;
 }
-export const StartGatewayOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "StartGatewayOutput" }) as any as S.Schema<StartGatewayOutput>;
 export interface UpdateAutomaticTapeCreationPolicyInput {
   AutomaticTapeCreationRules: AutomaticTapeCreationRule[];
   GatewayARN: string;
 }
-export const UpdateAutomaticTapeCreationPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AutomaticTapeCreationRules: AutomaticTapeCreationRules, GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateAutomaticTapeCreationPolicyInput",
-}) as any as S.Schema<UpdateAutomaticTapeCreationPolicyInput>;
 export interface UpdateAutomaticTapeCreationPolicyOutput {
   GatewayARN?: string;
 }
-export const UpdateAutomaticTapeCreationPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateAutomaticTapeCreationPolicyOutput",
-}) as any as S.Schema<UpdateAutomaticTapeCreationPolicyOutput>;
 export interface UpdateBandwidthRateLimitInput {
   GatewayARN: string;
   AverageUploadRateLimitInBitsPerSec?: number;
   AverageDownloadRateLimitInBitsPerSec?: number;
 }
-export const UpdateBandwidthRateLimitInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    AverageUploadRateLimitInBitsPerSec: S.optional(S.Number),
-    AverageDownloadRateLimitInBitsPerSec: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateBandwidthRateLimitInput",
-}) as any as S.Schema<UpdateBandwidthRateLimitInput>;
 export interface UpdateBandwidthRateLimitOutput {
   GatewayARN?: string;
 }
-export const UpdateBandwidthRateLimitOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateBandwidthRateLimitOutput",
-}) as any as S.Schema<UpdateBandwidthRateLimitOutput>;
 export interface UpdateBandwidthRateLimitScheduleInput {
   GatewayARN: string;
   BandwidthRateLimitIntervals: BandwidthRateLimitInterval[];
 }
-export const UpdateBandwidthRateLimitScheduleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, BandwidthRateLimitIntervals: BandwidthRateLimitIntervals }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateBandwidthRateLimitScheduleInput",
-}) as any as S.Schema<UpdateBandwidthRateLimitScheduleInput>;
 export interface UpdateBandwidthRateLimitScheduleOutput {
   GatewayARN?: string;
 }
-export const UpdateBandwidthRateLimitScheduleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateBandwidthRateLimitScheduleOutput",
-}) as any as S.Schema<UpdateBandwidthRateLimitScheduleOutput>;
 export interface UpdateChapCredentialsInput {
   TargetARN: string;
   SecretToAuthenticateInitiator: string | redacted.Redacted<string>;
   InitiatorName: string;
   SecretToAuthenticateTarget?: string | redacted.Redacted<string>;
 }
-export const UpdateChapCredentialsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetARN: S.String,
-    SecretToAuthenticateInitiator: SensitiveString,
-    InitiatorName: S.String,
-    SecretToAuthenticateTarget: S.optional(SensitiveString),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateChapCredentialsInput",
-}) as any as S.Schema<UpdateChapCredentialsInput>;
 export interface UpdateChapCredentialsOutput {
   TargetARN?: string;
   InitiatorName?: string;
 }
-export const UpdateChapCredentialsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetARN: S.optional(S.String), InitiatorName: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateChapCredentialsOutput",
-}) as any as S.Schema<UpdateChapCredentialsOutput>;
 export interface UpdateFileSystemAssociationInput {
   FileSystemAssociationARN: string;
   UserName?: string;
@@ -2949,25 +1404,9 @@ export interface UpdateFileSystemAssociationInput {
   AuditDestinationARN?: string;
   CacheAttributes?: CacheAttributes;
 }
-export const UpdateFileSystemAssociationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileSystemAssociationARN: S.String,
-    UserName: S.optional(S.String),
-    Password: S.optional(SensitiveString),
-    AuditDestinationARN: S.optional(S.String),
-    CacheAttributes: S.optional(CacheAttributes),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateFileSystemAssociationInput",
-}) as any as S.Schema<UpdateFileSystemAssociationInput>;
 export interface UpdateFileSystemAssociationOutput {
   FileSystemAssociationARN?: string;
 }
-export const UpdateFileSystemAssociationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileSystemAssociationARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateFileSystemAssociationOutput",
-}) as any as S.Schema<UpdateFileSystemAssociationOutput>;
 export interface UpdateGatewayInformationInput {
   GatewayARN: string;
   GatewayName?: string;
@@ -2975,44 +1414,16 @@ export interface UpdateGatewayInformationInput {
   CloudWatchLogGroupARN?: string;
   GatewayCapacity?: GatewayCapacity;
 }
-export const UpdateGatewayInformationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    GatewayName: S.optional(S.String),
-    GatewayTimezone: S.optional(S.String),
-    CloudWatchLogGroupARN: S.optional(S.String),
-    GatewayCapacity: S.optional(GatewayCapacity),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateGatewayInformationInput",
-}) as any as S.Schema<UpdateGatewayInformationInput>;
 export interface UpdateGatewayInformationOutput {
   GatewayARN?: string;
   GatewayName?: string;
 }
-export const UpdateGatewayInformationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String), GatewayName: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateGatewayInformationOutput",
-}) as any as S.Schema<UpdateGatewayInformationOutput>;
 export interface UpdateGatewaySoftwareNowInput {
   GatewayARN: string;
 }
-export const UpdateGatewaySoftwareNowInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateGatewaySoftwareNowInput",
-}) as any as S.Schema<UpdateGatewaySoftwareNowInput>;
 export interface UpdateGatewaySoftwareNowOutput {
   GatewayARN?: string;
 }
-export const UpdateGatewaySoftwareNowOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateGatewaySoftwareNowOutput",
-}) as any as S.Schema<UpdateGatewaySoftwareNowOutput>;
 export interface UpdateMaintenanceStartTimeInput {
   GatewayARN: string;
   HourOfDay?: number;
@@ -3021,26 +1432,9 @@ export interface UpdateMaintenanceStartTimeInput {
   DayOfMonth?: number;
   SoftwareUpdatePreferences?: SoftwareUpdatePreferences;
 }
-export const UpdateMaintenanceStartTimeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    HourOfDay: S.optional(S.Number),
-    MinuteOfHour: S.optional(S.Number),
-    DayOfWeek: S.optional(S.Number),
-    DayOfMonth: S.optional(S.Number),
-    SoftwareUpdatePreferences: S.optional(SoftwareUpdatePreferences),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateMaintenanceStartTimeInput",
-}) as any as S.Schema<UpdateMaintenanceStartTimeInput>;
 export interface UpdateMaintenanceStartTimeOutput {
   GatewayARN?: string;
 }
-export const UpdateMaintenanceStartTimeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateMaintenanceStartTimeOutput",
-}) as any as S.Schema<UpdateMaintenanceStartTimeOutput>;
 export interface UpdateNFSFileShareInput {
   FileShareARN: string;
   EncryptionType?: EncryptionType;
@@ -3059,32 +1453,9 @@ export interface UpdateNFSFileShareInput {
   NotificationPolicy?: string;
   AuditDestinationARN?: string;
 }
-export const UpdateNFSFileShareInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileShareARN: S.String,
-    EncryptionType: S.optional(EncryptionType),
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    NFSFileShareDefaults: S.optional(NFSFileShareDefaults),
-    DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(ObjectACL),
-    ClientList: S.optional(FileShareClientList),
-    Squash: S.optional(S.String),
-    ReadOnly: S.optional(S.Boolean),
-    GuessMIMETypeEnabled: S.optional(S.Boolean),
-    RequesterPays: S.optional(S.Boolean),
-    FileShareName: S.optional(S.String),
-    CacheAttributes: S.optional(CacheAttributes),
-    NotificationPolicy: S.optional(S.String),
-    AuditDestinationARN: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "UpdateNFSFileShareInput" }) as any as S.Schema<UpdateNFSFileShareInput>;
 export interface UpdateNFSFileShareOutput {
   FileShareARN?: string;
 }
-export const UpdateNFSFileShareOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "UpdateNFSFileShareOutput" }) as any as S.Schema<UpdateNFSFileShareOutput>;
 export interface UpdateSMBFileShareInput {
   FileShareARN: string;
   EncryptionType?: EncryptionType;
@@ -3107,93 +1478,30 @@ export interface UpdateSMBFileShareInput {
   NotificationPolicy?: string;
   OplocksEnabled?: boolean;
 }
-export const UpdateSMBFileShareInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileShareARN: S.String,
-    EncryptionType: S.optional(EncryptionType),
-    KMSEncrypted: S.optional(S.Boolean),
-    KMSKey: S.optional(S.String),
-    DefaultStorageClass: S.optional(S.String),
-    ObjectACL: S.optional(ObjectACL),
-    ReadOnly: S.optional(S.Boolean),
-    GuessMIMETypeEnabled: S.optional(S.Boolean),
-    RequesterPays: S.optional(S.Boolean),
-    SMBACLEnabled: S.optional(S.Boolean),
-    AccessBasedEnumeration: S.optional(S.Boolean),
-    AdminUserList: S.optional(UserList),
-    ValidUserList: S.optional(UserList),
-    InvalidUserList: S.optional(UserList),
-    AuditDestinationARN: S.optional(S.String),
-    CaseSensitivity: S.optional(CaseSensitivity),
-    FileShareName: S.optional(S.String),
-    CacheAttributes: S.optional(CacheAttributes),
-    NotificationPolicy: S.optional(S.String),
-    OplocksEnabled: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "UpdateSMBFileShareInput" }) as any as S.Schema<UpdateSMBFileShareInput>;
 export interface UpdateSMBFileShareOutput {
   FileShareARN?: string;
 }
-export const UpdateSMBFileShareOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "UpdateSMBFileShareOutput" }) as any as S.Schema<UpdateSMBFileShareOutput>;
 export interface UpdateSMBFileShareVisibilityInput {
   GatewayARN: string;
   FileSharesVisible: boolean;
 }
-export const UpdateSMBFileShareVisibilityInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, FileSharesVisible: S.Boolean }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSMBFileShareVisibilityInput",
-}) as any as S.Schema<UpdateSMBFileShareVisibilityInput>;
 export interface UpdateSMBFileShareVisibilityOutput {
   GatewayARN?: string;
 }
-export const UpdateSMBFileShareVisibilityOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateSMBFileShareVisibilityOutput",
-}) as any as S.Schema<UpdateSMBFileShareVisibilityOutput>;
 export interface UpdateSMBLocalGroupsInput {
   GatewayARN: string;
   SMBLocalGroups: SMBLocalGroups;
 }
-export const UpdateSMBLocalGroupsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, SMBLocalGroups: SMBLocalGroups }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSMBLocalGroupsInput",
-}) as any as S.Schema<UpdateSMBLocalGroupsInput>;
 export interface UpdateSMBLocalGroupsOutput {
   GatewayARN?: string;
 }
-export const UpdateSMBLocalGroupsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateSMBLocalGroupsOutput",
-}) as any as S.Schema<UpdateSMBLocalGroupsOutput>;
 export interface UpdateSMBSecurityStrategyInput {
   GatewayARN: string;
   SMBSecurityStrategy: SMBSecurityStrategy;
 }
-export const UpdateSMBSecurityStrategyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.String, SMBSecurityStrategy: SMBSecurityStrategy }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSMBSecurityStrategyInput",
-}) as any as S.Schema<UpdateSMBSecurityStrategyInput>;
 export interface UpdateSMBSecurityStrategyOutput {
   GatewayARN?: string;
 }
-export const UpdateSMBSecurityStrategyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateSMBSecurityStrategyOutput",
-}) as any as S.Schema<UpdateSMBSecurityStrategyOutput>;
 export interface UpdateSnapshotScheduleInput {
   VolumeARN: string;
   StartAt: number;
@@ -3201,43 +1509,17 @@ export interface UpdateSnapshotScheduleInput {
   Description?: string;
   Tags?: Tag[];
 }
-export const UpdateSnapshotScheduleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.String,
-    StartAt: S.Number,
-    RecurrenceInHours: S.Number,
-    Description: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateSnapshotScheduleInput",
-}) as any as S.Schema<UpdateSnapshotScheduleInput>;
 export interface UpdateSnapshotScheduleOutput {
   VolumeARN?: string;
 }
-export const UpdateSnapshotScheduleOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VolumeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateSnapshotScheduleOutput",
-}) as any as S.Schema<UpdateSnapshotScheduleOutput>;
 export type DeviceType = string;
 export interface UpdateVTLDeviceTypeInput {
   VTLDeviceARN: string;
   DeviceType: string;
 }
-export const UpdateVTLDeviceTypeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VTLDeviceARN: S.String, DeviceType: S.String }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UpdateVTLDeviceTypeInput" }) as any as S.Schema<UpdateVTLDeviceTypeInput>;
 export interface UpdateVTLDeviceTypeOutput {
   VTLDeviceARN?: string;
 }
-export const UpdateVTLDeviceTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VTLDeviceARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateVTLDeviceTypeOutput",
-}) as any as S.Schema<UpdateVTLDeviceTypeOutput>;
 export type ErrorCode =
   | "ActivationKeyExpired"
   | "ActivationKeyInvalid"
@@ -3302,17 +1584,11 @@ export type ErrorCode =
   | "VolumeNotFound"
   | "VolumeNotReady"
   | (string & {});
-export const ErrorCode = S.String;
-
 export type ErrorDetails = { [key: string]: string | undefined };
-export const ErrorDetails = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface StorageGatewayError {
   errorCode?: ErrorCode;
   errorDetails?: { [key: string]: string | undefined };
 }
-export const StorageGatewayError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ errorCode: S.optional(ErrorCode), errorDetails: S.optional(ErrorDetails) }),
-).annotate({ identifier: "StorageGatewayError" }) as any as S.Schema<StorageGatewayError>;
 export type ActivateGatewayError =
   | InternalServerError
   | InvalidGatewayRequestException
@@ -3332,8 +1608,8 @@ export const activateGateway: API.OperationMethod<
   ActivateGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ActivateGatewayInput,
-  output: ActivateGatewayOutput,
+  input: __S(224, __c28, 0) as any as S.Schema<ActivateGatewayInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<ActivateGatewayOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3354,8 +1630,8 @@ export const addCache: API.OperationMethod<
   AddCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddCacheInput,
-  output: AddCacheOutput,
+  input: __S(360, __c45, 0) as any as S.Schema<AddCacheInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<AddCacheOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3391,8 +1667,8 @@ export const addTagsToResource: API.OperationMethod<
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsToResourceInput,
-  output: AddTagsToResourceOutput,
+  input: __S(472, __c59, 0) as any as S.Schema<AddTagsToResourceInput>,
+  output: __S(480, __c60, 0) as any as S.Schema<AddTagsToResourceOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3418,8 +1694,8 @@ export const addUploadBuffer: API.OperationMethod<
   AddUploadBufferError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddUploadBufferInput,
-  output: AddUploadBufferOutput,
+  input: __S(568, __c71, 0) as any as S.Schema<AddUploadBufferInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<AddUploadBufferOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3449,8 +1725,8 @@ export const addWorkingStorage: API.OperationMethod<
   AddWorkingStorageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddWorkingStorageInput,
-  output: AddWorkingStorageOutput,
+  input: __S(664, __c83, 0) as any as S.Schema<AddWorkingStorageInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<AddWorkingStorageOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3473,8 +1749,8 @@ export const assignTapePool: API.OperationMethod<
   AssignTapePoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssignTapePoolInput,
-  output: AssignTapePoolOutput,
+  input: __S(760, __c95, 0) as any as S.Schema<AssignTapePoolInput>,
+  output: __S(768, __c96, 0) as any as S.Schema<AssignTapePoolOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3497,8 +1773,8 @@ export const associateFileSystem: API.OperationMethod<
   AssociateFileSystemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateFileSystemInput,
-  output: AssociateFileSystemOutput,
+  input: __S(856, __c107, 0) as any as S.Schema<AssociateFileSystemInput>,
+  output: __S(880, __c110, 0) as any as S.Schema<AssociateFileSystemOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3518,8 +1794,8 @@ export const attachVolume: API.OperationMethod<
   AttachVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttachVolumeInput,
-  output: AttachVolumeOutput,
+  input: __S(8, __c1, 0) as any as S.Schema<AttachVolumeInput>,
+  output: __S(16, __c2, 0) as any as S.Schema<AttachVolumeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3540,8 +1816,8 @@ export const cancelArchival: API.OperationMethod<
   CancelArchivalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelArchivalInput,
-  output: CancelArchivalOutput,
+  input: __S(24, __c3, 0) as any as S.Schema<CancelArchivalInput>,
+  output: __S(768, __c96, 0) as any as S.Schema<CancelArchivalOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3565,8 +1841,8 @@ export const cancelCacheReport: API.OperationMethod<
   CancelCacheReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelCacheReportInput,
-  output: CancelCacheReportOutput,
+  input: __S(32, __c4, 0) as any as S.Schema<CancelCacheReportInput>,
+  output: __S(40, __c5, 0) as any as S.Schema<CancelCacheReportOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3588,8 +1864,8 @@ export const cancelRetrieval: API.OperationMethod<
   CancelRetrievalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelRetrievalInput,
-  output: CancelRetrievalOutput,
+  input: __S(48, __c6, 0) as any as S.Schema<CancelRetrievalInput>,
+  output: __S(768, __c96, 0) as any as S.Schema<CancelRetrievalOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3615,7 +1891,7 @@ export type CreateCachediSCSIVolumeError =
  *
  * Optionally, you can provide the ARN for an existing volume as the
  * `SourceVolumeARN` for this cached volume, which creates an exact copy of the
- * existing volume’s latest recovery point. The `VolumeSizeInBytes` value must be
+ * existing volume's latest recovery point. The `VolumeSizeInBytes` value must be
  * equal to or larger than the size of the copied volume, in bytes.
  */
 export const createCachediSCSIVolume: API.OperationMethod<
@@ -3624,8 +1900,8 @@ export const createCachediSCSIVolume: API.OperationMethod<
   CreateCachediSCSIVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCachediSCSIVolumeInput,
-  output: CreateCachediSCSIVolumeOutput,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateCachediSCSIVolumeInput>,
+  output: __S(16, __c2, 0) as any as S.Schema<CreateCachediSCSIVolumeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3659,8 +1935,8 @@ export const createNFSFileShare: API.OperationMethod<
   CreateNFSFileShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateNFSFileShareInput,
-  output: CreateNFSFileShareOutput,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateNFSFileShareInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<CreateNFSFileShareOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3694,8 +1970,8 @@ export const createSMBFileShare: API.OperationMethod<
   CreateSMBFileShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSMBFileShareInput,
-  output: CreateSMBFileShareOutput,
+  input: __S(88, __c11, 0) as any as S.Schema<CreateSMBFileShareInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<CreateSMBFileShareOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3739,8 +2015,8 @@ export const createSnapshot: API.OperationMethod<
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSnapshotInput,
-  output: CreateSnapshotOutput,
+  input: __S(96, __c12, 0) as any as S.Schema<CreateSnapshotInput>,
+  output: __S(97, __c12, 1) as any as S.Schema<CreateSnapshotOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException, ServiceUnavailableError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3779,8 +2055,8 @@ export const createSnapshotFromVolumeRecoveryPoint: API.OperationMethod<
   CreateSnapshotFromVolumeRecoveryPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSnapshotFromVolumeRecoveryPointInput,
-  output: CreateSnapshotFromVolumeRecoveryPointOutput,
+  input: __S(104, __c13, 0) as any as S.Schema<CreateSnapshotFromVolumeRecoveryPointInput>,
+  output: __S(105, __c13, 1) as any as S.Schema<CreateSnapshotFromVolumeRecoveryPointOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException, ServiceUnavailableError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3811,8 +2087,8 @@ export const createStorediSCSIVolume: API.OperationMethod<
   CreateStorediSCSIVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateStorediSCSIVolumeInput,
-  output: CreateStorediSCSIVolumeOutput,
+  input: __S(112, __c14, 0) as any as S.Schema<CreateStorediSCSIVolumeInput>,
+  output: __S(113, __c14, 1) as any as S.Schema<CreateStorediSCSIVolumeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3833,8 +2109,8 @@ export const createTapePool: API.OperationMethod<
   CreateTapePoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTapePoolInput,
-  output: CreateTapePoolOutput,
+  input: __S(120, __c15, 0) as any as S.Schema<CreateTapePoolInput>,
+  output: __S(128, __c16, 0) as any as S.Schema<CreateTapePoolOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3855,8 +2131,8 @@ export const createTapes: API.OperationMethod<
   CreateTapesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTapesInput,
-  output: CreateTapesOutput,
+  input: __S(136, __c17, 0) as any as S.Schema<CreateTapesInput>,
+  output: __S(137, __c17, 1) as any as S.Schema<CreateTapesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3882,8 +2158,8 @@ export const createTapeWithBarcode: API.OperationMethod<
   CreateTapeWithBarcodeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTapeWithBarcodeInput,
-  output: CreateTapeWithBarcodeOutput,
+  input: __S(144, __c18, 0) as any as S.Schema<CreateTapeWithBarcodeInput>,
+  output: __S(768, __c96, 0) as any as S.Schema<CreateTapeWithBarcodeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3905,8 +2181,8 @@ export const deleteAutomaticTapeCreationPolicy: API.OperationMethod<
   DeleteAutomaticTapeCreationPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAutomaticTapeCreationPolicyInput,
-  output: DeleteAutomaticTapeCreationPolicyOutput,
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteAutomaticTapeCreationPolicyInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<DeleteAutomaticTapeCreationPolicyOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3930,8 +2206,8 @@ export const deleteBandwidthRateLimit: API.OperationMethod<
   DeleteBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBandwidthRateLimitInput,
-  output: DeleteBandwidthRateLimitOutput,
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteBandwidthRateLimitInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<DeleteBandwidthRateLimitOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3955,8 +2231,8 @@ export const deleteCacheReport: API.OperationMethod<
   DeleteCacheReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCacheReportInput,
-  output: DeleteCacheReportOutput,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteCacheReportInput>,
+  output: __S(40, __c5, 0) as any as S.Schema<DeleteCacheReportOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3978,8 +2254,8 @@ export const deleteChapCredentials: API.OperationMethod<
   DeleteChapCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteChapCredentialsInput,
-  output: DeleteChapCredentialsOutput,
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteChapCredentialsInput>,
+  output: __S(184, __c23, 0) as any as S.Schema<DeleteChapCredentialsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4000,8 +2276,8 @@ export const deleteFileShare: API.OperationMethod<
   DeleteFileShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFileShareInput,
-  output: DeleteFileShareOutput,
+  input: __S(192, __c24, 0) as any as S.Schema<DeleteFileShareInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<DeleteFileShareOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4036,8 +2312,8 @@ export const deleteGateway: API.OperationMethod<
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGatewayInput,
-  output: DeleteGatewayOutput,
+  input: __S(200, __c25, 0) as any as S.Schema<DeleteGatewayInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<DeleteGatewayOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4068,8 +2344,8 @@ export const deleteSnapshotSchedule: API.OperationMethod<
   DeleteSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSnapshotScheduleInput,
-  output: DeleteSnapshotScheduleOutput,
+  input: __S(208, __c26, 0) as any as S.Schema<DeleteSnapshotScheduleInput>,
+  output: __S(216, __c27, 0) as any as S.Schema<DeleteSnapshotScheduleOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4087,8 +2363,8 @@ export const deleteTape: API.OperationMethod<
   DeleteTapeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTapeInput,
-  output: DeleteTapeOutput,
+  input: __S(248, __c31, 0) as any as S.Schema<DeleteTapeInput>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteTapeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4109,8 +2385,8 @@ export const deleteTapeArchive: API.OperationMethod<
   DeleteTapeArchiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTapeArchiveInput,
-  output: DeleteTapeArchiveOutput,
+  input: __S(256, __c32, 0) as any as S.Schema<DeleteTapeArchiveInput>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteTapeArchiveOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4132,8 +2408,8 @@ export const deleteTapePool: API.OperationMethod<
   DeleteTapePoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTapePoolInput,
-  output: DeleteTapePoolOutput,
+  input: __S(264, __c33, 0) as any as S.Schema<DeleteTapePoolInput>,
+  output: __S(128, __c16, 0) as any as S.Schema<DeleteTapePoolOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4162,8 +2438,8 @@ export const deleteVolume: API.OperationMethod<
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVolumeInput,
-  output: DeleteVolumeOutput,
+  input: __S(272, __c34, 0) as any as S.Schema<DeleteVolumeInput>,
+  output: __S(216, __c27, 0) as any as S.Schema<DeleteVolumeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4185,8 +2461,8 @@ export const describeAvailabilityMonitorTest: API.OperationMethod<
   DescribeAvailabilityMonitorTestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAvailabilityMonitorTestInput,
-  output: DescribeAvailabilityMonitorTestOutput,
+  input: __S(280, __c35, 0) as any as S.Schema<DescribeAvailabilityMonitorTestInput>,
+  output: __S(281, __c35, 1) as any as S.Schema<DescribeAvailabilityMonitorTestOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4214,8 +2490,8 @@ export const describeBandwidthRateLimit: API.OperationMethod<
   DescribeBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBandwidthRateLimitInput,
-  output: DescribeBandwidthRateLimitOutput,
+  input: __S(288, __c36, 0) as any as S.Schema<DescribeBandwidthRateLimitInput>,
+  output: __S(289, __c36, 1) as any as S.Schema<DescribeBandwidthRateLimitOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4251,8 +2527,8 @@ export const describeBandwidthRateLimitSchedule: API.OperationMethod<
   DescribeBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBandwidthRateLimitScheduleInput,
-  output: DescribeBandwidthRateLimitScheduleOutput,
+  input: __S(296, __c37, 0) as any as S.Schema<DescribeBandwidthRateLimitScheduleInput>,
+  output: __S(297, __c37, 1) as any as S.Schema<DescribeBandwidthRateLimitScheduleOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4276,8 +2552,8 @@ export const describeCache: API.OperationMethod<
   DescribeCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeCacheInput,
-  output: DescribeCacheOutput,
+  input: __S(312, __c39, 0) as any as S.Schema<DescribeCacheInput>,
+  output: __S(313, __c39, 1) as any as S.Schema<DescribeCacheOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4302,8 +2578,8 @@ export const describeCachediSCSIVolumes: API.OperationMethod<
   DescribeCachediSCSIVolumesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeCachediSCSIVolumesInput,
-  output: DescribeCachediSCSIVolumesOutput,
+  input: __S(320, __c40, 0) as any as S.Schema<DescribeCachediSCSIVolumesInput>,
+  output: __S(323, __c40, 3) as any as S.Schema<DescribeCachediSCSIVolumesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4324,8 +2600,8 @@ export const describeCacheReport: API.OperationMethod<
   DescribeCacheReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeCacheReportInput,
-  output: DescribeCacheReportOutput,
+  input: __S(336, __c42, 0) as any as S.Schema<DescribeCacheReportInput>,
+  output: __S(337, __c42, 1) as any as S.Schema<DescribeCacheReportOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4347,8 +2623,8 @@ export const describeChapCredentials: API.OperationMethod<
   DescribeChapCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeChapCredentialsInput,
-  output: DescribeChapCredentialsOutput,
+  input: __S(376, __c47, 0) as any as S.Schema<DescribeChapCredentialsInput>,
+  output: __S(379, __c47, 3) as any as S.Schema<DescribeChapCredentialsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4369,8 +2645,8 @@ export const describeFileSystemAssociations: API.OperationMethod<
   DescribeFileSystemAssociationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFileSystemAssociationsInput,
-  output: DescribeFileSystemAssociationsOutput,
+  input: __S(384, __c48, 0) as any as S.Schema<DescribeFileSystemAssociationsInput>,
+  output: __S(389, __c48, 5) as any as S.Schema<DescribeFileSystemAssociationsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4392,8 +2668,8 @@ export const describeGatewayInformation: API.OperationMethod<
   DescribeGatewayInformationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeGatewayInformationInput,
-  output: DescribeGatewayInformationOutput,
+  input: __S(392, __c49, 0) as any as S.Schema<DescribeGatewayInformationInput>,
+  output: __S(396, __c49, 4) as any as S.Schema<DescribeGatewayInformationOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4415,8 +2691,8 @@ export const describeMaintenanceStartTime: API.OperationMethod<
   DescribeMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeMaintenanceStartTimeInput,
-  output: DescribeMaintenanceStartTimeOutput,
+  input: __S(400, __c50, 0) as any as S.Schema<DescribeMaintenanceStartTimeInput>,
+  output: __S(401, __c50, 1) as any as S.Schema<DescribeMaintenanceStartTimeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4437,8 +2713,8 @@ export const describeNFSFileShares: API.OperationMethod<
   DescribeNFSFileSharesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeNFSFileSharesInput,
-  output: DescribeNFSFileSharesOutput,
+  input: __S(416, __c52, 0) as any as S.Schema<DescribeNFSFileSharesInput>,
+  output: __S(419, __c52, 3) as any as S.Schema<DescribeNFSFileSharesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4459,8 +2735,8 @@ export const describeSMBFileShares: API.OperationMethod<
   DescribeSMBFileSharesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeSMBFileSharesInput,
-  output: DescribeSMBFileSharesOutput,
+  input: __S(424, __c53, 0) as any as S.Schema<DescribeSMBFileSharesInput>,
+  output: __S(427, __c53, 3) as any as S.Schema<DescribeSMBFileSharesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4481,8 +2757,8 @@ export const describeSMBSettings: API.OperationMethod<
   DescribeSMBSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeSMBSettingsInput,
-  output: DescribeSMBSettingsOutput,
+  input: __S(432, __c54, 0) as any as S.Schema<DescribeSMBSettingsInput>,
+  output: __S(433, __c54, 1) as any as S.Schema<DescribeSMBSettingsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4505,8 +2781,8 @@ export const describeSnapshotSchedule: API.OperationMethod<
   DescribeSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeSnapshotScheduleInput,
-  output: DescribeSnapshotScheduleOutput,
+  input: __S(448, __c56, 0) as any as S.Schema<DescribeSnapshotScheduleInput>,
+  output: __S(449, __c56, 1) as any as S.Schema<DescribeSnapshotScheduleOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4528,8 +2804,8 @@ export const describeStorediSCSIVolumes: API.OperationMethod<
   DescribeStorediSCSIVolumesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeStorediSCSIVolumesInput,
-  output: DescribeStorediSCSIVolumesOutput,
+  input: __S(456, __c57, 0) as any as S.Schema<DescribeStorediSCSIVolumesInput>,
+  output: __S(459, __c57, 3) as any as S.Schema<DescribeStorediSCSIVolumesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4554,8 +2830,8 @@ export const describeTapeArchives: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TapeArchive
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTapeArchivesInput,
-  output: DescribeTapeArchivesOutput,
+  input: __S(464, __c58, 0) as any as S.Schema<DescribeTapeArchivesInput>,
+  output: __S(467, __c58, 3) as any as S.Schema<DescribeTapeArchivesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4588,8 +2864,8 @@ export const describeTapeRecoveryPoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TapeRecoveryPointInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTapeRecoveryPointsInput,
-  output: DescribeTapeRecoveryPointsOutput,
+  input: __S(488, __c61, 0) as any as S.Schema<DescribeTapeRecoveryPointsInput>,
+  output: __S(491, __c61, 3) as any as S.Schema<DescribeTapeRecoveryPointsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4626,8 +2902,8 @@ export const describeTapes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tape
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTapesInput,
-  output: DescribeTapesOutput,
+  input: __S(496, __c62, 0) as any as S.Schema<DescribeTapesInput>,
+  output: __S(499, __c62, 3) as any as S.Schema<DescribeTapesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4657,8 +2933,8 @@ export const describeUploadBuffer: API.OperationMethod<
   DescribeUploadBufferError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeUploadBufferInput,
-  output: DescribeUploadBufferOutput,
+  input: __S(504, __c63, 0) as any as S.Schema<DescribeUploadBufferInput>,
+  output: __S(505, __c63, 1) as any as S.Schema<DescribeUploadBufferOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4682,8 +2958,8 @@ export const describeVTLDevices: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   VTLDevice
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeVTLDevicesInput,
-  output: DescribeVTLDevicesOutput,
+  input: __S(512, __c64, 0) as any as S.Schema<DescribeVTLDevicesInput>,
+  output: __S(516, __c64, 4) as any as S.Schema<DescribeVTLDevicesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4717,8 +2993,8 @@ export const describeWorkingStorage: API.OperationMethod<
   DescribeWorkingStorageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeWorkingStorageInput,
-  output: DescribeWorkingStorageOutput,
+  input: __S(520, __c65, 0) as any as S.Schema<DescribeWorkingStorageInput>,
+  output: __S(521, __c65, 1) as any as S.Schema<DescribeWorkingStorageOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4739,8 +3015,8 @@ export const detachVolume: API.OperationMethod<
   DetachVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DetachVolumeInput,
-  output: DetachVolumeOutput,
+  input: __S(528, __c66, 0) as any as S.Schema<DetachVolumeInput>,
+  output: __S(216, __c27, 0) as any as S.Schema<DetachVolumeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4766,8 +3042,8 @@ export const disableGateway: API.OperationMethod<
   DisableGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisableGatewayInput,
-  output: DisableGatewayOutput,
+  input: __S(536, __c67, 0) as any as S.Schema<DisableGatewayInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<DisableGatewayOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4789,8 +3065,8 @@ export const disassociateFileSystem: API.OperationMethod<
   DisassociateFileSystemError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateFileSystemInput,
-  output: DisassociateFileSystemOutput,
+  input: __S(544, __c68, 0) as any as S.Schema<DisassociateFileSystemInput>,
+  output: __S(880, __c110, 0) as any as S.Schema<DisassociateFileSystemOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4821,8 +3097,8 @@ export const evictFilesFailingUpload: API.OperationMethod<
   EvictFilesFailingUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: EvictFilesFailingUploadInput,
-  output: EvictFilesFailingUploadOutput,
+  input: __S(552, __c69, 0) as any as S.Schema<EvictFilesFailingUploadInput>,
+  output: __S(553, __c69, 1) as any as S.Schema<EvictFilesFailingUploadOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4849,8 +3125,8 @@ export const joinDomain: API.OperationMethod<
   JoinDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: JoinDomainInput,
-  output: JoinDomainOutput,
+  input: __S(560, __c70, 0) as any as S.Schema<JoinDomainInput>,
+  output: __S(561, __c70, 1) as any as S.Schema<JoinDomainOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4873,8 +3149,8 @@ export const listAutomaticTapeCreationPolicies: API.OperationMethod<
   ListAutomaticTapeCreationPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAutomaticTapeCreationPoliciesInput,
-  output: ListAutomaticTapeCreationPoliciesOutput,
+  input: __S(576, __c72, 0) as any as S.Schema<ListAutomaticTapeCreationPoliciesInput>,
+  output: __S(579, __c72, 3) as any as S.Schema<ListAutomaticTapeCreationPoliciesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4898,8 +3174,8 @@ export const listCacheReports: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CacheReportInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCacheReportsInput,
-  output: ListCacheReportsOutput,
+  input: __S(592, __c74, 0) as any as S.Schema<ListCacheReportsInput>,
+  output: __S(594, __c74, 2) as any as S.Schema<ListCacheReportsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4923,8 +3199,8 @@ export const listFileShares: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FileShareInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFileSharesInput,
-  output: ListFileSharesOutput,
+  input: __S(600, __c75, 0) as any as S.Schema<ListFileSharesInput>,
+  output: __S(603, __c75, 3) as any as S.Schema<ListFileSharesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4953,8 +3229,8 @@ export const listFileSystemAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FileSystemAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFileSystemAssociationsInput,
-  output: ListFileSystemAssociationsOutput,
+  input: __S(608, __c76, 0) as any as S.Schema<ListFileSystemAssociationsInput>,
+  output: __S(611, __c76, 3) as any as S.Schema<ListFileSystemAssociationsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4988,8 +3264,8 @@ export const listGateways: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GatewayInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListGatewaysInput,
-  output: ListGatewaysOutput,
+  input: __S(616, __c77, 0) as any as S.Schema<ListGatewaysInput>,
+  output: __S(619, __c77, 3) as any as S.Schema<ListGatewaysOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5023,8 +3299,8 @@ export const listLocalDisks: API.OperationMethod<
   ListLocalDisksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLocalDisksInput,
-  output: ListLocalDisksOutput,
+  input: __S(624, __c78, 0) as any as S.Schema<ListLocalDisksInput>,
+  output: __S(627, __c78, 3) as any as S.Schema<ListLocalDisksOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5046,8 +3322,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTagsForResourceInput,
-  output: ListTagsForResourceOutput,
+  input: __S(632, __c79, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(633, __c79, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5082,8 +3358,8 @@ export const listTapePools: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PoolInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTapePoolsInput,
-  output: ListTapePoolsOutput,
+  input: __S(640, __c80, 0) as any as S.Schema<ListTapePoolsInput>,
+  output: __S(643, __c80, 3) as any as S.Schema<ListTapePoolsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5117,8 +3393,8 @@ export const listTapes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TapeInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTapesInput,
-  output: ListTapesOutput,
+  input: __S(648, __c81, 0) as any as S.Schema<ListTapesInput>,
+  output: __S(651, __c81, 3) as any as S.Schema<ListTapesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5146,8 +3422,8 @@ export const listVolumeInitiators: API.OperationMethod<
   ListVolumeInitiatorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListVolumeInitiatorsInput,
-  output: ListVolumeInitiatorsOutput,
+  input: __S(656, __c82, 0) as any as S.Schema<ListVolumeInitiatorsInput>,
+  output: __S(657, __c82, 1) as any as S.Schema<ListVolumeInitiatorsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5173,8 +3449,8 @@ export const listVolumeRecoveryPoints: API.OperationMethod<
   ListVolumeRecoveryPointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListVolumeRecoveryPointsInput,
-  output: ListVolumeRecoveryPointsOutput,
+  input: __S(672, __c84, 0) as any as S.Schema<ListVolumeRecoveryPointsInput>,
+  output: __S(675, __c84, 3) as any as S.Schema<ListVolumeRecoveryPointsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5201,8 +3477,8 @@ export const listVolumes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   VolumeInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListVolumesInput,
-  output: ListVolumesOutput,
+  input: __S(680, __c85, 0) as any as S.Schema<ListVolumesInput>,
+  output: __S(683, __c85, 3) as any as S.Schema<ListVolumesOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5240,8 +3516,8 @@ export const notifyWhenUploaded: API.OperationMethod<
   NotifyWhenUploadedError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: NotifyWhenUploadedInput,
-  output: NotifyWhenUploadedOutput,
+  input: __S(688, __c86, 0) as any as S.Schema<NotifyWhenUploadedInput>,
+  output: __S(696, __c87, 0) as any as S.Schema<NotifyWhenUploadedOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5295,8 +3571,8 @@ export const refreshCache: API.OperationMethod<
   RefreshCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RefreshCacheInput,
-  output: RefreshCacheOutput,
+  input: __S(704, __c88, 0) as any as S.Schema<RefreshCacheInput>,
+  output: __S(696, __c87, 0) as any as S.Schema<RefreshCacheOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5317,8 +3593,8 @@ export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTagsFromResourceInput,
-  output: RemoveTagsFromResourceOutput,
+  input: __S(712, __c89, 0) as any as S.Schema<RemoveTagsFromResourceInput>,
+  output: __S(480, __c60, 0) as any as S.Schema<RemoveTagsFromResourceOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5345,8 +3621,8 @@ export const resetCache: API.OperationMethod<
   ResetCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResetCacheInput,
-  output: ResetCacheOutput,
+  input: __S(720, __c90, 0) as any as S.Schema<ResetCacheInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<ResetCacheOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5373,8 +3649,8 @@ export const retrieveTapeArchive: API.OperationMethod<
   RetrieveTapeArchiveError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveTapeArchiveInput,
-  output: RetrieveTapeArchiveOutput,
+  input: __S(728, __c91, 0) as any as S.Schema<RetrieveTapeArchiveInput>,
+  output: __S(768, __c96, 0) as any as S.Schema<RetrieveTapeArchiveOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5403,8 +3679,8 @@ export const retrieveTapeRecoveryPoint: API.OperationMethod<
   RetrieveTapeRecoveryPointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveTapeRecoveryPointInput,
-  output: RetrieveTapeRecoveryPointOutput,
+  input: __S(736, __c92, 0) as any as S.Schema<RetrieveTapeRecoveryPointInput>,
+  output: __S(768, __c96, 0) as any as S.Schema<RetrieveTapeRecoveryPointOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5427,8 +3703,8 @@ export const setLocalConsolePassword: API.OperationMethod<
   SetLocalConsolePasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetLocalConsolePasswordInput,
-  output: SetLocalConsolePasswordOutput,
+  input: __S(744, __c93, 0) as any as S.Schema<SetLocalConsolePasswordInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<SetLocalConsolePasswordOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5450,8 +3726,8 @@ export const setSMBGuestPassword: API.OperationMethod<
   SetSMBGuestPasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SetSMBGuestPasswordInput,
-  output: SetSMBGuestPasswordOutput,
+  input: __S(752, __c94, 0) as any as S.Schema<SetSMBGuestPasswordInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<SetSMBGuestPasswordOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5493,8 +3769,8 @@ export const shutdownGateway: API.OperationMethod<
   ShutdownGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ShutdownGatewayInput,
-  output: ShutdownGatewayOutput,
+  input: __S(776, __c97, 0) as any as S.Schema<ShutdownGatewayInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<ShutdownGatewayOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5520,8 +3796,8 @@ export const startAvailabilityMonitorTest: API.OperationMethod<
   StartAvailabilityMonitorTestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartAvailabilityMonitorTestInput,
-  output: StartAvailabilityMonitorTestOutput,
+  input: __S(784, __c98, 0) as any as S.Schema<StartAvailabilityMonitorTestInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<StartAvailabilityMonitorTestOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5568,8 +3844,8 @@ export const startCacheReport: API.OperationMethod<
   StartCacheReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartCacheReportInput,
-  output: StartCacheReportOutput,
+  input: __S(792, __c99, 0) as any as S.Schema<StartCacheReportInput>,
+  output: __S(40, __c5, 0) as any as S.Schema<StartCacheReportOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5596,8 +3872,8 @@ export const startGateway: API.OperationMethod<
   StartGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartGatewayInput,
-  output: StartGatewayOutput,
+  input: __S(800, __c100, 0) as any as S.Schema<StartGatewayInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<StartGatewayOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5623,8 +3899,8 @@ export const updateAutomaticTapeCreationPolicy: API.OperationMethod<
   UpdateAutomaticTapeCreationPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAutomaticTapeCreationPolicyInput,
-  output: UpdateAutomaticTapeCreationPolicyOutput,
+  input: __S(808, __c101, 0) as any as S.Schema<UpdateAutomaticTapeCreationPolicyInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateAutomaticTapeCreationPolicyOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5655,8 +3931,8 @@ export const updateBandwidthRateLimit: API.OperationMethod<
   UpdateBandwidthRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBandwidthRateLimitInput,
-  output: UpdateBandwidthRateLimitOutput,
+  input: __S(816, __c102, 0) as any as S.Schema<UpdateBandwidthRateLimitInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateBandwidthRateLimitOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5681,8 +3957,8 @@ export const updateBandwidthRateLimitSchedule: API.OperationMethod<
   UpdateBandwidthRateLimitScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBandwidthRateLimitScheduleInput,
-  output: UpdateBandwidthRateLimitScheduleOutput,
+  input: __S(824, __c103, 0) as any as S.Schema<UpdateBandwidthRateLimitScheduleInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateBandwidthRateLimitScheduleOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5708,8 +3984,8 @@ export const updateChapCredentials: API.OperationMethod<
   UpdateChapCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateChapCredentialsInput,
-  output: UpdateChapCredentialsOutput,
+  input: __S(832, __c104, 0) as any as S.Schema<UpdateChapCredentialsInput>,
+  output: __S(184, __c23, 0) as any as S.Schema<UpdateChapCredentialsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5730,8 +4006,8 @@ export const updateFileSystemAssociation: API.OperationMethod<
   UpdateFileSystemAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFileSystemAssociationInput,
-  output: UpdateFileSystemAssociationOutput,
+  input: __S(840, __c105, 0) as any as S.Schema<UpdateFileSystemAssociationInput>,
+  output: __S(880, __c110, 0) as any as S.Schema<UpdateFileSystemAssociationOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5757,8 +4033,8 @@ export const updateGatewayInformation: API.OperationMethod<
   UpdateGatewayInformationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGatewayInformationInput,
-  output: UpdateGatewayInformationOutput,
+  input: __S(848, __c106, 0) as any as S.Schema<UpdateGatewayInformationInput>,
+  output: __S(849, __c106, 1) as any as S.Schema<UpdateGatewayInformationOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5789,8 +4065,8 @@ export const updateGatewaySoftwareNow: API.OperationMethod<
   UpdateGatewaySoftwareNowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGatewaySoftwareNowInput,
-  output: UpdateGatewaySoftwareNowOutput,
+  input: __S(888, __c111, 0) as any as S.Schema<UpdateGatewaySoftwareNowInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateGatewaySoftwareNowOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5825,8 +4101,8 @@ export const updateMaintenanceStartTime: API.OperationMethod<
   UpdateMaintenanceStartTimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMaintenanceStartTimeInput,
-  output: UpdateMaintenanceStartTimeOutput,
+  input: __S(896, __c112, 0) as any as S.Schema<UpdateMaintenanceStartTimeInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateMaintenanceStartTimeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5862,8 +4138,8 @@ export const updateNFSFileShare: API.OperationMethod<
   UpdateNFSFileShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateNFSFileShareInput,
-  output: UpdateNFSFileShareOutput,
+  input: __S(904, __c113, 0) as any as S.Schema<UpdateNFSFileShareInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<UpdateNFSFileShareOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5898,8 +4174,8 @@ export const updateSMBFileShare: API.OperationMethod<
   UpdateSMBFileShareError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSMBFileShareInput,
-  output: UpdateSMBFileShareOutput,
+  input: __S(912, __c114, 0) as any as S.Schema<UpdateSMBFileShareInput>,
+  output: __S(72, __c9, 0) as any as S.Schema<UpdateSMBFileShareOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5920,8 +4196,8 @@ export const updateSMBFileShareVisibility: API.OperationMethod<
   UpdateSMBFileShareVisibilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSMBFileShareVisibilityInput,
-  output: UpdateSMBFileShareVisibilityOutput,
+  input: __S(920, __c115, 0) as any as S.Schema<UpdateSMBFileShareVisibilityInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateSMBFileShareVisibilityOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5942,8 +4218,8 @@ export const updateSMBLocalGroups: API.OperationMethod<
   UpdateSMBLocalGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSMBLocalGroupsInput,
-  output: UpdateSMBLocalGroupsOutput,
+  input: __S(928, __c116, 0) as any as S.Schema<UpdateSMBLocalGroupsInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateSMBLocalGroupsOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5970,8 +4246,8 @@ export const updateSMBSecurityStrategy: API.OperationMethod<
   UpdateSMBSecurityStrategyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSMBSecurityStrategyInput,
-  output: UpdateSMBSecurityStrategyOutput,
+  input: __S(936, __c117, 0) as any as S.Schema<UpdateSMBSecurityStrategyInput>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateSMBSecurityStrategyOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6000,8 +4276,8 @@ export const updateSnapshotSchedule: API.OperationMethod<
   UpdateSnapshotScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSnapshotScheduleInput,
-  output: UpdateSnapshotScheduleOutput,
+  input: __S(944, __c118, 0) as any as S.Schema<UpdateSnapshotScheduleInput>,
+  output: __S(216, __c27, 0) as any as S.Schema<UpdateSnapshotScheduleOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6024,10 +4300,2062 @@ export const updateVTLDeviceType: API.OperationMethod<
   UpdateVTLDeviceTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateVTLDeviceTypeInput,
-  output: UpdateVTLDeviceTypeOutput,
+  input: __S(952, __c119, 0) as any as S.Schema<UpdateVTLDeviceTypeInput>,
+  output: __S(953, __c119, 1) as any as S.Schema<UpdateVTLDeviceTypeOutput>,
   errors: [InternalServerError, InvalidGatewayRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVTLDeviceType",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ errorCode: S.optional(S.String), errorDetails: S.optional(__S(0, __c0, 0)) }),
+      ).annotate({ identifier: "StorageGatewayError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          TargetName: S.optional(S.String),
+          VolumeARN: S.String,
+          NetworkInterfaceId: S.String,
+          DiskId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AttachVolumeInput" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VolumeARN: S.optional(S.String), TargetARN: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "AttachVolumeOutput" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, TapeARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CancelArchivalInput" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CacheReportARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CancelCacheReportInput" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ CacheReportARN: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "CancelCacheReportOutput",
+      });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, TapeARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CancelRetrievalInput" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          VolumeSizeInBytes: S.Number,
+          SnapshotId: S.optional(S.String),
+          TargetName: S.String,
+          SourceVolumeARN: S.optional(S.String),
+          NetworkInterfaceId: S.String,
+          ClientToken: S.String,
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCachediSCSIVolumeInput" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientToken: S.String,
+          NFSFileShareDefaults: S.optional(__S(80, __c10, 0)),
+          GatewayARN: S.String,
+          EncryptionType: S.optional(S.String),
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          Role: S.String,
+          LocationARN: S.String,
+          DefaultStorageClass: S.optional(S.String),
+          ObjectACL: S.optional(S.String),
+          ClientList: S.optional(__S(368, __c46, 0)),
+          Squash: S.optional(S.String),
+          ReadOnly: S.optional(S.Boolean),
+          GuessMIMETypeEnabled: S.optional(S.Boolean),
+          RequesterPays: S.optional(S.Boolean),
+          Tags: S.optional(__S(241, __c30, 1)),
+          FileShareName: S.optional(S.String),
+          CacheAttributes: S.optional(__S(864, __c108, 0)),
+          NotificationPolicy: S.optional(S.String),
+          VPCEndpointDNSName: S.optional(S.String),
+          BucketRegion: S.optional(S.String),
+          AuditDestinationARN: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateNFSFileShareInput" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "CreateNFSFileShareOutput",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileMode: S.optional(S.String),
+          DirectoryMode: S.optional(S.String),
+          GroupId: S.optional(S.Number),
+          OwnerId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NFSFileShareDefaults" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientToken: S.String,
+          GatewayARN: S.String,
+          EncryptionType: S.optional(S.String),
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          Role: S.String,
+          LocationARN: S.String,
+          DefaultStorageClass: S.optional(S.String),
+          ObjectACL: S.optional(S.String),
+          ReadOnly: S.optional(S.Boolean),
+          GuessMIMETypeEnabled: S.optional(S.Boolean),
+          RequesterPays: S.optional(S.Boolean),
+          SMBACLEnabled: S.optional(S.Boolean),
+          AccessBasedEnumeration: S.optional(S.Boolean),
+          AdminUserList: S.optional(__S(368, __c46, 0)),
+          ValidUserList: S.optional(__S(368, __c46, 0)),
+          InvalidUserList: S.optional(__S(368, __c46, 0)),
+          AuditDestinationARN: S.optional(S.String),
+          Authentication: S.optional(S.String),
+          CaseSensitivity: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+          FileShareName: S.optional(S.String),
+          CacheAttributes: S.optional(__S(864, __c108, 0)),
+          NotificationPolicy: S.optional(S.String),
+          VPCEndpointDNSName: S.optional(S.String),
+          BucketRegion: S.optional(S.String),
+          OplocksEnabled: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSMBFileShareInput" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VolumeARN: S.String,
+          SnapshotDescription: S.String,
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSnapshotInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ VolumeARN: S.optional(S.String), SnapshotId: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "CreateSnapshotOutput" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VolumeARN: S.String,
+          SnapshotDescription: S.String,
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSnapshotFromVolumeRecoveryPointInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotId: S.optional(S.String),
+          VolumeARN: S.optional(S.String),
+          VolumeRecoveryPointTime: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateSnapshotFromVolumeRecoveryPointOutput" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          DiskId: S.String,
+          SnapshotId: S.optional(S.String),
+          PreserveExistingData: S.Boolean,
+          TargetName: S.String,
+          NetworkInterfaceId: S.String,
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateStorediSCSIVolumeInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          VolumeARN: S.optional(S.String),
+          VolumeSizeInBytes: S.optional(S.Number),
+          TargetARN: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateStorediSCSIVolumeOutput" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PoolName: S.String,
+          StorageClass: S.String,
+          RetentionLockType: S.optional(S.String),
+          RetentionLockTimeInDays: S.optional(S.Number),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateTapePoolInput" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ PoolARN: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "CreateTapePoolOutput",
+      });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          TapeSizeInBytes: S.Number,
+          ClientToken: S.String,
+          NumTapesToCreate: S.Number,
+          TapeBarcodePrefix: S.String,
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          PoolId: S.optional(S.String),
+          Worm: S.optional(S.Boolean),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateTapesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ TapeARNs: S.optional(__S(368, __c46, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateTapesOutput" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          TapeSizeInBytes: S.Number,
+          TapeBarcode: S.String,
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          PoolId: S.optional(S.String),
+          Worm: S.optional(S.Boolean),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateTapeWithBarcodeInput" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteAutomaticTapeCreationPolicyInput" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, BandwidthType: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteBandwidthRateLimitInput" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CacheReportARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteCacheReportInput" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TargetARN: S.String, InitiatorName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteChapCredentialsInput" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TargetARN: S.optional(S.String), InitiatorName: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "DeleteChapCredentialsOutput" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FileShareARN: S.String, ForceDelete: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteFileShareInput" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteGatewayInput" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VolumeARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteSnapshotScheduleInput" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ VolumeARN: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "DeleteSnapshotScheduleOutput",
+      });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ActivationKey: S.String,
+          GatewayName: S.String,
+          GatewayTimezone: S.String,
+          GatewayRegion: S.String,
+          GatewayType: S.optional(S.String),
+          TapeDriveType: S.optional(S.String),
+          MediumChangerType: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ActivateGatewayInput" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "ActivateGatewayOutput",
+      });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(240, __c30, 0));
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          TapeARN: S.String,
+          BypassGovernanceRetention: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteTapeInput" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TapeARN: S.String, BypassGovernanceRetention: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteTapeArchiveInput" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PoolARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteTapePoolInput" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VolumeARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteVolumeInput" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeAvailabilityMonitorTestInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          Status: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeAvailabilityMonitorTestOutput" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeBandwidthRateLimitInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          AverageUploadRateLimitInBitsPerSec: S.optional(S.Number),
+          AverageDownloadRateLimitInBitsPerSec: S.optional(S.Number),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeBandwidthRateLimitOutput" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeBandwidthRateLimitScheduleInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          BandwidthRateLimitIntervals: S.optional(__S(306, __c38, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeBandwidthRateLimitScheduleOutput" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          StartHourOfDay: S.Number,
+          StartMinuteOfHour: S.Number,
+          EndHourOfDay: S.Number,
+          EndMinuteOfHour: S.Number,
+          DaysOfWeek: __S(304, __c38, 0),
+          AverageUploadRateLimitInBitsPerSec: S.optional(S.Number),
+          AverageDownloadRateLimitInBitsPerSec: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BandwidthRateLimitInterval" });
+    case 2:
+      return S.Array(__S(305, __c38, 1));
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeCacheInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          DiskIds: S.optional(__S(368, __c46, 0)),
+          CacheAllocatedInBytes: S.optional(S.Number),
+          CacheUsedPercentage: S.optional(S.Number),
+          CacheDirtyPercentage: S.optional(S.Number),
+          CacheHitPercentage: S.optional(S.Number),
+          CacheMissPercentage: S.optional(S.Number),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeCacheOutput" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VolumeARNs: __S(368, __c46, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeCachediSCSIVolumesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          VolumeARN: S.optional(S.String),
+          VolumeId: S.optional(S.String),
+          VolumeType: S.optional(S.String),
+          VolumeStatus: S.optional(S.String),
+          VolumeAttachmentStatus: S.optional(S.String),
+          VolumeSizeInBytes: S.optional(S.Number),
+          VolumeProgress: S.optional(S.Number),
+          SourceSnapshotId: S.optional(S.String),
+          VolumeiSCSIAttributes: S.optional(__S(328, __c41, 0)),
+          CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          VolumeUsedInBytes: S.optional(S.Number),
+          KMSKey: S.optional(S.String),
+          TargetName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CachediSCSIVolume" });
+    case 2:
+      return S.Array(__S(321, __c40, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ CachediSCSIVolumes: S.optional(__S(322, __c40, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeCachediSCSIVolumesOutput" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TargetARN: S.optional(S.String),
+          NetworkInterfaceId: S.optional(S.String),
+          NetworkInterfacePort: S.optional(S.Number),
+          LunNumber: S.optional(S.Number),
+          ChapEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VolumeiSCSIAttributes" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CacheReportARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeCacheReportInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheReportInfo: S.optional(__S(344, __c43, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeCacheReportOutput" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheReportARN: S.optional(S.String),
+          CacheReportStatus: S.optional(S.String),
+          ReportCompletionPercent: S.optional(S.Number),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Role: S.optional(S.String),
+          FileShareARN: S.optional(S.String),
+          LocationARN: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          InclusionFilters: S.optional(__S(353, __c44, 1)),
+          ExclusionFilters: S.optional(__S(353, __c44, 1)),
+          ReportName: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }),
+      ).annotate({ identifier: "CacheReportInfo" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.String, Values: __S(368, __c46, 0) })).annotate({
+        identifier: "CacheReportFilter",
+      });
+    case 1:
+      return S.Array(__S(352, __c44, 0));
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, DiskIds: __S(368, __c46, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AddCacheInput" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TargetARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeChapCredentialsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TargetARN: S.optional(S.String),
+          SecretToAuthenticateInitiator: S.optional(SensitiveString),
+          InitiatorName: S.optional(S.String),
+          SecretToAuthenticateTarget: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "ChapInfo" });
+    case 2:
+      return S.Array(__S(377, __c47, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ChapCredentials: S.optional(__S(378, __c47, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeChapCredentialsOutput" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FileSystemAssociationARNList: __S(368, __c46, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeFileSystemAssociationsInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ ErrorCode: S.optional(S.String) })).annotate({
+        identifier: "FileSystemAssociationStatusDetail",
+      });
+    case 2:
+      return S.Array(__S(385, __c48, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemAssociationARN: S.optional(S.String),
+          LocationARN: S.optional(S.String),
+          FileSystemAssociationStatus: S.optional(S.String),
+          AuditDestinationARN: S.optional(S.String),
+          GatewayARN: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+          CacheAttributes: S.optional(__S(864, __c108, 0)),
+          EndpointNetworkConfiguration: S.optional(__S(872, __c109, 0)),
+          FileSystemAssociationStatusDetails: S.optional(__S(386, __c48, 2)),
+        }),
+      ).annotate({ identifier: "FileSystemAssociationInfo" });
+    case 4:
+      return S.Array(__S(387, __c48, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ FileSystemAssociationInfoList: S.optional(__S(388, __c48, 4)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeFileSystemAssociationsOutput" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeGatewayInformationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Ipv4Address: S.optional(S.String),
+          MacAddress: S.optional(S.String),
+          Ipv6Address: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkInterface" });
+    case 2:
+      return S.Array(__S(393, __c49, 1));
+    case 3:
+      return S.Array(S.String);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          GatewayId: S.optional(S.String),
+          GatewayName: S.optional(S.String),
+          GatewayTimezone: S.optional(S.String),
+          GatewayState: S.optional(S.String),
+          GatewayNetworkInterfaces: S.optional(__S(394, __c49, 2)),
+          GatewayType: S.optional(S.String),
+          NextUpdateAvailabilityDate: S.optional(S.String),
+          LastSoftwareUpdate: S.optional(S.String),
+          Ec2InstanceId: S.optional(S.String),
+          Ec2InstanceRegion: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+          VPCEndpoint: S.optional(S.String),
+          CloudWatchLogGroupARN: S.optional(S.String),
+          HostEnvironment: S.optional(S.String),
+          EndpointType: S.optional(S.String),
+          SoftwareUpdatesEndDate: S.optional(S.String),
+          DeprecationDate: S.optional(S.String),
+          GatewayCapacity: S.optional(S.String),
+          SupportedGatewayCapacities: S.optional(__S(395, __c49, 3)),
+          HostEnvironmentId: S.optional(S.String),
+          SoftwareVersion: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeGatewayInformationOutput" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeMaintenanceStartTimeInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          HourOfDay: S.optional(S.Number),
+          MinuteOfHour: S.optional(S.Number),
+          DayOfWeek: S.optional(S.Number),
+          DayOfMonth: S.optional(S.Number),
+          Timezone: S.optional(S.String),
+          SoftwareUpdatePreferences: S.optional(__S(408, __c51, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeMaintenanceStartTimeOutput" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ AutomaticUpdatePolicy: S.optional(S.String) })).annotate({
+        identifier: "SoftwareUpdatePreferences",
+      });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FileShareARNList: __S(368, __c46, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeNFSFileSharesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NFSFileShareDefaults: S.optional(__S(80, __c10, 0)),
+          FileShareARN: S.optional(S.String),
+          FileShareId: S.optional(S.String),
+          FileShareStatus: S.optional(S.String),
+          GatewayARN: S.optional(S.String),
+          EncryptionType: S.optional(S.String),
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          Path: S.optional(S.String),
+          Role: S.optional(S.String),
+          LocationARN: S.optional(S.String),
+          DefaultStorageClass: S.optional(S.String),
+          ObjectACL: S.optional(S.String),
+          ClientList: S.optional(__S(368, __c46, 0)),
+          Squash: S.optional(S.String),
+          ReadOnly: S.optional(S.Boolean),
+          GuessMIMETypeEnabled: S.optional(S.Boolean),
+          RequesterPays: S.optional(S.Boolean),
+          Tags: S.optional(__S(241, __c30, 1)),
+          FileShareName: S.optional(S.String),
+          CacheAttributes: S.optional(__S(864, __c108, 0)),
+          NotificationPolicy: S.optional(S.String),
+          VPCEndpointDNSName: S.optional(S.String),
+          BucketRegion: S.optional(S.String),
+          AuditDestinationARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NFSFileShareInfo" });
+    case 2:
+      return S.Array(__S(417, __c52, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NFSFileShareInfoList: S.optional(__S(418, __c52, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeNFSFileSharesOutput" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FileShareARNList: __S(368, __c46, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeSMBFileSharesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FileShareARN: S.optional(S.String),
+          FileShareId: S.optional(S.String),
+          FileShareStatus: S.optional(S.String),
+          GatewayARN: S.optional(S.String),
+          EncryptionType: S.optional(S.String),
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          Path: S.optional(S.String),
+          Role: S.optional(S.String),
+          LocationARN: S.optional(S.String),
+          DefaultStorageClass: S.optional(S.String),
+          ObjectACL: S.optional(S.String),
+          ReadOnly: S.optional(S.Boolean),
+          GuessMIMETypeEnabled: S.optional(S.Boolean),
+          RequesterPays: S.optional(S.Boolean),
+          SMBACLEnabled: S.optional(S.Boolean),
+          AccessBasedEnumeration: S.optional(S.Boolean),
+          AdminUserList: S.optional(__S(368, __c46, 0)),
+          ValidUserList: S.optional(__S(368, __c46, 0)),
+          InvalidUserList: S.optional(__S(368, __c46, 0)),
+          AuditDestinationARN: S.optional(S.String),
+          Authentication: S.optional(S.String),
+          CaseSensitivity: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+          FileShareName: S.optional(S.String),
+          CacheAttributes: S.optional(__S(864, __c108, 0)),
+          NotificationPolicy: S.optional(S.String),
+          VPCEndpointDNSName: S.optional(S.String),
+          BucketRegion: S.optional(S.String),
+          OplocksEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SMBFileShareInfo" });
+    case 2:
+      return S.Array(__S(425, __c53, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ SMBFileShareInfoList: S.optional(__S(426, __c53, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeSMBFileSharesOutput" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeSMBSettingsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          DomainName: S.optional(S.String),
+          ActiveDirectoryStatus: S.optional(S.String),
+          SMBGuestPasswordSet: S.optional(S.Boolean),
+          SMBSecurityStrategy: S.optional(S.String),
+          FileSharesVisible: S.optional(S.Boolean),
+          SMBLocalGroups: S.optional(__S(440, __c55, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeSMBSettingsOutput" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ GatewayAdmins: S.optional(__S(368, __c46, 0)) })).annotate({
+        identifier: "SMBLocalGroups",
+      });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VolumeARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeSnapshotScheduleInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          VolumeARN: S.optional(S.String),
+          StartAt: S.optional(S.Number),
+          RecurrenceInHours: S.optional(S.Number),
+          Description: S.optional(S.String),
+          Timezone: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeSnapshotScheduleOutput" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VolumeARNs: __S(368, __c46, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeStorediSCSIVolumesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          VolumeARN: S.optional(S.String),
+          VolumeId: S.optional(S.String),
+          VolumeType: S.optional(S.String),
+          VolumeStatus: S.optional(S.String),
+          VolumeAttachmentStatus: S.optional(S.String),
+          VolumeSizeInBytes: S.optional(S.Number),
+          VolumeProgress: S.optional(S.Number),
+          VolumeDiskId: S.optional(S.String),
+          SourceSnapshotId: S.optional(S.String),
+          PreservedExistingData: S.optional(S.Boolean),
+          VolumeiSCSIAttributes: S.optional(__S(328, __c41, 0)),
+          CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          VolumeUsedInBytes: S.optional(S.Number),
+          KMSKey: S.optional(S.String),
+          TargetName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StorediSCSIVolume" });
+    case 2:
+      return S.Array(__S(457, __c57, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ StorediSCSIVolumes: S.optional(__S(458, __c57, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeStorediSCSIVolumesOutput" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TapeARNs: S.optional(__S(368, __c46, 0)),
+          Marker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeTapeArchivesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TapeARN: S.optional(S.String),
+          TapeBarcode: S.optional(S.String),
+          TapeCreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TapeSizeInBytes: S.optional(S.Number),
+          CompletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          RetrievedTo: S.optional(S.String),
+          TapeStatus: S.optional(S.String),
+          TapeUsedInBytes: S.optional(S.Number),
+          KMSKey: S.optional(S.String),
+          PoolId: S.optional(S.String),
+          Worm: S.optional(S.Boolean),
+          RetentionStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          PoolEntryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "TapeArchive" });
+    case 2:
+      return S.Array(__S(465, __c58, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          TapeArchives: S.optional(__S(466, __c58, 2)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeTapeArchivesOutput" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, Tags: __S(241, __c30, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AddTagsToResourceInput" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ResourceARN: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "AddTagsToResourceOutput",
+      });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          Marker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeTapeRecoveryPointsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TapeARN: S.optional(S.String),
+          TapeRecoveryPointTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TapeSizeInBytes: S.optional(S.Number),
+          TapeStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TapeRecoveryPointInfo" });
+    case 2:
+      return S.Array(__S(489, __c61, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          TapeRecoveryPointInfos: S.optional(__S(490, __c61, 2)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeTapeRecoveryPointsOutput" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          TapeARNs: S.optional(__S(368, __c46, 0)),
+          Marker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeTapesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TapeARN: S.optional(S.String),
+          TapeBarcode: S.optional(S.String),
+          TapeCreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TapeSizeInBytes: S.optional(S.Number),
+          TapeStatus: S.optional(S.String),
+          VTLDevice: S.optional(S.String),
+          Progress: S.optional(S.Number),
+          TapeUsedInBytes: S.optional(S.Number),
+          KMSKey: S.optional(S.String),
+          PoolId: S.optional(S.String),
+          Worm: S.optional(S.Boolean),
+          RetentionStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          PoolEntryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Tape" });
+    case 2:
+      return S.Array(__S(497, __c62, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Tapes: S.optional(__S(498, __c62, 2)), Marker: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "DescribeTapesOutput" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeUploadBufferInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          DiskIds: S.optional(__S(368, __c46, 0)),
+          UploadBufferUsedInBytes: S.optional(S.Number),
+          UploadBufferAllocatedInBytes: S.optional(S.Number),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeUploadBufferOutput" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          VTLDeviceARNs: S.optional(__S(368, __c46, 0)),
+          Marker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeVTLDevicesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TargetARN: S.optional(S.String),
+          NetworkInterfaceId: S.optional(S.String),
+          NetworkInterfacePort: S.optional(S.Number),
+          ChapEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DeviceiSCSIAttributes" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          VTLDeviceARN: S.optional(S.String),
+          VTLDeviceType: S.optional(S.String),
+          VTLDeviceVendor: S.optional(S.String),
+          VTLDeviceProductIdentifier: S.optional(S.String),
+          DeviceiSCSIAttributes: S.optional(__S(513, __c64, 1)),
+        }),
+      ).annotate({ identifier: "VTLDevice" });
+    case 3:
+      return S.Array(__S(514, __c64, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          VTLDevices: S.optional(__S(515, __c64, 3)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeVTLDevicesOutput" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeWorkingStorageInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          DiskIds: S.optional(__S(368, __c46, 0)),
+          WorkingStorageUsedInBytes: S.optional(S.Number),
+          WorkingStorageAllocatedInBytes: S.optional(S.Number),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeWorkingStorageOutput" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VolumeARN: S.String, ForceDetach: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DetachVolumeInput" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisableGatewayInput" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FileSystemAssociationARN: S.String, ForceDelete: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateFileSystemInput" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FileShareARN: S.String, ForceRemove: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "EvictFilesFailingUploadInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ NotificationId: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "EvictFilesFailingUploadOutput",
+      });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          DomainName: S.String,
+          OrganizationalUnit: S.optional(S.String),
+          DomainControllers: S.optional(__S(368, __c46, 0)),
+          TimeoutInSeconds: S.optional(S.Number),
+          UserName: S.String,
+          Password: SensitiveString,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "JoinDomainInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          ActiveDirectoryStatus: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "JoinDomainOutput" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, DiskIds: __S(368, __c46, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AddUploadBufferInput" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListAutomaticTapeCreationPoliciesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AutomaticTapeCreationRules: S.optional(__S(585, __c73, 1)),
+          GatewayARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutomaticTapeCreationPolicyInfo" });
+    case 2:
+      return S.Array(__S(577, __c72, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ AutomaticTapeCreationPolicyInfos: S.optional(__S(578, __c72, 2)) }).pipe(ns),
+      ).annotate({ identifier: "ListAutomaticTapeCreationPoliciesOutput" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TapeBarcodePrefix: S.String,
+          PoolId: S.String,
+          TapeSizeInBytes: S.Number,
+          MinimumNumTapes: S.Number,
+          Worm: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AutomaticTapeCreationRule" });
+    case 1:
+      return S.Array(__S(584, __c73, 0));
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Marker: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListCacheReportsInput" });
+    case 1:
+      return S.Array(__S(344, __c43, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CacheReportList: S.optional(__S(593, __c74, 1)),
+          Marker: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListCacheReportsOutput" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFileSharesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FileShareType: S.optional(S.String),
+          FileShareARN: S.optional(S.String),
+          FileShareId: S.optional(S.String),
+          FileShareStatus: S.optional(S.String),
+          GatewayARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FileShareInfo" });
+    case 2:
+      return S.Array(__S(601, __c75, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          NextMarker: S.optional(S.String),
+          FileShareInfoList: S.optional(__S(602, __c75, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListFileSharesOutput" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFileSystemAssociationsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemAssociationId: S.optional(S.String),
+          FileSystemAssociationARN: S.optional(S.String),
+          FileSystemAssociationStatus: S.optional(S.String),
+          GatewayARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FileSystemAssociationSummary" });
+    case 2:
+      return S.Array(__S(609, __c76, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          NextMarker: S.optional(S.String),
+          FileSystemAssociationSummaryList: S.optional(__S(610, __c76, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListFileSystemAssociationsOutput" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Marker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListGatewaysInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.optional(S.String),
+          GatewayARN: S.optional(S.String),
+          GatewayType: S.optional(S.String),
+          GatewayOperationalState: S.optional(S.String),
+          GatewayName: S.optional(S.String),
+          Ec2InstanceId: S.optional(S.String),
+          Ec2InstanceRegion: S.optional(S.String),
+          HostEnvironment: S.optional(S.String),
+          HostEnvironmentId: S.optional(S.String),
+          DeprecationDate: S.optional(S.String),
+          SoftwareVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GatewayInfo" });
+    case 2:
+      return S.Array(__S(617, __c77, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Gateways: S.optional(__S(618, __c77, 2)), Marker: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListGatewaysOutput" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListLocalDisksInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DiskId: S.optional(S.String),
+          DiskPath: S.optional(S.String),
+          DiskNode: S.optional(S.String),
+          DiskStatus: S.optional(S.String),
+          DiskSizeInBytes: S.optional(S.Number),
+          DiskAllocationType: S.optional(S.String),
+          DiskAllocationResource: S.optional(S.String),
+          DiskAttributeList: S.optional(__S(368, __c46, 0)),
+        }),
+      ).annotate({ identifier: "Disk" });
+    case 2:
+      return S.Array(__S(625, __c78, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.optional(S.String), Disks: S.optional(__S(626, __c78, 2)) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListLocalDisksOutput" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.String,
+          Marker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTagsForResourceInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.optional(S.String),
+          Marker: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListTagsForResourceOutput" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PoolARNs: S.optional(__S(368, __c46, 0)),
+          Marker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTapePoolsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PoolARN: S.optional(S.String),
+          PoolName: S.optional(S.String),
+          StorageClass: S.optional(S.String),
+          RetentionLockType: S.optional(S.String),
+          RetentionLockTimeInDays: S.optional(S.Number),
+          PoolStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PoolInfo" });
+    case 2:
+      return S.Array(__S(641, __c80, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ PoolInfos: S.optional(__S(642, __c80, 2)), Marker: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListTapePoolsOutput" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TapeARNs: S.optional(__S(368, __c46, 0)),
+          Marker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTapesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TapeARN: S.optional(S.String),
+          TapeBarcode: S.optional(S.String),
+          TapeSizeInBytes: S.optional(S.Number),
+          TapeStatus: S.optional(S.String),
+          GatewayARN: S.optional(S.String),
+          PoolId: S.optional(S.String),
+          RetentionStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          PoolEntryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "TapeInfo" });
+    case 2:
+      return S.Array(__S(649, __c81, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ TapeInfos: S.optional(__S(650, __c81, 2)), Marker: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListTapesOutput" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VolumeARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListVolumeInitiatorsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Initiators: S.optional(__S(368, __c46, 0)) }).pipe(ns),
+      ).annotate({ identifier: "ListVolumeInitiatorsOutput" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, DiskIds: __S(368, __c46, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AddWorkingStorageInput" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListVolumeRecoveryPointsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          VolumeARN: S.optional(S.String),
+          VolumeSizeInBytes: S.optional(S.Number),
+          VolumeUsageInBytes: S.optional(S.Number),
+          VolumeRecoveryPointTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VolumeRecoveryPointInfo" });
+    case 2:
+      return S.Array(__S(673, __c84, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          VolumeRecoveryPointInfos: S.optional(__S(674, __c84, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListVolumeRecoveryPointsOutput" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          Marker: S.optional(S.String),
+          Limit: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListVolumesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          VolumeARN: S.optional(S.String),
+          VolumeId: S.optional(S.String),
+          GatewayARN: S.optional(S.String),
+          GatewayId: S.optional(S.String),
+          VolumeType: S.optional(S.String),
+          VolumeSizeInBytes: S.optional(S.Number),
+          VolumeAttachmentStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VolumeInfo" });
+    case 2:
+      return S.Array(__S(681, __c85, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.optional(S.String),
+          Marker: S.optional(S.String),
+          VolumeInfos: S.optional(__S(682, __c85, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListVolumesOutput" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FileShareARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "NotifyWhenUploadedInput" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FileShareARN: S.optional(S.String), NotificationId: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "NotifyWhenUploadedOutput" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileShareARN: S.String,
+          FolderList: S.optional(__S(368, __c46, 0)),
+          Recursive: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RefreshCacheInput" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.String, TagKeys: __S(368, __c46, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RemoveTagsFromResourceInput" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ResetCacheInput" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TapeARN: S.String, GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RetrieveTapeArchiveInput" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TapeARN: S.String, GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RetrieveTapeRecoveryPointInput" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, LocalConsolePassword: SensitiveString }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "SetLocalConsolePasswordInput" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, Password: SensitiveString }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "SetSMBGuestPasswordInput" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TapeARN: S.String,
+          PoolId: S.String,
+          BypassGovernanceRetention: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AssignTapePoolInput" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "AssignTapePoolOutput",
+      });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ShutdownGatewayInput" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartAvailabilityMonitorTestInput" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileShareARN: S.String,
+          Role: S.String,
+          LocationARN: S.String,
+          BucketRegion: S.String,
+          VPCEndpointDNSName: S.optional(S.String),
+          InclusionFilters: S.optional(__S(353, __c44, 1)),
+          ExclusionFilters: S.optional(__S(353, __c44, 1)),
+          ClientToken: S.String,
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartCacheReportInput" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartGatewayInput" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AutomaticTapeCreationRules: __S(585, __c73, 1), GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateAutomaticTapeCreationPolicyInput" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          AverageUploadRateLimitInBitsPerSec: S.optional(S.Number),
+          AverageDownloadRateLimitInBitsPerSec: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateBandwidthRateLimitInput" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, BandwidthRateLimitIntervals: __S(306, __c38, 2) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateBandwidthRateLimitScheduleInput" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TargetARN: S.String,
+          SecretToAuthenticateInitiator: SensitiveString,
+          InitiatorName: S.String,
+          SecretToAuthenticateTarget: S.optional(SensitiveString),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateChapCredentialsInput" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileSystemAssociationARN: S.String,
+          UserName: S.optional(S.String),
+          Password: S.optional(SensitiveString),
+          AuditDestinationARN: S.optional(S.String),
+          CacheAttributes: S.optional(__S(864, __c108, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFileSystemAssociationInput" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          GatewayName: S.optional(S.String),
+          GatewayTimezone: S.optional(S.String),
+          CloudWatchLogGroupARN: S.optional(S.String),
+          GatewayCapacity: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateGatewayInformationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.optional(S.String), GatewayName: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "UpdateGatewayInformationOutput" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserName: S.String,
+          Password: SensitiveString,
+          ClientToken: S.String,
+          GatewayARN: S.String,
+          LocationARN: S.String,
+          Tags: S.optional(__S(241, __c30, 1)),
+          AuditDestinationARN: S.optional(S.String),
+          CacheAttributes: S.optional(__S(864, __c108, 0)),
+          EndpointNetworkConfiguration: S.optional(__S(872, __c109, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AssociateFileSystemInput" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CacheStaleTimeoutInSeconds: S.optional(S.Number) }),
+      ).annotate({ identifier: "CacheAttributes" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ IpAddresses: S.optional(__S(368, __c46, 0)) })).annotate({
+        identifier: "EndpointNetworkConfiguration",
+      });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FileSystemAssociationARN: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "AssociateFileSystemOutput" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateGatewaySoftwareNowInput" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayARN: S.String,
+          HourOfDay: S.optional(S.Number),
+          MinuteOfHour: S.optional(S.Number),
+          DayOfWeek: S.optional(S.Number),
+          DayOfMonth: S.optional(S.Number),
+          SoftwareUpdatePreferences: S.optional(__S(408, __c51, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateMaintenanceStartTimeInput" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileShareARN: S.String,
+          EncryptionType: S.optional(S.String),
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          NFSFileShareDefaults: S.optional(__S(80, __c10, 0)),
+          DefaultStorageClass: S.optional(S.String),
+          ObjectACL: S.optional(S.String),
+          ClientList: S.optional(__S(368, __c46, 0)),
+          Squash: S.optional(S.String),
+          ReadOnly: S.optional(S.Boolean),
+          GuessMIMETypeEnabled: S.optional(S.Boolean),
+          RequesterPays: S.optional(S.Boolean),
+          FileShareName: S.optional(S.String),
+          CacheAttributes: S.optional(__S(864, __c108, 0)),
+          NotificationPolicy: S.optional(S.String),
+          AuditDestinationARN: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateNFSFileShareInput" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FileShareARN: S.String,
+          EncryptionType: S.optional(S.String),
+          KMSEncrypted: S.optional(S.Boolean),
+          KMSKey: S.optional(S.String),
+          DefaultStorageClass: S.optional(S.String),
+          ObjectACL: S.optional(S.String),
+          ReadOnly: S.optional(S.Boolean),
+          GuessMIMETypeEnabled: S.optional(S.Boolean),
+          RequesterPays: S.optional(S.Boolean),
+          SMBACLEnabled: S.optional(S.Boolean),
+          AccessBasedEnumeration: S.optional(S.Boolean),
+          AdminUserList: S.optional(__S(368, __c46, 0)),
+          ValidUserList: S.optional(__S(368, __c46, 0)),
+          InvalidUserList: S.optional(__S(368, __c46, 0)),
+          AuditDestinationARN: S.optional(S.String),
+          CaseSensitivity: S.optional(S.String),
+          FileShareName: S.optional(S.String),
+          CacheAttributes: S.optional(__S(864, __c108, 0)),
+          NotificationPolicy: S.optional(S.String),
+          OplocksEnabled: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSMBFileShareInput" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, FileSharesVisible: S.Boolean }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateSMBFileShareVisibilityInput" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, SMBLocalGroups: __S(440, __c55, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateSMBLocalGroupsInput" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GatewayARN: S.String, SMBSecurityStrategy: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateSMBSecurityStrategyInput" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VolumeARN: S.String,
+          StartAt: S.Number,
+          RecurrenceInHours: S.Number,
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(241, __c30, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSnapshotScheduleInput" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VTLDeviceARN: S.String, DeviceType: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateVTLDeviceTypeInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ VTLDeviceARN: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "UpdateVTLDeviceTypeOutput",
+      });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

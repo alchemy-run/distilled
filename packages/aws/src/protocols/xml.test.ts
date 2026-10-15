@@ -1,14 +1,16 @@
 import assert from "node:assert/strict";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
+import * as S from "@distilled.cloud/core/schema-lite";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 import { describe, it } from "vitest";
+import type { Operation } from "../client/operation.ts";
+import { withEffects } from "../client/protocol.ts";
 import type { Response } from "../client/response.ts";
 import * as Credentials from "../credentials.browser.ts";
 import * as Endpoint from "../endpoint.ts";
@@ -19,9 +21,14 @@ import * as S3Control from "../services/s3-control.ts";
 import * as S3 from "../services/s3.ts";
 import * as SigV4 from "../sigv4.ts";
 import * as T from "../traits.ts";
-import { awsQueryProtocol } from "./aws-query.ts";
-import { ec2QueryProtocol } from "./ec2-query.ts";
-import { restXmlProtocol } from "./rest-xml.ts";
+import { awsQueryProtocol as awsQuery } from "./aws-query.ts";
+import { ec2QueryProtocol as ec2Query } from "./ec2-query.ts";
+import { restXmlProtocol as restXml } from "./rest-xml.ts";
+
+// The handlers with effect-returning serializeRequest / deserializeResponse.
+const awsQueryProtocol = (op: Operation) => withEffects(awsQuery(op));
+const ec2QueryProtocol = (op: Operation) => withEffects(ec2Query(op));
+const restXmlProtocol = (op: Operation) => withEffects(restXml(op));
 
 const response = (body: string, status = 200): Response => ({
   body,

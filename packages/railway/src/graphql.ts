@@ -3824,7 +3824,7 @@ export interface PitrHaWorkflowProgress {
   readonly workflowId: string;
 }
 
-/** Estimated destination-volume scratch a PITR restore to a target needs: the base backup's data plus every WAL segment replayed from that backup to the target (Postgres holds replayed WAL in pg_wal faster than restartpoints recycle it). A conservative over-estimate for a non-blocking pre-restore warning — not a gate. */
+/** Estimated destination-volume scratch a PITR restore to a target needs: the base backup's data plus every WAL segment replayed from that backup to the target (Postgres holds replayed WAL in pg_wal faster than restartpoints recycle it). A conservative over-estimate for a non-blocking pre-restore warning -- not a gate. */
 export interface PitrRestoreScratchEstimate {
   readonly baseBackupLabel: string;
   readonly dataMB: number;
@@ -4083,7 +4083,7 @@ export interface ProjectHistoryConnection {
   readonly pageInfo: ProjectHistoryPageInfo;
 }
 
-/** One settled change in an environment: a system event or a terminal operation (patch, deploy, …). */
+/** One settled change in an environment: a system event or a terminal operation (patch, deploy, ...). */
 export interface ProjectHistoryEntry {
   readonly action: string;
   readonly activityPayload: unknown | null;

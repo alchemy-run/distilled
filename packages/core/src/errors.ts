@@ -6,8 +6,8 @@
  * that are used across all SDKs.
  */
 import * as Duration from "effect/Duration";
-import * as Schema from "effect/Schema";
 import * as Category from "./category.ts";
+import * as Schema from "./schema-lite-typed.ts";
 
 // ============================================================================
 // Shared Schema Helpers
@@ -18,11 +18,11 @@ import * as Category from "./category.ts";
  *
  * Used on retryable errors to carry a server-provided wait hint (e.g. parsed
  * from `Retry-After` or the IETF `Ratelimit` header). Core does not encode/decode
- * this field over the wire — it is constructed at runtime by `matchError` from
+ * this field over the wire -- it is constructed at runtime by `matchError` from
  * whatever the service actually returns (delay-seconds, HTTP-date, epoch, etc.)
  * and consumed at runtime by the retry policy.
  */
-export const DurationSchema = Schema.declare<Duration.Duration>(Duration.isDuration);
+export const DurationSchema = /*@__PURE__*/ Schema.declare<Duration.Duration>(Duration.isDuration);
 
 // ============================================================================
 // Common HTTP Status Error Classes
@@ -31,61 +31,71 @@ export const DurationSchema = Schema.declare<Duration.Duration>(Duration.isDurat
 /**
  * Unauthorized - Authentication failure (401).
  */
-export class Unauthorized extends Schema.TaggedError<Unauthorized>()("Unauthorized", {
-  message: Schema.String,
-}).pipe(Category.withAuthError) {}
+export class Unauthorized
+  extends /*@__PURE__*/ Schema.TaggedError<Unauthorized>()("Unauthorized", {
+    message: Schema.String,
+  }).pipe(Category.withAuthError) {}
 
 /**
  * Forbidden - Access denied (403).
  */
-export class Forbidden extends Schema.TaggedError<Forbidden>()("Forbidden", {
-  message: Schema.String,
-}).pipe(Category.withAuthError) {}
+export class Forbidden
+  extends /*@__PURE__*/ Schema.TaggedError<Forbidden>()("Forbidden", {
+    message: Schema.String,
+  }).pipe(Category.withAuthError) {}
 
 /**
  * NotFound - Resource not found (404).
  */
-export class NotFound extends Schema.TaggedError<NotFound>()("NotFound", {
-  message: Schema.String,
-}).pipe(Category.withNotFoundError) {}
+export class NotFound
+  extends /*@__PURE__*/ Schema.TaggedError<NotFound>()("NotFound", {
+    message: Schema.String,
+  }).pipe(Category.withNotFoundError) {}
 
 /**
  * BadRequest - Invalid request (400).
  */
-export class BadRequest extends Schema.TaggedError<BadRequest>()("BadRequest", {
-  message: Schema.String,
-}).pipe(Category.withBadRequestError) {}
+export class BadRequest
+  extends /*@__PURE__*/ Schema.TaggedError<BadRequest>()("BadRequest", {
+    message: Schema.String,
+  }).pipe(Category.withBadRequestError) {}
 
 /**
  * Conflict - Resource conflict (409).
  */
-export class Conflict extends Schema.TaggedError<Conflict>()("Conflict", {
-  message: Schema.String,
-}).pipe(Category.withConflictError) {}
+export class Conflict
+  extends /*@__PURE__*/ Schema.TaggedError<Conflict>()("Conflict", {
+    message: Schema.String,
+  }).pipe(Category.withConflictError) {}
 
 /**
  * UnprocessableEntity - Validation error (422).
  */
-export class UnprocessableEntity extends Schema.TaggedError<UnprocessableEntity>()(
-  "UnprocessableEntity",
-  { message: Schema.String },
-).pipe(Category.withBadRequestError) {}
+export class UnprocessableEntity
+  extends /*@__PURE__*/ Schema.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
+    message: Schema.String,
+  }).pipe(Category.withBadRequestError) {}
 
 /**
  * TooManyRequests - Rate limited (429).
  */
-export class TooManyRequests extends Schema.TaggedError<TooManyRequests>()("TooManyRequests", {
-  message: Schema.String,
-  retryAfter: Schema.optional(DurationSchema),
-}).pipe(Category.withThrottlingError, Category.withRetryable({ throttling: true })) {}
+export class TooManyRequests
+  extends /*@__PURE__*/ Schema.TaggedError<TooManyRequests>()("TooManyRequests", {
+    message: Schema.String,
+    retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
+  }).pipe(
+    Category.withThrottlingError,
+    /*@__PURE__*/ Category.withRetryable({ throttling: true }),
+  ) {}
 
 /**
  * Locked - Resource locked (423).
  */
-export class Locked extends Schema.TaggedError<Locked>()("Locked", {
-  message: Schema.String,
-  retryAfter: Schema.optional(DurationSchema),
-}).pipe(Category.withLockedError, Category.withRetryable()) {}
+export class Locked
+  extends /*@__PURE__*/ Schema.TaggedError<Locked>()("Locked", {
+    message: Schema.String,
+    retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
+  }).pipe(Category.withLockedError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * InternalServerError - Server error.
@@ -95,48 +105,47 @@ export class Locked extends Schema.TaggedError<Locked>()("Locked", {
  * 200 envelope carrying `{ code: 10002, message: "An unknown error has
  * occurred" }` for transient backend failures on some endpoints).
  */
-export class InternalServerError extends Schema.TaggedError<InternalServerError>()(
-  "InternalServerError",
-  {
+export class InternalServerError
+  extends /*@__PURE__*/ Schema.TaggedError<InternalServerError>()("InternalServerError", {
     message: Schema.String,
-    code: Schema.optional(Schema.Number),
-    retryAfter: Schema.optional(DurationSchema),
-  },
-).pipe(Category.withServerError, Category.withRetryable()) {}
+    code: /*@__PURE__*/ Schema.optional(Schema.Number),
+    retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * BadGateway - Bad gateway (502).
  */
-export class BadGateway extends Schema.TaggedError<BadGateway>()("BadGateway", {
-  message: Schema.String,
-  retryAfter: Schema.optional(DurationSchema),
-}).pipe(Category.withServerError, Category.withRetryable()) {}
+export class BadGateway
+  extends /*@__PURE__*/ Schema.TaggedError<BadGateway>()("BadGateway", {
+    message: Schema.String,
+    retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * ServiceUnavailable - Service unavailable (503).
  */
-export class ServiceUnavailable extends Schema.TaggedError<ServiceUnavailable>()(
-  "ServiceUnavailable",
-  {
+export class ServiceUnavailable
+  extends /*@__PURE__*/ Schema.TaggedError<ServiceUnavailable>()("ServiceUnavailable", {
     message: Schema.String,
-    retryAfter: Schema.optional(DurationSchema),
-  },
-).pipe(Category.withServerError, Category.withRetryable()) {}
+    retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * GatewayTimeout - HTTP request or gateway timeout (408, 504).
  */
-export class GatewayTimeout extends Schema.TaggedError<GatewayTimeout>()("GatewayTimeout", {
-  message: Schema.String,
-  retryAfter: Schema.optional(DurationSchema),
-}).pipe(Category.withServerError, Category.withRetryable()) {}
+export class GatewayTimeout
+  extends /*@__PURE__*/ Schema.TaggedError<GatewayTimeout>()("GatewayTimeout", {
+    message: Schema.String,
+    retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * Configuration error - missing or invalid configuration.
  */
-export class ConfigError extends Schema.TaggedError<ConfigError>()("ConfigError", {
-  message: Schema.String,
-}).pipe(Category.withConfigurationError) {}
+export class ConfigError
+  extends /*@__PURE__*/ Schema.TaggedError<ConfigError>()("ConfigError", {
+    message: Schema.String,
+  }).pipe(Category.withConfigurationError) {}
 
 // ============================================================================
 // Error Maps
@@ -165,7 +174,7 @@ export const HTTP_STATUS_MAP = {
  * HTTP status codes that are considered "default" errors (always present).
  * These are excluded from per-operation error types since they're handled globally.
  */
-export const DEFAULT_ERROR_STATUSES = new Set([401, 429, 500, 502, 503, 504]);
+export const DEFAULT_ERROR_STATUSES = /*@__PURE__*/ new Set([401, 429, 500, 502, 503, 504]);
 
 /**
  * HTTP status codes whose corresponding error class in {@link HTTP_STATUS_MAP}
@@ -177,7 +186,7 @@ export const DEFAULT_ERROR_STATUSES = new Set([401, 429, 500, 502, 503, 504]);
  * classes (BadRequest/Unauthorized/etc.) would silently retain it as a
  * stale field on the instance and pollute serialized output.
  */
-export const RETRYABLE_HTTP_STATUSES = new Set([408, 423, 429, 500, 502, 503, 504]);
+export const RETRYABLE_HTTP_STATUSES = /*@__PURE__*/ new Set([408, 423, 429, 500, 502, 503, 504]);
 
 /**
  * All common API error classes.

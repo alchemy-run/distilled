@@ -1,12 +1,12 @@
+import * as EffectConfig from "@distilled.cloud/core/config";
 /**
- * Stripe credentials — hand-written.
+ * Stripe credentials -- hand-written.
  *
  * API-compatible port of the distilled v0 stripe credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
  * credentials on every request. `CredentialsFromEnv` reads `STRIPE_API_KEY`.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
-import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -19,24 +19,25 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "StripeCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "StripeCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.String("STRIPE_API_KEY"),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  apiKey: /*@__PURE__*/ EffectConfig.String("STRIPE_API_KEY"),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "STRIPE_API_KEY environment variable is required",
         }),
     ),
-    Effect.map(({ apiKey }) => ({
+    /*@__PURE__*/ Effect.map(({ apiKey }) => ({
       apiKey: Redacted.make(apiKey),
       apiBaseUrl: DEFAULT_API_BASE_URL,
     })),

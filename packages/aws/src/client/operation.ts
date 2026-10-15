@@ -1,4 +1,4 @@
-import * as S from "effect/Schema";
+import type * as S from "effect/Schema";
 import type { PaginatedTrait } from "../traits.ts";
 
 export declare namespace Operation {
@@ -17,7 +17,7 @@ export interface Operation<Input extends S.Top = S.Any, Output extends S.Top = S
    * The Smithy operation name (e.g. "DescribeAutoScalingGroups"). Used as the
    * wire `Action` / `X-Amz-Target` operation. When absent, protocols fall back
    * to deriving it from the input schema identifier by stripping a
-   * Request/Input/Message suffix — which is wrong for services whose input
+   * Request/Input/Message suffix -- which is wrong for services whose input
    * shapes are not named after the operation (e.g. AutoScaling's
    * `AutoScalingGroupNamesType`).
    */

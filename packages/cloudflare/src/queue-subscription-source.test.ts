@@ -1,6 +1,6 @@
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
 import { describe, expect, test } from "vitest";
-import { CreateSubscriptionRequest, GetSubscriptionResponse } from "./services/queues.ts";
+import { createSubscription, getSubscription } from "./services/queues.ts";
 
 /**
  * An `email.sending` subscription source names its sending domain by
@@ -22,7 +22,7 @@ describe("email.sending subscription source", () => {
           domain: "mail.example.com",
         },
       },
-      inputAst: CreateSubscriptionRequest.ast,
+      inputAst: createSubscription.input.ast,
       baseUrl: "https://api.cloudflare.com/client/v4",
     });
     const body = JSON.parse(String((request.body as { body: string }).body));
@@ -35,7 +35,7 @@ describe("email.sending subscription source", () => {
 
   test("a read keeps zoneId and domain", () => {
     const source = mapKeys(
-      GetSubscriptionResponse.ast,
+      getSubscription.output.ast,
       {
         source: {
           type: "email.sending",

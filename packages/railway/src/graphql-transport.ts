@@ -23,7 +23,7 @@ export type GraphQLRequirements = Credentials | HttpClient.HttpClient;
 const retryAfterSeconds = (header: string | undefined): number | undefined =>
   header && /^\d+(\.\d+)?$/.test(header) ? Number(header) : undefined;
 
-export const GraphQLLive = Layer.succeed(GqlTransport, {
+export const GraphQLLive = /*@__PURE__*/ Layer.succeed(GqlTransport, {
   execute: (request: CompiledOperation) =>
     Effect.gen(function* () {
       const resolve = yield* Credentials;

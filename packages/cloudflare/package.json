@@ -495,14 +495,18 @@
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
       "workerd": "./src/index.ts",
-      "default": "./lib/index.js"
+      "module": "./lib/index.full.js",
+      "module-sync": "./lib/index.js",
+      "default": "./lib/index.full.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
       "workerd": "./src/services/*.ts",
-      "default": "./lib/services/*.js"
+      "module": "./lib/services.full/*.js",
+      "module-sync": "./lib/services/*.js",
+      "default": "./lib/services.full/*.js"
     },
     "./Protocol": {
       "types": "./lib/protocol.d.ts",

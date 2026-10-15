@@ -1,37 +1,40 @@
 /**
  * Generic REST protocol factory for simple bearer/header-auth JSON APIs
- * (Neon, Fly.io, PlanetScale, Supabase, Turso, …).
+ * (Neon, Fly.io, PlanetScale, Supabase, Turso, ...).
  *
  * `makeRestProtocol(options)` builds a core {@link API.Protocol} layer:
  *
  *   request:  credentials resolved from the CALLING fiber's context on every
- *             request (the layer itself is memoized per process — see
+ *             request (the layer itself is memoized per process -- see
  *             `core/api`), auth headers + base URL from the provider's
  *             options, request built by `buildRequest` from
  *             `core/protocol-http` (deep-unwrapping any `Redacted` input
  *             values first)
  *
- *   response: 2xx JSON → optional `transformResponse` → recursive wire→TS
- *             key mapping (`mapKeys`) → in strict mode, a schema check
+ *   response: 2xx JSON -> optional `transformResponse` -> recursive wire->TS
+ *             key mapping (`mapKeys`) -> in strict mode, a schema check
  *             failing with the provider's `parseError` (see
- *             `core/response-validation`) → `Redacted` wrapping of members
- *             marked with {@link SensitiveValue}; non-2xx → typed error:
+ *             `core/response-validation`) -> `Redacted` wrapping of members
+ *             marked with {@link SensitiveValue}; non-2xx -> typed error:
  *             per-op matcher classes (`matchTypedError`), then the status
  *             map (default `HTTP_STATUS_MAP`), then an `InternalServerError`
  *             for unmapped 5xx, then the provider's `unknownError` fallback
- *             — with `retryAfter` durations stamped from the standard hint
+ *             -- with `retryAfter` durations stamped from the standard hint
  *             headers on retryable statuses.
  *
  * Anything provider-specific (envelope quirks, bespoke error codes) belongs
- * in the provider package — via these options or a hand-written protocol.
+ * in the provider package -- via these options or a hand-written protocol.
  */
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import * as API from "./api.ts";
+import { debugHttp } from "./debug.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import {
   buildRequest,
@@ -40,10 +43,11 @@ import {
   getProps,
   isOpaqueValue,
   mapKeys,
+  mapsVerbatim,
   matchTypedError,
   resolveNode,
 } from "./protocol-http.ts";
-import { validateResponse } from "./response-validation.ts";
+import { checkResponse } from "./response-validation.ts";
 import { parseRetryAfterForStatus } from "./retry-after.ts";
 import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
 
@@ -51,7 +55,9 @@ import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
 // Traits
 // =============================================================================
 
-export const sensitiveValueSymbol = Symbol.for("@distilled.cloud/core/sensitive-value");
+export const sensitiveValueSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/sensitive-value",
+);
 /**
  * Marks a string member as sensitive (mirrors `smithy.api#sensitive`).
  * The REST protocol wraps decoded values in `Redacted` on the way out and
@@ -61,14 +67,16 @@ export const sensitiveValueSymbol = Symbol.for("@distilled.cloud/core/sensitive-
  */
 export const SensitiveValue = (_value?: unknown) => makeAnnotation(sensitiveValueSymbol, true);
 
-export const rawResponseSymbol = Symbol.for("@distilled.cloud/core/raw-response");
+export const rawResponseSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/raw-response");
 /**
  * Marks the sole output member that carries a bare (array/scalar) response
  * body (mirrors `com.distilled.openapi#rawResponse`).
  */
 export const RawResponse = (_value?: unknown) => makeAnnotation(rawResponseSymbol, true);
 
-export const rawResponseRootSymbol = Symbol.for("@distilled.cloud/core/raw-response-root");
+export const rawResponseRootSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/raw-response-root",
+);
 /**
  * Marks a response schema whose ENTIRE value is the response body (the
  * generator's `rootPipe` for synthesized bare-payload wrappers): the emitted
@@ -77,7 +85,9 @@ export const rawResponseRootSymbol = Symbol.for("@distilled.cloud/core/raw-respo
  */
 export const RawResponseRoot = () => makeAnnotation(rawResponseRootSymbol, true);
 
-export const binaryResponseSymbol = Symbol.for("@distilled.cloud/core/binary-response");
+export const binaryResponseSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/binary-response",
+);
 
 /** Decode a successful raw binary response as bytes, without text conversion. */
 export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
@@ -94,7 +104,7 @@ const isPlainObject = (v: unknown): v is Record<string, unknown> =>
   (Object.getPrototypeOf(v) === Object.prototype || Object.getPrototypeOf(v) === null);
 
 /**
- * Deep-unwrap `Redacted` values in an input (plain objects/arrays only —
+ * Deep-unwrap `Redacted` values in an input (plain objects/arrays only --
  * class instances, files, and binary payloads pass through untouched).
  * Sensitive input members accept `string | Redacted<string>`; the wire wants
  * the raw string.
@@ -181,16 +191,18 @@ export interface RestErrorEnvelope {
 
 export interface RestProtocolOptions<C> {
   /**
-   * Resolve credentials ON THE CALLING FIBER — evaluated per request, never
+   * Resolve credentials ON THE CALLING FIBER -- evaluated per request, never
    * at layer build time, so context-provided credentials and token refreshes
-   * are picked up. Typically `Effect.gen(function* () { const resolve =
-   * yield* Credentials; return yield* resolve; })` for the distilled
-   * credentials-service convention. Its error/requirement channels are
+   * are picked up. Either an effect, or -- for the distilled
+   * credentials-service convention -- the `Credentials` service key whose
+   * value is that effect (read from the calling fiber's context; an
+   * already-resolved `Effect.succeed` value costs no extra fiber step). Its
+   * error/requirement channels are
    * erased at the protocol boundary (Protocol effects carry none) and
    * reintroduced for callers by the generated `<Sdk>OpError` /
    * `<Sdk>OpContext` annotations.
    */
-  readonly credentials: Effect.Effect<C, any, any>;
+  readonly credentials: Effect.Effect<C, any, any> | Context.Key<any, Effect.Effect<C, any, any>>;
   /**
    * API base URL from the resolved credentials. Receives the operation's
    * route so APIs with more than one endpoint (e.g. S2's account vs
@@ -212,7 +224,7 @@ export interface RestProtocolOptions<C> {
    */
   readonly errorEnvelope?: (body: unknown) => RestErrorEnvelope | undefined;
   /**
-   * HTTP status → error class constructed as `new Cls({ message, retryAfter
+   * HTTP status -> error class constructed as `new Cls({ message, retryAfter
    * })`. Default: core `HTTP_STATUS_MAP`. Consulted after per-op typed error
    * matching; unmapped 5xx fall back to `InternalServerError`, everything
    * else to {@link unknownError}.
@@ -250,153 +262,272 @@ const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 // here; the generated operation annotations reintroduce it for callers.
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
+/** Whether {@link wrapSensitive} can change any value of `root`. Cached per schema. */
+export const hasSensitive = (root: AST.AST): boolean => {
+  let result = sensitiveCache.get(root);
+  if (result !== undefined) return result;
+  result = false;
+  const seen = new Set<AST.AST>();
+  const stack: AST.AST[] = [root];
+  walk: while (stack.length > 0) {
+    const ast = stack.pop()!;
+    if (seen.has(ast)) continue;
+    seen.add(ast);
+    const node = resolveNode(ast);
+    if (node._tag === "Union") {
+      for (const t of (node as AST.Union).types) stack.push(t);
+    } else if (node._tag === "Arrays") {
+      const elem = (node as any).rest?.[0] as AST.AST | undefined;
+      if (elem) stack.push(elem);
+    } else if (node._tag === "Objects") {
+      for (const p of getProps(node)) {
+        if (getPropAnn(p, sensitiveValueSymbol) !== undefined) {
+          result = true;
+          break walk;
+        }
+        stack.push(p.type);
+      }
+    }
+  }
+  sensitiveCache.set(root, result);
+  return result;
+};
+const sensitiveCache = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
+
+/** Per-operation decode facts, read from the output schema once. */
+interface DecodePlan {
+  readonly binary: boolean;
+  readonly verbatim: boolean;
+  readonly sensitive: boolean;
+}
+
+const decodePlans = /*@__PURE__*/ new WeakMap<AST.AST, DecodePlan>();
+const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
+  let plan = decodePlans.get(outputAst);
+  if (plan === undefined) {
+    plan = {
+      binary: getAnn(outputAst, binaryResponseSymbol) !== undefined,
+      verbatim: mapsVerbatim(outputAst, "decode"),
+      sensitive: hasSensitive(outputAst),
+    };
+    decodePlans.set(outputAst, plan);
+  }
+  return plan;
+};
+
+/**
+ * The outcome of decoding a response body: the value, or the failure the
+ * call fails with. Plain data, so decoding stays synchronous.
+ */
+type Decoded =
+  | { readonly ok: true; readonly value: unknown }
+  | { readonly ok: false; readonly error: unknown };
+
 /**
  * Build a `Layer<Protocol>` for a simple REST JSON API. Assign the result to
- * a module-level const in the provider's `protocol.ts` — `API.make` memoizes
+ * a module-level const in the provider's `protocol.ts` -- `API.make` memoizes
  * protocol layers by value identity.
  */
 export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Layer<API.Protocol> => {
   const errorEnvelope = options.errorEnvelope ?? defaultErrorEnvelope;
   const statusMap: Readonly<Record<number, (new (args: any) => any) | undefined>> =
     options.statusMap ?? HTTP_STATUS_MAP;
+  const credentialsKey = Context.isKey(options.credentials)
+    ? (options.credentials as Context.Key<any, Effect.Effect<C, any, any>>)
+    : undefined;
+  const credentialsEffect = options.credentials as Effect.Effect<C>;
 
-  const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
-    Effect.gen(function* () {
-      const creds = yield* options.credentials as Effect.Effect<C>;
-      const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-      let baseUrl: string;
-      try {
-        baseUrl = options.baseUrl(creds, {
-          uri: http?.uri ?? "",
-          method: http?.method ?? "",
-        });
-      } catch (e) {
-        // A baseUrl that refuses the route (missing scope in the
-        // credentials) fails the call with that error, typed for callers by
-        // the operation's declared error channel.
-        return yield* Effect.fail(e);
-      }
-      return buildRequest({
-        input: unwrapRedactedDeep(input),
-        inputAst,
-        baseUrl,
-        headers: options.headers(creds),
-        mapMemberHeader: options.mapMemberHeader,
-        unknownKeyToWire: options.unknownKeyToWire,
+  /** The calling fiber's credentials, then `f` on them. */
+  const withCredentials = <B>(
+    context: Context.Context<any>,
+    f: (creds: C) => Effect.Effect<B, any, any>,
+  ): Effect.Effect<B, any, any> =>
+    API.withValue(
+      credentialsKey === undefined ? credentialsEffect : Context.get(context, credentialsKey),
+      f,
+    );
+
+  /** The request, or the error a refusing `baseUrl` threw. */
+  const requestFor = (
+    creds: C,
+    input: unknown,
+    inputAst: AST.AST,
+  ): HttpClientRequest.HttpClientRequest | { readonly refused: unknown } => {
+    const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
+    let baseUrl: string;
+    try {
+      baseUrl = options.baseUrl(creds, {
+        uri: http?.uri ?? "",
+        method: http?.method ?? "",
       });
+    } catch (e) {
+      // A baseUrl that refuses the route (missing scope in the
+      // credentials) fails the call with that error, typed for callers by
+      // the operation's declared error channel.
+      return { refused: e };
+    }
+    return buildRequest({
+      input: unwrapRedactedDeep(input),
+      inputAst,
+      baseUrl,
+      headers: options.headers(creds),
+      mapMemberHeader: options.mapMemberHeader,
+      unknownKeyToWire: options.unknownKeyToWire,
     });
+  };
 
-  const decode = ({
-    response,
-    outputAst,
-    errors: errorClasses,
-  }: {
-    readonly response: HttpClientResponse.HttpClientResponse;
-    readonly outputAst: AST.AST;
-    readonly errors: ReadonlyArray<unknown>;
-  }) =>
-    Effect.gen(function* () {
-      if (
-        response.status >= 200 &&
-        response.status < 300 &&
-        getAnn(outputAst, binaryResponseSymbol) !== undefined
-      ) {
-        const bytes = yield* response.arrayBuffer.pipe(Effect.orDie);
-        return new Uint8Array(bytes);
+  /** Map a read response body to the call's outcome. */
+  const decodeText = (
+    context: Context.Context<any>,
+    status: number,
+    headers: Record<string, string | undefined>,
+    text: string,
+    outputAst: AST.AST,
+    errorClasses: ReadonlyArray<unknown>,
+  ): Decoded => {
+    // Read as text and parse tolerantly -- error pages are often non-JSON.
+    if (debugHttp()) {
+      console.error(`[distilled] <- ${status}`);
+    }
+    let json: unknown;
+    let nonJson = false;
+    if (text.trim().length > 0) {
+      try {
+        json = JSON.parse(text);
+      } catch {
+        nonJson = true;
       }
-      // Read as text and parse tolerantly — error pages are often non-JSON.
-      const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-      if (process.env.DISTILLED_DEBUG_HTTP) {
-        console.error(`[distilled] <- ${response.status}`);
-      }
-      let json: unknown;
-      let nonJson = false;
-      if (text.trim().length > 0) {
-        try {
-          json = JSON.parse(text);
-        } catch {
-          nonJson = true;
-        }
-      }
-      const status = response.status;
-      const headers = response.headers as Record<string, string | undefined>;
+    }
 
-      if (status >= 400) {
-        const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
-        const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+    if (status >= 400) {
+      const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
+      const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
-        // 1. Per-operation typed error (matcher metadata on the class).
-        const typed = matchTypedError(
-          errorClasses,
-          status,
-          [
-            {
-              code: typeof env.code === "number" ? env.code : undefined,
-              message,
-            },
-          ],
-          { body: nonJson ? text : json, headers },
-        );
-        if (typed !== undefined) return yield* fail(typed);
-
-        // 2. Status-mapped class (retryAfter only stamps on retryable
-        //    statuses — parseRetryAfterForStatus gates on that).
-        const StatusErrorClass = statusMap[status];
-        if (StatusErrorClass) {
-          return yield* fail(
-            new StatusErrorClass({
-              message,
-              retryAfter: parseRetryAfterForStatus(status, headers),
-            }),
-          );
-        }
-
-        // 3. Unmapped 5xx (e.g. proxy-specific statuses) → retryable server
-        //    error rather than the unknown fallback.
-        if (status >= 500) {
-          return yield* fail(
-            new InternalServerError({
-              message,
-              retryAfter: parseRetryAfterForStatus(status, headers),
-            }),
-          );
-        }
-
-        // 4. Provider fallback.
-        return yield* fail(
-          options.unknownError({
-            status,
-            code: env.code,
+      // 1. Per-operation typed error (matcher metadata on the class).
+      const typed = matchTypedError(
+        errorClasses,
+        status,
+        [
+          {
+            code: typeof env.code === "number" ? env.code : undefined,
             message,
-            body: nonJson ? text : json,
-            headers,
+          },
+        ],
+        { body: nonJson ? text : json, headers },
+      );
+      if (typed !== undefined) return { ok: false, error: typed };
+
+      // 2. Status-mapped class (retryAfter only stamps on retryable
+      //    statuses -- parseRetryAfterForStatus gates on that).
+      const StatusErrorClass = statusMap[status];
+      if (StatusErrorClass) {
+        return {
+          ok: false,
+          error: new StatusErrorClass({
+            message,
+            retryAfter: parseRetryAfterForStatus(status, headers),
           }),
-        );
+        };
       }
 
-      // 2xx: the response body IS the payload (no envelope). Wire→TS key
-      // mapping is schema-driven; `RawResponseRoot` responses are the body
-      // verbatim (mapKeys handles arrays/scalars structurally either way).
-      // Strict mode (core/response-validation) checks the mapped body against
-      // the output schema — a non-JSON body reaches it as a string and fails
-      // there unless the operation's output is itself a string.
-      let body: unknown = nonJson ? text : (json ?? {});
-      if (options.transformResponse) body = options.transformResponse(body);
-      const mapped = yield* validateResponse(
-        outputAst,
-        mapKeys(outputAst, body, "decode"),
-        (cause) => options.parseError({ body: nonJson ? text : json, cause }),
-      ).pipe(Effect.catch(fail));
-      return wrapSensitive(outputAst, mapped);
-    });
+      // 3. Unmapped 5xx (e.g. proxy-specific statuses) -> retryable server
+      //    error rather than the unknown fallback.
+      if (status >= 500) {
+        return {
+          ok: false,
+          error: new InternalServerError({
+            message,
+            retryAfter: parseRetryAfterForStatus(status, headers),
+          }),
+        };
+      }
+
+      // 4. Provider fallback.
+      return {
+        ok: false,
+        error: options.unknownError({
+          status,
+          code: env.code,
+          message,
+          body: nonJson ? text : json,
+          headers,
+        }),
+      };
+    }
+
+    // 2xx: the response body IS the payload (no envelope). Wire->TS key
+    // mapping is schema-driven; `RawResponseRoot` responses are the body
+    // verbatim (mapKeys handles arrays/scalars structurally either way).
+    // Strict mode (core/response-validation) checks the mapped body against
+    // the output schema -- a non-JSON body reaches it as a string and fails
+    // there unless the operation's output is itself a string.
+    const plan = decodePlanFor(outputAst);
+    let body: unknown = nonJson ? text : (json ?? {});
+    if (options.transformResponse) body = options.transformResponse(body);
+    const mapped = plan.verbatim ? body : mapKeys(outputAst, body, "decode");
+    const invalid = checkResponse(context, outputAst, mapped);
+    if (invalid !== undefined) {
+      return {
+        ok: false,
+        error: options.parseError({ body: nonJson ? text : json, cause: invalid }),
+      };
+    }
+    return { ok: true, value: plan.sensitive ? wrapSensitive(outputAst, mapped) : mapped };
+  };
+
+  const decodeResponse = (
+    context: Context.Context<any>,
+    response: HttpClientResponse.HttpClientResponse,
+    outputAst: AST.AST,
+    errorClasses: ReadonlyArray<unknown>,
+  ): Effect.Effect<unknown> =>
+    response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
+      ? Effect.map(Effect.orDie(response.arrayBuffer), (bytes) => new Uint8Array(bytes))
+      : Effect.matchEffect(response.text, {
+          onFailure: Effect.die,
+          onSuccess: (text) => {
+            const decoded = decodeText(
+              context,
+              response.status,
+              response.headers as Record<string, string | undefined>,
+              text ?? "",
+              outputAst,
+              errorClasses,
+            );
+            return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
+          },
+        });
+
+  const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
+    Effect.withFiber((fiber) => {
+      const context = fiber.context as Context.Context<any>;
+      return withCredentials(context, (creds) => {
+        const request = requestFor(creds, input, op.inputAst);
+        if ("refused" in request) return fail(request.refused);
+        const client = Context.get(context, HttpClient.HttpClient);
+        return Effect.flatMap(client.execute(request), (response) =>
+          decodeResponse(context, response, op.outputAst, op.errors),
+        );
+      });
+    }) as Effect.Effect<unknown>;
 
   return Layer.succeed(
     API.Protocol,
     API.Protocol.of({
       // Erase encode's credentials requirement (resolved on the calling
       // fiber; see RestProtocolOptions.credentials).
-      encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-      decode,
+      encode: ({ input, inputAst }) =>
+        Effect.withFiber((fiber) =>
+          withCredentials(fiber.context as Context.Context<any>, (creds) => {
+            const request = requestFor(creds, input, inputAst);
+            return "refused" in request ? fail(request.refused) : Effect.succeed(request);
+          }),
+        ) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+      decode: ({ response, outputAst, errors }) =>
+        Effect.withFiber((fiber) =>
+          decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
+        ),
+      call,
     }),
   );
 };

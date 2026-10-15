@@ -9,6 +9,7 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { stampGeneratedAt } from "../../core/src/codegen/generated-at.ts";
 import { generateGraphQLClient, type GraphQLModel } from "../../core/src/codegen/graphql-client.ts";
+import { toLatin1 } from "../../core/src/codegen/latin1.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
 const model: GraphQLModel = JSON.parse(
@@ -20,7 +21,7 @@ const code = generateGraphQLClient(model, {
   requirementsType: "GraphQLRequirements",
   sdkName: "Railway",
 });
-await fs.writeFile(path.join(root, "src/graphql.ts"), code);
+await fs.writeFile(path.join(root, "src/graphql.ts"), toLatin1(code, "graphql.ts"));
 stampGeneratedAt(root);
 console.log(
   `GraphQL: generated Query SDK (${Object.keys(model.types).length} types) → src/graphql.ts`,

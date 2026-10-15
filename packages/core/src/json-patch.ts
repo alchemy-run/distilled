@@ -6,7 +6,7 @@
  * model; generate does not patch. Operation names are convert policy
  * (`operationNames`), never a patch.
  *
- * Pure functions only — callers load patch files themselves (the generators
+ * Pure functions only -- callers load patch files themselves (the generators
  * use Effect's FileSystem) and hand the parsed operations to `applyPatch`.
  */
 
@@ -54,7 +54,7 @@ export function parseJsonPointer(pointer: string): string[] {
 
 /** Get a value at a JSON Pointer path. */
 /**
- * The target location of a patch operation is absent from the document —
+ * The target location of a patch operation is absent from the document --
  * spec drift (renamed/removed upstream), not a malformed patch.
  */
 export class StaleTargetError extends Error {

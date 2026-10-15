@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * SurrealDB credentials — hand-written.
+ * SurrealDB credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -20,9 +20,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "SurrealdbCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "SurrealdbCredentials",
+  ) {}
 
 /** Layer from a redacted API key + optional base URL. */
 export const fromApiKey = (config: {
@@ -38,9 +39,9 @@ export const fromApiKey = (config: {
   );
 
 /** Reads SURREALDB_API_KEY (required) and SURREALDB_API_BASE_URL (optional). */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.SURREALDB_API_KEY;
 
     if (!apiKey) {

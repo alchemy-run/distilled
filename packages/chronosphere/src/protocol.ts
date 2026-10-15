@@ -2,13 +2,13 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * ChronosphereProtocol — hand-written.
+ * ChronosphereProtocol -- hand-written.
  *
  * Chronosphere speaks token-authenticated JSON REST (no response envelope),
  * so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `API-Token` + `Authorization: Bearer <apiKey>`
+ *   request:  credentials -> `API-Token` + `Authorization: Bearer <apiKey>`
  *             + optional `Chronosphere-Actor`, resolved from the calling
  *             fiber on every request. The instance origin is tenant-specific
  *             (`https://<instance>.chronosphere.io`).
@@ -42,29 +42,27 @@ export type ChronosphereOpError =
 /** Context (requirements) shared by every generated Chronosphere operation. */
 export type ChronosphereOpContext = Credentials | HttpClient.HttpClient;
 
-export const ChronosphereProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => {
-    const token = Redacted.value(creds.apiKey);
-    const headers: Record<string, string> = {
-      "API-Token": token,
-      Authorization: `Bearer ${token}`,
-      Accept: "application/json",
-    };
-    if (creds.actor) headers["Chronosphere-Actor"] = creds.actor;
-    return headers;
-  },
-  unknownError: ({ code, message, body }) =>
-    new UnknownChronosphereError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
-  parseError: ({ body, cause }) => new ChronosphereParseError({ body, cause }),
-});
+export const ChronosphereProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => {
+      const token = Redacted.value(creds.apiKey);
+      const headers: Record<string, string> = {
+        "API-Token": token,
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      };
+      if (creds.actor) headers["Chronosphere-Actor"] = creds.actor;
+      return headers;
+    },
+    unknownError: ({ code, message, body }) =>
+      new UnknownChronosphereError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new ChronosphereParseError({ body, cause }),
+  });

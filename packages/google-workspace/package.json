@@ -54,13 +54,17 @@
       "types": "./lib/unstable-services/*.d.ts",
       "bun": "./src/unstable-services/*.ts",
       "worker": "./src/unstable-services/*.ts",
-      "default": "./lib/unstable-services/*.js"
+      "module": "./lib/unstable-services.full/*.js",
+      "module-sync": "./lib/unstable-services/*.js",
+      "default": "./lib/unstable-services.full/*.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
-      "default": "./lib/services/*.js"
+      "module": "./lib/services.full/*.js",
+      "module-sync": "./lib/services/*.js",
+      "default": "./lib/services.full/*.js"
     }
   },
   "scripts": {
@@ -82,7 +86,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-06",
+    "generatedAt": "2026-10-09",
     "specUpdatedAt": "2026-10-06"
   }
 }

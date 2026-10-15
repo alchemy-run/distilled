@@ -1,6 +1,5 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * S2 (s2.dev) credentials — hand-written.
+ * S2 (s2.dev) credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, accountBaseUrl, basin,
  * basinBaseUrl }` per request; the protocol layer formats the
@@ -17,7 +16,8 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * to call the streams/records services. The protocol picks the endpoint per
  * request from the operation's route (see protocol.ts).
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -43,32 +43,31 @@ export interface Config {
   readonly basinBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "S2Credentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("S2Credentials") {}
 
-const envConfig = EffectConfig.all({
+const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `S2_ACCESS_TOKEN` / `S2_BASIN` are what the official `s2` CLI reads.
-  token: EffectConfig.Redacted("S2_ACCESS_TOKEN"),
-  basin: EffectConfig.String("S2_BASIN").pipe(EffectConfig.option),
-  accountBaseUrl: EffectConfig.String("S2_ACCOUNT_ENDPOINT").pipe(
-    EffectConfig.withDefault(DEFAULT_ACCOUNT_BASE_URL),
+  token: /*@__PURE__*/ EffectConfig.Redacted("S2_ACCESS_TOKEN"),
+  basin: /*@__PURE__*/ EffectConfig.String("S2_BASIN").pipe(EffectConfig.option),
+  accountBaseUrl: /*@__PURE__*/ EffectConfig.String("S2_ACCOUNT_ENDPOINT").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_ACCOUNT_BASE_URL),
   ),
-  basinBaseUrl: EffectConfig.String("S2_BASIN_ENDPOINT").pipe(
-    EffectConfig.withDefault(DEFAULT_BASIN_BASE_URL),
+  basinBaseUrl: /*@__PURE__*/ EffectConfig.String("S2_BASIN_ENDPOINT").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_BASIN_BASE_URL),
   ),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "S2_ACCESS_TOKEN environment variable is required",
         }),
     ),
-    Effect.map(({ token, basin, accountBaseUrl, basinBaseUrl }) => ({
+    /*@__PURE__*/ Effect.map(({ token, basin, accountBaseUrl, basinBaseUrl }) => ({
       token,
       basin: basin._tag === "Some" ? basin.value : undefined,
       accountBaseUrl,

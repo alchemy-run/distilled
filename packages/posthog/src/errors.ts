@@ -2,7 +2,7 @@
  * PostHog-specific error types.
  *
  * Re-exports common HTTP errors from core and adds PostHog-specific error
- * types. Per-operation typed errors (BadRequest / Forbidden / NotFound / …)
+ * types. Per-operation typed errors (BadRequest / Forbidden / NotFound / ...)
  * are generated into each service module with status matchers; the classes
  * here cover everything the protocol can emit beyond those.
  */
@@ -26,30 +26,26 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * Unknown PostHog error — returned when a failure matches neither a
+ * Unknown PostHog error -- returned when a failure matches neither a
  * per-operation typed error nor an HTTP-status class. Carries the raw body
  * (PostHog's DRF error envelope) for later cataloging.
  */
-export class UnknownPosthogError extends Schema.TaggedError<UnknownPosthogError>()(
-  "UnknownPosthogError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownPosthogError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownPosthogError>()("UnknownPosthogError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class PosthogParseError extends Schema.TaggedError<PosthogParseError>()(
-  "PosthogParseError",
-  {
+export class PosthogParseError
+  extends /*@__PURE__*/ Schema.TaggedError<PosthogParseError>()("PosthogParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any PostHog operation may surface in addition to the status-matched

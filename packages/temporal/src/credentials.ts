@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Temporal credentials — hand-written.
+ * Temporal credentials -- hand-written.
  *
  * API-compatible port of the distilled v0 credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
@@ -25,9 +25,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "TemporalCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "TemporalCredentials",
+  ) {}
 
 /** Layer from a redacted API key + optional base URL. */
 export const fromApiKey = (config: {
@@ -43,9 +44,9 @@ export const fromApiKey = (config: {
   );
 
 /** Reads TEMPORAL_API_KEY (required) and TEMPORAL_API_BASE_URL (optional). */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.TEMPORAL_API_KEY;
 
     if (!apiKey) {

@@ -1,6 +1,5 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Supabase credentials — hand-written.
+ * Supabase credentials -- hand-written.
  *
  * API-compatible port of the distilled repo's supabase credentials module:
  * the `Credentials` service holds an *effect* that resolves the current
@@ -8,7 +7,8 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * as `Authorization: Bearer <token>`; `CredentialsFromEnv` reads
  * `SUPABASE_ACCESS_TOKEN`.
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -21,24 +21,25 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "SupabaseCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "SupabaseCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
-  accessToken: EffectConfig.String("SUPABASE_ACCESS_TOKEN"),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  accessToken: /*@__PURE__*/ EffectConfig.String("SUPABASE_ACCESS_TOKEN"),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "SUPABASE_ACCESS_TOKEN environment variable is required",
         }),
     ),
-    Effect.map(({ accessToken }) => ({
+    /*@__PURE__*/ Effect.map(({ accessToken }) => ({
       accessToken: Redacted.make(accessToken),
       apiBaseUrl: DEFAULT_API_BASE_URL,
     })),

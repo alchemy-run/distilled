@@ -1,6 +1,6 @@
 import { readFile, writeFile } from "node:fs/promises";
 /**
- * A minimal Node `FileSystem` — just what the Node providers and `Auth`
+ * A minimal Node `FileSystem` -- just what the Node providers and `Auth`
  * read and write under `~/.aws`.
  */
 import * as Effect from "effect/Effect";
@@ -18,7 +18,7 @@ const systemError =
       cause,
     });
 
-export const nodeFileSystem = FileSystem.makeNoop({
+export const nodeFileSystem = /*@__PURE__*/ FileSystem.makeNoop({
   readFileString: (path) =>
     Effect.tryPromise({
       try: () => readFile(path, "utf8"),

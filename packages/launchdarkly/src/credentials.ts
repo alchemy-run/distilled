@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * LaunchDarkly credentials — hand-written.
+ * LaunchDarkly credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -29,9 +29,10 @@ export interface Config {
   readonly apiVersion: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "LaunchDarklyCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "LaunchDarklyCredentials",
+  ) {}
 
 /** Layer from a redacted access token + optional base URL and API version. */
 export const fromApiKey = (config: {
@@ -52,9 +53,9 @@ export const fromApiKey = (config: {
  * Reads LAUNCHDARKLY_ACCESS_TOKEN or LAUNCHDARKLY_API_KEY (required),
  * LAUNCHDARKLY_API_BASE_URL, and LAUNCHDARKLY_API_VERSION.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.LAUNCHDARKLY_ACCESS_TOKEN ?? process.env.LAUNCHDARKLY_API_KEY;
 
     if (!apiKey) {

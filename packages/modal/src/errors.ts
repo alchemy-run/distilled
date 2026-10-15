@@ -24,26 +24,25 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * Unknown Modal error — returned when a failed response's HTTP status has no
+ * Unknown Modal error -- returned when a failed response's HTTP status has no
  * mapped error class. Carries the raw body for later cataloging.
  */
-export class UnknownModalError extends Schema.TaggedError<UnknownModalError>()(
-  "UnknownModalError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownModalError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownModalError>()("UnknownModalError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class ModalParseError extends Schema.TaggedError<ModalParseError>()("ModalParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class ModalParseError
+  extends /*@__PURE__*/ Schema.TaggedError<ModalParseError>()("ModalParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any Modal operation may surface in addition to the per-operation

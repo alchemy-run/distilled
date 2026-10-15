@@ -1,5 +1,5 @@
 /**
- * Fly.io pagination — cursor (Sprites list) and Relay (GraphQL add-ons).
+ * Fly.io pagination -- cursor (Sprites list) and Relay (GraphQL add-ons).
  */
 export {
   paginateCursor,

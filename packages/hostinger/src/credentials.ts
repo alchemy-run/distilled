@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Hostinger credentials — hand-written.
+ * Hostinger credentials -- hand-written.
  *
  * API tokens are created on the Account page of the Hostinger Panel
  * (https://hpanel.hostinger.com/profile/api) and sent as
@@ -20,9 +20,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "HostingerCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "HostingerCredentials",
+  ) {}
 
 /** Layer from a redacted API key + optional base URL. */
 export const fromApiKey = (config: {
@@ -38,9 +39,9 @@ export const fromApiKey = (config: {
   );
 
 /** Reads HOSTINGER_API_KEY (required) and HOSTINGER_API_BASE_URL (optional). */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.HOSTINGER_API_KEY;
 
     if (!apiKey) {

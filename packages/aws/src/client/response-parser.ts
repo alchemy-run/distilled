@@ -10,10 +10,10 @@
  * This is independently testable without making HTTP requests.
  */
 
-import { isStrict } from "@distilled.cloud/core/response-validation";
+import { checkResponse, ResponseValidation } from "@distilled.cloud/core/response-validation";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Schema from "effect/Schema";
-import * as SchemaIssue from "effect/SchemaIssue";
+import type * as SchemaIssue from "effect/SchemaIssue";
 import { COMMON_ERRORS, InternalError, ParseError, UnknownAwsError } from "../errors.ts";
 import {
   getAwsQueryError,
@@ -25,8 +25,9 @@ import {
   type SyntheticErrorTrait,
 } from "../traits.ts";
 import { getIdentifier, getPropertySignatures, isBooleanAST, isNumberAST } from "../util/ast.ts";
+import { decode } from "../util/codec.ts";
 import type { Operation } from "./operation.ts";
-import type { Protocol, ProtocolHandler } from "./protocol.ts";
+import { deserialize, loadHandler, Unreadable, type Protocol } from "./protocol.ts";
 import type { Response } from "./response.ts";
 import { makeStreamParser } from "./stream-parser.ts";
 
@@ -40,6 +41,9 @@ export interface ResponseParserOptions {
   /** Operation name for error context (e.g., "createBucket", "putObject") */
   operation?: string;
 }
+
+/** A generated error class: constructible from its members, with a lite `ast`. */
+type ErrorClass = (new (props: Record<string, unknown>) => unknown) & { readonly ast: any };
 
 export type ResponseParser<A, R> = (response: Response) => Effect.Effect<A, SchemaIssue.Issue, R>;
 
@@ -61,7 +65,7 @@ const wireCodeMatches = (from: string, errorCode: string): boolean =>
  * Evaluate a synthetic error's message predicate. A plain string is an exact
  * match; the object form supports substring (`includes`) and regex
  * (`matches`) predicates. An empty object predicate would match every error
- * — reject it.
+ * -- reject it.
  */
 const matchesMessage = (matcher: SyntheticErrorTrait["message"], message: string): boolean => {
   if (typeof matcher === "string") return matcher === message;
@@ -70,6 +74,53 @@ const matchesMessage = (matcher: SyntheticErrorTrait["message"], message: string
   if (includes !== undefined && !message.includes(includes)) return false;
   if (matches !== undefined && !new RegExp(matches).test(message)) return false;
   return true;
+};
+
+/** The outcome of decoding a 2xx response: the value, or the error the call fails with. */
+export type Decoded =
+  | { readonly ok: true; readonly value: unknown }
+  | { readonly ok: false; readonly error: unknown };
+
+/**
+ * The success path of {@link makeResponseParser} without effects, for an
+ * operation whose output never streams: converts what the protocol's
+ * `deserializeText` read and, in strict mode, validates it. `context` is
+ * the calling fiber's (it carries the validation mode).
+ */
+export const makeSuccessDecoder = (
+  operation: Operation<any, any, any>,
+  options?: ResponseParserOptions,
+) => {
+  const outputAst = operation.output.ast;
+  const what = `${options?.service ?? "AWS"}.${options?.operation ?? "operation"}`;
+  return (context: Context.Context<any>, read: unknown): Decoded => {
+    const strict = Context.get(context, ResponseValidation) === "strict";
+    if (read instanceof Unreadable) {
+      return strict ? { ok: false, error: read.error } : { ok: true, value: read.asRead };
+    }
+    let decoded: unknown;
+    try {
+      decoded = decode(outputAst, read, true);
+    } catch (error) {
+      return strict
+        ? {
+            ok: false,
+            error: new ParseError({
+              message: `${what} response does not match its output schema: ${(error as Error).message}`,
+            }),
+          }
+        : { ok: true, value: read };
+    }
+    const invalid = strict ? checkResponse(context, outputAst as any, decoded) : undefined;
+    return invalid === undefined
+      ? { ok: true, value: decoded }
+      : {
+          ok: false,
+          error: new ParseError({
+            message: `${what} response does not match its output schema: ${invalid.message}`,
+          }),
+        };
+  };
 };
 
 /**
@@ -86,8 +137,7 @@ export const makeResponseParser = <A>(
   options?: ResponseParserOptions,
 ): ((response: Response) => Effect.Effect<any, never, never>) => {
   const inputAst = operation.input.ast;
-  const outputSchema = operation.output;
-  const outputAst = outputSchema.ast;
+  const outputAst = operation.output.ast;
 
   // Discover protocol factory from annotations or use override (done once)
   const protocolFactory = options?.protocol ?? getProtocol(inputAst);
@@ -96,10 +146,11 @@ export const makeResponseParser = <A>(
   }
 
   // Create the protocol handler (preprocessing done once)
-  const protocol: ProtocolHandler = protocolFactory(operation as Operation);
+  const handler = loadHandler(protocolFactory(operation as Operation));
 
-  // Pre-create the decoder (done once, unless skipping validation)
-  const decode = options?.skipValidation ? undefined : Schema.decodeUnknownEffect(outputSchema);
+  const skipValidation = options?.skipValidation === true;
+
+  const decodeSuccess = makeSuccessDecoder(operation, options);
 
   // Create stream parser if output has event stream member (done once)
   const streamParser = makeStreamParser(outputAst);
@@ -109,9 +160,9 @@ export const makeResponseParser = <A>(
   // 1. Schema identifier (e.g., "EntityAlreadyExistsException")
   // 2. awsQueryError code if present (e.g., "EntityAlreadyExists")
   // 3. Short form without Exception/Error suffix (for services that return short codes)
-  const errorSchemas = new Map<string, Schema.Top>();
+  const errorSchemas = new Map<string, ErrorClass>();
 
-  const registerError = (err: Schema.Top) => {
+  const registerError = (err: ErrorClass) => {
     const tag = getIdentifier(err.ast);
     if (tag) {
       errorSchemas.set(tag, err);
@@ -139,28 +190,36 @@ export const makeResponseParser = <A>(
   // are intentionally NOT registered by wire code (the wire never returns
   // the synthetic tag).
   const syntheticErrors: Array<{
-    schema: Schema.Top;
+    schema: ErrorClass;
     trait: SyntheticErrorTrait;
   }> = [];
 
-  for (const err of COMMON_ERRORS) {
-    registerError(err);
-  }
-  for (const err of operation.errors ?? []) {
-    const synthetic = getSyntheticError(err.ast);
-    if (synthetic) {
-      syntheticErrors.push({ schema: err, trait: synthetic });
-    } else {
+  // Filled on the first error response: a successful call never needs it, and
+  // registering reads every error class's AST (24 common + the operation's).
+  let errorsRegistered = false;
+  const registerErrors = () => {
+    if (errorsRegistered) return;
+    errorsRegistered = true;
+    for (const err of COMMON_ERRORS) {
       registerError(err);
     }
-  }
+    for (const err of operation.errors ?? []) {
+      const synthetic = getSyntheticError(err.ast);
+      if (synthetic) {
+        syntheticErrors.push({ schema: err, trait: synthetic });
+      } else {
+        registerError(err);
+      }
+    }
+  };
 
   // Return a function that parses responses
   // @ts-expect-error
-  return Effect.fn(function* (response: Response) {
+  return Effect.fnUntraced(function* (response: Response) {
+    const protocol = yield* handler;
     // Success path
     if (response.status >= 200 && response.status < 300) {
-      const deserialized = (yield* protocol.deserializeResponse(response)) as
+      const deserialized = (yield* deserialize(protocol, response)) as
         | Record<string, unknown>
         | undefined;
 
@@ -171,38 +230,28 @@ export const makeResponseParser = <A>(
       }
 
       // Skip validation if requested - return raw deserialized response
-      if (!decode) {
+      if (skipValidation) {
         return deserialized as A;
       }
 
-      // Decode applies the schema's transformations (timestamp -> Date,
-      // sensitive -> Redacted). In lenient mode (the default) a shape
-      // mismatch falls back to the raw deserialized response; in strict mode
-      // (the core ResponseValidation.strict layer) it fails with
-      // ParseError.
-      const strict = yield* isStrict;
-      if (!strict) {
-        return yield* decode(deserialized).pipe(
-          Effect.catch(() => Effect.succeed(deserialized as A)),
-        );
-      }
-      return yield* decode(deserialized).pipe(
-        Effect.mapError(
-          (error) =>
-            new ParseError({
-              message: `${options?.service ?? "AWS"}.${options?.operation ?? "operation"} response does not match its output schema: ${error.message}`,
-            }),
-        ),
+      // Convert wire values to the declared types (timestamp -> Date,
+      // sensitive -> Redacted, blob -> Uint8Array, wire keys -> type keys);
+      // see makeSuccessDecoder.
+      const decoded = yield* Effect.withFiber((fiber) =>
+        Effect.succeed(decodeSuccess(fiber.context as Context.Context<any>, deserialized)),
       );
+      if (!decoded.ok) return yield* Effect.fail(decoded.error);
+      return decoded.value as A;
     }
 
     // Error path
+    registerErrors();
     const { errorCode, data } = yield* protocol.deserializeError(response);
 
     // Fold the XML-style `Message` wire key onto `message`. AWS XML protocols
     // send <Message> while JS expects .message, and the generator names every
     // error class's canonical message member `message` regardless of which
-    // spelling the service model used — so this is what lets a `Message` wire
+    // spelling the service model used -- so this is what lets a `Message` wire
     // key reach the renamed member during decode.
     if (
       data &&
@@ -219,7 +268,7 @@ export const makeResponseParser = <A>(
       data && typeof (data as Record<string, unknown>).message === "string"
         ? ((data as Record<string, unknown>).message as string)
         : "";
-    let errorSchema: Schema.Top | undefined;
+    let errorSchema: ErrorClass | undefined;
     let bestScore = 0;
     for (const { schema, trait } of syntheticErrors) {
       if (!wireCodeMatches(trait.from, errorCode)) continue;
@@ -234,7 +283,7 @@ export const makeResponseParser = <A>(
 
     // Status-based fallback: rest-json returns an empty error code when the
     // response carries none (no X-Amzn-Errortype header, no __type/code body
-    // field — e.g. IoT Managed Integrations). Match the operation's declared
+    // field -- e.g. IoT Managed Integrations). Match the operation's declared
     // errors by their smithy.api#httpError status, but only when exactly one
     // declared error carries the response status.
     if (errorSchema === undefined && errorCode === "") {
@@ -266,7 +315,7 @@ export const makeResponseParser = <A>(
         if (headerName) {
           const headerValue = response.headers[headerName.toLowerCase()];
           if (headerValue !== undefined) {
-            // Coerce string header values to the member's declared type —
+            // Coerce string header values to the member's declared type --
             // e.g. ThrottlingException.retryAfterSeconds (S.Number) bound to
             // the Retry-After header. Without coercion the decode fails and
             // the error degrades to a plain object, losing its error class
@@ -297,14 +346,17 @@ export const makeResponseParser = <A>(
         }
       }
 
-      // Get the schema identifier to use as _tag (may differ from wire errorCode)
-      // e.g., wire code "EntityAlreadyExists" maps to schema tag "EntityAlreadyExistsException"
+      // The error class built from its members, converted from the wire.
+      // Its _tag is the class identifier, which may differ from the wire
+      // errorCode ("EntityAlreadyExists" -> "EntityAlreadyExistsException").
+      // Data that does not match the class stays a plain tagged object.
       const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
-      // Add _tag to data for TaggedError decoding
-      const dataWithTag = { _tag: schemaTag, ...data };
-      const decoded = yield* Schema.decodeUnknownEffect(errorSchema)(dataWithTag).pipe(
-        Effect.catch(() => Effect.succeed(dataWithTag)),
-      );
+      let decoded: unknown;
+      try {
+        decoded = new errorSchema(decode(errorSchema.ast, data, true) as Record<string, unknown>);
+      } catch {
+        decoded = { _tag: schemaTag, ...data };
+      }
       // Ensure the JS `Error.message` carries the service's message. The
       // generator tags exactly one member per error class as the canonical
       // message (T.ErrorMessage) and normalizes its name to `message`, so

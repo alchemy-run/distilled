@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * DigitalOcean credentials — hand-written.
+ * DigitalOcean credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -19,9 +19,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "DigitalOceanCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "DigitalOceanCredentials",
+  ) {}
 
 /** Layer from a redacted API token + optional base URL. */
 export const fromApiKey = (config: {
@@ -40,9 +41,9 @@ export const fromApiKey = (config: {
  * Reads DIGITALOCEAN_ACCESS_TOKEN or DIGITALOCEAN_API_KEY (required) and
  * DIGITALOCEAN_API_BASE_URL (optional). `doctl` uses DIGITALOCEAN_ACCESS_TOKEN.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.DIGITALOCEAN_ACCESS_TOKEN ?? process.env.DIGITALOCEAN_API_KEY;
 
     if (!apiKey) {

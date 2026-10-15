@@ -1,8 +1,8 @@
 /**
  * The region an operation is dispatched to.
  *
- * Every credentials layer resolves a region as part of authenticating — the
- * environment variables, the profile, the SSO session all carry one — so
+ * Every credentials layer resolves a region as part of authenticating -- the
+ * environment variables, the profile, the SSO session all carry one -- so
  * {@link ResolvedCredentials.region} is where the region normally comes from
  * and it is never absent.
  *
@@ -13,22 +13,23 @@
  * `dev` profile" doesn't have to repeat which region `dev` uses, but a caller
  * who wants one call in another region can still say so.
  */
-import * as Config from "effect/Config";
+import * as Config from "@distilled.cloud/core/config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-export class Region extends Context.Service<Region, Effect.Effect<RegionName>>()("AWS::Region") {}
+export class Region
+  extends /*@__PURE__*/ Context.Service<Region, Effect.Effect<RegionName>>()("AWS::Region") {}
 
 /**
- * `AWS_REGION`, then `AWS_DEFAULT_REGION` — the variables every AWS tool
+ * `AWS_REGION`, then `AWS_DEFAULT_REGION` -- the variables every AWS tool
  * reads. Credentials providers use this as their region source; it fails
  * (rather than dying) so a provider can turn it into a typed
  * `MissingRegion` alongside its other credential-resolution failures.
  */
-export const fromEnvironment = Config.String("AWS_REGION").pipe(
-  Config.orElse(() => Config.String("AWS_DEFAULT_REGION")),
-  Effect.map((region) => region as RegionName),
+export const fromEnvironment = /*@__PURE__*/ Config.String("AWS_REGION").pipe(
+  /*@__PURE__*/ Config.orElse(() => Config.String("AWS_DEFAULT_REGION")),
+  /*@__PURE__*/ Effect.map((region) => region as RegionName),
 );
 
 /** Override the region with whatever the environment names. */

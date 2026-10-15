@@ -1,4 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
+import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   type ConfigError,
   HTTP_STATUS_MAP,
@@ -11,7 +12,7 @@ import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
- * AzureProtocol — hand-written.
+ * AzureProtocol -- hand-written.
  *
  * Speaks Azure Resource Manager's bearer-authenticated JSON REST protocol.
  * The generic request/response machinery lives in
@@ -19,23 +20,23 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  * Azure's own (which is why this is a bespoke protocol rather than a
  * `makeRestProtocol` instantiation):
  *
- *   request:  credentials → `Authorization: Bearer <token>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <token>` + base URL
  *             (default https://management.azure.com), resolved from the
  *             calling fiber on every request; a `{subscriptionId}` path
  *             placeholder the caller didn't fill is injected from
  *             credentials; the operation's baked `apiVersion` (see
- *             `traits.ts`) is appended as `?api-version=` — ARM requires it
+ *             `traits.ts`) is appended as `?api-version=` -- ARM requires it
  *             on every call
  *
  *   response: 2xx JSON is the payload (no envelope; sensitive members
  *             delivered as `Redacted`); errors are matched like distilled
  *             v0's Azure client:
  *               1. ARM envelope `{ error: { code, message, target } }` (flat
- *                  `{ code, message }` fallback) → `AZURE_ERROR_CODE_MAP`
- *                  dispatch on `error.code` (~35 codes → ~20 typed classes)
+ *                  `{ code, message }` fallback) -> `AZURE_ERROR_CODE_MAP`
+ *                  dispatch on `error.code` (~35 codes -> ~20 typed classes)
  *               2. core `HTTP_STATUS_MAP` by status (Retry-After honored via
  *                  `parseRetryAfterForStatus`)
- *               3. unmapped 5xx → retryable `InternalServerError`
+ *               3. unmapped 5xx -> retryable `InternalServerError`
  *               4. `UnknownAzureError` catch-all
  */
 import * as Effect from "effect/Effect";
@@ -61,7 +62,7 @@ import type { HttpTrait } from "./traits.ts";
  * files annotate operations with `API.OperationMethod<I, O, AzureOpError,
  * AzureOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics. Errors are entirely client-level (v0 parity:
- * `includeOperationErrors=false` — generated ops carry no per-op unions).
+ * `includeOperationErrors=false` -- generated ops carry no per-op unions).
  */
 export type AzureOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
@@ -140,7 +141,7 @@ const parseArmError = (body: unknown): ArmError | undefined => {
 // ---------------------------------------------------------------------------
 
 // The protocol layer is memoized per process by `API.make`, so the build
-// must not capture credentials — `encode` resolves Credentials from the
+// must not capture credentials -- `encode` resolves Credentials from the
 // calling fiber's context on every request instead. Its ConfigError channel
 // is erased at this boundary (Protocol effects carry none) and reintroduced
 // for callers by the generated AzureOpError annotations.
@@ -164,7 +165,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     //  1. `{subscriptionId}` left unfilled by the caller is injected from
     //     credentials (v0 parity: users set AZURE_SUBSCRIPTION_ID once and
     //     individual operations pick it up automatically).
-    //  2. ARM requires `api-version` on every call — the version baked into
+    //  2. ARM requires `api-version` on every call -- the version baked into
     //     the operation's Http trait at generation time is appended unless
     //     the URL already carries one.
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
@@ -194,9 +195,9 @@ const decode = ({
   readonly errors: ReadonlyArray<unknown>;
 }) =>
   Effect.gen(function* () {
-    // Read as text and parse tolerantly — error pages are often non-JSON.
+    // Read as text and parse tolerantly -- error pages are often non-JSON.
     const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-    if (process.env.DISTILLED_DEBUG_HTTP) {
+    if (debugHttp()) {
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
     }
     let json: unknown;
@@ -257,7 +258,7 @@ const decode = ({
         );
       }
 
-      // 3. Unmapped 5xx → retryable server error.
+      // 3. Unmapped 5xx -> retryable server error.
       if (status >= 500) {
         return yield* fail(
           new InternalServerError({
@@ -279,7 +280,7 @@ const decode = ({
     }
 
     // 2xx: the response body IS the payload (ARM has no success envelope).
-    // Wire→TS key mapping is schema-driven; `RawResponseRoot` responses are
+    // Wire->TS key mapping is schema-driven; `RawResponseRoot` responses are
     // the body verbatim (mapKeys handles arrays/scalars structurally either
     // way). Strict mode (core/response-validation) checks the mapped body
     // against the output schema. Sensitive members are delivered as
@@ -293,9 +294,9 @@ const decode = ({
     return wrapSensitive(outputAst, mapped);
   });
 
-export const AzureProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+export const AzureProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
-  API.Protocol.of({
+  /*@__PURE__*/ API.Protocol.of({
     // Erase encode's Credentials requirement (resolved on the calling
     // fiber; see the note above `encode`).
     encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,

@@ -13,7 +13,7 @@ import * as Redacted from "effect/Redacted";
  *
  * That call is authorised by a DPoP proof (RFC 9449): an ES256 JWT over the
  * request's method and URL, signed with the private key in the cached
- * document. Node only — the cache is a file and the proof needs
+ * document. Node only -- the cache is a file and the proof needs
  * `node:crypto`.
  */
 import type { AwsCredentialIdentity } from "../credentials-service.ts";

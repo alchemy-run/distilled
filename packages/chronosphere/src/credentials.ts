@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Chronosphere credentials — hand-written.
+ * Chronosphere credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -25,9 +25,10 @@ export interface Config {
   readonly actor?: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "ChronosphereCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "ChronosphereCredentials",
+  ) {}
 
 /** Turn a domain or origin into `https://<host>`. */
 const originFrom = (value: string): string => {
@@ -56,9 +57,9 @@ export const fromApiKey = (config: {
  * CHRONOSPHERE_API_BASE_URL or CHRONOSPHERE_DOMAIN (required).
  * CHRONOSPHERE_ACTOR is optional.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.CHRONOSPHERE_API_TOKEN;
     const domain = process.env.CHRONOSPHERE_API_BASE_URL ?? process.env.CHRONOSPHERE_DOMAIN;
 

@@ -18,7 +18,9 @@
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
-      "default": "./lib/index.js"
+      "module": "./lib/index.full.js",
+      "module-sync": "./lib/index.js",
+      "default": "./lib/index.full.js"
     },
     "./Category": {
       "types": "./lib/category.d.ts",
@@ -42,7 +44,9 @@
       "types": "./lib/operations.d.ts",
       "bun": "./src/operations.ts",
       "worker": "./src/operations.ts",
-      "default": "./lib/operations.js"
+      "module": "./lib/operations.full.js",
+      "module-sync": "./lib/operations.js",
+      "default": "./lib/operations.full.js"
     },
     "./Pagination": {
       "types": "./lib/pagination.d.ts",
@@ -72,7 +76,9 @@
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
-      "default": "./lib/services/*.js"
+      "module": "./lib/services.full/*.js",
+      "module-sync": "./lib/services/*.js",
+      "default": "./lib/services.full/*.js"
     }
   },
   "scripts": {
@@ -93,7 +99,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-05",
+    "generatedAt": "2026-10-09",
     "specUpdatedAt": "2026-10-03"
   }
 }

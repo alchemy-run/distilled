@@ -2,13 +2,13 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * SquarespaceProtocol — hand-written.
+ * SquarespaceProtocol -- hand-written.
  *
  * Squarespace Commerce APIs speak bearer-authenticated JSON REST (no
  * response envelope), so the whole protocol is one `makeRestProtocol` call
  * from `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + `User-Agent`
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + `User-Agent`
  *             + base URL (default https://api.squarespace.com), resolved
  *             from the calling fiber on every request
  *
@@ -60,24 +60,22 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const SquarespaceProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    "User-Agent": creds.userAgent,
-  }),
-  errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownSquarespaceError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
+export const SquarespaceProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      "User-Agent": creds.userAgent,
     }),
-  parseError: ({ body, cause }) => new SquarespaceParseError({ body, cause }),
-});
+    errorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownSquarespaceError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new SquarespaceParseError({ body, cause }),
+  });

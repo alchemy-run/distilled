@@ -1,17 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "fis", serviceShapeName: "FaultInjectionSimulator" });
-const auth = T.AwsAuthSigv4({ name: "fis" });
-const ver = T.ServiceVersion("2020-12-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "fis",
+  serviceShapeName: "FaultInjectionSimulator",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "fis" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2020-12-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -67,39 +73,45 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://fis.{R}.{D}","properties":{},"headers":{}}');
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }), T.HttpError(409)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
+      /*@__PURE__*/ T.HttpError(409),
+    ),
   ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServiceQuotaExceededException", httpResponseCode: 402 }),
-      T.HttpError(402),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ServiceQuotaExceededException",
+        httpResponseCode: 402,
+      }),
+      /*@__PURE__*/ T.HttpError(402),
     ),
   ).pipe(C.withQuotaError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ValidationException", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export type ClientToken = string;
@@ -110,50 +122,27 @@ export interface CreateExperimentTemplateStopConditionInput {
   source: string;
   value?: string;
 }
-export const CreateExperimentTemplateStopConditionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ source: S.String, value: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateExperimentTemplateStopConditionInput",
-}) as any as S.Schema<CreateExperimentTemplateStopConditionInput>;
 export type CreateExperimentTemplateStopConditionInputList =
   CreateExperimentTemplateStopConditionInput[];
-export const CreateExperimentTemplateStopConditionInputList = /*@__PURE__*/ S.Array(
-  CreateExperimentTemplateStopConditionInput,
-);
 export type ExperimentTemplateTargetName = string;
 export type TargetResourceTypeId = string;
 export type ResourceArn = string;
 export type ResourceArnList = string[];
-export const ResourceArnList = /*@__PURE__*/ S.Array(S.String);
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ExperimentTemplateTargetFilterPath = string;
 export type ExperimentTemplateTargetFilterValue = string;
 export type ExperimentTemplateTargetFilterValues = string[];
-export const ExperimentTemplateTargetFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface ExperimentTemplateTargetInputFilter {
   path: string;
   values: string[];
 }
-export const ExperimentTemplateTargetInputFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ path: S.String, values: ExperimentTemplateTargetFilterValues }),
-).annotate({
-  identifier: "ExperimentTemplateTargetInputFilter",
-}) as any as S.Schema<ExperimentTemplateTargetInputFilter>;
 export type ExperimentTemplateTargetFilterInputList = ExperimentTemplateTargetInputFilter[];
-export const ExperimentTemplateTargetFilterInputList = /*@__PURE__*/ S.Array(
-  ExperimentTemplateTargetInputFilter,
-);
 export type ExperimentTemplateTargetSelectionMode = string;
 export type ExperimentTemplateTargetParameterName = string;
 export type ExperimentTemplateTargetParameterValue = string;
 export type ExperimentTemplateTargetParameterMap = { [key: string]: string | undefined };
-export const ExperimentTemplateTargetParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateExperimentTemplateTargetInput {
   resourceType: string;
   resourceArns?: string[];
@@ -162,44 +151,19 @@ export interface CreateExperimentTemplateTargetInput {
   selectionMode: string;
   parameters?: { [key: string]: string | undefined };
 }
-export const CreateExperimentTemplateTargetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: S.String,
-    resourceArns: S.optional(ResourceArnList),
-    resourceTags: S.optional(TagMap),
-    filters: S.optional(ExperimentTemplateTargetFilterInputList),
-    selectionMode: S.String,
-    parameters: S.optional(ExperimentTemplateTargetParameterMap),
-  }),
-).annotate({
-  identifier: "CreateExperimentTemplateTargetInput",
-}) as any as S.Schema<CreateExperimentTemplateTargetInput>;
 export type CreateExperimentTemplateTargetInputMap = {
   [key: string]: CreateExperimentTemplateTargetInput | undefined;
 };
-export const CreateExperimentTemplateTargetInputMap = /*@__PURE__*/ S.Record(
-  S.String,
-  CreateExperimentTemplateTargetInput.pipe(S.optional),
-);
 export type ExperimentTemplateActionName = string;
 export type ActionId = string;
 export type ExperimentTemplateActionDescription = string;
 export type ExperimentTemplateActionParameterName = string;
 export type ExperimentTemplateActionParameter = string;
 export type ExperimentTemplateActionParameterMap = { [key: string]: string | undefined };
-export const ExperimentTemplateActionParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type ExperimentTemplateActionTargetName = string;
 export type ExperimentTemplateActionTargetMap = { [key: string]: string | undefined };
-export const ExperimentTemplateActionTargetMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type ExperimentTemplateActionStartAfter = string;
 export type ExperimentTemplateActionStartAfterList = string[];
-export const ExperimentTemplateActionStartAfterList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateExperimentTemplateActionInput {
   actionId: string;
   description?: string;
@@ -207,118 +171,49 @@ export interface CreateExperimentTemplateActionInput {
   targets?: { [key: string]: string | undefined };
   startAfter?: string[];
 }
-export const CreateExperimentTemplateActionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actionId: S.String,
-    description: S.optional(S.String),
-    parameters: S.optional(ExperimentTemplateActionParameterMap),
-    targets: S.optional(ExperimentTemplateActionTargetMap),
-    startAfter: S.optional(ExperimentTemplateActionStartAfterList),
-  }),
-).annotate({
-  identifier: "CreateExperimentTemplateActionInput",
-}) as any as S.Schema<CreateExperimentTemplateActionInput>;
 export type CreateExperimentTemplateActionInputMap = {
   [key: string]: CreateExperimentTemplateActionInput | undefined;
 };
-export const CreateExperimentTemplateActionInputMap = /*@__PURE__*/ S.Record(
-  S.String,
-  CreateExperimentTemplateActionInput.pipe(S.optional),
-);
 export type RoleArn = string;
 export type CloudWatchLogGroupArn = string;
 export interface ExperimentTemplateCloudWatchLogsLogConfigurationInput {
   logGroupArn: string;
 }
-export const ExperimentTemplateCloudWatchLogsLogConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ logGroupArn: S.String }),
-).annotate({
-  identifier: "ExperimentTemplateCloudWatchLogsLogConfigurationInput",
-}) as any as S.Schema<ExperimentTemplateCloudWatchLogsLogConfigurationInput>;
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export interface ExperimentTemplateS3LogConfigurationInput {
   bucketName: string;
   prefix?: string;
 }
-export const ExperimentTemplateS3LogConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.String, prefix: S.optional(S.String) }),
-).annotate({
-  identifier: "ExperimentTemplateS3LogConfigurationInput",
-}) as any as S.Schema<ExperimentTemplateS3LogConfigurationInput>;
 export type LogSchemaVersion = number;
 export interface CreateExperimentTemplateLogConfigurationInput {
   cloudWatchLogsConfiguration?: ExperimentTemplateCloudWatchLogsLogConfigurationInput;
   s3Configuration?: ExperimentTemplateS3LogConfigurationInput;
   logSchemaVersion: number;
 }
-export const CreateExperimentTemplateLogConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudWatchLogsConfiguration: S.optional(ExperimentTemplateCloudWatchLogsLogConfigurationInput),
-    s3Configuration: S.optional(ExperimentTemplateS3LogConfigurationInput),
-    logSchemaVersion: S.Number,
-  }),
-).annotate({
-  identifier: "CreateExperimentTemplateLogConfigurationInput",
-}) as any as S.Schema<CreateExperimentTemplateLogConfigurationInput>;
 export type AccountTargeting = "single-account" | "multi-account" | (string & {});
-export const AccountTargeting = S.String;
-
 export type EmptyTargetResolutionMode = "fail" | "skip" | (string & {});
-export const EmptyTargetResolutionMode = S.String;
-
 export interface CreateExperimentTemplateExperimentOptionsInput {
   accountTargeting?: AccountTargeting;
   emptyTargetResolutionMode?: EmptyTargetResolutionMode;
 }
-export const CreateExperimentTemplateExperimentOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountTargeting: S.optional(AccountTargeting),
-    emptyTargetResolutionMode: S.optional(EmptyTargetResolutionMode),
-  }),
-).annotate({
-  identifier: "CreateExperimentTemplateExperimentOptionsInput",
-}) as any as S.Schema<CreateExperimentTemplateExperimentOptionsInput>;
 export type ReportConfigurationS3OutputPrefix = string;
 export interface ReportConfigurationS3OutputInput {
   bucketName?: string;
   prefix?: string;
 }
-export const ReportConfigurationS3OutputInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.optional(S.String), prefix: S.optional(S.String) }),
-).annotate({
-  identifier: "ReportConfigurationS3OutputInput",
-}) as any as S.Schema<ReportConfigurationS3OutputInput>;
 export interface ExperimentTemplateReportConfigurationOutputsInput {
   s3Configuration?: ReportConfigurationS3OutputInput;
 }
-export const ExperimentTemplateReportConfigurationOutputsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3Configuration: S.optional(ReportConfigurationS3OutputInput) }),
-).annotate({
-  identifier: "ExperimentTemplateReportConfigurationOutputsInput",
-}) as any as S.Schema<ExperimentTemplateReportConfigurationOutputsInput>;
 export type ReportConfigurationCloudWatchDashboardIdentifier = string;
 export interface ReportConfigurationCloudWatchDashboardInput {
   dashboardIdentifier?: string;
 }
-export const ReportConfigurationCloudWatchDashboardInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ dashboardIdentifier: S.optional(S.String) }),
-).annotate({
-  identifier: "ReportConfigurationCloudWatchDashboardInput",
-}) as any as S.Schema<ReportConfigurationCloudWatchDashboardInput>;
 export type ReportConfigurationCloudWatchDashboardInputList =
   ReportConfigurationCloudWatchDashboardInput[];
-export const ReportConfigurationCloudWatchDashboardInputList = /*@__PURE__*/ S.Array(
-  ReportConfigurationCloudWatchDashboardInput,
-);
 export interface ExperimentTemplateReportConfigurationDataSourcesInput {
   cloudWatchDashboards?: ReportConfigurationCloudWatchDashboardInput[];
 }
-export const ExperimentTemplateReportConfigurationDataSourcesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cloudWatchDashboards: S.optional(ReportConfigurationCloudWatchDashboardInputList) }),
-).annotate({
-  identifier: "ExperimentTemplateReportConfigurationDataSourcesInput",
-}) as any as S.Schema<ExperimentTemplateReportConfigurationDataSourcesInput>;
 export type ReportConfigurationDuration = string;
 export interface CreateExperimentTemplateReportConfigurationInput {
   outputs?: ExperimentTemplateReportConfigurationOutputsInput;
@@ -326,16 +221,6 @@ export interface CreateExperimentTemplateReportConfigurationInput {
   preExperimentDuration?: string;
   postExperimentDuration?: string;
 }
-export const CreateExperimentTemplateReportConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputs: S.optional(ExperimentTemplateReportConfigurationOutputsInput),
-    dataSources: S.optional(ExperimentTemplateReportConfigurationDataSourcesInput),
-    preExperimentDuration: S.optional(S.String),
-    postExperimentDuration: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateExperimentTemplateReportConfigurationInput",
-}) as any as S.Schema<CreateExperimentTemplateReportConfigurationInput>;
 export interface CreateExperimentTemplateRequest {
   clientToken: string;
   description: string;
@@ -348,41 +233,12 @@ export interface CreateExperimentTemplateRequest {
   experimentOptions?: CreateExperimentTemplateExperimentOptionsInput;
   experimentReportConfiguration?: CreateExperimentTemplateReportConfigurationInput;
 }
-export const CreateExperimentTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    description: S.String,
-    stopConditions: CreateExperimentTemplateStopConditionInputList,
-    targets: S.optional(CreateExperimentTemplateTargetInputMap),
-    actions: CreateExperimentTemplateActionInputMap,
-    roleArn: S.String,
-    tags: S.optional(TagMap),
-    logConfiguration: S.optional(CreateExperimentTemplateLogConfigurationInput),
-    experimentOptions: S.optional(CreateExperimentTemplateExperimentOptionsInput),
-    experimentReportConfiguration: S.optional(CreateExperimentTemplateReportConfigurationInput),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/experimentTemplates" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateExperimentTemplateRequest",
-}) as any as S.Schema<CreateExperimentTemplateRequest>;
 export type ExperimentTemplateId = string;
 export interface ExperimentTemplateTargetFilter {
   path?: string;
   values?: string[];
 }
-export const ExperimentTemplateTargetFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    path: S.optional(S.String),
-    values: S.optional(ExperimentTemplateTargetFilterValues),
-  }),
-).annotate({
-  identifier: "ExperimentTemplateTargetFilter",
-}) as any as S.Schema<ExperimentTemplateTargetFilter>;
 export type ExperimentTemplateTargetFilterList = ExperimentTemplateTargetFilter[];
-export const ExperimentTemplateTargetFilterList = /*@__PURE__*/ S.Array(
-  ExperimentTemplateTargetFilter,
-);
 export interface ExperimentTemplateTarget {
   resourceType?: string;
   resourceArns?: string[];
@@ -391,21 +247,7 @@ export interface ExperimentTemplateTarget {
   selectionMode?: string;
   parameters?: { [key: string]: string | undefined };
 }
-export const ExperimentTemplateTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: S.optional(S.String),
-    resourceArns: S.optional(ResourceArnList),
-    resourceTags: S.optional(TagMap),
-    filters: S.optional(ExperimentTemplateTargetFilterList),
-    selectionMode: S.optional(S.String),
-    parameters: S.optional(ExperimentTemplateTargetParameterMap),
-  }),
-).annotate({ identifier: "ExperimentTemplateTarget" }) as any as S.Schema<ExperimentTemplateTarget>;
 export type ExperimentTemplateTargetMap = { [key: string]: ExperimentTemplateTarget | undefined };
-export const ExperimentTemplateTargetMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ExperimentTemplateTarget.pipe(S.optional),
-);
 export interface ExperimentTemplateAction {
   actionId?: string;
   description?: string;
@@ -413,135 +255,52 @@ export interface ExperimentTemplateAction {
   targets?: { [key: string]: string | undefined };
   startAfter?: string[];
 }
-export const ExperimentTemplateAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actionId: S.optional(S.String),
-    description: S.optional(S.String),
-    parameters: S.optional(ExperimentTemplateActionParameterMap),
-    targets: S.optional(ExperimentTemplateActionTargetMap),
-    startAfter: S.optional(ExperimentTemplateActionStartAfterList),
-  }),
-).annotate({ identifier: "ExperimentTemplateAction" }) as any as S.Schema<ExperimentTemplateAction>;
 export type ExperimentTemplateActionMap = { [key: string]: ExperimentTemplateAction | undefined };
-export const ExperimentTemplateActionMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ExperimentTemplateAction.pipe(S.optional),
-);
 export interface ExperimentTemplateStopCondition {
   source?: string;
   value?: string;
 }
-export const ExperimentTemplateStopCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ source: S.optional(S.String), value: S.optional(S.String) }),
-).annotate({
-  identifier: "ExperimentTemplateStopCondition",
-}) as any as S.Schema<ExperimentTemplateStopCondition>;
 export type ExperimentTemplateStopConditionList = ExperimentTemplateStopCondition[];
-export const ExperimentTemplateStopConditionList = /*@__PURE__*/ S.Array(
-  ExperimentTemplateStopCondition,
-);
 export type CreationTime = Date;
 export type LastUpdateTime = Date;
 export interface ExperimentTemplateCloudWatchLogsLogConfiguration {
   logGroupArn?: string;
 }
-export const ExperimentTemplateCloudWatchLogsLogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ logGroupArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ExperimentTemplateCloudWatchLogsLogConfiguration",
-}) as any as S.Schema<ExperimentTemplateCloudWatchLogsLogConfiguration>;
 export interface ExperimentTemplateS3LogConfiguration {
   bucketName?: string;
   prefix?: string;
 }
-export const ExperimentTemplateS3LogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.optional(S.String), prefix: S.optional(S.String) }),
-).annotate({
-  identifier: "ExperimentTemplateS3LogConfiguration",
-}) as any as S.Schema<ExperimentTemplateS3LogConfiguration>;
 export interface ExperimentTemplateLogConfiguration {
   cloudWatchLogsConfiguration?: ExperimentTemplateCloudWatchLogsLogConfiguration;
   s3Configuration?: ExperimentTemplateS3LogConfiguration;
   logSchemaVersion?: number;
 }
-export const ExperimentTemplateLogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudWatchLogsConfiguration: S.optional(ExperimentTemplateCloudWatchLogsLogConfiguration),
-    s3Configuration: S.optional(ExperimentTemplateS3LogConfiguration),
-    logSchemaVersion: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ExperimentTemplateLogConfiguration",
-}) as any as S.Schema<ExperimentTemplateLogConfiguration>;
 export interface ExperimentTemplateExperimentOptions {
   accountTargeting?: AccountTargeting;
   emptyTargetResolutionMode?: EmptyTargetResolutionMode;
 }
-export const ExperimentTemplateExperimentOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountTargeting: S.optional(AccountTargeting),
-    emptyTargetResolutionMode: S.optional(EmptyTargetResolutionMode),
-  }),
-).annotate({
-  identifier: "ExperimentTemplateExperimentOptions",
-}) as any as S.Schema<ExperimentTemplateExperimentOptions>;
 export type TargetAccountConfigurationsCount = number;
 export interface ReportConfigurationS3Output {
   bucketName?: string;
   prefix?: string;
 }
-export const ReportConfigurationS3Output = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.optional(S.String), prefix: S.optional(S.String) }),
-).annotate({
-  identifier: "ReportConfigurationS3Output",
-}) as any as S.Schema<ReportConfigurationS3Output>;
 export interface ExperimentTemplateReportConfigurationOutputs {
   s3Configuration?: ReportConfigurationS3Output;
 }
-export const ExperimentTemplateReportConfigurationOutputs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3Configuration: S.optional(ReportConfigurationS3Output) }),
-).annotate({
-  identifier: "ExperimentTemplateReportConfigurationOutputs",
-}) as any as S.Schema<ExperimentTemplateReportConfigurationOutputs>;
 export interface ExperimentTemplateReportConfigurationCloudWatchDashboard {
   dashboardIdentifier?: string;
 }
-export const ExperimentTemplateReportConfigurationCloudWatchDashboard = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ dashboardIdentifier: S.optional(S.String) }),
-).annotate({
-  identifier: "ExperimentTemplateReportConfigurationCloudWatchDashboard",
-}) as any as S.Schema<ExperimentTemplateReportConfigurationCloudWatchDashboard>;
 export type ExperimentTemplateReportConfigurationCloudWatchDashboardList =
   ExperimentTemplateReportConfigurationCloudWatchDashboard[];
-export const ExperimentTemplateReportConfigurationCloudWatchDashboardList = /*@__PURE__*/ S.Array(
-  ExperimentTemplateReportConfigurationCloudWatchDashboard,
-);
 export interface ExperimentTemplateReportConfigurationDataSources {
   cloudWatchDashboards?: ExperimentTemplateReportConfigurationCloudWatchDashboard[];
 }
-export const ExperimentTemplateReportConfigurationDataSources = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudWatchDashboards: S.optional(ExperimentTemplateReportConfigurationCloudWatchDashboardList),
-  }),
-).annotate({
-  identifier: "ExperimentTemplateReportConfigurationDataSources",
-}) as any as S.Schema<ExperimentTemplateReportConfigurationDataSources>;
 export interface ExperimentTemplateReportConfiguration {
   outputs?: ExperimentTemplateReportConfigurationOutputs;
   dataSources?: ExperimentTemplateReportConfigurationDataSources;
   preExperimentDuration?: string;
   postExperimentDuration?: string;
 }
-export const ExperimentTemplateReportConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputs: S.optional(ExperimentTemplateReportConfigurationOutputs),
-    dataSources: S.optional(ExperimentTemplateReportConfigurationDataSources),
-    preExperimentDuration: S.optional(S.String),
-    postExperimentDuration: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExperimentTemplateReportConfiguration",
-}) as any as S.Schema<ExperimentTemplateReportConfiguration>;
 export interface ExperimentTemplate {
   id?: string;
   arn?: string;
@@ -558,32 +317,9 @@ export interface ExperimentTemplate {
   targetAccountConfigurationsCount?: number;
   experimentReportConfiguration?: ExperimentTemplateReportConfiguration;
 }
-export const ExperimentTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    description: S.optional(S.String),
-    targets: S.optional(ExperimentTemplateTargetMap),
-    actions: S.optional(ExperimentTemplateActionMap),
-    stopConditions: S.optional(ExperimentTemplateStopConditionList),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    roleArn: S.optional(S.String),
-    tags: S.optional(TagMap),
-    logConfiguration: S.optional(ExperimentTemplateLogConfiguration),
-    experimentOptions: S.optional(ExperimentTemplateExperimentOptions),
-    targetAccountConfigurationsCount: S.optional(S.Number),
-    experimentReportConfiguration: S.optional(ExperimentTemplateReportConfiguration),
-  }),
-).annotate({ identifier: "ExperimentTemplate" }) as any as S.Schema<ExperimentTemplate>;
 export interface CreateExperimentTemplateResponse {
   experimentTemplate?: ExperimentTemplate;
 }
-export const CreateExperimentTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ experimentTemplate: S.optional(ExperimentTemplate) }),
-).annotate({
-  identifier: "CreateExperimentTemplateResponse",
-}) as any as S.Schema<CreateExperimentTemplateResponse>;
 export type TargetAccountId = string;
 export type TargetAccountConfigurationDescription = string;
 export interface CreateTargetAccountConfigurationRequest {
@@ -593,116 +329,30 @@ export interface CreateTargetAccountConfigurationRequest {
   roleArn: string;
   description?: string;
 }
-export const CreateTargetAccountConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    roleArn: S.String,
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations/{accountId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTargetAccountConfigurationRequest",
-}) as any as S.Schema<CreateTargetAccountConfigurationRequest>;
 export interface TargetAccountConfiguration {
   roleArn?: string;
   accountId?: string;
   description?: string;
 }
-export const TargetAccountConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    roleArn: S.optional(S.String),
-    accountId: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TargetAccountConfiguration",
-}) as any as S.Schema<TargetAccountConfiguration>;
 export interface CreateTargetAccountConfigurationResponse {
   targetAccountConfiguration?: TargetAccountConfiguration;
 }
-export const CreateTargetAccountConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ targetAccountConfiguration: S.optional(TargetAccountConfiguration) }),
-).annotate({
-  identifier: "CreateTargetAccountConfigurationResponse",
-}) as any as S.Schema<CreateTargetAccountConfigurationResponse>;
 export interface DeleteExperimentTemplateRequest {
   id: string;
 }
-export const DeleteExperimentTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/experimentTemplates/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteExperimentTemplateRequest",
-}) as any as S.Schema<DeleteExperimentTemplateRequest>;
 export interface DeleteExperimentTemplateResponse {
   experimentTemplate?: ExperimentTemplate;
 }
-export const DeleteExperimentTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ experimentTemplate: S.optional(ExperimentTemplate) }),
-).annotate({
-  identifier: "DeleteExperimentTemplateResponse",
-}) as any as S.Schema<DeleteExperimentTemplateResponse>;
 export interface DeleteTargetAccountConfigurationRequest {
   experimentTemplateId: string;
   accountId: string;
 }
-export const DeleteTargetAccountConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations/{accountId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTargetAccountConfigurationRequest",
-}) as any as S.Schema<DeleteTargetAccountConfigurationRequest>;
 export interface DeleteTargetAccountConfigurationResponse {
   targetAccountConfiguration?: TargetAccountConfiguration;
 }
-export const DeleteTargetAccountConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ targetAccountConfiguration: S.optional(TargetAccountConfiguration) }),
-).annotate({
-  identifier: "DeleteTargetAccountConfigurationResponse",
-}) as any as S.Schema<DeleteTargetAccountConfigurationResponse>;
 export interface GetActionRequest {
   id: string;
 }
-export const GetActionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/actions/{id}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetActionRequest" }) as any as S.Schema<GetActionRequest>;
 export type ActionDescription = string;
 export type ActionParameterName = string;
 export type ActionParameterDescription = string;
@@ -711,23 +361,12 @@ export interface ActionParameter {
   description?: string;
   required?: boolean;
 }
-export const ActionParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ description: S.optional(S.String), required: S.optional(S.Boolean) }),
-).annotate({ identifier: "ActionParameter" }) as any as S.Schema<ActionParameter>;
 export type ActionParameterMap = { [key: string]: ActionParameter | undefined };
-export const ActionParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ActionParameter.pipe(S.optional),
-);
 export type ActionTargetName = string;
 export interface ActionTarget {
   resourceType?: string;
 }
-export const ActionTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceType: S.optional(S.String) }),
-).annotate({ identifier: "ActionTarget" }) as any as S.Schema<ActionTarget>;
 export type ActionTargetMap = { [key: string]: ActionTarget | undefined };
-export const ActionTargetMap = /*@__PURE__*/ S.Record(S.String, ActionTarget.pipe(S.optional));
 export interface Action {
   id?: string;
   arn?: string;
@@ -736,31 +375,13 @@ export interface Action {
   targets?: { [key: string]: ActionTarget | undefined };
   tags?: { [key: string]: string | undefined };
 }
-export const Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    description: S.optional(S.String),
-    parameters: S.optional(ActionParameterMap),
-    targets: S.optional(ActionTargetMap),
-    tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 export interface GetActionResponse {
   action?: Action;
 }
-export const GetActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ action: S.optional(Action) }),
-).annotate({ identifier: "GetActionResponse" }) as any as S.Schema<GetActionResponse>;
 export type ExperimentId = string;
 export interface GetExperimentRequest {
   id: string;
 }
-export const GetExperimentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/experiments/{id}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetExperimentRequest" }) as any as S.Schema<GetExperimentRequest>;
 export type ExperimentStatus =
   | "pending"
   | "initiating"
@@ -771,8 +392,6 @@ export type ExperimentStatus =
   | "failed"
   | "cancelled"
   | (string & {});
-export const ExperimentStatus = S.String;
-
 export type ExperimentStatusReason = string;
 export type ExperimentErrorAccountId = string;
 export type ExperimentErrorCode = string;
@@ -782,47 +401,24 @@ export interface ExperimentError {
   code?: string;
   location?: string;
 }
-export const ExperimentError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.optional(S.String),
-    code: S.optional(S.String),
-    location: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExperimentError" }) as any as S.Schema<ExperimentError>;
 export interface ExperimentState {
   status?: ExperimentStatus;
   reason?: string;
   error?: ExperimentError;
 }
-export const ExperimentState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ExperimentStatus),
-    reason: S.optional(S.String),
-    error: S.optional(ExperimentError),
-  }),
-).annotate({ identifier: "ExperimentState" }) as any as S.Schema<ExperimentState>;
 export type ExperimentTargetName = string;
 export type ExperimentTargetFilterPath = string;
 export type ExperimentTargetFilterValue = string;
 export type ExperimentTargetFilterValues = string[];
-export const ExperimentTargetFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface ExperimentTargetFilter {
   path?: string;
   values?: string[];
 }
-export const ExperimentTargetFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ path: S.optional(S.String), values: S.optional(ExperimentTargetFilterValues) }),
-).annotate({ identifier: "ExperimentTargetFilter" }) as any as S.Schema<ExperimentTargetFilter>;
 export type ExperimentTargetFilterList = ExperimentTargetFilter[];
-export const ExperimentTargetFilterList = /*@__PURE__*/ S.Array(ExperimentTargetFilter);
 export type ExperimentTargetSelectionMode = string;
 export type ExperimentTargetParameterName = string;
 export type ExperimentTargetParameterValue = string;
 export type ExperimentTargetParameterMap = { [key: string]: string | undefined };
-export const ExperimentTargetParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ExperimentTarget {
   resourceType?: string;
   resourceArns?: string[];
@@ -831,39 +427,16 @@ export interface ExperimentTarget {
   selectionMode?: string;
   parameters?: { [key: string]: string | undefined };
 }
-export const ExperimentTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: S.optional(S.String),
-    resourceArns: S.optional(ResourceArnList),
-    resourceTags: S.optional(TagMap),
-    filters: S.optional(ExperimentTargetFilterList),
-    selectionMode: S.optional(S.String),
-    parameters: S.optional(ExperimentTargetParameterMap),
-  }),
-).annotate({ identifier: "ExperimentTarget" }) as any as S.Schema<ExperimentTarget>;
 export type ExperimentTargetMap = { [key: string]: ExperimentTarget | undefined };
-export const ExperimentTargetMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ExperimentTarget.pipe(S.optional),
-);
 export type ExperimentActionName = string;
 export type ExperimentActionDescription = string;
 export type ExperimentActionParameterName = string;
 export type ExperimentActionParameter = string;
 export type ExperimentActionParameterMap = { [key: string]: string | undefined };
-export const ExperimentActionParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type ExperimentActionTargetName = string;
 export type ExperimentActionTargetMap = { [key: string]: string | undefined };
-export const ExperimentActionTargetMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type ExperimentActionStartAfter = string;
 export type ExperimentActionStartAfterList = string[];
-export const ExperimentActionStartAfterList = /*@__PURE__*/ S.Array(S.String);
 export type ExperimentActionStatus =
   | "pending"
   | "initiating"
@@ -875,16 +448,11 @@ export type ExperimentActionStatus =
   | "failed"
   | "skipped"
   | (string & {});
-export const ExperimentActionStatus = S.String;
-
 export type ExperimentActionStatusReason = string;
 export interface ExperimentActionState {
   status?: ExperimentActionStatus;
   reason?: string;
 }
-export const ExperimentActionState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(ExperimentActionStatus), reason: S.optional(S.String) }),
-).annotate({ identifier: "ExperimentActionState" }) as any as S.Schema<ExperimentActionState>;
 export type ExperimentActionStartTime = Date;
 export type ExperimentActionEndTime = Date;
 export interface ExperimentAction {
@@ -897,136 +465,53 @@ export interface ExperimentAction {
   startTime?: Date;
   endTime?: Date;
 }
-export const ExperimentAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actionId: S.optional(S.String),
-    description: S.optional(S.String),
-    parameters: S.optional(ExperimentActionParameterMap),
-    targets: S.optional(ExperimentActionTargetMap),
-    startAfter: S.optional(ExperimentActionStartAfterList),
-    state: S.optional(ExperimentActionState),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ExperimentAction" }) as any as S.Schema<ExperimentAction>;
 export type ExperimentActionMap = { [key: string]: ExperimentAction | undefined };
-export const ExperimentActionMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ExperimentAction.pipe(S.optional),
-);
 export interface ExperimentStopCondition {
   source?: string;
   value?: string;
 }
-export const ExperimentStopCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ source: S.optional(S.String), value: S.optional(S.String) }),
-).annotate({ identifier: "ExperimentStopCondition" }) as any as S.Schema<ExperimentStopCondition>;
 export type ExperimentStopConditionList = ExperimentStopCondition[];
-export const ExperimentStopConditionList = /*@__PURE__*/ S.Array(ExperimentStopCondition);
 export type ExperimentStartTime = Date;
 export type ExperimentEndTime = Date;
 export interface ExperimentCloudWatchLogsLogConfiguration {
   logGroupArn?: string;
 }
-export const ExperimentCloudWatchLogsLogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ logGroupArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ExperimentCloudWatchLogsLogConfiguration",
-}) as any as S.Schema<ExperimentCloudWatchLogsLogConfiguration>;
 export interface ExperimentS3LogConfiguration {
   bucketName?: string;
   prefix?: string;
 }
-export const ExperimentS3LogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.optional(S.String), prefix: S.optional(S.String) }),
-).annotate({
-  identifier: "ExperimentS3LogConfiguration",
-}) as any as S.Schema<ExperimentS3LogConfiguration>;
 export interface ExperimentLogConfiguration {
   cloudWatchLogsConfiguration?: ExperimentCloudWatchLogsLogConfiguration;
   s3Configuration?: ExperimentS3LogConfiguration;
   logSchemaVersion?: number;
 }
-export const ExperimentLogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudWatchLogsConfiguration: S.optional(ExperimentCloudWatchLogsLogConfiguration),
-    s3Configuration: S.optional(ExperimentS3LogConfiguration),
-    logSchemaVersion: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ExperimentLogConfiguration",
-}) as any as S.Schema<ExperimentLogConfiguration>;
 export type ActionsMode = "skip-all" | "run-all" | (string & {});
-export const ActionsMode = S.String;
-
 export interface ExperimentOptions {
   accountTargeting?: AccountTargeting;
   emptyTargetResolutionMode?: EmptyTargetResolutionMode;
   actionsMode?: ActionsMode;
 }
-export const ExperimentOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountTargeting: S.optional(AccountTargeting),
-    emptyTargetResolutionMode: S.optional(EmptyTargetResolutionMode),
-    actionsMode: S.optional(ActionsMode),
-  }),
-).annotate({ identifier: "ExperimentOptions" }) as any as S.Schema<ExperimentOptions>;
 export interface ExperimentReportConfigurationOutputsS3Configuration {
   bucketName?: string;
   prefix?: string;
 }
-export const ExperimentReportConfigurationOutputsS3Configuration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketName: S.optional(S.String), prefix: S.optional(S.String) }),
-).annotate({
-  identifier: "ExperimentReportConfigurationOutputsS3Configuration",
-}) as any as S.Schema<ExperimentReportConfigurationOutputsS3Configuration>;
 export interface ExperimentReportConfigurationOutputs {
   s3Configuration?: ExperimentReportConfigurationOutputsS3Configuration;
 }
-export const ExperimentReportConfigurationOutputs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3Configuration: S.optional(ExperimentReportConfigurationOutputsS3Configuration) }),
-).annotate({
-  identifier: "ExperimentReportConfigurationOutputs",
-}) as any as S.Schema<ExperimentReportConfigurationOutputs>;
 export interface ExperimentReportConfigurationCloudWatchDashboard {
   dashboardIdentifier?: string;
 }
-export const ExperimentReportConfigurationCloudWatchDashboard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ dashboardIdentifier: S.optional(S.String) }),
-).annotate({
-  identifier: "ExperimentReportConfigurationCloudWatchDashboard",
-}) as any as S.Schema<ExperimentReportConfigurationCloudWatchDashboard>;
 export type ExperimentReportConfigurationCloudWatchDashboardList =
   ExperimentReportConfigurationCloudWatchDashboard[];
-export const ExperimentReportConfigurationCloudWatchDashboardList = /*@__PURE__*/ S.Array(
-  ExperimentReportConfigurationCloudWatchDashboard,
-);
 export interface ExperimentReportConfigurationDataSources {
   cloudWatchDashboards?: ExperimentReportConfigurationCloudWatchDashboard[];
 }
-export const ExperimentReportConfigurationDataSources = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudWatchDashboards: S.optional(ExperimentReportConfigurationCloudWatchDashboardList),
-  }),
-).annotate({
-  identifier: "ExperimentReportConfigurationDataSources",
-}) as any as S.Schema<ExperimentReportConfigurationDataSources>;
 export interface ExperimentReportConfiguration {
   outputs?: ExperimentReportConfigurationOutputs;
   dataSources?: ExperimentReportConfigurationDataSources;
   preExperimentDuration?: string;
   postExperimentDuration?: string;
 }
-export const ExperimentReportConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputs: S.optional(ExperimentReportConfigurationOutputs),
-    dataSources: S.optional(ExperimentReportConfigurationDataSources),
-    preExperimentDuration: S.optional(S.String),
-    postExperimentDuration: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExperimentReportConfiguration",
-}) as any as S.Schema<ExperimentReportConfiguration>;
 export type ExperimentReportStatus =
   | "pending"
   | "running"
@@ -1034,49 +519,27 @@ export type ExperimentReportStatus =
   | "cancelled"
   | "failed"
   | (string & {});
-export const ExperimentReportStatus = S.String;
-
 export type ExperimentReportReason = string;
 export type ExperimentReportErrorCode = string;
 export interface ExperimentReportError {
   code?: string;
 }
-export const ExperimentReportError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ code: S.optional(S.String) }),
-).annotate({ identifier: "ExperimentReportError" }) as any as S.Schema<ExperimentReportError>;
 export interface ExperimentReportState {
   status?: ExperimentReportStatus;
   reason?: string;
   error?: ExperimentReportError;
 }
-export const ExperimentReportState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.optional(ExperimentReportStatus),
-    reason: S.optional(S.String),
-    error: S.optional(ExperimentReportError),
-  }),
-).annotate({ identifier: "ExperimentReportState" }) as any as S.Schema<ExperimentReportState>;
 export type ExperimentReportS3ReportArn = string;
 export type ExperimentReportS3ReportType = string;
 export interface ExperimentReportS3Report {
   arn?: string;
   reportType?: string;
 }
-export const ExperimentReportS3Report = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.optional(S.String), reportType: S.optional(S.String) }),
-).annotate({ identifier: "ExperimentReportS3Report" }) as any as S.Schema<ExperimentReportS3Report>;
 export type ExperimentReportS3ReportList = ExperimentReportS3Report[];
-export const ExperimentReportS3ReportList = /*@__PURE__*/ S.Array(ExperimentReportS3Report);
 export interface ExperimentReport {
   state?: ExperimentReportState;
   s3Reports?: ExperimentReportS3Report[];
 }
-export const ExperimentReport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.optional(ExperimentReportState),
-    s3Reports: S.optional(ExperimentReportS3ReportList),
-  }),
-).annotate({ identifier: "ExperimentReport" }) as any as S.Schema<ExperimentReport>;
 export interface Experiment {
   id?: string;
   arn?: string;
@@ -1096,191 +559,55 @@ export interface Experiment {
   experimentReportConfiguration?: ExperimentReportConfiguration;
   experimentReport?: ExperimentReport;
 }
-export const Experiment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    experimentTemplateId: S.optional(S.String),
-    roleArn: S.optional(S.String),
-    state: S.optional(ExperimentState),
-    targets: S.optional(ExperimentTargetMap),
-    actions: S.optional(ExperimentActionMap),
-    stopConditions: S.optional(ExperimentStopConditionList),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagMap),
-    logConfiguration: S.optional(ExperimentLogConfiguration),
-    experimentOptions: S.optional(ExperimentOptions),
-    targetAccountConfigurationsCount: S.optional(S.Number),
-    experimentReportConfiguration: S.optional(ExperimentReportConfiguration),
-    experimentReport: S.optional(ExperimentReport),
-  }),
-).annotate({ identifier: "Experiment" }) as any as S.Schema<Experiment>;
 export interface GetExperimentResponse {
   experiment?: Experiment;
 }
-export const GetExperimentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ experiment: S.optional(Experiment) }),
-).annotate({ identifier: "GetExperimentResponse" }) as any as S.Schema<GetExperimentResponse>;
 export interface GetExperimentTargetAccountConfigurationRequest {
   experimentId: string;
   accountId: string;
 }
-export const GetExperimentTargetAccountConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    experimentId: S.String.pipe(T.HttpLabel("experimentId")),
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/experiments/{experimentId}/targetAccountConfigurations/{accountId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetExperimentTargetAccountConfigurationRequest",
-}) as any as S.Schema<GetExperimentTargetAccountConfigurationRequest>;
 export interface ExperimentTargetAccountConfiguration {
   roleArn?: string;
   accountId?: string;
   description?: string;
 }
-export const ExperimentTargetAccountConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    roleArn: S.optional(S.String),
-    accountId: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExperimentTargetAccountConfiguration",
-}) as any as S.Schema<ExperimentTargetAccountConfiguration>;
 export interface GetExperimentTargetAccountConfigurationResponse {
   targetAccountConfiguration?: ExperimentTargetAccountConfiguration;
 }
-export const GetExperimentTargetAccountConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ targetAccountConfiguration: S.optional(ExperimentTargetAccountConfiguration) }),
-).annotate({
-  identifier: "GetExperimentTargetAccountConfigurationResponse",
-}) as any as S.Schema<GetExperimentTargetAccountConfigurationResponse>;
 export interface GetExperimentTemplateRequest {
   id: string;
 }
-export const GetExperimentTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/experimentTemplates/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetExperimentTemplateRequest",
-}) as any as S.Schema<GetExperimentTemplateRequest>;
 export interface GetExperimentTemplateResponse {
   experimentTemplate?: ExperimentTemplate;
 }
-export const GetExperimentTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ experimentTemplate: S.optional(ExperimentTemplate) }),
-).annotate({
-  identifier: "GetExperimentTemplateResponse",
-}) as any as S.Schema<GetExperimentTemplateResponse>;
 export type SafetyLeverId = string;
 export interface GetSafetyLeverRequest {
   id: string;
 }
-export const GetSafetyLeverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/safetyLevers/{id}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetSafetyLeverRequest" }) as any as S.Schema<GetSafetyLeverRequest>;
 export type SafetyLeverStatus = "disengaged" | "engaged" | "engaging" | (string & {});
-export const SafetyLeverStatus = S.String;
-
 export type SafetyLeverStatusReason = string;
 export interface SafetyLeverState {
   status?: SafetyLeverStatus;
   reason?: string;
 }
-export const SafetyLeverState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(SafetyLeverStatus), reason: S.optional(S.String) }),
-).annotate({ identifier: "SafetyLeverState" }) as any as S.Schema<SafetyLeverState>;
 export interface SafetyLever {
   id?: string;
   arn?: string;
   state?: SafetyLeverState;
 }
-export const SafetyLever = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    state: S.optional(SafetyLeverState),
-  }),
-).annotate({ identifier: "SafetyLever" }) as any as S.Schema<SafetyLever>;
 export interface GetSafetyLeverResponse {
   safetyLever?: SafetyLever;
 }
-export const GetSafetyLeverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ safetyLever: S.optional(SafetyLever) }),
-).annotate({ identifier: "GetSafetyLeverResponse" }) as any as S.Schema<GetSafetyLeverResponse>;
 export interface GetTargetAccountConfigurationRequest {
   experimentTemplateId: string;
   accountId: string;
 }
-export const GetTargetAccountConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations/{accountId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTargetAccountConfigurationRequest",
-}) as any as S.Schema<GetTargetAccountConfigurationRequest>;
 export interface GetTargetAccountConfigurationResponse {
   targetAccountConfiguration?: TargetAccountConfiguration;
 }
-export const GetTargetAccountConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ targetAccountConfiguration: S.optional(TargetAccountConfiguration) }),
-).annotate({
-  identifier: "GetTargetAccountConfigurationResponse",
-}) as any as S.Schema<GetTargetAccountConfigurationResponse>;
 export interface GetTargetResourceTypeRequest {
   resourceType: string;
 }
-export const GetTargetResourceTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceType: S.String.pipe(T.HttpLabel("resourceType")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/targetResourceTypes/{resourceType}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTargetResourceTypeRequest",
-}) as any as S.Schema<GetTargetResourceTypeRequest>;
 export type TargetResourceTypeDescription = string;
 export type TargetResourceTypeParameterName = string;
 export type TargetResourceTypeParameterDescription = string;
@@ -1289,50 +616,23 @@ export interface TargetResourceTypeParameter {
   description?: string;
   required?: boolean;
 }
-export const TargetResourceTypeParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ description: S.optional(S.String), required: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "TargetResourceTypeParameter",
-}) as any as S.Schema<TargetResourceTypeParameter>;
 export type TargetResourceTypeParameterMap = {
   [key: string]: TargetResourceTypeParameter | undefined;
 };
-export const TargetResourceTypeParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  TargetResourceTypeParameter.pipe(S.optional),
-);
 export interface TargetResourceType {
   resourceType?: string;
   description?: string;
   parameters?: { [key: string]: TargetResourceTypeParameter | undefined };
 }
-export const TargetResourceType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: S.optional(S.String),
-    description: S.optional(S.String),
-    parameters: S.optional(TargetResourceTypeParameterMap),
-  }),
-).annotate({ identifier: "TargetResourceType" }) as any as S.Schema<TargetResourceType>;
 export interface GetTargetResourceTypeResponse {
   targetResourceType?: TargetResourceType;
 }
-export const GetTargetResourceTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ targetResourceType: S.optional(TargetResourceType) }),
-).annotate({
-  identifier: "GetTargetResourceTypeResponse",
-}) as any as S.Schema<GetTargetResourceTypeResponse>;
 export type ListActionsMaxResults = number;
 export type NextToken = string;
 export interface ListActionsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/actions" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListActionsRequest" }) as any as S.Schema<ListActionsRequest>;
 export interface ActionSummary {
   id?: string;
   arn?: string;
@@ -1340,24 +640,11 @@ export interface ActionSummary {
   targets?: { [key: string]: ActionTarget | undefined };
   tags?: { [key: string]: string | undefined };
 }
-export const ActionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    description: S.optional(S.String),
-    targets: S.optional(ActionTargetMap),
-    tags: S.optional(TagMap),
-  }),
-).annotate({ identifier: "ActionSummary" }) as any as S.Schema<ActionSummary>;
 export type ActionSummaryList = ActionSummary[];
-export const ActionSummaryList = /*@__PURE__*/ S.Array(ActionSummary);
 export interface ListActionsResponse {
   actions?: ActionSummary[];
   nextToken?: string;
 }
-export const ListActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ actions: S.optional(ActionSummaryList), nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListActionsResponse" }) as any as S.Schema<ListActionsResponse>;
 export type ListExperimentResolvedTargetsMaxResults = number;
 export type TargetName = string;
 export interface ListExperimentResolvedTargetsRequest {
@@ -1366,65 +653,25 @@ export interface ListExperimentResolvedTargetsRequest {
   nextToken?: string;
   targetName?: string;
 }
-export const ListExperimentResolvedTargetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    experimentId: S.String.pipe(T.HttpLabel("experimentId")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    targetName: S.optional(S.String).pipe(T.HttpQuery("targetName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/experiments/{experimentId}/resolvedTargets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListExperimentResolvedTargetsRequest",
-}) as any as S.Schema<ListExperimentResolvedTargetsRequest>;
 export type TargetInformationKey = string;
 export type TargetInformationValue = string;
 export type TargetInformationMap = { [key: string]: string | undefined };
-export const TargetInformationMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ResolvedTarget {
   resourceType?: string;
   targetName?: string;
   targetInformation?: { [key: string]: string | undefined };
 }
-export const ResolvedTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: S.optional(S.String),
-    targetName: S.optional(S.String),
-    targetInformation: S.optional(TargetInformationMap),
-  }),
-).annotate({ identifier: "ResolvedTarget" }) as any as S.Schema<ResolvedTarget>;
 export type ResolvedTargetList = ResolvedTarget[];
-export const ResolvedTargetList = /*@__PURE__*/ S.Array(ResolvedTarget);
 export interface ListExperimentResolvedTargetsResponse {
   resolvedTargets?: ResolvedTarget[];
   nextToken?: string;
 }
-export const ListExperimentResolvedTargetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resolvedTargets: S.optional(ResolvedTargetList), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListExperimentResolvedTargetsResponse",
-}) as any as S.Schema<ListExperimentResolvedTargetsResponse>;
 export type ListExperimentsMaxResults = number;
 export interface ListExperimentsRequest {
   maxResults?: number;
   nextToken?: string;
   experimentTemplateId?: string;
 }
-export const ListExperimentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    experimentTemplateId: S.optional(S.String).pipe(T.HttpQuery("experimentTemplateId")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/experiments" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListExperimentsRequest" }) as any as S.Schema<ListExperimentsRequest>;
 export interface ExperimentSummary {
   id?: string;
   arn?: string;
@@ -1434,93 +681,31 @@ export interface ExperimentSummary {
   tags?: { [key: string]: string | undefined };
   experimentOptions?: ExperimentOptions;
 }
-export const ExperimentSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    experimentTemplateId: S.optional(S.String),
-    state: S.optional(ExperimentState),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagMap),
-    experimentOptions: S.optional(ExperimentOptions),
-  }),
-).annotate({ identifier: "ExperimentSummary" }) as any as S.Schema<ExperimentSummary>;
 export type ExperimentSummaryList = ExperimentSummary[];
-export const ExperimentSummaryList = /*@__PURE__*/ S.Array(ExperimentSummary);
 export interface ListExperimentsResponse {
   experiments?: ExperimentSummary[];
   nextToken?: string;
 }
-export const ListExperimentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ experiments: S.optional(ExperimentSummaryList), nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListExperimentsResponse" }) as any as S.Schema<ListExperimentsResponse>;
 export interface ListExperimentTargetAccountConfigurationsRequest {
   experimentId: string;
   nextToken?: string;
 }
-export const ListExperimentTargetAccountConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    experimentId: S.String.pipe(T.HttpLabel("experimentId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/experiments/{experimentId}/targetAccountConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListExperimentTargetAccountConfigurationsRequest",
-}) as any as S.Schema<ListExperimentTargetAccountConfigurationsRequest>;
 export interface ExperimentTargetAccountConfigurationSummary {
   roleArn?: string;
   accountId?: string;
   description?: string;
 }
-export const ExperimentTargetAccountConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    roleArn: S.optional(S.String),
-    accountId: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ExperimentTargetAccountConfigurationSummary",
-}) as any as S.Schema<ExperimentTargetAccountConfigurationSummary>;
 export type ExperimentTargetAccountConfigurationList =
   ExperimentTargetAccountConfigurationSummary[];
-export const ExperimentTargetAccountConfigurationList = /*@__PURE__*/ S.Array(
-  ExperimentTargetAccountConfigurationSummary,
-);
 export interface ListExperimentTargetAccountConfigurationsResponse {
   targetAccountConfigurations?: ExperimentTargetAccountConfigurationSummary[];
   nextToken?: string;
 }
-export const ListExperimentTargetAccountConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetAccountConfigurations: S.optional(ExperimentTargetAccountConfigurationList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListExperimentTargetAccountConfigurationsResponse",
-}) as any as S.Schema<ListExperimentTargetAccountConfigurationsResponse>;
 export type ListExperimentTemplatesMaxResults = number;
 export interface ListExperimentTemplatesRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListExperimentTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/experimentTemplates" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListExperimentTemplatesRequest",
-}) as any as S.Schema<ListExperimentTemplatesRequest>;
 export interface ExperimentTemplateSummary {
   id?: string;
   arn?: string;
@@ -1529,232 +714,82 @@ export interface ExperimentTemplateSummary {
   lastUpdateTime?: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const ExperimentTemplateSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    description: S.optional(S.String),
-    creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagMap),
-  }),
-).annotate({
-  identifier: "ExperimentTemplateSummary",
-}) as any as S.Schema<ExperimentTemplateSummary>;
 export type ExperimentTemplateSummaryList = ExperimentTemplateSummary[];
-export const ExperimentTemplateSummaryList = /*@__PURE__*/ S.Array(ExperimentTemplateSummary);
 export interface ListExperimentTemplatesResponse {
   experimentTemplates?: ExperimentTemplateSummary[];
   nextToken?: string;
 }
-export const ListExperimentTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    experimentTemplates: S.optional(ExperimentTemplateSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListExperimentTemplatesResponse",
-}) as any as S.Schema<ListExperimentTemplatesResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export type ListTargetAccountConfigurationsMaxResults = number;
 export interface ListTargetAccountConfigurationsRequest {
   experimentTemplateId: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListTargetAccountConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTargetAccountConfigurationsRequest",
-}) as any as S.Schema<ListTargetAccountConfigurationsRequest>;
 export interface TargetAccountConfigurationSummary {
   roleArn?: string;
   accountId?: string;
   description?: string;
 }
-export const TargetAccountConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    roleArn: S.optional(S.String),
-    accountId: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TargetAccountConfigurationSummary",
-}) as any as S.Schema<TargetAccountConfigurationSummary>;
 export type TargetAccountConfigurationList = TargetAccountConfigurationSummary[];
-export const TargetAccountConfigurationList = /*@__PURE__*/ S.Array(
-  TargetAccountConfigurationSummary,
-);
 export interface ListTargetAccountConfigurationsResponse {
   targetAccountConfigurations?: TargetAccountConfigurationSummary[];
   nextToken?: string;
 }
-export const ListTargetAccountConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetAccountConfigurations: S.optional(TargetAccountConfigurationList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTargetAccountConfigurationsResponse",
-}) as any as S.Schema<ListTargetAccountConfigurationsResponse>;
 export type ListTargetResourceTypesMaxResults = number;
 export interface ListTargetResourceTypesRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListTargetResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/targetResourceTypes" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTargetResourceTypesRequest",
-}) as any as S.Schema<ListTargetResourceTypesRequest>;
 export interface TargetResourceTypeSummary {
   resourceType?: string;
   description?: string;
 }
-export const TargetResourceTypeSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceType: S.optional(S.String), description: S.optional(S.String) }),
-).annotate({
-  identifier: "TargetResourceTypeSummary",
-}) as any as S.Schema<TargetResourceTypeSummary>;
 export type TargetResourceTypeSummaryList = TargetResourceTypeSummary[];
-export const TargetResourceTypeSummaryList = /*@__PURE__*/ S.Array(TargetResourceTypeSummary);
 export interface ListTargetResourceTypesResponse {
   targetResourceTypes?: TargetResourceTypeSummary[];
   nextToken?: string;
 }
-export const ListTargetResourceTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetResourceTypes: S.optional(TargetResourceTypeSummaryList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTargetResourceTypesResponse",
-}) as any as S.Schema<ListTargetResourceTypesResponse>;
 export interface StartExperimentExperimentOptionsInput {
   actionsMode?: ActionsMode;
 }
-export const StartExperimentExperimentOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ actionsMode: S.optional(ActionsMode) }),
-).annotate({
-  identifier: "StartExperimentExperimentOptionsInput",
-}) as any as S.Schema<StartExperimentExperimentOptionsInput>;
 export interface StartExperimentRequest {
   clientToken: string;
   experimentTemplateId: string;
   experimentOptions?: StartExperimentExperimentOptionsInput;
   tags?: { [key: string]: string | undefined };
 }
-export const StartExperimentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    experimentTemplateId: S.String,
-    experimentOptions: S.optional(StartExperimentExperimentOptionsInput),
-    tags: S.optional(TagMap),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/experiments" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "StartExperimentRequest" }) as any as S.Schema<StartExperimentRequest>;
 export interface StartExperimentResponse {
   experiment?: Experiment;
 }
-export const StartExperimentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ experiment: S.optional(Experiment) }),
-).annotate({ identifier: "StartExperimentResponse" }) as any as S.Schema<StartExperimentResponse>;
 export interface StopExperimentRequest {
   id: string;
 }
-export const StopExperimentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/experiments/{id}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "StopExperimentRequest" }) as any as S.Schema<StopExperimentRequest>;
 export interface StopExperimentResponse {
   experiment?: Experiment;
 }
-export const StopExperimentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ experiment: S.optional(Experiment) }),
-).annotate({ identifier: "StopExperimentResponse" }) as any as S.Schema<StopExperimentResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys?: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: S.optional(TagKeyList).pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateExperimentTemplateStopConditionInput {
   source: string;
   value?: string;
 }
-export const UpdateExperimentTemplateStopConditionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ source: S.String, value: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateExperimentTemplateStopConditionInput",
-}) as any as S.Schema<UpdateExperimentTemplateStopConditionInput>;
 export type UpdateExperimentTemplateStopConditionInputList =
   UpdateExperimentTemplateStopConditionInput[];
-export const UpdateExperimentTemplateStopConditionInputList = /*@__PURE__*/ S.Array(
-  UpdateExperimentTemplateStopConditionInput,
-);
 export interface UpdateExperimentTemplateTargetInput {
   resourceType: string;
   resourceArns?: string[];
@@ -1763,25 +798,9 @@ export interface UpdateExperimentTemplateTargetInput {
   selectionMode: string;
   parameters?: { [key: string]: string | undefined };
 }
-export const UpdateExperimentTemplateTargetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceType: S.String,
-    resourceArns: S.optional(ResourceArnList),
-    resourceTags: S.optional(TagMap),
-    filters: S.optional(ExperimentTemplateTargetFilterInputList),
-    selectionMode: S.String,
-    parameters: S.optional(ExperimentTemplateTargetParameterMap),
-  }),
-).annotate({
-  identifier: "UpdateExperimentTemplateTargetInput",
-}) as any as S.Schema<UpdateExperimentTemplateTargetInput>;
 export type UpdateExperimentTemplateTargetInputMap = {
   [key: string]: UpdateExperimentTemplateTargetInput | undefined;
 };
-export const UpdateExperimentTemplateTargetInputMap = /*@__PURE__*/ S.Record(
-  S.String,
-  UpdateExperimentTemplateTargetInput.pipe(S.optional),
-);
 export interface UpdateExperimentTemplateActionInputItem {
   actionId?: string;
   description?: string;
@@ -1789,62 +808,23 @@ export interface UpdateExperimentTemplateActionInputItem {
   targets?: { [key: string]: string | undefined };
   startAfter?: string[];
 }
-export const UpdateExperimentTemplateActionInputItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    actionId: S.optional(S.String),
-    description: S.optional(S.String),
-    parameters: S.optional(ExperimentTemplateActionParameterMap),
-    targets: S.optional(ExperimentTemplateActionTargetMap),
-    startAfter: S.optional(ExperimentTemplateActionStartAfterList),
-  }),
-).annotate({
-  identifier: "UpdateExperimentTemplateActionInputItem",
-}) as any as S.Schema<UpdateExperimentTemplateActionInputItem>;
 export type UpdateExperimentTemplateActionInputMap = {
   [key: string]: UpdateExperimentTemplateActionInputItem | undefined;
 };
-export const UpdateExperimentTemplateActionInputMap = /*@__PURE__*/ S.Record(
-  S.String,
-  UpdateExperimentTemplateActionInputItem.pipe(S.optional),
-);
 export interface UpdateExperimentTemplateLogConfigurationInput {
   cloudWatchLogsConfiguration?: ExperimentTemplateCloudWatchLogsLogConfigurationInput;
   s3Configuration?: ExperimentTemplateS3LogConfigurationInput;
   logSchemaVersion?: number;
 }
-export const UpdateExperimentTemplateLogConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudWatchLogsConfiguration: S.optional(ExperimentTemplateCloudWatchLogsLogConfigurationInput),
-    s3Configuration: S.optional(ExperimentTemplateS3LogConfigurationInput),
-    logSchemaVersion: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "UpdateExperimentTemplateLogConfigurationInput",
-}) as any as S.Schema<UpdateExperimentTemplateLogConfigurationInput>;
 export interface UpdateExperimentTemplateExperimentOptionsInput {
   emptyTargetResolutionMode?: EmptyTargetResolutionMode;
 }
-export const UpdateExperimentTemplateExperimentOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ emptyTargetResolutionMode: S.optional(EmptyTargetResolutionMode) }),
-).annotate({
-  identifier: "UpdateExperimentTemplateExperimentOptionsInput",
-}) as any as S.Schema<UpdateExperimentTemplateExperimentOptionsInput>;
 export interface UpdateExperimentTemplateReportConfigurationInput {
   outputs?: ExperimentTemplateReportConfigurationOutputsInput;
   dataSources?: ExperimentTemplateReportConfigurationDataSourcesInput;
   preExperimentDuration?: string;
   postExperimentDuration?: string;
 }
-export const UpdateExperimentTemplateReportConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    outputs: S.optional(ExperimentTemplateReportConfigurationOutputsInput),
-    dataSources: S.optional(ExperimentTemplateReportConfigurationDataSourcesInput),
-    preExperimentDuration: S.optional(S.String),
-    postExperimentDuration: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateExperimentTemplateReportConfigurationInput",
-}) as any as S.Schema<UpdateExperimentTemplateReportConfigurationInput>;
 export interface UpdateExperimentTemplateRequest {
   id: string;
   description?: string;
@@ -1856,112 +836,30 @@ export interface UpdateExperimentTemplateRequest {
   experimentOptions?: UpdateExperimentTemplateExperimentOptionsInput;
   experimentReportConfiguration?: UpdateExperimentTemplateReportConfigurationInput;
 }
-export const UpdateExperimentTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    description: S.optional(S.String),
-    stopConditions: S.optional(UpdateExperimentTemplateStopConditionInputList),
-    targets: S.optional(UpdateExperimentTemplateTargetInputMap),
-    actions: S.optional(UpdateExperimentTemplateActionInputMap),
-    roleArn: S.optional(S.String),
-    logConfiguration: S.optional(UpdateExperimentTemplateLogConfigurationInput),
-    experimentOptions: S.optional(UpdateExperimentTemplateExperimentOptionsInput),
-    experimentReportConfiguration: S.optional(UpdateExperimentTemplateReportConfigurationInput),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/experimentTemplates/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateExperimentTemplateRequest",
-}) as any as S.Schema<UpdateExperimentTemplateRequest>;
 export interface UpdateExperimentTemplateResponse {
   experimentTemplate?: ExperimentTemplate;
 }
-export const UpdateExperimentTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ experimentTemplate: S.optional(ExperimentTemplate) }),
-).annotate({
-  identifier: "UpdateExperimentTemplateResponse",
-}) as any as S.Schema<UpdateExperimentTemplateResponse>;
 export type SafetyLeverStatusInput = "disengaged" | "engaged" | (string & {});
-export const SafetyLeverStatusInput = S.String;
-
 export interface UpdateSafetyLeverStateInput {
   status: SafetyLeverStatusInput;
   reason: string;
 }
-export const UpdateSafetyLeverStateInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: SafetyLeverStatusInput, reason: S.String }),
-).annotate({
-  identifier: "UpdateSafetyLeverStateInput",
-}) as any as S.Schema<UpdateSafetyLeverStateInput>;
 export interface UpdateSafetyLeverStateRequest {
   id: string;
   state: UpdateSafetyLeverStateInput;
 }
-export const UpdateSafetyLeverStateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")), state: UpdateSafetyLeverStateInput }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/safetyLevers/{id}/state" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSafetyLeverStateRequest",
-}) as any as S.Schema<UpdateSafetyLeverStateRequest>;
 export interface UpdateSafetyLeverStateResponse {
   safetyLever?: SafetyLever;
 }
-export const UpdateSafetyLeverStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ safetyLever: S.optional(SafetyLever) }),
-).annotate({
-  identifier: "UpdateSafetyLeverStateResponse",
-}) as any as S.Schema<UpdateSafetyLeverStateResponse>;
 export interface UpdateTargetAccountConfigurationRequest {
   experimentTemplateId: string;
   accountId: string;
   roleArn?: string;
   description?: string;
 }
-export const UpdateTargetAccountConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
-    accountId: S.String.pipe(T.HttpLabel("accountId")),
-    roleArn: S.optional(S.String),
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations/{accountId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTargetAccountConfigurationRequest",
-}) as any as S.Schema<UpdateTargetAccountConfigurationRequest>;
 export interface UpdateTargetAccountConfigurationResponse {
   targetAccountConfiguration?: TargetAccountConfiguration;
 }
-export const UpdateTargetAccountConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ targetAccountConfiguration: S.optional(TargetAccountConfiguration) }),
-).annotate({
-  identifier: "UpdateTargetAccountConfigurationResponse",
-}) as any as S.Schema<UpdateTargetAccountConfigurationResponse>;
 export type ExceptionMessage = string;
 export type CreateExperimentTemplateError =
   | ConflictException
@@ -1994,8 +892,8 @@ export const createExperimentTemplate: API.OperationMethod<
   CreateExperimentTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateExperimentTemplateRequest,
-  output: CreateExperimentTemplateResponse,
+  input: __S(371, __c23, 3) as any as S.Schema<CreateExperimentTemplateRequest>,
+  output: __S(404, __c25, 4) as any as S.Schema<CreateExperimentTemplateResponse>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -2025,8 +923,8 @@ export const createTargetAccountConfiguration: API.OperationMethod<
   CreateTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTargetAccountConfigurationRequest,
-  output: CreateTargetAccountConfigurationResponse,
+  input: __S(464, __c29, 0) as any as S.Schema<CreateTargetAccountConfigurationRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<CreateTargetAccountConfigurationResponse>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -2051,8 +949,8 @@ export const deleteExperimentTemplate: API.OperationMethod<
   DeleteExperimentTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteExperimentTemplateRequest,
-  output: DeleteExperimentTemplateResponse,
+  input: __S(512, __c32, 0) as any as S.Schema<DeleteExperimentTemplateRequest>,
+  output: __S(404, __c25, 4) as any as S.Schema<DeleteExperimentTemplateResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2072,8 +970,8 @@ export const deleteTargetAccountConfiguration: API.OperationMethod<
   DeleteTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTargetAccountConfigurationRequest,
-  output: DeleteTargetAccountConfigurationResponse,
+  input: __S(528, __c33, 0) as any as S.Schema<DeleteTargetAccountConfigurationRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<DeleteTargetAccountConfigurationResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2090,8 +988,8 @@ export const getAction: API.OperationMethod<
   GetActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetActionRequest,
-  output: GetActionResponse,
+  input: __S(544, __c34, 0) as any as S.Schema<GetActionRequest>,
+  output: __S(546, __c34, 2) as any as S.Schema<GetActionResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2108,8 +1006,8 @@ export const getExperiment: API.OperationMethod<
   GetExperimentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetExperimentRequest,
-  output: GetExperimentResponse,
+  input: __S(592, __c37, 0) as any as S.Schema<GetExperimentRequest>,
+  output: __S(648, __c40, 8) as any as S.Schema<GetExperimentResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2129,8 +1027,8 @@ export const getExperimentTargetAccountConfiguration: API.OperationMethod<
   GetExperimentTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetExperimentTargetAccountConfigurationRequest,
-  output: GetExperimentTargetAccountConfigurationResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<GetExperimentTargetAccountConfigurationRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<GetExperimentTargetAccountConfigurationResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2150,8 +1048,8 @@ export const getExperimentTemplate: API.OperationMethod<
   GetExperimentTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetExperimentTemplateRequest,
-  output: GetExperimentTemplateResponse,
+  input: __S(16, __c1, 0) as any as S.Schema<GetExperimentTemplateRequest>,
+  output: __S(404, __c25, 4) as any as S.Schema<GetExperimentTemplateResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2168,8 +1066,8 @@ export const getSafetyLever: API.OperationMethod<
   GetSafetyLeverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSafetyLeverRequest,
-  output: GetSafetyLeverResponse,
+  input: __S(32, __c2, 0) as any as S.Schema<GetSafetyLeverRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<GetSafetyLeverResponse>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2189,8 +1087,8 @@ export const getTargetAccountConfiguration: API.OperationMethod<
   GetTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTargetAccountConfigurationRequest,
-  output: GetTargetAccountConfigurationResponse,
+  input: __S(64, __c4, 0) as any as S.Schema<GetTargetAccountConfigurationRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<GetTargetAccountConfigurationResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2210,8 +1108,8 @@ export const getTargetResourceType: API.OperationMethod<
   GetTargetResourceTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTargetResourceTypeRequest,
-  output: GetTargetResourceTypeResponse,
+  input: __S(80, __c5, 0) as any as S.Schema<GetTargetResourceTypeRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<GetTargetResourceTypeResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2229,8 +1127,8 @@ export const listActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ActionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListActionsRequest,
-  output: ListActionsResponse,
+  input: __S(96, __c6, 0) as any as S.Schema<ListActionsRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<ListActionsResponse>,
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2257,8 +1155,8 @@ export const listExperimentResolvedTargets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResolvedTarget
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListExperimentResolvedTargetsRequest,
-  output: ListExperimentResolvedTargetsResponse,
+  input: __S(112, __c7, 0) as any as S.Schema<ListExperimentResolvedTargetsRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<ListExperimentResolvedTargetsResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2282,8 +1180,8 @@ export const listExperiments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExperimentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListExperimentsRequest,
-  output: ListExperimentsResponse,
+  input: __S(128, __c8, 0) as any as S.Schema<ListExperimentsRequest>,
+  output: __S(131, __c8, 3) as any as S.Schema<ListExperimentsResponse>,
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2309,8 +1207,8 @@ export const listExperimentTargetAccountConfigurations: API.OperationMethod<
   ListExperimentTargetAccountConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListExperimentTargetAccountConfigurationsRequest,
-  output: ListExperimentTargetAccountConfigurationsResponse,
+  input: __S(144, __c9, 0) as any as S.Schema<ListExperimentTargetAccountConfigurationsRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<ListExperimentTargetAccountConfigurationsResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2328,8 +1226,8 @@ export const listExperimentTemplates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExperimentTemplateSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListExperimentTemplatesRequest,
-  output: ListExperimentTemplatesResponse,
+  input: __S(176, __c11, 0) as any as S.Schema<ListExperimentTemplatesRequest>,
+  output: __S(179, __c11, 3) as any as S.Schema<ListExperimentTemplatesResponse>,
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2352,8 +1250,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(192, __c12, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2374,8 +1272,8 @@ export const listTargetAccountConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TargetAccountConfigurationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTargetAccountConfigurationsRequest,
-  output: ListTargetAccountConfigurationsResponse,
+  input: __S(208, __c13, 0) as any as S.Schema<ListTargetAccountConfigurationsRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<ListTargetAccountConfigurationsResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2399,8 +1297,8 @@ export const listTargetResourceTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TargetResourceTypeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTargetResourceTypesRequest,
-  output: ListTargetResourceTypesResponse,
+  input: __S(224, __c14, 0) as any as S.Schema<ListTargetResourceTypesRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<ListTargetResourceTypesResponse>,
   errors: [ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2428,8 +1326,8 @@ export const startExperiment: API.OperationMethod<
   StartExperimentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartExperimentRequest,
-  output: StartExperimentResponse,
+  input: __S(241, __c15, 1) as any as S.Schema<StartExperimentRequest>,
+  output: __S(648, __c40, 8) as any as S.Schema<StartExperimentResponse>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -2451,8 +1349,8 @@ export const stopExperiment: API.OperationMethod<
   StopExperimentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopExperimentRequest,
-  output: StopExperimentResponse,
+  input: __S(256, __c16, 0) as any as S.Schema<StopExperimentRequest>,
+  output: __S(648, __c40, 8) as any as S.Schema<StopExperimentResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2469,8 +1367,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(272, __c17, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<TagResourceResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2487,8 +1385,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(304, __c19, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2509,8 +1407,8 @@ export const updateExperimentTemplate: API.OperationMethod<
   UpdateExperimentTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateExperimentTemplateRequest,
-  output: UpdateExperimentTemplateResponse,
+  input: __S(322, __c20, 2) as any as S.Schema<UpdateExperimentTemplateRequest>,
+  output: __S(404, __c25, 4) as any as S.Schema<UpdateExperimentTemplateResponse>,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2531,8 +1429,8 @@ export const updateSafetyLeverState: API.OperationMethod<
   UpdateSafetyLeverStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSafetyLeverStateRequest,
-  output: UpdateSafetyLeverStateResponse,
+  input: __S(337, __c21, 1) as any as S.Schema<UpdateSafetyLeverStateRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<UpdateSafetyLeverStateResponse>,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2552,10 +1450,1011 @@ export const updateTargetAccountConfiguration: API.OperationMethod<
   UpdateTargetAccountConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTargetAccountConfigurationRequest,
-  output: UpdateTargetAccountConfigurationResponse,
+  input: __S(352, __c22, 0) as any as S.Schema<UpdateTargetAccountConfigurationRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<UpdateTargetAccountConfigurationResponse>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetAccountConfiguration",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          experimentId: S.String.pipe(T.HttpLabel("experimentId")),
+          accountId: S.String.pipe(T.HttpLabel("accountId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/experiments/{experimentId}/targetAccountConfigurations/{accountId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetExperimentTargetAccountConfigurationRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/experimentTemplates/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetExperimentTemplateRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/safetyLevers/{id}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetSafetyLeverRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          state: S.optional(__S(608, __c38, 0)),
+        }),
+      ).annotate({ identifier: "SafetyLever" });
+    case 1:
+      return S.suspend(() => S.Struct({ safetyLever: S.optional(__S(48, __c3, 0)) })).annotate({
+        identifier: "GetSafetyLeverResponse",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
+          accountId: S.String.pipe(T.HttpLabel("accountId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations/{accountId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetTargetAccountConfigurationRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceType: S.String.pipe(T.HttpLabel("resourceType")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/targetResourceTypes/{resourceType}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetTargetResourceTypeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.optional(S.String),
+          description: S.optional(S.String),
+          parameters: S.optional(__S(561, __c35, 1)),
+        }),
+      ).annotate({ identifier: "TargetResourceType" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ targetResourceType: S.optional(__S(81, __c5, 1)) }),
+      ).annotate({ identifier: "GetTargetResourceTypeResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(T.all(T.Http({ method: "GET", uri: "/actions" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListActionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          description: S.optional(S.String),
+          targets: S.optional(__S(577, __c36, 1)),
+          tags: S.optional(__S(416, __c26, 0)),
+        }),
+      ).annotate({ identifier: "ActionSummary" });
+    case 2:
+      return S.Array(__S(97, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ actions: S.optional(__S(98, __c6, 2)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListActionsResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          experimentId: S.String.pipe(T.HttpLabel("experimentId")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          targetName: S.optional(S.String).pipe(T.HttpQuery("targetName")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/experiments/{experimentId}/resolvedTargets" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListExperimentResolvedTargetsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.optional(S.String),
+          targetName: S.optional(S.String),
+          targetInformation: S.optional(__S(416, __c26, 0)),
+        }),
+      ).annotate({ identifier: "ResolvedTarget" });
+    case 2:
+      return S.Array(__S(113, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          resolvedTargets: S.optional(__S(114, __c7, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListExperimentResolvedTargetsResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          experimentTemplateId: S.optional(S.String).pipe(T.HttpQuery("experimentTemplateId")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/experiments" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListExperimentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          experimentTemplateId: S.optional(S.String),
+          state: S.optional(__S(625, __c39, 1)),
+          creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          tags: S.optional(__S(416, __c26, 0)),
+          experimentOptions: S.optional(__S(626, __c39, 2)),
+        }),
+      ).annotate({ identifier: "ExperimentSummary" });
+    case 2:
+      return S.Array(__S(129, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ experiments: S.optional(__S(130, __c8, 2)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListExperimentsResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          experimentId: S.String.pipe(T.HttpLabel("experimentId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/experiments/{experimentId}/targetAccountConfigurations",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListExperimentTargetAccountConfigurationsRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(480, __c30, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          targetAccountConfigurations: S.optional(__S(160, __c10, 0)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListExperimentTargetAccountConfigurationsResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/experimentTemplates" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListExperimentTemplatesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          description: S.optional(S.String),
+          creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          tags: S.optional(__S(416, __c26, 0)),
+        }),
+      ).annotate({ identifier: "ExperimentTemplateSummary" });
+    case 2:
+      return S.Array(__S(177, __c11, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          experimentTemplates: S.optional(__S(178, __c11, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListExperimentTemplatesResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(416, __c26, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTargetAccountConfigurationsRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/targetResourceTypes" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTargetResourceTypesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ resourceType: S.optional(S.String), description: S.optional(S.String) }),
+      ).annotate({ identifier: "TargetResourceTypeSummary" });
+    case 2:
+      return S.Array(__S(225, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          targetResourceTypes: S.optional(__S(226, __c14, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListTargetResourceTypesResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ actionsMode: S.optional(S.String) })).annotate({
+        identifier: "StartExperimentExperimentOptionsInput",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          experimentTemplateId: S.String,
+          experimentOptions: S.optional(__S(240, __c15, 0)),
+          tags: S.optional(__S(416, __c26, 0)),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/experiments" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartExperimentRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/experiments/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StopExperimentRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tags: __S(416, __c26, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: S.optional(__S(432, __c27, 0)).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloudWatchLogsConfiguration: S.optional(__S(390, __c24, 6)),
+          s3Configuration: S.optional(__S(391, __c24, 7)),
+          logSchemaVersion: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "UpdateExperimentTemplateLogConfigurationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ emptyTargetResolutionMode: S.optional(S.String) }),
+      ).annotate({ identifier: "UpdateExperimentTemplateExperimentOptionsInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.HttpLabel("id")),
+          description: S.optional(S.String),
+          stopConditions: S.optional(__S(385, __c24, 1)),
+          targets: S.optional(__S(389, __c24, 5)),
+          actions: S.optional(__S(402, __c25, 2)),
+          roleArn: S.optional(S.String),
+          logConfiguration: S.optional(__S(320, __c20, 0)),
+          experimentOptions: S.optional(__S(321, __c20, 1)),
+          experimentReportConfiguration: S.optional(__S(453, __c28, 5)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/experimentTemplates/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateExperimentTemplateRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ status: S.String, reason: S.String })).annotate({
+        identifier: "UpdateSafetyLeverStateInput",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")), state: __S(336, __c21, 0) }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/safetyLevers/{id}/state" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateSafetyLeverStateRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
+          accountId: S.String.pipe(T.HttpLabel("accountId")),
+          roleArn: S.optional(S.String),
+          description: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations/{accountId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateTargetAccountConfigurationRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actionId: S.String,
+          description: S.optional(S.String),
+          parameters: S.optional(__S(416, __c26, 0)),
+          targets: S.optional(__S(416, __c26, 0)),
+          startAfter: S.optional(__S(432, __c27, 0)),
+        }),
+      ).annotate({ identifier: "CreateExperimentTemplateActionInput" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(368, __c23, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          cloudWatchLogsConfiguration: S.optional(__S(390, __c24, 6)),
+          s3Configuration: S.optional(__S(391, __c24, 7)),
+          logSchemaVersion: S.Number,
+        }),
+      ).annotate({ identifier: "CreateExperimentTemplateLogConfigurationInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          description: S.String,
+          stopConditions: __S(385, __c24, 1),
+          targets: S.optional(__S(389, __c24, 5)),
+          actions: __S(369, __c23, 1),
+          roleArn: S.String,
+          tags: S.optional(__S(416, __c26, 0)),
+          logConfiguration: S.optional(__S(370, __c23, 2)),
+          experimentOptions: S.optional(__S(400, __c25, 0)),
+          experimentReportConfiguration: S.optional(__S(453, __c28, 5)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/experimentTemplates" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateExperimentTemplateRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ source: S.String, value: S.optional(S.String) })).annotate({
+        identifier: "CreateExperimentTemplateStopConditionInput",
+      });
+    case 1:
+      return S.Array(__S(384, __c24, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ path: S.String, values: __S(432, __c27, 0) })).annotate({
+        identifier: "ExperimentTemplateTargetInputFilter",
+      });
+    case 3:
+      return S.Array(__S(386, __c24, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.String,
+          resourceArns: S.optional(__S(432, __c27, 0)),
+          resourceTags: S.optional(__S(416, __c26, 0)),
+          filters: S.optional(__S(387, __c24, 3)),
+          selectionMode: S.String,
+          parameters: S.optional(__S(416, __c26, 0)),
+        }),
+      ).annotate({ identifier: "CreateExperimentTemplateTargetInput" });
+    case 5:
+      return S.Record(S.String, /*@__PURE__*/ __S(388, __c24, 4).pipe(S.optional));
+    case 6:
+      return S.suspend(() => S.Struct({ logGroupArn: S.String })).annotate({
+        identifier: "ExperimentTemplateCloudWatchLogsLogConfigurationInput",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ bucketName: S.String, prefix: S.optional(S.String) }),
+      ).annotate({ identifier: "ExperimentTemplateS3LogConfigurationInput" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountTargeting: S.optional(S.String),
+          emptyTargetResolutionMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateExperimentTemplateExperimentOptionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          actionId: S.optional(S.String),
+          description: S.optional(S.String),
+          parameters: S.optional(__S(416, __c26, 0)),
+          targets: S.optional(__S(416, __c26, 0)),
+          startAfter: S.optional(__S(432, __c27, 0)),
+        }),
+      ).annotate({ identifier: "ExperimentTemplateAction" });
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ __S(401, __c25, 1).pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          description: S.optional(S.String),
+          targets: S.optional(__S(457, __c28, 9)),
+          actions: S.optional(__S(402, __c25, 2)),
+          stopConditions: S.optional(__S(459, __c28, 11)),
+          creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          roleArn: S.optional(S.String),
+          tags: S.optional(__S(416, __c26, 0)),
+          logConfiguration: S.optional(__S(461, __c28, 13)),
+          experimentOptions: S.optional(__S(400, __c25, 0)),
+          targetAccountConfigurationsCount: S.optional(S.Number),
+          experimentReportConfiguration: S.optional(__S(453, __c28, 5)),
+        }),
+      ).annotate({ identifier: "ExperimentTemplate" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ experimentTemplate: S.optional(__S(403, __c25, 3)) }),
+      ).annotate({ identifier: "CreateExperimentTemplateResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucketName: S.optional(S.String), prefix: S.optional(S.String) }),
+      ).annotate({ identifier: "ReportConfigurationS3OutputInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ s3Configuration: S.optional(__S(448, __c28, 0)) }),
+      ).annotate({ identifier: "ExperimentTemplateReportConfigurationOutputsInput" });
+    case 2:
+      return S.suspend(() => S.Struct({ dashboardIdentifier: S.optional(S.String) })).annotate({
+        identifier: "ReportConfigurationCloudWatchDashboardInput",
+      });
+    case 3:
+      return S.Array(__S(450, __c28, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ cloudWatchDashboards: S.optional(__S(451, __c28, 3)) }),
+      ).annotate({ identifier: "ExperimentTemplateReportConfigurationDataSourcesInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          outputs: S.optional(__S(449, __c28, 1)),
+          dataSources: S.optional(__S(452, __c28, 4)),
+          preExperimentDuration: S.optional(S.String),
+          postExperimentDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateExperimentTemplateReportConfigurationInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ path: S.optional(S.String), values: S.optional(__S(432, __c27, 0)) }),
+      ).annotate({ identifier: "ExperimentTemplateTargetFilter" });
+    case 7:
+      return S.Array(__S(454, __c28, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.optional(S.String),
+          resourceArns: S.optional(__S(432, __c27, 0)),
+          resourceTags: S.optional(__S(416, __c26, 0)),
+          filters: S.optional(__S(455, __c28, 7)),
+          selectionMode: S.optional(S.String),
+          parameters: S.optional(__S(416, __c26, 0)),
+        }),
+      ).annotate({ identifier: "ExperimentTemplateTarget" });
+    case 9:
+      return S.Record(S.String, /*@__PURE__*/ __S(456, __c28, 8).pipe(S.optional));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({ source: S.optional(S.String), value: S.optional(S.String) }),
+      ).annotate({ identifier: "ExperimentTemplateStopCondition" });
+    case 11:
+      return S.Array(__S(458, __c28, 10));
+    case 12:
+      return S.suspend(() => S.Struct({ logGroupArn: S.optional(S.String) })).annotate({
+        identifier: "ExperimentTemplateCloudWatchLogsLogConfiguration",
+      });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          cloudWatchLogsConfiguration: S.optional(__S(460, __c28, 12)),
+          s3Configuration: S.optional(__S(448, __c28, 0)),
+          logSchemaVersion: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ExperimentTemplateLogConfiguration" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
+          accountId: S.String.pipe(T.HttpLabel("accountId")),
+          roleArn: S.String,
+          description: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations/{accountId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateTargetAccountConfigurationRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          roleArn: S.optional(S.String),
+          accountId: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TargetAccountConfiguration" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ targetAccountConfiguration: S.optional(__S(480, __c30, 0)) }),
+      ).annotate({ identifier: "CreateTargetAccountConfigurationResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/experimentTemplates/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteExperimentTemplateRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          experimentTemplateId: S.String.pipe(T.HttpLabel("experimentTemplateId")),
+          accountId: S.String.pipe(T.HttpLabel("accountId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/experimentTemplates/{experimentTemplateId}/targetAccountConfigurations/{accountId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteTargetAccountConfigurationRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/actions/{id}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetActionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          description: S.optional(S.String),
+          parameters: S.optional(__S(561, __c35, 1)),
+          targets: S.optional(__S(577, __c36, 1)),
+          tags: S.optional(__S(416, __c26, 0)),
+        }),
+      ).annotate({ identifier: "Action" });
+    case 2:
+      return S.suspend(() => S.Struct({ action: S.optional(__S(545, __c34, 1)) })).annotate({
+        identifier: "GetActionResponse",
+      });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ description: S.optional(S.String), required: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "ActionParameter" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(560, __c35, 0).pipe(S.optional));
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ resourceType: S.optional(S.String) })).annotate({
+        identifier: "ActionTarget",
+      });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(576, __c36, 0).pipe(S.optional));
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/experiments/{id}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetExperimentRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ status: S.optional(S.String), reason: S.optional(S.String) }),
+      ).annotate({ identifier: "ExperimentActionState" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.optional(S.String),
+          code: S.optional(S.String),
+          location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExperimentError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          error: S.optional(__S(624, __c39, 0)),
+        }),
+      ).annotate({ identifier: "ExperimentState" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accountTargeting: S.optional(S.String),
+          emptyTargetResolutionMode: S.optional(S.String),
+          actionsMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExperimentOptions" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actionId: S.optional(S.String),
+          description: S.optional(S.String),
+          parameters: S.optional(__S(416, __c26, 0)),
+          targets: S.optional(__S(416, __c26, 0)),
+          startAfter: S.optional(__S(432, __c27, 0)),
+          state: S.optional(__S(608, __c38, 0)),
+          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ExperimentAction" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(640, __c40, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() => S.Struct({ code: S.optional(S.String) })).annotate({
+        identifier: "ExperimentReportError",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          reason: S.optional(S.String),
+          error: S.optional(__S(642, __c40, 2)),
+        }),
+      ).annotate({ identifier: "ExperimentReportState" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ arn: S.optional(S.String), reportType: S.optional(S.String) }),
+      ).annotate({ identifier: "ExperimentReportS3Report" });
+    case 5:
+      return S.Array(__S(644, __c40, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(__S(643, __c40, 3)),
+          s3Reports: S.optional(__S(645, __c40, 5)),
+        }),
+      ).annotate({ identifier: "ExperimentReport" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          experimentTemplateId: S.optional(S.String),
+          roleArn: S.optional(S.String),
+          state: S.optional(__S(625, __c39, 1)),
+          targets: S.optional(__S(457, __c28, 9)),
+          actions: S.optional(__S(641, __c40, 1)),
+          stopConditions: S.optional(__S(459, __c28, 11)),
+          creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          tags: S.optional(__S(416, __c26, 0)),
+          logConfiguration: S.optional(__S(461, __c28, 13)),
+          experimentOptions: S.optional(__S(626, __c39, 2)),
+          targetAccountConfigurationsCount: S.optional(S.Number),
+          experimentReportConfiguration: S.optional(__S(453, __c28, 5)),
+          experimentReport: S.optional(__S(646, __c40, 6)),
+        }),
+      ).annotate({ identifier: "Experiment" });
+    case 8:
+      return S.suspend(() => S.Struct({ experiment: S.optional(__S(647, __c40, 7)) })).annotate({
+        identifier: "GetExperimentResponse",
+      });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

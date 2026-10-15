@@ -1,5 +1,6 @@
+import * as EffectConfig from "@distilled.cloud/core/config";
 /**
- * ACME credentials — hand-written.
+ * ACME credentials -- hand-written.
  *
  * An ACME "credential" is the **account key**: a private JWK that signs
  * every request. The CA is addressed by its **directory URL** (Let's
@@ -12,7 +13,6 @@
  * account URL per request.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
-import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -52,45 +52,50 @@ export interface Config {
   readonly externalAccountBinding?: ExternalAccountBinding | undefined;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "AcmeCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("AcmeCredentials") {}
 
 /**
  * Credentials from the environment:
  *
  * - `ACME_DIRECTORY_URL` (default: Let's Encrypt production)
- * - `ACME_ACCOUNT_KEY` — the private JWK as JSON
- * - `ACME_ACCOUNT_URL` — optional, once the account exists
- * - `ACME_EAB_KID` / `ACME_EAB_HMAC_KEY` — optional EAB pair
+ * - `ACME_ACCOUNT_KEY` -- the private JWK as JSON
+ * - `ACME_ACCOUNT_URL` -- optional, once the account exists
+ * - `ACME_EAB_KID` / `ACME_EAB_HMAC_KEY` -- optional EAB pair
  */
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  EffectConfig.all({
-    directoryUrl: EffectConfig.String("ACME_DIRECTORY_URL").pipe(
-      EffectConfig.withDefault(Directories.LetsEncrypt),
+  /*@__PURE__*/ EffectConfig.all({
+    directoryUrl: /*@__PURE__*/ EffectConfig.String("ACME_DIRECTORY_URL").pipe(
+      /*@__PURE__*/ EffectConfig.withDefault(Directories.LetsEncrypt),
     ),
-    accountKey: EffectConfig.Redacted("ACME_ACCOUNT_KEY"),
-    accountUrl: EffectConfig.option(EffectConfig.String("ACME_ACCOUNT_URL")),
-    eabKid: EffectConfig.option(EffectConfig.String("ACME_EAB_KID")),
-    eabHmac: EffectConfig.option(EffectConfig.Redacted("ACME_EAB_HMAC_KEY")),
+    accountKey: /*@__PURE__*/ EffectConfig.Redacted("ACME_ACCOUNT_KEY"),
+    accountUrl: /*@__PURE__*/ EffectConfig.option(
+      /*@__PURE__*/ EffectConfig.String("ACME_ACCOUNT_URL"),
+    ),
+    eabKid: /*@__PURE__*/ EffectConfig.option(/*@__PURE__*/ EffectConfig.String("ACME_EAB_KID")),
+    eabHmac: /*@__PURE__*/ EffectConfig.option(
+      /*@__PURE__*/ EffectConfig.Redacted("ACME_EAB_HMAC_KEY"),
+    ),
   }).pipe(
-    Effect.mapError(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message:
             "ACME_ACCOUNT_KEY (a private JWK) is required; ACME_DIRECTORY_URL, ACME_ACCOUNT_URL, ACME_EAB_KID and ACME_EAB_HMAC_KEY are optional",
         }),
     ),
-    Effect.map(({ directoryUrl, accountKey, accountUrl, eabKid, eabHmac }): Config => ({
-      directoryUrl,
-      accountKey,
-      accountUrl: Option.getOrUndefined(accountUrl),
-      externalAccountBinding:
-        Option.isSome(eabKid) && Option.isSome(eabHmac)
-          ? { keyId: eabKid.value, hmacKey: eabHmac.value }
-          : undefined,
-    })),
+    /*@__PURE__*/ Effect.map(
+      ({ directoryUrl, accountKey, accountUrl, eabKid, eabHmac }): Config => ({
+        directoryUrl,
+        accountKey,
+        accountUrl: Option.getOrUndefined(accountUrl),
+        externalAccountBinding:
+          Option.isSome(eabKid) && Option.isSome(eabHmac)
+            ? { keyId: eabKid.value, hmacKey: eabHmac.value }
+            : undefined,
+      }),
+    ),
     Effect.orDie,
   ),
 );

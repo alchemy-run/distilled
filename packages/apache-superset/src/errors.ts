@@ -3,8 +3,8 @@
  *
  * Re-exports the common HTTP errors from core and adds the Apache Superset
  * fallback errors. Note the generated service module additionally defines its
- * own per-status matcher classes (BadRequest/NotFound/…) for the statuses each
- * operation declares — those share `_tag`s with the core classes here, so
+ * own per-status matcher classes (BadRequest/NotFound/...) for the statuses each
+ * operation declares -- those share `_tag`s with the core classes here, so
  * `catchTag` works against either.
  */
 export {
@@ -28,23 +28,22 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
-/** Unknown Apache Superset error — returned when nothing else matches. */
-export class UnknownApacheSupersetError extends Schema.TaggedError<UnknownApacheSupersetError>()(
-  "UnknownApacheSupersetError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+/** Unknown Apache Superset error -- returned when nothing else matches. */
+export class UnknownApacheSupersetError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownApacheSupersetError>()(
+    "UnknownApacheSupersetError",
+    {
+      code: /*@__PURE__*/ Schema.optional(Schema.String),
+      message: /*@__PURE__*/ Schema.optional(Schema.String),
+      body: Schema.Unknown,
+    },
+  ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class ApacheSupersetParseError extends Schema.TaggedError<ApacheSupersetParseError>()(
-  "ApacheSupersetParseError",
-  {
+export class ApacheSupersetParseError
+  extends /*@__PURE__*/ Schema.TaggedError<ApacheSupersetParseError>()("ApacheSupersetParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}

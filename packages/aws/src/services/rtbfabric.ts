@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
-import * as redacted from "effect/Redacted";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -9,11 +10,13 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "RTBFabric", serviceShapeName: "RTBFabric" });
-const auth = T.AwsAuthSigv4({ name: "rtbfabric" });
-const ver = T.ServiceVersion("2023-05-15");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "RTBFabric", serviceShapeName: "RTBFabric" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "rtbfabric" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2023-05-15");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -68,114 +71,77 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://rtbfabric.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(429), T.Retryable()),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(429), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type GatewayId = string;
 export type LinkId = string;
 export type ResponderErrorMaskingAction = "NO_BID" | "PASSTHROUGH" | (string & {});
-export const ResponderErrorMaskingAction = S.String;
-
 export type ResponderErrorMaskingLoggingType = "NONE" | "METRIC" | "RESPONSE" | (string & {});
-export const ResponderErrorMaskingLoggingType = S.String;
-
 export type ResponderErrorMaskingLoggingTypes = ResponderErrorMaskingLoggingType[];
-export const ResponderErrorMaskingLoggingTypes = /*@__PURE__*/ S.Array(
-  ResponderErrorMaskingLoggingType,
-);
 export interface ResponderErrorMaskingForHttpCode {
   httpCode: string;
   action: ResponderErrorMaskingAction;
   loggingTypes: ResponderErrorMaskingLoggingType[];
   responseLoggingPercentage?: number;
 }
-export const ResponderErrorMaskingForHttpCode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    httpCode: S.String,
-    action: ResponderErrorMaskingAction,
-    loggingTypes: ResponderErrorMaskingLoggingTypes,
-    responseLoggingPercentage: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ResponderErrorMaskingForHttpCode",
-}) as any as S.Schema<ResponderErrorMaskingForHttpCode>;
 export type ResponderErrorMasking = ResponderErrorMaskingForHttpCode[];
-export const ResponderErrorMasking = /*@__PURE__*/ S.Array(ResponderErrorMaskingForHttpCode);
 export type CustomerProvidedId = string;
 export interface LinkAttributes {
   responderErrorMasking?: ResponderErrorMaskingForHttpCode[];
   customerProvidedId?: string;
 }
-export const LinkAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    responderErrorMasking: S.optional(ResponderErrorMasking),
-    customerProvidedId: S.optional(S.String),
-  }),
-).annotate({ identifier: "LinkAttributes" }) as any as S.Schema<LinkAttributes>;
 export interface LinkApplicationLogSampling {
   errorLog: number;
   filterLog: number;
 }
-export const LinkApplicationLogSampling = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ errorLog: S.Number, filterLog: S.Number }),
-).annotate({
-  identifier: "LinkApplicationLogSampling",
-}) as any as S.Schema<LinkApplicationLogSampling>;
 export interface LinkApplicationLogConfiguration {
   sampling: LinkApplicationLogSampling;
 }
-export const LinkApplicationLogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sampling: LinkApplicationLogSampling }),
-).annotate({
-  identifier: "LinkApplicationLogConfiguration",
-}) as any as S.Schema<LinkApplicationLogConfiguration>;
 export interface LinkLogSettings {
   applicationLogs: LinkApplicationLogConfiguration;
 }
-export const LinkLogSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ applicationLogs: LinkApplicationLogConfiguration }),
-).annotate({ identifier: "LinkLogSettings" }) as any as S.Schema<LinkLogSettings>;
 export type LinkTimeoutInMillis = number;
 export interface AcceptLinkRequest {
   gatewayId: string;
@@ -184,24 +150,6 @@ export interface AcceptLinkRequest {
   logSettings: LinkLogSettings;
   timeoutInMillis?: number;
 }
-export const AcceptLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-    attributes: S.optional(LinkAttributes),
-    logSettings: LinkLogSettings,
-    timeoutInMillis: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/gateway/{gatewayId}/link/{linkId}/accept" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "AcceptLinkRequest" }) as any as S.Schema<AcceptLinkRequest>;
 export type LinkStatus =
   | "PENDING_CREATION"
   | "PENDING_REQUEST"
@@ -217,126 +165,62 @@ export type LinkStatus =
   | "ISOLATED"
   | "PENDING_RESTORATION"
   | (string & {});
-export const LinkStatus = S.String;
-
 export type LinkDirection = "RESPONSE" | "REQUEST" | (string & {});
-export const LinkDirection = S.String;
-
 export type Version = string;
 export type FlowModuleName = string;
 export type FlowModuleNameList = string[];
-export const FlowModuleNameList = /*@__PURE__*/ S.Array(S.String);
 export interface NoBidModuleParameters {
   reason?: string;
   reasonCode?: number;
   passThroughPercentage?: number;
 }
-export const NoBidModuleParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reason: S.optional(S.String),
-    reasonCode: S.optional(S.Number),
-    passThroughPercentage: S.optional(S.Number),
-  }),
-).annotate({ identifier: "NoBidModuleParameters" }) as any as S.Schema<NoBidModuleParameters>;
 export type FilterType = "INCLUDE" | "EXCLUDE" | (string & {});
-export const FilterType = S.String;
-
 export type ValueList = string[];
-export const ValueList = /*@__PURE__*/ S.Array(S.String);
 export interface FilterCriterion {
   path: string;
   values: string[];
 }
-export const FilterCriterion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ path: S.String, values: ValueList }),
-).annotate({ identifier: "FilterCriterion" }) as any as S.Schema<FilterCriterion>;
 export type FilterCriteria = FilterCriterion[];
-export const FilterCriteria = /*@__PURE__*/ S.Array(FilterCriterion);
 export interface Filter {
   criteria: FilterCriterion[];
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ criteria: FilterCriteria }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterConfiguration = Filter[];
-export const FilterConfiguration = /*@__PURE__*/ S.Array(Filter);
 export interface NoBidAction {
   noBidReasonCode?: number;
 }
-export const NoBidAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ noBidReasonCode: S.optional(S.Number) }),
-).annotate({ identifier: "NoBidAction" }) as any as S.Schema<NoBidAction>;
 export interface HeaderTagAction {
   name: string;
   value: string;
 }
-export const HeaderTagAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, value: S.String }),
-).annotate({ identifier: "HeaderTagAction" }) as any as S.Schema<HeaderTagAction>;
 export type Action =
   | { noBid: NoBidAction; headerTag?: never }
   | { noBid?: never; headerTag: HeaderTagAction };
-export const Action = /*@__PURE__*/ S.Union([
-  S.Struct({ noBid: NoBidAction }),
-  S.Struct({ headerTag: HeaderTagAction }),
-]);
 export interface OpenRtbAttributeModuleParameters {
   filterType: FilterType;
   filterConfiguration: Filter[];
   action: Action;
   holdbackPercentage: number;
 }
-export const OpenRtbAttributeModuleParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filterType: FilterType,
-    filterConfiguration: FilterConfiguration,
-    action: Action,
-    holdbackPercentage: S.Number,
-  }),
-).annotate({
-  identifier: "OpenRtbAttributeModuleParameters",
-}) as any as S.Schema<OpenRtbAttributeModuleParameters>;
 export interface RateLimiterModuleParameters {
   tps?: number;
 }
-export const RateLimiterModuleParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tps: S.optional(S.Number) }),
-).annotate({
-  identifier: "RateLimiterModuleParameters",
-}) as any as S.Schema<RateLimiterModuleParameters>;
 export type ModuleParameters =
   | { noBid: NoBidModuleParameters; openRtbAttribute?: never; rateLimiter?: never }
   | { noBid?: never; openRtbAttribute: OpenRtbAttributeModuleParameters; rateLimiter?: never }
   | { noBid?: never; openRtbAttribute?: never; rateLimiter: RateLimiterModuleParameters };
-export const ModuleParameters = /*@__PURE__*/ S.Union([
-  S.Struct({ noBid: NoBidModuleParameters }),
-  S.Struct({ openRtbAttribute: OpenRtbAttributeModuleParameters }),
-  S.Struct({ rateLimiter: RateLimiterModuleParameters }),
-]);
 export interface ModuleConfiguration {
   version?: string;
   name: string;
   dependsOn?: string[];
   moduleParameters?: ModuleParameters;
 }
-export const ModuleConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    name: S.String,
-    dependsOn: S.optional(FlowModuleNameList),
-    moduleParameters: S.optional(ModuleParameters),
-  }),
-).annotate({ identifier: "ModuleConfiguration" }) as any as S.Schema<ModuleConfiguration>;
 export type ModuleConfigurationList = ModuleConfiguration[];
-export const ModuleConfigurationList = /*@__PURE__*/ S.Array(ModuleConfiguration);
 export type ConnectivityType =
   | "DEFAULT"
   | "PUBLIC_INGRESS"
   | "PUBLIC_EGRESS"
   | "EXTERNAL_INBOUND"
   | (string & {});
-export const ConnectivityType = S.String;
-
 export interface AcceptLinkResponse {
   gatewayId: string;
   peerGatewayId: string;
@@ -351,46 +235,12 @@ export interface AcceptLinkResponse {
   connectivityType?: ConnectivityType;
   linkId: string;
 }
-export const AcceptLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    peerGatewayId: S.String,
-    status: LinkStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(LinkDirection),
-    flowModules: S.optional(ModuleConfigurationList),
-    pendingFlowModules: S.optional(ModuleConfigurationList),
-    attributes: S.optional(LinkAttributes),
-    logSettings: S.optional(LinkLogSettings),
-    connectivityType: S.optional(ConnectivityType),
-    linkId: S.String,
-  }),
-).annotate({ identifier: "AcceptLinkResponse" }) as any as S.Schema<AcceptLinkResponse>;
 export type AcmCertificateArn = string;
 export interface AssociateCertificateRequest {
   gatewayId: string;
   acmCertificateArn: string;
   clientToken: string;
 }
-export const AssociateCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    acmCertificateArn: S.String,
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/certificate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociateCertificateRequest",
-}) as any as S.Schema<AssociateCertificateRequest>;
 export type CertificateAssociationStatus =
   | "PENDING_ASSOCIATION"
   | "ASSOCIATED"
@@ -398,26 +248,14 @@ export type CertificateAssociationStatus =
   | "DISASSOCIATED"
   | "FAILED"
   | (string & {});
-export const CertificateAssociationStatus = S.String;
-
 export interface AssociateCertificateResponse {
   gatewayId: string;
   acmCertificateArn: string;
   status: CertificateAssociationStatus;
 }
-export const AssociateCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    acmCertificateArn: S.String,
-    status: CertificateAssociationStatus,
-  }),
-).annotate({
-  identifier: "AssociateCertificateResponse",
-}) as any as S.Schema<AssociateCertificateResponse>;
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateInboundExternalLinkRequest {
   clientToken: string;
   gatewayId: string;
@@ -425,26 +263,6 @@ export interface CreateInboundExternalLinkRequest {
   logSettings: LinkLogSettings;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateInboundExternalLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    attributes: S.optional(LinkAttributes),
-    logSettings: LinkLogSettings,
-    tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/inbound-external-link" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateInboundExternalLinkRequest",
-}) as any as S.Schema<CreateInboundExternalLinkRequest>;
 export type DomainName = string;
 export interface CreateInboundExternalLinkResponse {
   gatewayId: string;
@@ -452,11 +270,6 @@ export interface CreateInboundExternalLinkResponse {
   status: LinkStatus;
   domainName: string;
 }
-export const CreateInboundExternalLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String, linkId: S.String, status: LinkStatus, domainName: S.String }),
-).annotate({
-  identifier: "CreateInboundExternalLinkResponse",
-}) as any as S.Schema<CreateInboundExternalLinkResponse>;
 export interface CreateLinkRequest {
   gatewayId: string;
   peerGatewayId: string;
@@ -466,26 +279,6 @@ export interface CreateLinkRequest {
   logSettings: LinkLogSettings;
   timeoutInMillis?: number;
 }
-export const CreateLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    peerGatewayId: S.String,
-    attributes: S.optional(LinkAttributes),
-    httpResponderAllowed: S.optional(S.Boolean),
-    tags: S.optional(TagsMap),
-    logSettings: LinkLogSettings,
-    timeoutInMillis: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/gateway/{gatewayId}/create-link" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "CreateLinkRequest" }) as any as S.Schema<CreateLinkRequest>;
 export interface CreateLinkResponse {
   gatewayId: string;
   peerGatewayId: string;
@@ -501,31 +294,11 @@ export interface CreateLinkResponse {
   linkId: string;
   customerProvidedId?: string;
 }
-export const CreateLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    peerGatewayId: S.String,
-    status: LinkStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(LinkDirection),
-    flowModules: S.optional(ModuleConfigurationList),
-    pendingFlowModules: S.optional(ModuleConfigurationList),
-    attributes: S.optional(LinkAttributes),
-    logSettings: S.optional(LinkLogSettings),
-    connectivityType: S.optional(ConnectivityType),
-    linkId: S.String,
-    customerProvidedId: S.optional(S.String),
-  }),
-).annotate({ identifier: "CreateLinkResponse" }) as any as S.Schema<CreateLinkResponse>;
 export type RulePriority = number;
 export interface QueryStringKeyValuePair {
   key: string;
   value: string;
 }
-export const QueryStringKeyValuePair = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({ identifier: "QueryStringKeyValuePair" }) as any as S.Schema<QueryStringKeyValuePair>;
 export interface RuleCondition {
   hostHeader?: string;
   hostHeaderWildcard?: string;
@@ -534,16 +307,6 @@ export interface RuleCondition {
   queryStringEquals?: QueryStringKeyValuePair;
   queryStringExists?: string;
 }
-export const RuleCondition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hostHeader: S.optional(S.String),
-    hostHeaderWildcard: S.optional(S.String),
-    pathPrefix: S.optional(S.String),
-    pathExact: S.optional(S.String),
-    queryStringEquals: S.optional(QueryStringKeyValuePair),
-    queryStringExists: S.optional(S.String),
-  }),
-).annotate({ identifier: "RuleCondition" }) as any as S.Schema<RuleCondition>;
 export interface CreateLinkRoutingRuleRequest {
   clientToken: string;
   gatewayId: string;
@@ -552,27 +315,6 @@ export interface CreateLinkRoutingRuleRequest {
   conditions: RuleCondition;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateLinkRoutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-    priority: S.Number,
-    conditions: RuleCondition,
-    tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLinkRoutingRuleRequest",
-}) as any as S.Schema<CreateLinkRoutingRuleRequest>;
 export type RuleId = string;
 export type RuleStatus =
   | "CREATION_IN_PROGRESS"
@@ -582,22 +324,11 @@ export type RuleStatus =
   | "DELETED"
   | "FAILED"
   | (string & {});
-export const RuleStatus = S.String;
-
 export interface CreateLinkRoutingRuleResponse {
   ruleId: string;
   status: RuleStatus;
   createdAt: Date;
 }
-export const CreateLinkRoutingRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.String,
-    status: RuleStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "CreateLinkRoutingRuleResponse",
-}) as any as S.Schema<CreateLinkRoutingRuleResponse>;
 export type URL = string;
 export interface CreateOutboundExternalLinkRequest {
   clientToken: string;
@@ -607,44 +338,16 @@ export interface CreateOutboundExternalLinkRequest {
   logSettings: LinkLogSettings;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateOutboundExternalLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    attributes: S.optional(LinkAttributes),
-    publicEndpoint: S.String,
-    logSettings: LinkLogSettings,
-    tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/requester-gateway/{gatewayId}/outbound-external-link" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateOutboundExternalLinkRequest",
-}) as any as S.Schema<CreateOutboundExternalLinkRequest>;
 export interface CreateOutboundExternalLinkResponse {
   gatewayId: string;
   linkId: string;
   status: LinkStatus;
 }
-export const CreateOutboundExternalLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String, linkId: S.String, status: LinkStatus }),
-).annotate({
-  identifier: "CreateOutboundExternalLinkResponse",
-}) as any as S.Schema<CreateOutboundExternalLinkResponse>;
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIdList = string[];
-export const SubnetIdList = /*@__PURE__*/ S.Array(S.String);
 export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
-export const SecurityGroupIdList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateRequesterGatewayRequest {
   vpcId: string;
   subnetIds: string[];
@@ -653,20 +356,6 @@ export interface CreateRequesterGatewayRequest {
   description?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateRequesterGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcId: S.String,
-    subnetIds: SubnetIdList,
-    securityGroupIds: SecurityGroupIdList,
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    description: S.optional(S.String),
-    tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/requester-gateway" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateRequesterGatewayRequest",
-}) as any as S.Schema<CreateRequesterGatewayRequest>;
 export type RequesterGatewayStatus =
   | "PENDING_CREATION"
   | "ACTIVE"
@@ -678,41 +367,23 @@ export type RequesterGatewayStatus =
   | "PENDING_ISOLATION"
   | "PENDING_RESTORATION"
   | (string & {});
-export const RequesterGatewayStatus = S.String;
-
 export interface CreateRequesterGatewayResponse {
   gatewayId: string;
   domainName: string;
   status: RequesterGatewayStatus;
 }
-export const CreateRequesterGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String, domainName: S.String, status: RequesterGatewayStatus }),
-).annotate({
-  identifier: "CreateRequesterGatewayResponse",
-}) as any as S.Schema<CreateRequesterGatewayResponse>;
 export type Protocol = "HTTP" | "HTTPS" | (string & {});
-export const Protocol = S.String;
-
 export type ProtocolList = Protocol[];
-export const ProtocolList = /*@__PURE__*/ S.Array(Protocol);
 export interface ListenerConfig {
   protocols: Protocol[];
 }
-export const ListenerConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ protocols: ProtocolList }),
-).annotate({ identifier: "ListenerConfig" }) as any as S.Schema<ListenerConfig>;
 export type Base64EncodedCertificateChain = string | redacted.Redacted<string>;
 export type CertificateAuthorityCertificates = (string | redacted.Redacted<string>)[];
-export const CertificateAuthorityCertificates = /*@__PURE__*/ S.Array(SensitiveString);
 export interface TrustStoreConfiguration {
   certificateAuthorityCertificates: (string | redacted.Redacted<string>)[];
 }
-export const TrustStoreConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ certificateAuthorityCertificates: CertificateAuthorityCertificates }),
-).annotate({ identifier: "TrustStoreConfiguration" }) as any as S.Schema<TrustStoreConfiguration>;
 export type AutoScalingGroupName = string;
 export type AutoScalingGroupNameList = string[];
-export const AutoScalingGroupNameList = /*@__PURE__*/ S.Array(S.String);
 export type StatusCodeMatcher = string;
 export interface HealthCheckConfig {
   port: number;
@@ -724,32 +395,11 @@ export interface HealthCheckConfig {
   healthyThresholdCount?: number;
   unhealthyThresholdCount?: number;
 }
-export const HealthCheckConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    port: S.Number,
-    path: S.String,
-    protocol: S.optional(Protocol),
-    timeoutMs: S.optional(S.Number),
-    intervalSeconds: S.optional(S.Number),
-    statusCodeMatcher: S.optional(S.String),
-    healthyThresholdCount: S.optional(S.Number),
-    unhealthyThresholdCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "HealthCheckConfig" }) as any as S.Schema<HealthCheckConfig>;
 export interface AutoScalingGroupsConfiguration {
   autoScalingGroupNames: string[];
   roleArn: string;
   healthCheckConfig?: HealthCheckConfig;
 }
-export const AutoScalingGroupsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    autoScalingGroupNames: AutoScalingGroupNameList,
-    roleArn: S.String,
-    healthCheckConfig: S.optional(HealthCheckConfig),
-  }),
-).annotate({
-  identifier: "AutoScalingGroupsConfiguration",
-}) as any as S.Schema<AutoScalingGroupsConfiguration>;
 export type KubernetesEndpointsResourceName = string;
 export type KubernetesNamespace = string;
 export type URI = string;
@@ -762,34 +412,14 @@ export interface EksEndpointsConfiguration {
   clusterName: string;
   roleArn: string;
 }
-export const EksEndpointsConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endpointsResourceName: S.String,
-    endpointsResourceNamespace: S.String,
-    clusterApiServerEndpointUri: S.String,
-    clusterApiServerCaCertificateChain: SensitiveString,
-    clusterName: S.String,
-    roleArn: S.String,
-  }),
-).annotate({
-  identifier: "EksEndpointsConfiguration",
-}) as any as S.Schema<EksEndpointsConfiguration>;
 export type ManagedEndpointConfiguration =
   | { autoScalingGroups: AutoScalingGroupsConfiguration; eksEndpoints?: never }
   | { autoScalingGroups?: never; eksEndpoints: EksEndpointsConfiguration };
-export const ManagedEndpointConfiguration = /*@__PURE__*/ S.Union([
-  S.Struct({ autoScalingGroups: AutoScalingGroupsConfiguration }),
-  S.Struct({ eksEndpoints: EksEndpointsConfiguration }),
-]);
 export type GatewayType = "EXTERNAL" | "INTERNAL" | (string & {});
-export const GatewayType = S.String;
-
 export type ClientRoutingPolicy =
   | "AVAILABILITY_ZONE_AFFINITY"
   | "ANY_AVAILABILITY_ZONE"
   | (string & {});
-export const ClientRoutingPolicy = S.String;
-
 export interface CreateResponderGatewayRequest {
   vpcId: string;
   subnetIds: string[];
@@ -806,28 +436,6 @@ export interface CreateResponderGatewayRequest {
   gatewayType?: GatewayType;
   clientRoutingPolicy?: ClientRoutingPolicy;
 }
-export const CreateResponderGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcId: S.String,
-    subnetIds: SubnetIdList,
-    securityGroupIds: SecurityGroupIdList,
-    domainName: S.optional(S.String),
-    port: S.Number,
-    protocol: Protocol,
-    listenerConfig: S.optional(ListenerConfig),
-    trustStoreConfiguration: S.optional(TrustStoreConfiguration),
-    managedEndpointConfiguration: S.optional(ManagedEndpointConfiguration),
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    description: S.optional(S.String),
-    tags: S.optional(TagsMap),
-    gatewayType: S.optional(GatewayType),
-    clientRoutingPolicy: S.optional(ClientRoutingPolicy),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/responder-gateway" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateResponderGatewayRequest",
-}) as any as S.Schema<CreateResponderGatewayRequest>;
 export type ResponderGatewayStatus =
   | "PENDING_CREATION"
   | "ACTIVE"
@@ -839,8 +447,6 @@ export type ResponderGatewayStatus =
   | "PENDING_ISOLATION"
   | "PENDING_RESTORATION"
   | (string & {});
-export const ResponderGatewayStatus = S.String;
-
 export interface CreateResponderGatewayResponse {
   gatewayId: string;
   status: ResponderGatewayStatus;
@@ -848,252 +454,66 @@ export interface CreateResponderGatewayResponse {
   externalInboundEndpoint?: string;
   clientRoutingPolicy?: ClientRoutingPolicy;
 }
-export const CreateResponderGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    status: ResponderGatewayStatus,
-    listenerConfig: S.optional(ListenerConfig),
-    externalInboundEndpoint: S.optional(S.String),
-    clientRoutingPolicy: S.optional(ClientRoutingPolicy),
-  }),
-).annotate({
-  identifier: "CreateResponderGatewayResponse",
-}) as any as S.Schema<CreateResponderGatewayResponse>;
 export interface DeleteInboundExternalLinkRequest {
   gatewayId: string;
   linkId: string;
 }
-export const DeleteInboundExternalLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/responder-gateway/{gatewayId}/inbound-external-link/{linkId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteInboundExternalLinkRequest",
-}) as any as S.Schema<DeleteInboundExternalLinkRequest>;
 export interface DeleteInboundExternalLinkResponse {
   linkId: string;
   status: LinkStatus;
 }
-export const DeleteInboundExternalLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ linkId: S.String, status: LinkStatus }),
-).annotate({
-  identifier: "DeleteInboundExternalLinkResponse",
-}) as any as S.Schema<DeleteInboundExternalLinkResponse>;
 export interface DeleteLinkRequest {
   gatewayId: string;
   linkId: string;
 }
-export const DeleteLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/gateway/{gatewayId}/link/{linkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "DeleteLinkRequest" }) as any as S.Schema<DeleteLinkRequest>;
 export interface DeleteLinkResponse {
   linkId: string;
   status: LinkStatus;
 }
-export const DeleteLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ linkId: S.String, status: LinkStatus }),
-).annotate({ identifier: "DeleteLinkResponse" }) as any as S.Schema<DeleteLinkResponse>;
 export interface DeleteLinkRoutingRuleRequest {
   gatewayId: string;
   linkId: string;
   ruleId: string;
 }
-export const DeleteLinkRoutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-    ruleId: S.String.pipe(T.HttpLabel("ruleId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule/{ruleId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLinkRoutingRuleRequest",
-}) as any as S.Schema<DeleteLinkRoutingRuleRequest>;
 export interface DeleteLinkRoutingRuleResponse {
   ruleId: string;
   status: RuleStatus;
 }
-export const DeleteLinkRoutingRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ruleId: S.String, status: RuleStatus }),
-).annotate({
-  identifier: "DeleteLinkRoutingRuleResponse",
-}) as any as S.Schema<DeleteLinkRoutingRuleResponse>;
 export interface DeleteOutboundExternalLinkRequest {
   gatewayId: string;
   linkId: string;
 }
-export const DeleteOutboundExternalLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/requester-gateway/{gatewayId}/outbound-external-link/{linkId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteOutboundExternalLinkRequest",
-}) as any as S.Schema<DeleteOutboundExternalLinkRequest>;
 export interface DeleteOutboundExternalLinkResponse {
   linkId: string;
   status: LinkStatus;
 }
-export const DeleteOutboundExternalLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ linkId: S.String, status: LinkStatus }),
-).annotate({
-  identifier: "DeleteOutboundExternalLinkResponse",
-}) as any as S.Schema<DeleteOutboundExternalLinkResponse>;
 export interface DeleteRequesterGatewayRequest {
   gatewayId: string;
 }
-export const DeleteRequesterGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/requester-gateway/{gatewayId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRequesterGatewayRequest",
-}) as any as S.Schema<DeleteRequesterGatewayRequest>;
 export interface DeleteRequesterGatewayResponse {
   gatewayId: string;
   status: RequesterGatewayStatus;
 }
-export const DeleteRequesterGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String, status: RequesterGatewayStatus }),
-).annotate({
-  identifier: "DeleteRequesterGatewayResponse",
-}) as any as S.Schema<DeleteRequesterGatewayResponse>;
 export interface DeleteResponderGatewayRequest {
   gatewayId: string;
 }
-export const DeleteResponderGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/responder-gateway/{gatewayId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteResponderGatewayRequest",
-}) as any as S.Schema<DeleteResponderGatewayRequest>;
 export interface DeleteResponderGatewayResponse {
   gatewayId: string;
   status: ResponderGatewayStatus;
 }
-export const DeleteResponderGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String, status: ResponderGatewayStatus }),
-).annotate({
-  identifier: "DeleteResponderGatewayResponse",
-}) as any as S.Schema<DeleteResponderGatewayResponse>;
 export interface DisassociateCertificateRequest {
   gatewayId: string;
   acmCertificateArn: string;
 }
-export const DisassociateCertificateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    acmCertificateArn: S.String.pipe(T.HttpQuery("acmCertificateArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/responder-gateway/{gatewayId}/certificate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DisassociateCertificateRequest",
-}) as any as S.Schema<DisassociateCertificateRequest>;
 export interface DisassociateCertificateResponse {
   gatewayId: string;
   acmCertificateArn: string;
   status: CertificateAssociationStatus;
 }
-export const DisassociateCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    acmCertificateArn: S.String,
-    status: CertificateAssociationStatus,
-  }),
-).annotate({
-  identifier: "DisassociateCertificateResponse",
-}) as any as S.Schema<DisassociateCertificateResponse>;
 export interface GetCertificateAssociationRequest {
   gatewayId: string;
   acmCertificateArn: string;
 }
-export const GetCertificateAssociationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    acmCertificateArn: S.String.pipe(T.HttpQuery("acmCertificateArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/responder-gateway/{gatewayId}/certificate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCertificateAssociationRequest",
-}) as any as S.Schema<GetCertificateAssociationRequest>;
 export interface GetCertificateAssociationResponse {
   gatewayId: string;
   acmCertificateArn: string;
@@ -1101,41 +521,10 @@ export interface GetCertificateAssociationResponse {
   associatedAt?: Date;
   updatedAt?: Date;
 }
-export const GetCertificateAssociationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    acmCertificateArn: S.String,
-    status: CertificateAssociationStatus,
-    associatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "GetCertificateAssociationResponse",
-}) as any as S.Schema<GetCertificateAssociationResponse>;
 export interface GetInboundExternalLinkRequest {
   gatewayId: string;
   linkId: string;
 }
-export const GetInboundExternalLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/responder-gateway/{gatewayId}/inbound-external-link/{linkId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetInboundExternalLinkRequest",
-}) as any as S.Schema<GetInboundExternalLinkRequest>;
 export interface GetInboundExternalLinkResponse {
   gatewayId: string;
   linkId: string;
@@ -1150,43 +539,10 @@ export interface GetInboundExternalLinkResponse {
   logSettings?: LinkLogSettings;
   connectivityType?: ConnectivityType;
 }
-export const GetInboundExternalLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    linkId: S.String,
-    status: LinkStatus,
-    domainName: S.String,
-    flowModules: S.optional(ModuleConfigurationList),
-    pendingFlowModules: S.optional(ModuleConfigurationList),
-    attributes: S.optional(LinkAttributes),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagsMap),
-    logSettings: S.optional(LinkLogSettings),
-    connectivityType: S.optional(ConnectivityType),
-  }),
-).annotate({
-  identifier: "GetInboundExternalLinkResponse",
-}) as any as S.Schema<GetInboundExternalLinkResponse>;
 export interface GetLinkRequest {
   gatewayId: string;
   linkId: string;
 }
-export const GetLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/gateway/{gatewayId}/link/{linkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetLinkRequest" }) as any as S.Schema<GetLinkRequest>;
 export interface GetLinkResponse {
   gatewayId: string;
   peerGatewayId: string;
@@ -1204,51 +560,11 @@ export interface GetLinkResponse {
   httpResponderAllowed?: boolean;
   timeoutInMillis?: number;
 }
-export const GetLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    peerGatewayId: S.String,
-    status: LinkStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(LinkDirection),
-    flowModules: S.optional(ModuleConfigurationList),
-    pendingFlowModules: S.optional(ModuleConfigurationList),
-    attributes: S.optional(LinkAttributes),
-    logSettings: S.optional(LinkLogSettings),
-    connectivityType: S.optional(ConnectivityType),
-    linkId: S.String,
-    tags: S.optional(TagsMap),
-    httpResponderAllowed: S.optional(S.Boolean),
-    timeoutInMillis: S.optional(S.Number),
-  }),
-).annotate({ identifier: "GetLinkResponse" }) as any as S.Schema<GetLinkResponse>;
 export interface GetLinkRoutingRuleRequest {
   gatewayId: string;
   linkId: string;
   ruleId: string;
 }
-export const GetLinkRoutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-    ruleId: S.String.pipe(T.HttpLabel("ruleId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule/{ruleId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLinkRoutingRuleRequest",
-}) as any as S.Schema<GetLinkRoutingRuleRequest>;
 export interface GetLinkRoutingRuleResponse {
   gatewayId: string;
   linkId: string;
@@ -1260,45 +576,10 @@ export interface GetLinkRoutingRuleResponse {
   updatedAt: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const GetLinkRoutingRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    linkId: S.String,
-    ruleId: S.String,
-    priority: S.Number,
-    conditions: RuleCondition,
-    status: RuleStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    tags: S.optional(TagsMap),
-  }),
-).annotate({
-  identifier: "GetLinkRoutingRuleResponse",
-}) as any as S.Schema<GetLinkRoutingRuleResponse>;
 export interface GetOutboundExternalLinkRequest {
   gatewayId: string;
   linkId: string;
 }
-export const GetOutboundExternalLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/requester-gateway/{gatewayId}/outbound-external-link/{linkId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetOutboundExternalLinkRequest",
-}) as any as S.Schema<GetOutboundExternalLinkRequest>;
 export interface GetOutboundExternalLinkResponse {
   gatewayId: string;
   linkId: string;
@@ -1313,41 +594,9 @@ export interface GetOutboundExternalLinkResponse {
   logSettings?: LinkLogSettings;
   connectivityType?: ConnectivityType;
 }
-export const GetOutboundExternalLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    linkId: S.String,
-    status: LinkStatus,
-    publicEndpoint: S.String,
-    flowModules: S.optional(ModuleConfigurationList),
-    pendingFlowModules: S.optional(ModuleConfigurationList),
-    attributes: S.optional(LinkAttributes),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    tags: S.optional(TagsMap),
-    logSettings: S.optional(LinkLogSettings),
-    connectivityType: S.optional(ConnectivityType),
-  }),
-).annotate({
-  identifier: "GetOutboundExternalLinkResponse",
-}) as any as S.Schema<GetOutboundExternalLinkResponse>;
 export interface GetRequesterGatewayRequest {
   gatewayId: string;
 }
-export const GetRequesterGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/requester-gateway/{gatewayId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRequesterGatewayRequest",
-}) as any as S.Schema<GetRequesterGatewayRequest>;
 export interface GetRequesterGatewayResponse {
   status: RequesterGatewayStatus;
   domainName: string;
@@ -1362,41 +611,9 @@ export interface GetRequesterGatewayResponse {
   activeLinksCount?: number;
   totalLinksCount?: number;
 }
-export const GetRequesterGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: RequesterGatewayStatus,
-    domainName: S.String,
-    description: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    vpcId: S.String,
-    subnetIds: SubnetIdList,
-    securityGroupIds: SecurityGroupIdList,
-    gatewayId: S.String,
-    tags: S.optional(TagsMap),
-    activeLinksCount: S.optional(S.Number),
-    totalLinksCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GetRequesterGatewayResponse",
-}) as any as S.Schema<GetRequesterGatewayResponse>;
 export interface GetResponderGatewayRequest {
   gatewayId: string;
 }
-export const GetResponderGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/responder-gateway/{gatewayId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetResponderGatewayRequest",
-}) as any as S.Schema<GetResponderGatewayRequest>;
 export interface GetResponderGatewayResponse {
   vpcId: string;
   subnetIds: string[];
@@ -1420,113 +637,28 @@ export interface GetResponderGatewayResponse {
   externalInboundEndpoint?: string;
   clientRoutingPolicy?: ClientRoutingPolicy;
 }
-export const GetResponderGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcId: S.String,
-    subnetIds: SubnetIdList,
-    securityGroupIds: SecurityGroupIdList,
-    status: ResponderGatewayStatus,
-    description: S.optional(S.String),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    domainName: S.optional(S.String),
-    port: S.Number,
-    protocol: Protocol,
-    listenerConfig: S.optional(ListenerConfig),
-    trustStoreConfiguration: S.optional(TrustStoreConfiguration),
-    managedEndpointConfiguration: S.optional(ManagedEndpointConfiguration),
-    gatewayId: S.String,
-    tags: S.optional(TagsMap),
-    activeLinksCount: S.optional(S.Number),
-    totalLinksCount: S.optional(S.Number),
-    linksRequestedCount: S.optional(S.Number),
-    gatewayType: S.optional(GatewayType),
-    externalInboundEndpoint: S.optional(S.String),
-    clientRoutingPolicy: S.optional(ClientRoutingPolicy),
-  }),
-).annotate({
-  identifier: "GetResponderGatewayResponse",
-}) as any as S.Schema<GetResponderGatewayResponse>;
 export interface ListCertificateAssociationsRequest {
   gatewayId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCertificateAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/responder-gateway/{gatewayId}/certificates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCertificateAssociationsRequest",
-}) as any as S.Schema<ListCertificateAssociationsRequest>;
 export interface CertificateAssociationSummary {
   acmCertificateArn: string;
   status: CertificateAssociationStatus;
   associatedAt?: Date;
   updatedAt?: Date;
 }
-export const CertificateAssociationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    acmCertificateArn: S.String,
-    status: CertificateAssociationStatus,
-    associatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "CertificateAssociationSummary",
-}) as any as S.Schema<CertificateAssociationSummary>;
 export type CertificateAssociationSummaryList = CertificateAssociationSummary[];
-export const CertificateAssociationSummaryList = /*@__PURE__*/ S.Array(
-  CertificateAssociationSummary,
-);
 export interface ListCertificateAssociationsResponse {
   certificateAssociations: CertificateAssociationSummary[];
   nextToken?: string;
 }
-export const ListCertificateAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    certificateAssociations: CertificateAssociationSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCertificateAssociationsResponse",
-}) as any as S.Schema<ListCertificateAssociationsResponse>;
 export interface ListLinkRoutingRulesRequest {
   gatewayId: string;
   linkId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListLinkRoutingRulesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLinkRoutingRulesRequest",
-}) as any as S.Schema<ListLinkRoutingRulesRequest>;
 export interface LinkRoutingRuleSummary {
   ruleId: string;
   priority: number;
@@ -1535,48 +667,16 @@ export interface LinkRoutingRuleSummary {
   createdAt: Date;
   updatedAt: Date;
 }
-export const LinkRoutingRuleSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.String,
-    priority: S.Number,
-    conditions: RuleCondition,
-    status: RuleStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({ identifier: "LinkRoutingRuleSummary" }) as any as S.Schema<LinkRoutingRuleSummary>;
 export type LinkRoutingRuleList = LinkRoutingRuleSummary[];
-export const LinkRoutingRuleList = /*@__PURE__*/ S.Array(LinkRoutingRuleSummary);
 export interface ListLinkRoutingRulesResponse {
   rules?: LinkRoutingRuleSummary[];
   nextToken?: string;
 }
-export const ListLinkRoutingRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ rules: S.optional(LinkRoutingRuleList), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListLinkRoutingRulesResponse",
-}) as any as S.Schema<ListLinkRoutingRulesResponse>;
 export interface ListLinksRequest {
   gatewayId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListLinksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/gateway/{gatewayId}/links/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "ListLinksRequest" }) as any as S.Schema<ListLinksRequest>;
 export interface ListLinksResponseStructure {
   gatewayId: string;
   peerGatewayId: string;
@@ -1593,121 +693,39 @@ export interface ListLinksResponseStructure {
   tags?: { [key: string]: string | undefined };
   publicEndpoint?: string;
 }
-export const ListLinksResponseStructure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    peerGatewayId: S.String,
-    status: LinkStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(LinkDirection),
-    flowModules: S.optional(ModuleConfigurationList),
-    pendingFlowModules: S.optional(ModuleConfigurationList),
-    attributes: S.optional(LinkAttributes),
-    logSettings: S.optional(LinkLogSettings),
-    connectivityType: S.optional(ConnectivityType),
-    linkId: S.String,
-    tags: S.optional(TagsMap),
-    publicEndpoint: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLinksResponseStructure",
-}) as any as S.Schema<ListLinksResponseStructure>;
 export type LinkList = ListLinksResponseStructure[];
-export const LinkList = /*@__PURE__*/ S.Array(ListLinksResponseStructure);
 export interface ListLinksResponse {
   links?: ListLinksResponseStructure[];
   nextToken?: string;
 }
-export const ListLinksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ links: S.optional(LinkList), nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListLinksResponse" }) as any as S.Schema<ListLinksResponse>;
 export interface ListRequesterGatewaysRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListRequesterGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/requester-gateways" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRequesterGatewaysRequest",
-}) as any as S.Schema<ListRequesterGatewaysRequest>;
 export type GatewayIdList = string[];
-export const GatewayIdList = /*@__PURE__*/ S.Array(S.String);
 export interface ListRequesterGatewaysResponse {
   gatewayIds?: string[];
   nextToken?: string;
 }
-export const ListRequesterGatewaysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayIds: S.optional(GatewayIdList), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListRequesterGatewaysResponse",
-}) as any as S.Schema<ListRequesterGatewaysResponse>;
 export interface ListResponderGatewaysRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListResponderGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/responder-gateways" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListResponderGatewaysRequest",
-}) as any as S.Schema<ListResponderGatewaysRequest>;
 export interface ListResponderGatewaysResponse {
   gatewayIds?: string[];
   nextToken?: string;
 }
-export const ListResponderGatewaysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayIds: S.optional(GatewayIdList), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListResponderGatewaysResponse",
-}) as any as S.Schema<ListResponderGatewaysResponse>;
 export type RtbTaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagsMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface RejectLinkRequest {
   gatewayId: string;
   linkId: string;
 }
-export const RejectLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/gateway/{gatewayId}/link/{linkId}/reject" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "RejectLinkRequest" }) as any as S.Schema<RejectLinkRequest>;
 export interface RejectLinkResponse {
   gatewayId: string;
   peerGatewayId: string;
@@ -1722,118 +740,38 @@ export interface RejectLinkResponse {
   connectivityType?: ConnectivityType;
   linkId: string;
 }
-export const RejectLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    peerGatewayId: S.String,
-    status: LinkStatus,
-    createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    direction: S.optional(LinkDirection),
-    flowModules: S.optional(ModuleConfigurationList),
-    pendingFlowModules: S.optional(ModuleConfigurationList),
-    attributes: S.optional(LinkAttributes),
-    logSettings: S.optional(LinkLogSettings),
-    connectivityType: S.optional(ConnectivityType),
-    linkId: S.String,
-  }),
-).annotate({ identifier: "RejectLinkResponse" }) as any as S.Schema<RejectLinkResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagsMap }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateLinkRequest {
   gatewayId: string;
   linkId: string;
   logSettings?: LinkLogSettings;
   timeoutInMillis?: number;
 }
-export const UpdateLinkRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-    logSettings: S.optional(LinkLogSettings),
-    timeoutInMillis: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/gateway/{gatewayId}/link/{linkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "UpdateLinkRequest" }) as any as S.Schema<UpdateLinkRequest>;
 export interface UpdateLinkResponse {
   linkId: string;
   status: LinkStatus;
 }
-export const UpdateLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ linkId: S.String, status: LinkStatus }),
-).annotate({ identifier: "UpdateLinkResponse" }) as any as S.Schema<UpdateLinkResponse>;
 export interface UpdateLinkModuleFlowRequest {
   clientToken: string;
   gatewayId: string;
   linkId: string;
   modules: ModuleConfiguration[];
 }
-export const UpdateLinkModuleFlowRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-    modules: ModuleConfigurationList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/gateway/{gatewayId}/link/{linkId}/module-flow" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateLinkModuleFlowRequest",
-}) as any as S.Schema<UpdateLinkModuleFlowRequest>;
 export interface UpdateLinkModuleFlowResponse {
   gatewayId: string;
   linkId: string;
   status: LinkStatus;
 }
-export const UpdateLinkModuleFlowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String, linkId: S.String, status: LinkStatus }),
-).annotate({
-  identifier: "UpdateLinkModuleFlowResponse",
-}) as any as S.Schema<UpdateLinkModuleFlowResponse>;
 export interface UpdateLinkRoutingRuleRequest {
   gatewayId: string;
   linkId: string;
@@ -1841,75 +779,20 @@ export interface UpdateLinkRoutingRuleRequest {
   priority: number;
   conditions: RuleCondition;
 }
-export const UpdateLinkRoutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    linkId: S.String.pipe(T.HttpLabel("linkId")),
-    ruleId: S.String.pipe(T.HttpLabel("ruleId")),
-    priority: S.Number,
-    conditions: RuleCondition,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule/{ruleId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateLinkRoutingRuleRequest",
-}) as any as S.Schema<UpdateLinkRoutingRuleRequest>;
 export interface UpdateLinkRoutingRuleResponse {
   ruleId: string;
   status: RuleStatus;
   updatedAt: Date;
 }
-export const UpdateLinkRoutingRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ruleId: S.String,
-    status: RuleStatus,
-    updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }),
-).annotate({
-  identifier: "UpdateLinkRoutingRuleResponse",
-}) as any as S.Schema<UpdateLinkRoutingRuleResponse>;
 export interface UpdateRequesterGatewayRequest {
   clientToken: string;
   gatewayId: string;
   description?: string;
 }
-export const UpdateRequesterGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/requester-gateway/{gatewayId}/update" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRequesterGatewayRequest",
-}) as any as S.Schema<UpdateRequesterGatewayRequest>;
 export interface UpdateRequesterGatewayResponse {
   gatewayId: string;
   status: RequesterGatewayStatus;
 }
-export const UpdateRequesterGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ gatewayId: S.String, status: RequesterGatewayStatus }),
-).annotate({
-  identifier: "UpdateRequesterGatewayResponse",
-}) as any as S.Schema<UpdateRequesterGatewayResponse>;
 export interface UpdateResponderGatewayRequest {
   domainName?: string;
   port: number;
@@ -1922,45 +805,11 @@ export interface UpdateResponderGatewayRequest {
   description?: string;
   clientRoutingPolicy?: ClientRoutingPolicy;
 }
-export const UpdateResponderGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domainName: S.optional(S.String),
-    port: S.Number,
-    protocol: Protocol,
-    listenerConfig: S.optional(ListenerConfig),
-    trustStoreConfiguration: S.optional(TrustStoreConfiguration),
-    managedEndpointConfiguration: S.optional(ManagedEndpointConfiguration),
-    clientToken: S.String.pipe(T.IdempotencyToken()),
-    gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
-    description: S.optional(S.String),
-    clientRoutingPolicy: S.optional(ClientRoutingPolicy),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/update" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateResponderGatewayRequest",
-}) as any as S.Schema<UpdateResponderGatewayRequest>;
 export interface UpdateResponderGatewayResponse {
   gatewayId: string;
   status: ResponderGatewayStatus;
   clientRoutingPolicy?: ClientRoutingPolicy;
 }
-export const UpdateResponderGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gatewayId: S.String,
-    status: ResponderGatewayStatus,
-    clientRoutingPolicy: S.optional(ClientRoutingPolicy),
-  }),
-).annotate({
-  identifier: "UpdateResponderGatewayResponse",
-}) as any as S.Schema<UpdateResponderGatewayResponse>;
 export type AcceptLinkError =
   | AccessDeniedException
   | ConflictException
@@ -1980,8 +829,8 @@ export const acceptLink: API.OperationMethod<
   AcceptLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcceptLinkRequest,
-  output: AcceptLinkResponse,
+  input: __S(640, __c40, 0) as any as S.Schema<AcceptLinkRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<AcceptLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2013,8 +862,8 @@ export const associateCertificate: API.OperationMethod<
   AssociateCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateCertificateRequest,
-  output: AssociateCertificateResponse,
+  input: __S(752, __c47, 0) as any as S.Schema<AssociateCertificateRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<AssociateCertificateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2047,8 +896,8 @@ export const createInboundExternalLink: API.OperationMethod<
   CreateInboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateInboundExternalLinkRequest,
-  output: CreateInboundExternalLinkResponse,
+  input: __S(784, __c49, 0) as any as S.Schema<CreateInboundExternalLinkRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<CreateInboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2083,8 +932,8 @@ export const createLink: API.OperationMethod<
   CreateLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLinkRequest,
-  output: CreateLinkResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateLinkRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<CreateLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2119,8 +968,8 @@ export const createLinkRoutingRule: API.OperationMethod<
   CreateLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLinkRoutingRuleRequest,
-  output: CreateLinkRoutingRuleResponse,
+  input: __S(16, __c1, 0) as any as S.Schema<CreateLinkRoutingRuleRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<CreateLinkRoutingRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2153,8 +1002,8 @@ export const createOutboundExternalLink: API.OperationMethod<
   CreateOutboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOutboundExternalLinkRequest,
-  output: CreateOutboundExternalLinkResponse,
+  input: __S(48, __c3, 0) as any as S.Schema<CreateOutboundExternalLinkRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<CreateOutboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2186,8 +1035,8 @@ export const createRequesterGateway: API.OperationMethod<
   CreateRequesterGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRequesterGatewayRequest,
-  output: CreateRequesterGatewayResponse,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateRequesterGatewayRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<CreateRequesterGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2220,8 +1069,8 @@ export const createResponderGateway: API.OperationMethod<
   CreateResponderGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResponderGatewayRequest,
-  output: CreateResponderGatewayResponse,
+  input: __S(96, __c6, 0) as any as S.Schema<CreateResponderGatewayRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<CreateResponderGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2252,8 +1101,8 @@ export const deleteInboundExternalLink: API.OperationMethod<
   DeleteInboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteInboundExternalLinkRequest,
-  output: DeleteInboundExternalLinkResponse,
+  input: __S(128, __c8, 0) as any as S.Schema<DeleteInboundExternalLinkRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteInboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2286,8 +1135,8 @@ export const deleteLink: API.OperationMethod<
   DeleteLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLinkRequest,
-  output: DeleteLinkResponse,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteLinkRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2318,8 +1167,8 @@ export const deleteLinkRoutingRule: API.OperationMethod<
   DeleteLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLinkRoutingRuleRequest,
-  output: DeleteLinkRoutingRuleResponse,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteLinkRoutingRuleRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<DeleteLinkRoutingRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2350,8 +1199,8 @@ export const deleteOutboundExternalLink: API.OperationMethod<
   DeleteOutboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOutboundExternalLinkRequest,
-  output: DeleteOutboundExternalLinkResponse,
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteOutboundExternalLinkRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteOutboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2382,8 +1231,8 @@ export const deleteRequesterGateway: API.OperationMethod<
   DeleteRequesterGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRequesterGatewayRequest,
-  output: DeleteRequesterGatewayResponse,
+  input: __S(208, __c13, 0) as any as S.Schema<DeleteRequesterGatewayRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<DeleteRequesterGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2414,8 +1263,8 @@ export const deleteResponderGateway: API.OperationMethod<
   DeleteResponderGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResponderGatewayRequest,
-  output: DeleteResponderGatewayResponse,
+  input: __S(240, __c15, 0) as any as S.Schema<DeleteResponderGatewayRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<DeleteResponderGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2447,8 +1296,8 @@ export const disassociateCertificate: API.OperationMethod<
   DisassociateCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateCertificateRequest,
-  output: DisassociateCertificateResponse,
+  input: __S(256, __c16, 0) as any as S.Schema<DisassociateCertificateRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<DisassociateCertificateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2479,8 +1328,8 @@ export const getCertificateAssociation: API.OperationMethod<
   GetCertificateAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCertificateAssociationRequest,
-  output: GetCertificateAssociationResponse,
+  input: __S(272, __c17, 0) as any as S.Schema<GetCertificateAssociationRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<GetCertificateAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2509,8 +1358,8 @@ export const getInboundExternalLink: API.OperationMethod<
   GetInboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInboundExternalLinkRequest,
-  output: GetInboundExternalLinkResponse,
+  input: __S(288, __c18, 0) as any as S.Schema<GetInboundExternalLinkRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<GetInboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2542,8 +1391,8 @@ export const getLink: API.OperationMethod<
   GetLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLinkRequest,
-  output: GetLinkResponse,
+  input: __S(304, __c19, 0) as any as S.Schema<GetLinkRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<GetLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2573,8 +1422,8 @@ export const getLinkRoutingRule: API.OperationMethod<
   GetLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLinkRoutingRuleRequest,
-  output: GetLinkRoutingRuleResponse,
+  input: __S(320, __c20, 0) as any as S.Schema<GetLinkRoutingRuleRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<GetLinkRoutingRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2603,8 +1452,8 @@ export const getOutboundExternalLink: API.OperationMethod<
   GetOutboundExternalLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetOutboundExternalLinkRequest,
-  output: GetOutboundExternalLinkResponse,
+  input: __S(336, __c21, 0) as any as S.Schema<GetOutboundExternalLinkRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<GetOutboundExternalLinkResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2633,8 +1482,8 @@ export const getRequesterGateway: API.OperationMethod<
   GetRequesterGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRequesterGatewayRequest,
-  output: GetRequesterGatewayResponse,
+  input: __S(352, __c22, 0) as any as S.Schema<GetRequesterGatewayRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<GetRequesterGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2663,8 +1512,8 @@ export const getResponderGateway: API.OperationMethod<
   GetResponderGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResponderGatewayRequest,
-  output: GetResponderGatewayResponse,
+  input: __S(368, __c23, 0) as any as S.Schema<GetResponderGatewayRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<GetResponderGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2694,8 +1543,8 @@ export const listCertificateAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CertificateAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCertificateAssociationsRequest,
-  output: ListCertificateAssociationsResponse,
+  input: __S(384, __c24, 0) as any as S.Schema<ListCertificateAssociationsRequest>,
+  output: __S(387, __c24, 3) as any as S.Schema<ListCertificateAssociationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2731,8 +1580,8 @@ export const listLinkRoutingRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LinkRoutingRuleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLinkRoutingRulesRequest,
-  output: ListLinkRoutingRulesResponse,
+  input: __S(400, __c25, 0) as any as S.Schema<ListLinkRoutingRulesRequest>,
+  output: __S(403, __c25, 3) as any as S.Schema<ListLinkRoutingRulesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2770,8 +1619,8 @@ export const listLinks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListLinksResponseStructure
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLinksRequest,
-  output: ListLinksResponse,
+  input: __S(416, __c26, 0) as any as S.Schema<ListLinksRequest>,
+  output: __S(419, __c26, 3) as any as S.Schema<ListLinksResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2804,8 +1653,8 @@ export const listRequesterGateways: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GatewayId
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRequesterGatewaysRequest,
-  output: ListRequesterGatewaysResponse,
+  input: __S(432, __c27, 0) as any as S.Schema<ListRequesterGatewaysRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<ListRequesterGatewaysResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2832,8 +1681,8 @@ export const listResponderGateways: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GatewayId
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResponderGatewaysRequest,
-  output: ListResponderGatewaysResponse,
+  input: __S(464, __c29, 0) as any as S.Schema<ListResponderGatewaysRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<ListResponderGatewaysResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2862,8 +1711,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(480, __c30, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2895,8 +1744,8 @@ export const rejectLink: API.OperationMethod<
   RejectLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RejectLinkRequest,
-  output: RejectLinkResponse,
+  input: __S(496, __c31, 0) as any as S.Schema<RejectLinkRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<RejectLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2926,8 +1775,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(512, __c32, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2956,8 +1805,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(544, __c34, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2989,8 +1838,8 @@ export const updateLink: API.OperationMethod<
   UpdateLinkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLinkRequest,
-  output: UpdateLinkResponse,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateLinkRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<UpdateLinkResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3022,8 +1871,8 @@ export const updateLinkModuleFlow: API.OperationMethod<
   UpdateLinkModuleFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLinkModuleFlowRequest,
-  output: UpdateLinkModuleFlowResponse,
+  input: __S(576, __c36, 0) as any as S.Schema<UpdateLinkModuleFlowRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<UpdateLinkModuleFlowResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3055,8 +1904,8 @@ export const updateLinkRoutingRule: API.OperationMethod<
   UpdateLinkRoutingRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLinkRoutingRuleRequest,
-  output: UpdateLinkRoutingRuleResponse,
+  input: __S(592, __c37, 0) as any as S.Schema<UpdateLinkRoutingRuleRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<UpdateLinkRoutingRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3087,8 +1936,8 @@ export const updateRequesterGateway: API.OperationMethod<
   UpdateRequesterGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRequesterGatewayRequest,
-  output: UpdateRequesterGatewayResponse,
+  input: __S(608, __c38, 0) as any as S.Schema<UpdateRequesterGatewayRequest>,
+  output: __S(224, __c14, 0) as any as S.Schema<UpdateRequesterGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3121,8 +1970,8 @@ export const updateResponderGateway: API.OperationMethod<
   UpdateResponderGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResponderGatewayRequest,
-  output: UpdateResponderGatewayResponse,
+  input: __S(624, __c39, 0) as any as S.Schema<UpdateResponderGatewayRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<UpdateResponderGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3135,3 +1984,1308 @@ export const updateResponderGateway: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateResponderGateway",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          peerGatewayId: S.String,
+          attributes: S.optional(__S(722, __c45, 2)),
+          httpResponderAllowed: S.optional(S.Boolean),
+          tags: S.optional(__S(800, __c50, 0)),
+          logSettings: __S(738, __c46, 2),
+          timeoutInMillis: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/gateway/{gatewayId}/create-link" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          peerGatewayId: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          direction: S.optional(S.String),
+          flowModules: S.optional(__S(684, __c42, 12)),
+          pendingFlowModules: S.optional(__S(684, __c42, 12)),
+          attributes: S.optional(__S(722, __c45, 2)),
+          logSettings: S.optional(__S(738, __c46, 2)),
+          connectivityType: S.optional(S.String),
+          linkId: S.String,
+          customerProvidedId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateLinkResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+          priority: S.Number,
+          conditions: __S(33, __c2, 1),
+          tags: S.optional(__S(800, __c50, 0)),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateLinkRoutingRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ruleId: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "CreateLinkRoutingRuleResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
+        identifier: "QueryStringKeyValuePair",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          hostHeader: S.optional(S.String),
+          hostHeaderWildcard: S.optional(S.String),
+          pathPrefix: S.optional(S.String),
+          pathExact: S.optional(S.String),
+          queryStringEquals: S.optional(__S(32, __c2, 0)),
+          queryStringExists: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RuleCondition" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          attributes: S.optional(__S(722, __c45, 2)),
+          publicEndpoint: S.String,
+          logSettings: __S(738, __c46, 2),
+          tags: S.optional(__S(800, __c50, 0)),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/requester-gateway/{gatewayId}/outbound-external-link",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateOutboundExternalLinkRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String, linkId: S.String, status: S.String }),
+      ).annotate({ identifier: "CreateOutboundExternalLinkResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vpcId: S.String,
+          subnetIds: __S(656, __c41, 0),
+          securityGroupIds: __S(656, __c41, 0),
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          description: S.optional(S.String),
+          tags: S.optional(__S(800, __c50, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/requester-gateway" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateRequesterGatewayRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String, domainName: S.String, status: S.String }),
+      ).annotate({ identifier: "CreateRequesterGatewayResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vpcId: S.String,
+          subnetIds: __S(656, __c41, 0),
+          securityGroupIds: __S(656, __c41, 0),
+          domainName: S.optional(S.String),
+          port: S.Number,
+          protocol: S.String,
+          listenerConfig: S.optional(__S(112, __c7, 0)),
+          trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
+          managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          description: S.optional(S.String),
+          tags: S.optional(__S(800, __c50, 0)),
+          gatewayType: S.optional(S.String),
+          clientRoutingPolicy: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/responder-gateway" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateResponderGatewayRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          status: S.String,
+          listenerConfig: S.optional(__S(112, __c7, 0)),
+          externalInboundEndpoint: S.optional(S.String),
+          clientRoutingPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateResponderGatewayResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ protocols: __S(704, __c44, 0) })).annotate({
+        identifier: "ListenerConfig",
+      });
+    case 1:
+      return S.Array(SensitiveString);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ certificateAuthorityCertificates: __S(113, __c7, 1) }),
+      ).annotate({ identifier: "TrustStoreConfiguration" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          port: S.Number,
+          path: S.String,
+          protocol: S.optional(S.String),
+          timeoutMs: S.optional(S.Number),
+          intervalSeconds: S.optional(S.Number),
+          statusCodeMatcher: S.optional(S.String),
+          healthyThresholdCount: S.optional(S.Number),
+          unhealthyThresholdCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "HealthCheckConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          autoScalingGroupNames: __S(656, __c41, 0),
+          roleArn: S.String,
+          healthCheckConfig: S.optional(__S(115, __c7, 3)),
+        }),
+      ).annotate({ identifier: "AutoScalingGroupsConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          endpointsResourceName: S.String,
+          endpointsResourceNamespace: S.String,
+          clusterApiServerEndpointUri: S.String,
+          clusterApiServerCaCertificateChain: SensitiveString,
+          clusterName: S.String,
+          roleArn: S.String,
+        }),
+      ).annotate({ identifier: "EksEndpointsConfiguration" });
+    case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ autoScalingGroups: __S(116, __c7, 4) }),
+        /*@__PURE__*/ S.Struct({ eksEndpoints: __S(117, __c7, 5) }),
+      ]);
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/responder-gateway/{gatewayId}/inbound-external-link/{linkId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteInboundExternalLinkRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ linkId: S.String, status: S.String })).annotate({
+        identifier: "DeleteInboundExternalLinkResponse",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/gateway/{gatewayId}/link/{linkId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteLinkRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+          ruleId: S.String.pipe(T.HttpLabel("ruleId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule/{ruleId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteLinkRoutingRuleRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ ruleId: S.String, status: S.String })).annotate({
+        identifier: "DeleteLinkRoutingRuleResponse",
+      });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/requester-gateway/{gatewayId}/outbound-external-link/{linkId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteOutboundExternalLinkRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/requester-gateway/{gatewayId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteRequesterGatewayRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ gatewayId: S.String, status: S.String })).annotate({
+        identifier: "DeleteRequesterGatewayResponse",
+      });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/responder-gateway/{gatewayId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteResponderGatewayRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          acmCertificateArn: S.String.pipe(T.HttpQuery("acmCertificateArn")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/responder-gateway/{gatewayId}/certificate" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DisassociateCertificateRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          acmCertificateArn: S.String.pipe(T.HttpQuery("acmCertificateArn")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/responder-gateway/{gatewayId}/certificate" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetCertificateAssociationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          acmCertificateArn: S.String,
+          status: S.String,
+          associatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "GetCertificateAssociationResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/responder-gateway/{gatewayId}/inbound-external-link/{linkId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetInboundExternalLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          linkId: S.String,
+          status: S.String,
+          domainName: S.String,
+          flowModules: S.optional(__S(684, __c42, 12)),
+          pendingFlowModules: S.optional(__S(684, __c42, 12)),
+          attributes: S.optional(__S(722, __c45, 2)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          tags: S.optional(__S(800, __c50, 0)),
+          logSettings: S.optional(__S(738, __c46, 2)),
+          connectivityType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetInboundExternalLinkResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/gateway/{gatewayId}/link/{linkId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          peerGatewayId: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          direction: S.optional(S.String),
+          flowModules: S.optional(__S(684, __c42, 12)),
+          pendingFlowModules: S.optional(__S(684, __c42, 12)),
+          attributes: S.optional(__S(722, __c45, 2)),
+          logSettings: S.optional(__S(738, __c46, 2)),
+          connectivityType: S.optional(S.String),
+          linkId: S.String,
+          tags: S.optional(__S(800, __c50, 0)),
+          httpResponderAllowed: S.optional(S.Boolean),
+          timeoutInMillis: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetLinkResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+          ruleId: S.String.pipe(T.HttpLabel("ruleId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule/{ruleId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetLinkRoutingRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          linkId: S.String,
+          ruleId: S.String,
+          priority: S.Number,
+          conditions: __S(33, __c2, 1),
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          tags: S.optional(__S(800, __c50, 0)),
+        }),
+      ).annotate({ identifier: "GetLinkRoutingRuleResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/requester-gateway/{gatewayId}/outbound-external-link/{linkId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetOutboundExternalLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          linkId: S.String,
+          status: S.String,
+          publicEndpoint: S.String,
+          flowModules: S.optional(__S(684, __c42, 12)),
+          pendingFlowModules: S.optional(__S(684, __c42, 12)),
+          attributes: S.optional(__S(722, __c45, 2)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          tags: S.optional(__S(800, __c50, 0)),
+          logSettings: S.optional(__S(738, __c46, 2)),
+          connectivityType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetOutboundExternalLinkResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/requester-gateway/{gatewayId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRequesterGatewayRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          domainName: S.String,
+          description: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          vpcId: S.String,
+          subnetIds: __S(656, __c41, 0),
+          securityGroupIds: __S(656, __c41, 0),
+          gatewayId: S.String,
+          tags: S.optional(__S(800, __c50, 0)),
+          activeLinksCount: S.optional(S.Number),
+          totalLinksCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetRequesterGatewayResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String.pipe(T.HttpLabel("gatewayId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/responder-gateway/{gatewayId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetResponderGatewayRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vpcId: S.String,
+          subnetIds: __S(656, __c41, 0),
+          securityGroupIds: __S(656, __c41, 0),
+          status: S.String,
+          description: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          domainName: S.optional(S.String),
+          port: S.Number,
+          protocol: S.String,
+          listenerConfig: S.optional(__S(112, __c7, 0)),
+          trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
+          managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
+          gatewayId: S.String,
+          tags: S.optional(__S(800, __c50, 0)),
+          activeLinksCount: S.optional(S.Number),
+          totalLinksCount: S.optional(S.Number),
+          linksRequestedCount: S.optional(S.Number),
+          gatewayType: S.optional(S.String),
+          externalInboundEndpoint: S.optional(S.String),
+          clientRoutingPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetResponderGatewayResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/responder-gateway/{gatewayId}/certificates" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListCertificateAssociationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          acmCertificateArn: S.String,
+          status: S.String,
+          associatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "CertificateAssociationSummary" });
+    case 2:
+      return S.Array(__S(385, __c24, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ certificateAssociations: __S(386, __c24, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListCertificateAssociationsResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rules",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListLinkRoutingRulesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ruleId: S.String,
+          priority: S.Number,
+          conditions: __S(33, __c2, 1),
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "LinkRoutingRuleSummary" });
+    case 2:
+      return S.Array(__S(401, __c25, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ rules: S.optional(__S(402, __c25, 2)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListLinkRoutingRulesResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/gateway/{gatewayId}/links/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListLinksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          peerGatewayId: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          direction: S.optional(S.String),
+          flowModules: S.optional(__S(684, __c42, 12)),
+          pendingFlowModules: S.optional(__S(684, __c42, 12)),
+          attributes: S.optional(__S(722, __c45, 2)),
+          logSettings: S.optional(__S(738, __c46, 2)),
+          connectivityType: S.optional(S.String),
+          linkId: S.String,
+          tags: S.optional(__S(800, __c50, 0)),
+          publicEndpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListLinksResponseStructure" });
+    case 2:
+      return S.Array(__S(417, __c26, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ links: S.optional(__S(418, __c26, 2)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListLinksResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/requester-gateways" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListRequesterGatewaysRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ gatewayIds: S.optional(__S(656, __c41, 0)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListRequesterGatewaysResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/responder-gateways" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListResponderGatewaysRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(800, __c50, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/gateway/{gatewayId}/link/{linkId}/reject" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RejectLinkRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tags: __S(800, __c50, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(656, __c41, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+          logSettings: S.optional(__S(738, __c46, 2)),
+          timeoutInMillis: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/gateway/{gatewayId}/link/{linkId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateLinkRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+          modules: __S(684, __c42, 12),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/gateway/{gatewayId}/link/{linkId}/module-flow" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateLinkModuleFlowRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+          ruleId: S.String.pipe(T.HttpLabel("ruleId")),
+          priority: S.Number,
+          conditions: __S(33, __c2, 1),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/responder-gateway/{gatewayId}/link/{linkId}/routing-rule/{ruleId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateLinkRoutingRuleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ruleId: S.String,
+          status: S.String,
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "UpdateLinkRoutingRuleResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          description: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/requester-gateway/{gatewayId}/update" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateRequesterGatewayRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domainName: S.optional(S.String),
+          port: S.Number,
+          protocol: S.String,
+          listenerConfig: S.optional(__S(112, __c7, 0)),
+          trustStoreConfiguration: S.optional(__S(114, __c7, 2)),
+          managedEndpointConfiguration: S.optional(__S(118, __c7, 6)),
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          description: S.optional(S.String),
+          clientRoutingPolicy: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/update" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateResponderGatewayRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          status: S.String,
+          clientRoutingPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateResponderGatewayResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          linkId: S.String.pipe(T.HttpLabel("linkId")),
+          attributes: S.optional(__S(722, __c45, 2)),
+          logSettings: __S(738, __c46, 2),
+          timeoutInMillis: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/gateway/{gatewayId}/link/{linkId}/accept" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AcceptLinkRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          reason: S.optional(S.String),
+          reasonCode: S.optional(S.Number),
+          passThroughPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NoBidModuleParameters" });
+    case 1:
+      return S.suspend(() => S.Struct({ path: S.String, values: __S(656, __c41, 0) })).annotate({
+        identifier: "FilterCriterion",
+      });
+    case 2:
+      return S.Array(__S(673, __c42, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ criteria: __S(674, __c42, 2) })).annotate({
+        identifier: "Filter",
+      });
+    case 4:
+      return S.Array(__S(675, __c42, 3));
+    case 5:
+      return S.suspend(() => S.Struct({ noBidReasonCode: S.optional(S.Number) })).annotate({
+        identifier: "NoBidAction",
+      });
+    case 6:
+      return S.suspend(() => S.Struct({ name: S.String, value: S.String })).annotate({
+        identifier: "HeaderTagAction",
+      });
+    case 7:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ noBid: __S(677, __c42, 5) }),
+        /*@__PURE__*/ S.Struct({ headerTag: __S(678, __c42, 6) }),
+      ]);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          filterType: S.String,
+          filterConfiguration: __S(676, __c42, 4),
+          action: __S(679, __c42, 7),
+          holdbackPercentage: S.Number,
+        }),
+      ).annotate({ identifier: "OpenRtbAttributeModuleParameters" });
+    case 9:
+      return S.suspend(() => S.Struct({ tps: S.optional(S.Number) })).annotate({
+        identifier: "RateLimiterModuleParameters",
+      });
+    case 10:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ noBid: __S(672, __c42, 0) }),
+        /*@__PURE__*/ S.Struct({ openRtbAttribute: __S(680, __c42, 8) }),
+        /*@__PURE__*/ S.Struct({ rateLimiter: __S(681, __c42, 9) }),
+      ]);
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+          name: S.String,
+          dependsOn: S.optional(__S(656, __c41, 0)),
+          moduleParameters: S.optional(__S(682, __c42, 10)),
+        }),
+      ).annotate({ identifier: "ModuleConfiguration" });
+    case 12:
+      return S.Array(__S(683, __c42, 11));
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String,
+          peerGatewayId: S.String,
+          status: S.String,
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          direction: S.optional(S.String),
+          flowModules: S.optional(__S(684, __c42, 12)),
+          pendingFlowModules: S.optional(__S(684, __c42, 12)),
+          attributes: S.optional(__S(722, __c45, 2)),
+          logSettings: S.optional(__S(738, __c46, 2)),
+          connectivityType: S.optional(S.String),
+          linkId: S.String,
+        }),
+      ).annotate({ identifier: "AcceptLinkResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          httpCode: S.String,
+          action: S.String,
+          loggingTypes: __S(704, __c44, 0),
+          responseLoggingPercentage: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ResponderErrorMaskingForHttpCode" });
+    case 1:
+      return S.Array(__S(720, __c45, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          responderErrorMasking: S.optional(__S(721, __c45, 1)),
+          customerProvidedId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkAttributes" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ errorLog: S.Number, filterLog: S.Number })).annotate({
+        identifier: "LinkApplicationLogSampling",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ sampling: __S(736, __c46, 0) })).annotate({
+        identifier: "LinkApplicationLogConfiguration",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ applicationLogs: __S(737, __c46, 1) })).annotate({
+        identifier: "LinkLogSettings",
+      });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          acmCertificateArn: S.String,
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/certificate" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociateCertificateRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String, acmCertificateArn: S.String, status: S.String }),
+      ).annotate({ identifier: "AssociateCertificateResponse" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.String.pipe(T.IdempotencyToken()),
+          gatewayId: S.String.pipe(T.HttpLabel("gatewayId")),
+          attributes: S.optional(__S(722, __c45, 2)),
+          logSettings: __S(738, __c46, 2),
+          tags: S.optional(__S(800, __c50, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/responder-gateway/{gatewayId}/inbound-external-link" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateInboundExternalLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ gatewayId: S.String, linkId: S.String, status: S.String, domainName: S.String }),
+      ).annotate({ identifier: "CreateInboundExternalLinkResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

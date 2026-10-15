@@ -2,13 +2,13 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * DigitalOceanProtocol — hand-written.
+ * DigitalOceanProtocol -- hand-written.
  *
  * DigitalOcean speaks plain bearer-authenticated JSON REST (no success
  * envelope), so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://api.digitalocean.com), resolved from the
  *             calling fiber on every request. Generated operations carry
  *             `/v2/...` routes.
@@ -44,8 +44,8 @@ export type DigitalOceanOpError =
 export type DigitalOceanOpContext = Credentials | HttpClient.HttpClient;
 
 /**
- * DigitalOcean error bodies are `{ id, message, request_id? }` — `id` is the
- * machine-readable half (`not_found`, `forbidden`, …). A response that
+ * DigitalOcean error bodies are `{ id, message, request_id? }` -- `id` is the
+ * machine-readable half (`not_found`, `forbidden`, ...). A response that
  * arrives without that envelope falls through to the protocol's `HTTP
  * <status>` default.
  */
@@ -58,23 +58,21 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const DigitalOceanProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-  }),
-  errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownDigitalOceanError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
+export const DigitalOceanProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
     }),
-  parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
-});
+    errorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownDigitalOceanError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new DigitalOceanParseError({ body, cause }),
+  });

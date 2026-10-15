@@ -148,22 +148,22 @@ export const withRetryable =
 // Category Decorators (convenience functions for common categories)
 // ============================================================================
 
-export const withAuthError = withCategory(AuthError);
-export const withBadRequestError = withCategory(BadRequestError);
-export const withConflictError = withCategory(ConflictError);
-export const withNotFoundError = withCategory(NotFoundError);
-export const withQuotaError = withCategory(QuotaError);
-export const withServerError = withCategory(ServerError);
-export const withThrottlingError = withCategory(ThrottlingError);
-export const withNetworkError = withCategory(NetworkError);
-export const withParseError = withCategory(ParseError);
-export const withConfigurationError = withCategory(ConfigurationError);
-export const withTimeoutError = withCategory(TimeoutError);
-export const withRetryableError = withCategory(RetryableError);
-export const withLockedError = withCategory(LockedError);
-export const withAbortedError = withCategory(AbortedError);
-export const withAlreadyExistsError = withCategory(AlreadyExistsError);
-export const withDependencyViolationError = withCategory(DependencyViolationError);
+export const withAuthError = /*@__PURE__*/ withCategory(AuthError);
+export const withBadRequestError = /*@__PURE__*/ withCategory(BadRequestError);
+export const withConflictError = /*@__PURE__*/ withCategory(ConflictError);
+export const withNotFoundError = /*@__PURE__*/ withCategory(NotFoundError);
+export const withQuotaError = /*@__PURE__*/ withCategory(QuotaError);
+export const withServerError = /*@__PURE__*/ withCategory(ServerError);
+export const withThrottlingError = /*@__PURE__*/ withCategory(ThrottlingError);
+export const withNetworkError = /*@__PURE__*/ withCategory(NetworkError);
+export const withParseError = /*@__PURE__*/ withCategory(ParseError);
+export const withConfigurationError = /*@__PURE__*/ withCategory(ConfigurationError);
+export const withTimeoutError = /*@__PURE__*/ withCategory(TimeoutError);
+export const withRetryableError = /*@__PURE__*/ withCategory(RetryableError);
+export const withLockedError = /*@__PURE__*/ withCategory(LockedError);
+export const withAbortedError = /*@__PURE__*/ withCategory(AbortedError);
+export const withAlreadyExistsError = /*@__PURE__*/ withCategory(AlreadyExistsError);
+export const withDependencyViolationError = /*@__PURE__*/ withCategory(DependencyViolationError);
 
 // ============================================================================
 // Category Predicates
@@ -244,7 +244,7 @@ export const isThrottling = (error: unknown): boolean => {
 /**
  * Check if an error is an Effect `HttpClientError` caused by a wire-level
  * transport failure (undici `ConnectTimeoutError`, socket reset, DNS
- * failure, premature stream close, …). The request never reached the
+ * failure, premature stream close, ...). The request never reached the
  * server (or the response never finished) so retrying is safe.
  *
  * Status-code retries are intentionally left to the per-SDK API client,
@@ -337,22 +337,22 @@ export const catchErrors =
 // Alias for convenience
 export { catchErrors as catch };
 
-export const catchAuthError = makeCatcher(AuthError);
-export const catchBadRequestError = makeCatcher(BadRequestError);
-export const catchConflictError = makeCatcher(ConflictError);
-export const catchNotFoundError = makeCatcher(NotFoundError);
-export const catchQuotaError = makeCatcher(QuotaError);
-export const catchServerError = makeCatcher(ServerError);
-export const catchThrottlingError = makeCatcher(ThrottlingError);
-export const catchNetworkError = makeCatcher(NetworkError);
-export const catchParseError = makeCatcher(ParseError);
-export const catchConfigurationError = makeCatcher(ConfigurationError);
-export const catchTimeoutError = makeCatcher(TimeoutError);
-export const catchRetryableError = makeCatcher(RetryableError);
-export const catchLockedError = makeCatcher(LockedError);
-export const catchAbortedError = makeCatcher(AbortedError);
-export const catchAlreadyExistsError = makeCatcher(AlreadyExistsError);
-export const catchDependencyViolationError = makeCatcher(DependencyViolationError);
+export const catchAuthError = /*@__PURE__*/ makeCatcher(AuthError);
+export const catchBadRequestError = /*@__PURE__*/ makeCatcher(BadRequestError);
+export const catchConflictError = /*@__PURE__*/ makeCatcher(ConflictError);
+export const catchNotFoundError = /*@__PURE__*/ makeCatcher(NotFoundError);
+export const catchQuotaError = /*@__PURE__*/ makeCatcher(QuotaError);
+export const catchServerError = /*@__PURE__*/ makeCatcher(ServerError);
+export const catchThrottlingError = /*@__PURE__*/ makeCatcher(ThrottlingError);
+export const catchNetworkError = /*@__PURE__*/ makeCatcher(NetworkError);
+export const catchParseError = /*@__PURE__*/ makeCatcher(ParseError);
+export const catchConfigurationError = /*@__PURE__*/ makeCatcher(ConfigurationError);
+export const catchTimeoutError = /*@__PURE__*/ makeCatcher(TimeoutError);
+export const catchRetryableError = /*@__PURE__*/ makeCatcher(RetryableError);
+export const catchLockedError = /*@__PURE__*/ makeCatcher(LockedError);
+export const catchAbortedError = /*@__PURE__*/ makeCatcher(AbortedError);
+export const catchAlreadyExistsError = /*@__PURE__*/ makeCatcher(AlreadyExistsError);
+export const catchDependencyViolationError = /*@__PURE__*/ makeCatcher(DependencyViolationError);
 
 /**
  * Catch errors with specified categories with full type narrowing.

@@ -3,8 +3,8 @@ import * as Redacted from "effect/Redacted";
 /**
  * The Amazon Cognito Identity calls the two Cognito providers share.
  *
- * `GetId` and `GetCredentialsForIdentity` are public — Cognito ignores the
- * `Authorization` header on them — but the generated operation still
+ * `GetId` and `GetCredentialsForIdentity` are public -- Cognito ignores the
+ * `Authorization` header on them -- but the generated operation still
  * requires a `Credentials` service, so a placeholder identity is supplied;
  * only its region is used. The generated `cognito-identity` service is
  * imported on first use.

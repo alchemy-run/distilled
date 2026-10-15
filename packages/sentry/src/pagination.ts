@@ -1,5 +1,5 @@
 /**
- * Sentry pagination — hand-written.
+ * Sentry pagination -- hand-written.
  *
  * Sentry's paginated list operations take a `cursor` query parameter;
  * generated operations pass core's {@link paginateCursor} strategy to

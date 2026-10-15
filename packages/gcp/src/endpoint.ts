@@ -1,22 +1,23 @@
 /**
- * Endpoint override for every GCP request — emulators (Pub/Sub,
+ * Endpoint override for every GCP request -- emulators (Pub/Sub,
  * Firestore, Storage) and private or proxied hosts. When set, it replaces
  * the scheme and host of the request URL; the path is kept.
  */
-import * as Config from "effect/Config";
+import * as Config from "@distilled.cloud/core/config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-export class Endpoint extends Context.Service<Endpoint, Effect.Effect<string | undefined>>()(
-  "GCP::Endpoint",
-) {}
+export class Endpoint
+  extends /*@__PURE__*/ Context.Service<Endpoint, Effect.Effect<string | undefined>>()(
+    "GCP::Endpoint",
+  ) {}
 
 /** `GOOGLE_API_ENDPOINT`; resolves `undefined` when unset. */
-export const fromEnvironment = Config.String("GOOGLE_API_ENDPOINT").pipe(
+export const fromEnvironment = /*@__PURE__*/ Config.String("GOOGLE_API_ENDPOINT").pipe(
   Config.option,
-  Effect.map(Option.getOrUndefined),
+  /*@__PURE__*/ Effect.map(Option.getOrUndefined),
 );
 
 /** Override the endpoint with whatever the environment names, if anything. */

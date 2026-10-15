@@ -1,6 +1,5 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Notion credentials — hand-written.
+ * Notion credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl, notionVersion }`
  * per request; the protocol layer formats the `Authorization: Bearer
@@ -10,7 +9,8 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Notion requires the `Notion-Version` header on every request. It defaults
  * to the version this package is generated against.
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -28,25 +28,26 @@ export interface Config {
   readonly notionVersion: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "NotionCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "NotionCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
-  token: EffectConfig.Redacted("NOTION_TOKEN"),
-  apiBaseUrl: EffectConfig.String("NOTION_API_BASE_URL").pipe(
-    EffectConfig.withDefault(DEFAULT_API_BASE_URL),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  token: /*@__PURE__*/ EffectConfig.Redacted("NOTION_TOKEN"),
+  apiBaseUrl: /*@__PURE__*/ EffectConfig.String("NOTION_API_BASE_URL").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
-  notionVersion: EffectConfig.String("NOTION_VERSION").pipe(
-    EffectConfig.withDefault(DEFAULT_NOTION_VERSION),
+  notionVersion: /*@__PURE__*/ EffectConfig.String("NOTION_VERSION").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_NOTION_VERSION),
   ),
 });
 
 /** Reads NOTION_TOKEN, and optionally NOTION_API_BASE_URL and NOTION_VERSION. */
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "NOTION_TOKEN environment variable is required",

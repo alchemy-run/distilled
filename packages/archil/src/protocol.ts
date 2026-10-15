@@ -2,12 +2,12 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * ArchilProtocol — hand-written.
+ * ArchilProtocol -- hand-written.
  *
  * Archil speaks API-key authenticated JSON REST. Success and error bodies
  * use a consistent envelope (`{ success, data }` / `{ success, error }`):
  *
- *   request:  credentials → `Authorization: <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: <apiKey>` + base URL
  *             (default https://control.green.us-east-1.aws.prod.archil.com),
  *             resolved from the calling fiber on every request
  *
@@ -40,19 +40,16 @@ export type ArchilOpError =
 /** Context (requirements) shared by every generated Archil operation. */
 export type ArchilOpContext = Credentials | HttpClient.HttpClient;
 
-export const ArchilProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const ArchilProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   // Archil's control plane authenticates with the raw API key, not Bearer.
   headers: (creds) => ({
     Authorization: Redacted.value(creds.apiKey),
   }),
-  // Archil's error body is `{ success: false, error: string }` — map
+  // Archil's error body is `{ success: false, error: string }` -- map
   // `error` onto the unknown-error message when `message` is absent.
   unknownError: ({ code, message, body }) =>
     new UnknownArchilError({

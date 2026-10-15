@@ -1,5 +1,5 @@
 /**
- * Azure-specific error types — hand-written (ported verbatim from
+ * Azure-specific error types -- hand-written (ported verbatim from
  * distilled v0's `packages/azure/src/errors.ts`).
  *
  * Re-exports common HTTP errors from core and adds Azure-specific
@@ -34,21 +34,21 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // ---------------------------------------------------------------------------
 // Azure ARM error field schemas (shared by all Azure-specific errors)
 // ---------------------------------------------------------------------------
 
 const AzureErrorFields = {
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.String),
-  target: Schema.optional(Schema.String),
+  message: /*@__PURE__*/ Schema.optional(Schema.String),
+  code: /*@__PURE__*/ Schema.optional(Schema.String),
+  target: /*@__PURE__*/ Schema.optional(Schema.String),
 };
 
 const AzureAuthErrorFields = {
-  message: Schema.optional(Schema.String),
-  code: Schema.optional(Schema.String),
+  message: /*@__PURE__*/ Schema.optional(Schema.String),
+  code: /*@__PURE__*/ Schema.optional(Schema.String),
 };
 
 // ---------------------------------------------------------------------------
@@ -59,28 +59,31 @@ const AzureAuthErrorFields = {
  * Returned when the specified resource does not exist.
  * Azure error code: `ResourceNotFound`
  */
-export class ResourceNotFound extends Schema.TaggedError<ResourceNotFound>()(
-  "ResourceNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class ResourceNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<ResourceNotFound>()(
+    "ResourceNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when the specified resource group does not exist.
  * Azure error code: `ResourceGroupNotFound`
  */
-export class ResourceGroupNotFound extends Schema.TaggedError<ResourceGroupNotFound>()(
-  "ResourceGroupNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class ResourceGroupNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<ResourceGroupNotFound>()(
+    "ResourceGroupNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when the subscription ID is missing or invalid.
  * Azure error code: `MissingSubscription` or `SubscriptionNotFound`
  */
-export class SubscriptionNotFound extends Schema.TaggedError<SubscriptionNotFound>()(
-  "SubscriptionNotFound",
-  AzureAuthErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class SubscriptionNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<SubscriptionNotFound>()(
+    "SubscriptionNotFound",
+    AzureAuthErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 // ---------------------------------------------------------------------------
 // Auth errors
@@ -90,10 +93,11 @@ export class SubscriptionNotFound extends Schema.TaggedError<SubscriptionNotFoun
  * Returned when the caller does not have permission to perform the operation.
  * Azure error code: `AuthorizationFailed`
  */
-export class AuthorizationFailed extends Schema.TaggedError<AuthorizationFailed>()(
-  "AuthorizationFailed",
-  AzureAuthErrorFields,
-).pipe(Category.withAuthError) {}
+export class AuthorizationFailed
+  extends /*@__PURE__*/ Schema.TaggedError<AuthorizationFailed>()(
+    "AuthorizationFailed",
+    AzureAuthErrorFields,
+  ).pipe(Category.withAuthError) {}
 
 /**
  * Returned by Microsoft.DeviceRegistry when a schema registry's managed
@@ -101,47 +105,52 @@ export class AuthorizationFailed extends Schema.TaggedError<AuthorizationFailed>
  * on its blob container, or the role assignment has not propagated yet.
  * Azure error code: `AuthorizationPermissionMismatch`
  */
-export class SchemaRegistryStorageAccessDenied extends Schema.TaggedError<SchemaRegistryStorageAccessDenied>()(
-  "SchemaRegistryStorageAccessDenied",
-  AzureAuthErrorFields,
-).pipe(Category.withAuthError) {}
+export class SchemaRegistryStorageAccessDenied
+  extends /*@__PURE__*/ Schema.TaggedError<SchemaRegistryStorageAccessDenied>()(
+    "SchemaRegistryStorageAccessDenied",
+    AzureAuthErrorFields,
+  ).pipe(Category.withAuthError) {}
 
 /**
  * Returned when the bearer token is invalid, expired, or missing required claims.
  * Azure error code: `InvalidAuthenticationToken`
  */
-export class InvalidAuthenticationToken extends Schema.TaggedError<InvalidAuthenticationToken>()(
-  "InvalidAuthenticationToken",
-  AzureAuthErrorFields,
-).pipe(Category.withAuthError) {}
+export class InvalidAuthenticationToken
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidAuthenticationToken>()(
+    "InvalidAuthenticationToken",
+    AzureAuthErrorFields,
+  ).pipe(Category.withAuthError) {}
 
 /**
  * Returned when the token audience does not match the expected audience for
  * the resource being accessed.
  * Azure error code: `InvalidAuthenticationTokenAudience`
  */
-export class InvalidAuthenticationTokenAudience extends Schema.TaggedError<InvalidAuthenticationTokenAudience>()(
-  "InvalidAuthenticationTokenAudience",
-  AzureAuthErrorFields,
-).pipe(Category.withAuthError) {}
+export class InvalidAuthenticationTokenAudience
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidAuthenticationTokenAudience>()(
+    "InvalidAuthenticationTokenAudience",
+    AzureAuthErrorFields,
+  ).pipe(Category.withAuthError) {}
 
 /**
  * Returned when the token tenant does not match the subscription tenant.
  * Azure error code: `InvalidAuthenticationTokenTenant`
  */
-export class InvalidAuthenticationTokenTenant extends Schema.TaggedError<InvalidAuthenticationTokenTenant>()(
-  "InvalidAuthenticationTokenTenant",
-  AzureAuthErrorFields,
-).pipe(Category.withAuthError) {}
+export class InvalidAuthenticationTokenTenant
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidAuthenticationTokenTenant>()(
+    "InvalidAuthenticationTokenTenant",
+    AzureAuthErrorFields,
+  ).pipe(Category.withAuthError) {}
 
 /**
  * Returned when linked authorization for the request has failed.
  * Azure error code: `LinkedAuthorizationFailed`
  */
-export class LinkedAuthorizationFailed extends Schema.TaggedError<LinkedAuthorizationFailed>()(
-  "LinkedAuthorizationFailed",
-  AzureAuthErrorFields,
-).pipe(Category.withAuthError) {}
+export class LinkedAuthorizationFailed
+  extends /*@__PURE__*/ Schema.TaggedError<LinkedAuthorizationFailed>()(
+    "LinkedAuthorizationFailed",
+    AzureAuthErrorFields,
+  ).pipe(Category.withAuthError) {}
 
 // ---------------------------------------------------------------------------
 // Bad request / validation errors
@@ -152,55 +161,61 @@ export class LinkedAuthorizationFailed extends Schema.TaggedError<LinkedAuthoriz
  * Azure error code: `InvalidParameter`, `InvalidParameterValue` or
  * `ParameterOutOfRange`
  */
-export class InvalidParameter extends Schema.TaggedError<InvalidParameter>()(
-  "InvalidParameter",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class InvalidParameter
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidParameter>()(
+    "InvalidParameter",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when the resource type in the request is not valid.
  * Azure error code: `InvalidResourceType`
  */
-export class InvalidResourceType extends Schema.TaggedError<InvalidResourceType>()(
-  "InvalidResourceType",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class InvalidResourceType
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidResourceType>()(
+    "InvalidResourceType",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when the resource name in the request is not valid.
  * Azure error code: `InvalidResourceName` or `InvalidResourceNameFormat`
  */
-export class InvalidResourceName extends Schema.TaggedError<InvalidResourceName>()(
-  "InvalidResourceName",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class InvalidResourceName
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidResourceName>()(
+    "InvalidResourceName",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when the request template is not valid.
  * Azure error code: `InvalidRequestContent`
  */
-export class InvalidRequestContent extends Schema.TaggedError<InvalidRequestContent>()(
-  "InvalidRequestContent",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class InvalidRequestContent
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidRequestContent>()(
+    "InvalidRequestContent",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when a required property is missing from the request body.
  * Azure error code: `MissingRequiredProperty` or `PropertyRequired`
  */
-export class MissingRequiredProperty extends Schema.TaggedError<MissingRequiredProperty>()(
-  "MissingRequiredProperty",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class MissingRequiredProperty
+  extends /*@__PURE__*/ Schema.TaggedError<MissingRequiredProperty>()(
+    "MissingRequiredProperty",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when a request property value exceeds the allowed maximum.
  * Azure error code: `PropertyValueExceedsMaxLength` or similar
  */
-export class InvalidPropertyValue extends Schema.TaggedError<InvalidPropertyValue>()(
-  "InvalidPropertyValue",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class InvalidPropertyValue
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidPropertyValue>()(
+    "InvalidPropertyValue",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 // ---------------------------------------------------------------------------
 // Conflict errors
@@ -211,19 +226,21 @@ export class InvalidPropertyValue extends Schema.TaggedError<InvalidPropertyValu
  * would conflict.
  * Azure error code: `Conflict`
  */
-export class ResourceConflict extends Schema.TaggedError<ResourceConflict>()(
-  "ResourceConflict",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class ResourceConflict
+  extends /*@__PURE__*/ Schema.TaggedError<ResourceConflict>()(
+    "ResourceConflict",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned when a resource is being updated and a concurrent update conflicts.
  * Azure error code: `PreconditionFailed` or `ConditionNotMet`
  */
-export class PreconditionFailed extends Schema.TaggedError<PreconditionFailed>()(
-  "PreconditionFailed",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class PreconditionFailed
+  extends /*@__PURE__*/ Schema.TaggedError<PreconditionFailed>()(
+    "PreconditionFailed",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 // ---------------------------------------------------------------------------
 // Operation errors
@@ -233,19 +250,21 @@ export class PreconditionFailed extends Schema.TaggedError<PreconditionFailed>()
  * Returned when the requested operation is not allowed in the current state.
  * Azure error code: `OperationNotAllowed`
  */
-export class OperationNotAllowed extends Schema.TaggedError<OperationNotAllowed>()(
-  "OperationNotAllowed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class OperationNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<OperationNotAllowed>()(
+    "OperationNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when the resource provider is not registered for the subscription.
  * Azure error code: `MissingRegistrationForType` or `MissingSubscriptionRegistration`
  */
-export class MissingRegistration extends Schema.TaggedError<MissingRegistration>()(
-  "MissingRegistration",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class MissingRegistration
+  extends /*@__PURE__*/ Schema.TaggedError<MissingRegistration>()(
+    "MissingRegistration",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned (HTTP 404) when the resource provider namespace is not available
@@ -253,10 +272,11 @@ export class MissingRegistration extends Schema.TaggedError<MissingRegistration>
  * `Microsoft.ManufacturingPlatform`. It is not a resource not-found.
  * Azure error code: `InvalidResourceNamespace`
  */
-export class InvalidResourceNamespace extends Schema.TaggedError<InvalidResourceNamespace>()(
-  "InvalidResourceNamespace",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class InvalidResourceNamespace
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidResourceNamespace>()(
+    "InvalidResourceNamespace",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 // ---------------------------------------------------------------------------
 // Throttling / quota errors
@@ -266,19 +286,20 @@ export class InvalidResourceNamespace extends Schema.TaggedError<InvalidResource
  * Returned when a quota has been exceeded for the subscription.
  * Azure error code: `QuotaExceeded` or `ExceededMaxAccountCount`
  */
-export class QuotaExceeded extends Schema.TaggedError<QuotaExceeded>()(
-  "QuotaExceeded",
-  AzureErrorFields,
-).pipe(Category.withThrottlingError) {}
+export class QuotaExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<QuotaExceeded>()("QuotaExceeded", AzureErrorFields).pipe(
+    Category.withThrottlingError,
+  ) {}
 
 /**
  * Returned when the request has been throttled due to too many operations.
  * Azure error code: `RequestRateLimitExceeded` or `TooManyRequests`
  */
-export class RequestRateLimitExceeded extends Schema.TaggedError<RequestRateLimitExceeded>()(
-  "RequestRateLimitExceeded",
-  AzureErrorFields,
-).pipe(Category.withThrottlingError) {}
+export class RequestRateLimitExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<RequestRateLimitExceeded>()(
+    "RequestRateLimitExceeded",
+    AzureErrorFields,
+  ).pipe(Category.withThrottlingError) {}
 
 // ---------------------------------------------------------------------------
 // Scope / location errors
@@ -289,19 +310,20 @@ export class RequestRateLimitExceeded extends Schema.TaggedError<RequestRateLimi
  * Azure error code: `LocationNotAvailableForResourceType` or
  * `LocationNotAvailableForResourceGroup`
  */
-export class LocationNotAvailable extends Schema.TaggedError<LocationNotAvailable>()(
-  "LocationNotAvailable",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class LocationNotAvailable
+  extends /*@__PURE__*/ Schema.TaggedError<LocationNotAvailable>()(
+    "LocationNotAvailable",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when the targeted scope is invalid for the operation.
  * Azure error code: `InvalidResourceScope` or `ScopeNotValid`
  */
-export class InvalidScope extends Schema.TaggedError<InvalidScope>()(
-  "InvalidScope",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class InvalidScope
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidScope>()("InvalidScope", AzureErrorFields).pipe(
+    Category.withBadRequestError,
+  ) {}
 
 // ---------------------------------------------------------------------------
 // Resource-provider errors (Microsoft.Authorization, Microsoft.Storage, ARM)
@@ -311,182 +333,199 @@ export class InvalidScope extends Schema.TaggedError<InvalidScope>()(
  * Returned when a role assignment does not exist.
  * Azure error code: `RoleAssignmentNotFound`
  */
-export class RoleAssignmentNotFound extends Schema.TaggedError<RoleAssignmentNotFound>()(
-  "RoleAssignmentNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class RoleAssignmentNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<RoleAssignmentNotFound>()(
+    "RoleAssignmentNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when the same principal already holds the same role at the same
  * scope under a different role-assignment name.
  * Azure error code: `RoleAssignmentExists`
  */
-export class RoleAssignmentExists extends Schema.TaggedError<RoleAssignmentExists>()(
-  "RoleAssignmentExists",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class RoleAssignmentExists
+  extends /*@__PURE__*/ Schema.TaggedError<RoleAssignmentExists>()(
+    "RoleAssignmentExists",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned when a role assignment names a principal Microsoft Entra ID has
  * not replicated yet (common right after creating a managed identity).
  * Azure error code: `PrincipalNotFound`
  */
-export class PrincipalNotFound extends Schema.TaggedError<PrincipalNotFound>()(
-  "PrincipalNotFound",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class PrincipalNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<PrincipalNotFound>()(
+    "PrincipalNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when a role definition does not exist at the scope.
  * Azure error code: `RoleDefinitionDoesNotExist`
  */
-export class RoleDefinitionNotFound extends Schema.TaggedError<RoleDefinitionNotFound>()(
-  "RoleDefinitionNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class RoleDefinitionNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<RoleDefinitionNotFound>()(
+    "RoleDefinitionNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when a built-in or custom role with the same `roleName` already
  * exists in the directory (role names are tenant-unique).
  * Azure error code: `RoleDefinitionWithSameNameExists`
  */
-export class RoleDefinitionWithSameNameExists extends Schema.TaggedError<RoleDefinitionWithSameNameExists>()(
-  "RoleDefinitionWithSameNameExists",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class RoleDefinitionWithSameNameExists
+  extends /*@__PURE__*/ Schema.TaggedError<RoleDefinitionWithSameNameExists>()(
+    "RoleDefinitionWithSameNameExists",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned when deleting a custom role that still has role assignments.
  * Azure error code: `RoleDefinitionHasAssignments`
  */
-export class RoleDefinitionHasAssignments extends Schema.TaggedError<RoleDefinitionHasAssignments>()(
-  "RoleDefinitionHasAssignments",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class RoleDefinitionHasAssignments
+  extends /*@__PURE__*/ Schema.TaggedError<RoleDefinitionHasAssignments>()(
+    "RoleDefinitionHasAssignments",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned when a blob container does not exist.
  * Azure error code: `ContainerNotFound`
  */
-export class ContainerNotFound extends Schema.TaggedError<ContainerNotFound>()(
-  "ContainerNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class ContainerNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<ContainerNotFound>()(
+    "ContainerNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when a management group does not exist.
  * Azure error code: `ManagementGroupNotFound`
  */
-export class ManagementGroupNotFound extends Schema.TaggedError<ManagementGroupNotFound>()(
-  "ManagementGroupNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class ManagementGroupNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<ManagementGroupNotFound>()(
+    "ManagementGroupNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned (as 404 on read, 400 on delete) when a service group was just
  * deleted or does not exist.
  * Azure error code: `ServiceGroupNameNotFound`
  */
-export class ServiceGroupNameNotFound extends Schema.TaggedError<ServiceGroupNameNotFound>()(
-  "ServiceGroupNameNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class ServiceGroupNameNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<ServiceGroupNameNotFound>()(
+    "ServiceGroupNameNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when an Azure Files share does not exist.
  * Azure error code: `ShareNotFound`
  */
-export class ShareNotFound extends Schema.TaggedError<ShareNotFound>()(
-  "ShareNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class ShareNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<ShareNotFound>()("ShareNotFound", AzureErrorFields).pipe(
+    Category.withNotFoundError,
+  ) {}
 
 /**
  * Returned when a MySQL flexible server firewall rule does not exist.
  * Azure error code: `FirewallRuleNotExist`
  */
-export class FirewallRuleNotExist extends Schema.TaggedError<FirewallRuleNotExist>()(
-  "FirewallRuleNotExist",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class FirewallRuleNotExist
+  extends /*@__PURE__*/ Schema.TaggedError<FirewallRuleNotExist>()(
+    "FirewallRuleNotExist",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when a storage queue does not exist.
  * Azure error code: `QueueNotFound`
  */
-export class QueueNotFound extends Schema.TaggedError<QueueNotFound>()(
-  "QueueNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class QueueNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<QueueNotFound>()("QueueNotFound", AzureErrorFields).pipe(
+    Category.withNotFoundError,
+  ) {}
 
 /**
  * Returned when a storage account has no lifecycle management policy.
  * Azure error code: `ManagementPolicyNotFound`
  */
-export class ManagementPolicyNotFound extends Schema.TaggedError<ManagementPolicyNotFound>()(
-  "ManagementPolicyNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class ManagementPolicyNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<ManagementPolicyNotFound>()(
+    "ManagementPolicyNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when a storage account has no blob inventory policy.
  * Azure error code: `BlobInventoryPolicyNotFound`
  */
-export class BlobInventoryPolicyNotFound extends Schema.TaggedError<BlobInventoryPolicyNotFound>()(
-  "BlobInventoryPolicyNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class BlobInventoryPolicyNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<BlobInventoryPolicyNotFound>()(
+    "BlobInventoryPolicyNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when a storage account has no advanced platform metrics rule of
  * the requested type.
  * Azure error code: `AdvancedPlatformMetricsRuleNotFound`
  */
-export class AdvancedPlatformMetricsRuleNotFound extends Schema.TaggedError<AdvancedPlatformMetricsRuleNotFound>()(
-  "AdvancedPlatformMetricsRuleNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class AdvancedPlatformMetricsRuleNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<AdvancedPlatformMetricsRuleNotFound>()(
+    "AdvancedPlatformMetricsRuleNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when a storage account has no object replication policy with
  * the requested ID.
  * Azure error code: `ObjectReplicationPolicyNotFound`
  */
-export class ObjectReplicationPolicyNotFound extends Schema.TaggedError<ObjectReplicationPolicyNotFound>()(
-  "ObjectReplicationPolicyNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class ObjectReplicationPolicyNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<ObjectReplicationPolicyNotFound>()(
+    "ObjectReplicationPolicyNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned when a storage account name is already used, in this or another
  * subscription (names are globally unique).
  * Azure error code: `StorageAccountAlreadyTaken` or `StorageAccountAlreadyExists`
  */
-export class StorageAccountAlreadyTaken extends Schema.TaggedError<StorageAccountAlreadyTaken>()(
-  "StorageAccountAlreadyTaken",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class StorageAccountAlreadyTaken
+  extends /*@__PURE__*/ Schema.TaggedError<StorageAccountAlreadyTaken>()(
+    "StorageAccountAlreadyTaken",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned when a storage account still has a background geo-replication
- * change in flight (e.g. right after a `Standard_LRS` → `Standard_GRS` SKU
+ * change in flight (e.g. right after a `Standard_LRS` -> `Standard_GRS` SKU
  * change) and cannot be updated or deleted until it finishes.
  * Azure error code: `PendingTransactionAlreadyExists`
  */
-export class PendingTransactionAlreadyExists extends Schema.TaggedError<PendingTransactionAlreadyExists>()(
-  "PendingTransactionAlreadyExists",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class PendingTransactionAlreadyExists
+  extends /*@__PURE__*/ Schema.TaggedError<PendingTransactionAlreadyExists>()(
+    "PendingTransactionAlreadyExists",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned when another operation (e.g. a geo-replication conversion) holds
  * exclusive access to a storage account; retry once it finishes.
  * Azure error code: `StorageAccountOperationInProgress`
  */
-export class StorageAccountOperationInProgress extends Schema.TaggedError<StorageAccountOperationInProgress>()(
-  "StorageAccountOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class StorageAccountOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<StorageAccountOperationInProgress>()(
+    "StorageAccountOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.DeviceUpdate when an account or instance is written
@@ -495,10 +534,11 @@ export class StorageAccountOperationInProgress extends Schema.TaggedError<Storag
  * retry until it settles.
  * Azure error code: `OperationInProgress`
  */
-export class DeviceUpdateOperationInProgress extends Schema.TaggedError<DeviceUpdateOperationInProgress>()(
-  "DeviceUpdateOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class DeviceUpdateOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<DeviceUpdateOperationInProgress>()(
+    "DeviceUpdateOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.DeviceUpdate when an account is written or deleted
@@ -507,30 +547,33 @@ export class DeviceUpdateOperationInProgress extends Schema.TaggedError<DeviceUp
  * retry once the instance settles.
  * Azure error code: `InstanceIsNotInTerminalState`
  */
-export class DeviceUpdateInstanceNotTerminal extends Schema.TaggedError<DeviceUpdateInstanceNotTerminal>()(
-  "DeviceUpdateInstanceNotTerminal",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class DeviceUpdateInstanceNotTerminal
+  extends /*@__PURE__*/ Schema.TaggedError<DeviceUpdateInstanceNotTerminal>()(
+    "DeviceUpdateInstanceNotTerminal",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned when an Azure SQL elastic job agent is still processing another
  * request (e.g. its creation); retry once it finishes.
  * Azure error code: `ElasticJobAgentIsBusy`
  */
-export class ElasticJobAgentIsBusy extends Schema.TaggedError<ElasticJobAgentIsBusy>()(
-  "ElasticJobAgentIsBusy",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class ElasticJobAgentIsBusy
+  extends /*@__PURE__*/ Schema.TaggedError<ElasticJobAgentIsBusy>()(
+    "ElasticJobAgentIsBusy",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned when creating or updating a resource in a resource group that is
  * being deleted.
  * Azure error code: `ResourceGroupBeingDeleted`
  */
-export class ResourceGroupBeingDeleted extends Schema.TaggedError<ResourceGroupBeingDeleted>()(
-  "ResourceGroupBeingDeleted",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class ResourceGroupBeingDeleted
+  extends /*@__PURE__*/ Schema.TaggedError<ResourceGroupBeingDeleted>()(
+    "ResourceGroupBeingDeleted",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 // ---------------------------------------------------------------------------
 // Microsoft.Network
@@ -541,67 +584,73 @@ export class ResourceGroupBeingDeleted extends Schema.TaggedError<ResourceGroupB
  * write to the same resource (VNet, NSG, load balancer, ...); retry.
  * Azure error codes: `AnotherOperationInProgress`, `RetryableError`
  */
-export class NetworkOperationInProgress extends Schema.TaggedError<NetworkOperationInProgress>()(
-  "NetworkOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class NetworkOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<NetworkOperationInProgress>()(
+    "NetworkOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned when deleting or updating a subnet that still has IP
  * configurations (NICs, private endpoints) or service links in it.
  * Azure error codes: `InUseSubnetCannotBeDeleted`, `InUseSubnetCannotBeUpdated`
  */
-export class SubnetInUse extends Schema.TaggedError<SubnetInUse>()(
-  "SubnetInUse",
-  AzureErrorFields,
-).pipe(Category.withDependencyViolationError) {}
+export class SubnetInUse
+  extends /*@__PURE__*/ Schema.TaggedError<SubnetInUse>()("SubnetInUse", AzureErrorFields).pipe(
+    Category.withDependencyViolationError,
+  ) {}
 
 /**
  * Returned when deleting a network security group still associated with a
  * subnet or network interface.
  * Azure error code: `InUseNetworkSecurityGroupCannotBeDeleted`
  */
-export class NetworkSecurityGroupInUse extends Schema.TaggedError<NetworkSecurityGroupInUse>()(
-  "NetworkSecurityGroupInUse",
-  AzureErrorFields,
-).pipe(Category.withDependencyViolationError) {}
+export class NetworkSecurityGroupInUse
+  extends /*@__PURE__*/ Schema.TaggedError<NetworkSecurityGroupInUse>()(
+    "NetworkSecurityGroupInUse",
+    AzureErrorFields,
+  ).pipe(Category.withDependencyViolationError) {}
 
 /**
  * Returned when deleting a route table still associated with a subnet.
  * Azure error code: `InUseRouteTableCannotBeDeleted`
  */
-export class RouteTableInUse extends Schema.TaggedError<RouteTableInUse>()(
-  "RouteTableInUse",
-  AzureErrorFields,
-).pipe(Category.withDependencyViolationError) {}
+export class RouteTableInUse
+  extends /*@__PURE__*/ Schema.TaggedError<RouteTableInUse>()(
+    "RouteTableInUse",
+    AzureErrorFields,
+  ).pipe(Category.withDependencyViolationError) {}
 
 /**
  * Returned when deleting a public IP address still referenced by a NIC,
  * load balancer, or NAT gateway.
  * Azure error code: `PublicIPAddressCannotBeDeleted`
  */
-export class PublicIPAddressInUse extends Schema.TaggedError<PublicIPAddressInUse>()(
-  "PublicIPAddressInUse",
-  AzureErrorFields,
-).pipe(Category.withDependencyViolationError) {}
+export class PublicIPAddressInUse
+  extends /*@__PURE__*/ Schema.TaggedError<PublicIPAddressInUse>()(
+    "PublicIPAddressInUse",
+    AzureErrorFields,
+  ).pipe(Category.withDependencyViolationError) {}
 
 /**
  * Returned when deleting a NAT gateway still associated with a subnet.
  * Azure error code: `InUseNatGatewayCannotBeDeleted`
  */
-export class NatGatewayInUse extends Schema.TaggedError<NatGatewayInUse>()(
-  "NatGatewayInUse",
-  AzureErrorFields,
-).pipe(Category.withDependencyViolationError) {}
+export class NatGatewayInUse
+  extends /*@__PURE__*/ Schema.TaggedError<NatGatewayInUse>()(
+    "NatGatewayInUse",
+    AzureErrorFields,
+  ).pipe(Category.withDependencyViolationError) {}
 
 /**
  * Returned when deleting a network interface attached to a virtual machine.
  * Azure error code: `NicInUse`
  */
-export class NetworkInterfaceInUse extends Schema.TaggedError<NetworkInterfaceInUse>()(
-  "NetworkInterfaceInUse",
-  AzureErrorFields,
-).pipe(Category.withDependencyViolationError) {}
+export class NetworkInterfaceInUse
+  extends /*@__PURE__*/ Schema.TaggedError<NetworkInterfaceInUse>()(
+    "NetworkInterfaceInUse",
+    AzureErrorFields,
+  ).pipe(Category.withDependencyViolationError) {}
 
 /**
  * Returned when deleting a parent resource (e.g. a DNS Private Resolver)
@@ -609,20 +658,22 @@ export class NetworkInterfaceInUse extends Schema.TaggedError<NetworkInterfaceIn
  * right after the children were deleted.
  * Azure error code: `CannotDeleteResource`
  */
-export class CannotDeleteResource extends Schema.TaggedError<CannotDeleteResource>()(
-  "CannotDeleteResource",
-  AzureErrorFields,
-).pipe(Category.withDependencyViolationError) {}
+export class CannotDeleteResource
+  extends /*@__PURE__*/ Schema.TaggedError<CannotDeleteResource>()(
+    "CannotDeleteResource",
+    AzureErrorFields,
+  ).pipe(Category.withDependencyViolationError) {}
 
 /**
  * Returned by Microsoft.ConnectedCache when deleting an enterprise MCC
  * customer whose cache nodes still exist, including shortly after they
  * were deleted. Azure error code: `FailedCustomerCacheNodesExist` (HTTP 400).
  */
-export class ConnectedCacheCustomerCacheNodesExist extends Schema.TaggedError<ConnectedCacheCustomerCacheNodesExist>()(
-  "ConnectedCacheCustomerCacheNodesExist",
-  AzureErrorFields,
-).pipe(Category.withDependencyViolationError) {}
+export class ConnectedCacheCustomerCacheNodesExist
+  extends /*@__PURE__*/ Schema.TaggedError<ConnectedCacheCustomerCacheNodesExist>()(
+    "ConnectedCacheCustomerCacheNodesExist",
+    AzureErrorFields,
+  ).pipe(Category.withDependencyViolationError) {}
 
 /**
  * Returned by Microsoft.NetApp when the subscription may not create NetApp
@@ -631,70 +682,77 @@ export class ConnectedCacheCustomerCacheNodesExist extends Schema.TaggedError<Co
  * `ResourceRestriction` (HTTP 409, "Creation of 'netAppAccounts' has been
  * restricted in this region").
  */
-export class NetAppCreationRestricted extends Schema.TaggedError<NetAppCreationRestricted>()(
-  "NetAppCreationRestricted",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class NetAppCreationRestricted
+  extends /*@__PURE__*/ Schema.TaggedError<NetAppCreationRestricted>()(
+    "NetAppCreationRestricted",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned (HTTP 500) by Microsoft.NetApp `GET volumeGroups/{name}` while
  * the group's volumes are still being provisioned: "Sequence contains no
  * matching element". Transient; poll again.
  */
-export class NetAppVolumeGroupNotReadable extends Schema.TaggedError<NetAppVolumeGroupNotReadable>()(
-  "NetAppVolumeGroupNotReadable",
-  AzureErrorFields,
-).pipe(Category.withServerError) {}
+export class NetAppVolumeGroupNotReadable
+  extends /*@__PURE__*/ Schema.TaggedError<NetAppVolumeGroupNotReadable>()(
+    "NetAppVolumeGroupNotReadable",
+    AzureErrorFields,
+  ).pipe(Category.withServerError) {}
 
 /**
  * Returned when an operation needs a subscription preview feature that is
  * not registered (e.g. Azure Virtual Network Manager security user rules:
  * "The subscription: X is not registered for feature: AllowAVNMPreviewJuly2022").
  */
-export class SubscriptionFeatureNotRegistered extends Schema.TaggedError<SubscriptionFeatureNotRegistered>()(
-  "SubscriptionFeatureNotRegistered",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SubscriptionFeatureNotRegistered
+  extends /*@__PURE__*/ Schema.TaggedError<SubscriptionFeatureNotRegistered>()(
+    "SubscriptionFeatureNotRegistered",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when a Microsoft.Network feature is not available to the
  * subscription (e.g. "DSCP Configuration is currently not supported", or
  * an application security group allowing "more than 0 address prefix sets").
  */
-export class NetworkFeatureNotSupported extends Schema.TaggedError<NetworkFeatureNotSupported>()(
-  "NetworkFeatureNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class NetworkFeatureNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<NetworkFeatureNotSupported>()(
+    "NetworkFeatureNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when deleting the `defaultConnection` Azure creates implicitly
  * with a hub network virtual appliance ("The default NVA connection created
  * implicitly cannot be deleted"); it goes away with the appliance.
  */
-export class NvaDefaultConnectionUndeletable extends Schema.TaggedError<NvaDefaultConnectionUndeletable>()(
-  "NvaDefaultConnectionUndeletable",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class NvaDefaultConnectionUndeletable
+  extends /*@__PURE__*/ Schema.TaggedError<NvaDefaultConnectionUndeletable>()(
+    "NvaDefaultConnectionUndeletable",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned when an API Management service (e.g. a soft-deleted service
  * under `locations/{location}/deletedservices`) does not exist.
  * Azure error code: `ServiceNotFound`
  */
-export class ApiManagementServiceNotFound extends Schema.TaggedError<ApiManagementServiceNotFound>()(
-  "ApiManagementServiceNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class ApiManagementServiceNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<ApiManagementServiceNotFound>()(
+    "ApiManagementServiceNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned while an API Management service is activating, updating, or
  * being deleted: "The API Service {name} is transitioning at this time.
  * Please try the request again later." Retry after a delay.
  */
-export class ApiManagementServiceTransitioning extends Schema.TaggedError<ApiManagementServiceTransitioning>()(
-  "ApiManagementServiceTransitioning",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class ApiManagementServiceTransitioning
+  extends /*@__PURE__*/ Schema.TaggedError<ApiManagementServiceTransitioning>()(
+    "ApiManagementServiceTransitioning",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.ApiManagement email template writes on
@@ -703,10 +761,11 @@ export class ApiManagementServiceTransitioning extends Schema.TaggedError<ApiMan
  * throttle: these subscription offers cannot customize notification
  * templates at all.
  */
-export class ApiManagementEmailTemplateWritesNotAllowed extends Schema.TaggedError<ApiManagementEmailTemplateWritesNotAllowed>()(
-  "ApiManagementEmailTemplateWritesNotAllowed",
-  AzureErrorFields,
-).pipe(Category.withAuthError) {}
+export class ApiManagementEmailTemplateWritesNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<ApiManagementEmailTemplateWritesNotAllowed>()(
+    "ApiManagementEmailTemplateWritesNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withAuthError) {}
 
 /**
  * Returned by Microsoft.ApiManagement for child routes the service does not
@@ -714,10 +773,11 @@ export class ApiManagementEmailTemplateWritesNotAllowed extends Schema.TaggedErr
  * `ResourceNotFound` "The request did not have proper uri path format".
  * Not a missing entity: the endpoint is unavailable.
  */
-export class ApiManagementRouteNotSupported extends Schema.TaggedError<ApiManagementRouteNotSupported>()(
-  "ApiManagementRouteNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class ApiManagementRouteNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<ApiManagementRouteNotSupported>()(
+    "ApiManagementRouteNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.SecurityInsights alert rule action operations
@@ -725,10 +785,11 @@ export class ApiManagementRouteNotSupported extends Schema.TaggedError<ApiManage
  * deprecated and is no longer available" (matched by message). Use an
  * automation rule with a `RunPlaybook` action instead.
  */
-export class SentinelRuleActionsDeprecated extends Schema.TaggedError<SentinelRuleActionsDeprecated>()(
-  "SentinelRuleActionsDeprecated",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SentinelRuleActionsDeprecated
+  extends /*@__PURE__*/ Schema.TaggedError<SentinelRuleActionsDeprecated>()(
+    "SentinelRuleActionsDeprecated",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.SecurityInsights source control (repositories)
@@ -736,10 +797,11 @@ export class SentinelRuleActionsDeprecated extends Schema.TaggedError<SentinelRu
  * "Unauthorized access due to bad credentials. Please make sure to have a
  * valid PAT token." (matched by message).
  */
-export class SentinelRepositoryAccessDenied extends Schema.TaggedError<SentinelRepositoryAccessDenied>()(
-  "SentinelRepositoryAccessDenied",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SentinelRepositoryAccessDenied
+  extends /*@__PURE__*/ Schema.TaggedError<SentinelRepositoryAccessDenied>()(
+    "SentinelRepositoryAccessDenied",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.DevHub workflow create/update when the subscription
@@ -747,10 +809,11 @@ export class SentinelRepositoryAccessDenied extends Schema.TaggedError<SentinelR
  * token): HTTP 401 `{"code":"401","message":"unauthorized request"}`
  * (matched by code + message).
  */
-export class DevHubGitHubNotAuthorized extends Schema.TaggedError<DevHubGitHubNotAuthorized>()(
-  "DevHubGitHubNotAuthorized",
-  AzureErrorFields,
-).pipe(Category.withAuthError) {}
+export class DevHubGitHubNotAuthorized
+  extends /*@__PURE__*/ Schema.TaggedError<DevHubGitHubNotAuthorized>()(
+    "DevHubGitHubNotAuthorized",
+    AzureErrorFields,
+  ).pipe(Category.withAuthError) {}
 
 /**
  * Returned by Microsoft.SecurityInsights when creating ML analytics
@@ -758,10 +821,11 @@ export class DevHubGitHubNotAuthorized extends Schema.TaggedError<DevHubGitHubNo
  * not enabled. HTTP 404 "Anomalies are not supported for workspace ... and
  * hence anomaly analytics settings cannot be created" (matched by message).
  */
-export class SentinelAnomaliesNotSupported extends Schema.TaggedError<SentinelAnomaliesNotSupported>()(
-  "SentinelAnomaliesNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SentinelAnomaliesNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<SentinelAnomaliesNotSupported>()(
+    "SentinelAnomaliesNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned intermittently by Microsoft.GuestConfiguration assignment
@@ -769,10 +833,11 @@ export class SentinelAnomaliesNotSupported extends Schema.TaggedError<SentinelAn
  * "Failed to pull machine information from provider with a
  * HttpRequestException exception" (matched by message). Transient; retry.
  */
-export class GuestConfigurationMachineInfoUnavailable extends Schema.TaggedError<GuestConfigurationMachineInfoUnavailable>()(
-  "GuestConfigurationMachineInfoUnavailable",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class GuestConfigurationMachineInfoUnavailable
+  extends /*@__PURE__*/ Schema.TaggedError<GuestConfigurationMachineInfoUnavailable>()(
+    "GuestConfigurationMachineInfoUnavailable",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned intermittently by Microsoft.GuestConfiguration assignment
@@ -781,10 +846,11 @@ export class GuestConfigurationMachineInfoUnavailable extends Schema.TaggedError
  * information from provider with a CloudException exception" (matched by
  * message). Transient; retry.
  */
-export class GuestConfigurationMachineLookupFailed extends Schema.TaggedError<GuestConfigurationMachineLookupFailed>()(
-  "GuestConfigurationMachineLookupFailed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class GuestConfigurationMachineLookupFailed
+  extends /*@__PURE__*/ Schema.TaggedError<GuestConfigurationMachineLookupFailed>()(
+    "GuestConfigurationMachineLookupFailed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.GuestConfiguration assignment PUTs the service
@@ -792,10 +858,11 @@ export class GuestConfigurationMachineLookupFailed extends Schema.TaggedError<Gu
  * HTTP 400 with a bare JSON string "Request to the agent service failed"
  * (matched by message). Retrying does not help.
  */
-export class GuestConfigurationAgentServiceFailed extends Schema.TaggedError<GuestConfigurationAgentServiceFailed>()(
-  "GuestConfigurationAgentServiceFailed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class GuestConfigurationAgentServiceFailed
+  extends /*@__PURE__*/ Schema.TaggedError<GuestConfigurationAgentServiceFailed>()(
+    "GuestConfigurationAgentServiceFailed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.EventHub application-group operations on a Basic or
@@ -804,10 +871,11 @@ export class GuestConfigurationAgentServiceFailed extends Schema.TaggedError<Gue
  * GET/DELETE return HTTP 400 with "Application Group available only for
  * Dedicated and Premium" (matched by message).
  */
-export class EventHubApplicationGroupNotSupported extends Schema.TaggedError<EventHubApplicationGroupNotSupported>()(
-  "EventHubApplicationGroupNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class EventHubApplicationGroupNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<EventHubApplicationGroupNotSupported>()(
+    "EventHubApplicationGroupNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.EventHub when a dedicated cluster is deleted less
@@ -815,10 +883,11 @@ export class EventHubApplicationGroupNotSupported extends Schema.TaggedError<Eve
  * cannot be deleted until at least 4 hours after its created time"
  * (matched by message). Retry once the 4-hour minimum has elapsed.
  */
-export class EventHubClusterDeleteTooSoon extends Schema.TaggedError<EventHubClusterDeleteTooSoon>()(
-  "EventHubClusterDeleteTooSoon",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class EventHubClusterDeleteTooSoon
+  extends /*@__PURE__*/ Schema.TaggedError<EventHubClusterDeleteTooSoon>()(
+    "EventHubClusterDeleteTooSoon",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.NetworkFunction when an Azure Traffic Collector is
@@ -827,10 +896,11 @@ export class EventHubClusterDeleteTooSoon extends Schema.TaggedError<EventHubClu
  * because another operation or internal maintenance is in progress"
  * (matched by message). Transient; retry.
  */
-export class TrafficCollectorOperationInProgress extends Schema.TaggedError<TrafficCollectorOperationInProgress>()(
-  "TrafficCollectorOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class TrafficCollectorOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<TrafficCollectorOperationInProgress>()(
+    "TrafficCollectorOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.DesktopVirtualization when a scaling plan references
@@ -840,22 +910,24 @@ export class TrafficCollectorOperationInProgress extends Schema.TaggedError<Traf
  * Virtual Desktop service permissions to access your resource" (matched by
  * message).
  */
-export class AvdServicePrincipalAccessDenied extends Schema.TaggedError<AvdServicePrincipalAccessDenied>()(
-  "AvdServicePrincipalAccessDenied",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AvdServicePrincipalAccessDenied
+  extends /*@__PURE__*/ Schema.TaggedError<AvdServicePrincipalAccessDenied>()(
+    "AvdServicePrincipalAccessDenied",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Automation when the subscription already holds its
- * one Automation account in the region — free-trial subscriptions allow one
+ * one Automation account in the region -- free-trial subscriptions allow one
  * per region and count soft-deleted accounts for 30 days. HTTP 400
  * `BadRequest` "Only one account is allowed for your subscription per
  * Region" (matched by message).
  */
-export class AutomationAccountRegionLimit extends Schema.TaggedError<AutomationAccountRegionLimit>()(
-  "AutomationAccountRegionLimit",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AutomationAccountRegionLimit
+  extends /*@__PURE__*/ Schema.TaggedError<AutomationAccountRegionLimit>()(
+    "AutomationAccountRegionLimit",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.DocumentDB mongo (vCore) cluster user PUTs when the
@@ -864,10 +936,11 @@ export class AutomationAccountRegionLimit extends Schema.TaggedError<AutomationA
  * Microsoft Entra ID role ... with OID ..." (matched by message).
  * Transient for new principals; retry.
  */
-export class MongoClusterPrincipalNotFound extends Schema.TaggedError<MongoClusterPrincipalNotFound>()(
-  "MongoClusterPrincipalNotFound",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class MongoClusterPrincipalNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<MongoClusterPrincipalNotFound>()(
+    "MongoClusterPrincipalNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Automation when a free-trial or student subscription
@@ -875,40 +948,44 @@ export class MongoClusterPrincipalNotFound extends Schema.TaggedError<MongoClust
  * "Free Trial and Student subscriptions cannot create accounts in this
  * location" (matched by message).
  */
-export class AutomationLocationNotAllowed extends Schema.TaggedError<AutomationLocationNotAllowed>()(
-  "AutomationLocationNotAllowed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AutomationLocationNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<AutomationLocationNotAllowed>()(
+    "AutomationLocationNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Automation when a source control's security token
  * cannot read the repository. HTTP 400 `BadRequest` "SourceControl
  * securityToken is invalid." (matched by message).
  */
-export class AutomationSourceControlTokenInvalid extends Schema.TaggedError<AutomationSourceControlTokenInvalid>()(
-  "AutomationSourceControlTokenInvalid",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AutomationSourceControlTokenInvalid
+  extends /*@__PURE__*/ Schema.TaggedError<AutomationSourceControlTokenInvalid>()(
+    "AutomationSourceControlTokenInvalid",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.DevTestLab when a lab service runner is created:
  * service runners are deprecated in favour of lab identities. HTTP 400
  * `ServiceRunnerIsDeprecatedEnvironment` / `ServiceRunnerIsDeprecatedVirtualMachine`.
  */
-export class DevTestLabsServiceRunnerDeprecated extends Schema.TaggedError<DevTestLabsServiceRunnerDeprecated>()(
-  "DevTestLabsServiceRunnerDeprecated",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class DevTestLabsServiceRunnerDeprecated
+  extends /*@__PURE__*/ Schema.TaggedError<DevTestLabsServiceRunnerDeprecated>()(
+    "DevTestLabsServiceRunnerDeprecated",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.ContainerRegistry when ACR Tasks are disabled for
  * the subscription (free-trial / free-credit subscriptions). Azure error
  * code: `TasksOperationsNotAllowed` (HTTP 400).
  */
-export class TasksOperationsNotAllowed extends Schema.TaggedError<TasksOperationsNotAllowed>()(
-  "TasksOperationsNotAllowed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class TasksOperationsNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<TasksOperationsNotAllowed>()(
+    "TasksOperationsNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Compute when the requested VM size has no capacity
@@ -916,10 +993,11 @@ export class TasksOperationsNotAllowed extends Schema.TaggedError<TasksOperation
  * error code: `SkuNotAvailable` (HTTP 409, "...see
  * https://aka.ms/azureskunotavailable").
  */
-export class SkuNotAvailable extends Schema.TaggedError<SkuNotAvailable>()(
-  "SkuNotAvailable",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class SkuNotAvailable
+  extends /*@__PURE__*/ Schema.TaggedError<SkuNotAvailable>()(
+    "SkuNotAvailable",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.ServiceNetworking (Application Gateway for
@@ -927,10 +1005,11 @@ export class SkuNotAvailable extends Schema.TaggedError<SkuNotAvailable>()(
  * subscription without the preview feature enabled. HTTP 400, matched by
  * message ("...IP Access Rules security policy feature is not enabled.").
  */
-export class AgcIpAccessRulesNotEnabled extends Schema.TaggedError<AgcIpAccessRulesNotEnabled>()(
-  "AgcIpAccessRulesNotEnabled",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AgcIpAccessRulesNotEnabled
+  extends /*@__PURE__*/ Schema.TaggedError<AgcIpAccessRulesNotEnabled>()(
+    "AgcIpAccessRulesNotEnabled",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Synapse when changing the geo-backup policy of a
@@ -938,20 +1017,22 @@ export class AgcIpAccessRulesNotEnabled extends Schema.TaggedError<AgcIpAccessRu
  * "Datawarehouse storage configuration does not allow changes to GeoBackup
  * policy." (matched by message).
  */
-export class SynapseGeoBackupNotAllowed extends Schema.TaggedError<SynapseGeoBackupNotAllowed>()(
-  "SynapseGeoBackupNotAllowed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SynapseGeoBackupNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<SynapseGeoBackupNotAllowed>()(
+    "SynapseGeoBackupNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Search when deleting a shared private link resource
  * that is still provisioning. Azure error code: `BadRequest` (HTTP 400,
  * "...as it is still being provisioned. Try again later.").
  */
-export class SearchSharedPrivateLinkBusy extends Schema.TaggedError<SearchSharedPrivateLinkBusy>()(
-  "SearchSharedPrivateLinkBusy",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class SearchSharedPrivateLinkBusy
+  extends /*@__PURE__*/ Schema.TaggedError<SearchSharedPrivateLinkBusy>()(
+    "SearchSharedPrivateLinkBusy",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.Batch for application and application-package
@@ -959,10 +1040,11 @@ export class SearchSharedPrivateLinkBusy extends Schema.TaggedError<SearchShared
  * application cannot exist there). Azure error code:
  * `AccountNotEnabledForAutoStorage` (HTTP 409).
  */
-export class BatchAccountNotEnabledForAutoStorage extends Schema.TaggedError<BatchAccountNotEnabledForAutoStorage>()(
-  "BatchAccountNotEnabledForAutoStorage",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class BatchAccountNotEnabledForAutoStorage
+  extends /*@__PURE__*/ Schema.TaggedError<BatchAccountNotEnabledForAutoStorage>()(
+    "BatchAccountNotEnabledForAutoStorage",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.ManagedIdentity when two federated identity
@@ -970,10 +1052,11 @@ export class BatchAccountNotEnabledForAutoStorage extends Schema.TaggedError<Bat
  * error code: `ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity`
  * (HTTP 409).
  */
-export class FederatedIdentityCredentialWriteConflict extends Schema.TaggedError<FederatedIdentityCredentialWriteConflict>()(
-  "FederatedIdentityCredentialWriteConflict",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class FederatedIdentityCredentialWriteConflict
+  extends /*@__PURE__*/ Schema.TaggedError<FederatedIdentityCredentialWriteConflict>()(
+    "FederatedIdentityCredentialWriteConflict",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.CognitiveServices when another write to the parent
@@ -981,10 +1064,11 @@ export class FederatedIdentityCredentialWriteConflict extends Schema.TaggedError
  * progress; retry once it finishes.
  * Azure error code: `RequestConflict`
  */
-export class CognitiveServicesRequestConflict extends Schema.TaggedError<CognitiveServicesRequestConflict>()(
-  "CognitiveServicesRequestConflict",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class CognitiveServicesRequestConflict
+  extends /*@__PURE__*/ Schema.TaggedError<CognitiveServicesRequestConflict>()(
+    "CognitiveServicesRequestConflict",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.RecoveryServices (Azure Backup) when the vault's
@@ -994,10 +1078,11 @@ export class CognitiveServicesRequestConflict extends Schema.TaggedError<Cogniti
  * Azure error codes: `BMSUserErrorSoftDeleteUseVaultApi`,
  * `BMSUserErrorRedundancySettingsUseVaultApi`
  */
-export class BackupConfigManagedByVaultApi extends Schema.TaggedError<BackupConfigManagedByVaultApi>()(
-  "BackupConfigManagedByVaultApi",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class BackupConfigManagedByVaultApi
+  extends /*@__PURE__*/ Schema.TaggedError<BackupConfigManagedByVaultApi>()(
+    "BackupConfigManagedByVaultApi",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.RecoveryServices (Azure Backup) when a workload
@@ -1006,10 +1091,11 @@ export class BackupConfigManagedByVaultApi extends Schema.TaggedError<BackupConf
  * `BadRequest` "Registration is already in progress." (matched by
  * message); keep waiting for the running registration.
  */
-export class BackupContainerRegistrationInProgress extends Schema.TaggedError<BackupContainerRegistrationInProgress>()(
-  "BackupContainerRegistrationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class BackupContainerRegistrationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<BackupContainerRegistrationInProgress>()(
+    "BackupContainerRegistrationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.RecoveryServices while a vault is still applying
@@ -1017,10 +1103,11 @@ export class BackupContainerRegistrationInProgress extends Schema.TaggedError<Ba
  * finishes.
  * Azure error code: `RSVaultUpdateErrorConflictingOperationInProgress`
  */
-export class RecoveryServicesVaultOperationInProgress extends Schema.TaggedError<RecoveryServicesVaultOperationInProgress>()(
-  "RecoveryServicesVaultOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class RecoveryServicesVaultOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<RecoveryServicesVaultOperationInProgress>()(
+    "RecoveryServicesVaultOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.RecoveryServices (Azure Backup) when a protection
@@ -1029,10 +1116,11 @@ export class RecoveryServicesVaultOperationInProgress extends Schema.TaggedError
  * running; retry once it finishes.
  * Azure error code: `BMSUserErrorConflictingProtectionOperation`
  */
-export class BackupProtectionOperationInProgress extends Schema.TaggedError<BackupProtectionOperationInProgress>()(
-  "BackupProtectionOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class BackupProtectionOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<BackupProtectionOperationInProgress>()(
+    "BackupProtectionOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.CognitiveServices when encryption scopes are not
@@ -1040,10 +1128,11 @@ export class BackupProtectionOperationInProgress extends Schema.TaggedError<Back
  * `BadRequest` with "Encryption scope is not supported" (matched by
  * message).
  */
-export class CognitiveServicesEncryptionScopeNotSupported extends Schema.TaggedError<CognitiveServicesEncryptionScopeNotSupported>()(
-  "CognitiveServicesEncryptionScopeNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class CognitiveServicesEncryptionScopeNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<CognitiveServicesEncryptionScopeNotSupported>()(
+    "CognitiveServicesEncryptionScopeNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.CognitiveServices when a managed-network outbound
@@ -1053,10 +1142,11 @@ export class CognitiveServicesEncryptionScopeNotSupported extends Schema.TaggedE
  * fresh role assignment is still propagating. HTTP 400 `BadRequest`
  * (matched by message).
  */
-export class CognitiveServicesPrivateEndpointApprovalForbidden extends Schema.TaggedError<CognitiveServicesPrivateEndpointApprovalForbidden>()(
-  "CognitiveServicesPrivateEndpointApprovalForbidden",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class CognitiveServicesPrivateEndpointApprovalForbidden
+  extends /*@__PURE__*/ Schema.TaggedError<CognitiveServicesPrivateEndpointApprovalForbidden>()(
+    "CognitiveServicesPrivateEndpointApprovalForbidden",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.CognitiveServices managed networks when an outbound
@@ -1064,10 +1154,11 @@ export class CognitiveServicesPrivateEndpointApprovalForbidden extends Schema.Ta
  * still being provisioned. HTTP 409, Azure error code `UserError` with
  * "is in conflicting state" (matched by message); retry once it settles.
  */
-export class CognitiveServicesOutboundRuleConflictingState extends Schema.TaggedError<CognitiveServicesOutboundRuleConflictingState>()(
-  "CognitiveServicesOutboundRuleConflictingState",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class CognitiveServicesOutboundRuleConflictingState
+  extends /*@__PURE__*/ Schema.TaggedError<CognitiveServicesOutboundRuleConflictingState>()(
+    "CognitiveServicesOutboundRuleConflictingState",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.SignalRService when a feature (custom certificates,
@@ -1075,10 +1166,11 @@ export class CognitiveServicesOutboundRuleConflictingState extends Schema.Tagged
  * it. Azure returns HTTP 409 `Conflict` "The resource SKU does not support
  * ..." (matched by message).
  */
-export class SignalRSkuFeatureNotSupported extends Schema.TaggedError<SignalRSkuFeatureNotSupported>()(
-  "SignalRSkuFeatureNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SignalRSkuFeatureNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<SignalRSkuFeatureNotSupported>()(
+    "SignalRSkuFeatureNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.SqlVirtualMachine when a SQL virtual machine is
@@ -1086,10 +1178,11 @@ export class SignalRSkuFeatureNotSupported extends Schema.TaggedError<SignalRSku
  * previous delete: HTTP 409 "Underlying virtual machine ... does not exist
  * or does not have SQL IaaS extension installed" (matched by message).
  */
-export class SqlVirtualMachineExtensionMissing extends Schema.TaggedError<SqlVirtualMachineExtensionMissing>()(
-  "SqlVirtualMachineExtensionMissing",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class SqlVirtualMachineExtensionMissing
+  extends /*@__PURE__*/ Schema.TaggedError<SqlVirtualMachineExtensionMissing>()(
+    "SqlVirtualMachineExtensionMissing",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.SignalRService when a shared private link resource
@@ -1097,10 +1190,11 @@ export class SqlVirtualMachineExtensionMissing extends Schema.TaggedError<SqlVir
  * replicated to it. Azure returns HTTP 409 `Conflict` "Cannot create a new
  * shared private link resource for replicas directly" (matched by message).
  */
-export class SignalRReplicaLinkNotReplicated extends Schema.TaggedError<SignalRReplicaLinkNotReplicated>()(
-  "SignalRReplicaLinkNotReplicated",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class SignalRReplicaLinkNotReplicated
+  extends /*@__PURE__*/ Schema.TaggedError<SignalRReplicaLinkNotReplicated>()(
+    "SignalRReplicaLinkNotReplicated",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.StorageCache when an AML file system's blob
@@ -1109,10 +1203,11 @@ export class SignalRReplicaLinkNotReplicated extends Schema.TaggedError<SignalRR
  * `InvalidParameter` "Storage Container ... is not found or is
  * inaccessible." (matched by code + message). Transient; retry.
  */
-export class AmlFilesystemContainerInaccessible extends Schema.TaggedError<AmlFilesystemContainerInaccessible>()(
-  "AmlFilesystemContainerInaccessible",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AmlFilesystemContainerInaccessible
+  extends /*@__PURE__*/ Schema.TaggedError<AmlFilesystemContainerInaccessible>()(
+    "AmlFilesystemContainerInaccessible",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.SignalRService (SignalR and Web PubSub) when a
@@ -1120,10 +1215,11 @@ export class AmlFilesystemContainerInaccessible extends Schema.TaggedError<AmlFi
  * service: HTTP 400 "Referenced custom certificate \"x\" does not exist."
  * (matched by message).
  */
-export class SignalRCustomCertificateNotFound extends Schema.TaggedError<SignalRCustomCertificateNotFound>()(
-  "SignalRCustomCertificateNotFound",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SignalRCustomCertificateNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<SignalRCustomCertificateNotFound>()(
+    "SignalRCustomCertificateNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Datadog when the Datadog Marketplace SaaS purchase
@@ -1131,10 +1227,11 @@ export class SignalRCustomCertificateNotFound extends Schema.TaggedError<SignalR
  * or before the Datadog Marketplace terms are accepted. HTTP 400
  * `ResourceCreationValidateFailed` "The resource validation failed."
  */
-export class DatadogMonitorCreationValidateFailed extends Schema.TaggedError<DatadogMonitorCreationValidateFailed>()(
-  "DatadogMonitorCreationValidateFailed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class DatadogMonitorCreationValidateFailed
+  extends /*@__PURE__*/ Schema.TaggedError<DatadogMonitorCreationValidateFailed>()(
+    "DatadogMonitorCreationValidateFailed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.BotService when deleting an OAuth connection
@@ -1142,10 +1239,11 @@ export class DatadogMonitorCreationValidateFailed extends Schema.TaggedError<Dat
  * HTTP 400 "connection resource with id ... is not found" (matched by
  * message).
  */
-export class BotConnectionNotFound extends Schema.TaggedError<BotConnectionNotFound>()(
-  "BotConnectionNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class BotConnectionNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<BotConnectionNotFound>()(
+    "BotConnectionNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned by Microsoft.BotService when deleting an OAuth connection
@@ -1153,13 +1251,14 @@ export class BotConnectionNotFound extends Schema.TaggedError<BotConnectionNotFo
  * reference not set to an instance of an object" from
  * `ConnectionSettingConverters` (matched by message).
  */
-export class BotConnectionDeleteInProgress extends Schema.TaggedError<BotConnectionDeleteInProgress>()(
-  "BotConnectionDeleteInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class BotConnectionDeleteInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<BotConnectionDeleteInProgress>()(
+    "BotConnectionDeleteInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 // ---------------------------------------------------------------------------
-// Azure error code → typed error class mapping
+// Azure error code -> typed error class mapping
 // ---------------------------------------------------------------------------
 
 /**
@@ -1172,21 +1271,23 @@ export class BotConnectionDeleteInProgress extends Schema.TaggedError<BotConnect
  * cannot be created in the eastus region at this time, because the resource
  * quota has been exceeded in that region." (matched by message).
  */
-export class DevCenterNetworkConnectionQuotaExceeded extends Schema.TaggedError<DevCenterNetworkConnectionQuotaExceeded>()(
-  "DevCenterNetworkConnectionQuotaExceeded",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class DevCenterNetworkConnectionQuotaExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<DevCenterNetworkConnectionQuotaExceeded>()(
+    "DevCenterNetworkConnectionQuotaExceeded",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.DevCenter: the dev center's managed identity cannot (yet) read
- * the Azure Compute Gallery being attached — missing role assignment or
+ * the Azure Compute Gallery being attached -- missing role assignment or
  * RBAC propagation delay. HTTP 400 `ValidationError` whose `details[].code`
  * is `DevCenterIsNotAuthorizedToGallery`.
  */
-export class DevCenterNotAuthorizedToGallery extends Schema.TaggedError<DevCenterNotAuthorizedToGallery>()(
-  "DevCenterNotAuthorizedToGallery",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class DevCenterNotAuthorizedToGallery
+  extends /*@__PURE__*/ Schema.TaggedError<DevCenterNotAuthorizedToGallery>()(
+    "DevCenterNotAuthorizedToGallery",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.DevCenter: Dev Box stopped accepting new customers on
@@ -1194,10 +1295,11 @@ export class DevCenterNotAuthorizedToGallery extends Schema.TaggedError<DevCente
  * definitions, pools, or schedules. HTTP 400 `ValidationError` "The request
  * is not valid." whose `details[].code` is `TenantNotOnboardedToLegacy`.
  */
-export class DevBoxTenantNotOnboarded extends Schema.TaggedError<DevBoxTenantNotOnboarded>()(
-  "DevBoxTenantNotOnboarded",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class DevBoxTenantNotOnboarded
+  extends /*@__PURE__*/ Schema.TaggedError<DevBoxTenantNotOnboarded>()(
+    "DevBoxTenantNotOnboarded",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.AzureDataTransfer rejects pipeline creation for subscriptions
@@ -1205,30 +1307,33 @@ export class DevBoxTenantNotOnboarded extends Schema.TaggedError<DevBoxTenantNot
  * allowed to create a pipeline in this location or you are missing the
  * appropriate permissions." (matched by message).
  */
-export class DataTransferPipelineNotAllowed extends Schema.TaggedError<DataTransferPipelineNotAllowed>()(
-  "DataTransferPipelineNotAllowed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class DataTransferPipelineNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<DataTransferPipelineNotAllowed>()(
+    "DataTransferPipelineNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.AzureDataTransfer rejects a PUT on an existing connection (its
  * PUT is create-only). HTTP 400 "A connection with ID '...' already exists.
  * Please choose a different name." (matched by message).
  */
-export class DataTransferConnectionAlreadyExists extends Schema.TaggedError<DataTransferConnectionAlreadyExists>()(
-  "DataTransferConnectionAlreadyExists",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class DataTransferConnectionAlreadyExists
+  extends /*@__PURE__*/ Schema.TaggedError<DataTransferConnectionAlreadyExists>()(
+    "DataTransferConnectionAlreadyExists",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.AzureDataTransfer rejects creating a flow on a connection the
  * pipeline owner has not approved. HTTP 400 "Connection has not been
  * approved yet." (matched by message).
  */
-export class DataTransferConnectionNotApproved extends Schema.TaggedError<DataTransferConnectionNotApproved>()(
-  "DataTransferConnectionNotApproved",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class DataTransferConnectionNotApproved
+  extends /*@__PURE__*/ Schema.TaggedError<DataTransferConnectionNotApproved>()(
+    "DataTransferConnectionNotApproved",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.Devices (Device Provisioning Service) rejects writes while the
@@ -1236,10 +1341,11 @@ export class DataTransferConnectionNotApproved extends Schema.TaggedError<DataTr
  * 409301 "Invalid IotDpsState i.e. should be active/suspended, IotDpsState:
  * Transitioning" (matched by message).
  */
-export class IotDpsStateTransitioning extends Schema.TaggedError<IotDpsStateTransitioning>()(
-  "IotDpsStateTransitioning",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class IotDpsStateTransitioning
+  extends /*@__PURE__*/ Schema.TaggedError<IotDpsStateTransitioning>()(
+    "IotDpsStateTransitioning",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Microsoft.RecoveryServices (Site Recovery) rejects an ASR call with
@@ -1247,10 +1353,11 @@ export class IotDpsStateTransitioning extends Schema.TaggedError<IotDpsStateTran
  * while a freshly created vault is still being registered with ASR
  * (transient; matched by message).
  */
-export class SiteRecoveryVaultNotRegistered extends Schema.TaggedError<SiteRecoveryVaultNotRegistered>()(
-  "SiteRecoveryVaultNotRegistered",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class SiteRecoveryVaultNotRegistered
+  extends /*@__PURE__*/ Schema.TaggedError<SiteRecoveryVaultNotRegistered>()(
+    "SiteRecoveryVaultNotRegistered",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Microsoft.RecoveryServices (Site Recovery) rejects vault-level settings
@@ -1258,10 +1365,11 @@ export class SiteRecoveryVaultNotRegistered extends Schema.TaggedError<SiteRecov
  * to the Azure Site Recovery vault." until a fabric/server is registered
  * (matched by message).
  */
-export class SiteRecoveryNoRegisteredServers extends Schema.TaggedError<SiteRecoveryNoRegisteredServers>()(
-  "SiteRecoveryNoRegisteredServers",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SiteRecoveryNoRegisteredServers
+  extends /*@__PURE__*/ Schema.TaggedError<SiteRecoveryNoRegisteredServers>()(
+    "SiteRecoveryNoRegisteredServers",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.ServiceFabric (managed clusters) refuses to delete a cluster's
@@ -1269,48 +1377,53 @@ export class SiteRecoveryNoRegisteredServers extends Schema.TaggedError<SiteReco
  * one active primary node type." (matched by message). The node type goes
  * away with its cluster.
  */
-export class ServiceFabricPrimaryNodeTypeRequired extends Schema.TaggedError<ServiceFabricPrimaryNodeTypeRequired>()(
-  "ServiceFabricPrimaryNodeTypeRequired",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class ServiceFabricPrimaryNodeTypeRequired
+  extends /*@__PURE__*/ Schema.TaggedError<ServiceFabricPrimaryNodeTypeRequired>()(
+    "ServiceFabricPrimaryNodeTypeRequired",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.DocumentDB rejects a database-account PUT with `BadRequest`
  * "...is in the process of being created" while an earlier create of the
  * same account is still running (matched by message).
  */
-export class CosmosAccountBeingCreated extends Schema.TaggedError<CosmosAccountBeingCreated>()(
-  "CosmosAccountBeingCreated",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class CosmosAccountBeingCreated
+  extends /*@__PURE__*/ Schema.TaggedError<CosmosAccountBeingCreated>()(
+    "CosmosAccountBeingCreated",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Power BI Embedded rejects capacity creation when the tenant has never
  * signed up for Microsoft Fabric / Power BI (matched by message).
  */
-export class PowerBITenantNotSignedUp extends Schema.TaggedError<PowerBITenantNotSignedUp>()(
-  "PowerBITenantNotSignedUp",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class PowerBITenantNotSignedUp
+  extends /*@__PURE__*/ Schema.TaggedError<PowerBITenantNotSignedUp>()(
+    "PowerBITenantNotSignedUp",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.Fabric rejects a capacity whose administrators are not (yet)
- * visible Entra users or service principals — e.g. a managed identity
+ * visible Entra users or service principals -- e.g. a managed identity
  * created moments ago that has not replicated (matched by message).
  */
-export class FabricCapacityPrincipalNotFound extends Schema.TaggedError<FabricCapacityPrincipalNotFound>()(
-  "FabricCapacityPrincipalNotFound",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class FabricCapacityPrincipalNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<FabricCapacityPrincipalNotFound>()(
+    "FabricCapacityPrincipalNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.Fabric rejects a capacity whose capacity units would exceed the
  * subscription's regional Fabric CU quota (matched by message).
  */
-export class FabricCapacityQuotaExceeded extends Schema.TaggedError<FabricCapacityQuotaExceeded>()(
-  "FabricCapacityQuotaExceeded",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class FabricCapacityQuotaExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<FabricCapacityQuotaExceeded>()(
+    "FabricCapacityQuotaExceeded",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * ARM rejected a resource provider's response because the payload did not
@@ -1319,10 +1432,11 @@ export class FabricCapacityQuotaExceeded extends Schema.TaggedError<FabricCapaci
  * The request was not applied.
  * Azure error code: `HttpResponsePayloadAPISpecValidationFailed`
  */
-export class HttpResponsePayloadAPISpecValidationFailed extends Schema.TaggedError<HttpResponsePayloadAPISpecValidationFailed>()(
-  "HttpResponsePayloadAPISpecValidationFailed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class HttpResponsePayloadAPISpecValidationFailed
+  extends /*@__PURE__*/ Schema.TaggedError<HttpResponsePayloadAPISpecValidationFailed>()(
+    "HttpResponsePayloadAPISpecValidationFailed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.App when creating a managed environment would exceed
@@ -1331,10 +1445,11 @@ export class HttpResponsePayloadAPISpecValidationFailed extends Schema.TaggedErr
  * cannot have more than 1 Container App Environments.") or
  * `MaxNumberOfRegionalEnvironmentsInSubExceeded` (per-region limit).
  */
-export class ContainerAppsEnvironmentQuotaExceeded extends Schema.TaggedError<ContainerAppsEnvironmentQuotaExceeded>()(
-  "ContainerAppsEnvironmentQuotaExceeded",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class ContainerAppsEnvironmentQuotaExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<ContainerAppsEnvironmentQuotaExceeded>()(
+    "ContainerAppsEnvironmentQuotaExceeded",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> = {
   TenantNotOnboardedToLegacy: DevBoxTenantNotOnboarded,
@@ -1454,10 +1569,11 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
  * Microsoft.Web error code: `429` with "App Service Plan Create operation
  * is throttled".
  */
-export class AppServicePlanCreateThrottled extends Schema.TaggedError<AppServicePlanCreateThrottled>()(
-  "AppServicePlanCreateThrottled",
-  AzureErrorFields,
-).pipe(Category.withThrottlingError) {}
+export class AppServicePlanCreateThrottled
+  extends /*@__PURE__*/ Schema.TaggedError<AppServicePlanCreateThrottled>()(
+    "AppServicePlanCreateThrottled",
+    AzureErrorFields,
+  ).pipe(Category.withThrottlingError) {}
 
 /**
  * Returned by Microsoft.Web when a custom hostname binding fails domain
@@ -1466,10 +1582,11 @@ export class AppServicePlanCreateThrottled extends Schema.TaggedError<AppService
  * pointing from asuid..." / "A CNAME record pointing from ..." (matched by
  * message).
  */
-export class HostNameVerificationFailed extends Schema.TaggedError<HostNameVerificationFailed>()(
-  "HostNameVerificationFailed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class HostNameVerificationFailed
+  extends /*@__PURE__*/ Schema.TaggedError<HostNameVerificationFailed>()(
+    "HostNameVerificationFailed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Web when a deployment slot is created on a plan
@@ -1477,10 +1594,11 @@ export class HostNameVerificationFailed extends Schema.TaggedError<HostNameVerif
  * Microsoft.Web error code: `BadRequest` with "does not support slots"
  * (matched by message).
  */
-export class WebAppSlotsNotSupported extends Schema.TaggedError<WebAppSlotsNotSupported>()(
-  "WebAppSlotsNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class WebAppSlotsNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<WebAppSlotsNotSupported>()(
+    "WebAppSlotsNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Web when a public certificate is uploaded to an app
@@ -1488,10 +1606,11 @@ export class WebAppSlotsNotSupported extends Schema.TaggedError<WebAppSlotsNotSu
  * exceed the allowed amount of Free connections." Error code: `Conflict`
  * (matched by message).
  */
-export class WebPublicCertificateNotAllowedOnTier extends Schema.TaggedError<WebPublicCertificateNotAllowedOnTier>()(
-  "WebPublicCertificateNotAllowedOnTier",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class WebPublicCertificateNotAllowedOnTier
+  extends /*@__PURE__*/ Schema.TaggedError<WebPublicCertificateNotAllowedOnTier>()(
+    "WebPublicCertificateNotAllowedOnTier",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Web (HTTP 500) for an operation the service no
@@ -1499,10 +1618,11 @@ export class WebPublicCertificateNotAllowedOnTier extends Schema.TaggedError<Web
  * (the retired database connections preview): "The requested method is not
  * implemented." Not retryable (matched by message).
  */
-export class WebMethodNotImplemented extends Schema.TaggedError<WebMethodNotImplemented>()(
-  "WebMethodNotImplemented",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class WebMethodNotImplemented
+  extends /*@__PURE__*/ Schema.TaggedError<WebMethodNotImplemented>()(
+    "WebMethodNotImplemented",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Web (HTTP 502) when the subscription is barred from
@@ -1510,22 +1630,24 @@ export class WebMethodNotImplemented extends Schema.TaggedError<WebMethodNotImpl
  * trial: "The subscription '<id>' is not allowed to create or update the
  * serverfarm." Not retryable (matched by message).
  */
-export class ServerFarmCreateNotAllowed extends Schema.TaggedError<ServerFarmCreateNotAllowed>()(
-  "ServerFarmCreateNotAllowed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class ServerFarmCreateNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<ServerFarmCreateNotAllowed>()(
+    "ServerFarmCreateNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.OperationalInsights when a linked storage account is
- * rejected as "faulted" — right after the account is created, before the
+ * rejected as "faulted" -- right after the account is created, before the
  * service can see it, or when its region differs from the workspace's.
  * Error code: `InvalidParameter` with "might be considered faulted"
  * (matched by message).
  */
-export class LinkedStorageAccountFaulted extends Schema.TaggedError<LinkedStorageAccountFaulted>()(
-  "LinkedStorageAccountFaulted",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class LinkedStorageAccountFaulted
+  extends /*@__PURE__*/ Schema.TaggedError<LinkedStorageAccountFaulted>()(
+    "LinkedStorageAccountFaulted",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.MachineLearningServices when a `Default` workspace
@@ -1534,10 +1656,11 @@ export class LinkedStorageAccountFaulted extends Schema.TaggedError<LinkedStorag
  * with "Missing dependent resources in workspace json" (matched by
  * message).
  */
-export class MachineLearningWorkspaceMissingDependencies extends Schema.TaggedError<MachineLearningWorkspaceMissingDependencies>()(
-  "MachineLearningWorkspaceMissingDependencies",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class MachineLearningWorkspaceMissingDependencies
+  extends /*@__PURE__*/ Schema.TaggedError<MachineLearningWorkspaceMissingDependencies>()(
+    "MachineLearningWorkspaceMissingDependencies",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.MachineLearningServices when deleting an AI hub
@@ -1545,10 +1668,11 @@ export class MachineLearningWorkspaceMissingDependencies extends Schema.TaggedEr
  * deletion is still in progress). Azure returns HTTP 400 with "AI hub
  * still has associated AI projects" (matched by message).
  */
-export class MachineLearningHubHasProjects extends Schema.TaggedError<MachineLearningHubHasProjects>()(
-  "MachineLearningHubHasProjects",
-  AzureErrorFields,
-).pipe(Category.withDependencyViolationError) {}
+export class MachineLearningHubHasProjects
+  extends /*@__PURE__*/ Schema.TaggedError<MachineLearningHubHasProjects>()(
+    "MachineLearningHubHasProjects",
+    AzureErrorFields,
+  ).pipe(Category.withDependencyViolationError) {}
 
 /**
  * Returned by Microsoft.Monitor for an Azure Monitor workspace's metrics
@@ -1556,10 +1680,11 @@ export class MachineLearningHubHasProjects extends Schema.TaggedError<MachineLea
  * wired up after creation (HTTP 500 "Unauthorized to access Geneva Metrics
  * account", matched by message); retry until it settles.
  */
-export class MetricsContainerNotReady extends Schema.TaggedError<MetricsContainerNotReady>()(
-  "MetricsContainerNotReady",
-  AzureErrorFields,
-).pipe(Category.withServerError) {}
+export class MetricsContainerNotReady
+  extends /*@__PURE__*/ Schema.TaggedError<MetricsContainerNotReady>()(
+    "MetricsContainerNotReady",
+    AzureErrorFields,
+  ).pipe(Category.withServerError) {}
 
 /**
  * Returned when a resource's `extendedLocation` names an Arc custom
@@ -1567,10 +1692,11 @@ export class MetricsContainerNotReady extends Schema.TaggedError<MetricsContaine
  * Azure returns HTTP 400 with "The custom location was not found"
  * (matched by message).
  */
-export class CustomLocationNotFound extends Schema.TaggedError<CustomLocationNotFound>()(
-  "CustomLocationNotFound",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class CustomLocationNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<CustomLocationNotFound>()(
+    "CustomLocationNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.ScVmm when a guest agent is created on an Arc
@@ -1578,10 +1704,11 @@ export class CustomLocationNotFound extends Schema.TaggedError<CustomLocationNot
  * extended location, so Azure reports "has an invalid extended location
  * '<null>'" (matched by message).
  */
-export class ScVmmVmInstanceMissing extends Schema.TaggedError<ScVmmVmInstanceMissing>()(
-  "ScVmmVmInstanceMissing",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class ScVmmVmInstanceMissing
+  extends /*@__PURE__*/ Schema.TaggedError<ScVmmVmInstanceMissing>()(
+    "ScVmmVmInstanceMissing",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.AzureStackHCI when an edge machine or edge device
@@ -1590,30 +1717,33 @@ export class ScVmmVmInstanceMissing extends Schema.TaggedError<ScVmmVmInstanceMi
  * qualify). Azure returns HTTP 400 without an error code (matched by
  * message).
  */
-export class AzureLocalArcMachineRequired extends Schema.TaggedError<AzureLocalArcMachineRequired>()(
-  "AzureLocalArcMachineRequired",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AzureLocalArcMachineRequired
+  extends /*@__PURE__*/ Schema.TaggedError<AzureLocalArcMachineRequired>()(
+    "AzureLocalArcMachineRequired",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Peering when a peering references a peer ASN that
  * Microsoft has not approved for the subscription. HTTP 400 without an
  * error code (matched by message).
  */
-export class PeeringPeerAsnNotApproved extends Schema.TaggedError<PeeringPeerAsnNotApproved>()(
-  "PeeringPeerAsnNotApproved",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class PeeringPeerAsnNotApproved
+  extends /*@__PURE__*/ Schema.TaggedError<PeeringPeerAsnNotApproved>()(
+    "PeeringPeerAsnNotApproved",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Peering when a peering service prefix carries no
  * or an unknown provider prefix key. HTTP 400 without an error code
  * (matched by message).
  */
-export class PeeringServicePrefixKeyInvalid extends Schema.TaggedError<PeeringServicePrefixKeyInvalid>()(
-  "PeeringServicePrefixKeyInvalid",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class PeeringServicePrefixKeyInvalid
+  extends /*@__PURE__*/ Schema.TaggedError<PeeringServicePrefixKeyInvalid>()(
+    "PeeringServicePrefixKeyInvalid",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Peering when the provider cannot validate a
@@ -1621,10 +1751,11 @@ export class PeeringServicePrefixKeyInvalid extends Schema.TaggedError<PeeringSe
  * Azure uses HTTP 404 without an error code, so it must not be read as
  * "resource not found" (matched by message).
  */
-export class PeeringServicePrefixValidationFailed extends Schema.TaggedError<PeeringServicePrefixValidationFailed>()(
-  "PeeringServicePrefixValidationFailed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class PeeringServicePrefixValidationFailed
+  extends /*@__PURE__*/ Schema.TaggedError<PeeringServicePrefixValidationFailed>()(
+    "PeeringServicePrefixValidationFailed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.DBforPostgreSQL/serverGroupsv2 when creating a new
@@ -1633,10 +1764,11 @@ export class PeeringServicePrefixValidationFailed extends Schema.TaggedError<Pee
  * still work). HTTP 400 "Provisioning new Azure Cosmos DB for PostgreSQL
  * clusters is no longer supported" (matched by message).
  */
-export class CosmosPostgresProvisioningRetired extends Schema.TaggedError<CosmosPostgresProvisioningRetired>()(
-  "CosmosPostgresProvisioningRetired",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class CosmosPostgresProvisioningRetired
+  extends /*@__PURE__*/ Schema.TaggedError<CosmosPostgresProvisioningRetired>()(
+    "CosmosPostgresProvisioningRetired",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.HDInsight when creating or resizing a cluster
@@ -1645,10 +1777,11 @@ export class CosmosPostgresProvisioningRetired extends Schema.TaggedError<Cosmos
  * create resource '...'. Required: N, Available: M." without an error code
  * (matched by message).
  */
-export class HDInsightCoresQuotaExceeded extends Schema.TaggedError<HDInsightCoresQuotaExceeded>()(
-  "HDInsightCoresQuotaExceeded",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class HDInsightCoresQuotaExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<HDInsightCoresQuotaExceeded>()(
+    "HDInsightCoresQuotaExceeded",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.RedHatOpenShift when a cluster's control-plane or
@@ -1657,10 +1790,11 @@ export class HDInsightCoresQuotaExceeded extends Schema.TaggedError<HDInsightCor
  * "The selected SKU '...' is restricted in region '...' for selected
  * subscription" (matched by message).
  */
-export class RedHatOpenShiftVmSkuRestricted extends Schema.TaggedError<RedHatOpenShiftVmSkuRestricted>()(
-  "RedHatOpenShiftVmSkuRestricted",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class RedHatOpenShiftVmSkuRestricted
+  extends /*@__PURE__*/ Schema.TaggedError<RedHatOpenShiftVmSkuRestricted>()(
+    "RedHatOpenShiftVmSkuRestricted",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.RedHatOpenShift when the cluster's control-plane,
@@ -1669,10 +1803,11 @@ export class RedHatOpenShiftVmSkuRestricted extends Schema.TaggedError<RedHatOpe
  * Maximum allowed: N, Current in use: M, Additional requested: K." without
  * an error code (matched by message).
  */
-export class RedHatOpenShiftCoresQuotaExceeded extends Schema.TaggedError<RedHatOpenShiftCoresQuotaExceeded>()(
-  "RedHatOpenShiftCoresQuotaExceeded",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class RedHatOpenShiftCoresQuotaExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<RedHatOpenShiftCoresQuotaExceeded>()(
+    "RedHatOpenShiftCoresQuotaExceeded",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Storage when a storage task assignment is written
@@ -1681,10 +1816,11 @@ export class RedHatOpenShiftCoresQuotaExceeded extends Schema.TaggedError<RedHat
  * 'PUT' operation ... is active/in-progress ... storageTaskAssignments";
  * retry until it settles.
  */
-export class StorageTaskAssignmentOperationInProgress extends Schema.TaggedError<StorageTaskAssignmentOperationInProgress>()(
-  "StorageTaskAssignmentOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class StorageTaskAssignmentOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<StorageTaskAssignmentOperationInProgress>()(
+    "StorageTaskAssignmentOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.Kubernetes (Azure Arc connected clusters) when a
@@ -1693,10 +1829,11 @@ export class StorageTaskAssignmentOperationInProgress extends Schema.TaggedError
  * invalid as it is being provisioned with state: 'Accepted'"; retry until
  * it settles.
  */
-export class ConnectedClusterOperationInProgress extends Schema.TaggedError<ConnectedClusterOperationInProgress>()(
-  "ConnectedClusterOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class ConnectedClusterOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<ConnectedClusterOperationInProgress>()(
+    "ConnectedClusterOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.ExtendedLocation when a custom location references
@@ -1705,10 +1842,11 @@ export class ConnectedClusterOperationInProgress extends Schema.TaggedError<Conn
  * "combined getting extension config errors ... error in trying to get
  * cluster extension config" (matched by message).
  */
-export class CustomLocationClusterExtensionNotFound extends Schema.TaggedError<CustomLocationClusterExtensionNotFound>()(
-  "CustomLocationClusterExtensionNotFound",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class CustomLocationClusterExtensionNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<CustomLocationClusterExtensionNotFound>()(
+    "CustomLocationClusterExtensionNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.HybridNetwork (Azure Operator Service Manager) when
@@ -1719,10 +1857,11 @@ export class CustomLocationClusterExtensionNotFound extends Schema.TaggedError<C
  * state" (matched by message); retry until it settles. Microsoft.Mission
  * (Virtual Enclaves) hubs return the same error.
  */
-export class HybridNetworkOperationInProgress extends Schema.TaggedError<HybridNetworkOperationInProgress>()(
-  "HybridNetworkOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class HybridNetworkOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<HybridNetworkOperationInProgress>()(
+    "HybridNetworkOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.HybridCompute when an Arc gateway is written or
@@ -1730,20 +1869,22 @@ export class HybridNetworkOperationInProgress extends Schema.TaggedError<HybridN
  * ("Gateway operation not allowed. The Gateway is a transitioning state.",
  * matched by message); retry until it settles.
  */
-export class HybridComputeGatewayTransitioning extends Schema.TaggedError<HybridComputeGatewayTransitioning>()(
-  "HybridComputeGatewayTransitioning",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class HybridComputeGatewayTransitioning
+  extends /*@__PURE__*/ Schema.TaggedError<HybridComputeGatewayTransitioning>()(
+    "HybridComputeGatewayTransitioning",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.HybridCompute when a license profile is written to
  * an Arc machine whose Connected Machine agent has not connected. HTTP 400
  * without an error code (matched by message).
  */
-export class ArcMachineNotConnected extends Schema.TaggedError<ArcMachineNotConnected>()(
-  "ArcMachineNotConnected",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class ArcMachineNotConnected
+  extends /*@__PURE__*/ Schema.TaggedError<ArcMachineNotConnected>()(
+    "ArcMachineNotConnected",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Databricks when a write or delete reaches a
@@ -1752,10 +1893,11 @@ export class ArcMachineNotConnected extends Schema.TaggedError<ArcMachineNotConn
  * appliance '<name>' because it is being deleted" (matched by message);
  * retry until it settles.
  */
-export class DatabricksApplianceBusy extends Schema.TaggedError<DatabricksApplianceBusy>()(
-  "DatabricksApplianceBusy",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class DatabricksApplianceBusy
+  extends /*@__PURE__*/ Schema.TaggedError<DatabricksApplianceBusy>()(
+    "DatabricksApplianceBusy",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.Sql when a write to a server/database setting
@@ -1764,10 +1906,11 @@ export class DatabricksApplianceBusy extends Schema.TaggedError<DatabricksApplia
  * "... is already in progress. Use Azure-AsyncOperation request to track
  * your operation" (matched by message); retry until it settles.
  */
-export class SqlOperationInProgress extends Schema.TaggedError<SqlOperationInProgress>()(
-  "SqlOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class SqlOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<SqlOperationInProgress>()(
+    "SqlOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.App when the tenant or subscription is not enrolled
@@ -1775,10 +1918,11 @@ export class SqlOperationInProgress extends Schema.TaggedError<SqlOperationInPro
  * with "Operations on Agent Space are not allowed for tenant" (matched by
  * message).
  */
-export class AgentSpaceNotAllowed extends Schema.TaggedError<AgentSpaceNotAllowed>()(
-  "AgentSpaceNotAllowed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AgentSpaceNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<AgentSpaceNotAllowed>()(
+    "AgentSpaceNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Edge when a site is created on a scope (resource
@@ -1786,10 +1930,11 @@ export class AgentSpaceNotAllowed extends Schema.TaggedError<AgentSpaceNotAllowe
  * previous site was deleted. Azure returns HTTP 400 "Site already present
  * on the same scope" without an error code (matched by message).
  */
-export class EdgeSiteScopeTaken extends Schema.TaggedError<EdgeSiteScopeTaken>()(
-  "EdgeSiteScopeTaken",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class EdgeSiteScopeTaken
+  extends /*@__PURE__*/ Schema.TaggedError<EdgeSiteScopeTaken>()(
+    "EdgeSiteScopeTaken",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.MachineLearningServices when a serverless endpoint
@@ -1797,10 +1942,11 @@ export class EdgeSiteScopeTaken extends Schema.TaggedError<EdgeSiteScopeTaken>()
  * workspace's region. Azure returns HTTP 400 with "The requested model
  * ... is not available." (matched by message).
  */
-export class MachineLearningModelNotAvailable extends Schema.TaggedError<MachineLearningModelNotAvailable>()(
-  "MachineLearningModelNotAvailable",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class MachineLearningModelNotAvailable
+  extends /*@__PURE__*/ Schema.TaggedError<MachineLearningModelNotAvailable>()(
+    "MachineLearningModelNotAvailable",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.MachineLearningServices when a request targets a
@@ -1808,20 +1954,22 @@ export class MachineLearningModelNotAvailable extends Schema.TaggedError<Machine
  * on it is still running. Azure returns HTTP 409 "Another operation with ID
  * [...] is already running on ..." (matched by message). Retryable.
  */
-export class MachineLearningOperationInProgress extends Schema.TaggedError<MachineLearningOperationInProgress>()(
-  "MachineLearningOperationInProgress",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class MachineLearningOperationInProgress
+  extends /*@__PURE__*/ Schema.TaggedError<MachineLearningOperationInProgress>()(
+    "MachineLearningOperationInProgress",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.Sql when a server key name is not
  * `<vault>_<key>_<version>` (HTTP 400 "An invalid value was given for the
  * server key name", matched by message). Such a key cannot exist.
  */
-export class SqlServerKeyNameInvalid extends Schema.TaggedError<SqlServerKeyNameInvalid>()(
-  "SqlServerKeyNameInvalid",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SqlServerKeyNameInvalid
+  extends /*@__PURE__*/ Schema.TaggedError<SqlServerKeyNameInvalid>()(
+    "SqlServerKeyNameInvalid",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Sql when a database's custom maintenance windows
@@ -1830,10 +1978,11 @@ export class SqlServerKeyNameInvalid extends Schema.TaggedError<SqlServerKeyName
  * code `InvalidMaintenanceWindowSelection` "Invalid maintenance window
  * selection.".
  */
-export class SqlMaintenanceWindowInvalid extends Schema.TaggedError<SqlMaintenanceWindowInvalid>()(
-  "SqlMaintenanceWindowInvalid",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SqlMaintenanceWindowInvalid
+  extends /*@__PURE__*/ Schema.TaggedError<SqlMaintenanceWindowInvalid>()(
+    "SqlMaintenanceWindowInvalid",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Sql when Microsoft Entra-only authentication is
@@ -1843,10 +1992,11 @@ export class SqlMaintenanceWindowInvalid extends Schema.TaggedError<SqlMaintenan
  * not configured, AAD Admin must be set before enabling/disabling AAD Only
  * Authentication.".
  */
-export class SqlManagedInstanceEntraAdminRequired extends Schema.TaggedError<SqlManagedInstanceEntraAdminRequired>()(
-  "SqlManagedInstanceEntraAdminRequired",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SqlManagedInstanceEntraAdminRequired
+  extends /*@__PURE__*/ Schema.TaggedError<SqlManagedInstanceEntraAdminRequired>()(
+    "SqlManagedInstanceEntraAdminRequired",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Edge when a workload orchestration context is
@@ -1855,10 +2005,11 @@ export class SqlManagedInstanceEntraAdminRequired extends Schema.TaggedError<Sql
  * Azure returns HTTP 400 "Validation failed: Context ... already exists."
  * without an error code (matched by message).
  */
-export class EdgeContextAlreadyExists extends Schema.TaggedError<EdgeContextAlreadyExists>()(
-  "EdgeContextAlreadyExists",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class EdgeContextAlreadyExists
+  extends /*@__PURE__*/ Schema.TaggedError<EdgeContextAlreadyExists>()(
+    "EdgeContextAlreadyExists",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Edge when a solution template names capabilities
@@ -1867,10 +2018,11 @@ export class EdgeContextAlreadyExists extends Schema.TaggedError<EdgeContextAlre
  * Capabilities ... are missing in context resource" without an error code
  * (matched by message).
  */
-export class EdgeContextCapabilityMissing extends Schema.TaggedError<EdgeContextCapabilityMissing>()(
-  "EdgeContextCapabilityMissing",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class EdgeContextCapabilityMissing
+  extends /*@__PURE__*/ Schema.TaggedError<EdgeContextCapabilityMissing>()(
+    "EdgeContextCapabilityMissing",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Migrate when an assessment is created in a group
@@ -1878,30 +2030,33 @@ export class EdgeContextCapabilityMissing extends Schema.TaggedError<EdgeContext
  * supports none). HTTP 400 "Assessment Type: ... is not supported in this
  * group." without an error code (matched by message).
  */
-export class MigrateAssessmentTypeNotSupported extends Schema.TaggedError<MigrateAssessmentTypeNotSupported>()(
-  "MigrateAssessmentTypeNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class MigrateAssessmentTypeNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<MigrateAssessmentTypeNotSupported>()(
+    "MigrateAssessmentTypeNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.OffAzure for a vCenter that does not exist in a
  * VMware site: HTTP 400 "VCenter name '...' is invalid." without an error
  * code (matched by message).
  */
-export class MigrateVcenterNotFound extends Schema.TaggedError<MigrateVcenterNotFound>()(
-  "MigrateVcenterNotFound",
-  AzureErrorFields,
-).pipe(Category.withNotFoundError) {}
+export class MigrateVcenterNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<MigrateVcenterNotFound>()(
+    "MigrateVcenterNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withNotFoundError) {}
 
 /**
  * Returned by Microsoft.OffAzure when a vCenter, Hyper-V host, or cluster
  * names a run-as account the site's appliance has not registered: HTTP 400
  * "Run as account Id '...' is invalid." (matched by message).
  */
-export class MigrateRunAsAccountInvalid extends Schema.TaggedError<MigrateRunAsAccountInvalid>()(
-  "MigrateRunAsAccountInvalid",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class MigrateRunAsAccountInvalid
+  extends /*@__PURE__*/ Schema.TaggedError<MigrateRunAsAccountInvalid>()(
+    "MigrateRunAsAccountInvalid",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Cdn when an Azure Front Door Standard/Premium
@@ -1909,10 +2064,11 @@ export class MigrateRunAsAccountInvalid extends Schema.TaggedError<MigrateRunAsA
  * Azure returns HTTP 400 "Free Trial and Student account is forbidden for
  * Azure Frontdoor resources." without an error code (matched by message).
  */
-export class FrontDoorFreeTrialForbidden extends Schema.TaggedError<FrontDoorFreeTrialForbidden>()(
-  "FrontDoorFreeTrialForbidden",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class FrontDoorFreeTrialForbidden
+  extends /*@__PURE__*/ Schema.TaggedError<FrontDoorFreeTrialForbidden>()(
+    "FrontDoorFreeTrialForbidden",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Cdn when creating an Azure Front Door Standard/Premium
@@ -1921,10 +2077,11 @@ export class FrontDoorFreeTrialForbidden extends Schema.TaggedError<FrontDoorFre
  * support to increase quota." (matched by message). Raising it needs a
  * support request; retrying does not help.
  */
-export class FrontDoorProfileQuotaExceeded extends Schema.TaggedError<FrontDoorProfileQuotaExceeded>()(
-  "FrontDoorProfileQuotaExceeded",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class FrontDoorProfileQuotaExceeded
+  extends /*@__PURE__*/ Schema.TaggedError<FrontDoorProfileQuotaExceeded>()(
+    "FrontDoorProfileQuotaExceeded",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Cdn when a Front Door route is written before its
@@ -1933,10 +2090,11 @@ export class FrontDoorProfileQuotaExceeded extends Schema.TaggedError<FrontDoorP
  * successfully and at least one enabled origin is created under the origin
  * group." (matched by message). Transient while a sibling origin deploys.
  */
-export class AfdOriginGroupNotReady extends Schema.TaggedError<AfdOriginGroupNotReady>()(
-  "AfdOriginGroupNotReady",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AfdOriginGroupNotReady
+  extends /*@__PURE__*/ Schema.TaggedError<AfdOriginGroupNotReady>()(
+    "AfdOriginGroupNotReady",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Cdn when the last origin of a Front Door origin
@@ -1945,10 +2103,11 @@ export class AfdOriginGroupNotReady extends Schema.TaggedError<AfdOriginGroupNot
  * when the origin group is still associated with a route or a rule."
  * (matched by message). Transient while the route is being deleted.
  */
-export class AfdLastOriginInUse extends Schema.TaggedError<AfdLastOriginInUse>()(
-  "AfdLastOriginInUse",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AfdLastOriginInUse
+  extends /*@__PURE__*/ Schema.TaggedError<AfdLastOriginInUse>()(
+    "AfdLastOriginInUse",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.CodeSigning (Artifact Signing) account PUTs on a
@@ -1956,10 +2115,11 @@ export class AfdLastOriginInUse extends Schema.TaggedError<AfdLastOriginInUse>()
  * not available for free, trial or sponsored subscriptions" (matched by
  * message). Retrying does not help.
  */
-export class CodeSigningSubscriptionNotSupported extends Schema.TaggedError<CodeSigningSubscriptionNotSupported>()(
-  "CodeSigningSubscriptionNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class CodeSigningSubscriptionNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<CodeSigningSubscriptionNotSupported>()(
+    "CodeSigningSubscriptionNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Azure Native ISV (Marketplace SaaS) resource providers such as
@@ -1969,10 +2129,11 @@ export class CodeSigningSubscriptionNotSupported extends Schema.TaggedError<Code
  * a free subscription}". HTTP 400 without a specific code (matched by
  * message).
  */
-export class MarketplacePurchaseNotEligible extends Schema.TaggedError<MarketplacePurchaseNotEligible>()(
-  "MarketplacePurchaseNotEligible",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class MarketplacePurchaseNotEligible
+  extends /*@__PURE__*/ Schema.TaggedError<MarketplacePurchaseNotEligible>()(
+    "MarketplacePurchaseNotEligible",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Confluent when the organization's first user email
@@ -1980,10 +2141,11 @@ export class MarketplacePurchaseNotEligible extends Schema.TaggedError<Marketpla
  * `ResourceCreationValidateFailed` "Cannot complete signup. Reason: Email
  * already exists." (Confluent error code 40025, matched by message).
  */
-export class ConfluentEmailAlreadyExists extends Schema.TaggedError<ConfluentEmailAlreadyExists>()(
-  "ConfluentEmailAlreadyExists",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class ConfluentEmailAlreadyExists
+  extends /*@__PURE__*/ Schema.TaggedError<ConfluentEmailAlreadyExists>()(
+    "ConfluentEmailAlreadyExists",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Confluent environment/cluster/topic/connector
@@ -1992,10 +2154,11 @@ export class ConfluentEmailAlreadyExists extends Schema.TaggedError<ConfluentEma
  * the ARM signed token. Service principal or app-only tokens are not
  * supported for this operation." (matched by message).
  */
-export class ConfluentUserTokenRequired extends Schema.TaggedError<ConfluentUserTokenRequired>()(
-  "ConfluentUserTokenRequired",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class ConfluentUserTokenRequired
+  extends /*@__PURE__*/ Schema.TaggedError<ConfluentUserTokenRequired>()(
+    "ConfluentUserTokenRequired",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Datadog when Datadog rejects creating the
@@ -2004,33 +2167,36 @@ export class ConfluentUserTokenRequired extends Schema.TaggedError<ConfluentUser
  * `ResourceCreationFailed` "ResourceCreationFailed: Bad Request" (matched by
  * code + message).
  */
-export class DatadogMonitorCreationFailed extends Schema.TaggedError<DatadogMonitorCreationFailed>()(
-  "DatadogMonitorCreationFailed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class DatadogMonitorCreationFailed
+  extends /*@__PURE__*/ Schema.TaggedError<DatadogMonitorCreationFailed>()(
+    "DatadogMonitorCreationFailed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Communication when deleting the last sender
  * username of an email domain: HTTP 400 "Cannot remove all
  * SenderUsernames." (matched by message). The sender goes with its domain.
  */
-export class SenderUsernameLastRemaining extends Schema.TaggedError<SenderUsernameLastRemaining>()(
-  "SenderUsernameLastRemaining",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class SenderUsernameLastRemaining
+  extends /*@__PURE__*/ Schema.TaggedError<SenderUsernameLastRemaining>()(
+    "SenderUsernameLastRemaining",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Cache when a subscription may no longer create
- * Azure Cache for Redis (Basic/Standard/Premium) caches — new customers, or
+ * Azure Cache for Redis (Basic/Standard/Premium) caches -- new customers, or
  * regions where the subscription never had a cache, since the 2028
  * retirement was announced. HTTP 400 `BadRequest` "Azure Cache for Redis is
  * retiring, create Azure Managed Redis instance instead" (matched by
  * message).
  */
-export class RedisCacheRetiring extends Schema.TaggedError<RedisCacheRetiring>()(
-  "RedisCacheRetiring",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class RedisCacheRetiring
+  extends /*@__PURE__*/ Schema.TaggedError<RedisCacheRetiring>()(
+    "RedisCacheRetiring",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Automanage when the subscription may not create
@@ -2039,10 +2205,11 @@ export class RedisCacheRetiring extends Schema.TaggedError<RedisCacheRetiring>()
  * operation was not allowed because the subscription is not in a state to
  * support it. Subscription state: -1" (matched by message).
  */
-export class AutomanageSubscriptionNotSupported extends Schema.TaggedError<AutomanageSubscriptionNotSupported>()(
-  "AutomanageSubscriptionNotSupported",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AutomanageSubscriptionNotSupported
+  extends /*@__PURE__*/ Schema.TaggedError<AutomanageSubscriptionNotSupported>()(
+    "AutomanageSubscriptionNotSupported",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Relationships `serviceGroupMember` writes in a
@@ -2050,40 +2217,44 @@ export class AutomanageSubscriptionNotSupported extends Schema.TaggedError<Autom
  * lifecycle callbacks are not enabled for tenant '...'" (matched by
  * message).
  */
-export class RelationshipCallbacksNotEnabled extends Schema.TaggedError<RelationshipCallbacksNotEnabled>()(
-  "RelationshipCallbacksNotEnabled",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class RelationshipCallbacksNotEnabled
+  extends /*@__PURE__*/ Schema.TaggedError<RelationshipCallbacksNotEnabled>()(
+    "RelationshipCallbacksNotEnabled",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Azure Lighthouse rejects a registration definition whose
  * `managedByTenantId` is the subscription's own tenant: "not allowed to use
  * the '...' as ManagedByTenantId" (400, matched by message).
  */
-export class LighthouseManagedByTenantNotAllowed extends Schema.TaggedError<LighthouseManagedByTenantNotAllowed>()(
-  "LighthouseManagedByTenantNotAllowed",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class LighthouseManagedByTenantNotAllowed
+  extends /*@__PURE__*/ Schema.TaggedError<LighthouseManagedByTenantNotAllowed>()(
+    "LighthouseManagedByTenantNotAllowed",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Azure Lighthouse rejects a `managedByTenantId` that is not an existing
  * Entra tenant: "with given Managedby TenantId '...' is not valid tenant"
  * (400, matched by message).
  */
-export class LighthouseManagedByTenantInvalid extends Schema.TaggedError<LighthouseManagedByTenantInvalid>()(
-  "LighthouseManagedByTenantInvalid",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class LighthouseManagedByTenantInvalid
+  extends /*@__PURE__*/ Schema.TaggedError<LighthouseManagedByTenantInvalid>()(
+    "LighthouseManagedByTenantInvalid",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Azure Lighthouse rejects authorizations whose `principalId` is not an
  * object in the managing tenant: "The resource contains invalid principal
  * object identifiers" (400, matched by message).
  */
-export class LighthouseInvalidPrincipal extends Schema.TaggedError<LighthouseInvalidPrincipal>()(
-  "LighthouseInvalidPrincipal",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class LighthouseInvalidPrincipal
+  extends /*@__PURE__*/ Schema.TaggedError<LighthouseInvalidPrincipal>()(
+    "LighthouseInvalidPrincipal",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Microsoft.PolicyInsights refuses an attestation until a compliance scan has
@@ -2091,10 +2262,11 @@ export class LighthouseInvalidPrincipal extends Schema.TaggedError<LighthouseInv
  * "No compliance data was found for resource" (400
  * `InvalidCreateAttestationRequest`, matched by message).
  */
-export class AttestationComplianceDataNotFound extends Schema.TaggedError<AttestationComplianceDataNotFound>()(
-  "AttestationComplianceDataNotFound",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class AttestationComplianceDataNotFound
+  extends /*@__PURE__*/ Schema.TaggedError<AttestationComplianceDataNotFound>()(
+    "AttestationComplianceDataNotFound",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.KeyVault while a managed HSM pool is still applying
@@ -2102,30 +2274,33 @@ export class AttestationComplianceDataNotFound extends Schema.TaggedError<Attest
  * approval), for updates, connection changes, and soft delete alike; retry
  * once it finishes. Matched by message: the ARM code is the bare `409`.
  */
-export class ManagedHsmPoolUpdating extends Schema.TaggedError<ManagedHsmPoolUpdating>()(
-  "ManagedHsmPoolUpdating",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class ManagedHsmPoolUpdating
+  extends /*@__PURE__*/ Schema.TaggedError<ManagedHsmPoolUpdating>()(
+    "ManagedHsmPoolUpdating",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.KeyVault when purging a deleted managed HSM whose
  * purge is already running. Matched by message: the ARM code is the bare
  * `409`.
  */
-export class ManagedHsmAlreadyBeingDeleted extends Schema.TaggedError<ManagedHsmAlreadyBeingDeleted>()(
-  "ManagedHsmAlreadyBeingDeleted",
-  AzureErrorFields,
-).pipe(Category.withConflictError) {}
+export class ManagedHsmAlreadyBeingDeleted
+  extends /*@__PURE__*/ Schema.TaggedError<ManagedHsmAlreadyBeingDeleted>()(
+    "ManagedHsmAlreadyBeingDeleted",
+    AzureErrorFields,
+  ).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.KeyVault for managed HSM key operations through
  * ARM until an HSM administrator enables the data-plane setting
  * `AllowKeyManagementOperationsThroughARM`. Matched by message.
  */
-export class ManagedHsmArmKeyManagementDisabled extends Schema.TaggedError<ManagedHsmArmKeyManagementDisabled>()(
-  "ManagedHsmArmKeyManagementDisabled",
-  AzureErrorFields,
-).pipe(Category.withBadRequestError) {}
+export class ManagedHsmArmKeyManagementDisabled
+  extends /*@__PURE__*/ Schema.TaggedError<ManagedHsmArmKeyManagementDisabled>()(
+    "ManagedHsmArmKeyManagementDisabled",
+    AzureErrorFields,
+  ).pipe(Category.withBadRequestError) {}
 
 /**
  * Errors whose ARM `code` is too generic to type on its own (e.g.
@@ -2250,7 +2425,7 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: DevHubGitHubNotAuthorized,
   },
   // Microsoft.Web: "Operation cannot be completed without additional quota.
-  // Current Limit (F1 VMs): 0" — the plan SKU has no quota in the region.
+  // Current Limit (F1 VMs): 0" -- the plan SKU has no quota in the region.
   {
     code: "Unauthorized",
     includes: "without additional quota",
@@ -2709,22 +2884,21 @@ export const matchAzureErrorMessage = (arm: {
 // Catch-all error classes
 // ---------------------------------------------------------------------------
 
-/** Unknown Azure error — returned when an error code is not recognized. */
-export class UnknownAzureError extends Schema.TaggedError<UnknownAzureError>()(
-  "UnknownAzureError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    target: Schema.optional(Schema.String),
+/** Unknown Azure error -- returned when an error code is not recognized. */
+export class UnknownAzureError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownAzureError>()("UnknownAzureError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    target: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper for Azure responses. */
-export class AzureParseError extends Schema.TaggedError<AzureParseError>()("AzureParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class AzureParseError
+  extends /*@__PURE__*/ Schema.TaggedError<AzureParseError>()("AzureParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}
 
 /** Union of every ARM-code-mapped typed error class. */
 export type AzureApiError =

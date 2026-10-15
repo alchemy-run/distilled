@@ -64,6 +64,11 @@ jobs:
       - name: Typecheck and build all packages
         run: pnpm typecheck:ci
 
+      # Doc comments stay in .d.ts; shipping them in .js costs heap in every
+      # process that imports an SDK (V8 keeps module source text).
+      - name: Strip doc comments from compiled JavaScript
+        run: node scripts/strip-lib-docs.ts
+
       - name: Pack release artifacts
         run: |
           set -euo pipefail

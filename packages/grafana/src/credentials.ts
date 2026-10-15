@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Grafana credentials — hand-written.
+ * Grafana credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -28,9 +28,10 @@ export interface Config {
   readonly orgId?: number | string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "GrafanaCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "GrafanaCredentials",
+  ) {}
 
 /** Layer from a redacted service-account token + optional instance URL / org. */
 export const fromApiKey = (config: {
@@ -51,9 +52,9 @@ export const fromApiKey = (config: {
  * Reads GRAFANA_TOKEN (required), GRAFANA_URL (optional instance origin),
  * and GRAFANA_ORG_ID (optional).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const token = process.env.GRAFANA_TOKEN;
 
     if (!token) {

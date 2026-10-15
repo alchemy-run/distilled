@@ -86,9 +86,9 @@ export const ssoRoleCredentialsCacheName = (
     ].join("\n"),
   );
 
-export const Default = Effect.serviceOption(Auth).pipe(
-  Effect.map(Option.getOrUndefined),
-  Effect.flatMap((c) => (c ? Effect.succeed(c) : makeAuthService())),
+export const Default = /*@__PURE__*/ Effect.serviceOption(Auth).pipe(
+  /*@__PURE__*/ Effect.map(Option.getOrUndefined),
+  /*@__PURE__*/ Effect.flatMap((c) => (c ? Effect.succeed(c) : makeAuthService())),
 );
 
 export const loadProfile = (profile: string) =>
@@ -235,7 +235,7 @@ export const makeAuthService = () =>
         // The token is one login per session, but the role credentials it
         // mints are per `sso_account_id` + `sso_role_name`. Several profiles
         // normally share one `[sso-session]`, so the credentials file must
-        // be keyed on the account and role too — keyed on the session alone,
+        // be keyed on the account and role too -- keyed on the session alone,
         // every profile in the session read whichever account's keys were
         // fetched first (#565).
         const cachedCredsFilePath = path.join(
@@ -245,7 +245,7 @@ export const makeAuthService = () =>
 
         // `Effect.try` so a `JSON.parse` throw on an empty/partial file
         // (a brief race window when another process is rewriting the
-        // SSO cache) becomes a typed error and is caught below — without
+        // SSO cache) becomes a typed error and is caught below -- without
         // the wrap it surfaces as a fiber defect that blows past
         // `Effect.catch`.
         const cachedCreds = yield* fs.readFileString(cachedCredsFilePath).pipe(
@@ -295,7 +295,7 @@ export const makeAuthService = () =>
           // `Effect.try` so a `JSON.parse` throw on an empty/partial
           // token file (a brief race window when another process is
           // refreshing the cache) becomes a typed error and is caught
-          // below — without the wrap it surfaces as a fiber defect.
+          // below -- without the wrap it surfaces as a fiber defect.
           Effect.flatMap((text) =>
             Effect.try({
               try: () => JSON.parse(text) as SSOToken,

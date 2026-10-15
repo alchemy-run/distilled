@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
-import * as redacted from "effect/Redacted";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -9,11 +10,16 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "KafkaConnect", serviceShapeName: "KafkaConnect" });
-const auth = T.AwsAuthSigv4({ name: "kafkaconnect" });
-const ver = T.ServiceVersion("2021-09-14");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "KafkaConnect",
+  serviceShapeName: "KafkaConnect",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "kafkaconnect" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2021-09-14");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -86,70 +92,64 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://kafkaconnect.{R}.{D}","properties":{},"headers":{}}');
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
     "InternalServerErrorException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(503),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(401),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(401),
   ).pipe(C.withAuthError) {}
 export type __integerMin1Max8 = number;
 export type __integerMin1Max100 = number;
 export interface ScaleInPolicy {
   cpuUtilizationPercentage: number;
 }
-export const ScaleInPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cpuUtilizationPercentage: S.Number }),
-).annotate({ identifier: "ScaleInPolicy" }) as any as S.Schema<ScaleInPolicy>;
 export interface ScaleOutPolicy {
   cpuUtilizationPercentage: number;
 }
-export const ScaleOutPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cpuUtilizationPercentage: S.Number }),
-).annotate({ identifier: "ScaleOutPolicy" }) as any as S.Schema<ScaleOutPolicy>;
 export interface AutoScaling {
   maxWorkerCount: number;
   mcuCount: number;
@@ -158,147 +158,77 @@ export interface AutoScaling {
   scaleOutPolicy?: ScaleOutPolicy;
   maxAutoscalingTaskCount?: number;
 }
-export const AutoScaling = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxWorkerCount: S.Number,
-    mcuCount: S.Number,
-    minWorkerCount: S.Number,
-    scaleInPolicy: S.optional(ScaleInPolicy),
-    scaleOutPolicy: S.optional(ScaleOutPolicy),
-    maxAutoscalingTaskCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AutoScaling" }) as any as S.Schema<AutoScaling>;
 export interface ProvisionedCapacity {
   mcuCount: number;
   workerCount: number;
 }
-export const ProvisionedCapacity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mcuCount: S.Number, workerCount: S.Number }),
-).annotate({ identifier: "ProvisionedCapacity" }) as any as S.Schema<ProvisionedCapacity>;
 export interface Capacity {
   autoScaling?: AutoScaling;
   provisionedCapacity?: ProvisionedCapacity;
 }
-export const Capacity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    autoScaling: S.optional(AutoScaling),
-    provisionedCapacity: S.optional(ProvisionedCapacity),
-  }),
-).annotate({ identifier: "Capacity" }) as any as S.Schema<Capacity>;
 export type ConnectorConfiguration = { [key: string]: string | undefined };
-export const ConnectorConfiguration = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type __stringMax1024 = string;
 export type __stringMin1Max128 = string;
 export type __listOf__string = string[];
-export const __listOf__string = /*@__PURE__*/ S.Array(S.String);
+const __listOf__string = /*@__PURE__*/ __L.at(__c24, 0);
 export interface Vpc {
   securityGroups?: string[];
   subnets: string[];
 }
-export const Vpc = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityGroups: S.optional(__listOf__string), subnets: __listOf__string }),
-).annotate({ identifier: "Vpc" }) as any as S.Schema<Vpc>;
 export interface ApacheKafkaCluster {
   bootstrapServers: string;
   vpc: Vpc;
 }
-export const ApacheKafkaCluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bootstrapServers: S.String, vpc: Vpc }),
-).annotate({ identifier: "ApacheKafkaCluster" }) as any as S.Schema<ApacheKafkaCluster>;
 export interface KafkaCluster {
   apacheKafkaCluster: ApacheKafkaCluster;
 }
-export const KafkaCluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apacheKafkaCluster: ApacheKafkaCluster }),
-).annotate({ identifier: "KafkaCluster" }) as any as S.Schema<KafkaCluster>;
 export type KafkaClusterClientAuthenticationType = string;
 export interface KafkaClusterClientAuthentication {
   authenticationType: string;
 }
-export const KafkaClusterClientAuthentication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ authenticationType: S.String }),
-).annotate({
-  identifier: "KafkaClusterClientAuthentication",
-}) as any as S.Schema<KafkaClusterClientAuthentication>;
 export type KafkaClusterEncryptionInTransitType = string;
 export interface KafkaClusterEncryptionInTransit {
   encryptionType: string;
 }
-export const KafkaClusterEncryptionInTransit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ encryptionType: S.String }),
-).annotate({
-  identifier: "KafkaClusterEncryptionInTransit",
-}) as any as S.Schema<KafkaClusterEncryptionInTransit>;
 export interface CloudWatchLogsLogDelivery {
   enabled: boolean;
   logGroup?: string;
 }
-export const CloudWatchLogsLogDelivery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ enabled: S.Boolean, logGroup: S.optional(S.String) }),
-).annotate({
-  identifier: "CloudWatchLogsLogDelivery",
-}) as any as S.Schema<CloudWatchLogsLogDelivery>;
 export interface FirehoseLogDelivery {
   deliveryStream?: string;
   enabled: boolean;
 }
-export const FirehoseLogDelivery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ deliveryStream: S.optional(S.String), enabled: S.Boolean }),
-).annotate({ identifier: "FirehoseLogDelivery" }) as any as S.Schema<FirehoseLogDelivery>;
 export interface S3LogDelivery {
   bucket?: string;
   enabled: boolean;
   prefix?: string;
 }
-export const S3LogDelivery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucket: S.optional(S.String), enabled: S.Boolean, prefix: S.optional(S.String) }),
-).annotate({ identifier: "S3LogDelivery" }) as any as S.Schema<S3LogDelivery>;
 export interface WorkerLogDelivery {
   cloudWatchLogs?: CloudWatchLogsLogDelivery;
   firehose?: FirehoseLogDelivery;
   s3?: S3LogDelivery;
 }
-export const WorkerLogDelivery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudWatchLogs: S.optional(CloudWatchLogsLogDelivery),
-    firehose: S.optional(FirehoseLogDelivery),
-    s3: S.optional(S3LogDelivery),
-  }),
-).annotate({ identifier: "WorkerLogDelivery" }) as any as S.Schema<WorkerLogDelivery>;
 export interface LogDelivery {
   workerLogDelivery: WorkerLogDelivery;
 }
-export const LogDelivery = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workerLogDelivery: WorkerLogDelivery }),
-).annotate({ identifier: "LogDelivery" }) as any as S.Schema<LogDelivery>;
 export type NetworkType = string;
 export type __longMin1 = number;
 export interface CustomPlugin {
   customPluginArn: string;
   revision: number;
 }
-export const CustomPlugin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ customPluginArn: S.String, revision: S.Number }),
-).annotate({ identifier: "CustomPlugin" }) as any as S.Schema<CustomPlugin>;
 export interface Plugin {
   customPlugin: CustomPlugin;
 }
-export const Plugin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ customPlugin: CustomPlugin }),
-).annotate({ identifier: "Plugin" }) as any as S.Schema<Plugin>;
 export type __listOfPlugin = Plugin[];
-export const __listOfPlugin = /*@__PURE__*/ S.Array(Plugin);
+const __listOfPlugin = /*@__PURE__*/ __L.at(__c23, 14);
 export interface WorkerConfiguration {
   revision: number;
   workerConfigurationArn: string;
 }
-export const WorkerConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ revision: S.Number, workerConfigurationArn: S.String }),
-).annotate({ identifier: "WorkerConfiguration" }) as any as S.Schema<WorkerConfiguration>;
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateConnectorRequest {
   capacity: Capacity;
   connectorConfiguration: { [key: string]: string | undefined };
@@ -315,52 +245,21 @@ export interface CreateConnectorRequest {
   workerConfiguration?: WorkerConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacity: Capacity,
-    connectorConfiguration: ConnectorConfiguration,
-    connectorDescription: S.optional(S.String),
-    connectorName: S.String,
-    kafkaCluster: KafkaCluster,
-    kafkaClusterClientAuthentication: KafkaClusterClientAuthentication,
-    kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransit,
-    kafkaConnectVersion: S.String,
-    logDelivery: S.optional(LogDelivery),
-    networkType: S.optional(S.String),
-    plugins: __listOfPlugin,
-    serviceExecutionRoleArn: S.String,
-    workerConfiguration: S.optional(WorkerConfiguration),
-    tags: S.optional(Tags),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/connectors" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateConnectorRequest" }) as any as S.Schema<CreateConnectorRequest>;
 export type ConnectorState = string;
 export interface CreateConnectorResponse {
   connectorArn?: string;
   connectorName?: string;
   connectorState?: string;
 }
-export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorArn: S.optional(S.String),
-    connectorName: S.optional(S.String),
-    connectorState: S.optional(S.String),
-  }),
-).annotate({ identifier: "CreateConnectorResponse" }) as any as S.Schema<CreateConnectorResponse>;
 export type CustomPluginContentType = string;
 export interface S3Location {
   bucketArn: string;
   fileKey: string;
   objectVersion?: string;
 }
-export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucketArn: S.String, fileKey: S.String, objectVersion: S.optional(S.String) }),
-).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface CustomPluginLocation {
   s3Location: S3Location;
 }
-export const CustomPluginLocation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3Location: S3Location }),
-).annotate({ identifier: "CustomPluginLocation" }) as any as S.Schema<CustomPluginLocation>;
 export interface CreateCustomPluginRequest {
   contentType: string;
   description?: string;
@@ -368,19 +267,6 @@ export interface CreateCustomPluginRequest {
   name: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateCustomPluginRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentType: S.String,
-    description: S.optional(S.String),
-    location: CustomPluginLocation,
-    name: S.String,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/v1/custom-plugins" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateCustomPluginRequest",
-}) as any as S.Schema<CreateCustomPluginRequest>;
 export type CustomPluginState = string;
 export interface CreateCustomPluginResponse {
   customPluginArn?: string;
@@ -388,16 +274,6 @@ export interface CreateCustomPluginResponse {
   name?: string;
   revision?: number;
 }
-export const CreateCustomPluginResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customPluginArn: S.optional(S.String),
-    customPluginState: S.optional(S.String),
-    name: S.optional(S.String),
-    revision: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CreateCustomPluginResponse",
-}) as any as S.Schema<CreateCustomPluginResponse>;
 export type __sensitiveString = string | redacted.Redacted<string>;
 export interface CreateWorkerConfigurationRequest {
   description?: string;
@@ -405,40 +281,12 @@ export interface CreateWorkerConfigurationRequest {
   propertiesFileContent: string | redacted.Redacted<string>;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateWorkerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    name: S.String,
-    propertiesFileContent: SensitiveString,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/worker-configurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateWorkerConfigurationRequest",
-}) as any as S.Schema<CreateWorkerConfigurationRequest>;
 export type __timestampIso8601 = Date;
 export interface WorkerConfigurationRevisionSummary {
   creationTime?: Date;
   description?: string;
   revision?: number;
 }
-export const WorkerConfigurationRevisionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    description: S.optional(S.String),
-    revision: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "WorkerConfigurationRevisionSummary",
-}) as any as S.Schema<WorkerConfigurationRevisionSummary>;
 export type WorkerConfigurationState = string;
 export interface CreateWorkerConfigurationResponse {
   creationTime?: Date;
@@ -447,127 +295,37 @@ export interface CreateWorkerConfigurationResponse {
   workerConfigurationArn?: string;
   workerConfigurationState?: string;
 }
-export const CreateWorkerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    latestRevision: S.optional(WorkerConfigurationRevisionSummary),
-    name: S.optional(S.String),
-    workerConfigurationArn: S.optional(S.String),
-    workerConfigurationState: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateWorkerConfigurationResponse",
-}) as any as S.Schema<CreateWorkerConfigurationResponse>;
 export interface DeleteConnectorRequest {
   connectorArn: string;
   currentVersion?: string;
 }
-export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
-    currentVersion: S.optional(S.String).pipe(T.HttpQuery("currentVersion")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/connectors/{connectorArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
 export interface DeleteConnectorResponse {
   connectorArn?: string;
   connectorState?: string;
 }
-export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ connectorArn: S.optional(S.String), connectorState: S.optional(S.String) }),
-).annotate({ identifier: "DeleteConnectorResponse" }) as any as S.Schema<DeleteConnectorResponse>;
 export interface DeleteCustomPluginRequest {
   customPluginArn: string;
 }
-export const DeleteCustomPluginRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ customPluginArn: S.String.pipe(T.HttpLabel("customPluginArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/custom-plugins/{customPluginArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteCustomPluginRequest",
-}) as any as S.Schema<DeleteCustomPluginRequest>;
 export interface DeleteCustomPluginResponse {
   customPluginArn?: string;
   customPluginState?: string;
 }
-export const DeleteCustomPluginResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ customPluginArn: S.optional(S.String), customPluginState: S.optional(S.String) }),
-).annotate({
-  identifier: "DeleteCustomPluginResponse",
-}) as any as S.Schema<DeleteCustomPluginResponse>;
 export interface DeleteWorkerConfigurationRequest {
   workerConfigurationArn: string;
 }
-export const DeleteWorkerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workerConfigurationArn: S.String.pipe(T.HttpLabel("workerConfigurationArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/worker-configurations/{workerConfigurationArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteWorkerConfigurationRequest",
-}) as any as S.Schema<DeleteWorkerConfigurationRequest>;
 export interface DeleteWorkerConfigurationResponse {
   workerConfigurationArn?: string;
   workerConfigurationState?: string;
 }
-export const DeleteWorkerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workerConfigurationArn: S.optional(S.String),
-    workerConfigurationState: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteWorkerConfigurationResponse",
-}) as any as S.Schema<DeleteWorkerConfigurationResponse>;
 export interface DescribeConnectorRequest {
   connectorArn: string;
 }
-export const DescribeConnectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ connectorArn: S.String.pipe(T.HttpLabel("connectorArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/connectors/{connectorArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "DescribeConnectorRequest" }) as any as S.Schema<DescribeConnectorRequest>;
 export interface ScaleInPolicyDescription {
   cpuUtilizationPercentage?: number;
 }
-export const ScaleInPolicyDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cpuUtilizationPercentage: S.optional(S.Number) }),
-).annotate({ identifier: "ScaleInPolicyDescription" }) as any as S.Schema<ScaleInPolicyDescription>;
 export interface ScaleOutPolicyDescription {
   cpuUtilizationPercentage?: number;
 }
-export const ScaleOutPolicyDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cpuUtilizationPercentage: S.optional(S.Number) }),
-).annotate({
-  identifier: "ScaleOutPolicyDescription",
-}) as any as S.Schema<ScaleOutPolicyDescription>;
 export interface AutoScalingDescription {
   maxWorkerCount?: number;
   mcuCount?: number;
@@ -576,154 +334,69 @@ export interface AutoScalingDescription {
   scaleOutPolicy?: ScaleOutPolicyDescription;
   maxAutoscalingTaskCount?: number;
 }
-export const AutoScalingDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxWorkerCount: S.optional(S.Number),
-    mcuCount: S.optional(S.Number),
-    minWorkerCount: S.optional(S.Number),
-    scaleInPolicy: S.optional(ScaleInPolicyDescription),
-    scaleOutPolicy: S.optional(ScaleOutPolicyDescription),
-    maxAutoscalingTaskCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AutoScalingDescription" }) as any as S.Schema<AutoScalingDescription>;
 export interface ProvisionedCapacityDescription {
   mcuCount?: number;
   workerCount?: number;
 }
-export const ProvisionedCapacityDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mcuCount: S.optional(S.Number), workerCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "ProvisionedCapacityDescription",
-}) as any as S.Schema<ProvisionedCapacityDescription>;
 export interface CapacityDescription {
   autoScaling?: AutoScalingDescription;
   provisionedCapacity?: ProvisionedCapacityDescription;
 }
-export const CapacityDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    autoScaling: S.optional(AutoScalingDescription),
-    provisionedCapacity: S.optional(ProvisionedCapacityDescription),
-  }),
-).annotate({ identifier: "CapacityDescription" }) as any as S.Schema<CapacityDescription>;
 export interface VpcDescription {
   securityGroups?: string[];
   subnets?: string[];
 }
-export const VpcDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityGroups: S.optional(__listOf__string), subnets: S.optional(__listOf__string) }),
-).annotate({ identifier: "VpcDescription" }) as any as S.Schema<VpcDescription>;
 export interface ApacheKafkaClusterDescription {
   bootstrapServers?: string;
   vpc?: VpcDescription;
 }
-export const ApacheKafkaClusterDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bootstrapServers: S.optional(S.String), vpc: S.optional(VpcDescription) }),
-).annotate({
-  identifier: "ApacheKafkaClusterDescription",
-}) as any as S.Schema<ApacheKafkaClusterDescription>;
 export interface KafkaClusterDescription {
   apacheKafkaCluster?: ApacheKafkaClusterDescription;
 }
-export const KafkaClusterDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ apacheKafkaCluster: S.optional(ApacheKafkaClusterDescription) }),
-).annotate({ identifier: "KafkaClusterDescription" }) as any as S.Schema<KafkaClusterDescription>;
 export interface KafkaClusterClientAuthenticationDescription {
   authenticationType?: string;
 }
-export const KafkaClusterClientAuthenticationDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ authenticationType: S.optional(S.String) }),
-).annotate({
-  identifier: "KafkaClusterClientAuthenticationDescription",
-}) as any as S.Schema<KafkaClusterClientAuthenticationDescription>;
 export interface KafkaClusterEncryptionInTransitDescription {
   encryptionType?: string;
 }
-export const KafkaClusterEncryptionInTransitDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ encryptionType: S.optional(S.String) }),
-).annotate({
-  identifier: "KafkaClusterEncryptionInTransitDescription",
-}) as any as S.Schema<KafkaClusterEncryptionInTransitDescription>;
 export interface CloudWatchLogsLogDeliveryDescription {
   enabled?: boolean;
   logGroup?: string;
 }
-export const CloudWatchLogsLogDeliveryDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ enabled: S.optional(S.Boolean), logGroup: S.optional(S.String) }),
-).annotate({
-  identifier: "CloudWatchLogsLogDeliveryDescription",
-}) as any as S.Schema<CloudWatchLogsLogDeliveryDescription>;
 export interface FirehoseLogDeliveryDescription {
   deliveryStream?: string;
   enabled?: boolean;
 }
-export const FirehoseLogDeliveryDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ deliveryStream: S.optional(S.String), enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "FirehoseLogDeliveryDescription",
-}) as any as S.Schema<FirehoseLogDeliveryDescription>;
 export interface S3LogDeliveryDescription {
   bucket?: string;
   enabled?: boolean;
   prefix?: string;
 }
-export const S3LogDeliveryDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucket: S.optional(S.String),
-    enabled: S.optional(S.Boolean),
-    prefix: S.optional(S.String),
-  }),
-).annotate({ identifier: "S3LogDeliveryDescription" }) as any as S.Schema<S3LogDeliveryDescription>;
 export interface WorkerLogDeliveryDescription {
   cloudWatchLogs?: CloudWatchLogsLogDeliveryDescription;
   firehose?: FirehoseLogDeliveryDescription;
   s3?: S3LogDeliveryDescription;
 }
-export const WorkerLogDeliveryDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cloudWatchLogs: S.optional(CloudWatchLogsLogDeliveryDescription),
-    firehose: S.optional(FirehoseLogDeliveryDescription),
-    s3: S.optional(S3LogDeliveryDescription),
-  }),
-).annotate({
-  identifier: "WorkerLogDeliveryDescription",
-}) as any as S.Schema<WorkerLogDeliveryDescription>;
 export interface LogDeliveryDescription {
   workerLogDelivery?: WorkerLogDeliveryDescription;
 }
-export const LogDeliveryDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workerLogDelivery: S.optional(WorkerLogDeliveryDescription) }),
-).annotate({ identifier: "LogDeliveryDescription" }) as any as S.Schema<LogDeliveryDescription>;
 export interface CustomPluginDescription {
   customPluginArn?: string;
   revision?: number;
 }
-export const CustomPluginDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ customPluginArn: S.optional(S.String), revision: S.optional(S.Number) }),
-).annotate({ identifier: "CustomPluginDescription" }) as any as S.Schema<CustomPluginDescription>;
 export interface PluginDescription {
   customPlugin?: CustomPluginDescription;
 }
-export const PluginDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ customPlugin: S.optional(CustomPluginDescription) }),
-).annotate({ identifier: "PluginDescription" }) as any as S.Schema<PluginDescription>;
 export type __listOfPluginDescription = PluginDescription[];
-export const __listOfPluginDescription = /*@__PURE__*/ S.Array(PluginDescription);
+const __listOfPluginDescription = /*@__PURE__*/ __L.at(__c8, 12);
 export interface WorkerConfigurationDescription {
   revision?: number;
   workerConfigurationArn?: string;
 }
-export const WorkerConfigurationDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ revision: S.optional(S.Number), workerConfigurationArn: S.optional(S.String) }),
-).annotate({
-  identifier: "WorkerConfigurationDescription",
-}) as any as S.Schema<WorkerConfigurationDescription>;
 export interface StateDescription {
   code?: string;
   message?: string;
 }
-export const StateDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
-).annotate({ identifier: "StateDescription" }) as any as S.Schema<StateDescription>;
 export interface DescribeConnectorResponse {
   capacity?: CapacityDescription;
   connectorArn?: string;
@@ -744,47 +417,9 @@ export interface DescribeConnectorResponse {
   workerConfiguration?: WorkerConfigurationDescription;
   stateDescription?: StateDescription;
 }
-export const DescribeConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacity: S.optional(CapacityDescription),
-    connectorArn: S.optional(S.String),
-    connectorConfiguration: S.optional(ConnectorConfiguration),
-    connectorDescription: S.optional(S.String),
-    connectorName: S.optional(S.String),
-    connectorState: S.optional(S.String),
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    currentVersion: S.optional(S.String),
-    kafkaCluster: S.optional(KafkaClusterDescription),
-    kafkaClusterClientAuthentication: S.optional(KafkaClusterClientAuthenticationDescription),
-    kafkaClusterEncryptionInTransit: S.optional(KafkaClusterEncryptionInTransitDescription),
-    kafkaConnectVersion: S.optional(S.String),
-    logDelivery: S.optional(LogDeliveryDescription),
-    networkType: S.optional(S.String),
-    plugins: S.optional(__listOfPluginDescription),
-    serviceExecutionRoleArn: S.optional(S.String),
-    workerConfiguration: S.optional(WorkerConfigurationDescription),
-    stateDescription: S.optional(StateDescription),
-  }),
-).annotate({
-  identifier: "DescribeConnectorResponse",
-}) as any as S.Schema<DescribeConnectorResponse>;
 export interface DescribeConnectorOperationRequest {
   connectorOperationArn: string;
 }
-export const DescribeConnectorOperationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ connectorOperationArn: S.String.pipe(T.HttpLabel("connectorOperationArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/connectorOperations/{connectorOperationArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeConnectorOperationRequest",
-}) as any as S.Schema<DescribeConnectorOperationRequest>;
 export type ConnectorOperationState = string;
 export type ConnectorOperationType = string;
 export type ConnectorOperationStepType = string;
@@ -793,17 +428,11 @@ export interface ConnectorOperationStep {
   stepType?: string;
   stepState?: string;
 }
-export const ConnectorOperationStep = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ stepType: S.optional(S.String), stepState: S.optional(S.String) }),
-).annotate({ identifier: "ConnectorOperationStep" }) as any as S.Schema<ConnectorOperationStep>;
 export type __listOfConnectorOperationStep = ConnectorOperationStep[];
-export const __listOfConnectorOperationStep = /*@__PURE__*/ S.Array(ConnectorOperationStep);
+const __listOfConnectorOperationStep = /*@__PURE__*/ __L.at(__c9, 2);
 export interface WorkerSetting {
   capacity?: CapacityDescription;
 }
-export const WorkerSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ capacity: S.optional(CapacityDescription) }),
-).annotate({ identifier: "WorkerSetting" }) as any as S.Schema<WorkerSetting>;
 export interface DescribeConnectorOperationResponse {
   connectorArn?: string;
   connectorOperationArn?: string;
@@ -818,70 +447,21 @@ export interface DescribeConnectorOperationResponse {
   creationTime?: Date;
   endTime?: Date;
 }
-export const DescribeConnectorOperationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorArn: S.optional(S.String),
-    connectorOperationArn: S.optional(S.String),
-    connectorOperationState: S.optional(S.String),
-    connectorOperationType: S.optional(S.String),
-    operationSteps: S.optional(__listOfConnectorOperationStep),
-    originWorkerSetting: S.optional(WorkerSetting),
-    originConnectorConfiguration: S.optional(ConnectorConfiguration),
-    targetWorkerSetting: S.optional(WorkerSetting),
-    targetConnectorConfiguration: S.optional(ConnectorConfiguration),
-    errorInfo: S.optional(StateDescription),
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "DescribeConnectorOperationResponse",
-}) as any as S.Schema<DescribeConnectorOperationResponse>;
 export interface DescribeCustomPluginRequest {
   customPluginArn: string;
 }
-export const DescribeCustomPluginRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ customPluginArn: S.String.pipe(T.HttpLabel("customPluginArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/custom-plugins/{customPluginArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeCustomPluginRequest",
-}) as any as S.Schema<DescribeCustomPluginRequest>;
 export interface CustomPluginFileDescription {
   fileMd5?: string;
   fileSize?: number;
 }
-export const CustomPluginFileDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ fileMd5: S.optional(S.String), fileSize: S.optional(S.Number) }),
-).annotate({
-  identifier: "CustomPluginFileDescription",
-}) as any as S.Schema<CustomPluginFileDescription>;
 export interface S3LocationDescription {
   bucketArn?: string;
   fileKey?: string;
   objectVersion?: string;
 }
-export const S3LocationDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bucketArn: S.optional(S.String),
-    fileKey: S.optional(S.String),
-    objectVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "S3LocationDescription" }) as any as S.Schema<S3LocationDescription>;
 export interface CustomPluginLocationDescription {
   s3Location?: S3LocationDescription;
 }
-export const CustomPluginLocationDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ s3Location: S.optional(S3LocationDescription) }),
-).annotate({
-  identifier: "CustomPluginLocationDescription",
-}) as any as S.Schema<CustomPluginLocationDescription>;
 export interface CustomPluginRevisionSummary {
   contentType?: string;
   creationTime?: Date;
@@ -890,18 +470,6 @@ export interface CustomPluginRevisionSummary {
   location?: CustomPluginLocationDescription;
   revision?: number;
 }
-export const CustomPluginRevisionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentType: S.optional(S.String),
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    description: S.optional(S.String),
-    fileDescription: S.optional(CustomPluginFileDescription),
-    location: S.optional(CustomPluginLocationDescription),
-    revision: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CustomPluginRevisionSummary",
-}) as any as S.Schema<CustomPluginRevisionSummary>;
 export interface DescribeCustomPluginResponse {
   creationTime?: Date;
   customPluginArn?: string;
@@ -911,52 +479,15 @@ export interface DescribeCustomPluginResponse {
   name?: string;
   stateDescription?: StateDescription;
 }
-export const DescribeCustomPluginResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    customPluginArn: S.optional(S.String),
-    customPluginState: S.optional(S.String),
-    description: S.optional(S.String),
-    latestRevision: S.optional(CustomPluginRevisionSummary),
-    name: S.optional(S.String),
-    stateDescription: S.optional(StateDescription),
-  }),
-).annotate({
-  identifier: "DescribeCustomPluginResponse",
-}) as any as S.Schema<DescribeCustomPluginResponse>;
 export interface DescribeWorkerConfigurationRequest {
   workerConfigurationArn: string;
 }
-export const DescribeWorkerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ workerConfigurationArn: S.String.pipe(T.HttpLabel("workerConfigurationArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/worker-configurations/{workerConfigurationArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeWorkerConfigurationRequest",
-}) as any as S.Schema<DescribeWorkerConfigurationRequest>;
 export interface WorkerConfigurationRevisionDescription {
   creationTime?: Date;
   description?: string;
   propertiesFileContent?: string | redacted.Redacted<string>;
   revision?: number;
 }
-export const WorkerConfigurationRevisionDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    description: S.optional(S.String),
-    propertiesFileContent: S.optional(SensitiveString),
-    revision: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "WorkerConfigurationRevisionDescription",
-}) as any as S.Schema<WorkerConfigurationRevisionDescription>;
 export interface DescribeWorkerConfigurationResponse {
   creationTime?: Date;
   description?: string;
@@ -965,42 +496,12 @@ export interface DescribeWorkerConfigurationResponse {
   workerConfigurationArn?: string;
   workerConfigurationState?: string;
 }
-export const DescribeWorkerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    description: S.optional(S.String),
-    latestRevision: S.optional(WorkerConfigurationRevisionDescription),
-    name: S.optional(S.String),
-    workerConfigurationArn: S.optional(S.String),
-    workerConfigurationState: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeWorkerConfigurationResponse",
-}) as any as S.Schema<DescribeWorkerConfigurationResponse>;
 export type MaxResults = number;
 export interface ListConnectorOperationsRequest {
   connectorArn: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListConnectorOperationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/connectors/{connectorArn}/operations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListConnectorOperationsRequest",
-}) as any as S.Schema<ListConnectorOperationsRequest>;
 export interface ConnectorOperationSummary {
   connectorOperationArn?: string;
   connectorOperationType?: string;
@@ -1008,43 +509,17 @@ export interface ConnectorOperationSummary {
   creationTime?: Date;
   endTime?: Date;
 }
-export const ConnectorOperationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorOperationArn: S.optional(S.String),
-    connectorOperationType: S.optional(S.String),
-    connectorOperationState: S.optional(S.String),
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "ConnectorOperationSummary",
-}) as any as S.Schema<ConnectorOperationSummary>;
 export type __listOfConnectorOperationSummary = ConnectorOperationSummary[];
-export const __listOfConnectorOperationSummary = /*@__PURE__*/ S.Array(ConnectorOperationSummary);
+const __listOfConnectorOperationSummary = /*@__PURE__*/ __L.at(__c13, 2);
 export interface ListConnectorOperationsResponse {
   connectorOperations?: ConnectorOperationSummary[];
   nextToken?: string;
 }
-export const ListConnectorOperationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorOperations: S.optional(__listOfConnectorOperationSummary),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListConnectorOperationsResponse",
-}) as any as S.Schema<ListConnectorOperationsResponse>;
 export interface ListConnectorsRequest {
   connectorNamePrefix?: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorNamePrefix: S.optional(S.String).pipe(T.HttpQuery("connectorNamePrefix")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/connectors" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListConnectorsRequest" }) as any as S.Schema<ListConnectorsRequest>;
 export interface ConnectorSummary {
   capacity?: CapacityDescription;
   connectorArn?: string;
@@ -1063,49 +538,17 @@ export interface ConnectorSummary {
   serviceExecutionRoleArn?: string;
   workerConfiguration?: WorkerConfigurationDescription;
 }
-export const ConnectorSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacity: S.optional(CapacityDescription),
-    connectorArn: S.optional(S.String),
-    connectorDescription: S.optional(S.String),
-    connectorName: S.optional(S.String),
-    connectorState: S.optional(S.String),
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    currentVersion: S.optional(S.String),
-    kafkaCluster: S.optional(KafkaClusterDescription),
-    kafkaClusterClientAuthentication: S.optional(KafkaClusterClientAuthenticationDescription),
-    kafkaClusterEncryptionInTransit: S.optional(KafkaClusterEncryptionInTransitDescription),
-    kafkaConnectVersion: S.optional(S.String),
-    logDelivery: S.optional(LogDeliveryDescription),
-    networkType: S.optional(S.String),
-    plugins: S.optional(__listOfPluginDescription),
-    serviceExecutionRoleArn: S.optional(S.String),
-    workerConfiguration: S.optional(WorkerConfigurationDescription),
-  }),
-).annotate({ identifier: "ConnectorSummary" }) as any as S.Schema<ConnectorSummary>;
 export type __listOfConnectorSummary = ConnectorSummary[];
-export const __listOfConnectorSummary = /*@__PURE__*/ S.Array(ConnectorSummary);
+const __listOfConnectorSummary = /*@__PURE__*/ __L.at(__c14, 2);
 export interface ListConnectorsResponse {
   connectors?: ConnectorSummary[];
   nextToken?: string;
 }
-export const ListConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ connectors: S.optional(__listOfConnectorSummary), nextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListConnectorsResponse" }) as any as S.Schema<ListConnectorsResponse>;
 export interface ListCustomPluginsRequest {
   maxResults?: number;
   nextToken?: string;
   namePrefix?: string;
 }
-export const ListCustomPluginsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    namePrefix: S.optional(S.String).pipe(T.HttpQuery("namePrefix")),
-  }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/v1/custom-plugins" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListCustomPluginsRequest" }) as any as S.Schema<ListCustomPluginsRequest>;
 export interface CustomPluginSummary {
   creationTime?: Date;
   customPluginArn?: string;
@@ -1114,71 +557,23 @@ export interface CustomPluginSummary {
   latestRevision?: CustomPluginRevisionSummary;
   name?: string;
 }
-export const CustomPluginSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    customPluginArn: S.optional(S.String),
-    customPluginState: S.optional(S.String),
-    description: S.optional(S.String),
-    latestRevision: S.optional(CustomPluginRevisionSummary),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "CustomPluginSummary" }) as any as S.Schema<CustomPluginSummary>;
 export type __listOfCustomPluginSummary = CustomPluginSummary[];
-export const __listOfCustomPluginSummary = /*@__PURE__*/ S.Array(CustomPluginSummary);
+const __listOfCustomPluginSummary = /*@__PURE__*/ __L.at(__c15, 2);
 export interface ListCustomPluginsResponse {
   customPlugins?: CustomPluginSummary[];
   nextToken?: string;
 }
-export const ListCustomPluginsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customPlugins: S.optional(__listOfCustomPluginSummary),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCustomPluginsResponse",
-}) as any as S.Schema<ListCustomPluginsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListWorkerConfigurationsRequest {
   maxResults?: number;
   nextToken?: string;
   namePrefix?: string;
 }
-export const ListWorkerConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    namePrefix: S.optional(S.String).pipe(T.HttpQuery("namePrefix")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/worker-configurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListWorkerConfigurationsRequest",
-}) as any as S.Schema<ListWorkerConfigurationsRequest>;
 export interface WorkerConfigurationSummary {
   creationTime?: Date;
   description?: string;
@@ -1187,108 +582,38 @@ export interface WorkerConfigurationSummary {
   workerConfigurationArn?: string;
   workerConfigurationState?: string;
 }
-export const WorkerConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    description: S.optional(S.String),
-    latestRevision: S.optional(WorkerConfigurationRevisionSummary),
-    name: S.optional(S.String),
-    workerConfigurationArn: S.optional(S.String),
-    workerConfigurationState: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "WorkerConfigurationSummary",
-}) as any as S.Schema<WorkerConfigurationSummary>;
 export type __listOfWorkerConfigurationSummary = WorkerConfigurationSummary[];
-export const __listOfWorkerConfigurationSummary = /*@__PURE__*/ S.Array(WorkerConfigurationSummary);
+const __listOfWorkerConfigurationSummary = /*@__PURE__*/ __L.at(__c17, 2);
 export interface ListWorkerConfigurationsResponse {
   nextToken?: string;
   workerConfigurations?: WorkerConfigurationSummary[];
 }
-export const ListWorkerConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    workerConfigurations: S.optional(__listOfWorkerConfigurationSummary),
-  }),
-).annotate({
-  identifier: "ListWorkerConfigurationsResponse",
-}) as any as S.Schema<ListWorkerConfigurationsResponse>;
 export interface RestartConnectorRequest {
   connectorArn: string;
   onlyFailedTasks?: boolean;
 }
-export const RestartConnectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
-    onlyFailedTasks: S.optional(S.Boolean).pipe(T.HttpQuery("onlyFailedTasks")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/connectors/{connectorArn}/restart" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "RestartConnectorRequest" }) as any as S.Schema<RestartConnectorRequest>;
 export interface RestartConnectorResponse {
   connectorArn?: string;
   connectorOperationArn?: string;
 }
-export const RestartConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ connectorArn: S.optional(S.String), connectorOperationArn: S.optional(S.String) }),
-).annotate({ identifier: "RestartConnectorResponse" }) as any as S.Schema<RestartConnectorResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: Tags }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
+const TagKeyList = __listOf__string as any as S.Schema<TagKeyList>;
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface ScaleInPolicyUpdate {
   cpuUtilizationPercentage: number;
 }
-export const ScaleInPolicyUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cpuUtilizationPercentage: S.Number }),
-).annotate({ identifier: "ScaleInPolicyUpdate" }) as any as S.Schema<ScaleInPolicyUpdate>;
 export interface ScaleOutPolicyUpdate {
   cpuUtilizationPercentage: number;
 }
-export const ScaleOutPolicyUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cpuUtilizationPercentage: S.Number }),
-).annotate({ identifier: "ScaleOutPolicyUpdate" }) as any as S.Schema<ScaleOutPolicyUpdate>;
 export interface AutoScalingUpdate {
   maxWorkerCount: number;
   mcuCount: number;
@@ -1297,75 +622,26 @@ export interface AutoScalingUpdate {
   scaleOutPolicy: ScaleOutPolicyUpdate;
   maxAutoscalingTaskCount?: number;
 }
-export const AutoScalingUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxWorkerCount: S.Number,
-    mcuCount: S.Number,
-    minWorkerCount: S.Number,
-    scaleInPolicy: ScaleInPolicyUpdate,
-    scaleOutPolicy: ScaleOutPolicyUpdate,
-    maxAutoscalingTaskCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AutoScalingUpdate" }) as any as S.Schema<AutoScalingUpdate>;
 export interface ProvisionedCapacityUpdate {
   mcuCount: number;
   workerCount: number;
 }
-export const ProvisionedCapacityUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mcuCount: S.Number, workerCount: S.Number }),
-).annotate({
-  identifier: "ProvisionedCapacityUpdate",
-}) as any as S.Schema<ProvisionedCapacityUpdate>;
 export interface CapacityUpdate {
   autoScaling?: AutoScalingUpdate;
   provisionedCapacity?: ProvisionedCapacityUpdate;
 }
-export const CapacityUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    autoScaling: S.optional(AutoScalingUpdate),
-    provisionedCapacity: S.optional(ProvisionedCapacityUpdate),
-  }),
-).annotate({ identifier: "CapacityUpdate" }) as any as S.Schema<CapacityUpdate>;
 export type ConnectorConfigurationUpdate = { [key: string]: string | undefined };
-export const ConnectorConfigurationUpdate = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface UpdateConnectorRequest {
   capacity?: CapacityUpdate;
   connectorConfiguration?: { [key: string]: string | undefined };
   connectorArn: string;
   currentVersion: string;
 }
-export const UpdateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacity: S.optional(CapacityUpdate),
-    connectorConfiguration: S.optional(ConnectorConfigurationUpdate),
-    connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
-    currentVersion: S.String.pipe(T.HttpQuery("currentVersion")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v1/connectors/{connectorArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "UpdateConnectorRequest" }) as any as S.Schema<UpdateConnectorRequest>;
 export interface UpdateConnectorResponse {
   connectorArn?: string;
   connectorState?: string;
   connectorOperationArn?: string;
 }
-export const UpdateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorArn: S.optional(S.String),
-    connectorState: S.optional(S.String),
-    connectorOperationArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "UpdateConnectorResponse" }) as any as S.Schema<UpdateConnectorResponse>;
 export type CreateConnectorError =
   | BadRequestException
   | ConflictException
@@ -1385,8 +661,8 @@ export const createConnector: API.OperationMethod<
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConnectorRequest,
-  output: CreateConnectorResponse,
+  input: __S(752, __c23, 16) as any as S.Schema<CreateConnectorRequest>,
+  output: __S(753, __c23, 17) as any as S.Schema<CreateConnectorResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1421,8 +697,8 @@ export const createCustomPlugin: API.OperationMethod<
   CreateCustomPluginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCustomPluginRequest,
-  output: CreateCustomPluginResponse,
+  input: __S(866, __c27, 2) as any as S.Schema<CreateCustomPluginRequest>,
+  output: __S(867, __c27, 3) as any as S.Schema<CreateCustomPluginResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1457,8 +733,8 @@ export const createWorkerConfiguration: API.OperationMethod<
   CreateWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateWorkerConfigurationRequest,
-  output: CreateWorkerConfigurationResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateWorkerConfigurationRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<CreateWorkerConfigurationResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1492,8 +768,8 @@ export const deleteConnector: API.OperationMethod<
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConnectorRequest,
-  output: DeleteConnectorResponse,
+  input: __S(64, __c2, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<DeleteConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1526,8 +802,8 @@ export const deleteCustomPlugin: API.OperationMethod<
   DeleteCustomPluginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCustomPluginRequest,
-  output: DeleteCustomPluginResponse,
+  input: __S(96, __c3, 0) as any as S.Schema<DeleteCustomPluginRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<DeleteCustomPluginResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1560,8 +836,8 @@ export const deleteWorkerConfiguration: API.OperationMethod<
   DeleteWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteWorkerConfigurationRequest,
-  output: DeleteWorkerConfigurationResponse,
+  input: __S(128, __c4, 0) as any as S.Schema<DeleteWorkerConfigurationRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<DeleteWorkerConfigurationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1594,8 +870,8 @@ export const describeConnector: API.OperationMethod<
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeConnectorRequest,
-  output: DescribeConnectorResponse,
+  input: __S(160, __c5, 0) as any as S.Schema<DescribeConnectorRequest>,
+  output: __S(161, __c5, 1) as any as S.Schema<DescribeConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1628,8 +904,8 @@ export const describeConnectorOperation: API.OperationMethod<
   DescribeConnectorOperationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeConnectorOperationRequest,
-  output: DescribeConnectorOperationResponse,
+  input: __S(288, __c9, 0) as any as S.Schema<DescribeConnectorOperationRequest>,
+  output: __S(292, __c9, 4) as any as S.Schema<DescribeConnectorOperationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1662,8 +938,8 @@ export const describeCustomPlugin: API.OperationMethod<
   DescribeCustomPluginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeCustomPluginRequest,
-  output: DescribeCustomPluginResponse,
+  input: __S(320, __c10, 0) as any as S.Schema<DescribeCustomPluginRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<DescribeCustomPluginResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1696,8 +972,8 @@ export const describeWorkerConfiguration: API.OperationMethod<
   DescribeWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeWorkerConfigurationRequest,
-  output: DescribeWorkerConfigurationResponse,
+  input: __S(384, __c12, 0) as any as S.Schema<DescribeWorkerConfigurationRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<DescribeWorkerConfigurationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1731,8 +1007,8 @@ export const listConnectorOperations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectorOperationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConnectorOperationsRequest,
-  output: ListConnectorOperationsResponse,
+  input: __S(416, __c13, 0) as any as S.Schema<ListConnectorOperationsRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<ListConnectorOperationsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1772,8 +1048,8 @@ export const listConnectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConnectorsRequest,
-  output: ListConnectorsResponse,
+  input: __S(448, __c14, 0) as any as S.Schema<ListConnectorsRequest>,
+  output: __S(451, __c14, 3) as any as S.Schema<ListConnectorsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1813,8 +1089,8 @@ export const listCustomPlugins: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CustomPluginSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCustomPluginsRequest,
-  output: ListCustomPluginsResponse,
+  input: __S(480, __c15, 0) as any as S.Schema<ListCustomPluginsRequest>,
+  output: __S(483, __c15, 3) as any as S.Schema<ListCustomPluginsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1853,8 +1129,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(512, __c16, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1888,8 +1164,8 @@ export const listWorkerConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkerConfigurationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListWorkerConfigurationsRequest,
-  output: ListWorkerConfigurationsResponse,
+  input: __S(544, __c17, 0) as any as S.Schema<ListWorkerConfigurationsRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<ListWorkerConfigurationsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1928,8 +1204,8 @@ export const restartConnector: API.OperationMethod<
   RestartConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RestartConnectorRequest,
-  output: RestartConnectorResponse,
+  input: __S(576, __c18, 0) as any as S.Schema<RestartConnectorRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<RestartConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1963,8 +1239,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(608, __c19, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1998,8 +1274,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(672, __c21, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2032,8 +1308,8 @@ export const updateConnector: API.OperationMethod<
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateConnectorRequest,
-  output: UpdateConnectorResponse,
+  input: __S(706, __c22, 2) as any as S.Schema<UpdateConnectorRequest>,
+  output: __S(707, __c22, 3) as any as S.Schema<UpdateConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -2047,3 +1323,897 @@ export const updateConnector: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateConnector",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          name: S.String,
+          propertiesFileContent: SensitiveString,
+          tags: S.optional(__S(832, __c26, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/worker-configurations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateWorkerConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          latestRevision: S.optional(__S(32, __c1, 0)),
+          name: S.optional(S.String),
+          workerConfigurationArn: S.optional(S.String),
+          workerConfigurationState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateWorkerConfigurationResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          description: S.optional(S.String),
+          revision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "WorkerConfigurationRevisionSummary" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
+          currentVersion: S.optional(S.String).pipe(T.HttpQuery("currentVersion")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/connectors/{connectorArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteConnectorRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ connectorArn: S.optional(S.String), connectorState: S.optional(S.String) }),
+      ).annotate({ identifier: "DeleteConnectorResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ customPluginArn: S.String.pipe(T.HttpLabel("customPluginArn")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/custom-plugins/{customPluginArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteCustomPluginRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          customPluginArn: S.optional(S.String),
+          customPluginState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteCustomPluginResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workerConfigurationArn: S.String.pipe(T.HttpLabel("workerConfigurationArn")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/worker-configurations/{workerConfigurationArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteWorkerConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          workerConfigurationArn: S.optional(S.String),
+          workerConfigurationState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteWorkerConfigurationResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ connectorArn: S.String.pipe(T.HttpLabel("connectorArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/connectors/{connectorArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeConnectorRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          capacity: S.optional(__S(227, __c7, 3)),
+          connectorArn: S.optional(S.String),
+          connectorConfiguration: S.optional(__S(832, __c26, 0)),
+          connectorDescription: S.optional(S.String),
+          connectorName: S.optional(S.String),
+          connectorState: S.optional(S.String),
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          currentVersion: S.optional(S.String),
+          kafkaCluster: S.optional(__S(258, __c8, 2)),
+          kafkaClusterClientAuthentication: S.optional(__S(259, __c8, 3)),
+          kafkaClusterEncryptionInTransit: S.optional(__S(260, __c8, 4)),
+          kafkaConnectVersion: S.optional(S.String),
+          logDelivery: S.optional(__S(265, __c8, 9)),
+          networkType: S.optional(S.String),
+          plugins: S.optional(__listOfPluginDescription),
+          serviceExecutionRoleArn: S.optional(S.String),
+          workerConfiguration: S.optional(__S(269, __c8, 13)),
+          stateDescription: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "DescribeConnectorResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+      ).annotate({ identifier: "StateDescription" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ cpuUtilizationPercentage: S.optional(S.Number) })).annotate(
+        { identifier: "ScaleInPolicyDescription" },
+      );
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          maxWorkerCount: S.optional(S.Number),
+          mcuCount: S.optional(S.Number),
+          minWorkerCount: S.optional(S.Number),
+          scaleInPolicy: S.optional(__S(224, __c7, 0)),
+          scaleOutPolicy: S.optional(__S(224, __c7, 0)),
+          maxAutoscalingTaskCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AutoScalingDescription" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ mcuCount: S.optional(S.Number), workerCount: S.optional(S.Number) }),
+      ).annotate({ identifier: "ProvisionedCapacityDescription" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          autoScaling: S.optional(__S(225, __c7, 1)),
+          provisionedCapacity: S.optional(__S(226, __c7, 2)),
+        }),
+      ).annotate({ identifier: "CapacityDescription" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          securityGroups: S.optional(__listOf__string),
+          subnets: S.optional(__listOf__string),
+        }),
+      ).annotate({ identifier: "VpcDescription" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ bootstrapServers: S.optional(S.String), vpc: S.optional(__S(256, __c8, 0)) }),
+      ).annotate({ identifier: "ApacheKafkaClusterDescription" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ apacheKafkaCluster: S.optional(__S(257, __c8, 1)) }),
+      ).annotate({ identifier: "KafkaClusterDescription" });
+    case 3:
+      return S.suspend(() => S.Struct({ authenticationType: S.optional(S.String) })).annotate({
+        identifier: "KafkaClusterClientAuthenticationDescription",
+      });
+    case 4:
+      return S.suspend(() => S.Struct({ encryptionType: S.optional(S.String) })).annotate({
+        identifier: "KafkaClusterEncryptionInTransitDescription",
+      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ enabled: S.optional(S.Boolean), logGroup: S.optional(S.String) }),
+      ).annotate({ identifier: "CloudWatchLogsLogDeliveryDescription" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ deliveryStream: S.optional(S.String), enabled: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "FirehoseLogDeliveryDescription" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          prefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "S3LogDeliveryDescription" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          cloudWatchLogs: S.optional(__S(261, __c8, 5)),
+          firehose: S.optional(__S(262, __c8, 6)),
+          s3: S.optional(__S(263, __c8, 7)),
+        }),
+      ).annotate({ identifier: "WorkerLogDeliveryDescription" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ workerLogDelivery: S.optional(__S(264, __c8, 8)) }),
+      ).annotate({ identifier: "LogDeliveryDescription" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({ customPluginArn: S.optional(S.String), revision: S.optional(S.Number) }),
+      ).annotate({ identifier: "CustomPluginDescription" });
+    case 11:
+      return S.suspend(() => S.Struct({ customPlugin: S.optional(__S(266, __c8, 10)) })).annotate({
+        identifier: "PluginDescription",
+      });
+    case 12:
+      return S.Array(__S(267, __c8, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({ revision: S.optional(S.Number), workerConfigurationArn: S.optional(S.String) }),
+      ).annotate({ identifier: "WorkerConfigurationDescription" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectorOperationArn: S.String.pipe(T.HttpLabel("connectorOperationArn")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/connectorOperations/{connectorOperationArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeConnectorOperationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ stepType: S.optional(S.String), stepState: S.optional(S.String) }),
+      ).annotate({ identifier: "ConnectorOperationStep" });
+    case 2:
+      return S.Array(__S(289, __c9, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ capacity: S.optional(__S(227, __c7, 3)) })).annotate({
+        identifier: "WorkerSetting",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          connectorArn: S.optional(S.String),
+          connectorOperationArn: S.optional(S.String),
+          connectorOperationState: S.optional(S.String),
+          connectorOperationType: S.optional(S.String),
+          operationSteps: S.optional(__listOfConnectorOperationStep),
+          originWorkerSetting: S.optional(__S(291, __c9, 3)),
+          originConnectorConfiguration: S.optional(__S(832, __c26, 0)),
+          targetWorkerSetting: S.optional(__S(291, __c9, 3)),
+          targetConnectorConfiguration: S.optional(__S(832, __c26, 0)),
+          errorInfo: S.optional(__S(192, __c6, 0)),
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "DescribeConnectorOperationResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ customPluginArn: S.String.pipe(T.HttpLabel("customPluginArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/custom-plugins/{customPluginArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeCustomPluginRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          customPluginArn: S.optional(S.String),
+          customPluginState: S.optional(S.String),
+          description: S.optional(S.String),
+          latestRevision: S.optional(__S(355, __c11, 3)),
+          name: S.optional(S.String),
+          stateDescription: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "DescribeCustomPluginResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ fileMd5: S.optional(S.String), fileSize: S.optional(S.Number) }),
+      ).annotate({ identifier: "CustomPluginFileDescription" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          bucketArn: S.optional(S.String),
+          fileKey: S.optional(S.String),
+          objectVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "S3LocationDescription" });
+    case 2:
+      return S.suspend(() => S.Struct({ s3Location: S.optional(__S(353, __c11, 1)) })).annotate({
+        identifier: "CustomPluginLocationDescription",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          contentType: S.optional(S.String),
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          description: S.optional(S.String),
+          fileDescription: S.optional(__S(352, __c11, 0)),
+          location: S.optional(__S(354, __c11, 2)),
+          revision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CustomPluginRevisionSummary" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workerConfigurationArn: S.String.pipe(T.HttpLabel("workerConfigurationArn")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/worker-configurations/{workerConfigurationArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeWorkerConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          description: S.optional(S.String),
+          propertiesFileContent: S.optional(SensitiveString),
+          revision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "WorkerConfigurationRevisionDescription" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          description: S.optional(S.String),
+          latestRevision: S.optional(__S(385, __c12, 1)),
+          name: S.optional(S.String),
+          workerConfigurationArn: S.optional(S.String),
+          workerConfigurationState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DescribeWorkerConfigurationResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/connectors/{connectorArn}/operations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListConnectorOperationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          connectorOperationArn: S.optional(S.String),
+          connectorOperationType: S.optional(S.String),
+          connectorOperationState: S.optional(S.String),
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "ConnectorOperationSummary" });
+    case 2:
+      return S.Array(__S(417, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          connectorOperations: S.optional(__listOfConnectorOperationSummary),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListConnectorOperationsResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectorNamePrefix: S.optional(S.String).pipe(T.HttpQuery("connectorNamePrefix")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/v1/connectors" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListConnectorsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          capacity: S.optional(__S(227, __c7, 3)),
+          connectorArn: S.optional(S.String),
+          connectorDescription: S.optional(S.String),
+          connectorName: S.optional(S.String),
+          connectorState: S.optional(S.String),
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          currentVersion: S.optional(S.String),
+          kafkaCluster: S.optional(__S(258, __c8, 2)),
+          kafkaClusterClientAuthentication: S.optional(__S(259, __c8, 3)),
+          kafkaClusterEncryptionInTransit: S.optional(__S(260, __c8, 4)),
+          kafkaConnectVersion: S.optional(S.String),
+          logDelivery: S.optional(__S(265, __c8, 9)),
+          networkType: S.optional(S.String),
+          plugins: S.optional(__listOfPluginDescription),
+          serviceExecutionRoleArn: S.optional(S.String),
+          workerConfiguration: S.optional(__S(269, __c8, 13)),
+        }),
+      ).annotate({ identifier: "ConnectorSummary" });
+    case 2:
+      return S.Array(__S(449, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          connectors: S.optional(__listOfConnectorSummary),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListConnectorsResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          namePrefix: S.optional(S.String).pipe(T.HttpQuery("namePrefix")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/v1/custom-plugins" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListCustomPluginsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          customPluginArn: S.optional(S.String),
+          customPluginState: S.optional(S.String),
+          description: S.optional(S.String),
+          latestRevision: S.optional(__S(355, __c11, 3)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomPluginSummary" });
+    case 2:
+      return S.Array(__S(481, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          customPlugins: S.optional(__listOfCustomPluginSummary),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListCustomPluginsResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(832, __c26, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          namePrefix: S.optional(S.String).pipe(T.HttpQuery("namePrefix")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/worker-configurations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListWorkerConfigurationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          description: S.optional(S.String),
+          latestRevision: S.optional(__S(32, __c1, 0)),
+          name: S.optional(S.String),
+          workerConfigurationArn: S.optional(S.String),
+          workerConfigurationState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkerConfigurationSummary" });
+    case 2:
+      return S.Array(__S(545, __c17, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String),
+          workerConfigurations: S.optional(__listOfWorkerConfigurationSummary),
+        }),
+      ).annotate({ identifier: "ListWorkerConfigurationsResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
+          onlyFailedTasks: S.optional(S.Boolean).pipe(T.HttpQuery("onlyFailedTasks")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/connectors/{connectorArn}/restart" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RestartConnectorRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          connectorArn: S.optional(S.String),
+          connectorOperationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RestartConnectorResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tags: __S(832, __c26, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxWorkerCount: S.Number,
+          mcuCount: S.Number,
+          minWorkerCount: S.Number,
+          scaleInPolicy: __S(800, __c25, 0),
+          scaleOutPolicy: __S(800, __c25, 0),
+          maxAutoscalingTaskCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AutoScalingUpdate" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          autoScaling: S.optional(__S(704, __c22, 0)),
+          provisionedCapacity: S.optional(__S(801, __c25, 1)),
+        }),
+      ).annotate({ identifier: "CapacityUpdate" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          capacity: S.optional(__S(705, __c22, 1)),
+          connectorConfiguration: S.optional(__S(832, __c26, 0)),
+          connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
+          currentVersion: S.String.pipe(T.HttpQuery("currentVersion")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/v1/connectors/{connectorArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateConnectorRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          connectorArn: S.optional(S.String),
+          connectorState: S.optional(S.String),
+          connectorOperationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateConnectorResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxWorkerCount: S.Number,
+          mcuCount: S.Number,
+          minWorkerCount: S.Number,
+          scaleInPolicy: S.optional(__S(800, __c25, 0)),
+          scaleOutPolicy: S.optional(__S(800, __c25, 0)),
+          maxAutoscalingTaskCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AutoScaling" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          autoScaling: S.optional(__S(736, __c23, 0)),
+          provisionedCapacity: S.optional(__S(801, __c25, 1)),
+        }),
+      ).annotate({ identifier: "Capacity" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ securityGroups: S.optional(__listOf__string), subnets: __listOf__string }),
+      ).annotate({ identifier: "Vpc" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ bootstrapServers: S.String, vpc: __S(738, __c23, 2) }),
+      ).annotate({ identifier: "ApacheKafkaCluster" });
+    case 4:
+      return S.suspend(() => S.Struct({ apacheKafkaCluster: __S(739, __c23, 3) })).annotate({
+        identifier: "KafkaCluster",
+      });
+    case 5:
+      return S.suspend(() => S.Struct({ authenticationType: S.String })).annotate({
+        identifier: "KafkaClusterClientAuthentication",
+      });
+    case 6:
+      return S.suspend(() => S.Struct({ encryptionType: S.String })).annotate({
+        identifier: "KafkaClusterEncryptionInTransit",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ enabled: S.Boolean, logGroup: S.optional(S.String) }),
+      ).annotate({ identifier: "CloudWatchLogsLogDelivery" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ deliveryStream: S.optional(S.String), enabled: S.Boolean }),
+      ).annotate({ identifier: "FirehoseLogDelivery" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.optional(S.String),
+          enabled: S.Boolean,
+          prefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "S3LogDelivery" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          cloudWatchLogs: S.optional(__S(743, __c23, 7)),
+          firehose: S.optional(__S(744, __c23, 8)),
+          s3: S.optional(__S(745, __c23, 9)),
+        }),
+      ).annotate({ identifier: "WorkerLogDelivery" });
+    case 11:
+      return S.suspend(() => S.Struct({ workerLogDelivery: __S(746, __c23, 10) })).annotate({
+        identifier: "LogDelivery",
+      });
+    case 12:
+      return S.suspend(() => S.Struct({ customPluginArn: S.String, revision: S.Number })).annotate({
+        identifier: "CustomPlugin",
+      });
+    case 13:
+      return S.suspend(() => S.Struct({ customPlugin: __S(748, __c23, 12) })).annotate({
+        identifier: "Plugin",
+      });
+    case 14:
+      return S.Array(__S(749, __c23, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({ revision: S.Number, workerConfigurationArn: S.String }),
+      ).annotate({ identifier: "WorkerConfiguration" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          capacity: __S(737, __c23, 1),
+          connectorConfiguration: __S(832, __c26, 0),
+          connectorDescription: S.optional(S.String),
+          connectorName: S.String,
+          kafkaCluster: __S(740, __c23, 4),
+          kafkaClusterClientAuthentication: __S(741, __c23, 5),
+          kafkaClusterEncryptionInTransit: __S(742, __c23, 6),
+          kafkaConnectVersion: S.String,
+          logDelivery: S.optional(__S(747, __c23, 11)),
+          networkType: S.optional(S.String),
+          plugins: __listOfPlugin,
+          serviceExecutionRoleArn: S.String,
+          workerConfiguration: S.optional(__S(751, __c23, 15)),
+          tags: S.optional(__S(832, __c26, 0)),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/v1/connectors" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateConnectorRequest" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          connectorArn: S.optional(S.String),
+          connectorName: S.optional(S.String),
+          connectorState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateConnectorResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ cpuUtilizationPercentage: S.Number })).annotate({
+        identifier: "ScaleInPolicy",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ mcuCount: S.Number, workerCount: S.Number })).annotate({
+        identifier: "ProvisionedCapacity",
+      });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucketArn: S.String, fileKey: S.String, objectVersion: S.optional(S.String) }),
+      ).annotate({ identifier: "S3Location" });
+    case 1:
+      return S.suspend(() => S.Struct({ s3Location: __S(864, __c27, 0) })).annotate({
+        identifier: "CustomPluginLocation",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          contentType: S.String,
+          description: S.optional(S.String),
+          location: __S(865, __c27, 1),
+          name: S.String,
+          tags: S.optional(__S(832, __c26, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/custom-plugins" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateCustomPluginRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          customPluginArn: S.optional(S.String),
+          customPluginState: S.optional(S.String),
+          name: S.optional(S.String),
+          revision: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreateCustomPluginResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

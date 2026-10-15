@@ -1,0 +1,19 @@
+{
+  "name": "@distilled.cloud/bench-schema-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lab": "node --conditions=bun --expose-gc run.ts"
+  },
+  "dependencies": {
+    "@distilled.cloud/aws": "workspace:*",
+    "@distilled.cloud/cloudflare": "workspace:*",
+    "@distilled.cloud/core": "workspace:*",
+    "@distilled.cloud/stripe": "workspace:*",
+    "effect": "catalog:",
+    "rolldown": "catalog:",
+    "typebox": "1.0.81",
+    "valibot": "1.2.0",
+    "zod": "4.1.12"
+  }
+}

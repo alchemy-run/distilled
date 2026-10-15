@@ -1,7 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
-import * as redacted from "effect/Redacted";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -9,12 +10,17 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const ns = T.XmlNamespace("http://elasticache.amazonaws.com/doc/2015-02-02/");
-const svc = T.AwsApiService({ sdkId: "ElastiCache", serviceShapeName: "AmazonElastiCacheV9" });
-const auth = T.AwsAuthSigv4({ name: "elasticache" });
-const ver = T.ServiceVersion("2015-02-02");
-const proto = T.AwsProtocolsAwsQuery();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://elasticache.amazonaws.com/doc/2015-02-02/");
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "ElastiCache",
+  serviceShapeName: "AmazonElastiCacheV9",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "elasticache" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2015-02-02");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsQuery();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -74,721 +80,829 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://elasticache.{R}.{D}","properties":{},"headers":{}}');
 
 export class APICallRateForCustomerExceededFault
   extends /*@__PURE__*/ S.TaggedError<APICallRateForCustomerExceededFault>()(
     "APICallRateForCustomerExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "APICallRateForCustomerExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "APICallRateForCustomerExceeded",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class AuthorizationAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<AuthorizationAlreadyExistsFault>()(
     "AuthorizationAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AuthorizationAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "AuthorizationAlreadyExists", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class AuthorizationNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<AuthorizationNotFoundFault>()(
     "AuthorizationNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AuthorizationNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "AuthorizationNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class CacheClusterAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<CacheClusterAlreadyExistsFault>()(
     "CacheClusterAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheClusterAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "CacheClusterAlreadyExists", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class CacheClusterNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<CacheClusterNotFoundFault>()(
     "CacheClusterNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheClusterNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "CacheClusterNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class CacheParameterGroupAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<CacheParameterGroupAlreadyExistsFault>()(
     "CacheParameterGroupAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheParameterGroupAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "CacheParameterGroupAlreadyExists",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class CacheParameterGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<CacheParameterGroupNotFoundFault>()(
     "CacheParameterGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheParameterGroupNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "CacheParameterGroupNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class CacheParameterGroupQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<CacheParameterGroupQuotaExceededFault>()(
     "CacheParameterGroupQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheParameterGroupQuotaExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "CacheParameterGroupQuotaExceeded",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class CacheSecurityGroupAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<CacheSecurityGroupAlreadyExistsFault>()(
     "CacheSecurityGroupAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheSecurityGroupAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "CacheSecurityGroupAlreadyExists",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class CacheSecurityGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<CacheSecurityGroupNotFoundFault>()(
     "CacheSecurityGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheSecurityGroupNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "CacheSecurityGroupNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class CacheSecurityGroupQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<CacheSecurityGroupQuotaExceededFault>()(
     "CacheSecurityGroupQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "QuotaExceeded.CacheSecurityGroup", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "QuotaExceeded.CacheSecurityGroup",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class CacheSubnetGroupAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<CacheSubnetGroupAlreadyExistsFault>()(
     "CacheSubnetGroupAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheSubnetGroupAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "CacheSubnetGroupAlreadyExists",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class CacheSubnetGroupInUse
   extends /*@__PURE__*/ S.TaggedError<CacheSubnetGroupInUse>()(
     "CacheSubnetGroupInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheSubnetGroupInUse", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "CacheSubnetGroupInUse", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withDependencyViolationError) {}
 export class CacheSubnetGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<CacheSubnetGroupNotFoundFault>()(
     "CacheSubnetGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheSubnetGroupNotFoundFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "CacheSubnetGroupNotFoundFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class CacheSubnetGroupQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<CacheSubnetGroupQuotaExceededFault>()(
     "CacheSubnetGroupQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheSubnetGroupQuotaExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "CacheSubnetGroupQuotaExceeded",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class CacheSubnetQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<CacheSubnetQuotaExceededFault>()(
     "CacheSubnetQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "CacheSubnetQuotaExceededFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "CacheSubnetQuotaExceededFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ClusterQuotaForCustomerExceededFault
   extends /*@__PURE__*/ S.TaggedError<ClusterQuotaForCustomerExceededFault>()(
     "ClusterQuotaForCustomerExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ClusterQuotaForCustomerExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ClusterQuotaForCustomerExceeded",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class DefaultUserAssociatedToUserGroupFault
   extends /*@__PURE__*/ S.TaggedError<DefaultUserAssociatedToUserGroupFault>()(
     "DefaultUserAssociatedToUserGroupFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DefaultUserAssociatedToUserGroup", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "DefaultUserAssociatedToUserGroup",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class DefaultUserRequired
   extends /*@__PURE__*/ S.TaggedError<DefaultUserRequired>()(
     "DefaultUserRequired",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DefaultUserRequired", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "DefaultUserRequired", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class DuplicateUserNameFault
   extends /*@__PURE__*/ S.TaggedError<DuplicateUserNameFault>()(
     "DuplicateUserNameFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "DuplicateUserName", httpResponseCode: 400 }), T.HttpError(400)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "DuplicateUserName", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
   ).pipe(C.withBadRequestError) {}
 export class GlobalReplicationGroupAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<GlobalReplicationGroupAlreadyExistsFault>()(
     "GlobalReplicationGroupAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "GlobalReplicationGroupAlreadyExistsFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "GlobalReplicationGroupAlreadyExistsFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class GlobalReplicationGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<GlobalReplicationGroupNotFoundFault>()(
     "GlobalReplicationGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "GlobalReplicationGroupNotFoundFault", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "GlobalReplicationGroupNotFoundFault",
+        httpResponseCode: 404,
+      }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InsufficientCacheClusterCapacityFault
   extends /*@__PURE__*/ S.TaggedError<InsufficientCacheClusterCapacityFault>()(
     "InsufficientCacheClusterCapacityFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InsufficientCacheClusterCapacity", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "InsufficientCacheClusterCapacity",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidARNFault
   extends /*@__PURE__*/ S.TaggedError<InvalidARNFault>()(
     "InvalidARNFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }), T.HttpError(400)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidCacheClusterStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidCacheClusterStateFault>()(
     "InvalidCacheClusterStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidCacheClusterState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidCacheClusterState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidCacheParameterGroupStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidCacheParameterGroupStateFault>()(
     "InvalidCacheParameterGroupStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidCacheParameterGroupState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "InvalidCacheParameterGroupState",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidCacheSecurityGroupStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidCacheSecurityGroupStateFault>()(
     "InvalidCacheSecurityGroupStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidCacheSecurityGroupState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "InvalidCacheSecurityGroupState",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidCredentialsException
   extends /*@__PURE__*/ S.TaggedError<InvalidCredentialsException>()(
     "InvalidCredentialsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidCredentialsException", httpResponseCode: 408 }),
-      T.HttpError(408),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidCredentialsException", httpResponseCode: 408 }),
+      /*@__PURE__*/ T.HttpError(408),
     ),
   ).pipe(C.withTimeoutError) {}
 export class InvalidGlobalReplicationGroupStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidGlobalReplicationGroupStateFault>()(
     "InvalidGlobalReplicationGroupStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidGlobalReplicationGroupState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "InvalidGlobalReplicationGroupState",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidKMSKeyFault
   extends /*@__PURE__*/ S.TaggedError<InvalidKMSKeyFault>()(
     "InvalidKMSKeyFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "InvalidKMSKeyFault", httpResponseCode: 400 }), T.HttpError(400)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidKMSKeyFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterCombinationException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterCombinationException>()(
     "InvalidParameterCombinationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidParameterCombination", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidParameterCombination", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
     "InvalidParameterValueException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidReplicationGroupStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidReplicationGroupStateFault>()(
     "InvalidReplicationGroupStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidReplicationGroupState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "InvalidReplicationGroupState",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidServerlessCacheSnapshotStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidServerlessCacheSnapshotStateFault>()(
     "InvalidServerlessCacheSnapshotStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidServerlessCacheSnapshotStateFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "InvalidServerlessCacheSnapshotStateFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidServerlessCacheStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidServerlessCacheStateFault>()(
     "InvalidServerlessCacheStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidServerlessCacheStateFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "InvalidServerlessCacheStateFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSnapshotStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidSnapshotStateFault>()(
     "InvalidSnapshotStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSnapshotState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidSnapshotState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSubnet
   extends /*@__PURE__*/ S.TaggedError<InvalidSubnet>()(
     "InvalidSubnet",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }), T.HttpError(400)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidUserGroupStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidUserGroupStateFault>()(
     "InvalidUserGroupStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidUserGroupState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidUserGroupState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidUserStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidUserStateFault>()(
     "InvalidUserStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "InvalidUserState", httpResponseCode: 400 }), T.HttpError(400)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidUserState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidVPCNetworkStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidVPCNetworkStateFault>()(
     "InvalidVPCNetworkStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidVPCNetworkStateFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidVPCNetworkStateFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class NodeGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<NodeGroupNotFoundFault>()(
     "NodeGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "NodeGroupNotFoundFault", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "NodeGroupNotFoundFault", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class NodeGroupsPerReplicationGroupQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<NodeGroupsPerReplicationGroupQuotaExceededFault>()(
     "NodeGroupsPerReplicationGroupQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "NodeGroupsPerReplicationGroupQuotaExceeded",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class NodeQuotaForClusterExceededFault
   extends /*@__PURE__*/ S.TaggedError<NodeQuotaForClusterExceededFault>()(
     "NodeQuotaForClusterExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "NodeQuotaForClusterExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "NodeQuotaForClusterExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class NodeQuotaForCustomerExceededFault
   extends /*@__PURE__*/ S.TaggedError<NodeQuotaForCustomerExceededFault>()(
     "NodeQuotaForCustomerExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "NodeQuotaForCustomerExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "NodeQuotaForCustomerExceeded",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class NoOperationFault
   extends /*@__PURE__*/ S.TaggedError<NoOperationFault>()(
     "NoOperationFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "NoOperationFault", httpResponseCode: 400 }), T.HttpError(400)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "NoOperationFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
   ).pipe(C.withBadRequestError) {}
 export class ReplicationGroupAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ReplicationGroupAlreadyExistsFault>()(
     "ReplicationGroupAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReplicationGroupAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ReplicationGroupAlreadyExists",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class ReplicationGroupAlreadyUnderMigrationFault
   extends /*@__PURE__*/ S.TaggedError<ReplicationGroupAlreadyUnderMigrationFault>()(
     "ReplicationGroupAlreadyUnderMigrationFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "ReplicationGroupAlreadyUnderMigrationFault",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ReplicationGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ReplicationGroupNotFoundFault>()(
     "ReplicationGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReplicationGroupNotFoundFault", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ReplicationGroupNotFoundFault",
+        httpResponseCode: 404,
+      }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ReplicationGroupNotUnderMigrationFault
   extends /*@__PURE__*/ S.TaggedError<ReplicationGroupNotUnderMigrationFault>()(
     "ReplicationGroupNotUnderMigrationFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReplicationGroupNotUnderMigrationFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ReplicationGroupNotUnderMigrationFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ReservedCacheNodeAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ReservedCacheNodeAlreadyExistsFault>()(
     "ReservedCacheNodeAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReservedCacheNodeAlreadyExists", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ReservedCacheNodeAlreadyExists",
+        httpResponseCode: 404,
+      }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class ReservedCacheNodeNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ReservedCacheNodeNotFoundFault>()(
     "ReservedCacheNodeNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReservedCacheNodeNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ReservedCacheNodeNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ReservedCacheNodeQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<ReservedCacheNodeQuotaExceededFault>()(
     "ReservedCacheNodeQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReservedCacheNodeQuotaExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ReservedCacheNodeQuotaExceeded",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ReservedCacheNodesOfferingNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ReservedCacheNodesOfferingNotFoundFault>()(
     "ReservedCacheNodesOfferingNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReservedCacheNodesOfferingNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ReservedCacheNodesOfferingNotFound",
+        httpResponseCode: 404,
+      }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServerlessCacheAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ServerlessCacheAlreadyExistsFault>()(
     "ServerlessCacheAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServerlessCacheAlreadyExistsFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ServerlessCacheAlreadyExistsFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class ServerlessCacheNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ServerlessCacheNotFoundFault>()(
     "ServerlessCacheNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServerlessCacheNotFoundFault", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ServerlessCacheNotFoundFault",
+        httpResponseCode: 404,
+      }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServerlessCacheQuotaForCustomerExceededFault
   extends /*@__PURE__*/ S.TaggedError<ServerlessCacheQuotaForCustomerExceededFault>()(
     "ServerlessCacheQuotaForCustomerExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "ServerlessCacheQuotaForCustomerExceededFault",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServerlessCacheSnapshotAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ServerlessCacheSnapshotAlreadyExistsFault>()(
     "ServerlessCacheSnapshotAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServerlessCacheSnapshotAlreadyExistsFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ServerlessCacheSnapshotAlreadyExistsFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class ServerlessCacheSnapshotNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ServerlessCacheSnapshotNotFoundFault>()(
     "ServerlessCacheSnapshotNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServerlessCacheSnapshotNotFoundFault", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ServerlessCacheSnapshotNotFoundFault",
+        httpResponseCode: 404,
+      }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServerlessCacheSnapshotQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<ServerlessCacheSnapshotQuotaExceededFault>()(
     "ServerlessCacheSnapshotQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServerlessCacheSnapshotQuotaExceededFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ServerlessCacheSnapshotQuotaExceededFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServiceLinkedRoleNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ServiceLinkedRoleNotFoundFault>()(
     "ServiceLinkedRoleNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServiceLinkedRoleNotFoundFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "ServiceLinkedRoleNotFoundFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServiceUpdateNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ServiceUpdateNotFoundFault>()(
     "ServiceUpdateNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServiceUpdateNotFoundFault", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ServiceUpdateNotFoundFault", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SnapshotAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<SnapshotAlreadyExistsFault>()(
     "SnapshotAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SnapshotAlreadyExistsFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SnapshotAlreadyExistsFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class SnapshotFeatureNotSupportedFault
   extends /*@__PURE__*/ S.TaggedError<SnapshotFeatureNotSupportedFault>()(
     "SnapshotFeatureNotSupportedFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SnapshotFeatureNotSupportedFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "SnapshotFeatureNotSupportedFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SnapshotNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<SnapshotNotFoundFault>()(
     "SnapshotNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SnapshotNotFoundFault", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SnapshotNotFoundFault", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SnapshotQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<SnapshotQuotaExceededFault>()(
     "SnapshotQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SnapshotQuotaExceededFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SnapshotQuotaExceededFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SubnetInUse
   extends /*@__PURE__*/ S.TaggedError<SubnetInUse>()(
     "SubnetInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }), T.HttpError(400)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
   ).pipe(C.withBadRequestError, C.withDependencyViolationError) {}
 export class SubnetNotAllowedFault
   extends /*@__PURE__*/ S.TaggedError<SubnetNotAllowedFault>()(
     "SubnetNotAllowedFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TagNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<TagNotFoundFault>()(
     "TagNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "TagNotFound", httpResponseCode: 404 }), T.HttpError(404)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "TagNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
+    ),
   ).pipe(C.withBadRequestError) {}
 export class TagQuotaPerResourceExceeded
   extends /*@__PURE__*/ S.TaggedError<TagQuotaPerResourceExceeded>()(
     "TagQuotaPerResourceExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TagQuotaPerResourceExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "TagQuotaPerResourceExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TestFailoverNotAvailableFault
   extends /*@__PURE__*/ S.TaggedError<TestFailoverNotAvailableFault>()(
     "TestFailoverNotAvailableFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TestFailoverNotAvailableFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
+        code: "TestFailoverNotAvailableFault",
+        httpResponseCode: 400,
+      }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class UserAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<UserAlreadyExistsFault>()(
     "UserAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "UserAlreadyExists", httpResponseCode: 400 }), T.HttpError(400)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "UserAlreadyExists", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class UserGroupAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<UserGroupAlreadyExistsFault>()(
     "UserGroupAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "UserGroupAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "UserGroupAlreadyExists", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class UserGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<UserGroupNotFoundFault>()(
     "UserGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "UserGroupNotFound", httpResponseCode: 404 }), T.HttpError(404)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "UserGroupNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
+    ),
   ).pipe(C.withBadRequestError) {}
 export class UserGroupQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<UserGroupQuotaExceededFault>()(
     "UserGroupQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "UserGroupQuotaExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "UserGroupQuotaExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class UserNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<UserNotFoundFault>()(
     "UserNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "UserNotFound", httpResponseCode: 404 }), T.HttpError(404)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "UserNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
+    ),
   ).pipe(C.withBadRequestError) {}
 export class UserQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<UserQuotaExceededFault>()(
     "UserQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(T.AwsQueryError({ code: "UserQuotaExceeded", httpResponseCode: 400 }), T.HttpError(400)),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "UserQuotaExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
+    ),
   ).pipe(C.withBadRequestError) {}
 export interface Tag {
   Key?: string;
   Value?: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(
-  Tag.pipe(T.XmlName("Tag")).annotate({ identifier: "Tag" }),
-);
 export interface AddTagsToResourceMessage {
   ResourceName?: string;
   Tags?: Tag[];
 }
-export const AddTagsToResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceName: S.optional(S.String), Tags: S.optional(TagList) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "AddTagsToResourceMessage" }) as any as S.Schema<AddTagsToResourceMessage>;
 export interface TagListMessage {
   TagList?: Tag[];
 }
-export const TagListMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
-).annotate({ identifier: "TagListMessage" }) as any as S.Schema<TagListMessage>;
 export interface AuthorizeCacheSecurityGroupIngressMessage {
   CacheSecurityGroupName?: string;
   EC2SecurityGroupName?: string;
   EC2SecurityGroupOwnerId?: string;
 }
-export const AuthorizeCacheSecurityGroupIngressMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheSecurityGroupName: S.optional(S.String),
-    EC2SecurityGroupName: S.optional(S.String),
-    EC2SecurityGroupOwnerId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AuthorizeCacheSecurityGroupIngressMessage",
-}) as any as S.Schema<AuthorizeCacheSecurityGroupIngressMessage>;
 export interface EC2SecurityGroup {
   Status?: string;
   EC2SecurityGroupName?: string;
   EC2SecurityGroupOwnerId?: string;
 }
-export const EC2SecurityGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(S.String),
-    EC2SecurityGroupName: S.optional(S.String),
-    EC2SecurityGroupOwnerId: S.optional(S.String),
-  }),
-).annotate({ identifier: "EC2SecurityGroup" }) as any as S.Schema<EC2SecurityGroup>;
 export type EC2SecurityGroupList = EC2SecurityGroup[];
-export const EC2SecurityGroupList = /*@__PURE__*/ S.Array(
-  EC2SecurityGroup.pipe(T.XmlName("EC2SecurityGroup")).annotate({ identifier: "EC2SecurityGroup" }),
-);
 export interface CacheSecurityGroup {
   OwnerId?: string;
   CacheSecurityGroupName?: string;
@@ -796,41 +910,16 @@ export interface CacheSecurityGroup {
   EC2SecurityGroups?: EC2SecurityGroup[];
   ARN?: string;
 }
-export const CacheSecurityGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OwnerId: S.optional(S.String),
-    CacheSecurityGroupName: S.optional(S.String),
-    Description: S.optional(S.String),
-    EC2SecurityGroups: S.optional(EC2SecurityGroupList),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "CacheSecurityGroup" }) as any as S.Schema<CacheSecurityGroup>;
 export interface AuthorizeCacheSecurityGroupIngressResult {
   CacheSecurityGroup?: CacheSecurityGroup;
 }
-export const AuthorizeCacheSecurityGroupIngressResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheSecurityGroup: S.optional(CacheSecurityGroup) }).pipe(ns),
-).annotate({
-  identifier: "AuthorizeCacheSecurityGroupIngressResult",
-}) as any as S.Schema<AuthorizeCacheSecurityGroupIngressResult>;
 export type ReplicationGroupIdList = string[];
-export const ReplicationGroupIdList = /*@__PURE__*/ S.Array(S.String);
 export type CacheClusterIdList = string[];
-export const CacheClusterIdList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchApplyUpdateActionMessage {
   ReplicationGroupIds?: string[];
   CacheClusterIds?: string[];
   ServiceUpdateName?: string;
 }
-export const BatchApplyUpdateActionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupIds: S.optional(ReplicationGroupIdList),
-    CacheClusterIds: S.optional(CacheClusterIdList),
-    ServiceUpdateName: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BatchApplyUpdateActionMessage",
-}) as any as S.Schema<BatchApplyUpdateActionMessage>;
 export type UpdateActionStatus =
   | "not-applied"
   | "waiting-to-start"
@@ -842,28 +931,13 @@ export type UpdateActionStatus =
   | "scheduled"
   | "not-applicable"
   | (string & {});
-export const UpdateActionStatus = S.String;
-
 export interface ProcessedUpdateAction {
   ReplicationGroupId?: string;
   CacheClusterId?: string;
   ServiceUpdateName?: string;
   UpdateActionStatus?: UpdateActionStatus;
 }
-export const ProcessedUpdateAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    CacheClusterId: S.optional(S.String),
-    ServiceUpdateName: S.optional(S.String),
-    UpdateActionStatus: S.optional(UpdateActionStatus),
-  }),
-).annotate({ identifier: "ProcessedUpdateAction" }) as any as S.Schema<ProcessedUpdateAction>;
 export type ProcessedUpdateActionList = ProcessedUpdateAction[];
-export const ProcessedUpdateActionList = /*@__PURE__*/ S.Array(
-  ProcessedUpdateAction.pipe(T.XmlName("ProcessedUpdateAction")).annotate({
-    identifier: "ProcessedUpdateAction",
-  }),
-);
 export interface UnprocessedUpdateAction {
   ReplicationGroupId?: string;
   CacheClusterId?: string;
@@ -871,160 +945,60 @@ export interface UnprocessedUpdateAction {
   ErrorType?: string;
   ErrorMessage?: string;
 }
-export const UnprocessedUpdateAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    CacheClusterId: S.optional(S.String),
-    ServiceUpdateName: S.optional(S.String),
-    ErrorType: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "UnprocessedUpdateAction" }) as any as S.Schema<UnprocessedUpdateAction>;
 export type UnprocessedUpdateActionList = UnprocessedUpdateAction[];
-export const UnprocessedUpdateActionList = /*@__PURE__*/ S.Array(
-  UnprocessedUpdateAction.pipe(T.XmlName("UnprocessedUpdateAction")).annotate({
-    identifier: "UnprocessedUpdateAction",
-  }),
-);
 export interface UpdateActionResultsMessage {
   ProcessedUpdateActions?: ProcessedUpdateAction[];
   UnprocessedUpdateActions?: UnprocessedUpdateAction[];
 }
-export const UpdateActionResultsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProcessedUpdateActions: S.optional(ProcessedUpdateActionList),
-    UnprocessedUpdateActions: S.optional(UnprocessedUpdateActionList),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateActionResultsMessage",
-}) as any as S.Schema<UpdateActionResultsMessage>;
 export interface BatchStopUpdateActionMessage {
   ReplicationGroupIds?: string[];
   CacheClusterIds?: string[];
   ServiceUpdateName?: string;
 }
-export const BatchStopUpdateActionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupIds: S.optional(ReplicationGroupIdList),
-    CacheClusterIds: S.optional(CacheClusterIdList),
-    ServiceUpdateName: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BatchStopUpdateActionMessage",
-}) as any as S.Schema<BatchStopUpdateActionMessage>;
 export interface CompleteMigrationMessage {
   ReplicationGroupId?: string;
   Force?: boolean;
 }
-export const CompleteMigrationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroupId: S.optional(S.String), Force: S.optional(S.Boolean) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CompleteMigrationMessage" }) as any as S.Schema<CompleteMigrationMessage>;
 export interface GlobalReplicationGroupInfo {
   GlobalReplicationGroupId?: string;
   GlobalReplicationGroupMemberRole?: string;
 }
-export const GlobalReplicationGroupInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    GlobalReplicationGroupMemberRole: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GlobalReplicationGroupInfo",
-}) as any as S.Schema<GlobalReplicationGroupInfo>;
 export type PendingAutomaticFailoverStatus = "enabled" | "disabled" | (string & {});
-export const PendingAutomaticFailoverStatus = S.String;
-
 export interface SlotMigration {
   ProgressPercentage?: number;
 }
-export const SlotMigration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProgressPercentage: S.optional(S.Number) }),
-).annotate({ identifier: "SlotMigration" }) as any as S.Schema<SlotMigration>;
 export interface ReshardingStatus {
   SlotMigration?: SlotMigration;
 }
-export const ReshardingStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SlotMigration: S.optional(SlotMigration) }),
-).annotate({ identifier: "ReshardingStatus" }) as any as S.Schema<ReshardingStatus>;
 export type AuthTokenUpdateStatus = "SETTING" | "ROTATING" | (string & {});
-export const AuthTokenUpdateStatus = S.String;
-
 export type UserGroupId = string;
 export type UserGroupIdList = string[];
-export const UserGroupIdList = /*@__PURE__*/ S.Array(S.String);
 export interface UserGroupsUpdateStatus {
   UserGroupIdsToAdd?: string[];
   UserGroupIdsToRemove?: string[];
 }
-export const UserGroupsUpdateStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserGroupIdsToAdd: S.optional(UserGroupIdList),
-    UserGroupIdsToRemove: S.optional(UserGroupIdList),
-  }),
-).annotate({ identifier: "UserGroupsUpdateStatus" }) as any as S.Schema<UserGroupsUpdateStatus>;
 export type LogType = "slow-log" | "engine-log" | (string & {});
-export const LogType = S.String;
-
 export type DestinationType = "cloudwatch-logs" | "kinesis-firehose" | (string & {});
-export const DestinationType = S.String;
-
 export interface CloudWatchLogsDestinationDetails {
   LogGroup?: string;
 }
-export const CloudWatchLogsDestinationDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LogGroup: S.optional(S.String) }),
-).annotate({
-  identifier: "CloudWatchLogsDestinationDetails",
-}) as any as S.Schema<CloudWatchLogsDestinationDetails>;
 export interface KinesisFirehoseDestinationDetails {
   DeliveryStream?: string;
 }
-export const KinesisFirehoseDestinationDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DeliveryStream: S.optional(S.String) }),
-).annotate({
-  identifier: "KinesisFirehoseDestinationDetails",
-}) as any as S.Schema<KinesisFirehoseDestinationDetails>;
 export interface DestinationDetails {
   CloudWatchLogsDetails?: CloudWatchLogsDestinationDetails;
   KinesisFirehoseDetails?: KinesisFirehoseDestinationDetails;
 }
-export const DestinationDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CloudWatchLogsDetails: S.optional(CloudWatchLogsDestinationDetails),
-    KinesisFirehoseDetails: S.optional(KinesisFirehoseDestinationDetails),
-  }),
-).annotate({ identifier: "DestinationDetails" }) as any as S.Schema<DestinationDetails>;
 export type LogFormat = "text" | "json" | (string & {});
-export const LogFormat = S.String;
-
 export interface PendingLogDeliveryConfiguration {
   LogType?: LogType;
   DestinationType?: DestinationType;
   DestinationDetails?: DestinationDetails;
   LogFormat?: LogFormat;
 }
-export const PendingLogDeliveryConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LogType: S.optional(LogType),
-    DestinationType: S.optional(DestinationType),
-    DestinationDetails: S.optional(DestinationDetails),
-    LogFormat: S.optional(LogFormat),
-  }),
-).annotate({
-  identifier: "PendingLogDeliveryConfiguration",
-}) as any as S.Schema<PendingLogDeliveryConfiguration>;
 export type PendingLogDeliveryConfigurationList = PendingLogDeliveryConfiguration[];
-export const PendingLogDeliveryConfigurationList = /*@__PURE__*/ S.Array(
-  PendingLogDeliveryConfiguration,
-);
 export type TransitEncryptionMode = "preferred" | "required" | (string & {});
-export const TransitEncryptionMode = S.String;
-
 export type ClusterMode = "enabled" | "disabled" | "compatible" | (string & {});
-export const ClusterMode = S.String;
-
 export interface ReplicationGroupPendingModifiedValues {
   PrimaryClusterId?: string;
   AutomaticFailoverStatus?: PendingAutomaticFailoverStatus;
@@ -1036,30 +1010,12 @@ export interface ReplicationGroupPendingModifiedValues {
   TransitEncryptionMode?: TransitEncryptionMode;
   ClusterMode?: ClusterMode;
 }
-export const ReplicationGroupPendingModifiedValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PrimaryClusterId: S.optional(S.String),
-    AutomaticFailoverStatus: S.optional(PendingAutomaticFailoverStatus),
-    Resharding: S.optional(ReshardingStatus),
-    AuthTokenStatus: S.optional(AuthTokenUpdateStatus),
-    UserGroups: S.optional(UserGroupsUpdateStatus),
-    LogDeliveryConfigurations: S.optional(PendingLogDeliveryConfigurationList),
-    TransitEncryptionEnabled: S.optional(S.Boolean),
-    TransitEncryptionMode: S.optional(TransitEncryptionMode),
-    ClusterMode: S.optional(ClusterMode),
-  }),
-).annotate({
-  identifier: "ReplicationGroupPendingModifiedValues",
-}) as any as S.Schema<ReplicationGroupPendingModifiedValues>;
 export type ClusterIdList = string[];
-export const ClusterIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("ClusterId")));
 export interface Endpoint {
   Address?: string;
   Port?: number;
 }
-export const Endpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Address: S.optional(S.String), Port: S.optional(S.Number) }),
-).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+const Endpoint = /*@__PURE__*/ __L.at(__c60, 0) as any as S.Schema<Endpoint>;
 export interface NodeGroupMember {
   CacheClusterId?: string;
   CacheNodeId?: string;
@@ -1068,20 +1024,7 @@ export interface NodeGroupMember {
   PreferredOutpostArn?: string;
   CurrentRole?: string;
 }
-export const NodeGroupMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheClusterId: S.optional(S.String),
-    CacheNodeId: S.optional(S.String),
-    ReadEndpoint: S.optional(Endpoint),
-    PreferredAvailabilityZone: S.optional(S.String),
-    PreferredOutpostArn: S.optional(S.String),
-    CurrentRole: S.optional(S.String),
-  }),
-).annotate({ identifier: "NodeGroupMember" }) as any as S.Schema<NodeGroupMember>;
 export type NodeGroupMemberList = NodeGroupMember[];
-export const NodeGroupMemberList = /*@__PURE__*/ S.Array(
-  NodeGroupMember.pipe(T.XmlName("NodeGroupMember")).annotate({ identifier: "NodeGroupMember" }),
-);
 export interface NodeGroup {
   NodeGroupId?: string;
   Status?: string;
@@ -1090,38 +1033,16 @@ export interface NodeGroup {
   Slots?: string;
   NodeGroupMembers?: NodeGroupMember[];
 }
-export const NodeGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NodeGroupId: S.optional(S.String),
-    Status: S.optional(S.String),
-    PrimaryEndpoint: S.optional(Endpoint),
-    ReaderEndpoint: S.optional(Endpoint),
-    Slots: S.optional(S.String),
-    NodeGroupMembers: S.optional(NodeGroupMemberList),
-  }),
-).annotate({ identifier: "NodeGroup" }) as any as S.Schema<NodeGroup>;
 export type NodeGroupList = NodeGroup[];
-export const NodeGroupList = /*@__PURE__*/ S.Array(
-  NodeGroup.pipe(T.XmlName("NodeGroup")).annotate({ identifier: "NodeGroup" }),
-);
 export type AutomaticFailoverStatus =
   | "enabled"
   | "disabled"
   | "enabling"
   | "disabling"
   | (string & {});
-export const AutomaticFailoverStatus = S.String;
-
 export type MultiAZStatus = "enabled" | "disabled" | (string & {});
-export const MultiAZStatus = S.String;
-
 export type ReplicationGroupOutpostArnList = string[];
-export const ReplicationGroupOutpostArnList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("ReplicationGroupOutpostArn")),
-);
 export type StorageEncryptionType = "none" | "sse-elasticache" | "sse-kms" | (string & {});
-export const StorageEncryptionType = S.String;
-
 export type LogDeliveryConfigurationStatus =
   | "active"
   | "enabling"
@@ -1129,8 +1050,6 @@ export type LogDeliveryConfigurationStatus =
   | "disabling"
   | "error"
   | (string & {});
-export const LogDeliveryConfigurationStatus = S.String;
-
 export interface LogDeliveryConfiguration {
   LogType?: LogType;
   DestinationType?: DestinationType;
@@ -1139,37 +1058,12 @@ export interface LogDeliveryConfiguration {
   Status?: LogDeliveryConfigurationStatus;
   Message?: string;
 }
-export const LogDeliveryConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LogType: S.optional(LogType),
-    DestinationType: S.optional(DestinationType),
-    DestinationDetails: S.optional(DestinationDetails),
-    LogFormat: S.optional(LogFormat),
-    Status: S.optional(LogDeliveryConfigurationStatus),
-    Message: S.optional(S.String),
-  }),
-).annotate({ identifier: "LogDeliveryConfiguration" }) as any as S.Schema<LogDeliveryConfiguration>;
 export type LogDeliveryConfigurationList = LogDeliveryConfiguration[];
-export const LogDeliveryConfigurationList = /*@__PURE__*/ S.Array(
-  LogDeliveryConfiguration.pipe(T.XmlName("LogDeliveryConfiguration")).annotate({
-    identifier: "LogDeliveryConfiguration",
-  }),
-);
 export type DataTieringStatus = "enabled" | "disabled" | (string & {});
-export const DataTieringStatus = S.String;
-
 export type NetworkType = "ipv4" | "ipv6" | "dual_stack" | (string & {});
-export const NetworkType = S.String;
-
 export type IpDiscovery = "ipv4" | "ipv6" | (string & {});
-export const IpDiscovery = S.String;
-
 export type Durability = "default" | "async" | "sync" | "disabled" | (string & {});
-export const Durability = S.String;
-
 export type EffectiveDurability = "async" | "sync" | "disabled" | (string & {});
-export const EffectiveDurability = S.String;
-
 export interface ReplicationGroup {
   ReplicationGroupId?: string;
   Description?: string;
@@ -1207,83 +1101,20 @@ export interface ReplicationGroup {
   Durability?: Durability;
   EffectiveDurability?: EffectiveDurability;
 }
-export const ReplicationGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    Description: S.optional(S.String),
-    GlobalReplicationGroupInfo: S.optional(GlobalReplicationGroupInfo),
-    Status: S.optional(S.String),
-    PendingModifiedValues: S.optional(ReplicationGroupPendingModifiedValues),
-    MemberClusters: S.optional(ClusterIdList),
-    NodeGroups: S.optional(NodeGroupList),
-    SnapshottingClusterId: S.optional(S.String),
-    AutomaticFailover: S.optional(AutomaticFailoverStatus),
-    MultiAZ: S.optional(MultiAZStatus),
-    ConfigurationEndpoint: S.optional(Endpoint),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    SnapshotWindow: S.optional(S.String),
-    ClusterEnabled: S.optional(S.Boolean),
-    CacheNodeType: S.optional(S.String),
-    AuthTokenEnabled: S.optional(S.Boolean),
-    AuthTokenLastModifiedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    TransitEncryptionEnabled: S.optional(S.Boolean),
-    AtRestEncryptionEnabled: S.optional(S.Boolean),
-    MemberClustersOutpostArns: S.optional(ReplicationGroupOutpostArnList),
-    KmsKeyId: S.optional(S.String),
-    StorageEncryptionType: S.optional(StorageEncryptionType),
-    ARN: S.optional(S.String),
-    UserGroupIds: S.optional(UserGroupIdList),
-    LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationList),
-    ReplicationGroupCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    DataTiering: S.optional(DataTieringStatus),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    NetworkType: S.optional(NetworkType),
-    IpDiscovery: S.optional(IpDiscovery),
-    TransitEncryptionMode: S.optional(TransitEncryptionMode),
-    ClusterMode: S.optional(ClusterMode),
-    Engine: S.optional(S.String),
-    Durability: S.optional(Durability),
-    EffectiveDurability: S.optional(EffectiveDurability),
-  }),
-).annotate({ identifier: "ReplicationGroup" }) as any as S.Schema<ReplicationGroup>;
 export interface CompleteMigrationResponse {
   ReplicationGroup?: ReplicationGroup;
 }
-export const CompleteMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "CompleteMigrationResponse",
-}) as any as S.Schema<CompleteMigrationResponse>;
 export interface CopyServerlessCacheSnapshotRequest {
   SourceServerlessCacheSnapshotName?: string;
   TargetServerlessCacheSnapshotName?: string;
   KmsKeyId?: string;
   Tags?: Tag[];
 }
-export const CopyServerlessCacheSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceServerlessCacheSnapshotName: S.optional(S.String),
-    TargetServerlessCacheSnapshotName: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CopyServerlessCacheSnapshotRequest",
-}) as any as S.Schema<CopyServerlessCacheSnapshotRequest>;
 export interface ServerlessCacheConfiguration {
   ServerlessCacheName?: string;
   Engine?: string;
   MajorEngineVersion?: string;
 }
-export const ServerlessCacheConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheName: S.optional(S.String),
-    Engine: S.optional(S.String),
-    MajorEngineVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServerlessCacheConfiguration",
-}) as any as S.Schema<ServerlessCacheConfiguration>;
 export interface ServerlessCacheSnapshot {
   ServerlessCacheSnapshotName?: string;
   ARN?: string;
@@ -1295,27 +1126,9 @@ export interface ServerlessCacheSnapshot {
   BytesUsedForCache?: string;
   ServerlessCacheConfiguration?: ServerlessCacheConfiguration;
 }
-export const ServerlessCacheSnapshot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheSnapshotName: S.optional(S.String),
-    ARN: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    SnapshotType: S.optional(S.String),
-    Status: S.optional(S.String),
-    CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    ExpiryTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    BytesUsedForCache: S.optional(S.String),
-    ServerlessCacheConfiguration: S.optional(ServerlessCacheConfiguration),
-  }),
-).annotate({ identifier: "ServerlessCacheSnapshot" }) as any as S.Schema<ServerlessCacheSnapshot>;
 export interface CopyServerlessCacheSnapshotResponse {
   ServerlessCacheSnapshot?: ServerlessCacheSnapshot;
 }
-export const CopyServerlessCacheSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessCacheSnapshot: S.optional(ServerlessCacheSnapshot) }).pipe(ns),
-).annotate({
-  identifier: "CopyServerlessCacheSnapshotResponse",
-}) as any as S.Schema<CopyServerlessCacheSnapshotResponse>;
 export interface CopySnapshotMessage {
   SourceSnapshotName?: string;
   TargetSnapshotName?: string;
@@ -1323,22 +1136,9 @@ export interface CopySnapshotMessage {
   KmsKeyId?: string;
   Tags?: Tag[];
 }
-export const CopySnapshotMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceSnapshotName: S.optional(S.String),
-    TargetSnapshotName: S.optional(S.String),
-    TargetBucket: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CopySnapshotMessage" }) as any as S.Schema<CopySnapshotMessage>;
 export type AllowedNodeGroupId = string;
 export type AvailabilityZonesList = string[];
-export const AvailabilityZonesList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("AvailabilityZone")),
-);
 export type OutpostArnsList = string[];
-export const OutpostArnsList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("OutpostArn")));
 export interface NodeGroupConfiguration {
   NodeGroupId?: string;
   Slots?: string;
@@ -1348,17 +1148,6 @@ export interface NodeGroupConfiguration {
   PrimaryOutpostArn?: string;
   ReplicaOutpostArns?: string[];
 }
-export const NodeGroupConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NodeGroupId: S.optional(S.String),
-    Slots: S.optional(S.String),
-    ReplicaCount: S.optional(S.Number),
-    PrimaryAvailabilityZone: S.optional(S.String),
-    ReplicaAvailabilityZones: S.optional(AvailabilityZonesList),
-    PrimaryOutpostArn: S.optional(S.String),
-    ReplicaOutpostArns: S.optional(OutpostArnsList),
-  }),
-).annotate({ identifier: "NodeGroupConfiguration" }) as any as S.Schema<NodeGroupConfiguration>;
 export interface NodeSnapshot {
   CacheClusterId?: string;
   NodeGroupId?: string;
@@ -1368,21 +1157,7 @@ export interface NodeSnapshot {
   CacheNodeCreateTime?: Date;
   SnapshotCreateTime?: Date;
 }
-export const NodeSnapshot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheClusterId: S.optional(S.String),
-    NodeGroupId: S.optional(S.String),
-    CacheNodeId: S.optional(S.String),
-    NodeGroupConfiguration: S.optional(NodeGroupConfiguration),
-    CacheSize: S.optional(S.String),
-    CacheNodeCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    SnapshotCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({ identifier: "NodeSnapshot" }) as any as S.Schema<NodeSnapshot>;
 export type NodeSnapshotList = NodeSnapshot[];
-export const NodeSnapshotList = /*@__PURE__*/ S.Array(
-  NodeSnapshot.pipe(T.XmlName("NodeSnapshot")).annotate({ identifier: "NodeSnapshot" }),
-);
 export interface Snapshot {
   SnapshotName?: string;
   ReplicationGroupId?: string;
@@ -1414,69 +1189,16 @@ export interface Snapshot {
   DataTiering?: DataTieringStatus;
   Durability?: Durability;
 }
-export const Snapshot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SnapshotName: S.optional(S.String),
-    ReplicationGroupId: S.optional(S.String),
-    ReplicationGroupDescription: S.optional(S.String),
-    CacheClusterId: S.optional(S.String),
-    SnapshotStatus: S.optional(S.String),
-    SnapshotSource: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    NumCacheNodes: S.optional(S.Number),
-    PreferredAvailabilityZone: S.optional(S.String),
-    PreferredOutpostArn: S.optional(S.String),
-    CacheClusterCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    TopicArn: S.optional(S.String),
-    Port: S.optional(S.Number),
-    CacheParameterGroupName: S.optional(S.String),
-    CacheSubnetGroupName: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    SnapshotWindow: S.optional(S.String),
-    NumNodeGroups: S.optional(S.Number),
-    AutomaticFailover: S.optional(AutomaticFailoverStatus),
-    NodeSnapshots: S.optional(NodeSnapshotList),
-    KmsKeyId: S.optional(S.String),
-    ARN: S.optional(S.String),
-    DataTiering: S.optional(DataTieringStatus),
-    Durability: S.optional(Durability),
-  }),
-).annotate({ identifier: "Snapshot" }) as any as S.Schema<Snapshot>;
 export interface CopySnapshotResult {
   Snapshot?: Snapshot;
 }
-export const CopySnapshotResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Snapshot: S.optional(Snapshot) }).pipe(ns),
-).annotate({ identifier: "CopySnapshotResult" }) as any as S.Schema<CopySnapshotResult>;
 export type AZMode = "single-az" | "cross-az" | (string & {});
-export const AZMode = S.String;
-
 export type PreferredAvailabilityZoneList = string[];
-export const PreferredAvailabilityZoneList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("PreferredAvailabilityZone")),
-);
 export type CacheSecurityGroupNameList = string[];
-export const CacheSecurityGroupNameList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("CacheSecurityGroupName")),
-);
 export type SecurityGroupIdsList = string[];
-export const SecurityGroupIdsList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("SecurityGroupId")),
-);
 export type SnapshotArnsList = string[];
-export const SnapshotArnsList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("SnapshotArn")));
 export type OutpostMode = "single-outpost" | "cross-outpost" | (string & {});
-export const OutpostMode = S.String;
-
 export type PreferredOutpostArnList = string[];
-export const PreferredOutpostArnList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("PreferredOutpostArn")),
-);
 export interface LogDeliveryConfigurationRequest {
   LogType?: LogType;
   DestinationType?: DestinationType;
@@ -1484,23 +1206,7 @@ export interface LogDeliveryConfigurationRequest {
   LogFormat?: LogFormat;
   Enabled?: boolean;
 }
-export const LogDeliveryConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LogType: S.optional(LogType),
-    DestinationType: S.optional(DestinationType),
-    DestinationDetails: S.optional(DestinationDetails),
-    LogFormat: S.optional(LogFormat),
-    Enabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "LogDeliveryConfigurationRequest",
-}) as any as S.Schema<LogDeliveryConfigurationRequest>;
 export type LogDeliveryConfigurationRequestList = LogDeliveryConfigurationRequest[];
-export const LogDeliveryConfigurationRequestList = /*@__PURE__*/ S.Array(
-  LogDeliveryConfigurationRequest.pipe(T.XmlName("LogDeliveryConfigurationRequest")).annotate({
-    identifier: "LogDeliveryConfigurationRequest",
-  }),
-);
 export interface CreateCacheClusterMessage {
   CacheClusterId?: string;
   ReplicationGroupId?: string;
@@ -1533,51 +1239,11 @@ export interface CreateCacheClusterMessage {
   NetworkType?: NetworkType;
   IpDiscovery?: IpDiscovery;
 }
-export const CreateCacheClusterMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheClusterId: S.optional(S.String),
-    ReplicationGroupId: S.optional(S.String),
-    AZMode: S.optional(AZMode),
-    PreferredAvailabilityZone: S.optional(S.String),
-    PreferredAvailabilityZones: S.optional(PreferredAvailabilityZoneList),
-    NumCacheNodes: S.optional(S.Number),
-    CacheNodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    CacheParameterGroupName: S.optional(S.String),
-    CacheSubnetGroupName: S.optional(S.String),
-    CacheSecurityGroupNames: S.optional(CacheSecurityGroupNameList),
-    SecurityGroupIds: S.optional(SecurityGroupIdsList),
-    Tags: S.optional(TagList),
-    SnapshotArns: S.optional(SnapshotArnsList),
-    SnapshotName: S.optional(S.String),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    Port: S.optional(S.Number),
-    NotificationTopicArn: S.optional(S.String),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    SnapshotWindow: S.optional(S.String),
-    AuthToken: S.optional(SensitiveString),
-    OutpostMode: S.optional(OutpostMode),
-    PreferredOutpostArn: S.optional(S.String),
-    PreferredOutpostArns: S.optional(PreferredOutpostArnList),
-    LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationRequestList),
-    TransitEncryptionEnabled: S.optional(S.Boolean),
-    NetworkType: S.optional(NetworkType),
-    IpDiscovery: S.optional(IpDiscovery),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCacheClusterMessage",
-}) as any as S.Schema<CreateCacheClusterMessage>;
 export type CacheNodeIdsList = string[];
-export const CacheNodeIdsList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("CacheNodeId")));
 export interface ScaleConfig {
   ScalePercentage?: number;
   ScaleIntervalMinutes?: number;
 }
-export const ScaleConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScalePercentage: S.optional(S.Number), ScaleIntervalMinutes: S.optional(S.Number) }),
-).annotate({ identifier: "ScaleConfig" }) as any as S.Schema<ScaleConfig>;
 export interface PendingModifiedValues {
   NumCacheNodes?: number;
   CacheNodeIdsToRemove?: string[];
@@ -1589,57 +1255,20 @@ export interface PendingModifiedValues {
   TransitEncryptionMode?: TransitEncryptionMode;
   ScaleConfig?: ScaleConfig;
 }
-export const PendingModifiedValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NumCacheNodes: S.optional(S.Number),
-    CacheNodeIdsToRemove: S.optional(CacheNodeIdsList),
-    EngineVersion: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    AuthTokenStatus: S.optional(AuthTokenUpdateStatus),
-    LogDeliveryConfigurations: S.optional(PendingLogDeliveryConfigurationList),
-    TransitEncryptionEnabled: S.optional(S.Boolean),
-    TransitEncryptionMode: S.optional(TransitEncryptionMode),
-    ScaleConfig: S.optional(ScaleConfig),
-  }),
-).annotate({ identifier: "PendingModifiedValues" }) as any as S.Schema<PendingModifiedValues>;
 export interface NotificationConfiguration {
   TopicArn?: string;
   TopicStatus?: string;
 }
-export const NotificationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TopicArn: S.optional(S.String), TopicStatus: S.optional(S.String) }),
-).annotate({
-  identifier: "NotificationConfiguration",
-}) as any as S.Schema<NotificationConfiguration>;
 export interface CacheSecurityGroupMembership {
   CacheSecurityGroupName?: string;
   Status?: string;
 }
-export const CacheSecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheSecurityGroupName: S.optional(S.String), Status: S.optional(S.String) }),
-).annotate({
-  identifier: "CacheSecurityGroupMembership",
-}) as any as S.Schema<CacheSecurityGroupMembership>;
 export type CacheSecurityGroupMembershipList = CacheSecurityGroupMembership[];
-export const CacheSecurityGroupMembershipList = /*@__PURE__*/ S.Array(
-  CacheSecurityGroupMembership.pipe(T.XmlName("CacheSecurityGroup")).annotate({
-    identifier: "CacheSecurityGroupMembership",
-  }),
-);
 export interface CacheParameterGroupStatus {
   CacheParameterGroupName?: string;
   ParameterApplyStatus?: string;
   CacheNodeIdsToReboot?: string[];
 }
-export const CacheParameterGroupStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheParameterGroupName: S.optional(S.String),
-    ParameterApplyStatus: S.optional(S.String),
-    CacheNodeIdsToReboot: S.optional(CacheNodeIdsList),
-  }),
-).annotate({
-  identifier: "CacheParameterGroupStatus",
-}) as any as S.Schema<CacheParameterGroupStatus>;
 export interface CacheNode {
   CacheNodeId?: string;
   CacheNodeStatus?: string;
@@ -1650,31 +1279,12 @@ export interface CacheNode {
   CustomerAvailabilityZone?: string;
   CustomerOutpostArn?: string;
 }
-export const CacheNode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheNodeId: S.optional(S.String),
-    CacheNodeStatus: S.optional(S.String),
-    CacheNodeCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Endpoint: S.optional(Endpoint),
-    ParameterGroupStatus: S.optional(S.String),
-    SourceCacheNodeId: S.optional(S.String),
-    CustomerAvailabilityZone: S.optional(S.String),
-    CustomerOutpostArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "CacheNode" }) as any as S.Schema<CacheNode>;
 export type CacheNodeList = CacheNode[];
-export const CacheNodeList = /*@__PURE__*/ S.Array(
-  CacheNode.pipe(T.XmlName("CacheNode")).annotate({ identifier: "CacheNode" }),
-);
 export interface SecurityGroupMembership {
   SecurityGroupId?: string;
   Status?: string;
 }
-export const SecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SecurityGroupId: S.optional(S.String), Status: S.optional(S.String) }),
-).annotate({ identifier: "SecurityGroupMembership" }) as any as S.Schema<SecurityGroupMembership>;
 export type SecurityGroupMembershipList = SecurityGroupMembership[];
-export const SecurityGroupMembershipList = /*@__PURE__*/ S.Array(SecurityGroupMembership);
 export interface CacheCluster {
   CacheClusterId?: string;
   ConfigurationEndpoint?: Endpoint;
@@ -1710,65 +1320,15 @@ export interface CacheCluster {
   IpDiscovery?: IpDiscovery;
   TransitEncryptionMode?: TransitEncryptionMode;
 }
-export const CacheCluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheClusterId: S.optional(S.String),
-    ConfigurationEndpoint: S.optional(Endpoint),
-    ClientDownloadLandingPage: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    CacheClusterStatus: S.optional(S.String),
-    NumCacheNodes: S.optional(S.Number),
-    PreferredAvailabilityZone: S.optional(S.String),
-    PreferredOutpostArn: S.optional(S.String),
-    CacheClusterCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    PendingModifiedValues: S.optional(PendingModifiedValues),
-    NotificationConfiguration: S.optional(NotificationConfiguration),
-    CacheSecurityGroups: S.optional(CacheSecurityGroupMembershipList),
-    CacheParameterGroup: S.optional(CacheParameterGroupStatus),
-    CacheSubnetGroupName: S.optional(S.String),
-    CacheNodes: S.optional(CacheNodeList),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    SecurityGroups: S.optional(SecurityGroupMembershipList),
-    ReplicationGroupId: S.optional(S.String),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    SnapshotWindow: S.optional(S.String),
-    AuthTokenEnabled: S.optional(S.Boolean),
-    AuthTokenLastModifiedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    TransitEncryptionEnabled: S.optional(S.Boolean),
-    AtRestEncryptionEnabled: S.optional(S.Boolean),
-    ARN: S.optional(S.String),
-    ReplicationGroupLogDeliveryEnabled: S.optional(S.Boolean),
-    LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationList),
-    NetworkType: S.optional(NetworkType),
-    IpDiscovery: S.optional(IpDiscovery),
-    TransitEncryptionMode: S.optional(TransitEncryptionMode),
-  }),
-).annotate({ identifier: "CacheCluster" }) as any as S.Schema<CacheCluster>;
 export interface CreateCacheClusterResult {
   CacheCluster?: CacheCluster;
 }
-export const CreateCacheClusterResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheCluster: S.optional(CacheCluster) }).pipe(ns),
-).annotate({ identifier: "CreateCacheClusterResult" }) as any as S.Schema<CreateCacheClusterResult>;
 export interface CreateCacheParameterGroupMessage {
   CacheParameterGroupName?: string;
   CacheParameterGroupFamily?: string;
   Description?: string;
   Tags?: Tag[];
 }
-export const CreateCacheParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheParameterGroupName: S.optional(S.String),
-    CacheParameterGroupFamily: S.optional(S.String),
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCacheParameterGroupMessage",
-}) as any as S.Schema<CreateCacheParameterGroupMessage>;
 export interface CacheParameterGroup {
   CacheParameterGroupName?: string;
   CacheParameterGroupFamily?: string;
@@ -1776,97 +1336,38 @@ export interface CacheParameterGroup {
   IsGlobal?: boolean;
   ARN?: string;
 }
-export const CacheParameterGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheParameterGroupName: S.optional(S.String),
-    CacheParameterGroupFamily: S.optional(S.String),
-    Description: S.optional(S.String),
-    IsGlobal: S.optional(S.Boolean),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "CacheParameterGroup" }) as any as S.Schema<CacheParameterGroup>;
 export interface CreateCacheParameterGroupResult {
   CacheParameterGroup?: CacheParameterGroup;
 }
-export const CreateCacheParameterGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheParameterGroup: S.optional(CacheParameterGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateCacheParameterGroupResult",
-}) as any as S.Schema<CreateCacheParameterGroupResult>;
 export interface CreateCacheSecurityGroupMessage {
   CacheSecurityGroupName?: string;
   Description?: string;
   Tags?: Tag[];
 }
-export const CreateCacheSecurityGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheSecurityGroupName: S.optional(S.String),
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCacheSecurityGroupMessage",
-}) as any as S.Schema<CreateCacheSecurityGroupMessage>;
 export interface CreateCacheSecurityGroupResult {
   CacheSecurityGroup?: CacheSecurityGroup;
 }
-export const CreateCacheSecurityGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheSecurityGroup: S.optional(CacheSecurityGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateCacheSecurityGroupResult",
-}) as any as S.Schema<CreateCacheSecurityGroupResult>;
 export type SubnetIdentifierList = string[];
-export const SubnetIdentifierList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("SubnetIdentifier")),
-);
 export interface CreateCacheSubnetGroupMessage {
   CacheSubnetGroupName?: string;
   CacheSubnetGroupDescription?: string;
   SubnetIds?: string[];
   Tags?: Tag[];
 }
-export const CreateCacheSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheSubnetGroupName: S.optional(S.String),
-    CacheSubnetGroupDescription: S.optional(S.String),
-    SubnetIds: S.optional(SubnetIdentifierList),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCacheSubnetGroupMessage",
-}) as any as S.Schema<CreateCacheSubnetGroupMessage>;
 export interface AvailabilityZone {
   Name?: string;
 }
-export const AvailabilityZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
-).annotate({ identifier: "AvailabilityZone" }) as any as S.Schema<AvailabilityZone>;
 export interface SubnetOutpost {
   SubnetOutpostArn?: string;
 }
-export const SubnetOutpost = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SubnetOutpostArn: S.optional(S.String) }),
-).annotate({ identifier: "SubnetOutpost" }) as any as S.Schema<SubnetOutpost>;
 export type NetworkTypeList = NetworkType[];
-export const NetworkTypeList = /*@__PURE__*/ S.Array(NetworkType);
 export interface Subnet {
   SubnetIdentifier?: string;
   SubnetAvailabilityZone?: AvailabilityZone;
   SubnetOutpost?: SubnetOutpost;
   SupportedNetworkTypes?: NetworkType[];
 }
-export const Subnet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetIdentifier: S.optional(S.String),
-    SubnetAvailabilityZone: S.optional(AvailabilityZone),
-    SubnetOutpost: S.optional(SubnetOutpost),
-    SupportedNetworkTypes: S.optional(NetworkTypeList),
-  }),
-).annotate({ identifier: "Subnet" }) as any as S.Schema<Subnet>;
 export type SubnetList = Subnet[];
-export const SubnetList = /*@__PURE__*/ S.Array(
-  Subnet.pipe(T.XmlName("Subnet")).annotate({ identifier: "Subnet" }),
-);
 export interface CacheSubnetGroup {
   CacheSubnetGroupName?: string;
   CacheSubnetGroupDescription?: string;
@@ -1875,40 +1376,15 @@ export interface CacheSubnetGroup {
   ARN?: string;
   SupportedNetworkTypes?: NetworkType[];
 }
-export const CacheSubnetGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheSubnetGroupName: S.optional(S.String),
-    CacheSubnetGroupDescription: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    Subnets: S.optional(SubnetList),
-    ARN: S.optional(S.String),
-    SupportedNetworkTypes: S.optional(NetworkTypeList),
-  }),
-).annotate({ identifier: "CacheSubnetGroup" }) as any as S.Schema<CacheSubnetGroup>;
 export interface CreateCacheSubnetGroupResult {
   CacheSubnetGroup?: CacheSubnetGroup;
 }
-export const CreateCacheSubnetGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheSubnetGroup: S.optional(CacheSubnetGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateCacheSubnetGroupResult",
-}) as any as S.Schema<CreateCacheSubnetGroupResult>;
 export interface CreateGlobalReplicationGroupMessage {
   GlobalReplicationGroupIdSuffix?: string;
   GlobalReplicationGroupDescription?: string;
   PrimaryReplicationGroupId?: string;
   Tags?: Tag[];
 }
-export const CreateGlobalReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupIdSuffix: S.optional(S.String),
-    GlobalReplicationGroupDescription: S.optional(S.String),
-    PrimaryReplicationGroupId: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateGlobalReplicationGroupMessage",
-}) as any as S.Schema<CreateGlobalReplicationGroupMessage>;
 export interface GlobalReplicationGroupMember {
   ReplicationGroupId?: string;
   ReplicationGroupRegion?: string;
@@ -1916,34 +1392,12 @@ export interface GlobalReplicationGroupMember {
   AutomaticFailover?: AutomaticFailoverStatus;
   Status?: string;
 }
-export const GlobalReplicationGroupMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    ReplicationGroupRegion: S.optional(S.String),
-    Role: S.optional(S.String),
-    AutomaticFailover: S.optional(AutomaticFailoverStatus),
-    Status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GlobalReplicationGroupMember",
-}) as any as S.Schema<GlobalReplicationGroupMember>;
 export type GlobalReplicationGroupMemberList = GlobalReplicationGroupMember[];
-export const GlobalReplicationGroupMemberList = /*@__PURE__*/ S.Array(
-  GlobalReplicationGroupMember.pipe(T.XmlName("GlobalReplicationGroupMember")).annotate({
-    identifier: "GlobalReplicationGroupMember",
-  }),
-);
 export interface GlobalNodeGroup {
   GlobalNodeGroupId?: string;
   Slots?: string;
 }
-export const GlobalNodeGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalNodeGroupId: S.optional(S.String), Slots: S.optional(S.String) }),
-).annotate({ identifier: "GlobalNodeGroup" }) as any as S.Schema<GlobalNodeGroup>;
 export type GlobalNodeGroupList = GlobalNodeGroup[];
-export const GlobalNodeGroupList = /*@__PURE__*/ S.Array(
-  GlobalNodeGroup.pipe(T.XmlName("GlobalNodeGroup")).annotate({ identifier: "GlobalNodeGroup" }),
-);
 export interface GlobalReplicationGroup {
   GlobalReplicationGroupId?: string;
   GlobalReplicationGroupDescription?: string;
@@ -1959,39 +1413,11 @@ export interface GlobalReplicationGroup {
   AtRestEncryptionEnabled?: boolean;
   ARN?: string;
 }
-export const GlobalReplicationGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    GlobalReplicationGroupDescription: S.optional(S.String),
-    Status: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    Members: S.optional(GlobalReplicationGroupMemberList),
-    ClusterEnabled: S.optional(S.Boolean),
-    GlobalNodeGroups: S.optional(GlobalNodeGroupList),
-    AuthTokenEnabled: S.optional(S.Boolean),
-    TransitEncryptionEnabled: S.optional(S.Boolean),
-    AtRestEncryptionEnabled: S.optional(S.Boolean),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "GlobalReplicationGroup" }) as any as S.Schema<GlobalReplicationGroup>;
 export interface CreateGlobalReplicationGroupResult {
   GlobalReplicationGroup?: GlobalReplicationGroup;
 }
-export const CreateGlobalReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalReplicationGroup: S.optional(GlobalReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateGlobalReplicationGroupResult",
-}) as any as S.Schema<CreateGlobalReplicationGroupResult>;
 export type NodeGroupConfigurationList = NodeGroupConfiguration[];
-export const NodeGroupConfigurationList = /*@__PURE__*/ S.Array(
-  NodeGroupConfiguration.pipe(T.XmlName("NodeGroupConfiguration")).annotate({
-    identifier: "NodeGroupConfiguration",
-  }),
-);
 export type UserGroupIdListInput = string[];
-export const UserGroupIdListInput = /*@__PURE__*/ S.Array(S.String);
 export interface CreateReplicationGroupMessage {
   ReplicationGroupId?: string;
   ReplicationGroupDescription?: string;
@@ -2034,94 +1460,25 @@ export interface CreateReplicationGroupMessage {
   ServerlessCacheSnapshotName?: string;
   Durability?: Durability;
 }
-export const CreateReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    ReplicationGroupDescription: S.optional(S.String),
-    GlobalReplicationGroupId: S.optional(S.String),
-    PrimaryClusterId: S.optional(S.String),
-    AutomaticFailoverEnabled: S.optional(S.Boolean),
-    MultiAZEnabled: S.optional(S.Boolean),
-    NumCacheClusters: S.optional(S.Number),
-    PreferredCacheClusterAZs: S.optional(AvailabilityZonesList),
-    NumNodeGroups: S.optional(S.Number),
-    ReplicasPerNodeGroup: S.optional(S.Number),
-    NodeGroupConfiguration: S.optional(NodeGroupConfigurationList),
-    CacheNodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    CacheParameterGroupName: S.optional(S.String),
-    CacheSubnetGroupName: S.optional(S.String),
-    CacheSecurityGroupNames: S.optional(CacheSecurityGroupNameList),
-    SecurityGroupIds: S.optional(SecurityGroupIdsList),
-    Tags: S.optional(TagList),
-    SnapshotArns: S.optional(SnapshotArnsList),
-    SnapshotName: S.optional(S.String),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    Port: S.optional(S.Number),
-    NotificationTopicArn: S.optional(S.String),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    SnapshotWindow: S.optional(S.String),
-    AuthToken: S.optional(SensitiveString),
-    TransitEncryptionEnabled: S.optional(S.Boolean),
-    AtRestEncryptionEnabled: S.optional(S.Boolean),
-    KmsKeyId: S.optional(S.String),
-    UserGroupIds: S.optional(UserGroupIdListInput),
-    LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationRequestList),
-    DataTieringEnabled: S.optional(S.Boolean),
-    NetworkType: S.optional(NetworkType),
-    IpDiscovery: S.optional(IpDiscovery),
-    TransitEncryptionMode: S.optional(TransitEncryptionMode),
-    ClusterMode: S.optional(ClusterMode),
-    ServerlessCacheSnapshotName: S.optional(S.String),
-    Durability: S.optional(Durability),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateReplicationGroupMessage",
-}) as any as S.Schema<CreateReplicationGroupMessage>;
 export interface CreateReplicationGroupResult {
   ReplicationGroup?: ReplicationGroup;
 }
-export const CreateReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateReplicationGroupResult",
-}) as any as S.Schema<CreateReplicationGroupResult>;
 export type DataStorageUnit = "GB" | (string & {});
-export const DataStorageUnit = S.String;
-
 export interface DataStorage {
   Maximum?: number;
   Minimum?: number;
   Unit?: DataStorageUnit;
 }
-export const DataStorage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Maximum: S.optional(S.Number),
-    Minimum: S.optional(S.Number),
-    Unit: S.optional(DataStorageUnit),
-  }),
-).annotate({ identifier: "DataStorage" }) as any as S.Schema<DataStorage>;
 export interface ECPUPerSecond {
   Maximum?: number;
   Minimum?: number;
 }
-export const ECPUPerSecond = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Maximum: S.optional(S.Number), Minimum: S.optional(S.Number) }),
-).annotate({ identifier: "ECPUPerSecond" }) as any as S.Schema<ECPUPerSecond>;
 export interface CacheUsageLimits {
   DataStorage?: DataStorage;
   ECPUPerSecond?: ECPUPerSecond;
 }
-export const CacheUsageLimits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataStorage: S.optional(DataStorage), ECPUPerSecond: S.optional(ECPUPerSecond) }),
-).annotate({ identifier: "CacheUsageLimits" }) as any as S.Schema<CacheUsageLimits>;
 export type SubnetIdsList = string[];
-export const SubnetIdsList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("SubnetId")));
 export type ConnectionType = "vpc" | "public" | (string & {});
-export const ConnectionType = S.String;
-
 export interface CreateServerlessCacheRequest {
   ServerlessCacheName?: string;
   Description?: string;
@@ -2139,27 +1496,6 @@ export interface CreateServerlessCacheRequest {
   NetworkType?: NetworkType;
   ConnectionType?: ConnectionType;
 }
-export const CreateServerlessCacheRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheName: S.optional(S.String),
-    Description: S.optional(S.String),
-    Engine: S.optional(S.String),
-    MajorEngineVersion: S.optional(S.String),
-    CacheUsageLimits: S.optional(CacheUsageLimits),
-    KmsKeyId: S.optional(S.String),
-    SecurityGroupIds: S.optional(SecurityGroupIdsList),
-    SnapshotArnsToRestore: S.optional(SnapshotArnsList),
-    Tags: S.optional(TagList),
-    UserGroupId: S.optional(S.String),
-    SubnetIds: S.optional(SubnetIdsList),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    DailySnapshotTime: S.optional(S.String),
-    NetworkType: S.optional(NetworkType),
-    ConnectionType: S.optional(ConnectionType),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateServerlessCacheRequest",
-}) as any as S.Schema<CreateServerlessCacheRequest>;
 export interface ServerlessCache {
   ServerlessCacheName?: string;
   Description?: string;
@@ -2182,64 +1518,20 @@ export interface ServerlessCache {
   NetworkType?: NetworkType;
   ConnectionType?: ConnectionType;
 }
-export const ServerlessCache = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheName: S.optional(S.String),
-    Description: S.optional(S.String),
-    CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Status: S.optional(S.String),
-    Engine: S.optional(S.String),
-    MajorEngineVersion: S.optional(S.String),
-    FullEngineVersion: S.optional(S.String),
-    CacheUsageLimits: S.optional(CacheUsageLimits),
-    KmsKeyId: S.optional(S.String),
-    StorageEncryptionType: S.optional(StorageEncryptionType),
-    SecurityGroupIds: S.optional(SecurityGroupIdsList),
-    Endpoint: S.optional(Endpoint),
-    ReaderEndpoint: S.optional(Endpoint),
-    ARN: S.optional(S.String),
-    UserGroupId: S.optional(S.String),
-    SubnetIds: S.optional(SubnetIdsList),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    DailySnapshotTime: S.optional(S.String),
-    NetworkType: S.optional(NetworkType),
-    ConnectionType: S.optional(ConnectionType),
-  }),
-).annotate({ identifier: "ServerlessCache" }) as any as S.Schema<ServerlessCache>;
 export interface CreateServerlessCacheResponse {
   ServerlessCache?: ServerlessCache & {
     CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
   };
 }
-export const CreateServerlessCacheResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessCache: S.optional(ServerlessCache) }).pipe(ns),
-).annotate({
-  identifier: "CreateServerlessCacheResponse",
-}) as any as S.Schema<CreateServerlessCacheResponse>;
 export interface CreateServerlessCacheSnapshotRequest {
   ServerlessCacheSnapshotName?: string;
   ServerlessCacheName?: string;
   KmsKeyId?: string;
   Tags?: Tag[];
 }
-export const CreateServerlessCacheSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheSnapshotName: S.optional(S.String),
-    ServerlessCacheName: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateServerlessCacheSnapshotRequest",
-}) as any as S.Schema<CreateServerlessCacheSnapshotRequest>;
 export interface CreateServerlessCacheSnapshotResponse {
   ServerlessCacheSnapshot?: ServerlessCacheSnapshot;
 }
-export const CreateServerlessCacheSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessCacheSnapshot: S.optional(ServerlessCacheSnapshot) }).pipe(ns),
-).annotate({
-  identifier: "CreateServerlessCacheSnapshotResponse",
-}) as any as S.Schema<CreateServerlessCacheSnapshotResponse>;
 export interface CreateSnapshotMessage {
   ReplicationGroupId?: string;
   CacheClusterId?: string;
@@ -2247,40 +1539,19 @@ export interface CreateSnapshotMessage {
   KmsKeyId?: string;
   Tags?: Tag[];
 }
-export const CreateSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    CacheClusterId: S.optional(S.String),
-    SnapshotName: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateSnapshotMessage" }) as any as S.Schema<CreateSnapshotMessage>;
 export interface CreateSnapshotResult {
   Snapshot?: Snapshot;
 }
-export const CreateSnapshotResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Snapshot: S.optional(Snapshot) }).pipe(ns),
-).annotate({ identifier: "CreateSnapshotResult" }) as any as S.Schema<CreateSnapshotResult>;
 export type UserId = string;
 export type UserName = string;
 export type EngineType = string;
 export type PasswordListInput = string[];
-export const PasswordListInput = /*@__PURE__*/ S.Array(S.String);
 export type AccessString = string;
 export type InputAuthenticationType = "password" | "no-password-required" | "iam" | (string & {});
-export const InputAuthenticationType = S.String;
-
 export interface AuthenticationMode {
   Type?: InputAuthenticationType;
   Passwords?: Array<string | redacted.Redacted<string>>;
 }
-export const AuthenticationMode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(InputAuthenticationType),
-    Passwords: S.optional(S.Array(SensitiveString)),
-  }),
-).annotate({ identifier: "AuthenticationMode" }) as any as S.Schema<AuthenticationMode>;
 export interface CreateUserMessage {
   UserId?: string;
   UserName?: string;
@@ -2291,28 +1562,11 @@ export interface CreateUserMessage {
   Tags?: Tag[];
   AuthenticationMode?: AuthenticationMode;
 }
-export const CreateUserMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserId: S.optional(S.String),
-    UserName: S.optional(S.String),
-    Engine: S.optional(S.String),
-    Passwords: S.optional(S.Array(SensitiveString)),
-    AccessString: S.optional(S.String),
-    NoPasswordRequired: S.optional(S.Boolean),
-    Tags: S.optional(TagList),
-    AuthenticationMode: S.optional(AuthenticationMode),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateUserMessage" }) as any as S.Schema<CreateUserMessage>;
 export type AuthenticationType = "password" | "no-password" | "iam" | (string & {});
-export const AuthenticationType = S.String;
-
 export interface Authentication {
   Type?: AuthenticationType;
   PasswordCount?: number;
 }
-export const Authentication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: S.optional(AuthenticationType), PasswordCount: S.optional(S.Number) }),
-).annotate({ identifier: "Authentication" }) as any as S.Schema<Authentication>;
 export interface User {
   UserId?: string;
   UserName?: string;
@@ -2324,48 +1578,20 @@ export interface User {
   Authentication?: Authentication;
   ARN?: string;
 }
-export const User = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserId: S.optional(S.String),
-    UserName: S.optional(S.String),
-    Status: S.optional(S.String),
-    Engine: S.optional(S.String),
-    MinimumEngineVersion: S.optional(S.String),
-    AccessString: S.optional(S.String),
-    UserGroupIds: S.optional(UserGroupIdList),
-    Authentication: S.optional(Authentication),
-    ARN: S.optional(S.String),
-  }).pipe(ns),
-).annotate({ identifier: "User" }) as any as S.Schema<User>;
 export type UserIdListInput = string[];
-export const UserIdListInput = /*@__PURE__*/ S.Array(S.String);
 export interface CreateUserGroupMessage {
   UserGroupId?: string;
   Engine?: string;
   UserIds?: string[];
   Tags?: Tag[];
 }
-export const CreateUserGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserGroupId: S.optional(S.String),
-    Engine: S.optional(S.String),
-    UserIds: S.optional(UserIdListInput),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateUserGroupMessage" }) as any as S.Schema<CreateUserGroupMessage>;
 export type UserIdList = string[];
-export const UserIdList = /*@__PURE__*/ S.Array(S.String);
 export interface UserGroupPendingChanges {
   UserIdsToRemove?: string[];
   UserIdsToAdd?: string[];
 }
-export const UserGroupPendingChanges = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserIdsToRemove: S.optional(UserIdList), UserIdsToAdd: S.optional(UserIdList) }),
-).annotate({ identifier: "UserGroupPendingChanges" }) as any as S.Schema<UserGroupPendingChanges>;
 export type UGReplicationGroupIdList = string[];
-export const UGReplicationGroupIdList = /*@__PURE__*/ S.Array(S.String);
 export type UGServerlessCacheIdList = string[];
-export const UGServerlessCacheIdList = /*@__PURE__*/ S.Array(S.String);
 export interface UserGroup {
   UserGroupId?: string;
   Status?: string;
@@ -2377,23 +1603,7 @@ export interface UserGroup {
   ServerlessCaches?: string[];
   ARN?: string;
 }
-export const UserGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserGroupId: S.optional(S.String),
-    Status: S.optional(S.String),
-    Engine: S.optional(S.String),
-    UserIds: S.optional(UserIdList),
-    MinimumEngineVersion: S.optional(S.String),
-    PendingChanges: S.optional(UserGroupPendingChanges),
-    ReplicationGroups: S.optional(UGReplicationGroupIdList),
-    ServerlessCaches: S.optional(UGServerlessCacheIdList),
-    ARN: S.optional(S.String),
-  }).pipe(ns),
-).annotate({ identifier: "UserGroup" }) as any as S.Schema<UserGroup>;
 export type GlobalNodeGroupIdList = string[];
-export const GlobalNodeGroupIdList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("GlobalNodeGroupId")),
-);
 export interface DecreaseNodeGroupsInGlobalReplicationGroupMessage {
   GlobalReplicationGroupId?: string;
   NodeGroupCount?: number;
@@ -2401,45 +1611,17 @@ export interface DecreaseNodeGroupsInGlobalReplicationGroupMessage {
   GlobalNodeGroupsToRetain?: string[];
   ApplyImmediately?: boolean;
 }
-export const DecreaseNodeGroupsInGlobalReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    NodeGroupCount: S.optional(S.Number),
-    GlobalNodeGroupsToRemove: S.optional(GlobalNodeGroupIdList),
-    GlobalNodeGroupsToRetain: S.optional(GlobalNodeGroupIdList),
-    ApplyImmediately: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DecreaseNodeGroupsInGlobalReplicationGroupMessage",
-}) as any as S.Schema<DecreaseNodeGroupsInGlobalReplicationGroupMessage>;
 export interface DecreaseNodeGroupsInGlobalReplicationGroupResult {
   GlobalReplicationGroup?: GlobalReplicationGroup;
 }
-export const DecreaseNodeGroupsInGlobalReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalReplicationGroup: S.optional(GlobalReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "DecreaseNodeGroupsInGlobalReplicationGroupResult",
-}) as any as S.Schema<DecreaseNodeGroupsInGlobalReplicationGroupResult>;
 export interface ConfigureShard {
   NodeGroupId?: string;
   NewReplicaCount?: number;
   PreferredAvailabilityZones?: string[];
   PreferredOutpostArns?: string[];
 }
-export const ConfigureShard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NodeGroupId: S.optional(S.String),
-    NewReplicaCount: S.optional(S.Number),
-    PreferredAvailabilityZones: S.optional(PreferredAvailabilityZoneList),
-    PreferredOutpostArns: S.optional(PreferredOutpostArnList),
-  }),
-).annotate({ identifier: "ConfigureShard" }) as any as S.Schema<ConfigureShard>;
 export type ReplicaConfigurationList = ConfigureShard[];
-export const ReplicaConfigurationList = /*@__PURE__*/ S.Array(
-  ConfigureShard.pipe(T.XmlName("ConfigureShard")).annotate({ identifier: "ConfigureShard" }),
-);
 export type RemoveReplicasList = string[];
-export const RemoveReplicasList = /*@__PURE__*/ S.Array(S.String);
 export interface DecreaseReplicaCountMessage {
   ReplicationGroupId?: string;
   NewReplicaCount?: number;
@@ -2447,203 +1629,70 @@ export interface DecreaseReplicaCountMessage {
   ReplicasToRemove?: string[];
   ApplyImmediately?: boolean;
 }
-export const DecreaseReplicaCountMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    NewReplicaCount: S.optional(S.Number),
-    ReplicaConfiguration: S.optional(ReplicaConfigurationList),
-    ReplicasToRemove: S.optional(RemoveReplicasList),
-    ApplyImmediately: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DecreaseReplicaCountMessage",
-}) as any as S.Schema<DecreaseReplicaCountMessage>;
 export interface DecreaseReplicaCountResult {
   ReplicationGroup?: ReplicationGroup;
 }
-export const DecreaseReplicaCountResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "DecreaseReplicaCountResult",
-}) as any as S.Schema<DecreaseReplicaCountResult>;
 export interface DeleteCacheClusterMessage {
   CacheClusterId?: string;
   FinalSnapshotIdentifier?: string;
 }
-export const DeleteCacheClusterMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheClusterId: S.optional(S.String),
-    FinalSnapshotIdentifier: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteCacheClusterMessage",
-}) as any as S.Schema<DeleteCacheClusterMessage>;
 export interface DeleteCacheClusterResult {
   CacheCluster?: CacheCluster;
 }
-export const DeleteCacheClusterResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheCluster: S.optional(CacheCluster) }).pipe(ns),
-).annotate({ identifier: "DeleteCacheClusterResult" }) as any as S.Schema<DeleteCacheClusterResult>;
 export interface DeleteCacheParameterGroupMessage {
   CacheParameterGroupName?: string;
 }
-export const DeleteCacheParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheParameterGroupName: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCacheParameterGroupMessage",
-}) as any as S.Schema<DeleteCacheParameterGroupMessage>;
 export interface DeleteCacheParameterGroupResponse {}
-export const DeleteCacheParameterGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteCacheParameterGroupResponse",
-}) as any as S.Schema<DeleteCacheParameterGroupResponse>;
 export interface DeleteCacheSecurityGroupMessage {
   CacheSecurityGroupName?: string;
 }
-export const DeleteCacheSecurityGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheSecurityGroupName: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCacheSecurityGroupMessage",
-}) as any as S.Schema<DeleteCacheSecurityGroupMessage>;
 export interface DeleteCacheSecurityGroupResponse {}
-export const DeleteCacheSecurityGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteCacheSecurityGroupResponse",
-}) as any as S.Schema<DeleteCacheSecurityGroupResponse>;
 export interface DeleteCacheSubnetGroupMessage {
   CacheSubnetGroupName?: string;
 }
-export const DeleteCacheSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheSubnetGroupName: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCacheSubnetGroupMessage",
-}) as any as S.Schema<DeleteCacheSubnetGroupMessage>;
 export interface DeleteCacheSubnetGroupResponse {}
-export const DeleteCacheSubnetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteCacheSubnetGroupResponse",
-}) as any as S.Schema<DeleteCacheSubnetGroupResponse>;
 export interface DeleteGlobalReplicationGroupMessage {
   GlobalReplicationGroupId?: string;
   RetainPrimaryReplicationGroup?: boolean;
 }
-export const DeleteGlobalReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    RetainPrimaryReplicationGroup: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteGlobalReplicationGroupMessage",
-}) as any as S.Schema<DeleteGlobalReplicationGroupMessage>;
 export interface DeleteGlobalReplicationGroupResult {
   GlobalReplicationGroup?: GlobalReplicationGroup;
 }
-export const DeleteGlobalReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalReplicationGroup: S.optional(GlobalReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "DeleteGlobalReplicationGroupResult",
-}) as any as S.Schema<DeleteGlobalReplicationGroupResult>;
 export interface DeleteReplicationGroupMessage {
   ReplicationGroupId?: string;
   RetainPrimaryCluster?: boolean;
   FinalSnapshotIdentifier?: string;
 }
-export const DeleteReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    RetainPrimaryCluster: S.optional(S.Boolean),
-    FinalSnapshotIdentifier: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteReplicationGroupMessage",
-}) as any as S.Schema<DeleteReplicationGroupMessage>;
 export interface DeleteReplicationGroupResult {
   ReplicationGroup?: ReplicationGroup;
 }
-export const DeleteReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "DeleteReplicationGroupResult",
-}) as any as S.Schema<DeleteReplicationGroupResult>;
 export interface DeleteServerlessCacheRequest {
   ServerlessCacheName?: string;
   FinalSnapshotName?: string;
 }
-export const DeleteServerlessCacheRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheName: S.optional(S.String),
-    FinalSnapshotName: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteServerlessCacheRequest",
-}) as any as S.Schema<DeleteServerlessCacheRequest>;
 export interface DeleteServerlessCacheResponse {
   ServerlessCache?: ServerlessCache & {
     CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
   };
 }
-export const DeleteServerlessCacheResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessCache: S.optional(ServerlessCache) }).pipe(ns),
-).annotate({
-  identifier: "DeleteServerlessCacheResponse",
-}) as any as S.Schema<DeleteServerlessCacheResponse>;
 export interface DeleteServerlessCacheSnapshotRequest {
   ServerlessCacheSnapshotName?: string;
 }
-export const DeleteServerlessCacheSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessCacheSnapshotName: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteServerlessCacheSnapshotRequest",
-}) as any as S.Schema<DeleteServerlessCacheSnapshotRequest>;
 export interface DeleteServerlessCacheSnapshotResponse {
   ServerlessCacheSnapshot?: ServerlessCacheSnapshot;
 }
-export const DeleteServerlessCacheSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessCacheSnapshot: S.optional(ServerlessCacheSnapshot) }).pipe(ns),
-).annotate({
-  identifier: "DeleteServerlessCacheSnapshotResponse",
-}) as any as S.Schema<DeleteServerlessCacheSnapshotResponse>;
 export interface DeleteSnapshotMessage {
   SnapshotName?: string;
 }
-export const DeleteSnapshotMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SnapshotName: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteSnapshotMessage" }) as any as S.Schema<DeleteSnapshotMessage>;
 export interface DeleteSnapshotResult {
   Snapshot?: Snapshot;
 }
-export const DeleteSnapshotResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Snapshot: S.optional(Snapshot) }).pipe(ns),
-).annotate({ identifier: "DeleteSnapshotResult" }) as any as S.Schema<DeleteSnapshotResult>;
 export interface DeleteUserMessage {
   UserId?: string;
 }
-export const DeleteUserMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserId: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteUserMessage" }) as any as S.Schema<DeleteUserMessage>;
 export interface DeleteUserGroupMessage {
   UserGroupId?: string;
 }
-export const DeleteUserGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserGroupId: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteUserGroupMessage" }) as any as S.Schema<DeleteUserGroupMessage>;
 export interface DescribeCacheClustersMessage {
   CacheClusterId?: string;
   MaxRecords?: number;
@@ -2651,28 +1700,11 @@ export interface DescribeCacheClustersMessage {
   ShowCacheNodeInfo?: boolean;
   ShowCacheClustersNotInReplicationGroups?: boolean;
 }
-export const DescribeCacheClustersMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheClusterId: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    ShowCacheNodeInfo: S.optional(S.Boolean),
-    ShowCacheClustersNotInReplicationGroups: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeCacheClustersMessage",
-}) as any as S.Schema<DescribeCacheClustersMessage>;
 export type CacheClusterList = CacheCluster[];
-export const CacheClusterList = /*@__PURE__*/ S.Array(
-  CacheCluster.pipe(T.XmlName("CacheCluster")).annotate({ identifier: "CacheCluster" }),
-);
 export interface CacheClusterMessage {
   Marker?: string;
   CacheClusters?: CacheCluster[];
 }
-export const CacheClusterMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), CacheClusters: S.optional(CacheClusterList) }).pipe(ns),
-).annotate({ identifier: "CacheClusterMessage" }) as any as S.Schema<CacheClusterMessage>;
 export interface DescribeCacheEngineVersionsMessage {
   Engine?: string;
   EngineVersion?: string;
@@ -2681,18 +1713,6 @@ export interface DescribeCacheEngineVersionsMessage {
   Marker?: string;
   DefaultOnly?: boolean;
 }
-export const DescribeCacheEngineVersionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    CacheParameterGroupFamily: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    DefaultOnly: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeCacheEngineVersionsMessage",
-}) as any as S.Schema<DescribeCacheEngineVersionsMessage>;
 export interface CacheEngineVersion {
   Engine?: string;
   EngineVersion?: string;
@@ -2700,84 +1720,28 @@ export interface CacheEngineVersion {
   CacheEngineDescription?: string;
   CacheEngineVersionDescription?: string;
 }
-export const CacheEngineVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    CacheParameterGroupFamily: S.optional(S.String),
-    CacheEngineDescription: S.optional(S.String),
-    CacheEngineVersionDescription: S.optional(S.String),
-  }),
-).annotate({ identifier: "CacheEngineVersion" }) as any as S.Schema<CacheEngineVersion>;
 export type CacheEngineVersionList = CacheEngineVersion[];
-export const CacheEngineVersionList = /*@__PURE__*/ S.Array(
-  CacheEngineVersion.pipe(T.XmlName("CacheEngineVersion")).annotate({
-    identifier: "CacheEngineVersion",
-  }),
-);
 export interface CacheEngineVersionMessage {
   Marker?: string;
   CacheEngineVersions?: CacheEngineVersion[];
 }
-export const CacheEngineVersionMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    CacheEngineVersions: S.optional(CacheEngineVersionList),
-  }).pipe(ns),
-).annotate({
-  identifier: "CacheEngineVersionMessage",
-}) as any as S.Schema<CacheEngineVersionMessage>;
 export interface DescribeCacheParameterGroupsMessage {
   CacheParameterGroupName?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeCacheParameterGroupsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheParameterGroupName: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeCacheParameterGroupsMessage",
-}) as any as S.Schema<DescribeCacheParameterGroupsMessage>;
 export type CacheParameterGroupList = CacheParameterGroup[];
-export const CacheParameterGroupList = /*@__PURE__*/ S.Array(
-  CacheParameterGroup.pipe(T.XmlName("CacheParameterGroup")).annotate({
-    identifier: "CacheParameterGroup",
-  }),
-);
 export interface CacheParameterGroupsMessage {
   Marker?: string;
   CacheParameterGroups?: CacheParameterGroup[];
 }
-export const CacheParameterGroupsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    CacheParameterGroups: S.optional(CacheParameterGroupList),
-  }).pipe(ns),
-).annotate({
-  identifier: "CacheParameterGroupsMessage",
-}) as any as S.Schema<CacheParameterGroupsMessage>;
 export interface DescribeCacheParametersMessage {
   CacheParameterGroupName?: string;
   Source?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeCacheParametersMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheParameterGroupName: S.optional(S.String),
-    Source: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeCacheParametersMessage",
-}) as any as S.Schema<DescribeCacheParametersMessage>;
 export type ChangeType = "immediate" | "requires-reboot" | (string & {});
-export const ChangeType = S.String;
-
 export interface Parameter {
   ParameterName?: string;
   ParameterValue?: string;
@@ -2789,38 +1753,12 @@ export interface Parameter {
   MinimumEngineVersion?: string;
   ChangeType?: ChangeType;
 }
-export const Parameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterName: S.optional(S.String),
-    ParameterValue: S.optional(S.String),
-    Description: S.optional(S.String),
-    Source: S.optional(S.String),
-    DataType: S.optional(S.String),
-    AllowedValues: S.optional(S.String),
-    IsModifiable: S.optional(S.Boolean),
-    MinimumEngineVersion: S.optional(S.String),
-    ChangeType: S.optional(ChangeType),
-  }),
-).annotate({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type ParametersList = Parameter[];
-export const ParametersList = /*@__PURE__*/ S.Array(
-  Parameter.pipe(T.XmlName("Parameter")).annotate({ identifier: "Parameter" }),
-);
 export interface CacheNodeTypeSpecificValue {
   CacheNodeType?: string;
   Value?: string;
 }
-export const CacheNodeTypeSpecificValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheNodeType: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "CacheNodeTypeSpecificValue",
-}) as any as S.Schema<CacheNodeTypeSpecificValue>;
 export type CacheNodeTypeSpecificValueList = CacheNodeTypeSpecificValue[];
-export const CacheNodeTypeSpecificValueList = /*@__PURE__*/ S.Array(
-  CacheNodeTypeSpecificValue.pipe(T.XmlName("CacheNodeTypeSpecificValue")).annotate({
-    identifier: "CacheNodeTypeSpecificValue",
-  }),
-);
 export interface CacheNodeTypeSpecificParameter {
   ParameterName?: string;
   Description?: string;
@@ -2832,136 +1770,46 @@ export interface CacheNodeTypeSpecificParameter {
   CacheNodeTypeSpecificValues?: CacheNodeTypeSpecificValue[];
   ChangeType?: ChangeType;
 }
-export const CacheNodeTypeSpecificParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterName: S.optional(S.String),
-    Description: S.optional(S.String),
-    Source: S.optional(S.String),
-    DataType: S.optional(S.String),
-    AllowedValues: S.optional(S.String),
-    IsModifiable: S.optional(S.Boolean),
-    MinimumEngineVersion: S.optional(S.String),
-    CacheNodeTypeSpecificValues: S.optional(CacheNodeTypeSpecificValueList),
-    ChangeType: S.optional(ChangeType),
-  }),
-).annotate({
-  identifier: "CacheNodeTypeSpecificParameter",
-}) as any as S.Schema<CacheNodeTypeSpecificParameter>;
 export type CacheNodeTypeSpecificParametersList = CacheNodeTypeSpecificParameter[];
-export const CacheNodeTypeSpecificParametersList = /*@__PURE__*/ S.Array(
-  CacheNodeTypeSpecificParameter.pipe(T.XmlName("CacheNodeTypeSpecificParameter")).annotate({
-    identifier: "CacheNodeTypeSpecificParameter",
-  }),
-);
 export interface CacheParameterGroupDetails {
   Marker?: string;
   Parameters?: Parameter[];
   CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParameter[];
 }
-export const CacheParameterGroupDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Parameters: S.optional(ParametersList),
-    CacheNodeTypeSpecificParameters: S.optional(CacheNodeTypeSpecificParametersList),
-  }).pipe(ns),
-).annotate({
-  identifier: "CacheParameterGroupDetails",
-}) as any as S.Schema<CacheParameterGroupDetails>;
 export interface DescribeCacheSecurityGroupsMessage {
   CacheSecurityGroupName?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeCacheSecurityGroupsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheSecurityGroupName: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeCacheSecurityGroupsMessage",
-}) as any as S.Schema<DescribeCacheSecurityGroupsMessage>;
 export type CacheSecurityGroups = CacheSecurityGroup[];
-export const CacheSecurityGroups = /*@__PURE__*/ S.Array(
-  CacheSecurityGroup.pipe(T.XmlName("CacheSecurityGroup")).annotate({
-    identifier: "CacheSecurityGroup",
-  }),
-);
 export interface CacheSecurityGroupMessage {
   Marker?: string;
   CacheSecurityGroups?: CacheSecurityGroup[];
 }
-export const CacheSecurityGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    CacheSecurityGroups: S.optional(CacheSecurityGroups),
-  }).pipe(ns),
-).annotate({
-  identifier: "CacheSecurityGroupMessage",
-}) as any as S.Schema<CacheSecurityGroupMessage>;
 export interface DescribeCacheSubnetGroupsMessage {
   CacheSubnetGroupName?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeCacheSubnetGroupsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheSubnetGroupName: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeCacheSubnetGroupsMessage",
-}) as any as S.Schema<DescribeCacheSubnetGroupsMessage>;
 export type CacheSubnetGroups = CacheSubnetGroup[];
-export const CacheSubnetGroups = /*@__PURE__*/ S.Array(
-  CacheSubnetGroup.pipe(T.XmlName("CacheSubnetGroup")).annotate({ identifier: "CacheSubnetGroup" }),
-);
 export interface CacheSubnetGroupMessage {
   Marker?: string;
   CacheSubnetGroups?: CacheSubnetGroup[];
 }
-export const CacheSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), CacheSubnetGroups: S.optional(CacheSubnetGroups) }).pipe(
-    ns,
-  ),
-).annotate({ identifier: "CacheSubnetGroupMessage" }) as any as S.Schema<CacheSubnetGroupMessage>;
 export interface DescribeEngineDefaultParametersMessage {
   CacheParameterGroupFamily?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEngineDefaultParametersMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheParameterGroupFamily: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeEngineDefaultParametersMessage",
-}) as any as S.Schema<DescribeEngineDefaultParametersMessage>;
 export interface EngineDefaults {
   CacheParameterGroupFamily?: string;
   Marker?: string;
   Parameters?: Parameter[];
   CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParameter[];
 }
-export const EngineDefaults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheParameterGroupFamily: S.optional(S.String),
-    Marker: S.optional(S.String),
-    Parameters: S.optional(ParametersList),
-    CacheNodeTypeSpecificParameters: S.optional(CacheNodeTypeSpecificParametersList),
-  }),
-).annotate({ identifier: "EngineDefaults" }) as any as S.Schema<EngineDefaults>;
 export interface DescribeEngineDefaultParametersResult {
   EngineDefaults?: EngineDefaults;
 }
-export const DescribeEngineDefaultParametersResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EngineDefaults: S.optional(EngineDefaults) }).pipe(ns),
-).annotate({
-  identifier: "DescribeEngineDefaultParametersResult",
-}) as any as S.Schema<DescribeEngineDefaultParametersResult>;
 export type SourceType =
   | "cache-cluster"
   | "cache-parameter-group"
@@ -2973,8 +1821,6 @@ export type SourceType =
   | "user"
   | "user-group"
   | (string & {});
-export const SourceType = S.String;
-
 export interface DescribeEventsMessage {
   SourceIdentifier?: string;
   SourceType?: SourceType;
@@ -2984,104 +1830,38 @@ export interface DescribeEventsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeEventsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(SourceType),
-    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Duration: S.optional(S.Number),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeEventsMessage" }) as any as S.Schema<DescribeEventsMessage>;
 export interface Event {
   SourceIdentifier?: string;
   SourceType?: SourceType;
   Message?: string;
   Date?: Date;
 }
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceIdentifier: S.optional(S.String),
-    SourceType: S.optional(SourceType),
-    Message: S.optional(S.String),
-    Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
-export const EventList = /*@__PURE__*/ S.Array(
-  Event.pipe(T.XmlName("Event")).annotate({ identifier: "Event" }),
-);
 export interface EventsMessage {
   Marker?: string;
   Events?: Event[];
 }
-export const EventsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), Events: S.optional(EventList) }).pipe(ns),
-).annotate({ identifier: "EventsMessage" }) as any as S.Schema<EventsMessage>;
 export interface DescribeGlobalReplicationGroupsMessage {
   GlobalReplicationGroupId?: string;
   MaxRecords?: number;
   Marker?: string;
   ShowMemberInfo?: boolean;
 }
-export const DescribeGlobalReplicationGroupsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-    ShowMemberInfo: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeGlobalReplicationGroupsMessage",
-}) as any as S.Schema<DescribeGlobalReplicationGroupsMessage>;
 export type GlobalReplicationGroupList = GlobalReplicationGroup[];
-export const GlobalReplicationGroupList = /*@__PURE__*/ S.Array(
-  GlobalReplicationGroup.pipe(T.XmlName("GlobalReplicationGroup")).annotate({
-    identifier: "GlobalReplicationGroup",
-  }),
-);
 export interface DescribeGlobalReplicationGroupsResult {
   Marker?: string;
   GlobalReplicationGroups?: GlobalReplicationGroup[];
 }
-export const DescribeGlobalReplicationGroupsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    GlobalReplicationGroups: S.optional(GlobalReplicationGroupList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeGlobalReplicationGroupsResult",
-}) as any as S.Schema<DescribeGlobalReplicationGroupsResult>;
 export interface DescribeReplicationGroupsMessage {
   ReplicationGroupId?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReplicationGroupsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReplicationGroupsMessage",
-}) as any as S.Schema<DescribeReplicationGroupsMessage>;
 export type ReplicationGroupList = ReplicationGroup[];
-export const ReplicationGroupList = /*@__PURE__*/ S.Array(
-  ReplicationGroup.pipe(T.XmlName("ReplicationGroup")).annotate({ identifier: "ReplicationGroup" }),
-);
 export interface ReplicationGroupMessage {
   Marker?: string;
   ReplicationGroups?: ReplicationGroup[];
 }
-export const ReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReplicationGroups: S.optional(ReplicationGroupList),
-  }).pipe(ns),
-).annotate({ identifier: "ReplicationGroupMessage" }) as any as S.Schema<ReplicationGroupMessage>;
 export interface DescribeReservedCacheNodesMessage {
   ReservedCacheNodeId?: string;
   ReservedCacheNodesOfferingId?: string;
@@ -3092,34 +1872,11 @@ export interface DescribeReservedCacheNodesMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReservedCacheNodesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedCacheNodeId: S.optional(S.String),
-    ReservedCacheNodesOfferingId: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    Duration: S.optional(S.String),
-    ProductDescription: S.optional(S.String),
-    OfferingType: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReservedCacheNodesMessage",
-}) as any as S.Schema<DescribeReservedCacheNodesMessage>;
 export interface RecurringCharge {
   RecurringChargeAmount?: number;
   RecurringChargeFrequency?: string;
 }
-export const RecurringCharge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecurringChargeAmount: S.optional(S.Number),
-    RecurringChargeFrequency: S.optional(S.String),
-  }),
-).annotate({ identifier: "RecurringCharge" }) as any as S.Schema<RecurringCharge>;
 export type RecurringChargeList = RecurringCharge[];
-export const RecurringChargeList = /*@__PURE__*/ S.Array(
-  RecurringCharge.pipe(T.XmlName("RecurringCharge")).annotate({ identifier: "RecurringCharge" }),
-);
 export interface ReservedCacheNode {
   ReservedCacheNodeId?: string;
   ReservedCacheNodesOfferingId?: string;
@@ -3135,39 +1892,11 @@ export interface ReservedCacheNode {
   RecurringCharges?: RecurringCharge[];
   ReservationARN?: string;
 }
-export const ReservedCacheNode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedCacheNodeId: S.optional(S.String),
-    ReservedCacheNodesOfferingId: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Duration: S.optional(S.Number),
-    FixedPrice: S.optional(S.Number),
-    UsagePrice: S.optional(S.Number),
-    CacheNodeCount: S.optional(S.Number),
-    ProductDescription: S.optional(S.String),
-    OfferingType: S.optional(S.String),
-    State: S.optional(S.String),
-    RecurringCharges: S.optional(RecurringChargeList),
-    ReservationARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "ReservedCacheNode" }) as any as S.Schema<ReservedCacheNode>;
 export type ReservedCacheNodeList = ReservedCacheNode[];
-export const ReservedCacheNodeList = /*@__PURE__*/ S.Array(
-  ReservedCacheNode.pipe(T.XmlName("ReservedCacheNode")).annotate({
-    identifier: "ReservedCacheNode",
-  }),
-);
 export interface ReservedCacheNodeMessage {
   Marker?: string;
   ReservedCacheNodes?: ReservedCacheNode[];
 }
-export const ReservedCacheNodeMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReservedCacheNodes: S.optional(ReservedCacheNodeList),
-  }).pipe(ns),
-).annotate({ identifier: "ReservedCacheNodeMessage" }) as any as S.Schema<ReservedCacheNodeMessage>;
 export interface DescribeReservedCacheNodesOfferingsMessage {
   ReservedCacheNodesOfferingId?: string;
   CacheNodeType?: string;
@@ -3177,19 +1906,6 @@ export interface DescribeReservedCacheNodesOfferingsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeReservedCacheNodesOfferingsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedCacheNodesOfferingId: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    Duration: S.optional(S.String),
-    ProductDescription: S.optional(S.String),
-    OfferingType: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeReservedCacheNodesOfferingsMessage",
-}) as any as S.Schema<DescribeReservedCacheNodesOfferingsMessage>;
 export interface ReservedCacheNodesOffering {
   ReservedCacheNodesOfferingId?: string;
   CacheNodeType?: string;
@@ -3200,68 +1916,23 @@ export interface ReservedCacheNodesOffering {
   OfferingType?: string;
   RecurringCharges?: RecurringCharge[];
 }
-export const ReservedCacheNodesOffering = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedCacheNodesOfferingId: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    Duration: S.optional(S.Number),
-    FixedPrice: S.optional(S.Number),
-    UsagePrice: S.optional(S.Number),
-    ProductDescription: S.optional(S.String),
-    OfferingType: S.optional(S.String),
-    RecurringCharges: S.optional(RecurringChargeList),
-  }),
-).annotate({
-  identifier: "ReservedCacheNodesOffering",
-}) as any as S.Schema<ReservedCacheNodesOffering>;
 export type ReservedCacheNodesOfferingList = ReservedCacheNodesOffering[];
-export const ReservedCacheNodesOfferingList = /*@__PURE__*/ S.Array(
-  ReservedCacheNodesOffering.pipe(T.XmlName("ReservedCacheNodesOffering")).annotate({
-    identifier: "ReservedCacheNodesOffering",
-  }),
-);
 export interface ReservedCacheNodesOfferingMessage {
   Marker?: string;
   ReservedCacheNodesOfferings?: ReservedCacheNodesOffering[];
 }
-export const ReservedCacheNodesOfferingMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    ReservedCacheNodesOfferings: S.optional(ReservedCacheNodesOfferingList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ReservedCacheNodesOfferingMessage",
-}) as any as S.Schema<ReservedCacheNodesOfferingMessage>;
 export interface DescribeServerlessCachesRequest {
   ServerlessCacheName?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeServerlessCachesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheName: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeServerlessCachesRequest",
-}) as any as S.Schema<DescribeServerlessCachesRequest>;
 export type ServerlessCacheList = ServerlessCache[];
-export const ServerlessCacheList = /*@__PURE__*/ S.Array(ServerlessCache);
 export interface DescribeServerlessCachesResponse {
   NextToken?: string;
   ServerlessCaches?: (ServerlessCache & {
     CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
   })[];
 }
-export const DescribeServerlessCachesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ServerlessCaches: S.optional(ServerlessCacheList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeServerlessCachesResponse",
-}) as any as S.Schema<DescribeServerlessCachesResponse>;
 export interface DescribeServerlessCacheSnapshotsRequest {
   ServerlessCacheName?: string;
   ServerlessCacheSnapshotName?: string;
@@ -3269,62 +1940,21 @@ export interface DescribeServerlessCacheSnapshotsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeServerlessCacheSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheName: S.optional(S.String),
-    ServerlessCacheSnapshotName: S.optional(S.String),
-    SnapshotType: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeServerlessCacheSnapshotsRequest",
-}) as any as S.Schema<DescribeServerlessCacheSnapshotsRequest>;
 export type ServerlessCacheSnapshotList = ServerlessCacheSnapshot[];
-export const ServerlessCacheSnapshotList = /*@__PURE__*/ S.Array(
-  ServerlessCacheSnapshot.pipe(T.XmlName("ServerlessCacheSnapshot")).annotate({
-    identifier: "ServerlessCacheSnapshot",
-  }),
-);
 export interface DescribeServerlessCacheSnapshotsResponse {
   NextToken?: string;
   ServerlessCacheSnapshots?: ServerlessCacheSnapshot[];
 }
-export const DescribeServerlessCacheSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ServerlessCacheSnapshots: S.optional(ServerlessCacheSnapshotList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeServerlessCacheSnapshotsResponse",
-}) as any as S.Schema<DescribeServerlessCacheSnapshotsResponse>;
 export type ServiceUpdateStatus = "available" | "cancelled" | "expired" | (string & {});
-export const ServiceUpdateStatus = S.String;
-
 export type ServiceUpdateStatusList = ServiceUpdateStatus[];
-export const ServiceUpdateStatusList = /*@__PURE__*/ S.Array(ServiceUpdateStatus);
 export interface DescribeServiceUpdatesMessage {
   ServiceUpdateName?: string;
   ServiceUpdateStatus?: ServiceUpdateStatus[];
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeServiceUpdatesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceUpdateName: S.optional(S.String),
-    ServiceUpdateStatus: S.optional(ServiceUpdateStatusList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeServiceUpdatesMessage",
-}) as any as S.Schema<DescribeServiceUpdatesMessage>;
 export type ServiceUpdateSeverity = "critical" | "important" | "medium" | "low" | (string & {});
-export const ServiceUpdateSeverity = S.String;
-
 export type ServiceUpdateType = "security-update" | (string & {});
-export const ServiceUpdateType = S.String;
-
 export interface ServiceUpdate {
   ServiceUpdateName?: string;
   ServiceUpdateReleaseDate?: Date;
@@ -3339,37 +1969,11 @@ export interface ServiceUpdate {
   AutoUpdateAfterRecommendedApplyByDate?: boolean;
   EstimatedUpdateTime?: string;
 }
-export const ServiceUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceUpdateName: S.optional(S.String),
-    ServiceUpdateReleaseDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    ServiceUpdateEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    ServiceUpdateSeverity: S.optional(ServiceUpdateSeverity),
-    ServiceUpdateRecommendedApplyByDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ServiceUpdateStatus: S.optional(ServiceUpdateStatus),
-    ServiceUpdateDescription: S.optional(S.String),
-    ServiceUpdateType: S.optional(ServiceUpdateType),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    AutoUpdateAfterRecommendedApplyByDate: S.optional(S.Boolean),
-    EstimatedUpdateTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "ServiceUpdate" }) as any as S.Schema<ServiceUpdate>;
 export type ServiceUpdateList = ServiceUpdate[];
-export const ServiceUpdateList = /*@__PURE__*/ S.Array(
-  ServiceUpdate.pipe(T.XmlName("ServiceUpdate")).annotate({ identifier: "ServiceUpdate" }),
-);
 export interface ServiceUpdatesMessage {
   Marker?: string;
   ServiceUpdates?: ServiceUpdate[];
 }
-export const ServiceUpdatesMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), ServiceUpdates: S.optional(ServiceUpdateList) }).pipe(
-    ns,
-  ),
-).annotate({ identifier: "ServiceUpdatesMessage" }) as any as S.Schema<ServiceUpdatesMessage>;
 export interface DescribeSnapshotsMessage {
   ReplicationGroupId?: string;
   CacheClusterId?: string;
@@ -3379,42 +1983,16 @@ export interface DescribeSnapshotsMessage {
   MaxRecords?: number;
   ShowNodeGroupConfig?: boolean;
 }
-export const DescribeSnapshotsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    CacheClusterId: S.optional(S.String),
-    SnapshotName: S.optional(S.String),
-    SnapshotSource: S.optional(S.String),
-    Marker: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    ShowNodeGroupConfig: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeSnapshotsMessage" }) as any as S.Schema<DescribeSnapshotsMessage>;
 export type SnapshotList = Snapshot[];
-export const SnapshotList = /*@__PURE__*/ S.Array(
-  Snapshot.pipe(T.XmlName("Snapshot")).annotate({ identifier: "Snapshot" }),
-);
 export interface DescribeSnapshotsListMessage {
   Marker?: string;
   Snapshots?: Snapshot[];
 }
-export const DescribeSnapshotsListMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), Snapshots: S.optional(SnapshotList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeSnapshotsListMessage",
-}) as any as S.Schema<DescribeSnapshotsListMessage>;
 export interface TimeRangeFilter {
   StartTime?: Date;
   EndTime?: Date;
 }
-export const TimeRangeFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({ identifier: "TimeRangeFilter" }) as any as S.Schema<TimeRangeFilter>;
 export type UpdateActionStatusList = UpdateActionStatus[];
-export const UpdateActionStatusList = /*@__PURE__*/ S.Array(UpdateActionStatus);
 export interface DescribeUpdateActionsMessage {
   ServiceUpdateName?: string;
   ReplicationGroupIds?: string[];
@@ -3427,25 +2005,7 @@ export interface DescribeUpdateActionsMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeUpdateActionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceUpdateName: S.optional(S.String),
-    ReplicationGroupIds: S.optional(ReplicationGroupIdList),
-    CacheClusterIds: S.optional(CacheClusterIdList),
-    Engine: S.optional(S.String),
-    ServiceUpdateStatus: S.optional(ServiceUpdateStatusList),
-    ServiceUpdateTimeRange: S.optional(TimeRangeFilter),
-    UpdateActionStatus: S.optional(UpdateActionStatusList),
-    ShowNodeLevelUpdateStatus: S.optional(S.Boolean),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeUpdateActionsMessage",
-}) as any as S.Schema<DescribeUpdateActionsMessage>;
 export type SlaMet = "yes" | "no" | "n/a" | (string & {});
-export const SlaMet = S.String;
-
 export type NodeUpdateStatus =
   | "not-applied"
   | "waiting-to-start"
@@ -3454,11 +2014,7 @@ export type NodeUpdateStatus =
   | "stopped"
   | "complete"
   | (string & {});
-export const NodeUpdateStatus = S.String;
-
 export type NodeUpdateInitiatedBy = "system" | "customer" | (string & {});
-export const NodeUpdateInitiatedBy = S.String;
-
 export interface NodeGroupMemberUpdateStatus {
   CacheClusterId?: string;
   CacheNodeId?: string;
@@ -3470,43 +2026,12 @@ export interface NodeGroupMemberUpdateStatus {
   NodeUpdateInitiatedDate?: Date;
   NodeUpdateStatusModifiedDate?: Date;
 }
-export const NodeGroupMemberUpdateStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheClusterId: S.optional(S.String),
-    CacheNodeId: S.optional(S.String),
-    NodeUpdateStatus: S.optional(NodeUpdateStatus),
-    NodeDeletionDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateInitiatedBy: S.optional(NodeUpdateInitiatedBy),
-    NodeUpdateInitiatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateStatusModifiedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "NodeGroupMemberUpdateStatus",
-}) as any as S.Schema<NodeGroupMemberUpdateStatus>;
 export type NodeGroupMemberUpdateStatusList = NodeGroupMemberUpdateStatus[];
-export const NodeGroupMemberUpdateStatusList = /*@__PURE__*/ S.Array(
-  NodeGroupMemberUpdateStatus.pipe(T.XmlName("NodeGroupMemberUpdateStatus")).annotate({
-    identifier: "NodeGroupMemberUpdateStatus",
-  }),
-);
 export interface NodeGroupUpdateStatus {
   NodeGroupId?: string;
   NodeGroupMemberUpdateStatus?: NodeGroupMemberUpdateStatus[];
 }
-export const NodeGroupUpdateStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NodeGroupId: S.optional(S.String),
-    NodeGroupMemberUpdateStatus: S.optional(NodeGroupMemberUpdateStatusList),
-  }),
-).annotate({ identifier: "NodeGroupUpdateStatus" }) as any as S.Schema<NodeGroupUpdateStatus>;
 export type NodeGroupUpdateStatusList = NodeGroupUpdateStatus[];
-export const NodeGroupUpdateStatusList = /*@__PURE__*/ S.Array(
-  NodeGroupUpdateStatus.pipe(T.XmlName("NodeGroupUpdateStatus")).annotate({
-    identifier: "NodeGroupUpdateStatus",
-  }),
-);
 export interface CacheNodeUpdateStatus {
   CacheNodeId?: string;
   NodeUpdateStatus?: NodeUpdateStatus;
@@ -3517,24 +2042,7 @@ export interface CacheNodeUpdateStatus {
   NodeUpdateInitiatedDate?: Date;
   NodeUpdateStatusModifiedDate?: Date;
 }
-export const CacheNodeUpdateStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheNodeId: S.optional(S.String),
-    NodeUpdateStatus: S.optional(NodeUpdateStatus),
-    NodeDeletionDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateInitiatedBy: S.optional(NodeUpdateInitiatedBy),
-    NodeUpdateInitiatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    NodeUpdateStatusModifiedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({ identifier: "CacheNodeUpdateStatus" }) as any as S.Schema<CacheNodeUpdateStatus>;
 export type CacheNodeUpdateStatusList = CacheNodeUpdateStatus[];
-export const CacheNodeUpdateStatusList = /*@__PURE__*/ S.Array(
-  CacheNodeUpdateStatus.pipe(T.XmlName("CacheNodeUpdateStatus")).annotate({
-    identifier: "CacheNodeUpdateStatus",
-  }),
-);
 export interface UpdateAction {
   ReplicationGroupId?: string;
   CacheClusterId?: string;
@@ -3554,78 +2062,29 @@ export interface UpdateAction {
   EstimatedUpdateTime?: string;
   Engine?: string;
 }
-export const UpdateAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    CacheClusterId: S.optional(S.String),
-    ServiceUpdateName: S.optional(S.String),
-    ServiceUpdateReleaseDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    ServiceUpdateSeverity: S.optional(ServiceUpdateSeverity),
-    ServiceUpdateStatus: S.optional(ServiceUpdateStatus),
-    ServiceUpdateRecommendedApplyByDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ServiceUpdateType: S.optional(ServiceUpdateType),
-    UpdateActionAvailableDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    UpdateActionStatus: S.optional(UpdateActionStatus),
-    NodesUpdated: S.optional(S.String),
-    UpdateActionStatusModifiedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    SlaMet: S.optional(SlaMet),
-    NodeGroupUpdateStatus: S.optional(NodeGroupUpdateStatusList),
-    CacheNodeUpdateStatus: S.optional(CacheNodeUpdateStatusList),
-    EstimatedUpdateTime: S.optional(S.String),
-    Engine: S.optional(S.String),
-  }),
-).annotate({ identifier: "UpdateAction" }) as any as S.Schema<UpdateAction>;
 export type UpdateActionList = UpdateAction[];
-export const UpdateActionList = /*@__PURE__*/ S.Array(
-  UpdateAction.pipe(T.XmlName("UpdateAction")).annotate({ identifier: "UpdateAction" }),
-);
 export interface UpdateActionsMessage {
   Marker?: string;
   UpdateActions?: UpdateAction[];
 }
-export const UpdateActionsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Marker: S.optional(S.String), UpdateActions: S.optional(UpdateActionList) }).pipe(ns),
-).annotate({ identifier: "UpdateActionsMessage" }) as any as S.Schema<UpdateActionsMessage>;
 export interface DescribeUserGroupsMessage {
   UserGroupId?: string;
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeUserGroupsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserGroupId: S.optional(S.String),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeUserGroupsMessage",
-}) as any as S.Schema<DescribeUserGroupsMessage>;
 export type UserGroupList = UserGroup[];
-export const UserGroupList = /*@__PURE__*/ S.Array(UserGroup);
 export interface DescribeUserGroupsResult {
   UserGroups?: UserGroup[];
   Marker?: string;
 }
-export const DescribeUserGroupsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserGroups: S.optional(UserGroupList), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DescribeUserGroupsResult" }) as any as S.Schema<DescribeUserGroupsResult>;
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValueList = string[];
-export const FilterValueList = /*@__PURE__*/ S.Array(S.String);
 export interface Filter {
   Name?: string;
   Values?: string[];
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Values: S.optional(FilterValueList) }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = /*@__PURE__*/ S.Array(Filter);
 export interface DescribeUsersMessage {
   Engine?: string;
   UserId?: string;
@@ -3633,208 +2092,76 @@ export interface DescribeUsersMessage {
   MaxRecords?: number;
   Marker?: string;
 }
-export const DescribeUsersMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Engine: S.optional(S.String),
-    UserId: S.optional(S.String),
-    Filters: S.optional(FilterList),
-    MaxRecords: S.optional(S.Number),
-    Marker: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "DescribeUsersMessage" }) as any as S.Schema<DescribeUsersMessage>;
 export type UserList = User[];
-export const UserList = /*@__PURE__*/ S.Array(User);
 export interface DescribeUsersResult {
   Users?: User[];
   Marker?: string;
 }
-export const DescribeUsersResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Users: S.optional(UserList), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "DescribeUsersResult" }) as any as S.Schema<DescribeUsersResult>;
 export interface DisassociateGlobalReplicationGroupMessage {
   GlobalReplicationGroupId?: string;
   ReplicationGroupId?: string;
   ReplicationGroupRegion?: string;
 }
-export const DisassociateGlobalReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    ReplicationGroupId: S.optional(S.String),
-    ReplicationGroupRegion: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DisassociateGlobalReplicationGroupMessage",
-}) as any as S.Schema<DisassociateGlobalReplicationGroupMessage>;
 export interface DisassociateGlobalReplicationGroupResult {
   GlobalReplicationGroup?: GlobalReplicationGroup;
 }
-export const DisassociateGlobalReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalReplicationGroup: S.optional(GlobalReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "DisassociateGlobalReplicationGroupResult",
-}) as any as S.Schema<DisassociateGlobalReplicationGroupResult>;
 export interface ExportServerlessCacheSnapshotRequest {
   ServerlessCacheSnapshotName?: string;
   S3BucketName?: string;
 }
-export const ExportServerlessCacheSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheSnapshotName: S.optional(S.String),
-    S3BucketName: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExportServerlessCacheSnapshotRequest",
-}) as any as S.Schema<ExportServerlessCacheSnapshotRequest>;
 export interface ExportServerlessCacheSnapshotResponse {
   ServerlessCacheSnapshot?: ServerlessCacheSnapshot;
 }
-export const ExportServerlessCacheSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessCacheSnapshot: S.optional(ServerlessCacheSnapshot) }).pipe(ns),
-).annotate({
-  identifier: "ExportServerlessCacheSnapshotResponse",
-}) as any as S.Schema<ExportServerlessCacheSnapshotResponse>;
 export interface FailoverGlobalReplicationGroupMessage {
   GlobalReplicationGroupId?: string;
   PrimaryRegion?: string;
   PrimaryReplicationGroupId?: string;
 }
-export const FailoverGlobalReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    PrimaryRegion: S.optional(S.String),
-    PrimaryReplicationGroupId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "FailoverGlobalReplicationGroupMessage",
-}) as any as S.Schema<FailoverGlobalReplicationGroupMessage>;
 export interface FailoverGlobalReplicationGroupResult {
   GlobalReplicationGroup?: GlobalReplicationGroup;
 }
-export const FailoverGlobalReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalReplicationGroup: S.optional(GlobalReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "FailoverGlobalReplicationGroupResult",
-}) as any as S.Schema<FailoverGlobalReplicationGroupResult>;
 export interface ReshardingConfiguration {
   NodeGroupId?: string;
   PreferredAvailabilityZones?: string[];
 }
-export const ReshardingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NodeGroupId: S.optional(S.String),
-    PreferredAvailabilityZones: S.optional(AvailabilityZonesList),
-  }),
-).annotate({ identifier: "ReshardingConfiguration" }) as any as S.Schema<ReshardingConfiguration>;
 export type ReshardingConfigurationList = ReshardingConfiguration[];
-export const ReshardingConfigurationList = /*@__PURE__*/ S.Array(
-  ReshardingConfiguration.pipe(T.XmlName("ReshardingConfiguration")).annotate({
-    identifier: "ReshardingConfiguration",
-  }),
-);
 export interface RegionalConfiguration {
   ReplicationGroupId?: string;
   ReplicationGroupRegion?: string;
   ReshardingConfiguration?: ReshardingConfiguration[];
 }
-export const RegionalConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    ReplicationGroupRegion: S.optional(S.String),
-    ReshardingConfiguration: S.optional(ReshardingConfigurationList),
-  }),
-).annotate({ identifier: "RegionalConfiguration" }) as any as S.Schema<RegionalConfiguration>;
 export type RegionalConfigurationList = RegionalConfiguration[];
-export const RegionalConfigurationList = /*@__PURE__*/ S.Array(
-  RegionalConfiguration.pipe(T.XmlName("RegionalConfiguration")).annotate({
-    identifier: "RegionalConfiguration",
-  }),
-);
 export interface IncreaseNodeGroupsInGlobalReplicationGroupMessage {
   GlobalReplicationGroupId?: string;
   NodeGroupCount?: number;
   RegionalConfigurations?: RegionalConfiguration[];
   ApplyImmediately?: boolean;
 }
-export const IncreaseNodeGroupsInGlobalReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    NodeGroupCount: S.optional(S.Number),
-    RegionalConfigurations: S.optional(RegionalConfigurationList),
-    ApplyImmediately: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "IncreaseNodeGroupsInGlobalReplicationGroupMessage",
-}) as any as S.Schema<IncreaseNodeGroupsInGlobalReplicationGroupMessage>;
 export interface IncreaseNodeGroupsInGlobalReplicationGroupResult {
   GlobalReplicationGroup?: GlobalReplicationGroup;
 }
-export const IncreaseNodeGroupsInGlobalReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalReplicationGroup: S.optional(GlobalReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "IncreaseNodeGroupsInGlobalReplicationGroupResult",
-}) as any as S.Schema<IncreaseNodeGroupsInGlobalReplicationGroupResult>;
 export interface IncreaseReplicaCountMessage {
   ReplicationGroupId?: string;
   NewReplicaCount?: number;
   ReplicaConfiguration?: ConfigureShard[];
   ApplyImmediately?: boolean;
 }
-export const IncreaseReplicaCountMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    NewReplicaCount: S.optional(S.Number),
-    ReplicaConfiguration: S.optional(ReplicaConfigurationList),
-    ApplyImmediately: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "IncreaseReplicaCountMessage",
-}) as any as S.Schema<IncreaseReplicaCountMessage>;
 export interface IncreaseReplicaCountResult {
   ReplicationGroup?: ReplicationGroup;
 }
-export const IncreaseReplicaCountResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "IncreaseReplicaCountResult",
-}) as any as S.Schema<IncreaseReplicaCountResult>;
 export interface ListAllowedNodeTypeModificationsMessage {
   CacheClusterId?: string;
   ReplicationGroupId?: string;
 }
-export const ListAllowedNodeTypeModificationsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheClusterId: S.optional(S.String), ReplicationGroupId: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAllowedNodeTypeModificationsMessage",
-}) as any as S.Schema<ListAllowedNodeTypeModificationsMessage>;
 export type NodeTypeList = string[];
-export const NodeTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface AllowedNodeTypeModificationsMessage {
   ScaleUpModifications?: string[];
   ScaleDownModifications?: string[];
 }
-export const AllowedNodeTypeModificationsMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScaleUpModifications: S.optional(NodeTypeList),
-    ScaleDownModifications: S.optional(NodeTypeList),
-  }).pipe(ns),
-).annotate({
-  identifier: "AllowedNodeTypeModificationsMessage",
-}) as any as S.Schema<AllowedNodeTypeModificationsMessage>;
 export interface ListTagsForResourceMessage {
   ResourceName?: string;
 }
-export const ListTagsForResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceName: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceMessage",
-}) as any as S.Schema<ListTagsForResourceMessage>;
 export type AuthTokenUpdateStrategyType = "SET" | "ROTATE" | "DELETE" | (string & {});
-export const AuthTokenUpdateStrategyType = S.String;
-
 export interface ModifyCacheClusterMessage {
   CacheClusterId?: string;
   NumCacheNodes?: number;
@@ -3860,96 +2187,29 @@ export interface ModifyCacheClusterMessage {
   IpDiscovery?: IpDiscovery;
   ScaleConfig?: ScaleConfig;
 }
-export const ModifyCacheClusterMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheClusterId: S.optional(S.String),
-    NumCacheNodes: S.optional(S.Number),
-    CacheNodeIdsToRemove: S.optional(CacheNodeIdsList),
-    AZMode: S.optional(AZMode),
-    NewAvailabilityZones: S.optional(PreferredAvailabilityZoneList),
-    CacheSecurityGroupNames: S.optional(CacheSecurityGroupNameList),
-    SecurityGroupIds: S.optional(SecurityGroupIdsList),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    NotificationTopicArn: S.optional(S.String),
-    CacheParameterGroupName: S.optional(S.String),
-    NotificationTopicStatus: S.optional(S.String),
-    ApplyImmediately: S.optional(S.Boolean),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    SnapshotWindow: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    AuthToken: S.optional(SensitiveString),
-    AuthTokenUpdateStrategy: S.optional(AuthTokenUpdateStrategyType),
-    LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationRequestList),
-    IpDiscovery: S.optional(IpDiscovery),
-    ScaleConfig: S.optional(ScaleConfig),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyCacheClusterMessage",
-}) as any as S.Schema<ModifyCacheClusterMessage>;
 export interface ModifyCacheClusterResult {
   CacheCluster?: CacheCluster;
 }
-export const ModifyCacheClusterResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheCluster: S.optional(CacheCluster) }).pipe(ns),
-).annotate({ identifier: "ModifyCacheClusterResult" }) as any as S.Schema<ModifyCacheClusterResult>;
 export interface ParameterNameValue {
   ParameterName?: string;
   ParameterValue?: string;
 }
-export const ParameterNameValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ParameterName: S.optional(S.String), ParameterValue: S.optional(S.String) }),
-).annotate({ identifier: "ParameterNameValue" }) as any as S.Schema<ParameterNameValue>;
 export type ParameterNameValueList = ParameterNameValue[];
-export const ParameterNameValueList = /*@__PURE__*/ S.Array(
-  ParameterNameValue.pipe(T.XmlName("ParameterNameValue")).annotate({
-    identifier: "ParameterNameValue",
-  }),
-);
 export interface ModifyCacheParameterGroupMessage {
   CacheParameterGroupName?: string;
   ParameterNameValues?: ParameterNameValue[];
 }
-export const ModifyCacheParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheParameterGroupName: S.optional(S.String),
-    ParameterNameValues: S.optional(ParameterNameValueList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyCacheParameterGroupMessage",
-}) as any as S.Schema<ModifyCacheParameterGroupMessage>;
 export interface CacheParameterGroupNameMessage {
   CacheParameterGroupName?: string;
 }
-export const CacheParameterGroupNameMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheParameterGroupName: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CacheParameterGroupNameMessage",
-}) as any as S.Schema<CacheParameterGroupNameMessage>;
 export interface ModifyCacheSubnetGroupMessage {
   CacheSubnetGroupName?: string;
   CacheSubnetGroupDescription?: string;
   SubnetIds?: string[];
 }
-export const ModifyCacheSubnetGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheSubnetGroupName: S.optional(S.String),
-    CacheSubnetGroupDescription: S.optional(S.String),
-    SubnetIds: S.optional(SubnetIdentifierList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyCacheSubnetGroupMessage",
-}) as any as S.Schema<ModifyCacheSubnetGroupMessage>;
 export interface ModifyCacheSubnetGroupResult {
   CacheSubnetGroup?: CacheSubnetGroup;
 }
-export const ModifyCacheSubnetGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheSubnetGroup: S.optional(CacheSubnetGroup) }).pipe(ns),
-).annotate({
-  identifier: "ModifyCacheSubnetGroupResult",
-}) as any as S.Schema<ModifyCacheSubnetGroupResult>;
 export interface ModifyGlobalReplicationGroupMessage {
   GlobalReplicationGroupId?: string;
   ApplyImmediately?: boolean;
@@ -3960,28 +2220,9 @@ export interface ModifyGlobalReplicationGroupMessage {
   GlobalReplicationGroupDescription?: string;
   AutomaticFailoverEnabled?: boolean;
 }
-export const ModifyGlobalReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    ApplyImmediately: S.optional(S.Boolean),
-    CacheNodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    CacheParameterGroupName: S.optional(S.String),
-    GlobalReplicationGroupDescription: S.optional(S.String),
-    AutomaticFailoverEnabled: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyGlobalReplicationGroupMessage",
-}) as any as S.Schema<ModifyGlobalReplicationGroupMessage>;
 export interface ModifyGlobalReplicationGroupResult {
   GlobalReplicationGroup?: GlobalReplicationGroup;
 }
-export const ModifyGlobalReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalReplicationGroup: S.optional(GlobalReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "ModifyGlobalReplicationGroupResult",
-}) as any as S.Schema<ModifyGlobalReplicationGroupResult>;
 export interface ModifyReplicationGroupMessage {
   ReplicationGroupId?: string;
   ReplicationGroupDescription?: string;
@@ -4015,59 +2256,11 @@ export interface ModifyReplicationGroupMessage {
   ClusterMode?: ClusterMode;
   Durability?: Durability;
 }
-export const ModifyReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    ReplicationGroupDescription: S.optional(S.String),
-    PrimaryClusterId: S.optional(S.String),
-    SnapshottingClusterId: S.optional(S.String),
-    AutomaticFailoverEnabled: S.optional(S.Boolean),
-    MultiAZEnabled: S.optional(S.Boolean),
-    NodeGroupId: S.optional(S.String),
-    CacheSecurityGroupNames: S.optional(CacheSecurityGroupNameList),
-    SecurityGroupIds: S.optional(SecurityGroupIdsList),
-    PreferredMaintenanceWindow: S.optional(S.String),
-    NotificationTopicArn: S.optional(S.String),
-    CacheParameterGroupName: S.optional(S.String),
-    NotificationTopicStatus: S.optional(S.String),
-    ApplyImmediately: S.optional(S.Boolean),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    SnapshotWindow: S.optional(S.String),
-    CacheNodeType: S.optional(S.String),
-    AuthToken: S.optional(SensitiveString),
-    AuthTokenUpdateStrategy: S.optional(AuthTokenUpdateStrategyType),
-    UserGroupIdsToAdd: S.optional(UserGroupIdList),
-    UserGroupIdsToRemove: S.optional(UserGroupIdList),
-    RemoveUserGroups: S.optional(S.Boolean),
-    LogDeliveryConfigurations: S.optional(LogDeliveryConfigurationRequestList),
-    IpDiscovery: S.optional(IpDiscovery),
-    TransitEncryptionEnabled: S.optional(S.Boolean),
-    TransitEncryptionMode: S.optional(TransitEncryptionMode),
-    ClusterMode: S.optional(ClusterMode),
-    Durability: S.optional(Durability),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyReplicationGroupMessage",
-}) as any as S.Schema<ModifyReplicationGroupMessage>;
 export interface ModifyReplicationGroupResult {
   ReplicationGroup?: ReplicationGroup;
 }
-export const ModifyReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "ModifyReplicationGroupResult",
-}) as any as S.Schema<ModifyReplicationGroupResult>;
 export type NodeGroupsToRemoveList = string[];
-export const NodeGroupsToRemoveList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("NodeGroupToRemove")),
-);
 export type NodeGroupsToRetainList = string[];
-export const NodeGroupsToRetainList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("NodeGroupToRetain")),
-);
 export interface ModifyReplicationGroupShardConfigurationMessage {
   ReplicationGroupId?: string;
   NodeGroupCount?: number;
@@ -4076,26 +2269,9 @@ export interface ModifyReplicationGroupShardConfigurationMessage {
   NodeGroupsToRemove?: string[];
   NodeGroupsToRetain?: string[];
 }
-export const ModifyReplicationGroupShardConfigurationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    NodeGroupCount: S.optional(S.Number),
-    ApplyImmediately: S.optional(S.Boolean),
-    ReshardingConfiguration: S.optional(ReshardingConfigurationList),
-    NodeGroupsToRemove: S.optional(NodeGroupsToRemoveList),
-    NodeGroupsToRetain: S.optional(NodeGroupsToRetainList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyReplicationGroupShardConfigurationMessage",
-}) as any as S.Schema<ModifyReplicationGroupShardConfigurationMessage>;
 export interface ModifyReplicationGroupShardConfigurationResult {
   ReplicationGroup?: ReplicationGroup;
 }
-export const ModifyReplicationGroupShardConfigurationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "ModifyReplicationGroupShardConfigurationResult",
-}) as any as S.Schema<ModifyReplicationGroupShardConfigurationResult>;
 export interface ModifyServerlessCacheRequest {
   ServerlessCacheName?: string;
   Description?: string;
@@ -4108,32 +2284,11 @@ export interface ModifyServerlessCacheRequest {
   Engine?: string;
   MajorEngineVersion?: string;
 }
-export const ModifyServerlessCacheRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerlessCacheName: S.optional(S.String),
-    Description: S.optional(S.String),
-    CacheUsageLimits: S.optional(CacheUsageLimits),
-    RemoveUserGroup: S.optional(S.Boolean),
-    UserGroupId: S.optional(S.String),
-    SecurityGroupIds: S.optional(SecurityGroupIdsList),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    DailySnapshotTime: S.optional(S.String),
-    Engine: S.optional(S.String),
-    MajorEngineVersion: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyServerlessCacheRequest",
-}) as any as S.Schema<ModifyServerlessCacheRequest>;
 export interface ModifyServerlessCacheResponse {
   ServerlessCache?: ServerlessCache & {
     CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
   };
 }
-export const ModifyServerlessCacheResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessCache: S.optional(ServerlessCache) }).pipe(ns),
-).annotate({
-  identifier: "ModifyServerlessCacheResponse",
-}) as any as S.Schema<ModifyServerlessCacheResponse>;
 export interface ModifyUserMessage {
   UserId?: string;
   AccessString?: string;
@@ -4143,198 +2298,79 @@ export interface ModifyUserMessage {
   AuthenticationMode?: AuthenticationMode;
   Engine?: string;
 }
-export const ModifyUserMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserId: S.optional(S.String),
-    AccessString: S.optional(S.String),
-    AppendAccessString: S.optional(S.String),
-    Passwords: S.optional(S.Array(SensitiveString)),
-    NoPasswordRequired: S.optional(S.Boolean),
-    AuthenticationMode: S.optional(AuthenticationMode),
-    Engine: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ModifyUserMessage" }) as any as S.Schema<ModifyUserMessage>;
 export interface ModifyUserGroupMessage {
   UserGroupId?: string;
   UserIdsToAdd?: string[];
   UserIdsToRemove?: string[];
   Engine?: string;
 }
-export const ModifyUserGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserGroupId: S.optional(S.String),
-    UserIdsToAdd: S.optional(UserIdListInput),
-    UserIdsToRemove: S.optional(UserIdListInput),
-    Engine: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ModifyUserGroupMessage" }) as any as S.Schema<ModifyUserGroupMessage>;
 export interface PurchaseReservedCacheNodesOfferingMessage {
   ReservedCacheNodesOfferingId?: string;
   ReservedCacheNodeId?: string;
   CacheNodeCount?: number;
   Tags?: Tag[];
 }
-export const PurchaseReservedCacheNodesOfferingMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedCacheNodesOfferingId: S.optional(S.String),
-    ReservedCacheNodeId: S.optional(S.String),
-    CacheNodeCount: S.optional(S.Number),
-    Tags: S.optional(TagList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PurchaseReservedCacheNodesOfferingMessage",
-}) as any as S.Schema<PurchaseReservedCacheNodesOfferingMessage>;
 export interface PurchaseReservedCacheNodesOfferingResult {
   ReservedCacheNode?: ReservedCacheNode;
 }
-export const PurchaseReservedCacheNodesOfferingResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReservedCacheNode: S.optional(ReservedCacheNode) }).pipe(ns),
-).annotate({
-  identifier: "PurchaseReservedCacheNodesOfferingResult",
-}) as any as S.Schema<PurchaseReservedCacheNodesOfferingResult>;
 export interface RebalanceSlotsInGlobalReplicationGroupMessage {
   GlobalReplicationGroupId?: string;
   ApplyImmediately?: boolean;
 }
-export const RebalanceSlotsInGlobalReplicationGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GlobalReplicationGroupId: S.optional(S.String),
-    ApplyImmediately: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RebalanceSlotsInGlobalReplicationGroupMessage",
-}) as any as S.Schema<RebalanceSlotsInGlobalReplicationGroupMessage>;
 export interface RebalanceSlotsInGlobalReplicationGroupResult {
   GlobalReplicationGroup?: GlobalReplicationGroup;
 }
-export const RebalanceSlotsInGlobalReplicationGroupResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GlobalReplicationGroup: S.optional(GlobalReplicationGroup) }).pipe(ns),
-).annotate({
-  identifier: "RebalanceSlotsInGlobalReplicationGroupResult",
-}) as any as S.Schema<RebalanceSlotsInGlobalReplicationGroupResult>;
 export interface RebootCacheClusterMessage {
   CacheClusterId?: string;
   CacheNodeIdsToReboot?: string[];
 }
-export const RebootCacheClusterMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheClusterId: S.optional(S.String),
-    CacheNodeIdsToReboot: S.optional(CacheNodeIdsList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RebootCacheClusterMessage",
-}) as any as S.Schema<RebootCacheClusterMessage>;
 export interface RebootCacheClusterResult {
   CacheCluster?: CacheCluster;
 }
-export const RebootCacheClusterResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheCluster: S.optional(CacheCluster) }).pipe(ns),
-).annotate({ identifier: "RebootCacheClusterResult" }) as any as S.Schema<RebootCacheClusterResult>;
 export type KeyList = string[];
-export const KeyList = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveTagsFromResourceMessage {
   ResourceName?: string;
   TagKeys?: string[];
 }
-export const RemoveTagsFromResourceMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceName: S.optional(S.String), TagKeys: S.optional(KeyList) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RemoveTagsFromResourceMessage",
-}) as any as S.Schema<RemoveTagsFromResourceMessage>;
 export interface ResetCacheParameterGroupMessage {
   CacheParameterGroupName?: string;
   ResetAllParameters?: boolean;
   ParameterNameValues?: ParameterNameValue[];
 }
-export const ResetCacheParameterGroupMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheParameterGroupName: S.optional(S.String),
-    ResetAllParameters: S.optional(S.Boolean),
-    ParameterNameValues: S.optional(ParameterNameValueList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ResetCacheParameterGroupMessage",
-}) as any as S.Schema<ResetCacheParameterGroupMessage>;
 export interface RevokeCacheSecurityGroupIngressMessage {
   CacheSecurityGroupName?: string;
   EC2SecurityGroupName?: string;
   EC2SecurityGroupOwnerId?: string;
 }
-export const RevokeCacheSecurityGroupIngressMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheSecurityGroupName: S.optional(S.String),
-    EC2SecurityGroupName: S.optional(S.String),
-    EC2SecurityGroupOwnerId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RevokeCacheSecurityGroupIngressMessage",
-}) as any as S.Schema<RevokeCacheSecurityGroupIngressMessage>;
 export interface RevokeCacheSecurityGroupIngressResult {
   CacheSecurityGroup?: CacheSecurityGroup;
 }
-export const RevokeCacheSecurityGroupIngressResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CacheSecurityGroup: S.optional(CacheSecurityGroup) }).pipe(ns),
-).annotate({
-  identifier: "RevokeCacheSecurityGroupIngressResult",
-}) as any as S.Schema<RevokeCacheSecurityGroupIngressResult>;
 export interface CustomerNodeEndpoint {
   Address?: string;
   Port?: number;
 }
-export const CustomerNodeEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Address: S.optional(S.String), Port: S.optional(S.Number) }),
-).annotate({ identifier: "CustomerNodeEndpoint" }) as any as S.Schema<CustomerNodeEndpoint>;
 export type CustomerNodeEndpointList = CustomerNodeEndpoint[];
-export const CustomerNodeEndpointList = /*@__PURE__*/ S.Array(CustomerNodeEndpoint);
 export interface StartMigrationMessage {
   ReplicationGroupId?: string;
   CustomerNodeEndpointList?: CustomerNodeEndpoint[];
 }
-export const StartMigrationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    CustomerNodeEndpointList: S.optional(CustomerNodeEndpointList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "StartMigrationMessage" }) as any as S.Schema<StartMigrationMessage>;
 export interface StartMigrationResponse {
   ReplicationGroup?: ReplicationGroup;
 }
-export const StartMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({ identifier: "StartMigrationResponse" }) as any as S.Schema<StartMigrationResponse>;
 export interface TestFailoverMessage {
   ReplicationGroupId?: string;
   NodeGroupId?: string;
 }
-export const TestFailoverMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroupId: S.optional(S.String), NodeGroupId: S.optional(S.String) }).pipe(
-    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TestFailoverMessage" }) as any as S.Schema<TestFailoverMessage>;
 export interface TestFailoverResult {
   ReplicationGroup?: ReplicationGroup;
 }
-export const TestFailoverResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({ identifier: "TestFailoverResult" }) as any as S.Schema<TestFailoverResult>;
 export interface TestMigrationMessage {
   ReplicationGroupId?: string;
   CustomerNodeEndpointList?: CustomerNodeEndpoint[];
 }
-export const TestMigrationMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationGroupId: S.optional(S.String),
-    CustomerNodeEndpointList: S.optional(CustomerNodeEndpointList),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "TestMigrationMessage" }) as any as S.Schema<TestMigrationMessage>;
 export interface TestMigrationResponse {
   ReplicationGroup?: ReplicationGroup;
 }
-export const TestMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicationGroup: S.optional(ReplicationGroup) }).pipe(ns),
-).annotate({ identifier: "TestMigrationResponse" }) as any as S.Schema<TestMigrationResponse>;
 export type ExceptionMessage = string;
 export type AwsQueryErrorMessage = string;
 export type AddTagsToResourceError =
@@ -4379,8 +2415,8 @@ export const addTagsToResource: API.OperationMethod<
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsToResourceMessage,
-  output: TagListMessage,
+  input: __S(928, __c58, 0) as any as S.Schema<AddTagsToResourceMessage>,
+  output: __S(944, __c59, 0) as any as S.Schema<TagListMessage>,
   errors: [
     CacheClusterNotFoundFault,
     CacheParameterGroupNotFoundFault,
@@ -4427,8 +2463,8 @@ export const authorizeCacheSecurityGroupIngress: API.OperationMethod<
   AuthorizeCacheSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AuthorizeCacheSecurityGroupIngressMessage,
-  output: AuthorizeCacheSecurityGroupIngressResult,
+  input: __S(992, __c62, 0) as any as S.Schema<AuthorizeCacheSecurityGroupIngressMessage>,
+  output: __S(993, __c62, 1) as any as S.Schema<AuthorizeCacheSecurityGroupIngressResult>,
   errors: [
     AuthorizationAlreadyExistsFault,
     CacheSecurityGroupNotFoundFault,
@@ -4456,8 +2492,8 @@ export const batchApplyUpdateAction: API.OperationMethod<
   BatchApplyUpdateActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchApplyUpdateActionMessage,
-  output: UpdateActionResultsMessage,
+  input: __S(1024, __c64, 0) as any as S.Schema<BatchApplyUpdateActionMessage>,
+  output: __S(1044, __c65, 4) as any as S.Schema<UpdateActionResultsMessage>,
   errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4479,8 +2515,8 @@ export const batchStopUpdateAction: API.OperationMethod<
   BatchStopUpdateActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchStopUpdateActionMessage,
-  output: UpdateActionResultsMessage,
+  input: __S(1072, __c67, 0) as any as S.Schema<BatchStopUpdateActionMessage>,
+  output: __S(1044, __c65, 4) as any as S.Schema<UpdateActionResultsMessage>,
   errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4501,8 +2537,8 @@ export const completeMigration: API.OperationMethod<
   CompleteMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CompleteMigrationMessage,
-  output: CompleteMigrationResponse,
+  input: __S(1088, __c68, 0) as any as S.Schema<CompleteMigrationMessage>,
+  output: __S(1089, __c68, 1) as any as S.Schema<CompleteMigrationResponse>,
   errors: [
     InvalidReplicationGroupStateFault,
     ReplicationGroupNotFoundFault,
@@ -4524,7 +2560,7 @@ export type CopyServerlessCacheSnapshotError =
   | TagQuotaPerResourceExceeded
   | CommonErrors;
 /**
- * Creates a copy of an existing serverless cache’s snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
+ * Creates a copy of an existing serverless cache's snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
 export const copyServerlessCacheSnapshot: API.OperationMethod<
   CopyServerlessCacheSnapshotRequest,
@@ -4532,8 +2568,8 @@ export const copyServerlessCacheSnapshot: API.OperationMethod<
   CopyServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CopyServerlessCacheSnapshotRequest,
-  output: CopyServerlessCacheSnapshotResponse,
+  input: __S(1152, __c72, 0) as any as S.Schema<CopyServerlessCacheSnapshotRequest>,
+  output: __S(1153, __c72, 1) as any as S.Schema<CopyServerlessCacheSnapshotResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -4637,8 +2673,8 @@ export const copySnapshot: API.OperationMethod<
   CopySnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CopySnapshotMessage,
-  output: CopySnapshotResult,
+  input: __S(1184, __c74, 0) as any as S.Schema<CopySnapshotMessage>,
+  output: __S(1185, __c74, 1) as any as S.Schema<CopySnapshotResult>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -4681,8 +2717,8 @@ export const createCacheCluster: API.OperationMethod<
   CreateCacheClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCacheClusterMessage,
-  output: CreateCacheClusterResult,
+  input: __S(1248, __c78, 0) as any as S.Schema<CreateCacheClusterMessage>,
+  output: __S(1249, __c78, 1) as any as S.Schema<CreateCacheClusterResult>,
   errors: [
     CacheClusterAlreadyExistsFault,
     CacheParameterGroupNotFoundFault,
@@ -4733,8 +2769,8 @@ export const createCacheParameterGroup: API.OperationMethod<
   CreateCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCacheParameterGroupMessage,
-  output: CreateCacheParameterGroupResult,
+  input: __S(1360, __c85, 0) as any as S.Schema<CreateCacheParameterGroupMessage>,
+  output: __S(1361, __c85, 1) as any as S.Schema<CreateCacheParameterGroupResult>,
   errors: [
     CacheParameterGroupAlreadyExistsFault,
     CacheParameterGroupQuotaExceededFault,
@@ -4769,8 +2805,8 @@ export const createCacheSecurityGroup: API.OperationMethod<
   CreateCacheSecurityGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCacheSecurityGroupMessage,
-  output: CreateCacheSecurityGroupResult,
+  input: __S(1392, __c87, 0) as any as S.Schema<CreateCacheSecurityGroupMessage>,
+  output: __S(1393, __c87, 1) as any as S.Schema<CreateCacheSecurityGroupResult>,
   errors: [
     CacheSecurityGroupAlreadyExistsFault,
     CacheSecurityGroupQuotaExceededFault,
@@ -4803,8 +2839,8 @@ export const createCacheSubnetGroup: API.OperationMethod<
   CreateCacheSubnetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCacheSubnetGroupMessage,
-  output: CreateCacheSubnetGroupResult,
+  input: __S(1408, __c88, 0) as any as S.Schema<CreateCacheSubnetGroupMessage>,
+  output: __S(1409, __c88, 1) as any as S.Schema<CreateCacheSubnetGroupResult>,
   errors: [
     CacheSubnetGroupAlreadyExistsFault,
     CacheSubnetGroupQuotaExceededFault,
@@ -4846,8 +2882,8 @@ export const createGlobalReplicationGroup: API.OperationMethod<
   CreateGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGlobalReplicationGroupMessage,
-  output: CreateGlobalReplicationGroupResult,
+  input: __S(1456, __c91, 0) as any as S.Schema<CreateGlobalReplicationGroupMessage>,
+  output: __S(1457, __c91, 1) as any as S.Schema<CreateGlobalReplicationGroupResult>,
   errors: [
     GlobalReplicationGroupAlreadyExistsFault,
     InvalidParameterValueException,
@@ -4925,8 +2961,8 @@ export const createReplicationGroup: API.OperationMethod<
   CreateReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReplicationGroupMessage,
-  output: CreateReplicationGroupResult,
+  input: __S(1490, __c93, 2) as any as S.Schema<CreateReplicationGroupMessage>,
+  output: __S(1491, __c93, 3) as any as S.Schema<CreateReplicationGroupResult>,
   errors: [
     CacheClusterNotFoundFault,
     CacheParameterGroupNotFoundFault,
@@ -4975,8 +3011,8 @@ export const createServerlessCache: API.OperationMethod<
   CreateServerlessCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateServerlessCacheRequest,
-  output: CreateServerlessCacheResponse,
+  input: __S(1504, __c94, 0) as any as S.Schema<CreateServerlessCacheRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<CreateServerlessCacheResponse>,
   errors: [
     InvalidCredentialsException,
     InvalidParameterCombinationException,
@@ -5014,8 +3050,8 @@ export const createServerlessCacheSnapshot: API.OperationMethod<
   CreateServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateServerlessCacheSnapshotRequest,
-  output: CreateServerlessCacheSnapshotResponse,
+  input: __S(1536, __c96, 0) as any as S.Schema<CreateServerlessCacheSnapshotRequest>,
+  output: __S(1537, __c96, 1) as any as S.Schema<CreateServerlessCacheSnapshotResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -5055,8 +3091,8 @@ export const createSnapshot: API.OperationMethod<
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSnapshotMessage,
-  output: CreateSnapshotResult,
+  input: __S(1552, __c97, 0) as any as S.Schema<CreateSnapshotMessage>,
+  output: __S(1553, __c97, 1) as any as S.Schema<CreateSnapshotResult>,
   errors: [
     CacheClusterNotFoundFault,
     InvalidCacheClusterStateFault,
@@ -5093,8 +3129,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateUserMessage,
-  output: User,
+  input: __S(1568, __c98, 0) as any as S.Schema<CreateUserMessage>,
+  output: __S(1585, __c99, 1) as any as S.Schema<User>,
   errors: [
     DuplicateUserNameFault,
     InvalidParameterCombinationException,
@@ -5129,8 +3165,8 @@ export const createUserGroup: API.OperationMethod<
   CreateUserGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateUserGroupMessage,
-  output: UserGroup,
+  input: __S(1616, __c101, 0) as any as S.Schema<CreateUserGroupMessage>,
+  output: __S(1636, __c102, 4) as any as S.Schema<UserGroup>,
   errors: [
     DefaultUserRequired,
     DuplicateUserNameFault,
@@ -5161,8 +3197,8 @@ export const decreaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
   DecreaseNodeGroupsInGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DecreaseNodeGroupsInGlobalReplicationGroupMessage,
-  output: DecreaseNodeGroupsInGlobalReplicationGroupResult,
+  input: __S(1665, __c104, 1) as any as S.Schema<DecreaseNodeGroupsInGlobalReplicationGroupMessage>,
+  output: __S(1666, __c104, 2) as any as S.Schema<DecreaseNodeGroupsInGlobalReplicationGroupResult>,
   errors: [
     GlobalReplicationGroupNotFoundFault,
     InvalidGlobalReplicationGroupStateFault,
@@ -5200,8 +3236,8 @@ export const decreaseReplicaCount: API.OperationMethod<
   DecreaseReplicaCountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DecreaseReplicaCountMessage,
-  output: DecreaseReplicaCountResult,
+  input: __S(1681, __c105, 1) as any as S.Schema<DecreaseReplicaCountMessage>,
+  output: __S(1682, __c105, 2) as any as S.Schema<DecreaseReplicaCountResult>,
   errors: [
     ClusterQuotaForCustomerExceededFault,
     InsufficientCacheClusterCapacityFault,
@@ -5258,8 +3294,8 @@ export const deleteCacheCluster: API.OperationMethod<
   DeleteCacheClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCacheClusterMessage,
-  output: DeleteCacheClusterResult,
+  input: __S(1712, __c107, 0) as any as S.Schema<DeleteCacheClusterMessage>,
+  output: __S(1713, __c107, 1) as any as S.Schema<DeleteCacheClusterResult>,
   errors: [
     CacheClusterNotFoundFault,
     InvalidCacheClusterStateFault,
@@ -5291,8 +3327,8 @@ export const deleteCacheParameterGroup: API.OperationMethod<
   DeleteCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCacheParameterGroupMessage,
-  output: DeleteCacheParameterGroupResponse,
+  input: __S(1728, __c108, 0) as any as S.Schema<DeleteCacheParameterGroupMessage>,
+  output: __S(1729, __c108, 1) as any as S.Schema<DeleteCacheParameterGroupResponse>,
   errors: [
     CacheParameterGroupNotFoundFault,
     InvalidCacheParameterGroupStateFault,
@@ -5322,8 +3358,8 @@ export const deleteCacheSecurityGroup: API.OperationMethod<
   DeleteCacheSecurityGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCacheSecurityGroupMessage,
-  output: DeleteCacheSecurityGroupResponse,
+  input: __S(1744, __c109, 0) as any as S.Schema<DeleteCacheSecurityGroupMessage>,
+  output: __S(1745, __c109, 1) as any as S.Schema<DeleteCacheSecurityGroupResponse>,
   errors: [
     CacheSecurityGroupNotFoundFault,
     InvalidCacheSecurityGroupStateFault,
@@ -5351,8 +3387,8 @@ export const deleteCacheSubnetGroup: API.OperationMethod<
   DeleteCacheSubnetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCacheSubnetGroupMessage,
-  output: DeleteCacheSubnetGroupResponse,
+  input: __S(1760, __c110, 0) as any as S.Schema<DeleteCacheSubnetGroupMessage>,
+  output: __S(1761, __c110, 1) as any as S.Schema<DeleteCacheSubnetGroupResponse>,
   errors: [CacheSubnetGroupInUse, CacheSubnetGroupNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5391,8 +3427,8 @@ export const deleteGlobalReplicationGroup: API.OperationMethod<
   DeleteGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGlobalReplicationGroupMessage,
-  output: DeleteGlobalReplicationGroupResult,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteGlobalReplicationGroupMessage>,
+  output: __S(1, __c0, 1) as any as S.Schema<DeleteGlobalReplicationGroupResult>,
   errors: [
     GlobalReplicationGroupNotFoundFault,
     InvalidGlobalReplicationGroupStateFault,
@@ -5434,8 +3470,8 @@ export const deleteReplicationGroup: API.OperationMethod<
   DeleteReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReplicationGroupMessage,
-  output: DeleteReplicationGroupResult,
+  input: __S(16, __c1, 0) as any as S.Schema<DeleteReplicationGroupMessage>,
+  output: __S(17, __c1, 1) as any as S.Schema<DeleteReplicationGroupResult>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -5471,8 +3507,8 @@ export const deleteServerlessCache: API.OperationMethod<
   DeleteServerlessCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteServerlessCacheRequest,
-  output: DeleteServerlessCacheResponse,
+  input: __S(32, __c2, 0) as any as S.Schema<DeleteServerlessCacheRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<DeleteServerlessCacheResponse>,
   errors: [
     InvalidCredentialsException,
     InvalidParameterCombinationException,
@@ -5502,8 +3538,8 @@ export const deleteServerlessCacheSnapshot: API.OperationMethod<
   DeleteServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteServerlessCacheSnapshotRequest,
-  output: DeleteServerlessCacheSnapshotResponse,
+  input: __S(48, __c3, 0) as any as S.Schema<DeleteServerlessCacheSnapshotRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<DeleteServerlessCacheSnapshotResponse>,
   errors: [
     InvalidParameterValueException,
     InvalidServerlessCacheSnapshotStateFault,
@@ -5534,8 +3570,8 @@ export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSnapshotMessage,
-  output: DeleteSnapshotResult,
+  input: __S(64, __c4, 0) as any as S.Schema<DeleteSnapshotMessage>,
+  output: __S(65, __c4, 1) as any as S.Schema<DeleteSnapshotResult>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -5565,8 +3601,8 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteUserMessage,
-  output: User,
+  input: __S(80, __c5, 0) as any as S.Schema<DeleteUserMessage>,
+  output: __S(1585, __c99, 1) as any as S.Schema<User>,
   errors: [
     DefaultUserAssociatedToUserGroupFault,
     InvalidParameterValueException,
@@ -5596,8 +3632,8 @@ export const deleteUserGroup: API.OperationMethod<
   DeleteUserGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteUserGroupMessage,
-  output: UserGroup,
+  input: __S(96, __c6, 0) as any as S.Schema<DeleteUserGroupMessage>,
+  output: __S(1636, __c102, 4) as any as S.Schema<UserGroup>,
   errors: [
     InvalidParameterValueException,
     InvalidUserGroupStateFault,
@@ -5644,8 +3680,8 @@ export const describeCacheClusters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CacheCluster
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeCacheClustersMessage,
-  output: CacheClusterMessage,
+  input: __S(112, __c7, 0) as any as S.Schema<DescribeCacheClustersMessage>,
+  output: __S(114, __c7, 2) as any as S.Schema<CacheClusterMessage>,
   errors: [
     CacheClusterNotFoundFault,
     InvalidParameterCombinationException,
@@ -5673,8 +3709,8 @@ export const describeCacheEngineVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CacheEngineVersion
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeCacheEngineVersionsMessage,
-  output: CacheEngineVersionMessage,
+  input: __S(128, __c8, 0) as any as S.Schema<DescribeCacheEngineVersionsMessage>,
+  output: __S(131, __c8, 3) as any as S.Schema<CacheEngineVersionMessage>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5703,8 +3739,8 @@ export const describeCacheParameterGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CacheParameterGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeCacheParameterGroupsMessage,
-  output: CacheParameterGroupsMessage,
+  input: __S(144, __c9, 0) as any as S.Schema<DescribeCacheParameterGroupsMessage>,
+  output: __S(146, __c9, 2) as any as S.Schema<CacheParameterGroupsMessage>,
   errors: [
     CacheParameterGroupNotFoundFault,
     InvalidParameterCombinationException,
@@ -5736,8 +3772,8 @@ export const describeCacheParameters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Parameter
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeCacheParametersMessage,
-  output: CacheParameterGroupDetails,
+  input: __S(160, __c10, 0) as any as S.Schema<DescribeCacheParametersMessage>,
+  output: __S(161, __c10, 1) as any as S.Schema<CacheParameterGroupDetails>,
   errors: [
     CacheParameterGroupNotFoundFault,
     InvalidParameterCombinationException,
@@ -5771,8 +3807,8 @@ export const describeCacheSecurityGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CacheSecurityGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeCacheSecurityGroupsMessage,
-  output: CacheSecurityGroupMessage,
+  input: __S(192, __c12, 0) as any as S.Schema<DescribeCacheSecurityGroupsMessage>,
+  output: __S(194, __c12, 2) as any as S.Schema<CacheSecurityGroupMessage>,
   errors: [
     CacheSecurityGroupNotFoundFault,
     InvalidParameterCombinationException,
@@ -5803,8 +3839,8 @@ export const describeCacheSubnetGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CacheSubnetGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeCacheSubnetGroupsMessage,
-  output: CacheSubnetGroupMessage,
+  input: __S(208, __c13, 0) as any as S.Schema<DescribeCacheSubnetGroupsMessage>,
+  output: __S(210, __c13, 2) as any as S.Schema<CacheSubnetGroupMessage>,
   errors: [CacheSubnetGroupNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5832,8 +3868,8 @@ export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEngineDefaultParametersMessage,
-  output: DescribeEngineDefaultParametersResult,
+  input: __S(224, __c14, 0) as any as S.Schema<DescribeEngineDefaultParametersMessage>,
+  output: __S(226, __c14, 2) as any as S.Schema<DescribeEngineDefaultParametersResult>,
   errors: [InvalidParameterCombinationException, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5865,8 +3901,8 @@ export const describeEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Event
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEventsMessage,
-  output: EventsMessage,
+  input: __S(240, __c15, 0) as any as S.Schema<DescribeEventsMessage>,
+  output: __S(243, __c15, 3) as any as S.Schema<EventsMessage>,
   errors: [InvalidParameterCombinationException, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5895,8 +3931,8 @@ export const describeGlobalReplicationGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GlobalReplicationGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeGlobalReplicationGroupsMessage,
-  output: DescribeGlobalReplicationGroupsResult,
+  input: __S(256, __c16, 0) as any as S.Schema<DescribeGlobalReplicationGroupsMessage>,
+  output: __S(258, __c16, 2) as any as S.Schema<DescribeGlobalReplicationGroupsResult>,
   errors: [
     GlobalReplicationGroupNotFoundFault,
     InvalidParameterCombinationException,
@@ -5932,8 +3968,8 @@ export const describeReplicationGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ReplicationGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReplicationGroupsMessage,
-  output: ReplicationGroupMessage,
+  input: __S(272, __c17, 0) as any as S.Schema<DescribeReplicationGroupsMessage>,
+  output: __S(274, __c17, 2) as any as S.Schema<ReplicationGroupMessage>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -5966,8 +4002,8 @@ export const describeReservedCacheNodes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ReservedCacheNode
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReservedCacheNodesMessage,
-  output: ReservedCacheNodeMessage,
+  input: __S(288, __c18, 0) as any as S.Schema<DescribeReservedCacheNodesMessage>,
+  output: __S(290, __c18, 2) as any as S.Schema<ReservedCacheNodeMessage>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -5999,8 +4035,8 @@ export const describeReservedCacheNodesOfferings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ReservedCacheNodesOffering
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReservedCacheNodesOfferingsMessage,
-  output: ReservedCacheNodesOfferingMessage,
+  input: __S(336, __c21, 0) as any as S.Schema<DescribeReservedCacheNodesOfferingsMessage>,
+  output: __S(339, __c21, 3) as any as S.Schema<ReservedCacheNodesOfferingMessage>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -6034,8 +4070,8 @@ export const describeServerlessCaches: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServerlessCache
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeServerlessCachesRequest,
-  output: DescribeServerlessCachesResponse,
+  input: __S(352, __c22, 0) as any as S.Schema<DescribeServerlessCachesRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<DescribeServerlessCachesResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -6060,7 +4096,7 @@ export type DescribeServerlessCacheSnapshotsError =
   | CommonErrors;
 /**
  * Returns information about serverless cache snapshots.
- * By default, this API lists all of the customer’s serverless cache snapshots.
+ * By default, this API lists all of the customer's serverless cache snapshots.
  * It can also describe a single serverless cache snapshot, or the snapshots associated with
  * a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
  */
@@ -6071,8 +4107,8 @@ export const describeServerlessCacheSnapshots: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServerlessCacheSnapshot
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeServerlessCacheSnapshotsRequest,
-  output: DescribeServerlessCacheSnapshotsResponse,
+  input: __S(368, __c23, 0) as any as S.Schema<DescribeServerlessCacheSnapshotsRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<DescribeServerlessCacheSnapshotsResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -6105,8 +4141,8 @@ export const describeServiceUpdates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServiceUpdate
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeServiceUpdatesMessage,
-  output: ServiceUpdatesMessage,
+  input: __S(384, __c24, 0) as any as S.Schema<DescribeServiceUpdatesMessage>,
+  output: __S(387, __c24, 3) as any as S.Schema<ServiceUpdatesMessage>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -6144,8 +4180,8 @@ export const describeSnapshots: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Snapshot
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeSnapshotsMessage,
-  output: DescribeSnapshotsListMessage,
+  input: __S(416, __c26, 0) as any as S.Schema<DescribeSnapshotsMessage>,
+  output: __S(418, __c26, 2) as any as S.Schema<DescribeSnapshotsListMessage>,
   errors: [
     CacheClusterNotFoundFault,
     InvalidParameterCombinationException,
@@ -6177,8 +4213,8 @@ export const describeUpdateActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UpdateAction
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeUpdateActionsMessage,
-  output: UpdateActionsMessage,
+  input: __S(434, __c27, 2) as any as S.Schema<DescribeUpdateActionsMessage>,
+  output: __S(443, __c27, 11) as any as S.Schema<UpdateActionsMessage>,
   errors: [InvalidParameterCombinationException, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6206,8 +4242,8 @@ export const describeUserGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UserGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeUserGroupsMessage,
-  output: DescribeUserGroupsResult,
+  input: __S(448, __c28, 0) as any as S.Schema<DescribeUserGroupsMessage>,
+  output: __S(450, __c28, 2) as any as S.Schema<DescribeUserGroupsResult>,
   errors: [
     InvalidParameterCombinationException,
     ServiceLinkedRoleNotFoundFault,
@@ -6239,8 +4275,8 @@ export const describeUsers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   User
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeUsersMessage,
-  output: DescribeUsersResult,
+  input: __S(467, __c29, 3) as any as S.Schema<DescribeUsersMessage>,
+  output: __S(469, __c29, 5) as any as S.Schema<DescribeUsersResult>,
   errors: [InvalidParameterCombinationException, ServiceLinkedRoleNotFoundFault, UserNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6270,8 +4306,8 @@ export const disassociateGlobalReplicationGroup: API.OperationMethod<
   DisassociateGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateGlobalReplicationGroupMessage,
-  output: DisassociateGlobalReplicationGroupResult,
+  input: __S(480, __c30, 0) as any as S.Schema<DisassociateGlobalReplicationGroupMessage>,
+  output: __S(481, __c30, 1) as any as S.Schema<DisassociateGlobalReplicationGroupResult>,
   errors: [
     GlobalReplicationGroupNotFoundFault,
     InvalidGlobalReplicationGroupStateFault,
@@ -6298,8 +4334,8 @@ export const exportServerlessCacheSnapshot: API.OperationMethod<
   ExportServerlessCacheSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExportServerlessCacheSnapshotRequest,
-  output: ExportServerlessCacheSnapshotResponse,
+  input: __S(496, __c31, 0) as any as S.Schema<ExportServerlessCacheSnapshotRequest>,
+  output: __S(497, __c31, 1) as any as S.Schema<ExportServerlessCacheSnapshotResponse>,
   errors: [
     InvalidParameterValueException,
     InvalidServerlessCacheSnapshotStateFault,
@@ -6327,8 +4363,8 @@ export const failoverGlobalReplicationGroup: API.OperationMethod<
   FailoverGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: FailoverGlobalReplicationGroupMessage,
-  output: FailoverGlobalReplicationGroupResult,
+  input: __S(512, __c32, 0) as any as S.Schema<FailoverGlobalReplicationGroupMessage>,
+  output: __S(513, __c32, 1) as any as S.Schema<FailoverGlobalReplicationGroupResult>,
   errors: [
     GlobalReplicationGroupNotFoundFault,
     InvalidGlobalReplicationGroupStateFault,
@@ -6354,8 +4390,8 @@ export const increaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
   IncreaseNodeGroupsInGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: IncreaseNodeGroupsInGlobalReplicationGroupMessage,
-  output: IncreaseNodeGroupsInGlobalReplicationGroupResult,
+  input: __S(530, __c33, 2) as any as S.Schema<IncreaseNodeGroupsInGlobalReplicationGroupMessage>,
+  output: __S(531, __c33, 3) as any as S.Schema<IncreaseNodeGroupsInGlobalReplicationGroupResult>,
   errors: [
     GlobalReplicationGroupNotFoundFault,
     InvalidGlobalReplicationGroupStateFault,
@@ -6392,8 +4428,8 @@ export const increaseReplicaCount: API.OperationMethod<
   IncreaseReplicaCountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: IncreaseReplicaCountMessage,
-  output: IncreaseReplicaCountResult,
+  input: __S(560, __c35, 0) as any as S.Schema<IncreaseReplicaCountMessage>,
+  output: __S(561, __c35, 1) as any as S.Schema<IncreaseReplicaCountResult>,
   errors: [
     ClusterQuotaForCustomerExceededFault,
     InsufficientCacheClusterCapacityFault,
@@ -6434,8 +4470,8 @@ export const listAllowedNodeTypeModifications: API.OperationMethod<
   ListAllowedNodeTypeModificationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAllowedNodeTypeModificationsMessage,
-  output: AllowedNodeTypeModificationsMessage,
+  input: __S(576, __c36, 0) as any as S.Schema<ListAllowedNodeTypeModificationsMessage>,
+  output: __S(578, __c36, 2) as any as S.Schema<AllowedNodeTypeModificationsMessage>,
   errors: [
     CacheClusterNotFoundFault,
     InvalidParameterCombinationException,
@@ -6484,8 +4520,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceMessage,
-  output: TagListMessage,
+  input: __S(592, __c37, 0) as any as S.Schema<ListTagsForResourceMessage>,
+  output: __S(944, __c59, 0) as any as S.Schema<TagListMessage>,
   errors: [
     CacheClusterNotFoundFault,
     CacheParameterGroupNotFoundFault,
@@ -6533,8 +4569,8 @@ export const modifyCacheCluster: API.OperationMethod<
   ModifyCacheClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyCacheClusterMessage,
-  output: ModifyCacheClusterResult,
+  input: __S(608, __c38, 0) as any as S.Schema<ModifyCacheClusterMessage>,
+  output: __S(609, __c38, 1) as any as S.Schema<ModifyCacheClusterResult>,
   errors: [
     CacheClusterNotFoundFault,
     CacheParameterGroupNotFoundFault,
@@ -6570,8 +4606,8 @@ export const modifyCacheParameterGroup: API.OperationMethod<
   ModifyCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyCacheParameterGroupMessage,
-  output: CacheParameterGroupNameMessage,
+  input: __S(624, __c39, 0) as any as S.Schema<ModifyCacheParameterGroupMessage>,
+  output: __S(642, __c40, 2) as any as S.Schema<CacheParameterGroupNameMessage>,
   errors: [
     CacheParameterGroupNotFoundFault,
     InvalidCacheParameterGroupStateFault,
@@ -6600,8 +4636,8 @@ export const modifyCacheSubnetGroup: API.OperationMethod<
   ModifyCacheSubnetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyCacheSubnetGroupMessage,
-  output: ModifyCacheSubnetGroupResult,
+  input: __S(656, __c41, 0) as any as S.Schema<ModifyCacheSubnetGroupMessage>,
+  output: __S(657, __c41, 1) as any as S.Schema<ModifyCacheSubnetGroupResult>,
   errors: [
     CacheSubnetGroupNotFoundFault,
     CacheSubnetQuotaExceededFault,
@@ -6628,8 +4664,8 @@ export const modifyGlobalReplicationGroup: API.OperationMethod<
   ModifyGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyGlobalReplicationGroupMessage,
-  output: ModifyGlobalReplicationGroupResult,
+  input: __S(672, __c42, 0) as any as S.Schema<ModifyGlobalReplicationGroupMessage>,
+  output: __S(673, __c42, 1) as any as S.Schema<ModifyGlobalReplicationGroupResult>,
   errors: [
     GlobalReplicationGroupNotFoundFault,
     InvalidGlobalReplicationGroupStateFault,
@@ -6675,8 +4711,8 @@ export const modifyReplicationGroup: API.OperationMethod<
   ModifyReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyReplicationGroupMessage,
-  output: ModifyReplicationGroupResult,
+  input: __S(688, __c43, 0) as any as S.Schema<ModifyReplicationGroupMessage>,
+  output: __S(689, __c43, 1) as any as S.Schema<ModifyReplicationGroupResult>,
   errors: [
     CacheClusterNotFoundFault,
     CacheParameterGroupNotFoundFault,
@@ -6722,8 +4758,8 @@ export const modifyReplicationGroupShardConfiguration: API.OperationMethod<
   ModifyReplicationGroupShardConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyReplicationGroupShardConfigurationMessage,
-  output: ModifyReplicationGroupShardConfigurationResult,
+  input: __S(706, __c44, 2) as any as S.Schema<ModifyReplicationGroupShardConfigurationMessage>,
+  output: __S(707, __c44, 3) as any as S.Schema<ModifyReplicationGroupShardConfigurationResult>,
   errors: [
     InsufficientCacheClusterCapacityFault,
     InvalidCacheClusterStateFault,
@@ -6760,8 +4796,8 @@ export const modifyServerlessCache: API.OperationMethod<
   ModifyServerlessCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyServerlessCacheRequest,
-  output: ModifyServerlessCacheResponse,
+  input: __S(720, __c45, 0) as any as S.Schema<ModifyServerlessCacheRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<ModifyServerlessCacheResponse>,
   errors: [
     InvalidCredentialsException,
     InvalidParameterCombinationException,
@@ -6793,8 +4829,8 @@ export const modifyUser: API.OperationMethod<
   ModifyUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyUserMessage,
-  output: User,
+  input: __S(736, __c46, 0) as any as S.Schema<ModifyUserMessage>,
+  output: __S(1585, __c99, 1) as any as S.Schema<User>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -6826,8 +4862,8 @@ export const modifyUserGroup: API.OperationMethod<
   ModifyUserGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ModifyUserGroupMessage,
-  output: UserGroup,
+  input: __S(752, __c47, 0) as any as S.Schema<ModifyUserGroupMessage>,
+  output: __S(1636, __c102, 4) as any as S.Schema<UserGroup>,
   errors: [
     DefaultUserRequired,
     DuplicateUserNameFault,
@@ -6861,8 +4897,8 @@ export const purchaseReservedCacheNodesOffering: API.OperationMethod<
   PurchaseReservedCacheNodesOfferingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PurchaseReservedCacheNodesOfferingMessage,
-  output: PurchaseReservedCacheNodesOfferingResult,
+  input: __S(768, __c48, 0) as any as S.Schema<PurchaseReservedCacheNodesOfferingMessage>,
+  output: __S(769, __c48, 1) as any as S.Schema<PurchaseReservedCacheNodesOfferingResult>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -6891,8 +4927,8 @@ export const rebalanceSlotsInGlobalReplicationGroup: API.OperationMethod<
   RebalanceSlotsInGlobalReplicationGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RebalanceSlotsInGlobalReplicationGroupMessage,
-  output: RebalanceSlotsInGlobalReplicationGroupResult,
+  input: __S(784, __c49, 0) as any as S.Schema<RebalanceSlotsInGlobalReplicationGroupMessage>,
+  output: __S(785, __c49, 1) as any as S.Schema<RebalanceSlotsInGlobalReplicationGroupResult>,
   errors: [
     GlobalReplicationGroupNotFoundFault,
     InvalidGlobalReplicationGroupStateFault,
@@ -6931,8 +4967,8 @@ export const rebootCacheCluster: API.OperationMethod<
   RebootCacheClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RebootCacheClusterMessage,
-  output: RebootCacheClusterResult,
+  input: __S(800, __c50, 0) as any as S.Schema<RebootCacheClusterMessage>,
+  output: __S(801, __c50, 1) as any as S.Schema<RebootCacheClusterResult>,
   errors: [CacheClusterNotFoundFault, InvalidCacheClusterStateFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6972,8 +5008,8 @@ export const removeTagsFromResource: API.OperationMethod<
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTagsFromResourceMessage,
-  output: TagListMessage,
+  input: __S(817, __c51, 1) as any as S.Schema<RemoveTagsFromResourceMessage>,
+  output: __S(944, __c59, 0) as any as S.Schema<TagListMessage>,
   errors: [
     CacheClusterNotFoundFault,
     CacheParameterGroupNotFoundFault,
@@ -7018,8 +5054,8 @@ export const resetCacheParameterGroup: API.OperationMethod<
   ResetCacheParameterGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResetCacheParameterGroupMessage,
-  output: CacheParameterGroupNameMessage,
+  input: __S(832, __c52, 0) as any as S.Schema<ResetCacheParameterGroupMessage>,
+  output: __S(642, __c40, 2) as any as S.Schema<CacheParameterGroupNameMessage>,
   errors: [
     CacheParameterGroupNotFoundFault,
     InvalidCacheParameterGroupStateFault,
@@ -7049,8 +5085,8 @@ export const revokeCacheSecurityGroupIngress: API.OperationMethod<
   RevokeCacheSecurityGroupIngressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeCacheSecurityGroupIngressMessage,
-  output: RevokeCacheSecurityGroupIngressResult,
+  input: __S(848, __c53, 0) as any as S.Schema<RevokeCacheSecurityGroupIngressMessage>,
+  output: __S(849, __c53, 1) as any as S.Schema<RevokeCacheSecurityGroupIngressResult>,
   errors: [
     AuthorizationNotFoundFault,
     CacheSecurityGroupNotFoundFault,
@@ -7078,8 +5114,8 @@ export const startMigration: API.OperationMethod<
   StartMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMigrationMessage,
-  output: StartMigrationResponse,
+  input: __S(864, __c54, 0) as any as S.Schema<StartMigrationMessage>,
+  output: __S(865, __c54, 1) as any as S.Schema<StartMigrationResponse>,
   errors: [
     InvalidParameterValueException,
     InvalidReplicationGroupStateFault,
@@ -7161,8 +5197,8 @@ export const testFailover: API.OperationMethod<
   TestFailoverError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TestFailoverMessage,
-  output: TestFailoverResult,
+  input: __S(896, __c56, 0) as any as S.Schema<TestFailoverMessage>,
+  output: __S(897, __c56, 1) as any as S.Schema<TestFailoverResult>,
   errors: [
     APICallRateForCustomerExceededFault,
     InvalidCacheClusterStateFault,
@@ -7194,8 +5230,8 @@ export const testMigration: API.OperationMethod<
   TestMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TestMigrationMessage,
-  output: TestMigrationResponse,
+  input: __S(912, __c57, 0) as any as S.Schema<TestMigrationMessage>,
+  output: __S(913, __c57, 1) as any as S.Schema<TestMigrationResponse>,
   errors: [
     InvalidParameterValueException,
     InvalidReplicationGroupStateFault,
@@ -7206,3 +5242,2613 @@ export const testMigration: API.OperationMethod<
   retry: Retry,
   operationName: "TestMigration",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          RetainPrimaryReplicationGroup: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteGlobalReplicationGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ GlobalReplicationGroup: S.optional(__S(1476, __c92, 4)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteGlobalReplicationGroupResult" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          RetainPrimaryCluster: S.optional(S.Boolean),
+          FinalSnapshotIdentifier: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteReplicationGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteReplicationGroupResult" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheName: S.optional(S.String),
+          FinalSnapshotName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteServerlessCacheRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ServerlessCache: S.optional(__S(1524, __c95, 4)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteServerlessCacheResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ServerlessCacheSnapshotName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteServerlessCacheSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ServerlessCacheSnapshot: S.optional(__S(1169, __c73, 1)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteServerlessCacheSnapshotResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SnapshotName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteSnapshotMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Snapshot: S.optional(__S(1234, __c77, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteSnapshotResult" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UserId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteUserMessage" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UserGroupId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteUserGroupMessage" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+          ShowCacheNodeInfo: S.optional(S.Boolean),
+          ShowCacheClustersNotInReplicationGroups: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeCacheClustersMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1355, __c84, 11)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheCluster"))
+          .annotate({ identifier: "CacheCluster" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          CacheClusters: S.optional(__S(113, __c7, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CacheClusterMessage" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          CacheParameterGroupFamily: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+          DefaultOnly: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeCacheEngineVersionsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          CacheParameterGroupFamily: S.optional(S.String),
+          CacheEngineDescription: S.optional(S.String),
+          CacheEngineVersionDescription: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CacheEngineVersion" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(129, __c8, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheEngineVersion"))
+          .annotate({ identifier: "CacheEngineVersion" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          CacheEngineVersions: S.optional(__S(130, __c8, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CacheEngineVersionMessage" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheParameterGroupName: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeCacheParameterGroupsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1376, __c86, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheParameterGroup"))
+          .annotate({ identifier: "CacheParameterGroup" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          CacheParameterGroups: S.optional(__S(145, __c9, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CacheParameterGroupsMessage" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheParameterGroupName: S.optional(S.String),
+          Source: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeCacheParametersMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          Parameters: S.optional(__S(177, __c11, 1)),
+          CacheNodeTypeSpecificParameters: S.optional(__S(181, __c11, 5)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CacheParameterGroupDetails" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ParameterName: S.optional(S.String),
+          ParameterValue: S.optional(S.String),
+          Description: S.optional(S.String),
+          Source: S.optional(S.String),
+          DataType: S.optional(S.String),
+          AllowedValues: S.optional(S.String),
+          IsModifiable: S.optional(S.Boolean),
+          MinimumEngineVersion: S.optional(S.String),
+          ChangeType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Parameter" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(176, __c11, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("Parameter"))
+          .annotate({ identifier: "Parameter" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ CacheNodeType: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "CacheNodeTypeSpecificValue" });
+    case 3:
+      return S.Array(
+        /*@__PURE__*/ __S(178, __c11, 2)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheNodeTypeSpecificValue"))
+          .annotate({ identifier: "CacheNodeTypeSpecificValue" }),
+      );
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ParameterName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Source: S.optional(S.String),
+          DataType: S.optional(S.String),
+          AllowedValues: S.optional(S.String),
+          IsModifiable: S.optional(S.Boolean),
+          MinimumEngineVersion: S.optional(S.String),
+          CacheNodeTypeSpecificValues: S.optional(__S(179, __c11, 3)),
+          ChangeType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CacheNodeTypeSpecificParameter" });
+    case 5:
+      return S.Array(
+        /*@__PURE__*/ __S(180, __c11, 4)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheNodeTypeSpecificParameter"))
+          .annotate({ identifier: "CacheNodeTypeSpecificParameter" }),
+      );
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheSecurityGroupName: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeCacheSecurityGroupsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1010, __c63, 2)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheSecurityGroup"))
+          .annotate({ identifier: "CacheSecurityGroup" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          CacheSecurityGroups: S.optional(__S(193, __c12, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CacheSecurityGroupMessage" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheSubnetGroupName: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeCacheSubnetGroupsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1429, __c89, 5)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheSubnetGroup"))
+          .annotate({ identifier: "CacheSubnetGroup" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          CacheSubnetGroups: S.optional(__S(209, __c13, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CacheSubnetGroupMessage" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheParameterGroupFamily: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEngineDefaultParametersMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CacheParameterGroupFamily: S.optional(S.String),
+          Marker: S.optional(S.String),
+          Parameters: S.optional(__S(177, __c11, 1)),
+          CacheNodeTypeSpecificParameters: S.optional(__S(181, __c11, 5)),
+        }),
+      ).annotate({ identifier: "EngineDefaults" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ EngineDefaults: S.optional(__S(225, __c14, 1)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeEngineDefaultParametersResult" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceIdentifier: S.optional(S.String),
+          SourceType: S.optional(S.String),
+          StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Duration: S.optional(S.Number),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEventsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SourceIdentifier: S.optional(S.String),
+          SourceType: S.optional(S.String),
+          Message: S.optional(S.String),
+          Date: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "Event" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(241, __c15, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("Event"))
+          .annotate({ identifier: "Event" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Marker: S.optional(S.String), Events: S.optional(__S(242, __c15, 2)) }).pipe(ns),
+      ).annotate({ identifier: "EventsMessage" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+          ShowMemberInfo: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeGlobalReplicationGroupsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1476, __c92, 4)
+          .pipe(/*@__PURE__*/ T.XmlName("GlobalReplicationGroup"))
+          .annotate({ identifier: "GlobalReplicationGroup" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          GlobalReplicationGroups: S.optional(__S(257, __c16, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeGlobalReplicationGroupsResult" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReplicationGroupsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1147, __c71, 11)
+          .pipe(/*@__PURE__*/ T.XmlName("ReplicationGroup"))
+          .annotate({ identifier: "ReplicationGroup" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ReplicationGroups: S.optional(__S(273, __c17, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ReplicationGroupMessage" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedCacheNodeId: S.optional(S.String),
+          ReservedCacheNodesOfferingId: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          Duration: S.optional(S.String),
+          ProductDescription: S.optional(S.String),
+          OfferingType: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReservedCacheNodesMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(320, __c20, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("ReservedCacheNode"))
+          .annotate({ identifier: "ReservedCacheNode" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ReservedCacheNodes: S.optional(__S(289, __c18, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ReservedCacheNodeMessage" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RecurringChargeAmount: S.optional(S.Number),
+          RecurringChargeFrequency: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecurringCharge" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(304, __c19, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("RecurringCharge"))
+          .annotate({ identifier: "RecurringCharge" }),
+      );
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedCacheNodeId: S.optional(S.String),
+          ReservedCacheNodesOfferingId: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Duration: S.optional(S.Number),
+          FixedPrice: S.optional(S.Number),
+          UsagePrice: S.optional(S.Number),
+          CacheNodeCount: S.optional(S.Number),
+          ProductDescription: S.optional(S.String),
+          OfferingType: S.optional(S.String),
+          State: S.optional(S.String),
+          RecurringCharges: S.optional(__S(305, __c19, 1)),
+          ReservationARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReservedCacheNode" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedCacheNodesOfferingId: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          Duration: S.optional(S.String),
+          ProductDescription: S.optional(S.String),
+          OfferingType: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReservedCacheNodesOfferingsMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedCacheNodesOfferingId: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          Duration: S.optional(S.Number),
+          FixedPrice: S.optional(S.Number),
+          UsagePrice: S.optional(S.Number),
+          ProductDescription: S.optional(S.String),
+          OfferingType: S.optional(S.String),
+          RecurringCharges: S.optional(__S(305, __c19, 1)),
+        }),
+      ).annotate({ identifier: "ReservedCacheNodesOffering" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(337, __c21, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("ReservedCacheNodesOffering"))
+          .annotate({ identifier: "ReservedCacheNodesOffering" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ReservedCacheNodesOfferings: S.optional(__S(338, __c21, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ReservedCacheNodesOfferingMessage" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheName: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeServerlessCachesRequest" });
+    case 1:
+      return S.Array(__S(1524, __c95, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ServerlessCaches: S.optional(__S(353, __c22, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeServerlessCachesResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheName: S.optional(S.String),
+          ServerlessCacheSnapshotName: S.optional(S.String),
+          SnapshotType: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeServerlessCacheSnapshotsRequest" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1169, __c73, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("ServerlessCacheSnapshot"))
+          .annotate({ identifier: "ServerlessCacheSnapshot" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ServerlessCacheSnapshots: S.optional(__S(369, __c23, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeServerlessCacheSnapshotsResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServiceUpdateName: S.optional(S.String),
+          ServiceUpdateStatus: S.optional(__S(400, __c25, 0)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeServiceUpdatesMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ServiceUpdateName: S.optional(S.String),
+          ServiceUpdateReleaseDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          ServiceUpdateEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          ServiceUpdateSeverity: S.optional(S.String),
+          ServiceUpdateRecommendedApplyByDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          ServiceUpdateStatus: S.optional(S.String),
+          ServiceUpdateDescription: S.optional(S.String),
+          ServiceUpdateType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          AutoUpdateAfterRecommendedApplyByDate: S.optional(S.Boolean),
+          EstimatedUpdateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServiceUpdate" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(385, __c24, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("ServiceUpdate"))
+          .annotate({ identifier: "ServiceUpdate" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          ServiceUpdates: S.optional(__S(386, __c24, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ServiceUpdatesMessage" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          CacheClusterId: S.optional(S.String),
+          SnapshotName: S.optional(S.String),
+          SnapshotSource: S.optional(S.String),
+          Marker: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          ShowNodeGroupConfig: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeSnapshotsMessage" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1234, __c77, 2)
+          .pipe(/*@__PURE__*/ T.XmlName("Snapshot"))
+          .annotate({ identifier: "Snapshot" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Marker: S.optional(S.String), Snapshots: S.optional(__S(417, __c26, 1)) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeSnapshotsListMessage" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "TimeRangeFilter" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ServiceUpdateName: S.optional(S.String),
+          ReplicationGroupIds: S.optional(__S(1056, __c66, 0)),
+          CacheClusterIds: S.optional(__S(1057, __c66, 1)),
+          Engine: S.optional(S.String),
+          ServiceUpdateStatus: S.optional(__S(400, __c25, 0)),
+          ServiceUpdateTimeRange: S.optional(__S(432, __c27, 0)),
+          UpdateActionStatus: S.optional(__S(433, __c27, 1)),
+          ShowNodeLevelUpdateStatus: S.optional(S.Boolean),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeUpdateActionsMessage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          CacheNodeId: S.optional(S.String),
+          NodeUpdateStatus: S.optional(S.String),
+          NodeDeletionDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          NodeUpdateStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          NodeUpdateEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          NodeUpdateInitiatedBy: S.optional(S.String),
+          NodeUpdateInitiatedDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          NodeUpdateStatusModifiedDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+        }),
+      ).annotate({ identifier: "NodeGroupMemberUpdateStatus" });
+    case 4:
+      return S.Array(
+        /*@__PURE__*/ __S(435, __c27, 3)
+          .pipe(/*@__PURE__*/ T.XmlName("NodeGroupMemberUpdateStatus"))
+          .annotate({ identifier: "NodeGroupMemberUpdateStatus" }),
+      );
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          NodeGroupId: S.optional(S.String),
+          NodeGroupMemberUpdateStatus: S.optional(__S(436, __c27, 4)),
+        }),
+      ).annotate({ identifier: "NodeGroupUpdateStatus" });
+    case 6:
+      return S.Array(
+        /*@__PURE__*/ __S(437, __c27, 5)
+          .pipe(/*@__PURE__*/ T.XmlName("NodeGroupUpdateStatus"))
+          .annotate({ identifier: "NodeGroupUpdateStatus" }),
+      );
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          CacheNodeId: S.optional(S.String),
+          NodeUpdateStatus: S.optional(S.String),
+          NodeDeletionDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          NodeUpdateStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          NodeUpdateEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          NodeUpdateInitiatedBy: S.optional(S.String),
+          NodeUpdateInitiatedDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          NodeUpdateStatusModifiedDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+        }),
+      ).annotate({ identifier: "CacheNodeUpdateStatus" });
+    case 8:
+      return S.Array(
+        /*@__PURE__*/ __S(439, __c27, 7)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheNodeUpdateStatus"))
+          .annotate({ identifier: "CacheNodeUpdateStatus" }),
+      );
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          CacheClusterId: S.optional(S.String),
+          ServiceUpdateName: S.optional(S.String),
+          ServiceUpdateReleaseDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          ServiceUpdateSeverity: S.optional(S.String),
+          ServiceUpdateStatus: S.optional(S.String),
+          ServiceUpdateRecommendedApplyByDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          ServiceUpdateType: S.optional(S.String),
+          UpdateActionAvailableDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          UpdateActionStatus: S.optional(S.String),
+          NodesUpdated: S.optional(S.String),
+          UpdateActionStatusModifiedDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          SlaMet: S.optional(S.String),
+          NodeGroupUpdateStatus: S.optional(__S(438, __c27, 6)),
+          CacheNodeUpdateStatus: S.optional(__S(440, __c27, 8)),
+          EstimatedUpdateTime: S.optional(S.String),
+          Engine: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateAction" });
+    case 10:
+      return S.Array(
+        /*@__PURE__*/ __S(441, __c27, 9)
+          .pipe(/*@__PURE__*/ T.XmlName("UpdateAction"))
+          .annotate({ identifier: "UpdateAction" }),
+      );
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          Marker: S.optional(S.String),
+          UpdateActions: S.optional(__S(442, __c27, 10)),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpdateActionsMessage" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserGroupId: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeUserGroupsMessage" });
+    case 1:
+      return S.Array(__S(1636, __c102, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ UserGroups: S.optional(__S(449, __c28, 1)), Marker: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeUserGroupsResult" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(464, __c29, 0)) }),
+      ).annotate({ identifier: "Filter" });
+    case 2:
+      return S.Array(__S(465, __c29, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Engine: S.optional(S.String),
+          UserId: S.optional(S.String),
+          Filters: S.optional(__S(466, __c29, 2)),
+          MaxRecords: S.optional(S.Number),
+          Marker: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeUsersMessage" });
+    case 4:
+      return S.Array(__S(1585, __c99, 1));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ Users: S.optional(__S(468, __c29, 4)), Marker: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "DescribeUsersResult" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          ReplicationGroupId: S.optional(S.String),
+          ReplicationGroupRegion: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DisassociateGlobalReplicationGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ GlobalReplicationGroup: S.optional(__S(1476, __c92, 4)) }).pipe(ns),
+      ).annotate({ identifier: "DisassociateGlobalReplicationGroupResult" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheSnapshotName: S.optional(S.String),
+          S3BucketName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ExportServerlessCacheSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ServerlessCacheSnapshot: S.optional(__S(1169, __c73, 1)) }).pipe(ns),
+      ).annotate({ identifier: "ExportServerlessCacheSnapshotResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          PrimaryRegion: S.optional(S.String),
+          PrimaryReplicationGroupId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "FailoverGlobalReplicationGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ GlobalReplicationGroup: S.optional(__S(1476, __c92, 4)) }).pipe(ns),
+      ).annotate({ identifier: "FailoverGlobalReplicationGroupResult" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          ReplicationGroupRegion: S.optional(S.String),
+          ReshardingConfiguration: S.optional(__S(545, __c34, 1)),
+        }),
+      ).annotate({ identifier: "RegionalConfiguration" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(528, __c33, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("RegionalConfiguration"))
+          .annotate({ identifier: "RegionalConfiguration" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          NodeGroupCount: S.optional(S.Number),
+          RegionalConfigurations: S.optional(__S(529, __c33, 1)),
+          ApplyImmediately: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "IncreaseNodeGroupsInGlobalReplicationGroupMessage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ GlobalReplicationGroup: S.optional(__S(1476, __c92, 4)) }).pipe(ns),
+      ).annotate({ identifier: "IncreaseNodeGroupsInGlobalReplicationGroupResult" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NodeGroupId: S.optional(S.String),
+          PreferredAvailabilityZones: S.optional(__S(1216, __c76, 0)),
+        }),
+      ).annotate({ identifier: "ReshardingConfiguration" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(544, __c34, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("ReshardingConfiguration"))
+          .annotate({ identifier: "ReshardingConfiguration" }),
+      );
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          NewReplicaCount: S.optional(S.Number),
+          ReplicaConfiguration: S.optional(__S(1697, __c106, 1)),
+          ApplyImmediately: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "IncreaseReplicaCountMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "IncreaseReplicaCountResult" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          ReplicationGroupId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAllowedNodeTypeModificationsMessage" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ScaleUpModifications: S.optional(__S(577, __c36, 1)),
+          ScaleDownModifications: S.optional(__S(577, __c36, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "AllowedNodeTypeModificationsMessage" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceMessage" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          NumCacheNodes: S.optional(S.Number),
+          CacheNodeIdsToRemove: S.optional(__S(1344, __c84, 0)),
+          AZMode: S.optional(S.String),
+          NewAvailabilityZones: S.optional(__S(1328, __c83, 0)),
+          CacheSecurityGroupNames: S.optional(__S(1264, __c79, 0)),
+          SecurityGroupIds: S.optional(__S(1296, __c81, 0)),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          NotificationTopicArn: S.optional(S.String),
+          CacheParameterGroupName: S.optional(S.String),
+          NotificationTopicStatus: S.optional(S.String),
+          ApplyImmediately: S.optional(S.Boolean),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          SnapshotWindow: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          AuthToken: S.optional(SensitiveString),
+          AuthTokenUpdateStrategy: S.optional(S.String),
+          LogDeliveryConfigurations: S.optional(__S(1266, __c79, 2)),
+          IpDiscovery: S.optional(S.String),
+          ScaleConfig: S.optional(__S(1345, __c84, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyCacheClusterMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheCluster: S.optional(__S(1355, __c84, 11)) }).pipe(ns),
+      ).annotate({ identifier: "ModifyCacheClusterResult" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheParameterGroupName: S.optional(S.String),
+          ParameterNameValues: S.optional(__S(641, __c40, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyCacheParameterGroupMessage" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ParameterName: S.optional(S.String), ParameterValue: S.optional(S.String) }),
+      ).annotate({ identifier: "ParameterNameValue" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(640, __c40, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("ParameterNameValue"))
+          .annotate({ identifier: "ParameterNameValue" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ CacheParameterGroupName: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "CacheParameterGroupNameMessage" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheSubnetGroupName: S.optional(S.String),
+          CacheSubnetGroupDescription: S.optional(S.String),
+          SubnetIds: S.optional(__S(1440, __c90, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyCacheSubnetGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheSubnetGroup: S.optional(__S(1429, __c89, 5)) }).pipe(ns),
+      ).annotate({ identifier: "ModifyCacheSubnetGroupResult" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          ApplyImmediately: S.optional(S.Boolean),
+          CacheNodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          CacheParameterGroupName: S.optional(S.String),
+          GlobalReplicationGroupDescription: S.optional(S.String),
+          AutomaticFailoverEnabled: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyGlobalReplicationGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ GlobalReplicationGroup: S.optional(__S(1476, __c92, 4)) }).pipe(ns),
+      ).annotate({ identifier: "ModifyGlobalReplicationGroupResult" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          ReplicationGroupDescription: S.optional(S.String),
+          PrimaryClusterId: S.optional(S.String),
+          SnapshottingClusterId: S.optional(S.String),
+          AutomaticFailoverEnabled: S.optional(S.Boolean),
+          MultiAZEnabled: S.optional(S.Boolean),
+          NodeGroupId: S.optional(S.String),
+          CacheSecurityGroupNames: S.optional(__S(1264, __c79, 0)),
+          SecurityGroupIds: S.optional(__S(1296, __c81, 0)),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          NotificationTopicArn: S.optional(S.String),
+          CacheParameterGroupName: S.optional(S.String),
+          NotificationTopicStatus: S.optional(S.String),
+          ApplyImmediately: S.optional(S.Boolean),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          SnapshotWindow: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          AuthToken: S.optional(SensitiveString),
+          AuthTokenUpdateStrategy: S.optional(S.String),
+          UserGroupIdsToAdd: S.optional(__S(1120, __c70, 0)),
+          UserGroupIdsToRemove: S.optional(__S(1120, __c70, 0)),
+          RemoveUserGroups: S.optional(S.Boolean),
+          LogDeliveryConfigurations: S.optional(__S(1266, __c79, 2)),
+          IpDiscovery: S.optional(S.String),
+          TransitEncryptionEnabled: S.optional(S.Boolean),
+          TransitEncryptionMode: S.optional(S.String),
+          ClusterMode: S.optional(S.String),
+          Durability: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyReplicationGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "ModifyReplicationGroupResult" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("NodeGroupToRemove")));
+    case 1:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("NodeGroupToRetain")));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          NodeGroupCount: S.optional(S.Number),
+          ApplyImmediately: S.optional(S.Boolean),
+          ReshardingConfiguration: S.optional(__S(545, __c34, 1)),
+          NodeGroupsToRemove: S.optional(__S(704, __c44, 0)),
+          NodeGroupsToRetain: S.optional(__S(705, __c44, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyReplicationGroupShardConfigurationMessage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "ModifyReplicationGroupShardConfigurationResult" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheName: S.optional(S.String),
+          Description: S.optional(S.String),
+          CacheUsageLimits: S.optional(__S(1522, __c95, 2)),
+          RemoveUserGroup: S.optional(S.Boolean),
+          UserGroupId: S.optional(S.String),
+          SecurityGroupIds: S.optional(__S(1296, __c81, 0)),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          DailySnapshotTime: S.optional(S.String),
+          Engine: S.optional(S.String),
+          MajorEngineVersion: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyServerlessCacheRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ServerlessCache: S.optional(__S(1524, __c95, 4)) }).pipe(ns),
+      ).annotate({ identifier: "ModifyServerlessCacheResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserId: S.optional(S.String),
+          AccessString: S.optional(S.String),
+          AppendAccessString: S.optional(S.String),
+          Passwords: S.optional(S.Array(SensitiveString)),
+          NoPasswordRequired: S.optional(S.Boolean),
+          AuthenticationMode: S.optional(__S(1600, __c100, 0)),
+          Engine: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyUserMessage" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserGroupId: S.optional(S.String),
+          UserIdsToAdd: S.optional(__S(1648, __c103, 0)),
+          UserIdsToRemove: S.optional(__S(1648, __c103, 0)),
+          Engine: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ModifyUserGroupMessage" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedCacheNodesOfferingId: S.optional(S.String),
+          ReservedCacheNodeId: S.optional(S.String),
+          CacheNodeCount: S.optional(S.Number),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "PurchaseReservedCacheNodesOfferingMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReservedCacheNode: S.optional(__S(320, __c20, 0)) }).pipe(ns),
+      ).annotate({ identifier: "PurchaseReservedCacheNodesOfferingResult" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          ApplyImmediately: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RebalanceSlotsInGlobalReplicationGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ GlobalReplicationGroup: S.optional(__S(1476, __c92, 4)) }).pipe(ns),
+      ).annotate({ identifier: "RebalanceSlotsInGlobalReplicationGroupResult" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          CacheNodeIdsToReboot: S.optional(__S(1344, __c84, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RebootCacheClusterMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheCluster: S.optional(__S(1355, __c84, 11)) }).pipe(ns),
+      ).annotate({ identifier: "RebootCacheClusterResult" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceName: S.optional(S.String),
+          TagKeys: S.optional(__S(816, __c51, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RemoveTagsFromResourceMessage" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheParameterGroupName: S.optional(S.String),
+          ResetAllParameters: S.optional(S.Boolean),
+          ParameterNameValues: S.optional(__S(641, __c40, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ResetCacheParameterGroupMessage" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheSecurityGroupName: S.optional(S.String),
+          EC2SecurityGroupName: S.optional(S.String),
+          EC2SecurityGroupOwnerId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RevokeCacheSecurityGroupIngressMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheSecurityGroup: S.optional(__S(1010, __c63, 2)) }).pipe(ns),
+      ).annotate({ identifier: "RevokeCacheSecurityGroupIngressResult" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          CustomerNodeEndpointList: S.optional(__S(881, __c55, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartMigrationMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "StartMigrationResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Address: S.optional(S.String), Port: S.optional(S.Number) }),
+      ).annotate({ identifier: "CustomerNodeEndpoint" });
+    case 1:
+      return S.Array(__S(880, __c55, 0));
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          NodeGroupId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "TestFailoverMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "TestFailoverResult" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          CustomerNodeEndpointList: S.optional(__S(881, __c55, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "TestMigrationMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "TestMigrationResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceName: S.optional(S.String), Tags: S.optional(__S(977, __c61, 1)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AddTagsToResourceMessage" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TagList: S.optional(__S(977, __c61, 1)) }).pipe(ns),
+      ).annotate({ identifier: "TagListMessage" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Address: S.optional(S.String), Port: S.optional(S.Number) }),
+      ).annotate({ identifier: "Endpoint" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "Tag" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(976, __c61, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("Tag"))
+          .annotate({ identifier: "Tag" }),
+      );
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheSecurityGroupName: S.optional(S.String),
+          EC2SecurityGroupName: S.optional(S.String),
+          EC2SecurityGroupOwnerId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AuthorizeCacheSecurityGroupIngressMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheSecurityGroup: S.optional(__S(1010, __c63, 2)) }).pipe(ns),
+      ).annotate({ identifier: "AuthorizeCacheSecurityGroupIngressResult" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          EC2SecurityGroupName: S.optional(S.String),
+          EC2SecurityGroupOwnerId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EC2SecurityGroup" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1008, __c63, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("EC2SecurityGroup"))
+          .annotate({ identifier: "EC2SecurityGroup" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          OwnerId: S.optional(S.String),
+          CacheSecurityGroupName: S.optional(S.String),
+          Description: S.optional(S.String),
+          EC2SecurityGroups: S.optional(__S(1009, __c63, 1)),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CacheSecurityGroup" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupIds: S.optional(__S(1056, __c66, 0)),
+          CacheClusterIds: S.optional(__S(1057, __c66, 1)),
+          ServiceUpdateName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchApplyUpdateActionMessage" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          CacheClusterId: S.optional(S.String),
+          ServiceUpdateName: S.optional(S.String),
+          UpdateActionStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProcessedUpdateAction" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1040, __c65, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("ProcessedUpdateAction"))
+          .annotate({ identifier: "ProcessedUpdateAction" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          CacheClusterId: S.optional(S.String),
+          ServiceUpdateName: S.optional(S.String),
+          ErrorType: S.optional(S.String),
+          ErrorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UnprocessedUpdateAction" });
+    case 3:
+      return S.Array(
+        /*@__PURE__*/ __S(1042, __c65, 2)
+          .pipe(/*@__PURE__*/ T.XmlName("UnprocessedUpdateAction"))
+          .annotate({ identifier: "UnprocessedUpdateAction" }),
+      );
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ProcessedUpdateActions: S.optional(__S(1041, __c65, 1)),
+          UnprocessedUpdateActions: S.optional(__S(1043, __c65, 3)),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpdateActionResultsMessage" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.Array(S.String);
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupIds: S.optional(__S(1056, __c66, 0)),
+          CacheClusterIds: S.optional(__S(1057, __c66, 1)),
+          ServiceUpdateName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchStopUpdateActionMessage" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroupId: S.optional(S.String), Force: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CompleteMigrationMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "CompleteMigrationResponse" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ LogGroup: S.optional(S.String) })).annotate({
+        identifier: "CloudWatchLogsDestinationDetails",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ DeliveryStream: S.optional(S.String) })).annotate({
+        identifier: "KinesisFirehoseDestinationDetails",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CloudWatchLogsDetails: S.optional(__S(1104, __c69, 0)),
+          KinesisFirehoseDetails: S.optional(__S(1105, __c69, 1)),
+        }),
+      ).annotate({ identifier: "DestinationDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          LogType: S.optional(S.String),
+          DestinationType: S.optional(S.String),
+          DestinationDetails: S.optional(__S(1106, __c69, 2)),
+          LogFormat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PendingLogDeliveryConfiguration" });
+    case 4:
+      return S.Array(__S(1107, __c69, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          LogType: S.optional(S.String),
+          DestinationType: S.optional(S.String),
+          DestinationDetails: S.optional(__S(1106, __c69, 2)),
+          LogFormat: S.optional(S.String),
+          Status: S.optional(S.String),
+          Message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LogDeliveryConfiguration" });
+    case 6:
+      return S.Array(
+        /*@__PURE__*/ __S(1109, __c69, 5)
+          .pipe(/*@__PURE__*/ T.XmlName("LogDeliveryConfiguration"))
+          .annotate({ identifier: "LogDeliveryConfiguration" }),
+      );
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          GlobalReplicationGroupMemberRole: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GlobalReplicationGroupInfo" });
+    case 1:
+      return S.suspend(() => S.Struct({ ProgressPercentage: S.optional(S.Number) })).annotate({
+        identifier: "SlotMigration",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ SlotMigration: S.optional(__S(1137, __c71, 1)) })).annotate(
+        { identifier: "ReshardingStatus" },
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          UserGroupIdsToAdd: S.optional(__S(1120, __c70, 0)),
+          UserGroupIdsToRemove: S.optional(__S(1120, __c70, 0)),
+        }),
+      ).annotate({ identifier: "UserGroupsUpdateStatus" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          PrimaryClusterId: S.optional(S.String),
+          AutomaticFailoverStatus: S.optional(S.String),
+          Resharding: S.optional(__S(1138, __c71, 2)),
+          AuthTokenStatus: S.optional(S.String),
+          UserGroups: S.optional(__S(1139, __c71, 3)),
+          LogDeliveryConfigurations: S.optional(__S(1108, __c69, 4)),
+          TransitEncryptionEnabled: S.optional(S.Boolean),
+          TransitEncryptionMode: S.optional(S.String),
+          ClusterMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplicationGroupPendingModifiedValues" });
+    case 5:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("ClusterId")));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          CacheNodeId: S.optional(S.String),
+          ReadEndpoint: S.optional(Endpoint),
+          PreferredAvailabilityZone: S.optional(S.String),
+          PreferredOutpostArn: S.optional(S.String),
+          CurrentRole: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeGroupMember" });
+    case 7:
+      return S.Array(
+        /*@__PURE__*/ __S(1142, __c71, 6)
+          .pipe(/*@__PURE__*/ T.XmlName("NodeGroupMember"))
+          .annotate({ identifier: "NodeGroupMember" }),
+      );
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          NodeGroupId: S.optional(S.String),
+          Status: S.optional(S.String),
+          PrimaryEndpoint: S.optional(Endpoint),
+          ReaderEndpoint: S.optional(Endpoint),
+          Slots: S.optional(S.String),
+          NodeGroupMembers: S.optional(__S(1143, __c71, 7)),
+        }),
+      ).annotate({ identifier: "NodeGroup" });
+    case 9:
+      return S.Array(
+        /*@__PURE__*/ __S(1144, __c71, 8)
+          .pipe(/*@__PURE__*/ T.XmlName("NodeGroup"))
+          .annotate({ identifier: "NodeGroup" }),
+      );
+    case 10:
+      return S.Array(
+        /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("ReplicationGroupOutpostArn")),
+      );
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          Description: S.optional(S.String),
+          GlobalReplicationGroupInfo: S.optional(__S(1136, __c71, 0)),
+          Status: S.optional(S.String),
+          PendingModifiedValues: S.optional(__S(1140, __c71, 4)),
+          MemberClusters: S.optional(__S(1141, __c71, 5)),
+          NodeGroups: S.optional(__S(1145, __c71, 9)),
+          SnapshottingClusterId: S.optional(S.String),
+          AutomaticFailover: S.optional(S.String),
+          MultiAZ: S.optional(S.String),
+          ConfigurationEndpoint: S.optional(Endpoint),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          SnapshotWindow: S.optional(S.String),
+          ClusterEnabled: S.optional(S.Boolean),
+          CacheNodeType: S.optional(S.String),
+          AuthTokenEnabled: S.optional(S.Boolean),
+          AuthTokenLastModifiedDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          TransitEncryptionEnabled: S.optional(S.Boolean),
+          AtRestEncryptionEnabled: S.optional(S.Boolean),
+          MemberClustersOutpostArns: S.optional(__S(1146, __c71, 10)),
+          KmsKeyId: S.optional(S.String),
+          StorageEncryptionType: S.optional(S.String),
+          ARN: S.optional(S.String),
+          UserGroupIds: S.optional(__S(1120, __c70, 0)),
+          LogDeliveryConfigurations: S.optional(__S(1110, __c69, 6)),
+          ReplicationGroupCreateTime: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          DataTiering: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          NetworkType: S.optional(S.String),
+          IpDiscovery: S.optional(S.String),
+          TransitEncryptionMode: S.optional(S.String),
+          ClusterMode: S.optional(S.String),
+          Engine: S.optional(S.String),
+          Durability: S.optional(S.String),
+          EffectiveDurability: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplicationGroup" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceServerlessCacheSnapshotName: S.optional(S.String),
+          TargetServerlessCacheSnapshotName: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CopyServerlessCacheSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ServerlessCacheSnapshot: S.optional(__S(1169, __c73, 1)) }).pipe(ns),
+      ).annotate({ identifier: "CopyServerlessCacheSnapshotResponse" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheName: S.optional(S.String),
+          Engine: S.optional(S.String),
+          MajorEngineVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServerlessCacheConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheSnapshotName: S.optional(S.String),
+          ARN: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          SnapshotType: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          ExpiryTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          BytesUsedForCache: S.optional(S.String),
+          ServerlessCacheConfiguration: S.optional(__S(1168, __c73, 0)),
+        }),
+      ).annotate({ identifier: "ServerlessCacheSnapshot" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceSnapshotName: S.optional(S.String),
+          TargetSnapshotName: S.optional(S.String),
+          TargetBucket: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CopySnapshotMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Snapshot: S.optional(__S(1234, __c77, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CopySnapshotResult" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("OutpostArn")));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NodeGroupId: S.optional(S.String),
+          Slots: S.optional(S.String),
+          ReplicaCount: S.optional(S.Number),
+          PrimaryAvailabilityZone: S.optional(S.String),
+          ReplicaAvailabilityZones: S.optional(__S(1216, __c76, 0)),
+          PrimaryOutpostArn: S.optional(S.String),
+          ReplicaOutpostArns: S.optional(__S(1200, __c75, 0)),
+        }),
+      ).annotate({ identifier: "NodeGroupConfiguration" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("AvailabilityZone")));
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          NodeGroupId: S.optional(S.String),
+          CacheNodeId: S.optional(S.String),
+          NodeGroupConfiguration: S.optional(__S(1201, __c75, 1)),
+          CacheSize: S.optional(S.String),
+          CacheNodeCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          SnapshotCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "NodeSnapshot" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1232, __c77, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("NodeSnapshot"))
+          .annotate({ identifier: "NodeSnapshot" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotName: S.optional(S.String),
+          ReplicationGroupId: S.optional(S.String),
+          ReplicationGroupDescription: S.optional(S.String),
+          CacheClusterId: S.optional(S.String),
+          SnapshotStatus: S.optional(S.String),
+          SnapshotSource: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          NumCacheNodes: S.optional(S.Number),
+          PreferredAvailabilityZone: S.optional(S.String),
+          PreferredOutpostArn: S.optional(S.String),
+          CacheClusterCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          TopicArn: S.optional(S.String),
+          Port: S.optional(S.Number),
+          CacheParameterGroupName: S.optional(S.String),
+          CacheSubnetGroupName: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          SnapshotWindow: S.optional(S.String),
+          NumNodeGroups: S.optional(S.Number),
+          AutomaticFailover: S.optional(S.String),
+          NodeSnapshots: S.optional(__S(1233, __c77, 1)),
+          KmsKeyId: S.optional(S.String),
+          ARN: S.optional(S.String),
+          DataTiering: S.optional(S.String),
+          Durability: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Snapshot" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          ReplicationGroupId: S.optional(S.String),
+          AZMode: S.optional(S.String),
+          PreferredAvailabilityZone: S.optional(S.String),
+          PreferredAvailabilityZones: S.optional(__S(1328, __c83, 0)),
+          NumCacheNodes: S.optional(S.Number),
+          CacheNodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          CacheParameterGroupName: S.optional(S.String),
+          CacheSubnetGroupName: S.optional(S.String),
+          CacheSecurityGroupNames: S.optional(__S(1264, __c79, 0)),
+          SecurityGroupIds: S.optional(__S(1296, __c81, 0)),
+          Tags: S.optional(__S(977, __c61, 1)),
+          SnapshotArns: S.optional(__S(1280, __c80, 0)),
+          SnapshotName: S.optional(S.String),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          Port: S.optional(S.Number),
+          NotificationTopicArn: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          SnapshotWindow: S.optional(S.String),
+          AuthToken: S.optional(SensitiveString),
+          OutpostMode: S.optional(S.String),
+          PreferredOutpostArn: S.optional(S.String),
+          PreferredOutpostArns: S.optional(__S(1312, __c82, 0)),
+          LogDeliveryConfigurations: S.optional(__S(1266, __c79, 2)),
+          TransitEncryptionEnabled: S.optional(S.Boolean),
+          NetworkType: S.optional(S.String),
+          IpDiscovery: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCacheClusterMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheCluster: S.optional(__S(1355, __c84, 11)) }).pipe(ns),
+      ).annotate({ identifier: "CreateCacheClusterResult" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(
+        /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("CacheSecurityGroupName")),
+      );
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LogType: S.optional(S.String),
+          DestinationType: S.optional(S.String),
+          DestinationDetails: S.optional(__S(1106, __c69, 2)),
+          LogFormat: S.optional(S.String),
+          Enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LogDeliveryConfigurationRequest" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(1265, __c79, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("LogDeliveryConfigurationRequest"))
+          .annotate({ identifier: "LogDeliveryConfigurationRequest" }),
+      );
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("SnapshotArn")));
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("SecurityGroupId")));
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("PreferredOutpostArn")));
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(
+        /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("PreferredAvailabilityZone")),
+      );
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("CacheNodeId")));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ScalePercentage: S.optional(S.Number),
+          ScaleIntervalMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ScaleConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NumCacheNodes: S.optional(S.Number),
+          CacheNodeIdsToRemove: S.optional(__S(1344, __c84, 0)),
+          EngineVersion: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          AuthTokenStatus: S.optional(S.String),
+          LogDeliveryConfigurations: S.optional(__S(1108, __c69, 4)),
+          TransitEncryptionEnabled: S.optional(S.Boolean),
+          TransitEncryptionMode: S.optional(S.String),
+          ScaleConfig: S.optional(__S(1345, __c84, 1)),
+        }),
+      ).annotate({ identifier: "PendingModifiedValues" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ TopicArn: S.optional(S.String), TopicStatus: S.optional(S.String) }),
+      ).annotate({ identifier: "NotificationConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ CacheSecurityGroupName: S.optional(S.String), Status: S.optional(S.String) }),
+      ).annotate({ identifier: "CacheSecurityGroupMembership" });
+    case 5:
+      return S.Array(
+        /*@__PURE__*/ __S(1348, __c84, 4)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheSecurityGroup"))
+          .annotate({ identifier: "CacheSecurityGroupMembership" }),
+      );
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          CacheParameterGroupName: S.optional(S.String),
+          ParameterApplyStatus: S.optional(S.String),
+          CacheNodeIdsToReboot: S.optional(__S(1344, __c84, 0)),
+        }),
+      ).annotate({ identifier: "CacheParameterGroupStatus" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          CacheNodeId: S.optional(S.String),
+          CacheNodeStatus: S.optional(S.String),
+          CacheNodeCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Endpoint: S.optional(Endpoint),
+          ParameterGroupStatus: S.optional(S.String),
+          SourceCacheNodeId: S.optional(S.String),
+          CustomerAvailabilityZone: S.optional(S.String),
+          CustomerOutpostArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CacheNode" });
+    case 8:
+      return S.Array(
+        /*@__PURE__*/ __S(1351, __c84, 7)
+          .pipe(/*@__PURE__*/ T.XmlName("CacheNode"))
+          .annotate({ identifier: "CacheNode" }),
+      );
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ SecurityGroupId: S.optional(S.String), Status: S.optional(S.String) }),
+      ).annotate({ identifier: "SecurityGroupMembership" });
+    case 10:
+      return S.Array(__S(1353, __c84, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          ConfigurationEndpoint: S.optional(Endpoint),
+          ClientDownloadLandingPage: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          CacheClusterStatus: S.optional(S.String),
+          NumCacheNodes: S.optional(S.Number),
+          PreferredAvailabilityZone: S.optional(S.String),
+          PreferredOutpostArn: S.optional(S.String),
+          CacheClusterCreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          PendingModifiedValues: S.optional(__S(1346, __c84, 2)),
+          NotificationConfiguration: S.optional(__S(1347, __c84, 3)),
+          CacheSecurityGroups: S.optional(__S(1349, __c84, 5)),
+          CacheParameterGroup: S.optional(__S(1350, __c84, 6)),
+          CacheSubnetGroupName: S.optional(S.String),
+          CacheNodes: S.optional(__S(1352, __c84, 8)),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          SecurityGroups: S.optional(__S(1354, __c84, 10)),
+          ReplicationGroupId: S.optional(S.String),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          SnapshotWindow: S.optional(S.String),
+          AuthTokenEnabled: S.optional(S.Boolean),
+          AuthTokenLastModifiedDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+          TransitEncryptionEnabled: S.optional(S.Boolean),
+          AtRestEncryptionEnabled: S.optional(S.Boolean),
+          ARN: S.optional(S.String),
+          ReplicationGroupLogDeliveryEnabled: S.optional(S.Boolean),
+          LogDeliveryConfigurations: S.optional(__S(1110, __c69, 6)),
+          NetworkType: S.optional(S.String),
+          IpDiscovery: S.optional(S.String),
+          TransitEncryptionMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CacheCluster" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheParameterGroupName: S.optional(S.String),
+          CacheParameterGroupFamily: S.optional(S.String),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCacheParameterGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheParameterGroup: S.optional(__S(1376, __c86, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateCacheParameterGroupResult" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheParameterGroupName: S.optional(S.String),
+          CacheParameterGroupFamily: S.optional(S.String),
+          Description: S.optional(S.String),
+          IsGlobal: S.optional(S.Boolean),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CacheParameterGroup" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheSecurityGroupName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCacheSecurityGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheSecurityGroup: S.optional(__S(1010, __c63, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CreateCacheSecurityGroupResult" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheSubnetGroupName: S.optional(S.String),
+          CacheSubnetGroupDescription: S.optional(S.String),
+          SubnetIds: S.optional(__S(1440, __c90, 0)),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCacheSubnetGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheSubnetGroup: S.optional(__S(1429, __c89, 5)) }).pipe(ns),
+      ).annotate({ identifier: "CreateCacheSubnetGroupResult" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
+        identifier: "AvailabilityZone",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ SubnetOutpostArn: S.optional(S.String) })).annotate({
+        identifier: "SubnetOutpost",
+      });
+    case 2:
+      return S.Array(S.String);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetIdentifier: S.optional(S.String),
+          SubnetAvailabilityZone: S.optional(__S(1424, __c89, 0)),
+          SubnetOutpost: S.optional(__S(1425, __c89, 1)),
+          SupportedNetworkTypes: S.optional(__S(1426, __c89, 2)),
+        }),
+      ).annotate({ identifier: "Subnet" });
+    case 4:
+      return S.Array(
+        /*@__PURE__*/ __S(1427, __c89, 3)
+          .pipe(/*@__PURE__*/ T.XmlName("Subnet"))
+          .annotate({ identifier: "Subnet" }),
+      );
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          CacheSubnetGroupName: S.optional(S.String),
+          CacheSubnetGroupDescription: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          Subnets: S.optional(__S(1428, __c89, 4)),
+          ARN: S.optional(S.String),
+          SupportedNetworkTypes: S.optional(__S(1426, __c89, 2)),
+        }),
+      ).annotate({ identifier: "CacheSubnetGroup" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("SubnetIdentifier")));
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupIdSuffix: S.optional(S.String),
+          GlobalReplicationGroupDescription: S.optional(S.String),
+          PrimaryReplicationGroupId: S.optional(S.String),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateGlobalReplicationGroupMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ GlobalReplicationGroup: S.optional(__S(1476, __c92, 4)) }).pipe(ns),
+      ).annotate({ identifier: "CreateGlobalReplicationGroupResult" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          ReplicationGroupRegion: S.optional(S.String),
+          Role: S.optional(S.String),
+          AutomaticFailover: S.optional(S.String),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GlobalReplicationGroupMember" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1472, __c92, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("GlobalReplicationGroupMember"))
+          .annotate({ identifier: "GlobalReplicationGroupMember" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ GlobalNodeGroupId: S.optional(S.String), Slots: S.optional(S.String) }),
+      ).annotate({ identifier: "GlobalNodeGroup" });
+    case 3:
+      return S.Array(
+        /*@__PURE__*/ __S(1474, __c92, 2)
+          .pipe(/*@__PURE__*/ T.XmlName("GlobalNodeGroup"))
+          .annotate({ identifier: "GlobalNodeGroup" }),
+      );
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          GlobalReplicationGroupDescription: S.optional(S.String),
+          Status: S.optional(S.String),
+          CacheNodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          Members: S.optional(__S(1473, __c92, 1)),
+          ClusterEnabled: S.optional(S.Boolean),
+          GlobalNodeGroups: S.optional(__S(1475, __c92, 3)),
+          AuthTokenEnabled: S.optional(S.Boolean),
+          TransitEncryptionEnabled: S.optional(S.Boolean),
+          AtRestEncryptionEnabled: S.optional(S.Boolean),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GlobalReplicationGroup" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(
+        /*@__PURE__*/ __S(1201, __c75, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("NodeGroupConfiguration"))
+          .annotate({ identifier: "NodeGroupConfiguration" }),
+      );
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          ReplicationGroupDescription: S.optional(S.String),
+          GlobalReplicationGroupId: S.optional(S.String),
+          PrimaryClusterId: S.optional(S.String),
+          AutomaticFailoverEnabled: S.optional(S.Boolean),
+          MultiAZEnabled: S.optional(S.Boolean),
+          NumCacheClusters: S.optional(S.Number),
+          PreferredCacheClusterAZs: S.optional(__S(1216, __c76, 0)),
+          NumNodeGroups: S.optional(S.Number),
+          ReplicasPerNodeGroup: S.optional(S.Number),
+          NodeGroupConfiguration: S.optional(__S(1488, __c93, 0)),
+          CacheNodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          CacheParameterGroupName: S.optional(S.String),
+          CacheSubnetGroupName: S.optional(S.String),
+          CacheSecurityGroupNames: S.optional(__S(1264, __c79, 0)),
+          SecurityGroupIds: S.optional(__S(1296, __c81, 0)),
+          Tags: S.optional(__S(977, __c61, 1)),
+          SnapshotArns: S.optional(__S(1280, __c80, 0)),
+          SnapshotName: S.optional(S.String),
+          PreferredMaintenanceWindow: S.optional(S.String),
+          Port: S.optional(S.Number),
+          NotificationTopicArn: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          SnapshotWindow: S.optional(S.String),
+          AuthToken: S.optional(SensitiveString),
+          TransitEncryptionEnabled: S.optional(S.Boolean),
+          AtRestEncryptionEnabled: S.optional(S.Boolean),
+          KmsKeyId: S.optional(S.String),
+          UserGroupIds: S.optional(__S(1489, __c93, 1)),
+          LogDeliveryConfigurations: S.optional(__S(1266, __c79, 2)),
+          DataTieringEnabled: S.optional(S.Boolean),
+          NetworkType: S.optional(S.String),
+          IpDiscovery: S.optional(S.String),
+          TransitEncryptionMode: S.optional(S.String),
+          ClusterMode: S.optional(S.String),
+          ServerlessCacheSnapshotName: S.optional(S.String),
+          Durability: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateReplicationGroupMessage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "CreateReplicationGroupResult" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Engine: S.optional(S.String),
+          MajorEngineVersion: S.optional(S.String),
+          CacheUsageLimits: S.optional(__S(1522, __c95, 2)),
+          KmsKeyId: S.optional(S.String),
+          SecurityGroupIds: S.optional(__S(1296, __c81, 0)),
+          SnapshotArnsToRestore: S.optional(__S(1280, __c80, 0)),
+          Tags: S.optional(__S(977, __c61, 1)),
+          UserGroupId: S.optional(S.String),
+          SubnetIds: S.optional(__S(1523, __c95, 3)),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          DailySnapshotTime: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+          ConnectionType: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateServerlessCacheRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ServerlessCache: S.optional(__S(1524, __c95, 4)) }).pipe(ns),
+      ).annotate({ identifier: "CreateServerlessCacheResponse" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Maximum: S.optional(S.Number),
+          Minimum: S.optional(S.Number),
+          Unit: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataStorage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Maximum: S.optional(S.Number), Minimum: S.optional(S.Number) }),
+      ).annotate({ identifier: "ECPUPerSecond" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DataStorage: S.optional(__S(1520, __c95, 0)),
+          ECPUPerSecond: S.optional(__S(1521, __c95, 1)),
+        }),
+      ).annotate({ identifier: "CacheUsageLimits" });
+    case 3:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("SubnetId")));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheName: S.optional(S.String),
+          Description: S.optional(S.String),
+          CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Status: S.optional(S.String),
+          Engine: S.optional(S.String),
+          MajorEngineVersion: S.optional(S.String),
+          FullEngineVersion: S.optional(S.String),
+          CacheUsageLimits: S.optional(__S(1522, __c95, 2)),
+          KmsKeyId: S.optional(S.String),
+          StorageEncryptionType: S.optional(S.String),
+          SecurityGroupIds: S.optional(__S(1296, __c81, 0)),
+          Endpoint: S.optional(Endpoint),
+          ReaderEndpoint: S.optional(Endpoint),
+          ARN: S.optional(S.String),
+          UserGroupId: S.optional(S.String),
+          SubnetIds: S.optional(__S(1523, __c95, 3)),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          DailySnapshotTime: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+          ConnectionType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServerlessCache" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServerlessCacheSnapshotName: S.optional(S.String),
+          ServerlessCacheName: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateServerlessCacheSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ServerlessCacheSnapshot: S.optional(__S(1169, __c73, 1)) }).pipe(ns),
+      ).annotate({ identifier: "CreateServerlessCacheSnapshotResponse" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          CacheClusterId: S.optional(S.String),
+          SnapshotName: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSnapshotMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Snapshot: S.optional(__S(1234, __c77, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CreateSnapshotResult" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserId: S.optional(S.String),
+          UserName: S.optional(S.String),
+          Engine: S.optional(S.String),
+          Passwords: S.optional(S.Array(SensitiveString)),
+          AccessString: S.optional(S.String),
+          NoPasswordRequired: S.optional(S.Boolean),
+          Tags: S.optional(__S(977, __c61, 1)),
+          AuthenticationMode: S.optional(__S(1600, __c100, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateUserMessage" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Type: S.optional(S.String), PasswordCount: S.optional(S.Number) }),
+      ).annotate({ identifier: "Authentication" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UserId: S.optional(S.String),
+          UserName: S.optional(S.String),
+          Status: S.optional(S.String),
+          Engine: S.optional(S.String),
+          MinimumEngineVersion: S.optional(S.String),
+          AccessString: S.optional(S.String),
+          UserGroupIds: S.optional(__S(1120, __c70, 0)),
+          Authentication: S.optional(__S(1584, __c99, 0)),
+          ARN: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "User" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Type: S.optional(S.String), Passwords: S.optional(S.Array(SensitiveString)) }),
+      ).annotate({ identifier: "AuthenticationMode" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserGroupId: S.optional(S.String),
+          Engine: S.optional(S.String),
+          UserIds: S.optional(__S(1648, __c103, 0)),
+          Tags: S.optional(__S(977, __c61, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateUserGroupMessage" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UserIdsToRemove: S.optional(__S(1632, __c102, 0)),
+          UserIdsToAdd: S.optional(__S(1632, __c102, 0)),
+        }),
+      ).annotate({ identifier: "UserGroupPendingChanges" });
+    case 2:
+      return S.Array(S.String);
+    case 3:
+      return S.Array(S.String);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          UserGroupId: S.optional(S.String),
+          Status: S.optional(S.String),
+          Engine: S.optional(S.String),
+          UserIds: S.optional(__S(1632, __c102, 0)),
+          MinimumEngineVersion: S.optional(S.String),
+          PendingChanges: S.optional(__S(1633, __c102, 1)),
+          ReplicationGroups: S.optional(__S(1634, __c102, 2)),
+          ServerlessCaches: S.optional(__S(1635, __c102, 3)),
+          ARN: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "UserGroup" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("GlobalNodeGroupId")));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GlobalReplicationGroupId: S.optional(S.String),
+          NodeGroupCount: S.optional(S.Number),
+          GlobalNodeGroupsToRemove: S.optional(__S(1664, __c104, 0)),
+          GlobalNodeGroupsToRetain: S.optional(__S(1664, __c104, 0)),
+          ApplyImmediately: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DecreaseNodeGroupsInGlobalReplicationGroupMessage" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ GlobalReplicationGroup: S.optional(__S(1476, __c92, 4)) }).pipe(ns),
+      ).annotate({ identifier: "DecreaseNodeGroupsInGlobalReplicationGroupResult" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReplicationGroupId: S.optional(S.String),
+          NewReplicaCount: S.optional(S.Number),
+          ReplicaConfiguration: S.optional(__S(1697, __c106, 1)),
+          ReplicasToRemove: S.optional(__S(1680, __c105, 0)),
+          ApplyImmediately: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DecreaseReplicaCountMessage" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ReplicationGroup: S.optional(__S(1147, __c71, 11)) }).pipe(ns),
+      ).annotate({ identifier: "DecreaseReplicaCountResult" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NodeGroupId: S.optional(S.String),
+          NewReplicaCount: S.optional(S.Number),
+          PreferredAvailabilityZones: S.optional(__S(1328, __c83, 0)),
+          PreferredOutpostArns: S.optional(__S(1312, __c82, 0)),
+        }),
+      ).annotate({ identifier: "ConfigureShard" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1696, __c106, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("ConfigureShard"))
+          .annotate({ identifier: "ConfigureShard" }),
+      );
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CacheClusterId: S.optional(S.String),
+          FinalSnapshotIdentifier: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteCacheClusterMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CacheCluster: S.optional(__S(1355, __c84, 11)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteCacheClusterResult" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CacheParameterGroupName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteCacheParameterGroupMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteCacheParameterGroupResponse",
+      });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CacheSecurityGroupName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteCacheSecurityGroupMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteCacheSecurityGroupResponse",
+      });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CacheSubnetGroupName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteCacheSubnetGroupMessage" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteCacheSubnetGroupResponse",
+      });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

@@ -3,7 +3,7 @@ import type { ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 /**
- * PosthogProtocol — hand-written.
+ * PosthogProtocol -- hand-written.
  *
  * PostHog speaks plain bearer-auth JSON REST, so this is a thin
  * `makeRestProtocol` instantiation (see `@distilled.cloud/core/protocol-rest`
@@ -11,12 +11,12 @@ import * as Effect from "effect/Effect";
  *
  *   request:  `Authorization: Bearer <personal API key>` from the
  *             Credentials service (resolved per request), base URL from
- *             `POSTHOG_HOST` / the US-cloud default — operation paths
+ *             `POSTHOG_HOST` / the US-cloud default -- operation paths
  *             already carry the `/api/...` prefix.
  *
  *   response: non-2xx bodies are Django REST Framework style
  *             `{ type, code, detail, attr }` envelopes (some endpoints use
- *             `{ error }` or `{ message }` instead — all three accepted,
+ *             `{ error }` or `{ message }` instead -- all three accepted,
  *             mirroring distilled v0's matchError). Failures map to the
  *             per-operation typed errors (status matchers), then the shared
  *             HTTP-status classes (with retryAfter on retryable statuses),
@@ -67,11 +67,11 @@ const drfErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const PosthogProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const PosthogProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request) picks up rotations. Its ConfigError channel is erased at the
   // protocol boundary; PosthogOpError reintroduces it for callers.
-  credentials: Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,

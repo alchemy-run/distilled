@@ -14,7 +14,7 @@ const ENV_CREDENTIAL_SCOPE = "AWS_CREDENTIAL_SCOPE";
 const ENV_ACCOUNT_ID = "AWS_ACCOUNT_ID";
 
 /** `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` and friends. */
-export const envSource: CredentialSource = Effect.suspend(() => {
+export const envSource: CredentialSource = /*@__PURE__*/ Effect.suspend(() => {
   const accessKeyId = env(ENV_KEY);
   const secretAccessKey = env(ENV_SECRET);
   const sessionToken = env(ENV_SESSION);

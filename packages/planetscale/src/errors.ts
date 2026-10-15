@@ -3,8 +3,8 @@
  *
  * Re-exports the common HTTP errors from core and adds the PlanetScale
  * fallback errors. Note the generated service module additionally defines
- * its own per-status matcher classes (BadRequest/Forbidden/NotFound/…) for
- * the statuses each operation declares — those share `_tag`s with the core
+ * its own per-status matcher classes (BadRequest/Forbidden/NotFound/...) for
+ * the statuses each operation declares -- those share `_tag`s with the core
  * classes here, so `catchTag` works against either.
  */
 export {
@@ -28,7 +28,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
  * PlanetScale API error code mapping (v0 surface parity).
@@ -36,21 +36,17 @@ import * as Schema from "effect/Schema";
  */
 export { HTTP_STATUS_MAP as ERROR_CODE_MAP } from "@distilled.cloud/core/errors";
 
-/** Unknown PlanetScale error — returned when nothing else matches the failure. */
-export class UnknownPlanetScaleError extends Schema.TaggedError<UnknownPlanetScaleError>()(
-  "UnknownPlanetScaleError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+/** Unknown PlanetScale error -- returned when nothing else matches the failure. */
+export class UnknownPlanetScaleError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownPlanetScaleError>()("UnknownPlanetScaleError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper (kept for v0 surface parity). */
-export class PlanetScaleParseError extends Schema.TaggedError<PlanetScaleParseError>()(
-  "PlanetScaleParseError",
-  {
+export class PlanetScaleParseError
+  extends /*@__PURE__*/ Schema.TaggedError<PlanetScaleParseError>()("PlanetScaleParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}

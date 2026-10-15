@@ -7,7 +7,6 @@
  * so that callers can install a blanket retry policy at the layer level
  * for that SDK without wrapping every call with `Effect.retry`.
  */
-import * as Config from "effect/Config";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -25,6 +24,27 @@ import { isThrottling, isTransientError } from "./category.ts";
 /**
  * Retry policy options that match the Effect.retry contract.
  */
+/**
+ * Capped exponential backoff, as plain data: the built-in policies use this
+ * instead of an Effect `Schedule`, so bundles do not carry the Schedule
+ * machinery unless a caller supplies a schedule of their own.
+ *
+ * Delay before retry `n` (0-based): `min(baseMs * factor^n, capMs)`; a
+ * server `retryAfter` hint replaces it when `serverHint` is set (capped by
+ * {@link ServerRetryHintCapMs}); otherwise throttling errors wait at least
+ * `minThrottleMs`. Then up to `jitterMs` of random jitter is added.
+ */
+export interface Backoff {
+  readonly baseMs: number;
+  readonly factor: number;
+  readonly capMs: number;
+  /** Stop after this many retries; unlimited when absent. */
+  readonly maxRetries?: number;
+  readonly jitterMs?: number;
+  readonly minThrottleMs?: number;
+  readonly serverHint?: boolean;
+}
+
 export interface Options {
   /**
    * Predicate to determine if an error should trigger a retry.
@@ -34,6 +54,8 @@ export interface Options {
    * The schedule to use for retrying.
    */
   readonly schedule?: Schedule.Schedule<unknown>;
+  /** Used when no `schedule` is given. */
+  readonly backoff?: Backoff;
 }
 
 /**
@@ -73,7 +95,7 @@ export const makeRetryService = (name: string) => Context.Service<any, Policy>()
  * Custom jittered schedule helper.
  * Adds random jitter between 0-50ms to avoid thundering herd.
  */
-export const jittered = Schedule.addDelay(() =>
+export const jittered = /*@__PURE__*/ Schedule.addDelay(() =>
   Effect.succeed(Duration.millis(Math.random() * 50)),
 );
 
@@ -110,7 +132,7 @@ const ENV_SERVER_RETRY_HINT_CAP_MS = "DISTILLED_SERVER_RETRY_HINT_CAP_MS";
  * )
  * ```
  */
-export const ServerRetryHintCapMs = Context.Service<number>(
+export const ServerRetryHintCapMs = /*@__PURE__*/ Context.Service<number>(
   "@distilled.cloud/core/ServerRetryHintCapMs",
 );
 
@@ -120,41 +142,57 @@ export const ServerRetryHintCapMs = Context.Service<number>(
 export const serverRetryHintCapLayer = (capMs: number) =>
   Layer.succeed(ServerRetryHintCapMs, capMs);
 
-const serverRetryHintCapMsConfig: Config.Config<number> = Config.String(
-  ENV_SERVER_RETRY_HINT_CAP_MS,
-).pipe(
-  Config.map((raw) => {
-    if (raw === "") return DEFAULT_SERVER_RETRY_HINT_CAP_MS;
-    const n = Number(raw);
-    if (!Number.isFinite(n) || n < 0) return DEFAULT_SERVER_RETRY_HINT_CAP_MS;
-    return Math.trunc(n);
-  }),
-  Config.withDefault(DEFAULT_SERVER_RETRY_HINT_CAP_MS),
-);
-
 /**
  * Effective cap when neither {@link ServerRetryHintCapMs} nor
  * `DISTILLED_SERVER_RETRY_HINT_CAP_MS` is set: {@link DEFAULT_SERVER_RETRY_HINT_CAP_MS}.
  *
- * Reads the `DISTILLED_SERVER_RETRY_HINT_CAP_MS` environment variable via
- * Effect's {@link Config} (must be a non-negative finite number; invalid
- * values fall back to the default).
+ * Reads the `DISTILLED_SERVER_RETRY_HINT_CAP_MS` environment variable (must
+ * be a non-negative finite number; invalid values fall back to the default).
+ * It reads `process.env` directly: Effect's `Config` would add about 5 KB
+ * gzip to every bundle for this one optional knob. Use
+ * {@link ServerRetryHintCapMs} to set the cap from code.
  */
 export const readServerRetryHintCapMsFromEnv = (): number =>
-  Effect.runSync(
-    serverRetryHintCapMsConfig.pipe(Effect.orElseSucceed(() => DEFAULT_SERVER_RETRY_HINT_CAP_MS)),
+  parseCapMs(
+    (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.[
+      ENV_SERVER_RETRY_HINT_CAP_MS
+    ],
   );
 
-const resolveServerRetryHintCapMs = (): Effect.Effect<number, never, never> =>
+const parseCapMs = (raw: string | undefined): number => {
+  if (raw === undefined || raw === "") return DEFAULT_SERVER_RETRY_HINT_CAP_MS;
+  const n = Number(raw);
+  return Number.isFinite(n) && n >= 0 ? Math.trunc(n) : DEFAULT_SERVER_RETRY_HINT_CAP_MS;
+};
+
+/**
+ * The `ConfigProvider` the caller provided, looked up by its context key.
+ * Importing `effect/Config` / `effect/ConfigProvider` to read one optional
+ * env var would add about 5 KB gzip to every bundle; a provider object
+ * carries its own `load`, so neither module is needed.
+ */
+const CONFIG_PROVIDER_KEY = "effect/ConfigProvider";
+interface ProvidedConfigProvider {
+  readonly load: (
+    path: ReadonlyArray<string>,
+  ) => Effect.Effect<{ readonly _tag: string; readonly value?: string } | undefined, unknown>;
+}
+
+export const resolveServerRetryHintCapMs = (): Effect.Effect<number, never, never> =>
   Effect.gen(function* () {
     const fromLayer = yield* Effect.serviceOption(ServerRetryHintCapMs);
     if (Option.isSome(fromLayer)) {
       const n = fromLayer.value;
       if (Number.isFinite(n) && n >= 0) return Math.trunc(n);
     }
-    return yield* serverRetryHintCapMsConfig.pipe(
-      Effect.orElseSucceed(() => DEFAULT_SERVER_RETRY_HINT_CAP_MS),
-    );
+    const provider = (yield* Effect.context<never>()).mapUnsafe.get(CONFIG_PROVIDER_KEY) as
+      | ProvidedConfigProvider
+      | undefined;
+    if (!provider) return readServerRetryHintCapMsFromEnv();
+    const node = yield* provider
+      .load([ENV_SERVER_RETRY_HINT_CAP_MS])
+      .pipe(Effect.orElseSucceed(() => undefined));
+    return parseCapMs(node?._tag === "Value" ? node.value : undefined);
   });
 
 /**
@@ -164,7 +202,7 @@ const resolveServerRetryHintCapMs = (): Effect.Effect<number, never, never> =>
  *
  * Returns `undefined` when the error doesn't carry a hint.
  */
-const serverHintMillis = (error: unknown, capMs: number): number | undefined => {
+export const serverHintMillis = (error: unknown, capMs: number): number | undefined => {
   const hint = (error as { retryAfter?: unknown } | null | undefined)?.retryAfter;
   if (!Duration.isDuration(hint)) return undefined;
   return Math.min(Duration.toMillis(hint), capMs);
@@ -214,80 +252,43 @@ const honorServerHint = (
  * high request concurrency routinely outlast a short 5-attempt/3s policy
  * while a genuinely broken credential still fails within seconds.
  */
-export const makeDefault: Factory = (lastError) => ({
+/** The policy used when the context provides none. */
+export const defaultOptions: Options = {
   while: (error) => isTransientError(error),
-  // The 5s cap applies to the exponential backoff BEFORE the server hint is
-  // considered, so a server-provided retryAfter longer than 5s is honored in
-  // full (bounded only by the 60s hint cap inside honorServerHint). Capping
-  // after the hint would silently clamp e.g. a Retry-After: 30 to 5s.
-  schedule: Schedule.max([
-    pipe(
-      Schedule.exponential(250, 2),
-      capped(Duration.seconds(5)),
-      honorServerHint(lastError, (duration, error) => {
-        if (isThrottling(error) && Duration.toMillis(duration) < 500) {
-          return Duration.millis(500);
-        }
-        return duration;
-      }),
-      jittered,
-    ),
-    Schedule.recurs(8),
-  ]),
-});
+  backoff: {
+    baseMs: 250,
+    factor: 2,
+    capMs: 5000,
+    maxRetries: 8,
+    jitterMs: 50,
+    minThrottleMs: 500,
+    serverHint: true,
+  },
+};
 
-/**
- * Factory for the throttling-only retry policy. Honors server hints when
- * present so callers using `<SDK>.Retry.throttling` get correct backoff.
- */
-export const throttlingFactory: Factory = (lastError) => ({
+export const makeDefault: Factory = () => defaultOptions;
+
+const slowBackoff: Backoff = {
+  baseMs: 1000,
+  factor: 2,
+  capMs: 5000,
+  jitterMs: 50,
+  serverHint: true,
+};
+const slowBackoffNoHint: Backoff = { baseMs: 1000, factor: 2, capMs: 5000, jitterMs: 50 };
+
+export const throttlingFactory: Factory = () => throttlingFactoryOptions;
+const throttlingFactoryOptions: Options = {
   while: (error) => isThrottling(error),
-  schedule: pipe(
-    Schedule.exponential(1000, 2),
-    capped(Duration.seconds(5)),
-    honorServerHint(lastError),
-    jittered,
-  ),
-});
+  backoff: slowBackoff,
+};
 
-/**
- * Retry options that retries all throttling errors indefinitely.
- *
- * Note: prefer {@link throttlingFactory} when you want server-hint honoring.
- * This static `Options` form does not have access to `lastError` and so
- * cannot read `error.retryAfter`.
- */
 export const throttlingOptions: Options = {
   while: (error) => isThrottling(error),
-  schedule: pipe(Schedule.exponential(1000, 2), capped(Duration.seconds(5)), jittered),
+  backoff: slowBackoffNoHint,
 };
 
-/**
- * Factory for the transient retry policy. Honors server hints when present
- * so callers using `<SDK>.Retry.transient` get correct backoff.
- */
-export const transientFactory: Factory = (lastError) => ({
-  while: isTransientError,
-  schedule: pipe(
-    Schedule.exponential(1000, 2),
-    capped(Duration.seconds(5)),
-    honorServerHint(lastError),
-    jittered,
-  ),
-});
+export const transientFactory: Factory = () => transientFactoryOptions;
+const transientFactoryOptions: Options = { while: isTransientError, backoff: slowBackoff };
 
-/**
- * Retry options that retries all transient errors indefinitely.
- *
- * This includes:
- * 1. Throttling errors
- * 2. Server errors
- * 3. Network errors
- * 4. Locked errors (423)
- *
- * Note: prefer {@link transientFactory} when you want server-hint honoring.
- */
-export const transientOptions: Options = {
-  while: isTransientError,
-  schedule: pipe(Schedule.exponential(1000, 2), capped(Duration.seconds(5)), jittered),
-};
+export const transientOptions: Options = { while: isTransientError, backoff: slowBackoffNoHint };

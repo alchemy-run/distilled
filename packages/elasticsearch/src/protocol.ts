@@ -2,13 +2,13 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * ElasticsearchProtocol — hand-written.
+ * ElasticsearchProtocol -- hand-written.
  *
  * Elasticsearch speaks API-key-authenticated JSON REST (no response
  * envelope), so the whole protocol is one `makeRestProtocol` call from
  * `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: ApiKey <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: ApiKey <apiKey>` + base URL
  *             (default http://localhost:9200), resolved from the calling
  *             fiber on every request
  *
@@ -42,24 +42,22 @@ export type ElasticsearchOpError =
 /** Context (requirements) shared by every generated Elasticsearch operation. */
 export type ElasticsearchOpContext = Credentials | HttpClient.HttpClient;
 
-export const ElasticsearchProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `ApiKey ${Redacted.value(creds.apiKey)}`,
-  }),
-  // Elasticsearch's error body is `{ error?: { type, reason }, status? }`
-  // — the factory's default lenient envelope covers `message`/`reason`.
-  unknownError: ({ code, message, body }) =>
-    new UnknownElasticsearchError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
+export const ElasticsearchProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<Config>({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `ApiKey ${Redacted.value(creds.apiKey)}`,
     }),
-  parseError: ({ body, cause }) => new ElasticsearchParseError({ body, cause }),
-});
+    // Elasticsearch's error body is `{ error?: { type, reason }, status? }`
+    // -- the factory's default lenient envelope covers `message`/`reason`.
+    unknownError: ({ code, message, body }) =>
+      new UnknownElasticsearchError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new ElasticsearchParseError({ body, cause }),
+  });

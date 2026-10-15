@@ -1,5 +1,5 @@
 /**
- * Google Workspace SDK trait surface — hand-written.
+ * Google Workspace SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated services
  * import everything from one place) and extends the `Http` trait with the

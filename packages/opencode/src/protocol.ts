@@ -2,12 +2,12 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * OpencodeProtocol — hand-written.
+ * OpencodeProtocol -- hand-written.
  *
  * OpenCode speaks plain JSON REST (no response envelope), so the whole
  * protocol is one `makeRestProtocol` call from `core/protocol-rest`:
  *
- *   request:  credentials → optional `Authorization: Basic <user:pass>` +
+ *   request:  credentials -> optional `Authorization: Basic <user:pass>` +
  *             base URL (default http://127.0.0.1:4096), resolved from the
  *             calling fiber on every request
  *
@@ -40,13 +40,10 @@ export type OpencodeOpError =
 /** Context (requirements) shared by every generated OpenCode operation. */
 export type OpencodeOpContext = Credentials | HttpClient.HttpClient;
 
-export const OpencodeProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const OpencodeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds): Record<string, string> => {
     const headers: Record<string, string> = {};
@@ -55,7 +52,7 @@ export const OpencodeProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Conf
     }
     return headers;
   },
-  // OpenCode's error body is `{ name?, message }` — the factory's default
+  // OpenCode's error body is `{ name?, message }` -- the factory's default
   // lenient envelope covers it.
   unknownError: ({ code, message, body }) =>
     new UnknownOpencodeError({

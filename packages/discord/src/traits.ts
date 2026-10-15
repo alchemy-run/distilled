@@ -1,5 +1,5 @@
 /**
- * Discord SDK trait surface — hand-written.
+ * Discord SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. Discord speaks plain bearer-REST JSON

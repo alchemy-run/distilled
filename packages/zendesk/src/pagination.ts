@@ -1,5 +1,5 @@
 /**
- * Zendesk pagination — hand-written.
+ * Zendesk pagination -- hand-written.
  *
  * Zendesk list operations page with offset (`page` / `per_page`, `next_page`
  * URL out) and cursor (`page[after]` / `links`). Generated operations that

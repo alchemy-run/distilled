@@ -1,20 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Route53 Recovery Readiness",
   serviceShapeName: "Route53RecoveryReadiness",
 });
-const auth = T.AwsAuthSigv4({ name: "route53-recovery-readiness" });
-const ver = T.ServiceVersion("2019-12-02");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "route53-recovery-readiness" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2019-12-02");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -73,62 +76,52 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://route53-recovery-readiness.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type __listOf__string = string[];
-export const __listOf__string = /*@__PURE__*/ S.Array(S.String);
+const __listOf__string = /*@__PURE__*/ __L.at(__c35, 0);
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateCellRequest {
   CellName?: string;
   Cells?: string[];
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateCellRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CellName: S.optional(S.String),
-    Cells: S.optional(__listOf__string),
-    Tags: S.optional(Tags),
-  })
-    .pipe(S.encodeKeys({ CellName: "cellName", Cells: "cells", Tags: "tags" }))
-    .pipe(T.all(T.Http({ method: "POST", uri: "/cells" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateCellRequest" }) as any as S.Schema<CreateCellRequest>;
 export type __stringMax256 = string;
 export type __stringMax64PatternAAZAZ09Z = string;
 export interface CreateCellResponse {
@@ -138,163 +131,47 @@ export interface CreateCellResponse {
   ParentReadinessScopes?: string[];
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateCellResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CellArn: S.optional(S.String),
-    CellName: S.optional(S.String),
-    Cells: S.optional(__listOf__string),
-    ParentReadinessScopes: S.optional(__listOf__string),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      CellArn: "cellArn",
-      CellName: "cellName",
-      Cells: "cells",
-      ParentReadinessScopes: "parentReadinessScopes",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "CreateCellResponse" }) as any as S.Schema<CreateCellResponse>;
 export type CrossAccountAuthorization = string;
 export interface CreateCrossAccountAuthorizationRequest {
   CrossAccountAuthorization?: string;
 }
-export const CreateCrossAccountAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CrossAccountAuthorization: S.optional(S.String) })
-    .pipe(S.encodeKeys({ CrossAccountAuthorization: "crossAccountAuthorization" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/crossaccountauthorizations" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "CreateCrossAccountAuthorizationRequest",
-}) as any as S.Schema<CreateCrossAccountAuthorizationRequest>;
 export interface CreateCrossAccountAuthorizationResponse {
   CrossAccountAuthorization?: string;
 }
-export const CreateCrossAccountAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CrossAccountAuthorization: S.optional(S.String) }).pipe(
-    S.encodeKeys({ CrossAccountAuthorization: "crossAccountAuthorization" }),
-  ),
-).annotate({
-  identifier: "CreateCrossAccountAuthorizationResponse",
-}) as any as S.Schema<CreateCrossAccountAuthorizationResponse>;
 export interface CreateReadinessCheckRequest {
   ReadinessCheckName?: string;
   ResourceSetName?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateReadinessCheckRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadinessCheckName: S.optional(S.String),
-    ResourceSetName: S.optional(S.String),
-    Tags: S.optional(Tags),
-  })
-    .pipe(
-      S.encodeKeys({
-        ReadinessCheckName: "readinessCheckName",
-        ResourceSetName: "resourceSetName",
-        Tags: "tags",
-      }),
-    )
-    .pipe(T.all(T.Http({ method: "POST", uri: "/readinesschecks" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateReadinessCheckRequest",
-}) as any as S.Schema<CreateReadinessCheckRequest>;
 export interface CreateReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateReadinessCheckResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadinessCheckArn: S.optional(S.String),
-    ReadinessCheckName: S.optional(S.String),
-    ResourceSet: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      ReadinessCheckArn: "readinessCheckArn",
-      ReadinessCheckName: "readinessCheckName",
-      ResourceSet: "resourceSet",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "CreateReadinessCheckResponse",
-}) as any as S.Schema<CreateReadinessCheckResponse>;
 export interface CreateRecoveryGroupRequest {
   Cells?: string[];
   RecoveryGroupName?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateRecoveryGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cells: S.optional(__listOf__string),
-    RecoveryGroupName: S.optional(S.String),
-    Tags: S.optional(Tags),
-  })
-    .pipe(S.encodeKeys({ Cells: "cells", RecoveryGroupName: "recoveryGroupName", Tags: "tags" }))
-    .pipe(T.all(T.Http({ method: "POST", uri: "/recoverygroups" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateRecoveryGroupRequest",
-}) as any as S.Schema<CreateRecoveryGroupRequest>;
 export interface CreateRecoveryGroupResponse {
   Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateRecoveryGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cells: S.optional(__listOf__string),
-    RecoveryGroupArn: S.optional(S.String),
-    RecoveryGroupName: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Cells: "cells",
-      RecoveryGroupArn: "recoveryGroupArn",
-      RecoveryGroupName: "recoveryGroupName",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "CreateRecoveryGroupResponse",
-}) as any as S.Schema<CreateRecoveryGroupResponse>;
 export type __stringPatternAWSAZaZ09AZaZ09 = string;
 export interface NLBResource {
   Arn?: string;
 }
-export const NLBResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.optional(S.String) }).pipe(S.encodeKeys({ Arn: "arn" })),
-).annotate({ identifier: "NLBResource" }) as any as S.Schema<NLBResource>;
 export interface R53ResourceRecord {
   DomainName?: string;
   RecordSetId?: string;
 }
-export const R53ResourceRecord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.optional(S.String), RecordSetId: S.optional(S.String) }).pipe(
-    S.encodeKeys({ DomainName: "domainName", RecordSetId: "recordSetId" }),
-  ),
-).annotate({ identifier: "R53ResourceRecord" }) as any as S.Schema<R53ResourceRecord>;
 export interface TargetResource {
   NLBResource?: NLBResource;
   R53Resource?: R53ResourceRecord;
 }
-export const TargetResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NLBResource: S.optional(NLBResource),
-    R53Resource: S.optional(R53ResourceRecord),
-  }).pipe(S.encodeKeys({ NLBResource: "nLBResource", R53Resource: "r53Resource" })),
-).annotate({ identifier: "TargetResource" }) as any as S.Schema<TargetResource>;
 export interface DNSTargetResource {
   DomainName?: string;
   HostedZoneArn?: string;
@@ -302,69 +179,20 @@ export interface DNSTargetResource {
   RecordType?: string;
   TargetResource?: TargetResource;
 }
-export const DNSTargetResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.optional(S.String),
-    HostedZoneArn: S.optional(S.String),
-    RecordSetId: S.optional(S.String),
-    RecordType: S.optional(S.String),
-    TargetResource: S.optional(TargetResource),
-  }).pipe(
-    S.encodeKeys({
-      DomainName: "domainName",
-      HostedZoneArn: "hostedZoneArn",
-      RecordSetId: "recordSetId",
-      RecordType: "recordType",
-      TargetResource: "targetResource",
-    }),
-  ),
-).annotate({ identifier: "DNSTargetResource" }) as any as S.Schema<DNSTargetResource>;
 export interface Resource {
   ComponentId?: string;
   DnsTargetResource?: DNSTargetResource;
   ReadinessScopes?: string[];
   ResourceArn?: string;
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComponentId: S.optional(S.String),
-    DnsTargetResource: S.optional(DNSTargetResource),
-    ReadinessScopes: S.optional(__listOf__string),
-    ResourceArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      ComponentId: "componentId",
-      DnsTargetResource: "dnsTargetResource",
-      ReadinessScopes: "readinessScopes",
-      ResourceArn: "resourceArn",
-    }),
-  ),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type __listOfResource = Resource[];
-export const __listOfResource = /*@__PURE__*/ S.Array(Resource);
+const __listOfResource = /*@__PURE__*/ __L.at(__c1, 5);
 export interface CreateResourceSetRequest {
   ResourceSetName?: string;
   ResourceSetType?: string;
   Resources?: Resource[];
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSetName: S.optional(S.String),
-    ResourceSetType: S.optional(S.String),
-    Resources: S.optional(__listOfResource),
-    Tags: S.optional(Tags),
-  })
-    .pipe(
-      S.encodeKeys({
-        ResourceSetName: "resourceSetName",
-        ResourceSetType: "resourceSetType",
-        Resources: "resources",
-        Tags: "tags",
-      }),
-    )
-    .pipe(T.all(T.Http({ method: "POST", uri: "/resourcesets" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateResourceSetRequest" }) as any as S.Schema<CreateResourceSetRequest>;
 export interface CreateResourceSetResponse {
   ResourceSetArn?: string;
   ResourceSetName?: string;
@@ -372,189 +200,46 @@ export interface CreateResourceSetResponse {
   Resources?: Resource[];
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateResourceSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSetArn: S.optional(S.String),
-    ResourceSetName: S.optional(S.String),
-    ResourceSetType: S.optional(S.String),
-    Resources: S.optional(__listOfResource),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      ResourceSetArn: "resourceSetArn",
-      ResourceSetName: "resourceSetName",
-      ResourceSetType: "resourceSetType",
-      Resources: "resources",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "CreateResourceSetResponse",
-}) as any as S.Schema<CreateResourceSetResponse>;
 export interface DeleteCellRequest {
   CellName: string;
 }
-export const DeleteCellRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CellName: S.String.pipe(T.HttpLabel("CellName")) }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/cells/{CellName}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteCellRequest" }) as any as S.Schema<DeleteCellRequest>;
 export interface DeleteCellResponse {}
-export const DeleteCellResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteCellResponse",
-}) as any as S.Schema<DeleteCellResponse>;
 export interface DeleteCrossAccountAuthorizationRequest {
   CrossAccountAuthorization: string;
 }
-export const DeleteCrossAccountAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CrossAccountAuthorization: S.String.pipe(T.HttpLabel("CrossAccountAuthorization")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/crossaccountauthorizations/{CrossAccountAuthorization}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteCrossAccountAuthorizationRequest",
-}) as any as S.Schema<DeleteCrossAccountAuthorizationRequest>;
 export interface DeleteCrossAccountAuthorizationResponse {}
-export const DeleteCrossAccountAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCrossAccountAuthorizationResponse",
-}) as any as S.Schema<DeleteCrossAccountAuthorizationResponse>;
 export interface DeleteReadinessCheckRequest {
   ReadinessCheckName: string;
 }
-export const DeleteReadinessCheckRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/readinesschecks/{ReadinessCheckName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteReadinessCheckRequest",
-}) as any as S.Schema<DeleteReadinessCheckRequest>;
 export interface DeleteReadinessCheckResponse {}
-export const DeleteReadinessCheckResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteReadinessCheckResponse",
-}) as any as S.Schema<DeleteReadinessCheckResponse>;
 export interface DeleteRecoveryGroupRequest {
   RecoveryGroupName: string;
 }
-export const DeleteRecoveryGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/recoverygroups/{RecoveryGroupName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteRecoveryGroupRequest",
-}) as any as S.Schema<DeleteRecoveryGroupRequest>;
 export interface DeleteRecoveryGroupResponse {}
-export const DeleteRecoveryGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteRecoveryGroupResponse",
-}) as any as S.Schema<DeleteRecoveryGroupResponse>;
 export interface DeleteResourceSetRequest {
   ResourceSetName: string;
 }
-export const DeleteResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/resourcesets/{ResourceSetName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "DeleteResourceSetRequest" }) as any as S.Schema<DeleteResourceSetRequest>;
 export interface DeleteResourceSetResponse {}
-export const DeleteResourceSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteResourceSetResponse",
-}) as any as S.Schema<DeleteResourceSetResponse>;
 export type MaxResults = number;
 export interface GetArchitectureRecommendationsRequest {
   MaxResults?: number;
   NextToken?: string;
   RecoveryGroupName: string;
 }
-export const GetArchitectureRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/recoverygroups/{RecoveryGroupName}/architectureRecommendations",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetArchitectureRecommendationsRequest",
-}) as any as S.Schema<GetArchitectureRecommendationsRequest>;
 export type LastAuditTimestamp = Date;
 export interface Recommendation {
   RecommendationText?: string;
 }
-export const Recommendation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RecommendationText: S.optional(S.String) }).pipe(
-    S.encodeKeys({ RecommendationText: "recommendationText" }),
-  ),
-).annotate({ identifier: "Recommendation" }) as any as S.Schema<Recommendation>;
 export type __listOfRecommendation = Recommendation[];
-export const __listOfRecommendation = /*@__PURE__*/ S.Array(Recommendation);
+const __listOfRecommendation = /*@__PURE__*/ __L.at(__c8, 2);
 export interface GetArchitectureRecommendationsResponse {
   LastAuditTimestamp?: Date;
   NextToken?: string;
   Recommendations?: (Recommendation & { RecommendationText: string })[];
 }
-export const GetArchitectureRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LastAuditTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    NextToken: S.optional(S.String),
-    Recommendations: S.optional(__listOfRecommendation),
-  }).pipe(
-    S.encodeKeys({
-      LastAuditTimestamp: "lastAuditTimestamp",
-      NextToken: "nextToken",
-      Recommendations: "recommendations",
-    }),
-  ),
-).annotate({
-  identifier: "GetArchitectureRecommendationsResponse",
-}) as any as S.Schema<GetArchitectureRecommendationsResponse>;
 export interface GetCellRequest {
   CellName: string;
 }
-export const GetCellRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CellName: S.String.pipe(T.HttpLabel("CellName")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/cells/{CellName}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetCellRequest" }) as any as S.Schema<GetCellRequest>;
 export interface GetCellResponse {
   CellArn?: string;
   CellName?: string;
@@ -562,180 +247,52 @@ export interface GetCellResponse {
   ParentReadinessScopes?: string[];
   Tags?: { [key: string]: string | undefined };
 }
-export const GetCellResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CellArn: S.optional(S.String),
-    CellName: S.optional(S.String),
-    Cells: S.optional(__listOf__string),
-    ParentReadinessScopes: S.optional(__listOf__string),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      CellArn: "cellArn",
-      CellName: "cellName",
-      Cells: "cells",
-      ParentReadinessScopes: "parentReadinessScopes",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "GetCellResponse" }) as any as S.Schema<GetCellResponse>;
 export interface GetCellReadinessSummaryRequest {
   CellName: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const GetCellReadinessSummaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CellName: S.String.pipe(T.HttpLabel("CellName")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cellreadiness/{CellName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCellReadinessSummaryRequest",
-}) as any as S.Schema<GetCellReadinessSummaryRequest>;
 export type Readiness = "READY" | "NOT_READY" | "UNKNOWN" | "NOT_AUTHORIZED" | (string & {});
-export const Readiness = S.String;
-
 export interface ReadinessCheckSummary {
   Readiness?: Readiness;
   ReadinessCheckName?: string;
 }
-export const ReadinessCheckSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Readiness: S.optional(Readiness), ReadinessCheckName: S.optional(S.String) }).pipe(
-    S.encodeKeys({ Readiness: "readiness", ReadinessCheckName: "readinessCheckName" }),
-  ),
-).annotate({ identifier: "ReadinessCheckSummary" }) as any as S.Schema<ReadinessCheckSummary>;
 export type __listOfReadinessCheckSummary = ReadinessCheckSummary[];
-export const __listOfReadinessCheckSummary = /*@__PURE__*/ S.Array(ReadinessCheckSummary);
+const __listOfReadinessCheckSummary = /*@__PURE__*/ __L.at(__c11, 1);
 export interface GetCellReadinessSummaryResponse {
   NextToken?: string;
   Readiness?: Readiness;
   ReadinessChecks?: ReadinessCheckSummary[];
 }
-export const GetCellReadinessSummaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Readiness: S.optional(Readiness),
-    ReadinessChecks: S.optional(__listOfReadinessCheckSummary),
-  }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      Readiness: "readiness",
-      ReadinessChecks: "readinessChecks",
-    }),
-  ),
-).annotate({
-  identifier: "GetCellReadinessSummaryResponse",
-}) as any as S.Schema<GetCellReadinessSummaryResponse>;
 export interface GetReadinessCheckRequest {
   ReadinessCheckName: string;
 }
-export const GetReadinessCheckRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/readinesschecks/{ReadinessCheckName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetReadinessCheckRequest" }) as any as S.Schema<GetReadinessCheckRequest>;
 export interface GetReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetReadinessCheckResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadinessCheckArn: S.optional(S.String),
-    ReadinessCheckName: S.optional(S.String),
-    ResourceSet: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      ReadinessCheckArn: "readinessCheckArn",
-      ReadinessCheckName: "readinessCheckName",
-      ResourceSet: "resourceSet",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "GetReadinessCheckResponse",
-}) as any as S.Schema<GetReadinessCheckResponse>;
 export interface GetReadinessCheckResourceStatusRequest {
   MaxResults?: number;
   NextToken?: string;
   ReadinessCheckName: string;
   ResourceIdentifier: string;
 }
-export const GetReadinessCheckResourceStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
-    ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/readinesschecks/{ReadinessCheckName}/resource/{ResourceIdentifier}/status",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetReadinessCheckResourceStatusRequest",
-}) as any as S.Schema<GetReadinessCheckResourceStatusRequest>;
 export type ReadinessCheckTimestamp = Date;
 export interface Message {
   MessageText?: string;
 }
-export const Message = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MessageText: S.optional(S.String) }).pipe(
-    S.encodeKeys({ MessageText: "messageText" }),
-  ),
-).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
 export type __listOfMessage = Message[];
-export const __listOfMessage = /*@__PURE__*/ S.Array(Message);
+const __listOfMessage = /*@__PURE__*/ __L.at(__c14, 1);
 export interface RuleResult {
   LastCheckedTimestamp?: Date;
   Messages?: Message[];
   Readiness?: Readiness;
   RuleId?: string;
 }
-export const RuleResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LastCheckedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Messages: S.optional(__listOfMessage),
-    Readiness: S.optional(Readiness),
-    RuleId: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      LastCheckedTimestamp: "lastCheckedTimestamp",
-      Messages: "messages",
-      Readiness: "readiness",
-      RuleId: "ruleId",
-    }),
-  ),
-).annotate({ identifier: "RuleResult" }) as any as S.Schema<RuleResult>;
 export type __listOfRuleResult = RuleResult[];
-export const __listOfRuleResult = /*@__PURE__*/ S.Array(RuleResult);
+const __listOfRuleResult = /*@__PURE__*/ __L.at(__c13, 2);
 export interface GetReadinessCheckResourceStatusResponse {
   NextToken?: string;
   Readiness?: Readiness;
@@ -746,61 +303,19 @@ export interface GetReadinessCheckResourceStatusResponse {
     RuleId: string;
   })[];
 }
-export const GetReadinessCheckResourceStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Readiness: S.optional(Readiness),
-    Rules: S.optional(__listOfRuleResult),
-  }).pipe(S.encodeKeys({ NextToken: "nextToken", Readiness: "readiness", Rules: "rules" })),
-).annotate({
-  identifier: "GetReadinessCheckResourceStatusResponse",
-}) as any as S.Schema<GetReadinessCheckResourceStatusResponse>;
 export interface GetReadinessCheckStatusRequest {
   MaxResults?: number;
   NextToken?: string;
   ReadinessCheckName: string;
 }
-export const GetReadinessCheckStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/readinesschecks/{ReadinessCheckName}/status" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetReadinessCheckStatusRequest",
-}) as any as S.Schema<GetReadinessCheckStatusRequest>;
 export interface ResourceResult {
   ComponentId?: string;
   LastCheckedTimestamp?: Date;
   Readiness?: Readiness;
   ResourceArn?: string;
 }
-export const ResourceResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComponentId: S.optional(S.String),
-    LastCheckedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    Readiness: S.optional(Readiness),
-    ResourceArn: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      ComponentId: "componentId",
-      LastCheckedTimestamp: "lastCheckedTimestamp",
-      Readiness: "readiness",
-      ResourceArn: "resourceArn",
-    }),
-  ),
-).annotate({ identifier: "ResourceResult" }) as any as S.Schema<ResourceResult>;
 export type __listOfResourceResult = ResourceResult[];
-export const __listOfResourceResult = /*@__PURE__*/ S.Array(ResourceResult);
+const __listOfResourceResult = /*@__PURE__*/ __L.at(__c15, 2);
 export interface GetReadinessCheckStatusResponse {
   Messages?: Message[];
   NextToken?: string;
@@ -810,117 +325,28 @@ export interface GetReadinessCheckStatusResponse {
     Readiness: Readiness;
   })[];
 }
-export const GetReadinessCheckStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Messages: S.optional(__listOfMessage),
-    NextToken: S.optional(S.String),
-    Readiness: S.optional(Readiness),
-    Resources: S.optional(__listOfResourceResult),
-  }).pipe(
-    S.encodeKeys({
-      Messages: "messages",
-      NextToken: "nextToken",
-      Readiness: "readiness",
-      Resources: "resources",
-    }),
-  ),
-).annotate({
-  identifier: "GetReadinessCheckStatusResponse",
-}) as any as S.Schema<GetReadinessCheckStatusResponse>;
 export interface GetRecoveryGroupRequest {
   RecoveryGroupName: string;
 }
-export const GetRecoveryGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/recoverygroups/{RecoveryGroupName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetRecoveryGroupRequest" }) as any as S.Schema<GetRecoveryGroupRequest>;
 export interface GetRecoveryGroupResponse {
   Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const GetRecoveryGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cells: S.optional(__listOf__string),
-    RecoveryGroupArn: S.optional(S.String),
-    RecoveryGroupName: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Cells: "cells",
-      RecoveryGroupArn: "recoveryGroupArn",
-      RecoveryGroupName: "recoveryGroupName",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "GetRecoveryGroupResponse" }) as any as S.Schema<GetRecoveryGroupResponse>;
 export interface GetRecoveryGroupReadinessSummaryRequest {
   MaxResults?: number;
   NextToken?: string;
   RecoveryGroupName: string;
 }
-export const GetRecoveryGroupReadinessSummaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/recoverygroupreadiness/{RecoveryGroupName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRecoveryGroupReadinessSummaryRequest",
-}) as any as S.Schema<GetRecoveryGroupReadinessSummaryRequest>;
 export interface GetRecoveryGroupReadinessSummaryResponse {
   NextToken?: string;
   Readiness?: Readiness;
   ReadinessChecks?: ReadinessCheckSummary[];
 }
-export const GetRecoveryGroupReadinessSummaryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Readiness: S.optional(Readiness),
-    ReadinessChecks: S.optional(__listOfReadinessCheckSummary),
-  }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      Readiness: "readiness",
-      ReadinessChecks: "readinessChecks",
-    }),
-  ),
-).annotate({
-  identifier: "GetRecoveryGroupReadinessSummaryResponse",
-}) as any as S.Schema<GetRecoveryGroupReadinessSummaryResponse>;
 export interface GetResourceSetRequest {
   ResourceSetName: string;
 }
-export const GetResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/resourcesets/{ResourceSetName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetResourceSetRequest" }) as any as S.Schema<GetResourceSetRequest>;
 export interface GetResourceSetResponse {
   ResourceSetArn?: string;
   ResourceSetName?: string;
@@ -928,33 +354,10 @@ export interface GetResourceSetResponse {
   Resources?: Resource[];
   Tags?: { [key: string]: string | undefined };
 }
-export const GetResourceSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSetArn: S.optional(S.String),
-    ResourceSetName: S.optional(S.String),
-    ResourceSetType: S.optional(S.String),
-    Resources: S.optional(__listOfResource),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      ResourceSetArn: "resourceSetArn",
-      ResourceSetName: "resourceSetName",
-      ResourceSetType: "resourceSetType",
-      Resources: "resources",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "GetResourceSetResponse" }) as any as S.Schema<GetResourceSetResponse>;
 export interface ListCellsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCellsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/cells" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListCellsRequest" }) as any as S.Schema<ListCellsRequest>;
 export interface CellOutput {
   CellArn?: string;
   CellName?: string;
@@ -962,25 +365,8 @@ export interface CellOutput {
   ParentReadinessScopes?: string[];
   Tags?: { [key: string]: string | undefined };
 }
-export const CellOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CellArn: S.optional(S.String),
-    CellName: S.optional(S.String),
-    Cells: S.optional(__listOf__string),
-    ParentReadinessScopes: S.optional(__listOf__string),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      CellArn: "cellArn",
-      CellName: "cellName",
-      Cells: "cells",
-      ParentReadinessScopes: "parentReadinessScopes",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "CellOutput" }) as any as S.Schema<CellOutput>;
 export type __listOfCellOutput = CellOutput[];
-export const __listOfCellOutput = /*@__PURE__*/ S.Array(CellOutput);
+const __listOfCellOutput = /*@__PURE__*/ __L.at(__c19, 1);
 export interface ListCellsResponse {
   Cells?: (CellOutput & {
     CellArn: __stringMax256;
@@ -990,86 +376,29 @@ export interface ListCellsResponse {
   })[];
   NextToken?: string;
 }
-export const ListCellsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Cells: S.optional(__listOfCellOutput), NextToken: S.optional(S.String) }).pipe(
-    S.encodeKeys({ Cells: "cells", NextToken: "nextToken" }),
-  ),
-).annotate({ identifier: "ListCellsResponse" }) as any as S.Schema<ListCellsResponse>;
 export interface ListCrossAccountAuthorizationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCrossAccountAuthorizationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/crossaccountauthorizations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListCrossAccountAuthorizationsRequest",
-}) as any as S.Schema<ListCrossAccountAuthorizationsRequest>;
 export type __listOfCrossAccountAuthorization = string[];
-export const __listOfCrossAccountAuthorization = /*@__PURE__*/ S.Array(S.String);
+const __listOfCrossAccountAuthorization =
+  __listOf__string as any as S.Schema<__listOfCrossAccountAuthorization>;
 export interface ListCrossAccountAuthorizationsResponse {
   CrossAccountAuthorizations?: string[];
   NextToken?: string;
 }
-export const ListCrossAccountAuthorizationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CrossAccountAuthorizations: S.optional(__listOfCrossAccountAuthorization),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      CrossAccountAuthorizations: "crossAccountAuthorizations",
-      NextToken: "nextToken",
-    }),
-  ),
-).annotate({
-  identifier: "ListCrossAccountAuthorizationsResponse",
-}) as any as S.Schema<ListCrossAccountAuthorizationsResponse>;
 export interface ListReadinessChecksRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListReadinessChecksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/readinesschecks" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListReadinessChecksRequest",
-}) as any as S.Schema<ListReadinessChecksRequest>;
 export interface ReadinessCheckOutput {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const ReadinessCheckOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadinessCheckArn: S.optional(S.String),
-    ReadinessCheckName: S.optional(S.String),
-    ResourceSet: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      ReadinessCheckArn: "readinessCheckArn",
-      ReadinessCheckName: "readinessCheckName",
-      ResourceSet: "resourceSet",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "ReadinessCheckOutput" }) as any as S.Schema<ReadinessCheckOutput>;
 export type __listOfReadinessCheckOutput = ReadinessCheckOutput[];
-export const __listOfReadinessCheckOutput = /*@__PURE__*/ S.Array(ReadinessCheckOutput);
+const __listOfReadinessCheckOutput = /*@__PURE__*/ __L.at(__c21, 1);
 export interface ListReadinessChecksResponse {
   NextToken?: string;
   ReadinessChecks?: (ReadinessCheckOutput & {
@@ -1077,49 +406,18 @@ export interface ListReadinessChecksResponse {
     ResourceSet: __stringMax64PatternAAZAZ09Z;
   })[];
 }
-export const ListReadinessChecksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ReadinessChecks: S.optional(__listOfReadinessCheckOutput),
-  }).pipe(S.encodeKeys({ NextToken: "nextToken", ReadinessChecks: "readinessChecks" })),
-).annotate({
-  identifier: "ListReadinessChecksResponse",
-}) as any as S.Schema<ListReadinessChecksResponse>;
 export interface ListRecoveryGroupsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListRecoveryGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/recoverygroups" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListRecoveryGroupsRequest",
-}) as any as S.Schema<ListRecoveryGroupsRequest>;
 export interface RecoveryGroupOutput {
   Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const RecoveryGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cells: S.optional(__listOf__string),
-    RecoveryGroupArn: S.optional(S.String),
-    RecoveryGroupName: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Cells: "cells",
-      RecoveryGroupArn: "recoveryGroupArn",
-      RecoveryGroupName: "recoveryGroupName",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "RecoveryGroupOutput" }) as any as S.Schema<RecoveryGroupOutput>;
 export type __listOfRecoveryGroupOutput = RecoveryGroupOutput[];
-export const __listOfRecoveryGroupOutput = /*@__PURE__*/ S.Array(RecoveryGroupOutput);
+const __listOfRecoveryGroupOutput = /*@__PURE__*/ __L.at(__c22, 1);
 export interface ListRecoveryGroupsResponse {
   NextToken?: string;
   RecoveryGroups?: (RecoveryGroupOutput & {
@@ -1128,24 +426,10 @@ export interface ListRecoveryGroupsResponse {
     RecoveryGroupName: __stringMax64PatternAAZAZ09Z;
   })[];
 }
-export const ListRecoveryGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    RecoveryGroups: S.optional(__listOfRecoveryGroupOutput),
-  }).pipe(S.encodeKeys({ NextToken: "nextToken", RecoveryGroups: "recoveryGroups" })),
-).annotate({
-  identifier: "ListRecoveryGroupsResponse",
-}) as any as S.Schema<ListRecoveryGroupsResponse>;
 export interface ListResourceSetsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListResourceSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/resourcesets" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListResourceSetsRequest" }) as any as S.Schema<ListResourceSetsRequest>;
 export interface ResourceSetOutput {
   ResourceSetArn?: string;
   ResourceSetName?: string;
@@ -1153,25 +437,8 @@ export interface ResourceSetOutput {
   Resources?: Resource[];
   Tags?: { [key: string]: string | undefined };
 }
-export const ResourceSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSetArn: S.optional(S.String),
-    ResourceSetName: S.optional(S.String),
-    ResourceSetType: S.optional(S.String),
-    Resources: S.optional(__listOfResource),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      ResourceSetArn: "resourceSetArn",
-      ResourceSetName: "resourceSetName",
-      ResourceSetType: "resourceSetType",
-      Resources: "resources",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "ResourceSetOutput" }) as any as S.Schema<ResourceSetOutput>;
 export type __listOfResourceSetOutput = ResourceSetOutput[];
-export const __listOfResourceSetOutput = /*@__PURE__*/ S.Array(ResourceSetOutput);
+const __listOfResourceSetOutput = /*@__PURE__*/ __L.at(__c23, 1);
 export interface ListResourceSetsResponse {
   NextToken?: string;
   ResourceSets?: (ResourceSetOutput & {
@@ -1181,45 +448,19 @@ export interface ListResourceSetsResponse {
     Resources: __listOfResource;
   })[];
 }
-export const ListResourceSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ResourceSets: S.optional(__listOfResourceSetOutput),
-  }).pipe(S.encodeKeys({ NextToken: "nextToken", ResourceSets: "resourceSets" })),
-).annotate({ identifier: "ListResourceSetsResponse" }) as any as S.Schema<ListResourceSetsResponse>;
 export interface ListRulesRequest {
   MaxResults?: number;
   NextToken?: string;
   ResourceType?: string;
 }
-export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/rules" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 export type __stringMax64 = string;
 export interface ListRulesOutput {
   ResourceType?: string;
   RuleDescription?: string;
   RuleId?: string;
 }
-export const ListRulesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceType: S.optional(S.String),
-    RuleDescription: S.optional(S.String),
-    RuleId: S.optional(S.String),
-  }).pipe(
-    S.encodeKeys({
-      ResourceType: "resourceType",
-      RuleDescription: "ruleDescription",
-      RuleId: "ruleId",
-    }),
-  ),
-).annotate({ identifier: "ListRulesOutput" }) as any as S.Schema<ListRulesOutput>;
 export type __listOfListRulesOutput = ListRulesOutput[];
-export const __listOfListRulesOutput = /*@__PURE__*/ S.Array(ListRulesOutput);
+const __listOfListRulesOutput = /*@__PURE__*/ __L.at(__c24, 2);
 export interface ListRulesResponse {
   NextToken?: string;
   Rules?: (ListRulesOutput & {
@@ -1228,72 +469,26 @@ export interface ListRulesResponse {
     RuleId: __stringMax64;
   })[];
 }
-export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), Rules: S.optional(__listOfListRulesOutput) }).pipe(
-    S.encodeKeys({ NextToken: "nextToken", Rules: "rules" }),
-  ),
-).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 export interface ListTagsForResourcesRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourcesRequest",
-}) as any as S.Schema<ListTagsForResourcesRequest>;
 export interface ListTagsForResourcesResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags) }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "ListTagsForResourcesResponse",
-}) as any as S.Schema<ListTagsForResourcesResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: S.optional(Tags) })
-    .pipe(S.encodeKeys({ Tags: "tags" }))
-    .pipe(
-      T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys?: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateCellRequest {
   CellName: string;
   Cells?: string[];
 }
-export const UpdateCellRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CellName: S.String.pipe(T.HttpLabel("CellName")),
-    Cells: S.optional(__listOf__string),
-  })
-    .pipe(S.encodeKeys({ Cells: "cells" }))
-    .pipe(T.all(T.Http({ method: "PUT", uri: "/cells/{CellName}" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "UpdateCellRequest" }) as any as S.Schema<UpdateCellRequest>;
 export interface UpdateCellResponse {
   CellArn?: string;
   CellName?: string;
@@ -1301,138 +496,31 @@ export interface UpdateCellResponse {
   ParentReadinessScopes?: string[];
   Tags?: { [key: string]: string | undefined };
 }
-export const UpdateCellResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CellArn: S.optional(S.String),
-    CellName: S.optional(S.String),
-    Cells: S.optional(__listOf__string),
-    ParentReadinessScopes: S.optional(__listOf__string),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      CellArn: "cellArn",
-      CellName: "cellName",
-      Cells: "cells",
-      ParentReadinessScopes: "parentReadinessScopes",
-      Tags: "tags",
-    }),
-  ),
-).annotate({ identifier: "UpdateCellResponse" }) as any as S.Schema<UpdateCellResponse>;
 export interface UpdateReadinessCheckRequest {
   ReadinessCheckName: string;
   ResourceSetName?: string;
 }
-export const UpdateReadinessCheckRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
-    ResourceSetName: S.optional(S.String),
-  })
-    .pipe(S.encodeKeys({ ResourceSetName: "resourceSetName" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/readinesschecks/{ReadinessCheckName}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateReadinessCheckRequest",
-}) as any as S.Schema<UpdateReadinessCheckRequest>;
 export interface UpdateReadinessCheckResponse {
   ReadinessCheckArn?: string;
   ReadinessCheckName?: string;
   ResourceSet?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const UpdateReadinessCheckResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReadinessCheckArn: S.optional(S.String),
-    ReadinessCheckName: S.optional(S.String),
-    ResourceSet: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      ReadinessCheckArn: "readinessCheckArn",
-      ReadinessCheckName: "readinessCheckName",
-      ResourceSet: "resourceSet",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateReadinessCheckResponse",
-}) as any as S.Schema<UpdateReadinessCheckResponse>;
 export interface UpdateRecoveryGroupRequest {
   Cells?: string[];
   RecoveryGroupName: string;
 }
-export const UpdateRecoveryGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cells: S.optional(__listOf__string),
-    RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
-  })
-    .pipe(S.encodeKeys({ Cells: "cells" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/recoverygroups/{RecoveryGroupName}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "UpdateRecoveryGroupRequest",
-}) as any as S.Schema<UpdateRecoveryGroupRequest>;
 export interface UpdateRecoveryGroupResponse {
   Cells?: string[];
   RecoveryGroupArn?: string;
   RecoveryGroupName?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const UpdateRecoveryGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cells: S.optional(__listOf__string),
-    RecoveryGroupArn: S.optional(S.String),
-    RecoveryGroupName: S.optional(S.String),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      Cells: "cells",
-      RecoveryGroupArn: "recoveryGroupArn",
-      RecoveryGroupName: "recoveryGroupName",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateRecoveryGroupResponse",
-}) as any as S.Schema<UpdateRecoveryGroupResponse>;
 export interface UpdateResourceSetRequest {
   ResourceSetName: string;
   ResourceSetType?: string;
   Resources?: Resource[];
 }
-export const UpdateResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")),
-    ResourceSetType: S.optional(S.String),
-    Resources: S.optional(__listOfResource),
-  })
-    .pipe(S.encodeKeys({ ResourceSetType: "resourceSetType", Resources: "resources" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/resourcesets/{ResourceSetName}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({ identifier: "UpdateResourceSetRequest" }) as any as S.Schema<UpdateResourceSetRequest>;
 export interface UpdateResourceSetResponse {
   ResourceSetArn?: string;
   ResourceSetName?: string;
@@ -1440,25 +528,6 @@ export interface UpdateResourceSetResponse {
   Resources?: Resource[];
   Tags?: { [key: string]: string | undefined };
 }
-export const UpdateResourceSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSetArn: S.optional(S.String),
-    ResourceSetName: S.optional(S.String),
-    ResourceSetType: S.optional(S.String),
-    Resources: S.optional(__listOfResource),
-    Tags: S.optional(Tags),
-  }).pipe(
-    S.encodeKeys({
-      ResourceSetArn: "resourceSetArn",
-      ResourceSetName: "resourceSetName",
-      ResourceSetType: "resourceSetType",
-      Resources: "resources",
-      Tags: "tags",
-    }),
-  ),
-).annotate({
-  identifier: "UpdateResourceSetResponse",
-}) as any as S.Schema<UpdateResourceSetResponse>;
 export type CreateCellError =
   | AccessDeniedException
   | ConflictException
@@ -1475,8 +544,8 @@ export const createCell: API.OperationMethod<
   CreateCellError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCellRequest,
-  output: CreateCellResponse,
+  input: __S(256, __c32, 0) as any as S.Schema<CreateCellRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<CreateCellResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1505,8 +574,8 @@ export const createCrossAccountAuthorization: API.OperationMethod<
   CreateCrossAccountAuthorizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCrossAccountAuthorizationRequest,
-  output: CreateCrossAccountAuthorizationResponse,
+  input: __S(288, __c36, 0) as any as S.Schema<CreateCrossAccountAuthorizationRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<CreateCrossAccountAuthorizationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1535,8 +604,8 @@ export const createReadinessCheck: API.OperationMethod<
   CreateReadinessCheckError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateReadinessCheckRequest,
-  output: CreateReadinessCheckResponse,
+  input: __S(296, __c37, 0) as any as S.Schema<CreateReadinessCheckRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<CreateReadinessCheckResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1565,8 +634,8 @@ export const createRecoveryGroup: API.OperationMethod<
   CreateRecoveryGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateRecoveryGroupRequest,
-  output: CreateRecoveryGroupResponse,
+  input: __S(312, __c39, 0) as any as S.Schema<CreateRecoveryGroupRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<CreateRecoveryGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1595,8 +664,8 @@ export const createResourceSet: API.OperationMethod<
   CreateResourceSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateResourceSetRequest,
-  output: CreateResourceSetResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateResourceSetRequest>,
+  output: __S(14, __c1, 6) as any as S.Schema<CreateResourceSetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1625,8 +694,8 @@ export const deleteCell: API.OperationMethod<
   DeleteCellError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCellRequest,
-  output: DeleteCellResponse,
+  input: __S(16, __c2, 0) as any as S.Schema<DeleteCellRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteCellResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1654,8 +723,8 @@ export const deleteCrossAccountAuthorization: API.OperationMethod<
   DeleteCrossAccountAuthorizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCrossAccountAuthorizationRequest,
-  output: DeleteCrossAccountAuthorizationResponse,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteCrossAccountAuthorizationRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteCrossAccountAuthorizationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1683,8 +752,8 @@ export const deleteReadinessCheck: API.OperationMethod<
   DeleteReadinessCheckError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReadinessCheckRequest,
-  output: DeleteReadinessCheckResponse,
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteReadinessCheckRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteReadinessCheckResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1713,8 +782,8 @@ export const deleteRecoveryGroup: API.OperationMethod<
   DeleteRecoveryGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteRecoveryGroupRequest,
-  output: DeleteRecoveryGroupResponse,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteRecoveryGroupRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteRecoveryGroupResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1743,8 +812,8 @@ export const deleteResourceSet: API.OperationMethod<
   DeleteResourceSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourceSetRequest,
-  output: DeleteResourceSetResponse,
+  input: __S(56, __c7, 0) as any as S.Schema<DeleteResourceSetRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteResourceSetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1773,8 +842,8 @@ export const getArchitectureRecommendations: API.OperationMethod<
   GetArchitectureRecommendationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetArchitectureRecommendationsRequest,
-  output: GetArchitectureRecommendationsResponse,
+  input: __S(64, __c8, 0) as any as S.Schema<GetArchitectureRecommendationsRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<GetArchitectureRecommendationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1803,8 +872,8 @@ export const getCell: API.OperationMethod<
   GetCellError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCellRequest,
-  output: GetCellResponse,
+  input: __S(72, __c9, 0) as any as S.Schema<GetCellRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<GetCellResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1834,8 +903,8 @@ export const getCellReadinessSummary: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ReadinessCheckSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetCellReadinessSummaryRequest,
-  output: GetCellReadinessSummaryResponse,
+  input: __S(80, __c10, 0) as any as S.Schema<GetCellReadinessSummaryRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<GetCellReadinessSummaryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1870,8 +939,8 @@ export const getReadinessCheck: API.OperationMethod<
   GetReadinessCheckError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetReadinessCheckRequest,
-  output: GetReadinessCheckResponse,
+  input: __S(96, __c12, 0) as any as S.Schema<GetReadinessCheckRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<GetReadinessCheckResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1901,8 +970,8 @@ export const getReadinessCheckResourceStatus: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RuleResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetReadinessCheckResourceStatusRequest,
-  output: GetReadinessCheckResourceStatusResponse,
+  input: __S(104, __c13, 0) as any as S.Schema<GetReadinessCheckResourceStatusRequest>,
+  output: __S(107, __c13, 3) as any as S.Schema<GetReadinessCheckResourceStatusResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1938,8 +1007,8 @@ export const getReadinessCheckStatus: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResourceResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetReadinessCheckStatusRequest,
-  output: GetReadinessCheckStatusResponse,
+  input: __S(120, __c15, 0) as any as S.Schema<GetReadinessCheckStatusRequest>,
+  output: __S(123, __c15, 3) as any as S.Schema<GetReadinessCheckStatusResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1974,8 +1043,8 @@ export const getRecoveryGroup: API.OperationMethod<
   GetRecoveryGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetRecoveryGroupRequest,
-  output: GetRecoveryGroupResponse,
+  input: __S(128, __c16, 0) as any as S.Schema<GetRecoveryGroupRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<GetRecoveryGroupResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2005,8 +1074,8 @@ export const getRecoveryGroupReadinessSummary: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ReadinessCheckSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetRecoveryGroupReadinessSummaryRequest,
-  output: GetRecoveryGroupReadinessSummaryResponse,
+  input: __S(136, __c17, 0) as any as S.Schema<GetRecoveryGroupReadinessSummaryRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<GetRecoveryGroupReadinessSummaryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2041,8 +1110,8 @@ export const getResourceSet: API.OperationMethod<
   GetResourceSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourceSetRequest,
-  output: GetResourceSetResponse,
+  input: __S(144, __c18, 0) as any as S.Schema<GetResourceSetRequest>,
+  output: __S(14, __c1, 6) as any as S.Schema<GetResourceSetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2071,8 +1140,8 @@ export const listCells: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CellOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCellsRequest,
-  output: ListCellsResponse,
+  input: __S(152, __c19, 0) as any as S.Schema<ListCellsRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<ListCellsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2106,8 +1175,8 @@ export const listCrossAccountAuthorizations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CrossAccountAuthorization
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCrossAccountAuthorizationsRequest,
-  output: ListCrossAccountAuthorizationsResponse,
+  input: __S(160, __c20, 0) as any as S.Schema<ListCrossAccountAuthorizationsRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<ListCrossAccountAuthorizationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2141,8 +1210,8 @@ export const listReadinessChecks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ReadinessCheckOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListReadinessChecksRequest,
-  output: ListReadinessChecksResponse,
+  input: __S(168, __c21, 0) as any as S.Schema<ListReadinessChecksRequest>,
+  output: __S(170, __c21, 2) as any as S.Schema<ListReadinessChecksResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2176,8 +1245,8 @@ export const listRecoveryGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecoveryGroupOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRecoveryGroupsRequest,
-  output: ListRecoveryGroupsResponse,
+  input: __S(176, __c22, 0) as any as S.Schema<ListRecoveryGroupsRequest>,
+  output: __S(178, __c22, 2) as any as S.Schema<ListRecoveryGroupsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2211,8 +1280,8 @@ export const listResourceSets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ResourceSetOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListResourceSetsRequest,
-  output: ListResourceSetsResponse,
+  input: __S(184, __c23, 0) as any as S.Schema<ListResourceSetsRequest>,
+  output: __S(186, __c23, 2) as any as S.Schema<ListResourceSetsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2246,8 +1315,8 @@ export const listRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListRulesOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRulesRequest,
-  output: ListRulesResponse,
+  input: __S(192, __c24, 0) as any as S.Schema<ListRulesRequest>,
+  output: __S(195, __c24, 3) as any as S.Schema<ListRulesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2279,8 +1348,8 @@ export const listTagsForResources: API.OperationMethod<
   ListTagsForResourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourcesRequest,
-  output: ListTagsForResourcesResponse,
+  input: __S(200, __c25, 0) as any as S.Schema<ListTagsForResourcesRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<ListTagsForResourcesResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2301,8 +1370,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(208, __c26, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2323,8 +1392,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(216, __c27, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2347,8 +1416,8 @@ export const updateCell: API.OperationMethod<
   UpdateCellError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCellRequest,
-  output: UpdateCellResponse,
+  input: __S(224, __c28, 0) as any as S.Schema<UpdateCellRequest>,
+  output: __S(264, __c33, 0) as any as S.Schema<UpdateCellResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2377,8 +1446,8 @@ export const updateReadinessCheck: API.OperationMethod<
   UpdateReadinessCheckError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateReadinessCheckRequest,
-  output: UpdateReadinessCheckResponse,
+  input: __S(232, __c29, 0) as any as S.Schema<UpdateReadinessCheckRequest>,
+  output: __S(304, __c38, 0) as any as S.Schema<UpdateReadinessCheckResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2407,8 +1476,8 @@ export const updateRecoveryGroup: API.OperationMethod<
   UpdateRecoveryGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRecoveryGroupRequest,
-  output: UpdateRecoveryGroupResponse,
+  input: __S(240, __c30, 0) as any as S.Schema<UpdateRecoveryGroupRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<UpdateRecoveryGroupResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2437,8 +1506,8 @@ export const updateResourceSet: API.OperationMethod<
   UpdateResourceSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateResourceSetRequest,
-  output: UpdateResourceSetResponse,
+  input: __S(248, __c31, 0) as any as S.Schema<UpdateResourceSetRequest>,
+  output: __S(14, __c1, 6) as any as S.Schema<UpdateResourceSetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2450,3 +1519,962 @@ export const updateResourceSet: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateResourceSet",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceSetName: S.optional(S.String),
+          ResourceSetType: S.optional(S.String),
+          Resources: S.optional(__listOfResource),
+          Tags: S.optional(__S(272, __c34, 0)),
+        })
+          .pipe(
+            S.encodeKeys({
+              ResourceSetName: "resourceSetName",
+              ResourceSetType: "resourceSetType",
+              Resources: "resources",
+              Tags: "tags",
+            }),
+          )
+          .pipe(
+            T.all(T.Http({ method: "POST", uri: "/resourcesets" }), svc, auth, proto, ver, rules),
+          ),
+      ).annotate({ identifier: "CreateResourceSetRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Arn: S.optional(S.String) }).pipe(S.encodeKeys({ Arn: "arn" })),
+      ).annotate({ identifier: "NLBResource" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.optional(S.String), RecordSetId: S.optional(S.String) }).pipe(
+          S.encodeKeys({ DomainName: "domainName", RecordSetId: "recordSetId" }),
+        ),
+      ).annotate({ identifier: "R53ResourceRecord" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NLBResource: S.optional(__S(8, __c1, 0)),
+          R53Resource: S.optional(__S(9, __c1, 1)),
+        }).pipe(S.encodeKeys({ NLBResource: "nLBResource", R53Resource: "r53Resource" })),
+      ).annotate({ identifier: "TargetResource" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.optional(S.String),
+          HostedZoneArn: S.optional(S.String),
+          RecordSetId: S.optional(S.String),
+          RecordType: S.optional(S.String),
+          TargetResource: S.optional(__S(10, __c1, 2)),
+        }).pipe(
+          S.encodeKeys({
+            DomainName: "domainName",
+            HostedZoneArn: "hostedZoneArn",
+            RecordSetId: "recordSetId",
+            RecordType: "recordType",
+            TargetResource: "targetResource",
+          }),
+        ),
+      ).annotate({ identifier: "DNSTargetResource" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ComponentId: S.optional(S.String),
+          DnsTargetResource: S.optional(__S(11, __c1, 3)),
+          ReadinessScopes: S.optional(__listOf__string),
+          ResourceArn: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ComponentId: "componentId",
+            DnsTargetResource: "dnsTargetResource",
+            ReadinessScopes: "readinessScopes",
+            ResourceArn: "resourceArn",
+          }),
+        ),
+      ).annotate({ identifier: "Resource" });
+    case 5:
+      return S.Array(__S(12, __c1, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceSetArn: S.optional(S.String),
+          ResourceSetName: S.optional(S.String),
+          ResourceSetType: S.optional(S.String),
+          Resources: S.optional(__listOfResource),
+          Tags: S.optional(__S(272, __c34, 0)),
+        }).pipe(
+          S.encodeKeys({
+            ResourceSetArn: "resourceSetArn",
+            ResourceSetName: "resourceSetName",
+            ResourceSetType: "resourceSetType",
+            Resources: "resources",
+            Tags: "tags",
+          }),
+        ),
+      ).annotate({ identifier: "CreateResourceSetResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CellName: S.String.pipe(T.HttpLabel("CellName")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/cells/{CellName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteCellRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteCellResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CrossAccountAuthorization: S.String.pipe(T.HttpLabel("CrossAccountAuthorization")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/crossaccountauthorizations/{CrossAccountAuthorization}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteCrossAccountAuthorizationRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/readinesschecks/{ReadinessCheckName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteReadinessCheckRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/recoverygroups/{RecoveryGroupName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteRecoveryGroupRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/resourcesets/{ResourceSetName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteResourceSetRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/recoverygroups/{RecoveryGroupName}/architectureRecommendations",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetArchitectureRecommendationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ RecommendationText: S.optional(S.String) }).pipe(
+          S.encodeKeys({ RecommendationText: "recommendationText" }),
+        ),
+      ).annotate({ identifier: "Recommendation" });
+    case 2:
+      return S.Array(__S(65, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          LastAuditTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          NextToken: S.optional(S.String),
+          Recommendations: S.optional(__listOfRecommendation),
+        }).pipe(
+          S.encodeKeys({
+            LastAuditTimestamp: "lastAuditTimestamp",
+            NextToken: "nextToken",
+            Recommendations: "recommendations",
+          }),
+        ),
+      ).annotate({ identifier: "GetArchitectureRecommendationsResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CellName: S.String.pipe(T.HttpLabel("CellName")) }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/cells/{CellName}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetCellRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CellName: S.String.pipe(T.HttpLabel("CellName")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/cellreadiness/{CellName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetCellReadinessSummaryRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Readiness: S.optional(S.String),
+          ReadinessCheckName: S.optional(S.String),
+        }).pipe(S.encodeKeys({ Readiness: "readiness", ReadinessCheckName: "readinessCheckName" })),
+      ).annotate({ identifier: "ReadinessCheckSummary" });
+    case 1:
+      return S.Array(__S(88, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          Readiness: S.optional(S.String),
+          ReadinessChecks: S.optional(__listOfReadinessCheckSummary),
+        }).pipe(
+          S.encodeKeys({
+            NextToken: "nextToken",
+            Readiness: "readiness",
+            ReadinessChecks: "readinessChecks",
+          }),
+        ),
+      ).annotate({ identifier: "GetCellReadinessSummaryResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/readinesschecks/{ReadinessCheckName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetReadinessCheckRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
+          ResourceIdentifier: S.String.pipe(T.HttpLabel("ResourceIdentifier")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/readinesschecks/{ReadinessCheckName}/resource/{ResourceIdentifier}/status",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetReadinessCheckResourceStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LastCheckedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Messages: S.optional(__listOfMessage),
+          Readiness: S.optional(S.String),
+          RuleId: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            LastCheckedTimestamp: "lastCheckedTimestamp",
+            Messages: "messages",
+            Readiness: "readiness",
+            RuleId: "ruleId",
+          }),
+        ),
+      ).annotate({ identifier: "RuleResult" });
+    case 2:
+      return S.Array(__S(105, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          Readiness: S.optional(S.String),
+          Rules: S.optional(__listOfRuleResult),
+        }).pipe(S.encodeKeys({ NextToken: "nextToken", Readiness: "readiness", Rules: "rules" })),
+      ).annotate({ identifier: "GetReadinessCheckResourceStatusResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MessageText: S.optional(S.String) }).pipe(
+          S.encodeKeys({ MessageText: "messageText" }),
+        ),
+      ).annotate({ identifier: "Message" });
+    case 1:
+      return S.Array(__S(112, __c14, 0));
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/readinesschecks/{ReadinessCheckName}/status" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetReadinessCheckStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ComponentId: S.optional(S.String),
+          LastCheckedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          Readiness: S.optional(S.String),
+          ResourceArn: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ComponentId: "componentId",
+            LastCheckedTimestamp: "lastCheckedTimestamp",
+            Readiness: "readiness",
+            ResourceArn: "resourceArn",
+          }),
+        ),
+      ).annotate({ identifier: "ResourceResult" });
+    case 2:
+      return S.Array(__S(121, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Messages: S.optional(__listOfMessage),
+          NextToken: S.optional(S.String),
+          Readiness: S.optional(S.String),
+          Resources: S.optional(__listOfResourceResult),
+        }).pipe(
+          S.encodeKeys({
+            Messages: "messages",
+            NextToken: "nextToken",
+            Readiness: "readiness",
+            Resources: "resources",
+          }),
+        ),
+      ).annotate({ identifier: "GetReadinessCheckStatusResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/recoverygroups/{RecoveryGroupName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRecoveryGroupRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/recoverygroupreadiness/{RecoveryGroupName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRecoveryGroupReadinessSummaryRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/resourcesets/{ResourceSetName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetResourceSetRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(T.all(T.Http({ method: "GET", uri: "/cells" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListCellsRequest" });
+    case 1:
+      return S.Array(__S(264, __c33, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Cells: S.optional(__listOfCellOutput), NextToken: S.optional(S.String) }).pipe(
+          S.encodeKeys({ Cells: "cells", NextToken: "nextToken" }),
+        ),
+      ).annotate({ identifier: "ListCellsResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/crossaccountauthorizations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListCrossAccountAuthorizationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CrossAccountAuthorizations: S.optional(__listOfCrossAccountAuthorization),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            CrossAccountAuthorizations: "crossAccountAuthorizations",
+            NextToken: "nextToken",
+          }),
+        ),
+      ).annotate({ identifier: "ListCrossAccountAuthorizationsResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/readinesschecks" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListReadinessChecksRequest" });
+    case 1:
+      return S.Array(__S(304, __c38, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ReadinessChecks: S.optional(__listOfReadinessCheckOutput),
+        }).pipe(S.encodeKeys({ NextToken: "nextToken", ReadinessChecks: "readinessChecks" })),
+      ).annotate({ identifier: "ListReadinessChecksResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/recoverygroups" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListRecoveryGroupsRequest" });
+    case 1:
+      return S.Array(__S(320, __c40, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          RecoveryGroups: S.optional(__listOfRecoveryGroupOutput),
+        }).pipe(S.encodeKeys({ NextToken: "nextToken", RecoveryGroups: "recoveryGroups" })),
+      ).annotate({ identifier: "ListRecoveryGroupsResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/resourcesets" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListResourceSetsRequest" });
+    case 1:
+      return S.Array(__S(14, __c1, 6));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ResourceSets: S.optional(__listOfResourceSetOutput),
+        }).pipe(S.encodeKeys({ NextToken: "nextToken", ResourceSets: "resourceSets" })),
+      ).annotate({ identifier: "ListResourceSetsResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
+        }).pipe(T.all(T.Http({ method: "GET", uri: "/rules" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListRulesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceType: S.optional(S.String),
+          RuleDescription: S.optional(S.String),
+          RuleId: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ResourceType: "resourceType",
+            RuleDescription: "ruleDescription",
+            RuleId: "ruleId",
+          }),
+        ),
+      ).annotate({ identifier: "ListRulesOutput" });
+    case 2:
+      return S.Array(__S(193, __c24, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          Rules: S.optional(__listOfListRulesOutput),
+        }).pipe(S.encodeKeys({ NextToken: "nextToken", Rules: "rules" })),
+      ).annotate({ identifier: "ListRulesResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Tags: S.optional(__S(272, __c34, 0)) }).pipe(S.encodeKeys({ Tags: "tags" })),
+      ).annotate({ identifier: "ListTagsForResourcesResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          Tags: S.optional(__S(272, __c34, 0)),
+        })
+          .pipe(S.encodeKeys({ Tags: "tags" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          TagKeys: S.optional(__listOf__string).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CellName: S.String.pipe(T.HttpLabel("CellName")),
+          Cells: S.optional(__listOf__string),
+        })
+          .pipe(S.encodeKeys({ Cells: "cells" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "PUT", uri: "/cells/{CellName}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "UpdateCellRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReadinessCheckName: S.String.pipe(T.HttpLabel("ReadinessCheckName")),
+          ResourceSetName: S.optional(S.String),
+        })
+          .pipe(S.encodeKeys({ ResourceSetName: "resourceSetName" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "PUT", uri: "/readinesschecks/{ReadinessCheckName}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "UpdateReadinessCheckRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Cells: S.optional(__listOf__string),
+          RecoveryGroupName: S.String.pipe(T.HttpLabel("RecoveryGroupName")),
+        })
+          .pipe(S.encodeKeys({ Cells: "cells" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "PUT", uri: "/recoverygroups/{RecoveryGroupName}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "UpdateRecoveryGroupRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceSetName: S.String.pipe(T.HttpLabel("ResourceSetName")),
+          ResourceSetType: S.optional(S.String),
+          Resources: S.optional(__listOfResource),
+        })
+          .pipe(S.encodeKeys({ ResourceSetType: "resourceSetType", Resources: "resources" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "PUT", uri: "/resourcesets/{ResourceSetName}" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "UpdateResourceSetRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CellName: S.optional(S.String),
+          Cells: S.optional(__listOf__string),
+          Tags: S.optional(__S(272, __c34, 0)),
+        })
+          .pipe(S.encodeKeys({ CellName: "cellName", Cells: "cells", Tags: "tags" }))
+          .pipe(T.all(T.Http({ method: "POST", uri: "/cells" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCellRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CellArn: S.optional(S.String),
+          CellName: S.optional(S.String),
+          Cells: S.optional(__listOf__string),
+          ParentReadinessScopes: S.optional(__listOf__string),
+          Tags: S.optional(__S(272, __c34, 0)),
+        }).pipe(
+          S.encodeKeys({
+            CellArn: "cellArn",
+            CellName: "cellName",
+            Cells: "cells",
+            ParentReadinessScopes: "parentReadinessScopes",
+            Tags: "tags",
+          }),
+        ),
+      ).annotate({ identifier: "CreateCellResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ CrossAccountAuthorization: S.optional(S.String) })
+          .pipe(S.encodeKeys({ CrossAccountAuthorization: "crossAccountAuthorization" }))
+          .pipe(
+            T.all(
+              T.Http({ method: "POST", uri: "/crossaccountauthorizations" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "CreateCrossAccountAuthorizationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ CrossAccountAuthorization: S.optional(S.String) }).pipe(
+          S.encodeKeys({ CrossAccountAuthorization: "crossAccountAuthorization" }),
+        ),
+      ).annotate({ identifier: "CreateCrossAccountAuthorizationResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReadinessCheckName: S.optional(S.String),
+          ResourceSetName: S.optional(S.String),
+          Tags: S.optional(__S(272, __c34, 0)),
+        })
+          .pipe(
+            S.encodeKeys({
+              ReadinessCheckName: "readinessCheckName",
+              ResourceSetName: "resourceSetName",
+              Tags: "tags",
+            }),
+          )
+          .pipe(
+            T.all(
+              T.Http({ method: "POST", uri: "/readinesschecks" }),
+              svc,
+              auth,
+              proto,
+              ver,
+              rules,
+            ),
+          ),
+      ).annotate({ identifier: "CreateReadinessCheckRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReadinessCheckArn: S.optional(S.String),
+          ReadinessCheckName: S.optional(S.String),
+          ResourceSet: S.optional(S.String),
+          Tags: S.optional(__S(272, __c34, 0)),
+        }).pipe(
+          S.encodeKeys({
+            ReadinessCheckArn: "readinessCheckArn",
+            ReadinessCheckName: "readinessCheckName",
+            ResourceSet: "resourceSet",
+            Tags: "tags",
+          }),
+        ),
+      ).annotate({ identifier: "CreateReadinessCheckResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Cells: S.optional(__listOf__string),
+          RecoveryGroupName: S.optional(S.String),
+          Tags: S.optional(__S(272, __c34, 0)),
+        })
+          .pipe(
+            S.encodeKeys({ Cells: "cells", RecoveryGroupName: "recoveryGroupName", Tags: "tags" }),
+          )
+          .pipe(
+            T.all(T.Http({ method: "POST", uri: "/recoverygroups" }), svc, auth, proto, ver, rules),
+          ),
+      ).annotate({ identifier: "CreateRecoveryGroupRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Cells: S.optional(__listOf__string),
+          RecoveryGroupArn: S.optional(S.String),
+          RecoveryGroupName: S.optional(S.String),
+          Tags: S.optional(__S(272, __c34, 0)),
+        }).pipe(
+          S.encodeKeys({
+            Cells: "cells",
+            RecoveryGroupArn: "recoveryGroupArn",
+            RecoveryGroupName: "recoveryGroupName",
+            Tags: "tags",
+          }),
+        ),
+      ).annotate({ identifier: "CreateRecoveryGroupResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

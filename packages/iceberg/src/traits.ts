@@ -1,5 +1,5 @@
 /**
- * Iceberg REST Catalog SDK trait surface — hand-written.
+ * Iceberg REST Catalog SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. Iceberg speaks plain bearer-REST JSON with no

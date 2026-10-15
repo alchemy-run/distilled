@@ -8,7 +8,7 @@ import {
 import { buildRequest, mapKeys, matchTypedError } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
 /**
- * ZeroSslProtocol — hand-written.
+ * ZeroSslProtocol -- hand-written.
  *
  * ZeroSSL's REST API is JSON at `https://api.zerossl.com` authenticated by
  * the account's access key in the `Authorization: ApiKey` header. Failures
@@ -33,7 +33,7 @@ export type ZeroSslOpError = DefaultErrors | ConfigError | HttpClientError.HttpC
 
 export type ZeroSslOpContext = Credentials | HttpClient.HttpClient;
 
-const resolveCredentials = Effect.gen(function* () {
+const resolveCredentials = /*@__PURE__*/ Effect.gen(function* () {
   const resolve = yield* Credentials;
   return yield* resolve as Effect.Effect<Config>;
 });
@@ -162,9 +162,9 @@ const parseError = (cause: string) =>
 
 const fail = <E>(error: E) => Effect.fail(error) as Effect.Effect<never, E>;
 
-export const ZeroSslProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+export const ZeroSslProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
-  API.Protocol.of({
+  /*@__PURE__*/ API.Protocol.of({
     encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: (args) => decode(args) as Effect.Effect<unknown>,
   }),

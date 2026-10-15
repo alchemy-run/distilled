@@ -1,5 +1,5 @@
 /**
- * Squarespace pagination — hand-written.
+ * Squarespace pagination -- hand-written.
  *
  * Squarespace's paginated list operations are cursor-mode (`cursor` in,
  * `pagination.nextPageCursor` out); generated operations pass core's

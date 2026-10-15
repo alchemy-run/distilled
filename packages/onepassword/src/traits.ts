@@ -1,5 +1,5 @@
 /**
- * 1Password Connect SDK trait surface — hand-written.
+ * 1Password Connect SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Connect has no envelope of its own;

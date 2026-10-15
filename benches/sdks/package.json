@@ -1,0 +1,27 @@
+{
+  "name": "@distilled.cloud/bench-sdks",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Per-SDK benchmarks across every distilled package: download size, 1-auth + 1-operation bundle size, memory, import time, added call latency, consumer typecheck cost. Offline.",
+  "type": "module",
+  "scripts": {
+    "bench": "node run.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-dynamodb": "3.1147.0",
+    "@aws-sdk/client-ec2": "3.1147.0",
+    "@aws-sdk/client-kms": "3.1147.0",
+    "@aws-sdk/client-lambda": "3.1147.0",
+    "@aws-sdk/client-s3": "3.1147.0",
+    "@aws-sdk/client-sts": "3.1147.0",
+    "@google-cloud/storage": "8.2.0",
+    "@types/node": "catalog:",
+    "cloudflare": "7.3.0",
+    "rolldown": "catalog:",
+    "typescript": "catalog:"
+  }
+}

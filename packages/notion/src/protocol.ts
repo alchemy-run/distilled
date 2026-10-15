@@ -3,7 +3,7 @@ import type { ConfigError } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP, ServiceUnavailable } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * NotionProtocol — the shared bearer-REST protocol instantiated for Notion.
+ * NotionProtocol -- the shared bearer-REST protocol instantiated for Notion.
  *
  * Notion speaks plain JSON with no success envelope. Every request carries
  * `Authorization: Bearer <token>` and the required `Notion-Version` header.
@@ -30,14 +30,11 @@ export type NotionOpError = DefaultErrors | ConfigError | HttpClientError.HttpCl
 /** Context (requirements) shared by every generated Notion operation. */
 export type NotionOpContext = Credentials | HttpClient.HttpClient;
 
-export const NotionProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const NotionProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request (the layer is memoized per
   // process); the Credentials service holds an effect, so a token rotated
   // between calls is picked up without rebuilding the layer.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,

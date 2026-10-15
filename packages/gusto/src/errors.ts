@@ -3,8 +3,8 @@
  *
  * Re-exports the common HTTP errors from core and adds the Gusto fallback
  * errors. Note the generated service module additionally defines its own
- * per-status matcher classes (BadRequest/NotFound/…) for the statuses each
- * operation declares — those share `_tag`s with the core classes here, so
+ * per-status matcher classes (BadRequest/NotFound/...) for the statuses each
+ * operation declares -- those share `_tag`s with the core classes here, so
  * `catchTag` works against either.
  */
 export {
@@ -28,20 +28,19 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
-/** Unknown Gusto error — returned when nothing else matches the failure. */
-export class UnknownGustoError extends Schema.TaggedError<UnknownGustoError>()(
-  "UnknownGustoError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+/** Unknown Gusto error -- returned when nothing else matches the failure. */
+export class UnknownGustoError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownGustoError>()("UnknownGustoError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class GustoParseError extends Schema.TaggedError<GustoParseError>()("GustoParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class GustoParseError
+  extends /*@__PURE__*/ Schema.TaggedError<GustoParseError>()("GustoParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}

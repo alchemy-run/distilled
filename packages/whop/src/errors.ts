@@ -7,8 +7,8 @@
  *
  * Whop answers every failure with a single `error` object carrying a
  * machine-readable `type` (`invalid_parameters`, `parameter_missing`,
- * `not_found`, …) beside the human-readable `message`. The status is what
- * the SDK dispatches on — that is what the specs declare per operation — and
+ * `not_found`, ...) beside the human-readable `message`. The status is what
+ * the SDK dispatches on -- that is what the specs declare per operation -- and
  * the finer-grained `type` rides through on `code`, both on the typed
  * per-operation classes and on {@link UnknownWhopError}.
  *
@@ -34,10 +34,10 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * HTTP 402 — the call is well-formed but the money isn't there: an ad
+ * HTTP 402 -- the call is well-formed but the money isn't there: an ad
  * campaign whose payment failed, media generation billed against a balance
  * that can't cover it. Retrying unchanged keeps failing until the balance is
  * topped up, so it is NOT marked retryable.
@@ -46,27 +46,30 @@ import * as Schema from "effect/Schema";
  * class in their service module (from the spec's per-operation error list);
  * this is the one the protocol's status map falls back to everywhere else.
  */
-export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
-  message: Schema.String,
-}).pipe(Category.withBadRequestError) {}
+export class PaymentRequired
+  extends /*@__PURE__*/ Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
+    message: Schema.String,
+  }).pipe(Category.withBadRequestError) {}
 
 /**
- * Unknown Whop error — returned when a failed response's HTTP status has no
+ * Unknown Whop error -- returned when a failed response's HTTP status has no
  * mapped error class. `code` carries the envelope's `error.type` (the
  * machine-parsable half of Whop's error object) and `body` the raw payload,
  * so an unmapped status is still actionable.
  */
-export class UnknownWhopError extends Schema.TaggedError<UnknownWhopError>()("UnknownWhopError", {
-  code: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  body: Schema.Unknown,
-}).pipe(Category.withServerError) {}
+export class UnknownWhopError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownWhopError>()("UnknownWhopError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    body: Schema.Unknown,
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class WhopParseError extends Schema.TaggedError<WhopParseError>()("WhopParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class WhopParseError
+  extends /*@__PURE__*/ Schema.TaggedError<WhopParseError>()("WhopParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any Whop operation may surface in addition to the per-operation

@@ -1,3 +1,4 @@
+import * as S from "@distilled.cloud/core/schema-lite-typed";
 import {
   all,
   annotationMetaSymbol,
@@ -10,20 +11,70 @@ import {
   responseCodeSymbol as coreResponseCodeSymbol,
   type Annotation,
 } from "@distilled.cloud/core/trait";
-import type * as Effect from "effect/Effect";
-import * as S from "effect/Schema";
-import * as AST from "effect/SchemaAST";
-import * as SchemaTransformation from "effect/SchemaTransformation";
+import * as Effect from "effect/Effect";
+import type * as AST from "effect/SchemaAST";
 import * as Stream from "effect/Stream";
-import type { Protocol } from "./client/protocol.ts";
+import type { Operation } from "./client/operation.ts";
+import type { LazyHandler, Protocol, ProtocolHandler, ProtocolImpl } from "./client/protocol.ts";
 import type { Request as ProtocolRequest } from "./client/request.ts";
 import { ErrorMessage, errorMessageSymbol } from "./error-message.ts";
-import { applyHttpChecksum } from "./middleware/checksum.ts";
-import { awsJson1_0Protocol, awsJson1_1Protocol } from "./protocols/aws-json.ts";
-import { awsQueryProtocol } from "./protocols/aws-query.ts";
-import { ec2QueryProtocol } from "./protocols/ec2-query.ts";
-import { restJson1Protocol } from "./protocols/rest-json.ts";
-import { restXmlProtocol } from "./protocols/rest-xml.ts";
+import { blob, timestamp } from "./lite.ts";
+import { signV2 } from "./sigv2.ts";
+
+/**
+ * A protocol whose implementation module loads on the first request.
+ *
+ * Every generated service module names its wire protocol through these
+ * traits, so importing them statically loaded all five protocol
+ * implementations (with XML, event stream and customization code) into
+ * every program: about 750 KB of heap, of which one protocol is used.
+ * Consumers get the implementation's handler through `ready`.
+ */
+const lazyProtocol = (load: () => Promise<ProtocolImpl>): Protocol => {
+  let loaded: Promise<ProtocolImpl> | undefined;
+  let ready: ProtocolImpl | undefined;
+  const protocol = Effect.promise(() => (loaded ??= load()).then((p) => (ready = p)));
+  return (operation: Operation): LazyHandler => {
+    let handler: ProtocolHandler | undefined;
+    // After the first request the handler is returned directly: no promise per call.
+    return {
+      ready: Effect.suspend(() =>
+        handler
+          ? Effect.succeed(handler)
+          : ready
+            ? Effect.succeed((handler = ready(operation)))
+            : Effect.map(protocol, (p) => (handler ??= p(operation))),
+      ),
+    };
+  };
+};
+
+const restXmlProtocol = /*@__PURE__*/ lazyProtocol(() =>
+  import("./protocols/rest-xml.ts").then((m) => m.restXmlProtocol),
+);
+const restJson1Protocol = /*@__PURE__*/ lazyProtocol(() =>
+  import("./protocols/rest-json.ts").then((m) => m.restJson1Protocol),
+);
+const awsJson1_0Protocol = /*@__PURE__*/ lazyProtocol(() =>
+  import("./protocols/aws-json.ts").then((m) => m.awsJson1_0Protocol),
+);
+const awsJson1_1Protocol = /*@__PURE__*/ lazyProtocol(() =>
+  import("./protocols/aws-json.ts").then((m) => m.awsJson1_1Protocol),
+);
+const awsQueryProtocol = /*@__PURE__*/ lazyProtocol(() =>
+  import("./protocols/aws-query.ts").then((m) => m.awsQueryProtocol),
+);
+const ec2QueryProtocol = /*@__PURE__*/ lazyProtocol(() =>
+  import("./protocols/ec2-query.ts").then((m) => m.ec2QueryProtocol),
+);
+
+/** HTTP checksum middleware, loaded on the first request that needs it. */
+let checksumModule: Promise<typeof import("./middleware/checksum.ts")> | undefined;
+const applyHttpChecksum: MiddlewareFn = (schema, request) =>
+  Effect.flatMap(
+    Effect.promise(() => (checksumModule ??= import("./middleware/checksum.ts"))),
+    (m) => m.applyHttpChecksum(schema, request),
+  );
 import type { RuleSetObject } from "./rules-engine/expression.ts";
 
 // The annotation machinery (pipeable builders usable as S.Class annotation
@@ -32,7 +83,7 @@ import type { RuleSetObject } from "./rules-engine/expression.ts";
 export { all, type Annotation };
 
 // The canonical-message trait is defined in a leaf module so `errors.ts` can
-// reach it without importing this one — see its header for the cycle.
+// reach it without importing this one -- see its header for the cycle.
 export { ErrorMessage, errorMessageSymbol };
 
 /**
@@ -48,7 +99,7 @@ export type Annotatable = {
 // =============================================================================
 
 // The generic HTTP binding traits are keyed to core's shared symbols
-// (`@distilled.cloud/core/trait`) — the same annotations the cloudflare
+// (`@distilled.cloud/core/trait`) -- the same annotations the cloudflare
 // SDK stamps. The builders keep their smithy-flavored names because the
 // generator emits them; only the underlying keys are shared.
 
@@ -147,18 +198,10 @@ export const Ec2QueryName = (name: string) => makeAnnotation(ec2QueryNameSymbol,
 // =============================================================================
 
 /**
- * DateFromString - String ↔ Date transformation via ISO 8601.
+ * DateFromString - String <-> Date transformation via ISO 8601.
  * Use this instead of bare S.Date when the wire format is a string.
  */
-export const DateFromString = S.Date.pipe(
-  S.encodeTo(
-    S.String,
-    SchemaTransformation.transform({
-      decode: (s: string) => new Date(s),
-      encode: (d: Date) => d.toISOString(),
-    }),
-  ),
-);
+export const DateFromString: S.Schema<Date> = /*@__PURE__*/ timestamp("date-string") as any;
 
 /** smithy.api#timestampFormat - Timestamp serialization format */
 export const timestampFormatSymbol = "distilled-aws/timestamp-format" as const;
@@ -168,44 +211,17 @@ export type TimestampFormatType = "date-time" | "http-date" | "epoch-seconds";
  * TimestampFormat trait - applies both annotation and transform.
  * When piped to S.Date, transforms to the appropriate wire format.
  *
- * - "epoch-seconds": Date ↔ number (Unix timestamp)
- * - "http-date": Date ↔ string (RFC 7231)
- * - "date-time": Date ↔ string (ISO 8601)
+ * - "epoch-seconds": Date <-> number (Unix timestamp)
+ * - "http-date": Date <-> string (RFC 7231)
+ * - "date-time": Date <-> string (ISO 8601)
  */
 export const TimestampFormat = (format: TimestampFormatType) => {
-  return <A extends S.Top>(schema: A): A => {
-    // Apply the appropriate transform based on format
-    const transformed =
-      format === "epoch-seconds"
-        ? S.Number.pipe(
-            S.decodeTo(
-              S.Date,
-              SchemaTransformation.transform({
-                decode: (n) => new Date(n * 1000),
-                // Truncate to whole seconds: some services parse
-                // epoch-seconds strictly and reject fractional values —
-                // e.g. IoT SiteWise's GetAssetPropertyAggregates fails
-                // with "The date can only be in seconds."
-                encode: (d) => Math.floor(d.getTime() / 1000),
-              }),
-            ),
-          )
-        : format === "http-date"
-          ? S.String.pipe(
-              S.decodeTo(
-                S.Date,
-                SchemaTransformation.transform({
-                  decode: (s) => new Date(s),
-                  encode: (d) => d.toUTCString(),
-                }),
-              ),
-            )
-          : // date-time (ISO 8601) - S.Date already handles this
-            schema;
-
-    // Add the annotation
-    return transformed.annotate({ [timestampFormatSymbol]: format }) as any;
-  };
+  return <A extends S.Top>(schema: A): A =>
+    // epoch-seconds and http-date replace the wire form; date-time keeps
+    // the schema's own (ISO 8601 for DateFromString).
+    (format === "date-time"
+      ? schema.annotate({ [timestampFormatSymbol]: format })
+      : timestamp(format, { [timestampFormatSymbol]: format })) as any;
 };
 
 // =============================================================================
@@ -256,8 +272,11 @@ export const AwsAuthSigv4 = (trait: AwsAuthSigv4Trait) => makeAnnotation(awsAuth
 export const awsAuthSigv2Symbol = "distilled-aws/aws.auth#sigv2" as const;
 export interface AwsAuthSigv2Trait {
   name: string;
+  /** The signer, carried by the trait so only SigV2 services bundle it. */
+  readonly sign: typeof signV2;
 }
-export const AwsAuthSigv2 = (trait: AwsAuthSigv2Trait) => makeAnnotation(awsAuthSigv2Symbol, trait);
+export const AwsAuthSigv2 = (trait: { name: string }) =>
+  makeAnnotation(awsAuthSigv2Symbol, { ...trait, sign: signV2 });
 
 // =============================================================================
 // AWS Protocol Traits (aws.protocols#*)
@@ -440,10 +459,37 @@ export type EndpointResolverFn = (
   helpers: EndpointResolverHelpers,
 ) => EndpointResolverResult;
 
+/**
+ * What the rule set resolves to when `Region` is its only parameter, for
+ * every region partitions.json names: the `endpoint` object as JSON, with
+ * `{R}` for the region and `{D}` for its partition's DNS suffix. The
+ * generator evaluates the rules for each named region and lists the regions
+ * the template does not reproduce in `exceptions`; those, and regions named
+ * by no partition, run the rules.
+ */
+export interface EndpointTemplate {
+  readonly template: string;
+  readonly exceptions: ReadonlyArray<string>;
+}
+
+const endpointTemplateKey = "distilled-aws/endpoint-template";
+
 /** Endpoint resolver - compiled function for endpoint resolution */
 export const endpointResolverSymbol = "distilled-aws/endpoint-resolver" as const;
-export const EndpointResolver = (resolver: EndpointResolverFn) =>
-  makeAnnotation(endpointResolverSymbol, resolver);
+export const EndpointResolver = (
+  resolver: EndpointResolverFn,
+  template?: string,
+  exceptions: ReadonlyArray<string> = [],
+) => {
+  if (template !== undefined) {
+    (resolver as any)[endpointTemplateKey] = { template, exceptions } satisfies EndpointTemplate;
+  }
+  return makeAnnotation(endpointResolverSymbol, resolver);
+};
+
+/** The Region-only endpoint template the generator attached to a resolver. */
+export const getEndpointTemplate = (resolver: EndpointResolverFn): EndpointTemplate | undefined =>
+  (resolver as any)[endpointTemplateKey];
 
 /** smithy.rules#clientContextParams - Client-level endpoint parameters */
 export const clientContextParamsSymbol = "distilled-aws/smithy.rules#clientContextParams" as const;
@@ -546,16 +592,9 @@ export const isIdempotencyToken = (ast: AST.AST): boolean =>
  * Smithy blob type - binary data that encodes to base64 on the wire.
  * Used for non-streaming blobs in request/response bodies.
  */
-export const Blob = S.String.pipe(
-  S.decodeTo(
-    S.instanceOf(Uint8Array<ArrayBufferLike>),
-    SchemaTransformation.transform({
-      decode: (s) =>
-        Uint8Array.from(atob(s), (c) => c.charCodeAt(0)) as any as Uint8Array<ArrayBufferLike>,
-      encode: (u) => btoa(String.fromCharCode(...u)),
-    }),
-  ),
-).annotate({ identifier: "Blob" });
+export const Blob: S.Schema<Uint8Array<ArrayBufferLike>> = /*@__PURE__*/ blob({
+  identifier: "Blob",
+}) as any;
 
 // =============================================================================
 // Streaming Body (smithy.api#blob + smithy.api#streaming)
@@ -632,7 +671,7 @@ export type StreamingInputBody =
 /**
  * Schema for streaming input bodies.
  */
-export const StreamingInput = S.declare(
+export const StreamingInput = /*@__PURE__*/ S.declare(
   (u): u is StreamingInputBody =>
     typeof u === "string" ||
     ArrayBuffer.isView(u) ||
@@ -649,7 +688,7 @@ export const StreamingInput = S.declare(
 /**
  * Streaming output body - always Effect Stream for composability.
  */
-export const StreamingOutput = S.declare(
+export const StreamingOutput = /*@__PURE__*/ S.declare(
   (u): u is Stream.Stream<Uint8Array<ArrayBufferLike>, Error, never> => isEffectStream(u),
 ).annotate({
   [streamingSymbol]: true,
@@ -689,28 +728,85 @@ export const EventHeader = () => makeAnnotation(eventHeaderSymbol, true);
 export const eventPayloadSymbol = "distilled-aws/event-payload" as const;
 export const EventPayload = () => makeAnnotation(eventPayloadSymbol, true);
 
+/**
+ * The event stream codec (binary framing, CRC32, payload parsers). It loads
+ * on the first event stream, and only bundles that keep an event stream
+ * schema reference it: `EventStream` / `InputEventStream` register the
+ * loader for their event schema, and the protocols find it from there.
+ */
+export interface EventStreamCodec {
+  readonly parseEventStream: typeof import("./eventstream/parser.ts").parseEventStream;
+  readonly parseEventStreamToUnion: typeof import("./eventstream/parser.ts").parseEventStreamToUnion;
+  readonly serializeInputEventStreamWithSchema: typeof import("./eventstream/serializer.ts").serializeInputEventStreamWithSchema;
+}
+const eventStreamCodecs = /*@__PURE__*/ new WeakMap<object, () => Promise<EventStreamCodec>>();
+let codecPromise: Promise<EventStreamCodec> | undefined;
+const loadEventStreamCodec = (): Promise<EventStreamCodec> =>
+  (codecPromise ??= Promise.all([
+    import("./eventstream/parser.ts"),
+    import("./eventstream/serializer.ts"),
+  ]).then(([parser, serializer]) => ({ ...parser, ...serializer })));
+
+const codecFor = (eventSchema: unknown): Effect.Effect<EventStreamCodec> => {
+  const load =
+    eventSchema && (typeof eventSchema === "object" || typeof eventSchema === "function")
+      ? eventStreamCodecs.get(eventSchema)
+      : undefined;
+  return load
+    ? Effect.promise(load)
+    : Effect.die(new Error("event stream member without an EventStream / InputEventStream schema"));
+};
+
+/** A stream built by the event stream codec registered for `eventSchema`. */
+export const eventStreamWith = <A, E>(
+  eventSchema: unknown,
+  f: (codec: EventStreamCodec) => Stream.Stream<A, E>,
+): Stream.Stream<A, E> => Stream.unwrap(Effect.map(codecFor(eventSchema), f));
+
+/** A request body built by the event stream codec registered for `eventSchema`. */
+export const eventStreamBody = (
+  eventSchema: unknown,
+  f: (codec: EventStreamCodec) => ReadableStream<Uint8Array>,
+): ReadableStream<Uint8Array> => {
+  let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
+  const open = async () =>
+    (reader ??= f(await Effect.runPromise(codecFor(eventSchema))).getReader());
+  return new ReadableStream<Uint8Array>({
+    async pull(controller) {
+      const { done, value } = await (await open()).read();
+      if (done) controller.close();
+      else controller.enqueue(value);
+    },
+    cancel: (reason) => reader?.cancel(reason),
+  });
+};
+
 export const EventStream = <A>(
   eventSchema: S.Schema<A>,
-): S.Schema<Stream.Stream<A, Error, never>> =>
+): S.Schema<Stream.Stream<A, Error, never>> => (
+  eventStreamCodecs.set(eventSchema, loadEventStreamCodec),
   S.declare((u): u is Stream.Stream<A, Error, never> => isEffectStream(u)).annotate({
     [streamingSymbol]: true,
     identifier: "EventStream",
     eventSchema,
-  });
+  })
+);
 
 export const inputEventStreamSymbol = "distilled-aws/input-event-stream" as const;
 
 export const InputEventStream = <A>(
   eventSchema: S.Schema<A>,
   eventPayloadMap?: Record<string, string>,
-): S.Schema<Stream.Stream<A, Error, never>> =>
+): S.Schema<Stream.Stream<A, Error, never>> => (
+  eventStreamCodecs.set(eventSchema, loadEventStreamCodec),
   S.declare((u): u is Stream.Stream<A, Error, never> => isEffectStream(u)).annotate({
     [streamingSymbol]: true,
     [inputEventStreamSymbol]: true,
     identifier: "InputEventStream",
     eventSchema,
     eventPayloadMap,
-  });
+  })
+);
 
 export const isInputEventStream = (ast: AST.AST): boolean => {
   if (ast.annotations?.[inputEventStreamSymbol]) return true;
@@ -769,11 +865,18 @@ const unwrapSuspend = (ast: AST.AST): AST.AST => {
   return current;
 };
 
+/** The wire-side node: suspends resolved, encoding links followed. */
+const wireOf = (ast: AST.AST): AST.AST => {
+  let current = unwrapSuspend(ast);
+  while (current.encoding?.length) current = unwrapSuspend(current.encoding[0].to);
+  return current;
+};
+
 const eventPayloadKind = (ast: AST.AST): EventPayloadKind => {
   const id = findIdentifier(ast);
   if (id === "Blob" || id === "SensitiveBlob") return "blob";
-  const encoded = AST.toEncoded(unwrapSuspend(ast));
-  const types = encoded._tag === "Union" ? encoded.types : [encoded];
+  const encoded = wireOf(ast);
+  const types = encoded._tag === "Union" ? encoded.types.map(wireOf) : [encoded];
   const defined = types.filter((t) => t._tag !== "Undefined");
   if (defined.length > 0 && defined.every((t) => t._tag === "String" || t._tag === "Literal")) {
     return "string";
@@ -834,7 +937,7 @@ export const getEventMemberBindings = (
 };
 
 /**
- * Derive the event-type → payload-member map for an OUTPUT event stream from
+ * Derive the event-type -> payload-member map for an OUTPUT event stream from
  * its event union schema (`T.EventStream(S.Union([...]))`), so the parser
  * binds the raw payload to that member (e.g. Lambda
  * `InvokeWithResponseStream`'s `PayloadChunk.Payload`) instead of

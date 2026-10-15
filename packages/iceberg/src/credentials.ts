@@ -1,23 +1,23 @@
+import * as EffectConfig from "@distilled.cloud/core/config";
 /**
- * Iceberg REST Catalog credentials — hand-written.
+ * Iceberg REST Catalog credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ uri, token, prefix }` per request;
  * the protocol layer builds every URL from it.
  *
- * - `uri` is the catalog's REST endpoint — what Iceberg clients call the
+ * - `uri` is the catalog's REST endpoint -- what Iceberg clients call the
  *   catalog URI (`https://catalog.cloudflarestorage.com/<account>/<bucket>`
  *   for Basin Catalog, `http://localhost:8181` for a local REST catalog).
- *   Routes are `<uri>/v1/…`.
+ *   Routes are `<uri>/v1/...`.
  * - `prefix` is the per-warehouse path segment a catalog hands out from
  *   `GET /v1/config` (`overrides.prefix`). It is CLIENT configuration, not
- *   an operation input: every catalog route is `<uri>/v1/<prefix>/…`, and a
- *   catalog with no prefix serves `<uri>/v1/…`. {@link fromCatalogConfig}
+ *   an operation input: every catalog route is `<uri>/v1/<prefix>/...`, and a
+ *   catalog with no prefix serves `<uri>/v1/...`. {@link fromCatalogConfig}
  *   resolves it for you from a warehouse name.
  * - `token` is sent as `Authorization: Bearer <token>`. It is optional
  *   because some catalogs (a local REST catalog, a sidecar) take none.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
-import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -35,30 +35,31 @@ export interface Config {
   readonly token?: Redacted.Redacted<string>;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "IcebergCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "IcebergCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
-  uri: EffectConfig.String("ICEBERG_CATALOG_URI"),
-  prefix: EffectConfig.String("ICEBERG_PREFIX").pipe(EffectConfig.option),
-  token: EffectConfig.Redacted("ICEBERG_TOKEN").pipe(EffectConfig.option),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  uri: /*@__PURE__*/ EffectConfig.String("ICEBERG_CATALOG_URI"),
+  prefix: /*@__PURE__*/ EffectConfig.String("ICEBERG_PREFIX").pipe(EffectConfig.option),
+  token: /*@__PURE__*/ EffectConfig.Redacted("ICEBERG_TOKEN").pipe(EffectConfig.option),
 });
 
 /**
  * `ICEBERG_CATALOG_URI` (required), `ICEBERG_PREFIX` and `ICEBERG_TOKEN`
  * (optional).
  */
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "ICEBERG_CATALOG_URI environment variable is required",
         }),
     ),
-    Effect.map(({ uri, prefix, token }) => ({
+    /*@__PURE__*/ Effect.map(({ uri, prefix, token }) => ({
       uri,
       prefix: Option.getOrUndefined(prefix),
       token: Option.getOrUndefined(token),
@@ -74,8 +75,8 @@ export const credentials = (config: Config): Layer.Layer<Credentials> =>
 /**
  * Resolve a warehouse to its catalog configuration once, at layer build:
  * `GET <uri>/v1/config?warehouse=<warehouse>`, then use the catalog's
- * `overrides` — `prefix`, and `uri` when the catalog redirects clients to
- * another endpoint — exactly as Iceberg clients do.
+ * `overrides` -- `prefix`, and `uri` when the catalog redirects clients to
+ * another endpoint -- exactly as Iceberg clients do.
  *
  * @example
  * ```ts

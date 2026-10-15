@@ -30,10 +30,10 @@ export interface Config {
   readonly quotaProject?: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config, GCPCredentialsError>
->()("GCPCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, GCPCredentialsError>>()(
+    "GCPCredentials",
+  ) {}
 
 /** An access token a provider minted, and what it learned on the way. */
 export interface Token {

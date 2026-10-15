@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Mercury credentials — hand-written.
+ * Mercury credentials -- hand-written.
  *
  * API-compatible port of the distilled v0 credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
@@ -19,9 +19,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "MercuryCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "MercuryCredentials",
+  ) {}
 
 /** Layer from a redacted API key + optional base URL. */
 export const fromApiKey = (config: {
@@ -37,9 +38,9 @@ export const fromApiKey = (config: {
   );
 
 /** Reads MERCURY_API_KEY (required) and MERCURY_API_BASE_URL (optional). */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.MERCURY_API_KEY;
 
     if (!apiKey) {

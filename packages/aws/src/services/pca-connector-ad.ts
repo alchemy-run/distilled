@@ -1,17 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "Pca Connector Ad", serviceShapeName: "PcaConnectorAd" });
-const auth = T.AwsAuthSigv4({ name: "pca-connector-ad" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "Pca Connector Ad",
+  serviceShapeName: "PcaConnectorAd",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "pca-connector-ad" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-05-10");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -68,85 +74,89 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://pca-connector-ad.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.String, ResourceType: S.String },
-    T.HttpError(409),
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceId: S.String,
+      ResourceType: S.String,
+    },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()), ResourceId: S.String, ResourceType: S.String },
-    T.HttpError(404),
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ResourceId: S.String,
+      ResourceType: S.String,
+    },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       ResourceId: S.String,
       ResourceType: S.String,
       ServiceCode: S.String,
       QuotaCode: S.String,
     },
-    T.HttpError(402),
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      ServiceCode: S.optional(S.String),
-      QuotaCode: S.optional(S.String),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ServiceCode: /*@__PURE__*/ S.optional(S.String),
+      QuotaCode: /*@__PURE__*/ S.optional(S.String),
     },
-    T.all(T.HttpError(429), T.Retryable({ throttling: true })),
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.HttpError(429),
+      /*@__PURE__*/ T.Retryable({ throttling: true }),
+    ),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      Reason: S.optional(
-        S.suspend(() => ValidationExceptionReason).annotate({
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      Reason: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => S.String).annotate({
           identifier: "ValidationExceptionReason",
         }),
       ),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type DirectoryId = string;
 export type CertificateAuthorityArn = string;
 export type IpAddressType = "IPV4" | "DUALSTACK" | (string & {});
-export const IpAddressType = S.String;
-
 export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
-export const SecurityGroupIdList = /*@__PURE__*/ S.Array(S.String);
 export interface VpcInformation {
   IpAddressType?: IpAddressType;
   SecurityGroupIds: string[];
 }
-export const VpcInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IpAddressType: S.optional(IpAddressType), SecurityGroupIds: SecurityGroupIdList }),
-).annotate({ identifier: "VpcInformation" }) as any as S.Schema<VpcInformation>;
 export type ClientToken = string;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateConnectorRequest {
   DirectoryId: string;
   CertificateAuthorityArn: string;
@@ -154,116 +164,43 @@ export interface CreateConnectorRequest {
   ClientToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryId: S.String,
-    CertificateAuthorityArn: S.String,
-    VpcInformation: VpcInformation,
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/connectors" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateConnectorRequest" }) as any as S.Schema<CreateConnectorRequest>;
 export type ConnectorArn = string;
 export interface CreateConnectorResponse {
   ConnectorArn?: string;
 }
-export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectorArn: S.optional(S.String) }),
-).annotate({ identifier: "CreateConnectorResponse" }) as any as S.Schema<CreateConnectorResponse>;
 export interface CreateDirectoryRegistrationRequest {
   DirectoryId: string;
   ClientToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateDirectoryRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryId: S.String,
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/directoryRegistrations" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateDirectoryRegistrationRequest",
-}) as any as S.Schema<CreateDirectoryRegistrationRequest>;
 export type DirectoryRegistrationArn = string;
 export interface CreateDirectoryRegistrationResponse {
   DirectoryRegistrationArn?: string;
 }
-export const CreateDirectoryRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DirectoryRegistrationArn: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateDirectoryRegistrationResponse",
-}) as any as S.Schema<CreateDirectoryRegistrationResponse>;
 export interface CreateServicePrincipalNameRequest {
   DirectoryRegistrationArn: string;
   ConnectorArn: string;
   ClientToken?: string;
 }
-export const CreateServicePrincipalNameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
-    ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/directoryRegistrations/{DirectoryRegistrationArn}/servicePrincipalNames/{ConnectorArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateServicePrincipalNameRequest",
-}) as any as S.Schema<CreateServicePrincipalNameRequest>;
 export interface CreateServicePrincipalNameResponse {}
-export const CreateServicePrincipalNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateServicePrincipalNameResponse",
-}) as any as S.Schema<CreateServicePrincipalNameResponse>;
 export type TemplateName = string;
 export type ValidityPeriodType = "HOURS" | "DAYS" | "WEEKS" | "MONTHS" | "YEARS" | (string & {});
-export const ValidityPeriodType = S.String;
-
 export interface ValidityPeriod {
   PeriodType: ValidityPeriodType;
   Period: number;
 }
-export const ValidityPeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PeriodType: ValidityPeriodType, Period: S.Number }),
-).annotate({ identifier: "ValidityPeriod" }) as any as S.Schema<ValidityPeriod>;
 export interface CertificateValidity {
   ValidityPeriod: ValidityPeriod;
   RenewalPeriod: ValidityPeriod;
 }
-export const CertificateValidity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ValidityPeriod: ValidityPeriod, RenewalPeriod: ValidityPeriod }),
-).annotate({ identifier: "CertificateValidity" }) as any as S.Schema<CertificateValidity>;
 export type TemplateNameList = string[];
-export const TemplateNameList = /*@__PURE__*/ S.Array(S.String);
 export type KeySpec = "KEY_EXCHANGE" | "SIGNATURE" | (string & {});
-export const KeySpec = S.String;
-
 export type CryptoProvidersList = string[];
-export const CryptoProvidersList = /*@__PURE__*/ S.Array(S.String);
 export interface PrivateKeyAttributesV2 {
   MinimalKeyLength: number;
   KeySpec: KeySpec;
   CryptoProviders?: string[];
 }
-export const PrivateKeyAttributesV2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimalKeyLength: S.Number,
-    KeySpec: KeySpec,
-    CryptoProviders: S.optional(CryptoProvidersList),
-  }),
-).annotate({ identifier: "PrivateKeyAttributesV2" }) as any as S.Schema<PrivateKeyAttributesV2>;
 export type ClientCompatibilityV2 =
   | "WINDOWS_SERVER_2003"
   | "WINDOWS_SERVER_2008"
@@ -272,20 +209,11 @@ export type ClientCompatibilityV2 =
   | "WINDOWS_SERVER_2012_R2"
   | "WINDOWS_SERVER_2016"
   | (string & {});
-export const ClientCompatibilityV2 = S.String;
-
 export interface PrivateKeyFlagsV2 {
   ExportableKey?: boolean;
   StrongKeyProtectionRequired?: boolean;
   ClientVersion: ClientCompatibilityV2;
 }
-export const PrivateKeyFlagsV2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExportableKey: S.optional(S.Boolean),
-    StrongKeyProtectionRequired: S.optional(S.Boolean),
-    ClientVersion: ClientCompatibilityV2,
-  }),
-).annotate({ identifier: "PrivateKeyFlagsV2" }) as any as S.Schema<PrivateKeyFlagsV2>;
 export interface EnrollmentFlagsV2 {
   IncludeSymmetricAlgorithms?: boolean;
   UserInteractionRequired?: boolean;
@@ -293,15 +221,6 @@ export interface EnrollmentFlagsV2 {
   NoSecurityExtension?: boolean;
   EnableKeyReuseOnNtTokenKeysetStorageFull?: boolean;
 }
-export const EnrollmentFlagsV2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IncludeSymmetricAlgorithms: S.optional(S.Boolean),
-    UserInteractionRequired: S.optional(S.Boolean),
-    RemoveInvalidCertificateFromPersonalStore: S.optional(S.Boolean),
-    NoSecurityExtension: S.optional(S.Boolean),
-    EnableKeyReuseOnNtTokenKeysetStorageFull: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "EnrollmentFlagsV2" }) as any as S.Schema<EnrollmentFlagsV2>;
 export interface SubjectNameFlagsV2 {
   SanRequireDomainDns?: boolean;
   SanRequireSpn?: boolean;
@@ -314,27 +233,10 @@ export interface SubjectNameFlagsV2 {
   RequireCommonName?: boolean;
   RequireDirectoryPath?: boolean;
 }
-export const SubjectNameFlagsV2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SanRequireDomainDns: S.optional(S.Boolean),
-    SanRequireSpn: S.optional(S.Boolean),
-    SanRequireDirectoryGuid: S.optional(S.Boolean),
-    SanRequireUpn: S.optional(S.Boolean),
-    SanRequireEmail: S.optional(S.Boolean),
-    SanRequireDns: S.optional(S.Boolean),
-    RequireDnsAsCn: S.optional(S.Boolean),
-    RequireEmail: S.optional(S.Boolean),
-    RequireCommonName: S.optional(S.Boolean),
-    RequireDirectoryPath: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SubjectNameFlagsV2" }) as any as S.Schema<SubjectNameFlagsV2>;
 export interface GeneralFlagsV2 {
   AutoEnrollment?: boolean;
   MachineType?: boolean;
 }
-export const GeneralFlagsV2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AutoEnrollment: S.optional(S.Boolean), MachineType: S.optional(S.Boolean) }),
-).annotate({ identifier: "GeneralFlagsV2" }) as any as S.Schema<GeneralFlagsV2>;
 export interface KeyUsageFlags {
   DigitalSignature?: boolean;
   NonRepudiation?: boolean;
@@ -342,22 +244,10 @@ export interface KeyUsageFlags {
   DataEncipherment?: boolean;
   KeyAgreement?: boolean;
 }
-export const KeyUsageFlags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DigitalSignature: S.optional(S.Boolean),
-    NonRepudiation: S.optional(S.Boolean),
-    KeyEncipherment: S.optional(S.Boolean),
-    DataEncipherment: S.optional(S.Boolean),
-    KeyAgreement: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "KeyUsageFlags" }) as any as S.Schema<KeyUsageFlags>;
 export interface KeyUsage {
   Critical?: boolean;
   UsageFlags: KeyUsageFlags;
 }
-export const KeyUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Critical: S.optional(S.Boolean), UsageFlags: KeyUsageFlags }),
-).annotate({ identifier: "KeyUsage" }) as any as S.Schema<KeyUsage>;
 export type ApplicationPolicyType =
   | "ALL_APPLICATION_POLICIES"
   | "ANY_PURPOSE"
@@ -427,32 +317,19 @@ export type ApplicationPolicyType =
   | "WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT"
   | "WINDOWS_UPDATE"
   | (string & {});
-export const ApplicationPolicyType = S.String;
-
 export type CustomObjectIdentifier = string;
 export type ApplicationPolicy =
   | { PolicyType: ApplicationPolicyType; PolicyObjectIdentifier?: never }
   | { PolicyType?: never; PolicyObjectIdentifier: string };
-export const ApplicationPolicy = /*@__PURE__*/ S.Union([
-  S.Struct({ PolicyType: ApplicationPolicyType }),
-  S.Struct({ PolicyObjectIdentifier: S.String }),
-]);
 export type ApplicationPolicyList = ApplicationPolicy[];
-export const ApplicationPolicyList = /*@__PURE__*/ S.Array(ApplicationPolicy);
 export interface ApplicationPolicies {
   Critical?: boolean;
   Policies: ApplicationPolicy[];
 }
-export const ApplicationPolicies = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Critical: S.optional(S.Boolean), Policies: ApplicationPolicyList }),
-).annotate({ identifier: "ApplicationPolicies" }) as any as S.Schema<ApplicationPolicies>;
 export interface ExtensionsV2 {
   KeyUsage: KeyUsage;
   ApplicationPolicies?: ApplicationPolicies;
 }
-export const ExtensionsV2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ KeyUsage: KeyUsage, ApplicationPolicies: S.optional(ApplicationPolicies) }),
-).annotate({ identifier: "ExtensionsV2" }) as any as S.Schema<ExtensionsV2>;
 export interface TemplateV2 {
   CertificateValidity: CertificateValidity;
   SupersededTemplates?: string[];
@@ -463,43 +340,16 @@ export interface TemplateV2 {
   GeneralFlags: GeneralFlagsV2;
   Extensions: ExtensionsV2;
 }
-export const TemplateV2 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateValidity: CertificateValidity,
-    SupersededTemplates: S.optional(TemplateNameList),
-    PrivateKeyAttributes: PrivateKeyAttributesV2,
-    PrivateKeyFlags: PrivateKeyFlagsV2,
-    EnrollmentFlags: EnrollmentFlagsV2,
-    SubjectNameFlags: SubjectNameFlagsV2,
-    GeneralFlags: GeneralFlagsV2,
-    Extensions: ExtensionsV2,
-  }),
-).annotate({ identifier: "TemplateV2" }) as any as S.Schema<TemplateV2>;
 export type KeyUsagePropertyType = "ALL" | (string & {});
-export const KeyUsagePropertyType = S.String;
-
 export interface KeyUsagePropertyFlags {
   Decrypt?: boolean;
   KeyAgreement?: boolean;
   Sign?: boolean;
 }
-export const KeyUsagePropertyFlags = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Decrypt: S.optional(S.Boolean),
-    KeyAgreement: S.optional(S.Boolean),
-    Sign: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "KeyUsagePropertyFlags" }) as any as S.Schema<KeyUsagePropertyFlags>;
 export type KeyUsageProperty =
   | { PropertyType: KeyUsagePropertyType; PropertyFlags?: never }
   | { PropertyType?: never; PropertyFlags: KeyUsagePropertyFlags };
-export const KeyUsageProperty = /*@__PURE__*/ S.Union([
-  S.Struct({ PropertyType: KeyUsagePropertyType }),
-  S.Struct({ PropertyFlags: KeyUsagePropertyFlags }),
-]);
 export type PrivateKeyAlgorithm = "RSA" | "ECDH_P256" | "ECDH_P384" | "ECDH_P521" | (string & {});
-export const PrivateKeyAlgorithm = S.String;
-
 export interface PrivateKeyAttributesV3 {
   MinimalKeyLength: number;
   KeySpec: KeySpec;
@@ -507,15 +357,6 @@ export interface PrivateKeyAttributesV3 {
   KeyUsageProperty: KeyUsageProperty;
   Algorithm: PrivateKeyAlgorithm;
 }
-export const PrivateKeyAttributesV3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimalKeyLength: S.Number,
-    KeySpec: KeySpec,
-    CryptoProviders: S.optional(CryptoProvidersList),
-    KeyUsageProperty: KeyUsageProperty,
-    Algorithm: PrivateKeyAlgorithm,
-  }),
-).annotate({ identifier: "PrivateKeyAttributesV3" }) as any as S.Schema<PrivateKeyAttributesV3>;
 export type ClientCompatibilityV3 =
   | "WINDOWS_SERVER_2008"
   | "WINDOWS_SERVER_2008_R2"
@@ -523,22 +364,12 @@ export type ClientCompatibilityV3 =
   | "WINDOWS_SERVER_2012_R2"
   | "WINDOWS_SERVER_2016"
   | (string & {});
-export const ClientCompatibilityV3 = S.String;
-
 export interface PrivateKeyFlagsV3 {
   ExportableKey?: boolean;
   StrongKeyProtectionRequired?: boolean;
   RequireAlternateSignatureAlgorithm?: boolean;
   ClientVersion: ClientCompatibilityV3;
 }
-export const PrivateKeyFlagsV3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExportableKey: S.optional(S.Boolean),
-    StrongKeyProtectionRequired: S.optional(S.Boolean),
-    RequireAlternateSignatureAlgorithm: S.optional(S.Boolean),
-    ClientVersion: ClientCompatibilityV3,
-  }),
-).annotate({ identifier: "PrivateKeyFlagsV3" }) as any as S.Schema<PrivateKeyFlagsV3>;
 export interface EnrollmentFlagsV3 {
   IncludeSymmetricAlgorithms?: boolean;
   UserInteractionRequired?: boolean;
@@ -546,15 +377,6 @@ export interface EnrollmentFlagsV3 {
   NoSecurityExtension?: boolean;
   EnableKeyReuseOnNtTokenKeysetStorageFull?: boolean;
 }
-export const EnrollmentFlagsV3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IncludeSymmetricAlgorithms: S.optional(S.Boolean),
-    UserInteractionRequired: S.optional(S.Boolean),
-    RemoveInvalidCertificateFromPersonalStore: S.optional(S.Boolean),
-    NoSecurityExtension: S.optional(S.Boolean),
-    EnableKeyReuseOnNtTokenKeysetStorageFull: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "EnrollmentFlagsV3" }) as any as S.Schema<EnrollmentFlagsV3>;
 export interface SubjectNameFlagsV3 {
   SanRequireDomainDns?: boolean;
   SanRequireSpn?: boolean;
@@ -567,37 +389,15 @@ export interface SubjectNameFlagsV3 {
   RequireCommonName?: boolean;
   RequireDirectoryPath?: boolean;
 }
-export const SubjectNameFlagsV3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SanRequireDomainDns: S.optional(S.Boolean),
-    SanRequireSpn: S.optional(S.Boolean),
-    SanRequireDirectoryGuid: S.optional(S.Boolean),
-    SanRequireUpn: S.optional(S.Boolean),
-    SanRequireEmail: S.optional(S.Boolean),
-    SanRequireDns: S.optional(S.Boolean),
-    RequireDnsAsCn: S.optional(S.Boolean),
-    RequireEmail: S.optional(S.Boolean),
-    RequireCommonName: S.optional(S.Boolean),
-    RequireDirectoryPath: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SubjectNameFlagsV3" }) as any as S.Schema<SubjectNameFlagsV3>;
 export interface GeneralFlagsV3 {
   AutoEnrollment?: boolean;
   MachineType?: boolean;
 }
-export const GeneralFlagsV3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AutoEnrollment: S.optional(S.Boolean), MachineType: S.optional(S.Boolean) }),
-).annotate({ identifier: "GeneralFlagsV3" }) as any as S.Schema<GeneralFlagsV3>;
 export type HashAlgorithm = "SHA256" | "SHA384" | "SHA512" | (string & {});
-export const HashAlgorithm = S.String;
-
 export interface ExtensionsV3 {
   KeyUsage: KeyUsage;
   ApplicationPolicies?: ApplicationPolicies;
 }
-export const ExtensionsV3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ KeyUsage: KeyUsage, ApplicationPolicies: S.optional(ApplicationPolicies) }),
-).annotate({ identifier: "ExtensionsV3" }) as any as S.Schema<ExtensionsV3>;
 export interface TemplateV3 {
   CertificateValidity: CertificateValidity;
   SupersededTemplates?: string[];
@@ -609,19 +409,6 @@ export interface TemplateV3 {
   HashAlgorithm: HashAlgorithm;
   Extensions: ExtensionsV3;
 }
-export const TemplateV3 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateValidity: CertificateValidity,
-    SupersededTemplates: S.optional(TemplateNameList),
-    PrivateKeyAttributes: PrivateKeyAttributesV3,
-    PrivateKeyFlags: PrivateKeyFlagsV3,
-    EnrollmentFlags: EnrollmentFlagsV3,
-    SubjectNameFlags: SubjectNameFlagsV3,
-    GeneralFlags: GeneralFlagsV3,
-    HashAlgorithm: HashAlgorithm,
-    Extensions: ExtensionsV3,
-  }),
-).annotate({ identifier: "TemplateV3" }) as any as S.Schema<TemplateV3>;
 export interface PrivateKeyAttributesV4 {
   MinimalKeyLength: number;
   KeySpec: KeySpec;
@@ -629,22 +416,11 @@ export interface PrivateKeyAttributesV4 {
   KeyUsageProperty?: KeyUsageProperty;
   Algorithm?: PrivateKeyAlgorithm;
 }
-export const PrivateKeyAttributesV4 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimalKeyLength: S.Number,
-    KeySpec: KeySpec,
-    CryptoProviders: S.optional(CryptoProvidersList),
-    KeyUsageProperty: S.optional(KeyUsageProperty),
-    Algorithm: S.optional(PrivateKeyAlgorithm),
-  }),
-).annotate({ identifier: "PrivateKeyAttributesV4" }) as any as S.Schema<PrivateKeyAttributesV4>;
 export type ClientCompatibilityV4 =
   | "WINDOWS_SERVER_2012"
   | "WINDOWS_SERVER_2012_R2"
   | "WINDOWS_SERVER_2016"
   | (string & {});
-export const ClientCompatibilityV4 = S.String;
-
 export interface PrivateKeyFlagsV4 {
   ExportableKey?: boolean;
   StrongKeyProtectionRequired?: boolean;
@@ -653,16 +429,6 @@ export interface PrivateKeyFlagsV4 {
   UseLegacyProvider?: boolean;
   ClientVersion: ClientCompatibilityV4;
 }
-export const PrivateKeyFlagsV4 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExportableKey: S.optional(S.Boolean),
-    StrongKeyProtectionRequired: S.optional(S.Boolean),
-    RequireAlternateSignatureAlgorithm: S.optional(S.Boolean),
-    RequireSameKeyRenewal: S.optional(S.Boolean),
-    UseLegacyProvider: S.optional(S.Boolean),
-    ClientVersion: ClientCompatibilityV4,
-  }),
-).annotate({ identifier: "PrivateKeyFlagsV4" }) as any as S.Schema<PrivateKeyFlagsV4>;
 export interface EnrollmentFlagsV4 {
   IncludeSymmetricAlgorithms?: boolean;
   UserInteractionRequired?: boolean;
@@ -670,15 +436,6 @@ export interface EnrollmentFlagsV4 {
   NoSecurityExtension?: boolean;
   EnableKeyReuseOnNtTokenKeysetStorageFull?: boolean;
 }
-export const EnrollmentFlagsV4 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IncludeSymmetricAlgorithms: S.optional(S.Boolean),
-    UserInteractionRequired: S.optional(S.Boolean),
-    RemoveInvalidCertificateFromPersonalStore: S.optional(S.Boolean),
-    NoSecurityExtension: S.optional(S.Boolean),
-    EnableKeyReuseOnNtTokenKeysetStorageFull: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "EnrollmentFlagsV4" }) as any as S.Schema<EnrollmentFlagsV4>;
 export interface SubjectNameFlagsV4 {
   SanRequireDomainDns?: boolean;
   SanRequireSpn?: boolean;
@@ -691,34 +448,14 @@ export interface SubjectNameFlagsV4 {
   RequireCommonName?: boolean;
   RequireDirectoryPath?: boolean;
 }
-export const SubjectNameFlagsV4 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SanRequireDomainDns: S.optional(S.Boolean),
-    SanRequireSpn: S.optional(S.Boolean),
-    SanRequireDirectoryGuid: S.optional(S.Boolean),
-    SanRequireUpn: S.optional(S.Boolean),
-    SanRequireEmail: S.optional(S.Boolean),
-    SanRequireDns: S.optional(S.Boolean),
-    RequireDnsAsCn: S.optional(S.Boolean),
-    RequireEmail: S.optional(S.Boolean),
-    RequireCommonName: S.optional(S.Boolean),
-    RequireDirectoryPath: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "SubjectNameFlagsV4" }) as any as S.Schema<SubjectNameFlagsV4>;
 export interface GeneralFlagsV4 {
   AutoEnrollment?: boolean;
   MachineType?: boolean;
 }
-export const GeneralFlagsV4 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AutoEnrollment: S.optional(S.Boolean), MachineType: S.optional(S.Boolean) }),
-).annotate({ identifier: "GeneralFlagsV4" }) as any as S.Schema<GeneralFlagsV4>;
 export interface ExtensionsV4 {
   KeyUsage: KeyUsage;
   ApplicationPolicies?: ApplicationPolicies;
 }
-export const ExtensionsV4 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ KeyUsage: KeyUsage, ApplicationPolicies: S.optional(ApplicationPolicies) }),
-).annotate({ identifier: "ExtensionsV4" }) as any as S.Schema<ExtensionsV4>;
 export interface TemplateV4 {
   CertificateValidity: CertificateValidity;
   SupersededTemplates?: string[];
@@ -730,28 +467,10 @@ export interface TemplateV4 {
   HashAlgorithm?: HashAlgorithm;
   Extensions: ExtensionsV4;
 }
-export const TemplateV4 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateValidity: CertificateValidity,
-    SupersededTemplates: S.optional(TemplateNameList),
-    PrivateKeyAttributes: PrivateKeyAttributesV4,
-    PrivateKeyFlags: PrivateKeyFlagsV4,
-    EnrollmentFlags: EnrollmentFlagsV4,
-    SubjectNameFlags: SubjectNameFlagsV4,
-    GeneralFlags: GeneralFlagsV4,
-    HashAlgorithm: S.optional(HashAlgorithm),
-    Extensions: ExtensionsV4,
-  }),
-).annotate({ identifier: "TemplateV4" }) as any as S.Schema<TemplateV4>;
 export type TemplateDefinition =
   | { TemplateV2: TemplateV2; TemplateV3?: never; TemplateV4?: never }
   | { TemplateV2?: never; TemplateV3: TemplateV3; TemplateV4?: never }
   | { TemplateV2?: never; TemplateV3?: never; TemplateV4: TemplateV4 };
-export const TemplateDefinition = /*@__PURE__*/ S.Union([
-  S.Struct({ TemplateV2: TemplateV2 }),
-  S.Struct({ TemplateV3: TemplateV3 }),
-  S.Struct({ TemplateV4: TemplateV4 }),
-]);
 export interface CreateTemplateRequest {
   ConnectorArn: string;
   Name: string;
@@ -759,34 +478,17 @@ export interface CreateTemplateRequest {
   ClientToken?: string;
   Tags?: { [key: string]: string | undefined };
 }
-export const CreateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectorArn: S.String,
-    Name: S.String,
-    Definition: TemplateDefinition,
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/templates" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateTemplateRequest" }) as any as S.Schema<CreateTemplateRequest>;
 export type TemplateArn = string;
 export interface CreateTemplateResponse {
   TemplateArn?: string;
 }
-export const CreateTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TemplateArn: S.optional(S.String) }),
-).annotate({ identifier: "CreateTemplateResponse" }) as any as S.Schema<CreateTemplateResponse>;
 export type GroupSecurityIdentifier = string;
 export type DisplayName = string;
 export type AccessRight = "ALLOW" | "DENY" | (string & {});
-export const AccessRight = S.String;
-
 export interface AccessRights {
   Enroll?: AccessRight;
   AutoEnroll?: AccessRight;
 }
-export const AccessRights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enroll: S.optional(AccessRight), AutoEnroll: S.optional(AccessRight) }),
-).annotate({ identifier: "AccessRights" }) as any as S.Schema<AccessRights>;
 export interface CreateTemplateGroupAccessControlEntryRequest {
   TemplateArn: string;
   GroupSecurityIdentifier: string;
@@ -794,173 +496,33 @@ export interface CreateTemplateGroupAccessControlEntryRequest {
   AccessRights: AccessRights;
   ClientToken?: string;
 }
-export const CreateTemplateGroupAccessControlEntryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-    GroupSecurityIdentifier: S.String,
-    GroupDisplayName: S.String,
-    AccessRights: AccessRights,
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/templates/{TemplateArn}/accessControlEntries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTemplateGroupAccessControlEntryRequest",
-}) as any as S.Schema<CreateTemplateGroupAccessControlEntryRequest>;
 export interface CreateTemplateGroupAccessControlEntryResponse {}
-export const CreateTemplateGroupAccessControlEntryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateTemplateGroupAccessControlEntryResponse",
-}) as any as S.Schema<CreateTemplateGroupAccessControlEntryResponse>;
 export interface DeleteConnectorRequest {
   ConnectorArn: string;
 }
-export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
 export interface DeleteConnectorResponse {}
-export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteConnectorResponse",
-}) as any as S.Schema<DeleteConnectorResponse>;
 export interface DeleteDirectoryRegistrationRequest {
   DirectoryRegistrationArn: string;
 }
-export const DeleteDirectoryRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/directoryRegistrations/{DirectoryRegistrationArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDirectoryRegistrationRequest",
-}) as any as S.Schema<DeleteDirectoryRegistrationRequest>;
 export interface DeleteDirectoryRegistrationResponse {}
-export const DeleteDirectoryRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDirectoryRegistrationResponse",
-}) as any as S.Schema<DeleteDirectoryRegistrationResponse>;
 export interface DeleteServicePrincipalNameRequest {
   DirectoryRegistrationArn: string;
   ConnectorArn: string;
 }
-export const DeleteServicePrincipalNameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
-    ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/directoryRegistrations/{DirectoryRegistrationArn}/servicePrincipalNames/{ConnectorArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteServicePrincipalNameRequest",
-}) as any as S.Schema<DeleteServicePrincipalNameRequest>;
 export interface DeleteServicePrincipalNameResponse {}
-export const DeleteServicePrincipalNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteServicePrincipalNameResponse",
-}) as any as S.Schema<DeleteServicePrincipalNameResponse>;
 export interface DeleteTemplateRequest {
   TemplateArn: string;
 }
-export const DeleteTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/templates/{TemplateArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "DeleteTemplateRequest" }) as any as S.Schema<DeleteTemplateRequest>;
 export interface DeleteTemplateResponse {}
-export const DeleteTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteTemplateResponse",
-}) as any as S.Schema<DeleteTemplateResponse>;
 export interface DeleteTemplateGroupAccessControlEntryRequest {
   TemplateArn: string;
   GroupSecurityIdentifier: string;
 }
-export const DeleteTemplateGroupAccessControlEntryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-    GroupSecurityIdentifier: S.String.pipe(T.HttpLabel("GroupSecurityIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/templates/{TemplateArn}/accessControlEntries/{GroupSecurityIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTemplateGroupAccessControlEntryRequest",
-}) as any as S.Schema<DeleteTemplateGroupAccessControlEntryRequest>;
 export interface DeleteTemplateGroupAccessControlEntryResponse {}
-export const DeleteTemplateGroupAccessControlEntryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteTemplateGroupAccessControlEntryResponse",
-}) as any as S.Schema<DeleteTemplateGroupAccessControlEntryResponse>;
 export interface GetConnectorRequest {
   ConnectorArn: string;
 }
-export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/connectors/{ConnectorArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "GetConnectorRequest" }) as any as S.Schema<GetConnectorRequest>;
 export type ConnectorStatus = "CREATING" | "ACTIVE" | "DELETING" | "FAILED" | (string & {});
-export const ConnectorStatus = S.String;
-
 export type ConnectorStatusReason =
   | "CA_CERTIFICATE_REGISTRATION_FAILED"
   | "DIRECTORY_ACCESS_DENIED"
@@ -974,8 +536,6 @@ export type ConnectorStatusReason =
   | "VPC_ENDPOINT_LIMIT_EXCEEDED"
   | "VPC_RESOURCE_NOT_FOUND"
   | (string & {});
-export const ConnectorStatusReason = S.String;
-
 export interface Connector {
   Arn?: string;
   CertificateAuthorityArn?: string;
@@ -987,52 +547,18 @@ export interface Connector {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const Connector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CertificateAuthorityArn: S.optional(S.String),
-    CertificateEnrollmentPolicyServerEndpoint: S.optional(S.String),
-    DirectoryId: S.optional(S.String),
-    VpcInformation: S.optional(VpcInformation),
-    Status: S.optional(ConnectorStatus),
-    StatusReason: S.optional(ConnectorStatusReason),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "Connector" }) as any as S.Schema<Connector>;
 export interface GetConnectorResponse {
   Connector?: Connector;
 }
-export const GetConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connector: S.optional(Connector) }),
-).annotate({ identifier: "GetConnectorResponse" }) as any as S.Schema<GetConnectorResponse>;
 export interface GetDirectoryRegistrationRequest {
   DirectoryRegistrationArn: string;
 }
-export const GetDirectoryRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/directoryRegistrations/{DirectoryRegistrationArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDirectoryRegistrationRequest",
-}) as any as S.Schema<GetDirectoryRegistrationRequest>;
 export type DirectoryRegistrationStatus =
   | "CREATING"
   | "ACTIVE"
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const DirectoryRegistrationStatus = S.String;
-
 export type DirectoryRegistrationStatusReason =
   | "DIRECTORY_ACCESS_DENIED"
   | "DIRECTORY_RESOURCE_NOT_FOUND"
@@ -1041,8 +567,6 @@ export type DirectoryRegistrationStatusReason =
   | "DIRECTORY_TYPE_NOT_SUPPORTED"
   | "INTERNAL_FAILURE"
   | (string & {});
-export const DirectoryRegistrationStatusReason = S.String;
-
 export interface DirectoryRegistration {
   Arn?: string;
   DirectoryId?: string;
@@ -1051,56 +575,19 @@ export interface DirectoryRegistration {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const DirectoryRegistration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    DirectoryId: S.optional(S.String),
-    Status: S.optional(DirectoryRegistrationStatus),
-    StatusReason: S.optional(DirectoryRegistrationStatusReason),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "DirectoryRegistration" }) as any as S.Schema<DirectoryRegistration>;
 export interface GetDirectoryRegistrationResponse {
   DirectoryRegistration?: DirectoryRegistration;
 }
-export const GetDirectoryRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DirectoryRegistration: S.optional(DirectoryRegistration) }),
-).annotate({
-  identifier: "GetDirectoryRegistrationResponse",
-}) as any as S.Schema<GetDirectoryRegistrationResponse>;
 export interface GetServicePrincipalNameRequest {
   DirectoryRegistrationArn: string;
   ConnectorArn: string;
 }
-export const GetServicePrincipalNameRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
-    ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/directoryRegistrations/{DirectoryRegistrationArn}/servicePrincipalNames/{ConnectorArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetServicePrincipalNameRequest",
-}) as any as S.Schema<GetServicePrincipalNameRequest>;
 export type ServicePrincipalNameStatus =
   | "CREATING"
   | "ACTIVE"
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const ServicePrincipalNameStatus = S.String;
-
 export type ServicePrincipalNameStatusReason =
   | "DIRECTORY_ACCESS_DENIED"
   | "DIRECTORY_NOT_REACHABLE"
@@ -1109,8 +596,6 @@ export type ServicePrincipalNameStatusReason =
   | "SPN_LIMIT_EXCEEDED"
   | "INTERNAL_FAILURE"
   | (string & {});
-export const ServicePrincipalNameStatusReason = S.String;
-
 export interface ServicePrincipalName {
   DirectoryRegistrationArn?: string;
   ConnectorArn?: string;
@@ -1119,42 +604,17 @@ export interface ServicePrincipalName {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const ServicePrincipalName = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryRegistrationArn: S.optional(S.String),
-    ConnectorArn: S.optional(S.String),
-    Status: S.optional(ServicePrincipalNameStatus),
-    StatusReason: S.optional(ServicePrincipalNameStatusReason),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ServicePrincipalName" }) as any as S.Schema<ServicePrincipalName>;
 export interface GetServicePrincipalNameResponse {
   ServicePrincipalName?: ServicePrincipalName;
 }
-export const GetServicePrincipalNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServicePrincipalName: S.optional(ServicePrincipalName) }),
-).annotate({
-  identifier: "GetServicePrincipalNameResponse",
-}) as any as S.Schema<GetServicePrincipalNameResponse>;
 export interface GetTemplateRequest {
   TemplateArn: string;
 }
-export const GetTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/templates/{TemplateArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetTemplateRequest" }) as any as S.Schema<GetTemplateRequest>;
 export type TemplateStatus = "ACTIVE" | "DELETING" | (string & {});
-export const TemplateStatus = S.String;
-
 export interface TemplateRevision {
   MajorRevision: number;
   MinorRevision: number;
 }
-export const TemplateRevision = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MajorRevision: S.Number, MinorRevision: S.Number }),
-).annotate({ identifier: "TemplateRevision" }) as any as S.Schema<TemplateRevision>;
 export interface Template {
   Arn?: string;
   ConnectorArn?: string;
@@ -1167,50 +627,13 @@ export interface Template {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const Template = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ConnectorArn: S.optional(S.String),
-    Definition: S.optional(TemplateDefinition),
-    Name: S.optional(S.String),
-    ObjectIdentifier: S.optional(S.String),
-    PolicySchema: S.optional(S.Number),
-    Status: S.optional(TemplateStatus),
-    Revision: S.optional(TemplateRevision),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "Template" }) as any as S.Schema<Template>;
 export interface GetTemplateResponse {
   Template?: Template;
 }
-export const GetTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Template: S.optional(Template) }),
-).annotate({ identifier: "GetTemplateResponse" }) as any as S.Schema<GetTemplateResponse>;
 export interface GetTemplateGroupAccessControlEntryRequest {
   TemplateArn: string;
   GroupSecurityIdentifier: string;
 }
-export const GetTemplateGroupAccessControlEntryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-    GroupSecurityIdentifier: S.String.pipe(T.HttpLabel("GroupSecurityIdentifier")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/templates/{TemplateArn}/accessControlEntries/{GroupSecurityIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetTemplateGroupAccessControlEntryRequest",
-}) as any as S.Schema<GetTemplateGroupAccessControlEntryRequest>;
 export interface AccessControlEntry {
   GroupDisplayName?: string;
   GroupSecurityIdentifier?: string;
@@ -1219,36 +642,15 @@ export interface AccessControlEntry {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const AccessControlEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupDisplayName: S.optional(S.String),
-    GroupSecurityIdentifier: S.optional(S.String),
-    AccessRights: S.optional(AccessRights),
-    TemplateArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "AccessControlEntry" }) as any as S.Schema<AccessControlEntry>;
 export interface GetTemplateGroupAccessControlEntryResponse {
   AccessControlEntry?: AccessControlEntry;
 }
-export const GetTemplateGroupAccessControlEntryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccessControlEntry: S.optional(AccessControlEntry) }),
-).annotate({
-  identifier: "GetTemplateGroupAccessControlEntryResponse",
-}) as any as S.Schema<GetTemplateGroupAccessControlEntryResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListConnectorsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/connectors" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListConnectorsRequest" }) as any as S.Schema<ListConnectorsRequest>;
 export interface ConnectorSummary {
   Arn?: string;
   CertificateAuthorityArn?: string;
@@ -1260,42 +662,15 @@ export interface ConnectorSummary {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const ConnectorSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    CertificateAuthorityArn: S.optional(S.String),
-    CertificateEnrollmentPolicyServerEndpoint: S.optional(S.String),
-    DirectoryId: S.optional(S.String),
-    VpcInformation: S.optional(VpcInformation),
-    Status: S.optional(ConnectorStatus),
-    StatusReason: S.optional(ConnectorStatusReason),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ConnectorSummary" }) as any as S.Schema<ConnectorSummary>;
 export type ConnectorList = ConnectorSummary[];
-export const ConnectorList = /*@__PURE__*/ S.Array(ConnectorSummary);
 export interface ListConnectorsResponse {
   Connectors?: ConnectorSummary[];
   NextToken?: string;
 }
-export const ListConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connectors: S.optional(ConnectorList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListConnectorsResponse" }) as any as S.Schema<ListConnectorsResponse>;
 export interface ListDirectoryRegistrationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListDirectoryRegistrationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/directoryRegistrations" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListDirectoryRegistrationsRequest",
-}) as any as S.Schema<ListDirectoryRegistrationsRequest>;
 export interface DirectoryRegistrationSummary {
   Arn?: string;
   DirectoryId?: string;
@@ -1304,58 +679,16 @@ export interface DirectoryRegistrationSummary {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const DirectoryRegistrationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    DirectoryId: S.optional(S.String),
-    Status: S.optional(DirectoryRegistrationStatus),
-    StatusReason: S.optional(DirectoryRegistrationStatusReason),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "DirectoryRegistrationSummary",
-}) as any as S.Schema<DirectoryRegistrationSummary>;
 export type DirectoryRegistrationList = DirectoryRegistrationSummary[];
-export const DirectoryRegistrationList = /*@__PURE__*/ S.Array(DirectoryRegistrationSummary);
 export interface ListDirectoryRegistrationsResponse {
   DirectoryRegistrations?: DirectoryRegistrationSummary[];
   NextToken?: string;
 }
-export const ListDirectoryRegistrationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryRegistrations: S.optional(DirectoryRegistrationList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDirectoryRegistrationsResponse",
-}) as any as S.Schema<ListDirectoryRegistrationsResponse>;
 export interface ListServicePrincipalNamesRequest {
   MaxResults?: number;
   NextToken?: string;
   DirectoryRegistrationArn: string;
 }
-export const ListServicePrincipalNamesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/directoryRegistrations/{DirectoryRegistrationArn}/servicePrincipalNames",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListServicePrincipalNamesRequest",
-}) as any as S.Schema<ListServicePrincipalNamesRequest>;
 export interface ServicePrincipalNameSummary {
   DirectoryRegistrationArn?: string;
   ConnectorArn?: string;
@@ -1364,73 +697,22 @@ export interface ServicePrincipalNameSummary {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const ServicePrincipalNameSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DirectoryRegistrationArn: S.optional(S.String),
-    ConnectorArn: S.optional(S.String),
-    Status: S.optional(ServicePrincipalNameStatus),
-    StatusReason: S.optional(ServicePrincipalNameStatusReason),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "ServicePrincipalNameSummary",
-}) as any as S.Schema<ServicePrincipalNameSummary>;
 export type ServicePrincipalNameList = ServicePrincipalNameSummary[];
-export const ServicePrincipalNameList = /*@__PURE__*/ S.Array(ServicePrincipalNameSummary);
 export interface ListServicePrincipalNamesResponse {
   ServicePrincipalNames?: ServicePrincipalNameSummary[];
   NextToken?: string;
 }
-export const ListServicePrincipalNamesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServicePrincipalNames: S.optional(ServicePrincipalNameList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListServicePrincipalNamesResponse",
-}) as any as S.Schema<ListServicePrincipalNamesResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTemplateGroupAccessControlEntriesRequest {
   MaxResults?: number;
   NextToken?: string;
   TemplateArn: string;
 }
-export const ListTemplateGroupAccessControlEntriesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/templates/{TemplateArn}/accessControlEntries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTemplateGroupAccessControlEntriesRequest",
-}) as any as S.Schema<ListTemplateGroupAccessControlEntriesRequest>;
 export interface AccessControlEntrySummary {
   GroupDisplayName?: string;
   GroupSecurityIdentifier?: string;
@@ -1439,44 +721,16 @@ export interface AccessControlEntrySummary {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const AccessControlEntrySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GroupDisplayName: S.optional(S.String),
-    GroupSecurityIdentifier: S.optional(S.String),
-    AccessRights: S.optional(AccessRights),
-    TemplateArn: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "AccessControlEntrySummary",
-}) as any as S.Schema<AccessControlEntrySummary>;
 export type AccessControlEntryList = AccessControlEntrySummary[];
-export const AccessControlEntryList = /*@__PURE__*/ S.Array(AccessControlEntrySummary);
 export interface ListTemplateGroupAccessControlEntriesResponse {
   AccessControlEntries?: AccessControlEntrySummary[];
   NextToken?: string;
 }
-export const ListTemplateGroupAccessControlEntriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessControlEntries: S.optional(AccessControlEntryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListTemplateGroupAccessControlEntriesResponse",
-}) as any as S.Schema<ListTemplateGroupAccessControlEntriesResponse>;
 export interface ListTemplatesRequest {
   MaxResults?: number;
   NextToken?: string;
   ConnectorArn: string;
 }
-export const ListTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    ConnectorArn: S.String.pipe(T.HttpQuery("ConnectorArn")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/templates" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListTemplatesRequest" }) as any as S.Schema<ListTemplatesRequest>;
 export interface TemplateSummary {
   Arn?: string;
   ConnectorArn?: string;
@@ -1489,119 +743,35 @@ export interface TemplateSummary {
   CreatedAt?: Date;
   UpdatedAt?: Date;
 }
-export const TemplateSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    ConnectorArn: S.optional(S.String),
-    Definition: S.optional(TemplateDefinition),
-    Name: S.optional(S.String),
-    ObjectIdentifier: S.optional(S.String),
-    PolicySchema: S.optional(S.Number),
-    Status: S.optional(TemplateStatus),
-    Revision: S.optional(TemplateRevision),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "TemplateSummary" }) as any as S.Schema<TemplateSummary>;
 export type TemplateList = TemplateSummary[];
-export const TemplateList = /*@__PURE__*/ S.Array(TemplateSummary);
 export interface ListTemplatesResponse {
   Templates?: TemplateSummary[];
   NextToken?: string;
 }
-export const ListTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Templates: S.optional(TemplateList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListTemplatesResponse" }) as any as S.Schema<ListTemplatesResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateTemplateRequest {
   TemplateArn: string;
   Definition?: TemplateDefinition;
   ReenrollAllCertificateHolders?: boolean;
 }
-export const UpdateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-    Definition: S.optional(TemplateDefinition),
-    ReenrollAllCertificateHolders: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/templates/{TemplateArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "UpdateTemplateRequest" }) as any as S.Schema<UpdateTemplateRequest>;
 export interface UpdateTemplateResponse {}
-export const UpdateTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UpdateTemplateResponse",
-}) as any as S.Schema<UpdateTemplateResponse>;
 export interface UpdateTemplateGroupAccessControlEntryRequest {
   TemplateArn: string;
   GroupSecurityIdentifier: string;
   GroupDisplayName?: string;
   AccessRights?: AccessRights;
 }
-export const UpdateTemplateGroupAccessControlEntryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
-    GroupSecurityIdentifier: S.String.pipe(T.HttpLabel("GroupSecurityIdentifier")),
-    GroupDisplayName: S.optional(S.String),
-    AccessRights: S.optional(AccessRights),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/templates/{TemplateArn}/accessControlEntries/{GroupSecurityIdentifier}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateTemplateGroupAccessControlEntryRequest",
-}) as any as S.Schema<UpdateTemplateGroupAccessControlEntryRequest>;
 export interface UpdateTemplateGroupAccessControlEntryResponse {}
-export const UpdateTemplateGroupAccessControlEntryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateTemplateGroupAccessControlEntryResponse",
-}) as any as S.Schema<UpdateTemplateGroupAccessControlEntryResponse>;
 export type ValidationExceptionReason =
   | "FIELD_VALIDATION_FAILED"
   | "INVALID_CA_SUBJECT"
@@ -1613,8 +783,6 @@ export type ValidationExceptionReason =
   | "UNKNOWN_OPERATION"
   | "OTHER"
   | (string & {});
-export const ValidationExceptionReason = S.String;
-
 export type CreateConnectorError =
   | AccessDeniedException
   | ConflictException
@@ -1634,8 +802,8 @@ export const createConnector: API.OperationMethod<
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateConnectorRequest,
-  output: CreateConnectorResponse,
+  input: __S(928, __c29, 0) as any as S.Schema<CreateConnectorRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<CreateConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1668,8 +836,8 @@ export const createDirectoryRegistration: API.OperationMethod<
   CreateDirectoryRegistrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDirectoryRegistrationRequest,
-  output: CreateDirectoryRegistrationResponse,
+  input: __S(1056, __c33, 0) as any as S.Schema<CreateDirectoryRegistrationRequest>,
+  output: __S(1057, __c33, 1) as any as S.Schema<CreateDirectoryRegistrationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1702,8 +870,8 @@ export const createServicePrincipalName: API.OperationMethod<
   CreateServicePrincipalNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateServicePrincipalNameRequest,
-  output: CreateServicePrincipalNameResponse,
+  input: __S(1088, __c34, 0) as any as S.Schema<CreateServicePrincipalNameRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<CreateServicePrincipalNameResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1728,7 +896,7 @@ export type CreateTemplateError =
   | CommonErrors;
 /**
  * Creates an Active Directory compatible certificate template. The connectors issues certificates
- * using these templates based on the requester’s Active Directory group membership.
+ * using these templates based on the requester's Active Directory group membership.
  */
 export const createTemplate: API.OperationMethod<
   CreateTemplateRequest,
@@ -1736,8 +904,8 @@ export const createTemplate: API.OperationMethod<
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTemplateRequest,
-  output: CreateTemplateResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateTemplateRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<CreateTemplateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1771,8 +939,8 @@ export const createTemplateGroupAccessControlEntry: API.OperationMethod<
   CreateTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTemplateGroupAccessControlEntryRequest,
-  output: CreateTemplateGroupAccessControlEntryResponse,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateTemplateGroupAccessControlEntryRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<CreateTemplateGroupAccessControlEntryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1808,8 +976,8 @@ export const deleteConnector: API.OperationMethod<
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteConnectorRequest,
-  output: DeleteConnectorResponse,
+  input: __S(128, __c4, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<DeleteConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1840,8 +1008,8 @@ export const deleteDirectoryRegistration: API.OperationMethod<
   DeleteDirectoryRegistrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDirectoryRegistrationRequest,
-  output: DeleteDirectoryRegistrationResponse,
+  input: __S(160, __c5, 0) as any as S.Schema<DeleteDirectoryRegistrationRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<DeleteDirectoryRegistrationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1871,8 +1039,8 @@ export const deleteServicePrincipalName: API.OperationMethod<
   DeleteServicePrincipalNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteServicePrincipalNameRequest,
-  output: DeleteServicePrincipalNameResponse,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteServicePrincipalNameRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<DeleteServicePrincipalNameResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1903,8 +1071,8 @@ export const deleteTemplate: API.OperationMethod<
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTemplateRequest,
-  output: DeleteTemplateResponse,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteTemplateRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<DeleteTemplateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1935,8 +1103,8 @@ export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
   DeleteTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTemplateGroupAccessControlEntryRequest,
-  output: DeleteTemplateGroupAccessControlEntryResponse,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteTemplateGroupAccessControlEntryRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<DeleteTemplateGroupAccessControlEntryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1967,8 +1135,8 @@ export const getConnector: API.OperationMethod<
   GetConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetConnectorRequest,
-  output: GetConnectorResponse,
+  input: __S(288, __c9, 0) as any as S.Schema<GetConnectorRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<GetConnectorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1997,8 +1165,8 @@ export const getDirectoryRegistration: API.OperationMethod<
   GetDirectoryRegistrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDirectoryRegistrationRequest,
-  output: GetDirectoryRegistrationResponse,
+  input: __S(352, __c11, 0) as any as S.Schema<GetDirectoryRegistrationRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<GetDirectoryRegistrationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2028,8 +1196,8 @@ export const getServicePrincipalName: API.OperationMethod<
   GetServicePrincipalNameError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServicePrincipalNameRequest,
-  output: GetServicePrincipalNameResponse,
+  input: __S(416, __c13, 0) as any as S.Schema<GetServicePrincipalNameRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<GetServicePrincipalNameResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2059,8 +1227,8 @@ export const getTemplate: API.OperationMethod<
   GetTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTemplateRequest,
-  output: GetTemplateResponse,
+  input: __S(480, __c15, 0) as any as S.Schema<GetTemplateRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<GetTemplateResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2089,8 +1257,8 @@ export const getTemplateGroupAccessControlEntry: API.OperationMethod<
   GetTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetTemplateGroupAccessControlEntryRequest,
-  output: GetTemplateGroupAccessControlEntryResponse,
+  input: __S(544, __c17, 0) as any as S.Schema<GetTemplateGroupAccessControlEntryRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<GetTemplateGroupAccessControlEntryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2119,8 +1287,8 @@ export const listConnectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListConnectorsRequest,
-  output: ListConnectorsResponse,
+  input: __S(608, __c19, 0) as any as S.Schema<ListConnectorsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<ListConnectorsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2155,8 +1323,8 @@ export const listDirectoryRegistrations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DirectoryRegistrationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDirectoryRegistrationsRequest,
-  output: ListDirectoryRegistrationsResponse,
+  input: __S(640, __c20, 0) as any as S.Schema<ListDirectoryRegistrationsRequest>,
+  output: __S(642, __c20, 2) as any as S.Schema<ListDirectoryRegistrationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2192,8 +1360,8 @@ export const listServicePrincipalNames: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServicePrincipalNameSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListServicePrincipalNamesRequest,
-  output: ListServicePrincipalNamesResponse,
+  input: __S(672, __c21, 0) as any as S.Schema<ListServicePrincipalNamesRequest>,
+  output: __S(674, __c21, 2) as any as S.Schema<ListServicePrincipalNamesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2228,8 +1396,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(704, __c22, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2259,8 +1427,8 @@ export const listTemplateGroupAccessControlEntries: API.PaginatedOperationMethod
   Credentials | HttpClient.HttpClient,
   AccessControlEntrySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTemplateGroupAccessControlEntriesRequest,
-  output: ListTemplateGroupAccessControlEntriesResponse,
+  input: __S(736, __c23, 0) as any as S.Schema<ListTemplateGroupAccessControlEntriesRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<ListTemplateGroupAccessControlEntriesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2296,8 +1464,8 @@ export const listTemplates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TemplateSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListTemplatesRequest,
-  output: ListTemplatesResponse,
+  input: __S(768, __c24, 0) as any as S.Schema<ListTemplatesRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<ListTemplatesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2332,8 +1500,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(800, __c25, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2362,8 +1530,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(832, __c26, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2393,8 +1561,8 @@ export const updateTemplate: API.OperationMethod<
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTemplateRequest,
-  output: UpdateTemplateResponse,
+  input: __S(864, __c27, 0) as any as S.Schema<UpdateTemplateRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<UpdateTemplateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2425,8 +1593,8 @@ export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
   UpdateTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateTemplateGroupAccessControlEntryRequest,
-  output: UpdateTemplateGroupAccessControlEntryResponse,
+  input: __S(896, __c28, 0) as any as S.Schema<UpdateTemplateGroupAccessControlEntryRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<UpdateTemplateGroupAccessControlEntryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2439,3 +1607,882 @@ export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTemplateGroupAccessControlEntry",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ConnectorArn: S.String,
+          Name: S.String,
+          Definition: __S(54, __c1, 22),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          Tags: S.optional(__S(1024, __c32, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/templates" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateTemplateRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ TemplateArn: S.optional(S.String) })).annotate({
+        identifier: "CreateTemplateResponse",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ PeriodType: S.String, Period: S.Number })).annotate({
+        identifier: "ValidityPeriod",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ValidityPeriod: __S(32, __c1, 0), RenewalPeriod: __S(32, __c1, 0) }),
+      ).annotate({ identifier: "CertificateValidity" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          MinimalKeyLength: S.Number,
+          KeySpec: S.String,
+          CryptoProviders: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "PrivateKeyAttributesV2" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ExportableKey: S.optional(S.Boolean),
+          StrongKeyProtectionRequired: S.optional(S.Boolean),
+          ClientVersion: S.String,
+        }),
+      ).annotate({ identifier: "PrivateKeyFlagsV2" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          IncludeSymmetricAlgorithms: S.optional(S.Boolean),
+          UserInteractionRequired: S.optional(S.Boolean),
+          RemoveInvalidCertificateFromPersonalStore: S.optional(S.Boolean),
+          NoSecurityExtension: S.optional(S.Boolean),
+          EnableKeyReuseOnNtTokenKeysetStorageFull: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EnrollmentFlagsV2" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          SanRequireDomainDns: S.optional(S.Boolean),
+          SanRequireSpn: S.optional(S.Boolean),
+          SanRequireDirectoryGuid: S.optional(S.Boolean),
+          SanRequireUpn: S.optional(S.Boolean),
+          SanRequireEmail: S.optional(S.Boolean),
+          SanRequireDns: S.optional(S.Boolean),
+          RequireDnsAsCn: S.optional(S.Boolean),
+          RequireEmail: S.optional(S.Boolean),
+          RequireCommonName: S.optional(S.Boolean),
+          RequireDirectoryPath: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SubjectNameFlagsV2" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ AutoEnrollment: S.optional(S.Boolean), MachineType: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "GeneralFlagsV2" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          DigitalSignature: S.optional(S.Boolean),
+          NonRepudiation: S.optional(S.Boolean),
+          KeyEncipherment: S.optional(S.Boolean),
+          DataEncipherment: S.optional(S.Boolean),
+          KeyAgreement: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "KeyUsageFlags" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ Critical: S.optional(S.Boolean), UsageFlags: __S(39, __c1, 7) }),
+      ).annotate({ identifier: "KeyUsage" });
+    case 9:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ PolicyType: S.String }),
+        /*@__PURE__*/ S.Struct({ PolicyObjectIdentifier: S.String }),
+      ]);
+    case 10:
+      return S.Array(__S(41, __c1, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({ Critical: S.optional(S.Boolean), Policies: __S(42, __c1, 10) }),
+      ).annotate({ identifier: "ApplicationPolicies" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          KeyUsage: __S(40, __c1, 8),
+          ApplicationPolicies: S.optional(__S(43, __c1, 11)),
+        }),
+      ).annotate({ identifier: "ExtensionsV2" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          CertificateValidity: __S(33, __c1, 1),
+          SupersededTemplates: S.optional(__S(960, __c30, 0)),
+          PrivateKeyAttributes: __S(34, __c1, 2),
+          PrivateKeyFlags: __S(35, __c1, 3),
+          EnrollmentFlags: __S(36, __c1, 4),
+          SubjectNameFlags: __S(37, __c1, 5),
+          GeneralFlags: __S(38, __c1, 6),
+          Extensions: __S(44, __c1, 12),
+        }),
+      ).annotate({ identifier: "TemplateV2" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          Decrypt: S.optional(S.Boolean),
+          KeyAgreement: S.optional(S.Boolean),
+          Sign: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "KeyUsagePropertyFlags" });
+    case 15:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ PropertyType: S.String }),
+        /*@__PURE__*/ S.Struct({ PropertyFlags: __S(46, __c1, 14) }),
+      ]);
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          MinimalKeyLength: S.Number,
+          KeySpec: S.String,
+          CryptoProviders: S.optional(__S(960, __c30, 0)),
+          KeyUsageProperty: __S(47, __c1, 15),
+          Algorithm: S.String,
+        }),
+      ).annotate({ identifier: "PrivateKeyAttributesV3" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          ExportableKey: S.optional(S.Boolean),
+          StrongKeyProtectionRequired: S.optional(S.Boolean),
+          RequireAlternateSignatureAlgorithm: S.optional(S.Boolean),
+          ClientVersion: S.String,
+        }),
+      ).annotate({ identifier: "PrivateKeyFlagsV3" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          CertificateValidity: __S(33, __c1, 1),
+          SupersededTemplates: S.optional(__S(960, __c30, 0)),
+          PrivateKeyAttributes: __S(48, __c1, 16),
+          PrivateKeyFlags: __S(49, __c1, 17),
+          EnrollmentFlags: __S(36, __c1, 4),
+          SubjectNameFlags: __S(37, __c1, 5),
+          GeneralFlags: __S(38, __c1, 6),
+          HashAlgorithm: S.String,
+          Extensions: __S(44, __c1, 12),
+        }),
+      ).annotate({ identifier: "TemplateV3" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          MinimalKeyLength: S.Number,
+          KeySpec: S.String,
+          CryptoProviders: S.optional(__S(960, __c30, 0)),
+          KeyUsageProperty: S.optional(__S(47, __c1, 15)),
+          Algorithm: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateKeyAttributesV4" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          ExportableKey: S.optional(S.Boolean),
+          StrongKeyProtectionRequired: S.optional(S.Boolean),
+          RequireAlternateSignatureAlgorithm: S.optional(S.Boolean),
+          RequireSameKeyRenewal: S.optional(S.Boolean),
+          UseLegacyProvider: S.optional(S.Boolean),
+          ClientVersion: S.String,
+        }),
+      ).annotate({ identifier: "PrivateKeyFlagsV4" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          CertificateValidity: __S(33, __c1, 1),
+          SupersededTemplates: S.optional(__S(960, __c30, 0)),
+          PrivateKeyAttributes: __S(51, __c1, 19),
+          PrivateKeyFlags: __S(52, __c1, 20),
+          EnrollmentFlags: __S(36, __c1, 4),
+          SubjectNameFlags: __S(37, __c1, 5),
+          GeneralFlags: __S(38, __c1, 6),
+          HashAlgorithm: S.optional(S.String),
+          Extensions: __S(44, __c1, 12),
+        }),
+      ).annotate({ identifier: "TemplateV4" });
+    case 22:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ TemplateV2: __S(45, __c1, 13) }),
+        /*@__PURE__*/ S.Struct({ TemplateV3: __S(50, __c1, 18) }),
+        /*@__PURE__*/ S.Struct({ TemplateV4: __S(53, __c1, 21) }),
+      ]);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+          GroupSecurityIdentifier: S.String,
+          GroupDisplayName: S.String,
+          AccessRights: __S(96, __c3, 0),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/templates/{TemplateArn}/accessControlEntries" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateTemplateGroupAccessControlEntryRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Enroll: S.optional(S.String), AutoEnroll: S.optional(S.String) }),
+      ).annotate({ identifier: "AccessRights" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/connectors/{ConnectorArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteConnectorRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/directoryRegistrations/{DirectoryRegistrationArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteDirectoryRegistrationRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
+          ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/directoryRegistrations/{DirectoryRegistrationArn}/servicePrincipalNames/{ConnectorArn}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteServicePrincipalNameRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/templates/{TemplateArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteTemplateRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+          GroupSecurityIdentifier: S.String.pipe(T.HttpLabel("GroupSecurityIdentifier")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/templates/{TemplateArn}/accessControlEntries/{GroupSecurityIdentifier}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteTemplateGroupAccessControlEntryRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/connectors/{ConnectorArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetConnectorRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Connector: S.optional(__S(320, __c10, 0)) })).annotate({
+        identifier: "GetConnectorResponse",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          CertificateAuthorityArn: S.optional(S.String),
+          CertificateEnrollmentPolicyServerEndpoint: S.optional(S.String),
+          DirectoryId: S.optional(S.String),
+          VpcInformation: S.optional(__S(992, __c31, 0)),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Connector" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/directoryRegistrations/{DirectoryRegistrationArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDirectoryRegistrationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ DirectoryRegistration: S.optional(__S(384, __c12, 0)) }),
+      ).annotate({ identifier: "GetDirectoryRegistrationResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          DirectoryId: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "DirectoryRegistration" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
+          ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/directoryRegistrations/{DirectoryRegistrationArn}/servicePrincipalNames/{ConnectorArn}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetServicePrincipalNameRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ServicePrincipalName: S.optional(__S(448, __c14, 0)) }),
+      ).annotate({ identifier: "GetServicePrincipalNameResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DirectoryRegistrationArn: S.optional(S.String),
+          ConnectorArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ServicePrincipalName" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/templates/{TemplateArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetTemplateRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Template: S.optional(__S(513, __c16, 1)) })).annotate({
+        identifier: "GetTemplateResponse",
+      });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MajorRevision: S.Number, MinorRevision: S.Number }),
+      ).annotate({ identifier: "TemplateRevision" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          ConnectorArn: S.optional(S.String),
+          Definition: S.optional(__S(54, __c1, 22)),
+          Name: S.optional(S.String),
+          ObjectIdentifier: S.optional(S.String),
+          PolicySchema: S.optional(S.Number),
+          Status: S.optional(S.String),
+          Revision: S.optional(__S(512, __c16, 0)),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Template" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+          GroupSecurityIdentifier: S.String.pipe(T.HttpLabel("GroupSecurityIdentifier")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/templates/{TemplateArn}/accessControlEntries/{GroupSecurityIdentifier}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetTemplateGroupAccessControlEntryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AccessControlEntry: S.optional(__S(576, __c18, 0)) }),
+      ).annotate({ identifier: "GetTemplateGroupAccessControlEntryResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GroupDisplayName: S.optional(S.String),
+          GroupSecurityIdentifier: S.optional(S.String),
+          AccessRights: S.optional(__S(96, __c3, 0)),
+          TemplateArn: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "AccessControlEntry" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+        }).pipe(T.all(T.Http({ method: "GET", uri: "/connectors" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListConnectorsRequest" });
+    case 1:
+      return S.Array(__S(320, __c10, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Connectors: S.optional(__S(609, __c19, 1)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListConnectorsResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/directoryRegistrations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDirectoryRegistrationsRequest" });
+    case 1:
+      return S.Array(__S(384, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DirectoryRegistrations: S.optional(__S(641, __c20, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListDirectoryRegistrationsResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+          DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/directoryRegistrations/{DirectoryRegistrationArn}/servicePrincipalNames",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListServicePrincipalNamesRequest" });
+    case 1:
+      return S.Array(__S(448, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ServicePrincipalNames: S.optional(__S(673, __c21, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListServicePrincipalNamesResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(1024, __c32, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/templates/{TemplateArn}/accessControlEntries" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTemplateGroupAccessControlEntriesRequest" });
+    case 1:
+      return S.Array(__S(576, __c18, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          AccessControlEntries: S.optional(__S(737, __c23, 1)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListTemplateGroupAccessControlEntriesResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+          ConnectorArn: S.String.pipe(T.HttpQuery("ConnectorArn")),
+        }).pipe(T.all(T.Http({ method: "GET", uri: "/templates" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTemplatesRequest" });
+    case 1:
+      return S.Array(__S(513, __c16, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Templates: S.optional(__S(769, __c24, 1)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListTemplatesResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          Tags: __S(1024, __c32, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
+          TagKeys: __S(960, __c30, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+          Definition: S.optional(__S(54, __c1, 22)),
+          ReenrollAllCertificateHolders: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/templates/{TemplateArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateTemplateRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TemplateArn: S.String.pipe(T.HttpLabel("TemplateArn")),
+          GroupSecurityIdentifier: S.String.pipe(T.HttpLabel("GroupSecurityIdentifier")),
+          GroupDisplayName: S.optional(S.String),
+          AccessRights: S.optional(__S(96, __c3, 0)),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/templates/{TemplateArn}/accessControlEntries/{GroupSecurityIdentifier}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateTemplateGroupAccessControlEntryRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DirectoryId: S.String,
+          CertificateAuthorityArn: S.String,
+          VpcInformation: __S(992, __c31, 0),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          Tags: S.optional(__S(1024, __c32, 0)),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/connectors" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateConnectorRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ ConnectorArn: S.optional(S.String) })).annotate({
+        identifier: "CreateConnectorResponse",
+      });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ IpAddressType: S.optional(S.String), SecurityGroupIds: __S(960, __c30, 0) }),
+      ).annotate({ identifier: "VpcInformation" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DirectoryId: S.String,
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          Tags: S.optional(__S(1024, __c32, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/directoryRegistrations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateDirectoryRegistrationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ DirectoryRegistrationArn: S.optional(S.String) })).annotate(
+        { identifier: "CreateDirectoryRegistrationResponse" },
+      );
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DirectoryRegistrationArn: S.String.pipe(T.HttpLabel("DirectoryRegistrationArn")),
+          ConnectorArn: S.String.pipe(T.HttpLabel("ConnectorArn")),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/directoryRegistrations/{DirectoryRegistrationArn}/servicePrincipalNames/{ConnectorArn}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateServicePrincipalNameRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "CreateServicePrincipalNameResponse",
+      });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

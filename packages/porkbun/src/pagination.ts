@@ -1,5 +1,5 @@
 /**
- * Porkbun pagination — hand-written.
+ * Porkbun pagination -- hand-written.
  *
  * Porkbun list operations are typically single-page responses; generated
  * operations that the converter stamps as cursor-mode pass core's

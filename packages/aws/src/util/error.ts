@@ -16,17 +16,17 @@
  * 2. If a `#` is present, take only the contents AFTER the first `#`
  *
  * Examples:
- * - `FooError` → `FooError`
- * - `FooError:http://internal.amazon.com/coral/...` → `FooError`
- * - `aws.protocoltests.restjson#FooError` → `FooError`
- * - `aws.protocoltests.restjson#FooError:http://...` → `FooError`
+ * - `FooError` -> `FooError`
+ * - `FooError:http://internal.amazon.com/coral/...` -> `FooError`
+ * - `aws.protocoltests.restjson#FooError` -> `FooError`
+ * - `aws.protocoltests.restjson#FooError:http://...` -> `FooError`
  *
  * @param value - The raw error type value from the response
  * @returns The sanitized error code
  */
 export function sanitizeErrorCode(value: string): string {
   // 0. Repeated `x-amzn-errortype` headers are joined with ", " by the
-  //    fetch Headers API — e.g. resource-explorer-2 throttling responds
+  //    fetch Headers API -- e.g. resource-explorer-2 throttling responds
   //    with "ThrottlingException, TooManyRequestsException". Take the
   //    first entry.
   // 1. Take before first ':'

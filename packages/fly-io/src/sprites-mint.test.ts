@@ -11,7 +11,7 @@ import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import { Credentials } from "./credentials.ts";
 import { SpritesProtocol } from "./protocol.ts";
-import { ListSpritesRequest } from "./services/sprites.ts";
+import { listSprites } from "./services/sprites.ts";
 
 const mintFixture = (apiKey: string) =>
   Effect.gen(function* () {
@@ -53,8 +53,8 @@ const mintFixture = (apiKey: string) =>
     const encode = protocol
       .encode({
         input: {},
-        inputAst: ListSpritesRequest.ast,
-        config: { input: ListSpritesRequest },
+        inputAst: listSprites.input.ast,
+        config: { input: listSprites.input },
       })
       .pipe(
         Effect.provideService(HttpClient.HttpClient, client),

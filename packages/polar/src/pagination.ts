@@ -1,6 +1,6 @@
 import * as Pagination from "@distilled.cloud/core/pagination";
 /**
- * Polar pagination — hand-written.
+ * Polar pagination -- hand-written.
  *
  * Polar's paginated list operations are page-number mode (`page`/`limit`
  * in, `pagination.max_page` out, items under `items`). `max_page` is the

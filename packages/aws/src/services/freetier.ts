@@ -1,59 +1,83 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "FreeTier", serviceShapeName: "AWSFreeTierService" });
-const auth = T.AwsAuthSigv4({ name: "freetier" });
-const ver = T.ServiceVersion("2023-09-07");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseFIPS = false, Endpoint } = p;
-  const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
-    type: "endpoint" as const,
-    endpoint: { url: u as string, properties: p, headers: h },
-  });
-  const err = (m: unknown): T.EndpointResolverResult => ({
-    type: "error" as const,
-    message: m as string,
-  });
-  const _p0 = () => ({
-    authSchemes: [{ name: "sigv4", signingName: "freetier", signingRegion: "cn-northwest-1" }],
-  });
-  if (Endpoint != null) {
-    if (UseFIPS === true) {
-      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "FreeTier",
+  serviceShapeName: "AWSFreeTierService",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "freetier" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2023-09-07");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const rules = /*@__PURE__*/ T.EndpointResolver(
+  (p, _) => {
+    const { Region, UseFIPS = false, Endpoint } = p;
+    const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
+      type: "endpoint" as const,
+      endpoint: { url: u as string, properties: p, headers: h },
+    });
+    const err = (m: unknown): T.EndpointResolverResult => ({
+      type: "error" as const,
+      message: m as string,
+    });
+    const _p0 = () => ({
+      authSchemes: [{ name: "sigv4", signingName: "freetier", signingRegion: "cn-northwest-1" }],
+    });
+    if (Endpoint != null) {
+      if (UseFIPS === true) {
+        return err("Invalid Configuration: FIPS and custom endpoint are not supported");
+      }
+      return e(Endpoint);
     }
-    return e(Endpoint);
-  }
-  if (Region != null) {
-    {
-      const PartitionResult = _.partition(Region);
-      if (PartitionResult != null && PartitionResult !== false) {
-        if (_.getAttr(PartitionResult, "name") === "aws") {
-          if (UseFIPS === true) {
-            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-              return e(`https://freetier-fips.${Region}.api.aws`);
+    if (Region != null) {
+      {
+        const PartitionResult = _.partition(Region);
+        if (PartitionResult != null && PartitionResult !== false) {
+          if (_.getAttr(PartitionResult, "name") === "aws") {
+            if (UseFIPS === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                return e(`https://freetier-fips.${Region}.api.aws`);
+              }
+              return err("FIPS is enabled but this partition does not support FIPS");
             }
-            return err("FIPS is enabled but this partition does not support FIPS");
+            return e(
+              "https://freetier.us-east-1.api.aws",
+              {
+                authSchemes: [
+                  { name: "sigv4", signingName: "freetier", signingRegion: "us-east-1" },
+                ],
+              },
+              {},
+            );
           }
-          return e(
-            "https://freetier.us-east-1.api.aws",
-            {
-              authSchemes: [{ name: "sigv4", signingName: "freetier", signingRegion: "us-east-1" }],
-            },
-            {},
-          );
-        }
-        if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+          if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
+            if (UseFIPS === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                return e(
+                  `https://freetier-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                );
+              }
+              return err("FIPS is enabled but this partition does not support FIPS");
+            }
+            if (Region === "aws-cn-global") {
+              return e("https://freetier.cn-northwest-1.api.amazonwebservices.com.cn", _p0(), {});
+            }
+            return e(
+              `https://freetier.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
           if (UseFIPS === true) {
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
               return e(
-                `https://freetier-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                `https://freetier-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
               );
             }
             return err("FIPS is enabled but this partition does not support FIPS");
@@ -61,55 +85,61 @@ const rules = T.EndpointResolver((p, _) => {
           if (Region === "aws-cn-global") {
             return e("https://freetier.cn-northwest-1.api.amazonwebservices.com.cn", _p0(), {});
           }
-          return e(
-            `https://freetier.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
+          return e(`https://freetier.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
-        if (UseFIPS === true) {
-          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(`https://freetier-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
-          }
-          return err("FIPS is enabled but this partition does not support FIPS");
-        }
-        if (Region === "aws-cn-global") {
-          return e("https://freetier.cn-northwest-1.api.amazonwebservices.com.cn", _p0(), {});
-        }
-        return e(`https://freetier.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
-  }
-  return err("Invalid Configuration: Missing Region");
-});
+    return err("Invalid Configuration: Missing Region");
+  },
+  '{"url":"https://freetier.us-east-1.api.aws","properties":{"authSchemes":[{"name":"sigv4","signingName":"freetier","signingRegion":"us-east-1"}]},"headers":{}}',
+  [
+    "us-gov-west-1",
+    "us-gov-east-1",
+    "aws-us-gov-global",
+    "cn-north-1",
+    "cn-northwest-1",
+    "aws-cn-global",
+    "us-iso-east-1",
+    "us-iso-west-1",
+    "aws-iso-global",
+    "us-isob-east-1",
+    "aws-iso-b-global",
+    "aws-iso-f-global",
+    "us-isof-east-1",
+    "us-isof-south-1",
+    "eusc-de-east-1",
+  ],
+);
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type ActivityId = string;
 export type LanguageCode =
@@ -127,39 +157,22 @@ export type LanguageCode =
   | "zh-TW"
   | "tr-TR"
   | (string & {});
-export const LanguageCode = S.String;
-
 export interface GetAccountActivityRequest {
   activityId: string;
   languageCode?: LanguageCode;
 }
-export const GetAccountActivityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ activityId: S.String, languageCode: S.optional(LanguageCode) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAccountActivityRequest",
-}) as any as S.Schema<GetAccountActivityRequest>;
 export type ActivityStatus =
   | "NOT_STARTED"
   | "IN_PROGRESS"
   | "COMPLETED"
   | "EXPIRING"
   | (string & {});
-export const ActivityStatus = S.String;
-
 export type CurrencyCode = "USD" | (string & {});
-export const CurrencyCode = S.String;
-
 export interface MonetaryAmount {
   amount: number;
   unit: CurrencyCode;
 }
-export const MonetaryAmount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ amount: S.Number, unit: CurrencyCode }),
-).annotate({ identifier: "MonetaryAmount" }) as any as S.Schema<MonetaryAmount>;
 export type ActivityReward = { credit: MonetaryAmount };
-export const ActivityReward = /*@__PURE__*/ S.Union([S.Struct({ credit: MonetaryAmount })]);
 export interface GetAccountActivityResponse {
   activityId: string;
   title: string;
@@ -172,35 +185,10 @@ export interface GetAccountActivityResponse {
   startedAt?: Date;
   completedAt?: Date;
 }
-export const GetAccountActivityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    activityId: S.String,
-    title: S.String,
-    description: S.String,
-    status: ActivityStatus,
-    instructionsUrl: S.String,
-    reward: ActivityReward,
-    estimatedTimeToCompleteInMinutes: S.optional(S.Number),
-    expiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    completedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "GetAccountActivityResponse",
-}) as any as S.Schema<GetAccountActivityResponse>;
 export interface GetAccountPlanStateRequest {}
-export const GetAccountPlanStateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetAccountPlanStateRequest",
-}) as any as S.Schema<GetAccountPlanStateRequest>;
 export type AccountId = string;
 export type AccountPlanType = "FREE" | "PAID" | (string & {});
-export const AccountPlanType = S.String;
-
 export type AccountPlanStatus = "NOT_STARTED" | "ACTIVE" | "EXPIRED" | (string & {});
-export const AccountPlanStatus = S.String;
-
 export interface GetAccountPlanStateResponse {
   accountId: string;
   accountPlanType: AccountPlanType;
@@ -208,21 +196,7 @@ export interface GetAccountPlanStateResponse {
   accountPlanRemainingCredits?: MonetaryAmount;
   accountPlanExpirationDate?: Date;
 }
-export const GetAccountPlanStateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String,
-    accountPlanType: AccountPlanType,
-    accountPlanStatus: AccountPlanStatus,
-    accountPlanRemainingCredits: S.optional(MonetaryAmount),
-    accountPlanExpirationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "GetAccountPlanStateResponse",
-}) as any as S.Schema<GetAccountPlanStateResponse>;
 export type Expressions = Expression[];
-export const Expressions = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
-) as any as S.Schema<Expressions>;
 export type Dimension =
   | "SERVICE"
   | "OPERATION"
@@ -232,11 +206,8 @@ export type Dimension =
   | "DESCRIPTION"
   | "USAGE_PERCENTAGE"
   | (string & {});
-export const Dimension = S.String;
-
 export type Value = string;
 export type Values = string[];
-export const Values = /*@__PURE__*/ S.Array(S.String);
 export type MatchOption =
   | "EQUALS"
   | "STARTS_WITH"
@@ -244,34 +215,18 @@ export type MatchOption =
   | "CONTAINS"
   | "GREATER_THAN_OR_EQUAL"
   | (string & {});
-export const MatchOption = S.String;
-
 export type MatchOptions = MatchOption[];
-export const MatchOptions = /*@__PURE__*/ S.Array(MatchOption);
 export interface DimensionValues {
   Key: Dimension;
   Values: string[];
   MatchOptions: MatchOption[];
 }
-export const DimensionValues = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: Dimension, Values: Values, MatchOptions: MatchOptions }),
-).annotate({ identifier: "DimensionValues" }) as any as S.Schema<DimensionValues>;
 export interface Expression {
   Or?: Expression[];
   And?: Expression[];
   Not?: Expression;
   Dimensions?: DimensionValues;
 }
-export const Expression = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Or: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
-    And: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
-    Not: S.optional(
-      S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
-    ),
-    Dimensions: S.optional(DimensionValues),
-  }),
-).annotate({ identifier: "Expression" }) as any as S.Schema<Expression>;
 export type MaxResults = number;
 export type NextPageToken = string;
 export interface GetFreeTierUsageRequest {
@@ -279,13 +234,6 @@ export interface GetFreeTierUsageRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const GetFreeTierUsageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filter: S.optional(Expression),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetFreeTierUsageRequest" }) as any as S.Schema<GetFreeTierUsageRequest>;
 export interface FreeTierUsage {
   service?: string;
   operation?: string;
@@ -298,96 +246,37 @@ export interface FreeTierUsage {
   description?: string;
   freeTierType?: string;
 }
-export const FreeTierUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    service: S.optional(S.String),
-    operation: S.optional(S.String),
-    usageType: S.optional(S.String),
-    region: S.optional(S.String),
-    actualUsageAmount: S.optional(S.Number),
-    forecastedUsageAmount: S.optional(S.Number),
-    limit: S.optional(S.Number),
-    unit: S.optional(S.String),
-    description: S.optional(S.String),
-    freeTierType: S.optional(S.String),
-  }),
-).annotate({ identifier: "FreeTierUsage" }) as any as S.Schema<FreeTierUsage>;
 export type FreeTierUsages = FreeTierUsage[];
-export const FreeTierUsages = /*@__PURE__*/ S.Array(FreeTierUsage);
 export interface GetFreeTierUsageResponse {
   freeTierUsages: FreeTierUsage[];
   nextToken?: string;
 }
-export const GetFreeTierUsageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ freeTierUsages: FreeTierUsages, nextToken: S.optional(S.String) }),
-).annotate({ identifier: "GetFreeTierUsageResponse" }) as any as S.Schema<GetFreeTierUsageResponse>;
 export type FilterActivityStatuses = ActivityStatus[];
-export const FilterActivityStatuses = /*@__PURE__*/ S.Array(ActivityStatus);
 export interface ListAccountActivitiesRequest {
   filterActivityStatuses?: ActivityStatus[];
   nextToken?: string;
   maxResults?: number;
   languageCode?: LanguageCode;
 }
-export const ListAccountActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    filterActivityStatuses: S.optional(FilterActivityStatuses),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    languageCode: S.optional(LanguageCode),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAccountActivitiesRequest",
-}) as any as S.Schema<ListAccountActivitiesRequest>;
 export interface ActivitySummary {
   activityId: string;
   title: string;
   reward: ActivityReward;
   status: ActivityStatus;
 }
-export const ActivitySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    activityId: S.String,
-    title: S.String,
-    reward: ActivityReward,
-    status: ActivityStatus,
-  }),
-).annotate({ identifier: "ActivitySummary" }) as any as S.Schema<ActivitySummary>;
 export type Activities = ActivitySummary[];
-export const Activities = /*@__PURE__*/ S.Array(ActivitySummary);
 export interface ListAccountActivitiesResponse {
   activities: ActivitySummary[];
   nextToken?: string;
 }
-export const ListAccountActivitiesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ activities: Activities, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAccountActivitiesResponse",
-}) as any as S.Schema<ListAccountActivitiesResponse>;
 export interface UpgradeAccountPlanRequest {
   accountPlanType: AccountPlanType;
 }
-export const UpgradeAccountPlanRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountPlanType: AccountPlanType }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpgradeAccountPlanRequest",
-}) as any as S.Schema<UpgradeAccountPlanRequest>;
 export interface UpgradeAccountPlanResponse {
   accountId: string;
   accountPlanType: AccountPlanType;
   accountPlanStatus: AccountPlanStatus;
 }
-export const UpgradeAccountPlanResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String,
-    accountPlanType: AccountPlanType,
-    accountPlanStatus: AccountPlanStatus,
-  }),
-).annotate({
-  identifier: "UpgradeAccountPlanResponse",
-}) as any as S.Schema<UpgradeAccountPlanResponse>;
 export type GetAccountActivityError =
   | InternalServerException
   | ResourceNotFoundException
@@ -403,8 +292,8 @@ export const getAccountActivity: API.OperationMethod<
   GetAccountActivityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountActivityRequest,
-  output: GetAccountActivityResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<GetAccountActivityRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<GetAccountActivityResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -432,8 +321,8 @@ export const getAccountPlanState: API.OperationMethod<
   GetAccountPlanStateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountPlanStateRequest,
-  output: GetAccountPlanStateResponse,
+  input: __S(24, __c3, 0) as any as S.Schema<GetAccountPlanStateRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<GetAccountPlanStateResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -461,8 +350,8 @@ export const getFreeTierUsage: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FreeTierUsage
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetFreeTierUsageRequest,
-  output: GetFreeTierUsageResponse,
+  input: __S(36, __c4, 4) as any as S.Schema<GetFreeTierUsageRequest>,
+  output: __S(39, __c4, 7) as any as S.Schema<GetFreeTierUsageResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -490,8 +379,8 @@ export const listAccountActivities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ActivitySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountActivitiesRequest,
-  output: ListAccountActivitiesResponse,
+  input: __S(48, __c6, 0) as any as S.Schema<ListAccountActivitiesRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<ListAccountActivitiesResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -520,8 +409,8 @@ export const upgradeAccountPlan: API.OperationMethod<
   UpgradeAccountPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpgradeAccountPlanRequest,
-  output: UpgradeAccountPlanResponse,
+  input: __S(56, __c7, 0) as any as S.Schema<UpgradeAccountPlanRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<UpgradeAccountPlanResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -533,3 +422,178 @@ export const upgradeAccountPlan: API.OperationMethod<
   retry: Retry,
   operationName: "UpgradeAccountPlan",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ activityId: S.String, languageCode: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAccountActivityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          activityId: S.String,
+          title: S.String,
+          description: S.String,
+          status: S.String,
+          instructionsUrl: S.String,
+          reward: __S(16, __c2, 0),
+          estimatedTimeToCompleteInMinutes: S.optional(S.Number),
+          expiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          completedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "GetAccountActivityResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ amount: S.Number, unit: S.String })).annotate({
+        identifier: "MonetaryAmount",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([/*@__PURE__*/ S.Struct({ credit: __S(8, __c1, 0) })]);
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAccountPlanStateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          accountPlanType: S.String,
+          accountPlanStatus: S.String,
+          accountPlanRemainingCredits: S.optional(__S(8, __c1, 0)),
+          accountPlanExpirationDate: S.optional(
+            T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          ),
+        }),
+      ).annotate({ identifier: "GetAccountPlanStateResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(
+        /*@__PURE__*/ S.suspend((): S.Schema<Expression> => __S(35, __c4, 3)).annotate({
+          identifier: "Expression",
+        }),
+      );
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Key: S.String, Values: __S(33, __c4, 1), MatchOptions: __S(40, __c5, 0) }),
+      ).annotate({ identifier: "DimensionValues" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Or: S.optional(S.suspend(() => __S(32, __c4, 0)).annotate({ identifier: "Expressions" })),
+          And: S.optional(
+            S.suspend(() => __S(32, __c4, 0)).annotate({ identifier: "Expressions" }),
+          ),
+          Not: S.optional(
+            S.suspend((): S.Schema<Expression> => __S(35, __c4, 3)).annotate({
+              identifier: "Expression",
+            }),
+          ),
+          Dimensions: S.optional(__S(34, __c4, 2)),
+        }),
+      ).annotate({ identifier: "Expression" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(__S(35, __c4, 3)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetFreeTierUsageRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.optional(S.String),
+          operation: S.optional(S.String),
+          usageType: S.optional(S.String),
+          region: S.optional(S.String),
+          actualUsageAmount: S.optional(S.Number),
+          forecastedUsageAmount: S.optional(S.Number),
+          limit: S.optional(S.Number),
+          unit: S.optional(S.String),
+          description: S.optional(S.String),
+          freeTierType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FreeTierUsage" });
+    case 6:
+      return S.Array(__S(37, __c4, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ freeTierUsages: __S(38, __c4, 6), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "GetFreeTierUsageResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filterActivityStatuses: S.optional(__S(40, __c5, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+          languageCode: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAccountActivitiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          activityId: S.String,
+          title: S.String,
+          reward: __S(16, __c2, 0),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "ActivitySummary" });
+    case 2:
+      return S.Array(__S(49, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ activities: __S(50, __c6, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAccountActivitiesResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ accountPlanType: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpgradeAccountPlanRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ accountId: S.String, accountPlanType: S.String, accountPlanStatus: S.String }),
+      ).annotate({ identifier: "UpgradeAccountPlanResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

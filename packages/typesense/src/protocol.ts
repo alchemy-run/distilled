@@ -2,11 +2,11 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * TypesenseProtocol — the shared bearer/header-auth REST factory from core,
+ * TypesenseProtocol -- the shared bearer/header-auth REST factory from core,
  * instantiated with Typesense's specifics:
  *
  *   request:  base URL from the caller's credentials (Typesense has no fixed
- *             default — self-hosted servers and per-cluster Cloud URLs), auth
+ *             default -- self-hosted servers and per-cluster Cloud URLs), auth
  *             via the `X-TYPESENSE-API-KEY` header
  *
  *   response: plain JSON, no envelope. Non-2xx bodies decode against
@@ -32,16 +32,13 @@ export type TypesenseOpError = DefaultErrors | ConfigError | HttpClientError.Htt
 /** Context (requirements) shared by every generated Typesense operation. */
 export type TypesenseOpContext = Credentials | HttpClient.HttpClient;
 
-export const TypesenseProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // Resolved on the calling fiber, per request — the Credentials service
+export const TypesenseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // Resolved on the calling fiber, per request -- the Credentials service
   // holds an effect, so lazily-resolved keys Just Work.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: formatHeaders,
-  // Typesense's ApiResponse error body is `{ message }` — covered by the
+  // Typesense's ApiResponse error body is `{ message }` -- covered by the
   // factory's default envelope reader.
   unknownError: ({ message, body }) => new UnknownTypesenseError({ message, body }),
   parseError: ({ body, cause }) => new TypesenseParseError({ body, cause }),

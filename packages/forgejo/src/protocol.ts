@@ -2,7 +2,7 @@ import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * ForgejoProtocol — the shared bearer-REST protocol instantiated for Forgejo.
+ * ForgejoProtocol -- the shared bearer-REST protocol instantiated for Forgejo.
  *
  * Forgejo speaks plain JSON with no response envelope: list endpoints return
  * a bare array, single resources return the object itself, and many
@@ -16,7 +16,7 @@ import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/
  *
  * Pagination is by page number (`page`/`limit`) with the total reported in
  * an `X-Total-Count` response header and no in-body token, so no pagination
- * trait is stamped on list operations — callers advance `page` until an
+ * trait is stamped on list operations -- callers advance `page` until an
  * empty page comes back. See `scripts/generate.ts`.
  */
 import * as Effect from "effect/Effect";
@@ -51,14 +51,11 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const ForgejoProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const ForgejoProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request (the layer is memoized per
   // process); the Credentials service holds an effect, so a token rotated
   // between calls is picked up without rebuilding the layer.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `token ${Redacted.value(creds.token)}`,

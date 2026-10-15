@@ -7,13 +7,14 @@
 
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
-import * as Schema from "effect/Schema";
+import type * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
 import {
   getEventMemberBindings,
   type EventMemberBindings,
   type EventPayloadKind,
 } from "../traits.ts";
+import { encode } from "../util/codec.ts";
 import {
   encodeEvent,
   type EventStreamEncodeError,
@@ -143,7 +144,7 @@ export const serializeInputEventStream = <E extends InputEvent>(
 // Schema-driven Input Event Serialization
 // ============================================================================
 
-const textEncoder = new TextEncoder();
+const textEncoder = /*@__PURE__*/ new TextEncoder();
 
 const unwrapRedacted = (value: unknown): unknown =>
   Redacted.isRedacted(value) ? Redacted.value(value) : value;
@@ -194,7 +195,7 @@ const PAYLOAD_CONTENT_TYPE: Record<EventPayloadKind, string> = {
  * base64 and sensitive values unwrapped), following Smithy's event stream
  * binding rules:
  * - `eventHeader` members become typed frame headers;
- * - an `eventPayload` member IS the frame payload — raw bytes for a blob,
+ * - an `eventPayload` member IS the frame payload -- raw bytes for a blob,
  *   UTF-8 for a string, JSON for a structure;
  * - otherwise the remaining members are the JSON payload.
  */
@@ -248,13 +249,13 @@ const buildInputEventMessage = (
  * Each event is encoded through `eventSchema` (so blob members inside JSON
  * payloads become base64 strings, as the service expects) and framed per the
  * `eventPayload` / `eventHeader` bindings derived from the event structs'
- * member annotations. An explicit `eventPayloadMap` (event type → payload
+ * member annotations. An explicit `eventPayloadMap` (event type -> payload
  * member) overrides the derived payload member.
  *
  * @param events - Stream of events, in Smithy union (`{ EventName: {...} }`)
  *   or tagged (`{ _tag: "EventName", ... }`) form
  * @param eventSchema - The stream's event union schema
- * @param eventPayloadMap - Optional explicit event type → payload member map
+ * @param eventPayloadMap - Optional explicit event type -> payload member map
  */
 export const serializeInputEventStreamWithSchema = <E extends InputEvent>(
   events: Stream.Stream<E, unknown>,
@@ -273,10 +274,10 @@ export const serializeInputEventStreamWithSchema = <E extends InputEvent>(
       },
     };
   }
-  const encode = eventSchema ? Schema.encodeUnknownEffect(eventSchema) : undefined;
+  const eventAst = eventSchema ? (eventSchema.ast as any) : undefined;
 
   const byteStream = events.pipe(
-    Stream.mapEffect((event) => {
+    Stream.map((event) => {
       const { eventType, payload } = extractEventTypeAndPayload(event);
       const member =
         payload !== null && typeof payload === "object" ? (payload as Record<string, unknown>) : {};
@@ -284,24 +285,20 @@ export const serializeInputEventStreamWithSchema = <E extends InputEvent>(
       // Raw (blob/string) payload frames need no wire form; skip encoding so
       // large audio chunks are not base64-encoded only to be discarded.
       const needsWire = !binding?.payload || binding.payload.kind === "structure";
-      const wire: Effect.Effect<unknown> =
-        encode && needsWire
-          ? (encode({ [eventType]: member }).pipe(
-              Effect.catch(() => Effect.succeed(undefined)),
-            ) as Effect.Effect<unknown>)
-          : Effect.succeed(undefined);
-      return wire.pipe(
-        Effect.map((encoded) => {
-          const wireMember =
-            encoded !== undefined &&
-            encoded !== null &&
-            typeof encoded === "object" &&
-            eventType in encoded
-              ? ((encoded as Record<string, unknown>)[eventType] as Record<string, unknown>)
-              : member;
-          return buildInputEventMessage(eventType, member, wireMember, binding);
-        }),
-      );
+      let encoded: unknown;
+      if (eventAst && needsWire) {
+        try {
+          encoded = encode(eventAst, { [eventType]: member });
+        } catch {}
+      }
+      const wireMember =
+        encoded !== undefined &&
+        encoded !== null &&
+        typeof encoded === "object" &&
+        eventType in encoded
+          ? ((encoded as Record<string, unknown>)[eventType] as Record<string, unknown>)
+          : member;
+      return buildInputEventMessage(eventType, member, wireMember, binding);
     }),
     Stream.mapEffect(encodeEvent),
   );

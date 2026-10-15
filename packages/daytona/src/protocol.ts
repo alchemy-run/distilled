@@ -2,7 +2,7 @@ import type * as API from "@distilled.cloud/core/api";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
- * DaytonaProtocol — the shared bearer-REST protocol instantiated for Daytona.
+ * DaytonaProtocol -- the shared bearer-REST protocol instantiated for Daytona.
  *
  * Daytona speaks plain JSON with no success envelope. FAILURES carry a
  * `{ message }` body (toolbox `ErrorResponse`) or an untyped NestJS
@@ -11,10 +11,10 @@ import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
  *
  * Daytona serves THREE endpoints, and the route picks between them:
  *
- *   • `/organization/…` → analytics (`analyticsBaseUrl`)
- *   • toolbox roots (`/files`, `/process`, `/git`, `/computeruse`, …) →
+ *   * `/organization/...` -> analytics (`analyticsBaseUrl`)
+ *   * toolbox roots (`/files`, `/process`, `/git`, `/computeruse`, ...) ->
  *     `toolboxBaseUrl` with `{sandboxId}` substituted
- *   • everything else → platform (`apiBaseUrl`)
+ *   * everything else -> platform (`apiBaseUrl`)
  *
  * A toolbox call without a configured sandbox (when the toolbox URL still
  * contains `{sandboxId}`) fails with `ConfigError`.
@@ -39,7 +39,7 @@ export type DaytonaOpError = DefaultErrors | ConfigError | HttpClientError.HttpC
 /** Context (requirements) shared by every generated Daytona operation. */
 export type DaytonaOpContext = Credentials | HttpClient.HttpClient;
 
-const TOOLBOX_ROOT_SET: ReadonlySet<string> = new Set(TOOLBOX_ROOTS);
+const TOOLBOX_ROOT_SET: ReadonlySet<string> = /*@__PURE__*/ new Set(TOOLBOX_ROOTS);
 
 const firstSegment = (uri: string): string => uri.split("/").filter(Boolean)[0] ?? "";
 
@@ -58,21 +58,18 @@ const baseUrlFor = (creds: Config, uri: string): string => {
   if (creds.sandboxId === undefined || creds.sandboxId === "") {
     throw new ConfigError({
       message:
-        `Daytona operation on ${uri} is toolbox-scoped (${creds.toolboxBaseUrl}) — ` +
+        `Daytona operation on ${uri} is toolbox-scoped (${creds.toolboxBaseUrl}) \u2014 ` +
         `configure a sandbox (DAYTONA_SANDBOX_ID or credentials({ sandboxId })) to call it`,
     });
   }
   return creds.toolboxBaseUrl.replaceAll("{sandboxId}", creds.sandboxId);
 };
 
-export const DaytonaProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const DaytonaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request (the layer is memoized per
   // process); the Credentials service holds an effect, so a key rotated
   // between calls is picked up without rebuilding the layer.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
   headers: (creds) => {
     const headers: Record<string, string> = {

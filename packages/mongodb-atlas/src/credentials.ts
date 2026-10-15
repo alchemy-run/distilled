@@ -1,6 +1,6 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * MongoDB Atlas credentials — hand-written.
+ * MongoDB Atlas credentials -- hand-written.
  *
  * Port of the distilled v0 Atlas credentials module: an OAuth2
  * client_credentials service-account flow. `MONGODB_ATLAS_CLIENT_ID` +
@@ -31,9 +31,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-  "Mongodb-atlasCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "Mongodb-atlasCredentials",
+  ) {}
 
 export interface ClientCredentialsConfig {
   readonly clientId: string;
@@ -189,4 +190,4 @@ export const fromEnv = (): Layer.Layer<Credentials> =>
     ),
   );
 
-export const CredentialsFromEnv: Layer.Layer<Credentials> = fromEnv();
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ fromEnv();

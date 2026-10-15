@@ -24,38 +24,38 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
- * HTTP 410 — the resource existed and no longer serves: issues disabled on a
+ * HTTP 410 -- the resource existed and no longer serves: issues disabled on a
  * repository, a migration archive that has been deleted, a gist that was
  * removed. Core's shared status map has no entry for it (410 is rare outside
  * GitHub), so the package adds one; generated operations that declare a 410
  * response emit their own identically-tagged `Gone` class, exactly as they do
  * for `NotFound`.
  */
-export class Gone extends Schema.TaggedError<Gone>()("Gone", {
-  message: Schema.String,
-}).pipe(Category.withNotFoundError) {}
+export class Gone
+  extends /*@__PURE__*/ Schema.TaggedError<Gone>()("Gone", {
+    message: Schema.String,
+  }).pipe(Category.withNotFoundError) {}
 
 /**
- * Unknown GitHub error — returned when a failed response's HTTP status has no
+ * Unknown GitHub error -- returned when a failed response's HTTP status has no
  * mapped error class. Carries the raw body for later cataloging.
  */
-export class UnknownGithubError extends Schema.TaggedError<UnknownGithubError>()(
-  "UnknownGithubError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+export class UnknownGithubError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownGithubError>()("UnknownGithubError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class GithubParseError extends Schema.TaggedError<GithubParseError>()("GithubParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class GithubParseError
+  extends /*@__PURE__*/ Schema.TaggedError<GithubParseError>()("GithubParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}
 
 /**
  * Errors any GitHub operation may surface in addition to the per-operation

@@ -1,5 +1,6 @@
+import * as EffectConfig from "@distilled.cloud/core/config";
 /**
- * Coinbase CDP credentials — hand-written.
+ * Coinbase CDP credentials -- hand-written.
  *
  * API-compatible port of the distilled repo's coinbase credentials module:
  * the `Credentials` service holds an *effect* that resolves the current
@@ -7,7 +8,6 @@
  * and signs a fresh JWT bearer token from the API Key Secret.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
-import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -42,16 +42,21 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "CoinbaseCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "CoinbaseCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
-  apiKeyId: EffectConfig.option(EffectConfig.String("CDP_API_KEY_ID")),
-  apiKeyName: EffectConfig.option(EffectConfig.String("CDP_API_KEY_NAME")),
-  apiKeySecret: EffectConfig.Redacted("CDP_API_KEY_SECRET"),
-  walletSecret: EffectConfig.option(EffectConfig.String("CDP_WALLET_SECRET")).pipe(
-    EffectConfig.map((value) =>
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  apiKeyId: /*@__PURE__*/ EffectConfig.option(/*@__PURE__*/ EffectConfig.String("CDP_API_KEY_ID")),
+  apiKeyName: /*@__PURE__*/ EffectConfig.option(
+    /*@__PURE__*/ EffectConfig.String("CDP_API_KEY_NAME"),
+  ),
+  apiKeySecret: /*@__PURE__*/ EffectConfig.Redacted("CDP_API_KEY_SECRET"),
+  walletSecret: /*@__PURE__*/ EffectConfig.option(
+    /*@__PURE__*/ EffectConfig.String("CDP_WALLET_SECRET"),
+  ).pipe(
+    /*@__PURE__*/ EffectConfig.map((value) =>
       value.pipe(
         Option.filter((secret) => secret.length > 0),
         Option.map(Redacted.make),
@@ -60,9 +65,9 @@ const envConfig = EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const config = yield* envConfig.pipe(
       Effect.mapError(
         () =>

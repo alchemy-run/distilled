@@ -4,18 +4,17 @@ import { describe, expect, test } from "vitest";
 import { isTransientError } from "../category.ts";
 import { InternalError, ParseError } from "../errors.ts";
 import {
-  CreateFunctionRequest,
-  FunctionConfiguration,
   InvalidParameterValueException,
   LambdaInternalKmsError,
-  UpdateFunctionCodeRequest,
+  createFunction,
+  updateFunctionCode,
 } from "../services/lambda.ts";
-import { PutObjectRequest, PutObjectOutput, SlowDown } from "../services/s3.ts";
+import { SlowDown, putObject } from "../services/s3.ts";
 import { makeResponseParser } from "./response-parser.ts";
 
 const parseCreateFunction = makeResponseParser({
-  input: CreateFunctionRequest,
-  output: FunctionConfiguration,
+  input: createFunction.input,
+  output: createFunction.output,
   errors: [InvalidParameterValueException, LambdaInternalKmsError],
 });
 
@@ -30,8 +29,8 @@ const invalidParameterResponse = (message: string) => ({
 });
 
 const parsePutObject = makeResponseParser({
-  input: PutObjectRequest,
-  output: PutObjectOutput,
+  input: putObject.input,
+  output: putObject.output,
   errors: [SlowDown],
 });
 
@@ -127,8 +126,8 @@ describe("Lambda synthetic error parsing", () => {
 
   test("only specializes operations declaring the synthetic error", async () => {
     const parseUpdateFunctionCode = makeResponseParser({
-      input: UpdateFunctionCodeRequest,
-      output: FunctionConfiguration,
+      input: updateFunctionCode.input,
+      output: createFunction.output,
       errors: [InvalidParameterValueException],
     });
     const error = await Effect.runPromise(

@@ -1,5 +1,29 @@
+import { encodeKeysKey } from "@distilled.cloud/core/schema-lite-impl";
 import type * as AST from "effect/SchemaAST";
+import { codecSymbol } from "../lite.ts";
 import { xmlNamespaceSymbol, xmlNameSymbol } from "../traits.ts";
+
+const renamedCache = /*@__PURE__*/ new WeakMap<AST.Objects, AST.Objects>();
+
+/**
+ * A lite struct with `encodeKeys` as its wire-side struct: the same members
+ * under their wire names (what Effect's encoded struct holds).
+ */
+function wireObjects(ast: AST.Objects): AST.Objects {
+  const mapping = ast.annotations?.[encodeKeysKey] as Record<string, string> | undefined;
+  if (!mapping) return ast;
+  let renamed = renamedCache.get(ast);
+  if (!renamed) {
+    renamed = {
+      ...ast,
+      propertySignatures: ast.propertySignatures.map((p) =>
+        Object.hasOwn(mapping, p.name) ? { ...p, name: mapping[p.name as string]! } : p,
+      ),
+    } as AST.Objects;
+    renamedCache.set(ast, renamed);
+  }
+  return renamed;
+}
 
 /**
  * Unwrap Union types to get to the actual type (handles S.optional)
@@ -89,10 +113,10 @@ function findEncodedObjects(ast: AST.AST): AST.Objects | undefined {
     while (current.encoding && current.encoding.length > 0) {
       current = current.encoding[0].to;
     }
-    if (current._tag === "Objects") return current as AST.Objects;
+    if (current._tag === "Objects") return wireObjects(current as AST.Objects);
   }
 
-  if (ast._tag === "Objects") return ast as AST.Objects;
+  if (ast._tag === "Objects") return wireObjects(ast as AST.Objects);
 
   if (ast._tag === "Declaration") {
     const enc = ast.encoding;
@@ -205,6 +229,8 @@ export function isDateAST(ast: AST.AST): boolean {
   if (unwrapped !== ast) return isDateAST(unwrapped);
 
   if (unwrapped._tag === "Declaration") {
+    const codec = unwrapped.annotations?.[codecSymbol];
+    if (codec === "epoch-seconds" || codec === "http-date" || codec === "date-string") return true;
     const tc = unwrapped.annotations?.typeConstructor as { _tag?: string } | undefined;
     if (tc?._tag === "Date") return true;
     const id = unwrapped.annotations?.identifier;

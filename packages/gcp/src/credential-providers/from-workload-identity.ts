@@ -1,6 +1,6 @@
 /**
  * Workload identity federation (AIP-4117): an OIDC or SAML token from
- * another platform (Vercel, GitHub Actions, AWS, Azure, …) is exchanged at
+ * another platform (Vercel, GitHub Actions, AWS, Azure, ...) is exchanged at
  * Google's Security Token Service, optionally for a service account's
  * token, and exchanged again before it expires.
  */

@@ -3,13 +3,13 @@ import type { ConfigError } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * GithubProtocol — the shared bearer-REST protocol instantiated for GitHub.
+ * GithubProtocol -- the shared bearer-REST protocol instantiated for GitHub.
  *
  * GitHub speaks plain JSON with no response envelope: list endpoints return a
  * bare array, single resources return the object itself. Failures carry
  * `{ message, documentation_url, status?, errors? }`; the `errors[]` entries
  * (validation failures on 422) carry their own `code`, which is the closest
- * thing the API has to a machine-readable error code — the envelope surfaces
+ * thing the API has to a machine-readable error code -- the envelope surfaces
  * the first one so error matchers can key on it.
  *
  * Every request sends the version-pinned `Accept` and `X-GitHub-Api-Version`
@@ -24,7 +24,7 @@ import { Credentials, type Config } from "./credentials.ts";
 import { Gone, UnknownGithubError, type DefaultErrors, GithubParseError } from "./errors.ts";
 
 /**
- * The REST API version the generated services were built from — sent on
+ * The REST API version the generated services were built from -- sent on
  * every request so GitHub never silently serves a newer, differently-shaped
  * payload. Bump it together with a regeneration.
  */
@@ -44,7 +44,7 @@ export type GithubOpContext = Credentials | HttpClient.HttpClient;
 /**
  * GitHub error bodies are `{ message, documentation_url }`, optionally with
  * an `errors` array whose entries carry a string `code` (e.g. `"missing"`,
- * `"already_exists"`) — the only machine-readable code the API offers.
+ * `"already_exists"`) -- the only machine-readable code the API offers.
  */
 const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   if (body === null || typeof body !== "object") return undefined;
@@ -60,14 +60,11 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const GithubProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+export const GithubProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the CALLING fiber per request (the layer is memoized per
   // process); the Credentials service holds an effect so rotating tokens
   // (GitHub App installation tokens expire hourly) Just Work.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
@@ -76,7 +73,7 @@ export const GithubProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config
     "User-Agent": creds.userAgent,
   }),
   errorEnvelope,
-  // Core's shared map plus 410 — GitHub uses Gone far more than most APIs
+  // Core's shared map plus 410 -- GitHub uses Gone far more than most APIs
   // (issues disabled, deleted migration archives), and an op that doesn't
   // declare a 410 response would otherwise land in UnknownGithubError.
   statusMap: { ...HTTP_STATUS_MAP, 410: Gone },

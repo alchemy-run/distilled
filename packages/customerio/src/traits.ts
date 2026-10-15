@@ -1,5 +1,5 @@
 /**
- * Customer.io SDK trait surface — hand-written.
+ * Customer.io SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Customer.io has no envelope of its own;

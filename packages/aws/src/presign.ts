@@ -57,42 +57,42 @@ export interface PresignUrlOptions {
 /**
  * SigV4 query-string presigning for an arbitrary AWS URL.
  *
- * Pure client-side computation — no AWS API call is made. Credentials are
+ * Pure client-side computation -- no AWS API call is made. Credentials are
  * resolved from the {@link Credentials.Credentials} service (the presigned
  * URL inherits that identity's IAM permissions) and the signing region
  * defaults to the {@link Region.Region} service.
  */
 export const presignUrl: (
   options: PresignUrlOptions,
-) => Effect.Effect<string, PresignError, PresignContext> = Effect.fnUntraced(function* (
-  options: PresignUrlOptions,
-) {
-  const credentials = yield* yield* Credentials.Credentials;
-  const region = options.region ?? (yield* yield* Region.Region);
+) => Effect.Effect<string, PresignError, PresignContext> = /*@__PURE__*/ Effect.fnUntraced(
+  function* (options: PresignUrlOptions) {
+    const credentials = yield* yield* Credentials.Credentials;
+    const region = options.region ?? (yield* yield* Region.Region);
 
-  const url = new URL(options.url);
-  url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
+    const url = new URL(options.url);
+    url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
 
-  const signed = yield* SigV4.sign({
-    method: options.method ?? "GET",
-    url: url.toString(),
-    headers: options.headers,
-    accessKeyId: Redacted.value(credentials.accessKeyId),
-    secretAccessKey: credentials.secretAccessKey,
-    sessionToken: credentials.sessionToken,
-    service: options.service,
-    region,
-    signQuery: true,
-    datetime: options.datetime,
-    // The signer excludes `content-type` (among others) from the signature by
-    // default (UNSIGNABLE_HEADERS). Callers passing headers here explicitly
-    // want them pinned into the signature — e.g. the AWS SDK's getSignedUrl
-    // signs `content-type` when a ContentType is given, which is what pins an
-    // uploader to the declared type — so opt back in.
-    allHeaders: options.headers !== undefined,
-  });
-  return signed.url;
-});
+    const signed = yield* SigV4.sign({
+      method: options.method ?? "GET",
+      url: url.toString(),
+      headers: options.headers,
+      accessKeyId: Redacted.value(credentials.accessKeyId),
+      secretAccessKey: credentials.secretAccessKey,
+      sessionToken: credentials.sessionToken,
+      service: options.service,
+      region,
+      signQuery: true,
+      datetime: options.datetime,
+      // The signer excludes `content-type` (among others) from the signature by
+      // default (UNSIGNABLE_HEADERS). Callers passing headers here explicitly
+      // want them pinned into the signature -- e.g. the AWS SDK's getSignedUrl
+      // signs `content-type` when a ContentType is given, which is what pins an
+      // uploader to the declared type -- so opt back in.
+      allHeaders: options.headers !== undefined,
+    });
+    return signed.url;
+  },
+);
 
 /**
  * Options for {@link presignS3Url}.
@@ -133,7 +133,7 @@ export interface PresignS3UrlOptions {
    */
   readonly contentType?: string;
   /**
-   * `response-content-type` override for GET URLs — S3 responds with this
+   * `response-content-type` override for GET URLs -- S3 responds with this
    * `Content-Type` regardless of the stored object's metadata.
    */
   readonly responseContentType?: string;
@@ -151,41 +151,41 @@ export interface PresignS3UrlOptions {
  * under the custom {@link Endpoint.Endpoint} when one is provided (e.g.
  * LocalStack or S3-compatible stores).
  *
- * Pure client-side computation — no AWS API call is made. The URL inherits
+ * Pure client-side computation -- no AWS API call is made. The URL inherits
  * the IAM permissions of the identity resolved from the
  * {@link Credentials.Credentials} service.
  */
 export const presignS3Url: (
   options: PresignS3UrlOptions,
-) => Effect.Effect<string, PresignError, PresignContext> = Effect.fnUntraced(function* (
-  options: PresignS3UrlOptions,
-) {
-  const region = options.region ?? (yield* yield* Region.Region);
-  const customEndpoint = yield* yield* Effect.serviceOption(Endpoint.Endpoint).pipe(
-    Effect.map(Option.getOrElse(() => Effect.undefined)),
-  );
+) => Effect.Effect<string, PresignError, PresignContext> = /*@__PURE__*/ Effect.fnUntraced(
+  function* (options: PresignS3UrlOptions) {
+    const region = options.region ?? (yield* yield* Region.Region);
+    const customEndpoint = yield* yield* Effect.serviceOption(Endpoint.Endpoint).pipe(
+      Effect.map(Option.getOrElse(() => Effect.undefined)),
+    );
 
-  const encodedKey = encodeGreedyLabel(options.key);
-  const url = new URL(
-    customEndpoint
-      ? `${customEndpoint.replace(/\/+$/, "")}/${options.bucket}/${encodedKey}`
-      : `https://${options.bucket}.s3.${region}.amazonaws.com/${encodedKey}`,
-  );
-  if (options.versionId !== undefined) {
-    url.searchParams.set("versionId", options.versionId);
-  }
-  if (options.responseContentType !== undefined) {
-    url.searchParams.set("response-content-type", options.responseContentType);
-  }
+    const encodedKey = encodeGreedyLabel(options.key);
+    const url = new URL(
+      customEndpoint
+        ? `${customEndpoint.replace(/\/+$/, "")}/${options.bucket}/${encodedKey}`
+        : `https://${options.bucket}.s3.${region}.amazonaws.com/${encodedKey}`,
+    );
+    if (options.versionId !== undefined) {
+      url.searchParams.set("versionId", options.versionId);
+    }
+    if (options.responseContentType !== undefined) {
+      url.searchParams.set("response-content-type", options.responseContentType);
+    }
 
-  return yield* presignUrl({
-    method: options.method ?? "GET",
-    url: url.toString(),
-    service: "s3",
-    region,
-    expiresIn: options.expiresIn,
-    headers:
-      options.contentType !== undefined ? { "content-type": options.contentType } : undefined,
-    datetime: options.datetime,
-  });
-});
+    return yield* presignUrl({
+      method: options.method ?? "GET",
+      url: url.toString(),
+      service: "s3",
+      region,
+      expiresIn: options.expiresIn,
+      headers:
+        options.contentType !== undefined ? { "content-type": options.contentType } : undefined,
+      datetime: options.datetime,
+    });
+  },
+);

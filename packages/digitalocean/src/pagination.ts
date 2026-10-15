@@ -1,5 +1,5 @@
 /**
- * DigitalOcean pagination — hand-written.
+ * DigitalOcean pagination -- hand-written.
  *
  * List operations that the converter stamps as paginated are either
  * page-number mode (`page` in, `next_page` out) or cursor mode (`cursor`

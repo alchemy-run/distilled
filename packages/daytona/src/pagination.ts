@@ -1,5 +1,5 @@
 /**
- * Daytona pagination — hand-written.
+ * Daytona pagination -- hand-written.
  *
  * Audit logs page by token (`nextToken` in and out, items under `items`).
  * The OpenAPI converter stamps `smithy.api#paginated` when it recognises

@@ -1,6 +1,6 @@
 import * as Pagination from "@distilled.cloud/core/pagination";
 /**
- * Cloudflare pagination — hand-written.
+ * Cloudflare pagination -- hand-written.
  *
  * Paginated operations use `CloudflarePaginatedProtocol` (see ./protocol.ts),
  * which keeps the envelope's `result_info` on the response as `resultInfo`
@@ -12,7 +12,7 @@ import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
 
 // =============================================================================
-// ResultInfo — the envelope's `result_info`, shared by every paginated op
+// ResultInfo -- the envelope's `result_info`, shared by every paginated op
 // =============================================================================
 
 export interface ResultInfoCursors {
@@ -22,9 +22,9 @@ export interface ResultInfoCursors {
 
 /**
  * The v4 envelope's `result_info` block (camelCased by the paginated
- * protocol). Cloudflare varies the exact fields per endpoint — page-mode
+ * protocol). Cloudflare varies the exact fields per endpoint -- page-mode
  * endpoints report `page`/`perPage`/`totalCount`, cursor-mode endpoints
- * report `cursor` or `cursors` — so all fields are optional here.
+ * report `cursor` or `cursors` -- so all fields are optional here.
  */
 export interface ResultInfo {
   readonly count?: number | null;
@@ -36,18 +36,18 @@ export interface ResultInfo {
   readonly cursors?: ResultInfoCursors | null;
 }
 
-export const ResultInfo: S.Schema<ResultInfo> = S.Struct({
-  count: S.optional(S.NullOr(S.Number)),
-  page: S.optional(S.NullOr(S.Number)),
-  perPage: S.optional(S.NullOr(S.Number)),
-  totalCount: S.optional(S.NullOr(S.Number)),
-  totalPages: S.optional(S.NullOr(S.Number)),
-  cursor: S.optional(S.NullOr(S.String)),
-  cursors: S.optional(
-    S.NullOr(
-      S.Struct({
-        after: S.optional(S.NullOr(S.String)),
-        before: S.optional(S.NullOr(S.String)),
+export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
+  count: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  page: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  perPage: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  totalCount: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  totalPages: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
+  cursor: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+  cursors: /*@__PURE__*/ S.optional(
+    /*@__PURE__*/ S.NullOr(
+      /*@__PURE__*/ S.Struct({
+        after: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+        before: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
       }),
     ),
   ),

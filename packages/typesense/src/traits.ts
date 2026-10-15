@@ -1,5 +1,5 @@
 /**
- * Typesense SDK trait surface — hand-written.
+ * Typesense SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. Typesense's protocol is plain

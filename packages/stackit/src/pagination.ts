@@ -1,6 +1,6 @@
 import { getPath, type PaginationStrategy } from "@distilled.cloud/core/pagination";
 /**
- * STACKIT pagination — hand-written.
+ * STACKIT pagination -- hand-written.
  *
  * Several STACKIT list operations page by NUMBER: `?page=N&pageSize=M` in,
  * and a response carrying the collection beside `totalPages` (DNS zones /
@@ -16,7 +16,7 @@ export type { PaginatedTrait, PaginationStrategy } from "@distilled.cloud/core/p
 
 /**
  * Stream of pages using STACKIT's `page` / `totalPages` envelope: request
- * `page`, `page+1`, … while `page < totalPages` and the collection is
+ * `page`, `page+1`, ... while `page < totalPages` and the collection is
  * non-empty.
  */
 export const paginateByTotalPages: PaginationStrategy = (operation, input, pagination) => {

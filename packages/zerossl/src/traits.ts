@@ -1,10 +1,10 @@
 /**
- * ZeroSSL SDK trait surface — hand-written.
+ * ZeroSSL SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place (`import * as T from "../traits.ts"`).
  * ZeroSSL is plain REST, so
- * there are no ZeroSSL-specific traits — the REST-protocol traits
+ * there are no ZeroSSL-specific traits -- the REST-protocol traits
  * (`SensitiveValue` / `RawResponse` / `RawResponseRoot`) come from
  * `core/protocol-rest`.
  */

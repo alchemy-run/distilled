@@ -1,17 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "IAM Toolbox", serviceShapeName: "AuthRequestService" });
-const auth = T.AwsAuthSigv4({ name: "iam" });
-const ver = T.ServiceVersion("2018-05-10");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
+  sdkId: "IAM Toolbox",
+  serviceShapeName: "AuthRequestService",
+});
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "iam" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-05-10");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -68,79 +74,49 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://iam-toolbox.{R}.{D}","properties":{},"headers":{}}');
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export interface GetRequestAuthorizationDetailsInput {
   authorizationId: string;
   nextToken?: string;
 }
-export const GetRequestAuthorizationDetailsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    authorizationId: S.String.pipe(T.HttpLabel("authorizationId")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/authorization-details/{authorizationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetRequestAuthorizationDetailsInput",
-}) as any as S.Schema<GetRequestAuthorizationDetailsInput>;
 export type AuthorizationContext = { [key: string]: any | undefined };
-export const AuthorizationContext = /*@__PURE__*/ S.Record(S.String, S.Any.pipe(S.optional));
 export type EvaluatedEffect = "ALLOW" | "EXPLICIT_DENY" | "IMPLICIT_DENY" | (string & {});
-export const EvaluatedEffect = S.String;
-
 export type StatementEffect = "ALLOW" | "DENY" | (string & {});
-export const StatementEffect = S.String;
-
 export interface MatchedStatement {
   sid?: string;
   evaluatedEffect?: StatementEffect;
 }
-export const MatchedStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ sid: S.optional(S.String), evaluatedEffect: S.optional(StatementEffect) }),
-).annotate({ identifier: "MatchedStatement" }) as any as S.Schema<MatchedStatement>;
 export type MatchedStatementList = MatchedStatement[];
-export const MatchedStatementList = /*@__PURE__*/ S.Array(MatchedStatement);
 export interface MatchedPolicy {
   uri: string;
   matchedStatements?: MatchedStatement[];
 }
-export const MatchedPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ uri: S.String, matchedStatements: S.optional(MatchedStatementList) }),
-).annotate({ identifier: "MatchedPolicy" }) as any as S.Schema<MatchedPolicy>;
 export type MatchedPolicyList = MatchedPolicy[];
-export const MatchedPolicyList = /*@__PURE__*/ S.Array(MatchedPolicy);
 export interface Evaluation {
   action: string;
   resource: string;
@@ -148,17 +124,7 @@ export interface Evaluation {
   evaluatedEffect?: EvaluatedEffect;
   matchedPolicies?: MatchedPolicy[];
 }
-export const Evaluation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.String,
-    resource: S.String,
-    context: S.optional(AuthorizationContext),
-    evaluatedEffect: S.optional(EvaluatedEffect),
-    matchedPolicies: S.optional(MatchedPolicyList),
-  }),
-).annotate({ identifier: "Evaluation" }) as any as S.Schema<Evaluation>;
 export type Evaluations = Evaluation[];
-export const Evaluations = /*@__PURE__*/ S.Array(Evaluation);
 export type PolicyType =
   | "IDENTITY_BASED_POLICY"
   | "RESOURCE_BASED_POLICY"
@@ -168,48 +134,23 @@ export type PolicyType =
   | "RESOURCE_CONTROL_POLICY"
   | "VPC_ENDPOINT_POLICY"
   | (string & {});
-export const PolicyType = S.String;
-
 export interface AttachedTo {
   arn?: string;
 }
-export const AttachedTo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ arn: S.optional(S.String) }),
-).annotate({ identifier: "AttachedTo" }) as any as S.Schema<AttachedTo>;
 export type AttachedToList = AttachedTo[];
-export const AttachedToList = /*@__PURE__*/ S.Array(AttachedTo);
 export interface PolicyInfo {
   type?: PolicyType;
   inline?: boolean;
   uri?: string;
   attachedTo?: AttachedTo[];
 }
-export const PolicyInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(PolicyType),
-    inline: S.optional(S.Boolean),
-    uri: S.optional(S.String),
-    attachedTo: S.optional(AttachedToList),
-  }),
-).annotate({ identifier: "PolicyInfo" }) as any as S.Schema<PolicyInfo>;
 export type PolicyInfoList = PolicyInfo[];
-export const PolicyInfoList = /*@__PURE__*/ S.Array(PolicyInfo);
 export interface GetRequestAuthorizationDetailsOutput {
   requestContext: { [key: string]: any | undefined };
   evaluations: Evaluation[];
   policies: PolicyInfo[];
   nextToken?: string;
 }
-export const GetRequestAuthorizationDetailsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requestContext: AuthorizationContext,
-    evaluations: Evaluations,
-    policies: PolicyInfoList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetRequestAuthorizationDetailsOutput",
-}) as any as S.Schema<GetRequestAuthorizationDetailsOutput>;
 export type GetRequestAuthorizationDetailsError =
   | AccessDeniedException
   | InternalServerException
@@ -232,8 +173,8 @@ export const getRequestAuthorizationDetails: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Evaluation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetRequestAuthorizationDetailsInput,
-  output: GetRequestAuthorizationDetailsOutput,
+  input: __S(0, __c0, 0) as any as S.Schema<GetRequestAuthorizationDetailsInput>,
+  output: __S(12, __c0, 12) as any as S.Schema<GetRequestAuthorizationDetailsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -245,3 +186,81 @@ export const getRequestAuthorizationDetails: API.PaginatedOperationMethod<
   operationName: "GetRequestAuthorizationDetails",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "evaluations" } as const,
 })) as any;
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authorizationId: S.String.pipe(T.HttpLabel("authorizationId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/authorization-details/{authorizationId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRequestAuthorizationDetailsInput" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.Any.pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ sid: S.optional(S.String), evaluatedEffect: S.optional(S.String) }),
+      ).annotate({ identifier: "MatchedStatement" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ uri: S.String, matchedStatements: S.optional(__S(3, __c0, 3)) }),
+      ).annotate({ identifier: "MatchedPolicy" });
+    case 5:
+      return S.Array(__S(4, __c0, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          resource: S.String,
+          context: S.optional(__S(1, __c0, 1)),
+          evaluatedEffect: S.optional(S.String),
+          matchedPolicies: S.optional(__S(5, __c0, 5)),
+        }),
+      ).annotate({ identifier: "Evaluation" });
+    case 7:
+      return S.Array(__S(6, __c0, 6));
+    case 8:
+      return S.suspend(() => S.Struct({ arn: S.optional(S.String) })).annotate({
+        identifier: "AttachedTo",
+      });
+    case 9:
+      return S.Array(__S(8, __c0, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          inline: S.optional(S.Boolean),
+          uri: S.optional(S.String),
+          attachedTo: S.optional(__S(9, __c0, 9)),
+        }),
+      ).annotate({ identifier: "PolicyInfo" });
+    case 11:
+      return S.Array(__S(10, __c0, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          requestContext: __S(1, __c0, 1),
+          evaluations: __S(7, __c0, 7),
+          policies: __S(11, __c0, 11),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetRequestAuthorizationDetailsOutput" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

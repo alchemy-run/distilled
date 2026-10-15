@@ -1,20 +1,20 @@
+import * as EffectConfig from "@distilled.cloud/core/config";
 /**
- * Typesense credentials — hand-written.
+ * Typesense credentials -- hand-written.
  *
  * API-compatible port of the distilled repo's typesense credentials module:
  * a static API key sent as the `X-TYPESENSE-API-KEY` header plus a
  * caller-supplied base URL. The `Credentials` service holds an *effect* so
- * layers may resolve the key lazily (env, vaults, …).
+ * layers may resolve the key lazily (env, vaults, ...).
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
-import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
 /**
- * Typesense has no fixed default base URL — users run their own server
+ * Typesense has no fixed default base URL -- users run their own server
  * (e.g. http://localhost:8108) or use Typesense Cloud (per-cluster URLs
  * like https://xxx.a1.typesense.net). Users must supply TYPESENSE_API_URL.
  */
@@ -25,25 +25,26 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
-  "TypesenseCredentials",
-) {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+    "TypesenseCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.String("TYPESENSE_API_KEY"),
-  apiBaseUrl: EffectConfig.String("TYPESENSE_API_URL"),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  apiKey: /*@__PURE__*/ EffectConfig.String("TYPESENSE_API_KEY"),
+  apiBaseUrl: /*@__PURE__*/ EffectConfig.String("TYPESENSE_API_URL"),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "TYPESENSE_API_KEY and TYPESENSE_API_URL environment variables are required",
         }),
     ),
-    Effect.map(({ apiKey, apiBaseUrl }) => ({
+    /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl }) => ({
       apiKey: Redacted.make(apiKey),
       apiBaseUrl,
     })),

@@ -1,20 +1,23 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "OpenSearchServerless",
   serviceShapeName: "OpenSearchServerless",
 });
-const auth = T.AwsAuthSigv4({ name: "aoss" });
-const ver = T.ServiceVersion("2021-11-01");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "aoss" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2021-11-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -67,67 +70,58 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://aoss.{R}.{D}","properties":{},"headers":{}}');
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class OcuLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<OcuLimitExceededException>()(
     "OcuLimitExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-      resourceType: S.optional(S.String),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceId: /*@__PURE__*/ S.optional(S.String),
+      resourceType: /*@__PURE__*/ S.optional(S.String),
       serviceCode: S.String,
-      quotaCode: S.optional(S.String),
+      quotaCode: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(402),
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type CollectionId = string;
 export type CollectionIds = string[];
-export const CollectionIds = /*@__PURE__*/ S.Array(S.String);
 export type CollectionName = string;
 export type CollectionNames = string[];
-export const CollectionNames = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetCollectionRequest {
   ids?: string[];
   names?: string[];
 }
-export const BatchGetCollectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ids: S.optional(CollectionIds), names: S.optional(CollectionNames) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchGetCollectionRequest",
-}) as any as S.Schema<BatchGetCollectionRequest>;
 export type CollectionStatus = string;
 export type CollectionType = string;
 export type StandbyReplicas = string;
@@ -136,16 +130,10 @@ export type ServerlessVectorAccelerationStatus = string;
 export interface VectorOptions {
   ServerlessVectorAcceleration: string;
 }
-export const VectorOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessVectorAcceleration: S.String }),
-).annotate({ identifier: "VectorOptions" }) as any as S.Schema<VectorOptions>;
 export interface FipsEndpoints {
   collectionEndpoint?: string;
   dashboardEndpoint?: string;
 }
-export const FipsEndpoints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ collectionEndpoint: S.optional(S.String), dashboardEndpoint: S.optional(S.String) }),
-).annotate({ identifier: "FipsEndpoints" }) as any as S.Schema<FipsEndpoints>;
 export type CollectionGroupName = string;
 export interface CollectionDetail {
   id?: string;
@@ -167,85 +155,32 @@ export interface CollectionDetail {
   failureMessage?: string;
   collectionGroupName?: string;
 }
-export const CollectionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    type: S.optional(S.String),
-    description: S.optional(S.String),
-    arn: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    standbyReplicas: S.optional(S.String),
-    deletionProtection: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-    collectionEndpoint: S.optional(S.String),
-    dashboardEndpoint: S.optional(S.String),
-    fipsEndpoints: S.optional(FipsEndpoints),
-    failureCode: S.optional(S.String),
-    failureMessage: S.optional(S.String),
-    collectionGroupName: S.optional(S.String),
-  }),
-).annotate({ identifier: "CollectionDetail" }) as any as S.Schema<CollectionDetail>;
 export type CollectionDetails = CollectionDetail[];
-export const CollectionDetails = /*@__PURE__*/ S.Array(CollectionDetail);
 export interface CollectionErrorDetail {
   id?: string;
   name?: string;
   errorMessage?: string;
   errorCode?: string;
 }
-export const CollectionErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({ identifier: "CollectionErrorDetail" }) as any as S.Schema<CollectionErrorDetail>;
 export type CollectionErrorDetails = CollectionErrorDetail[];
-export const CollectionErrorDetails = /*@__PURE__*/ S.Array(CollectionErrorDetail);
 export interface BatchGetCollectionResponse {
   collectionDetails?: CollectionDetail[];
   collectionErrorDetails?: CollectionErrorDetail[];
 }
-export const BatchGetCollectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionDetails: S.optional(CollectionDetails),
-    collectionErrorDetails: S.optional(CollectionErrorDetails),
-  }),
-).annotate({
-  identifier: "BatchGetCollectionResponse",
-}) as any as S.Schema<BatchGetCollectionResponse>;
 export type CollectionGroupId = string;
 export type CollectionGroupIds = string[];
-export const CollectionGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type CollectionGroupNames = string[];
-export const CollectionGroupNames = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetCollectionGroupRequest {
   ids?: string[];
   names?: string[];
 }
-export const BatchGetCollectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ids: S.optional(CollectionGroupIds), names: S.optional(CollectionGroupNames) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchGetCollectionGroupRequest",
-}) as any as S.Schema<BatchGetCollectionGroupRequest>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   key: string;
   value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
-export const Tags = /*@__PURE__*/ S.Array(Tag);
 export type CollectionGroupMaxIndexingCapacityValue = number;
 export type CollectionGroupMaxSearchCapacityValue = number;
 export type CollectionGroupMinIndexingCapacityValue = number;
@@ -256,31 +191,15 @@ export interface CollectionGroupCapacityLimits {
   minIndexingCapacityInOCU?: number;
   minSearchCapacityInOCU?: number;
 }
-export const CollectionGroupCapacityLimits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxIndexingCapacityInOCU: S.optional(S.Number),
-    maxSearchCapacityInOCU: S.optional(S.Number),
-    minIndexingCapacityInOCU: S.optional(S.Number),
-    minSearchCapacityInOCU: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CollectionGroupCapacityLimits",
-}) as any as S.Schema<CollectionGroupCapacityLimits>;
 export type AutoscalingStatus = string;
 export interface CapacityDetails {
   capacityInOcu?: number;
   autoscalingStatus?: string;
 }
-export const CapacityDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ capacityInOcu: S.optional(S.Number), autoscalingStatus: S.optional(S.String) }),
-).annotate({ identifier: "CapacityDetails" }) as any as S.Schema<CapacityDetails>;
 export interface CurrentCapacity {
   search?: CapacityDetails;
   indexing?: CapacityDetails;
 }
-export const CurrentCapacity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ search: S.optional(CapacityDetails), indexing: S.optional(CapacityDetails) }),
-).annotate({ identifier: "CurrentCapacity" }) as any as S.Schema<CurrentCapacity>;
 export type ServerlessGeneration = string;
 export interface CollectionGroupDetail {
   id?: string;
@@ -295,78 +214,28 @@ export interface CollectionGroupDetail {
   numberOfCollections?: number;
   generation?: string;
 }
-export const CollectionGroupDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    standbyReplicas: S.optional(S.String),
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    createdDate: S.optional(S.Number),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    currentCapacity: S.optional(CurrentCapacity),
-    numberOfCollections: S.optional(S.Number),
-    generation: S.optional(S.String),
-  }),
-).annotate({ identifier: "CollectionGroupDetail" }) as any as S.Schema<CollectionGroupDetail>;
 export type CollectionGroupDetails = CollectionGroupDetail[];
-export const CollectionGroupDetails = /*@__PURE__*/ S.Array(CollectionGroupDetail);
 export interface CollectionGroupErrorDetail {
   id?: string;
   name?: string;
   errorMessage?: string;
   errorCode?: string;
 }
-export const CollectionGroupErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CollectionGroupErrorDetail",
-}) as any as S.Schema<CollectionGroupErrorDetail>;
 export type CollectionGroupErrorDetails = CollectionGroupErrorDetail[];
-export const CollectionGroupErrorDetails = /*@__PURE__*/ S.Array(CollectionGroupErrorDetail);
 export interface BatchGetCollectionGroupResponse {
   collectionGroupDetails?: CollectionGroupDetail[];
   collectionGroupErrorDetails?: CollectionGroupErrorDetail[];
 }
-export const BatchGetCollectionGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionGroupDetails: S.optional(CollectionGroupDetails),
-    collectionGroupErrorDetails: S.optional(CollectionGroupErrorDetails),
-  }),
-).annotate({
-  identifier: "BatchGetCollectionGroupResponse",
-}) as any as S.Schema<BatchGetCollectionGroupResponse>;
 export type LifecyclePolicyType = string;
 export type ResourceName = string;
 export interface LifecyclePolicyResourceIdentifier {
   type: string;
   resource: string;
 }
-export const LifecyclePolicyResourceIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String, resource: S.String }),
-).annotate({
-  identifier: "LifecyclePolicyResourceIdentifier",
-}) as any as S.Schema<LifecyclePolicyResourceIdentifier>;
 export type LifecyclePolicyResourceIdentifiers = LifecyclePolicyResourceIdentifier[];
-export const LifecyclePolicyResourceIdentifiers = /*@__PURE__*/ S.Array(
-  LifecyclePolicyResourceIdentifier,
-);
 export interface BatchGetEffectiveLifecyclePolicyRequest {
   resourceIdentifiers: LifecyclePolicyResourceIdentifier[];
 }
-export const BatchGetEffectiveLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceIdentifiers: LifecyclePolicyResourceIdentifiers }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchGetEffectiveLifecyclePolicyRequest",
-}) as any as S.Schema<BatchGetEffectiveLifecyclePolicyRequest>;
 export type Resource = string;
 export type PolicyName = string;
 export type ResourceType = string;
@@ -378,75 +247,26 @@ export interface EffectiveLifecyclePolicyDetail {
   retentionPeriod?: string;
   noMinRetentionPeriod?: boolean;
 }
-export const EffectiveLifecyclePolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    resource: S.optional(S.String),
-    policyName: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    retentionPeriod: S.optional(S.String),
-    noMinRetentionPeriod: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "EffectiveLifecyclePolicyDetail",
-}) as any as S.Schema<EffectiveLifecyclePolicyDetail>;
 export type EffectiveLifecyclePolicyDetails = EffectiveLifecyclePolicyDetail[];
-export const EffectiveLifecyclePolicyDetails = /*@__PURE__*/ S.Array(
-  EffectiveLifecyclePolicyDetail,
-);
 export interface EffectiveLifecyclePolicyErrorDetail {
   type?: string;
   resource?: string;
   errorMessage?: string;
   errorCode?: string;
 }
-export const EffectiveLifecyclePolicyErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    resource: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EffectiveLifecyclePolicyErrorDetail",
-}) as any as S.Schema<EffectiveLifecyclePolicyErrorDetail>;
 export type EffectiveLifecyclePolicyErrorDetails = EffectiveLifecyclePolicyErrorDetail[];
-export const EffectiveLifecyclePolicyErrorDetails = /*@__PURE__*/ S.Array(
-  EffectiveLifecyclePolicyErrorDetail,
-);
 export interface BatchGetEffectiveLifecyclePolicyResponse {
   effectiveLifecyclePolicyDetails?: EffectiveLifecyclePolicyDetail[];
   effectiveLifecyclePolicyErrorDetails?: EffectiveLifecyclePolicyErrorDetail[];
 }
-export const BatchGetEffectiveLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    effectiveLifecyclePolicyDetails: S.optional(EffectiveLifecyclePolicyDetails),
-    effectiveLifecyclePolicyErrorDetails: S.optional(EffectiveLifecyclePolicyErrorDetails),
-  }),
-).annotate({
-  identifier: "BatchGetEffectiveLifecyclePolicyResponse",
-}) as any as S.Schema<BatchGetEffectiveLifecyclePolicyResponse>;
 export interface LifecyclePolicyIdentifier {
   type: string;
   name: string;
 }
-export const LifecyclePolicyIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String, name: S.String }),
-).annotate({
-  identifier: "LifecyclePolicyIdentifier",
-}) as any as S.Schema<LifecyclePolicyIdentifier>;
 export type LifecyclePolicyIdentifiers = LifecyclePolicyIdentifier[];
-export const LifecyclePolicyIdentifiers = /*@__PURE__*/ S.Array(LifecyclePolicyIdentifier);
 export interface BatchGetLifecyclePolicyRequest {
   identifiers: LifecyclePolicyIdentifier[];
 }
-export const BatchGetLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifiers: LifecyclePolicyIdentifiers }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchGetLifecyclePolicyRequest",
-}) as any as S.Schema<BatchGetLifecyclePolicyRequest>;
 export type PolicyVersion = string;
 export type PolicyDescription = string;
 export interface LifecyclePolicyDetail {
@@ -458,70 +278,29 @@ export interface LifecyclePolicyDetail {
   createdDate?: number;
   lastModifiedDate?: number;
 }
-export const LifecyclePolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    policy: S.optional(S.Any),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "LifecyclePolicyDetail" }) as any as S.Schema<LifecyclePolicyDetail>;
 export type LifecyclePolicyDetails = LifecyclePolicyDetail[];
-export const LifecyclePolicyDetails = /*@__PURE__*/ S.Array(LifecyclePolicyDetail);
 export interface LifecyclePolicyErrorDetail {
   type?: string;
   name?: string;
   errorMessage?: string;
   errorCode?: string;
 }
-export const LifecyclePolicyErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LifecyclePolicyErrorDetail",
-}) as any as S.Schema<LifecyclePolicyErrorDetail>;
 export type LifecyclePolicyErrorDetails = LifecyclePolicyErrorDetail[];
-export const LifecyclePolicyErrorDetails = /*@__PURE__*/ S.Array(LifecyclePolicyErrorDetail);
 export interface BatchGetLifecyclePolicyResponse {
   lifecyclePolicyDetails?: LifecyclePolicyDetail[];
   lifecyclePolicyErrorDetails?: LifecyclePolicyErrorDetail[];
 }
-export const BatchGetLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lifecyclePolicyDetails: S.optional(LifecyclePolicyDetails),
-    lifecyclePolicyErrorDetails: S.optional(LifecyclePolicyErrorDetails),
-  }),
-).annotate({
-  identifier: "BatchGetLifecyclePolicyResponse",
-}) as any as S.Schema<BatchGetLifecyclePolicyResponse>;
 export type VpcEndpointId = string;
 export type VpcEndpointIds = string[];
-export const VpcEndpointIds = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetVpcEndpointRequest {
   ids: string[];
 }
-export const BatchGetVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ids: VpcEndpointIds }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchGetVpcEndpointRequest",
-}) as any as S.Schema<BatchGetVpcEndpointRequest>;
 export type VpcEndpointName = string;
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIds = string[];
-export const SubnetIds = /*@__PURE__*/ S.Array(S.String);
 export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
-export const SecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type VpcEndpointStatus = string;
 export interface VpcEndpointDetail {
   id?: string;
@@ -534,47 +313,17 @@ export interface VpcEndpointDetail {
   failureCode?: string;
   failureMessage?: string;
 }
-export const VpcEndpointDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    vpcId: S.optional(S.String),
-    subnetIds: S.optional(SubnetIds),
-    securityGroupIds: S.optional(SecurityGroupIds),
-    status: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    failureCode: S.optional(S.String),
-    failureMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "VpcEndpointDetail" }) as any as S.Schema<VpcEndpointDetail>;
 export type VpcEndpointDetails = VpcEndpointDetail[];
-export const VpcEndpointDetails = /*@__PURE__*/ S.Array(VpcEndpointDetail);
 export interface VpcEndpointErrorDetail {
   id?: string;
   errorMessage?: string;
   errorCode?: string;
 }
-export const VpcEndpointErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({ identifier: "VpcEndpointErrorDetail" }) as any as S.Schema<VpcEndpointErrorDetail>;
 export type VpcEndpointErrorDetails = VpcEndpointErrorDetail[];
-export const VpcEndpointErrorDetails = /*@__PURE__*/ S.Array(VpcEndpointErrorDetail);
 export interface BatchGetVpcEndpointResponse {
   vpcEndpointDetails?: VpcEndpointDetail[];
   vpcEndpointErrorDetails?: VpcEndpointErrorDetail[];
 }
-export const BatchGetVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcEndpointDetails: S.optional(VpcEndpointDetails),
-    vpcEndpointErrorDetails: S.optional(VpcEndpointErrorDetails),
-  }),
-).annotate({
-  identifier: "BatchGetVpcEndpointResponse",
-}) as any as S.Schema<BatchGetVpcEndpointResponse>;
 export type AccessPolicyType = string;
 export type PolicyDocument = string;
 export type ClientToken = string;
@@ -585,17 +334,6 @@ export interface CreateAccessPolicyRequest {
   policy: string;
   clientToken?: string;
 }
-export const CreateAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    policy: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateAccessPolicyRequest",
-}) as any as S.Schema<CreateAccessPolicyRequest>;
 export interface AccessPolicyDetail {
   type?: string;
   name?: string;
@@ -605,32 +343,13 @@ export interface AccessPolicyDetail {
   createdDate?: number;
   lastModifiedDate?: number;
 }
-export const AccessPolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    policy: S.optional(S.Any),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AccessPolicyDetail" }) as any as S.Schema<AccessPolicyDetail>;
 export interface CreateAccessPolicyResponse {
   accessPolicyDetail?: AccessPolicyDetail;
 }
-export const CreateAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accessPolicyDetail: S.optional(AccessPolicyDetail) }),
-).annotate({
-  identifier: "CreateAccessPolicyResponse",
-}) as any as S.Schema<CreateAccessPolicyResponse>;
 export interface EncryptionConfig {
   aWSOwnedKey?: boolean;
   kmsKeyArn?: string;
 }
-export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ aWSOwnedKey: S.optional(S.Boolean), kmsKeyArn: S.optional(S.String) }),
-).annotate({ identifier: "EncryptionConfig" }) as any as S.Schema<EncryptionConfig>;
 export interface CreateCollectionRequest {
   name: string;
   type?: string;
@@ -643,20 +362,6 @@ export interface CreateCollectionRequest {
   deletionProtection?: string;
   clientToken?: string;
 }
-export const CreateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    type: S.optional(S.String),
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    standbyReplicas: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    collectionGroupName: S.optional(S.String),
-    encryptionConfig: S.optional(EncryptionConfig),
-    deletionProtection: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateCollectionRequest" }) as any as S.Schema<CreateCollectionRequest>;
 export interface CreateCollectionDetail {
   id?: string;
   name?: string;
@@ -672,29 +377,9 @@ export interface CreateCollectionDetail {
   lastModifiedDate?: number;
   collectionGroupName?: string;
 }
-export const CreateCollectionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    type: S.optional(S.String),
-    description: S.optional(S.String),
-    arn: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    standbyReplicas: S.optional(S.String),
-    deletionProtection: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-    collectionGroupName: S.optional(S.String),
-  }),
-).annotate({ identifier: "CreateCollectionDetail" }) as any as S.Schema<CreateCollectionDetail>;
 export interface CreateCollectionResponse {
   createCollectionDetail?: CreateCollectionDetail;
 }
-export const CreateCollectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ createCollectionDetail: S.optional(CreateCollectionDetail) }),
-).annotate({ identifier: "CreateCollectionResponse" }) as any as S.Schema<CreateCollectionResponse>;
 export interface CreateCollectionGroupRequest {
   name: string;
   standbyReplicas: string;
@@ -704,19 +389,6 @@ export interface CreateCollectionGroupRequest {
   generation?: string;
   clientToken?: string;
 }
-export const CreateCollectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    standbyReplicas: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    generation: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCollectionGroupRequest",
-}) as any as S.Schema<CreateCollectionGroupRequest>;
 export interface CreateCollectionGroupDetail {
   id?: string;
   arn?: string;
@@ -728,29 +400,9 @@ export interface CreateCollectionGroupDetail {
   capacityLimits?: CollectionGroupCapacityLimits;
   generation?: string;
 }
-export const CreateCollectionGroupDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    standbyReplicas: S.optional(S.String),
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    createdDate: S.optional(S.Number),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    generation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateCollectionGroupDetail",
-}) as any as S.Schema<CreateCollectionGroupDetail>;
 export interface CreateCollectionGroupResponse {
   createCollectionGroupDetail?: CreateCollectionGroupDetail;
 }
-export const CreateCollectionGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ createCollectionGroupDetail: S.optional(CreateCollectionGroupDetail) }),
-).annotate({
-  identifier: "CreateCollectionGroupResponse",
-}) as any as S.Schema<CreateCollectionGroupResponse>;
 export type IndexName = string;
 export type IndexSchema = unknown;
 export interface CreateIndexRequest {
@@ -758,15 +410,7 @@ export interface CreateIndexRequest {
   indexName: string;
   indexSchema?: any;
 }
-export const CreateIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, indexName: S.String, indexSchema: S.optional(S.Any) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "CreateIndexRequest" }) as any as S.Schema<CreateIndexRequest>;
 export interface CreateIndexResponse {}
-export const CreateIndexResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "CreateIndexResponse",
-}) as any as S.Schema<CreateIndexResponse>;
 export interface CreateLifecyclePolicyRequest {
   type: string;
   name: string;
@@ -774,25 +418,9 @@ export interface CreateLifecyclePolicyRequest {
   policy: string;
   clientToken?: string;
 }
-export const CreateLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    policy: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateLifecyclePolicyRequest",
-}) as any as S.Schema<CreateLifecyclePolicyRequest>;
 export interface CreateLifecyclePolicyResponse {
   lifecyclePolicyDetail?: LifecyclePolicyDetail;
 }
-export const CreateLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ lifecyclePolicyDetail: S.optional(LifecyclePolicyDetail) }),
-).annotate({
-  identifier: "CreateLifecyclePolicyResponse",
-}) as any as S.Schema<CreateLifecyclePolicyResponse>;
 export type SecurityConfigType = string;
 export type ConfigName = string;
 export type ConfigDescription = string;
@@ -807,15 +435,6 @@ export interface SamlConfigOptions {
   openSearchServerlessEntityId?: string;
   sessionTimeout?: number;
 }
-export const SamlConfigOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metadata: S.String,
-    userAttribute: S.optional(S.String),
-    groupAttribute: S.optional(S.String),
-    openSearchServerlessEntityId: S.optional(S.String),
-    sessionTimeout: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SamlConfigOptions" }) as any as S.Schema<SamlConfigOptions>;
 export type IamIdentityCenterInstanceArn = string;
 export type IamIdentityCenterUserAttribute = string;
 export type IamIdentityCenterGroupAttribute = string;
@@ -824,26 +443,12 @@ export interface CreateIamIdentityCenterConfigOptions {
   userAttribute?: string;
   groupAttribute?: string;
 }
-export const CreateIamIdentityCenterConfigOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceArn: S.String,
-    userAttribute: S.optional(S.String),
-    groupAttribute: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateIamIdentityCenterConfigOptions",
-}) as any as S.Schema<CreateIamIdentityCenterConfigOptions>;
 export type IamFederationGroupAttribute = string;
 export type IamFederationUserAttribute = string;
 export interface IamFederationConfigOptions {
   groupAttribute?: string;
   userAttribute?: string;
 }
-export const IamFederationConfigOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ groupAttribute: S.optional(S.String), userAttribute: S.optional(S.String) }),
-).annotate({
-  identifier: "IamFederationConfigOptions",
-}) as any as S.Schema<IamFederationConfigOptions>;
 export interface CreateSecurityConfigRequest {
   type: string;
   name: string;
@@ -853,19 +458,6 @@ export interface CreateSecurityConfigRequest {
   iamFederationOptions?: IamFederationConfigOptions;
   clientToken?: string;
 }
-export const CreateSecurityConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    samlOptions: S.optional(SamlConfigOptions),
-    iamIdentityCenterOptions: S.optional(CreateIamIdentityCenterConfigOptions),
-    iamFederationOptions: S.optional(IamFederationConfigOptions),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSecurityConfigRequest",
-}) as any as S.Schema<CreateSecurityConfigRequest>;
 export type SecurityConfigId = string;
 export type IamIdentityCenterApplicationArn = string;
 export interface IamIdentityCenterConfigOptions {
@@ -876,18 +468,6 @@ export interface IamIdentityCenterConfigOptions {
   userAttribute?: string;
   groupAttribute?: string;
 }
-export const IamIdentityCenterConfigOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceArn: S.optional(S.String),
-    applicationArn: S.optional(S.String),
-    applicationName: S.optional(S.String),
-    applicationDescription: S.optional(S.String),
-    userAttribute: S.optional(S.String),
-    groupAttribute: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IamIdentityCenterConfigOptions",
-}) as any as S.Schema<IamIdentityCenterConfigOptions>;
 export interface SecurityConfigDetail {
   id?: string;
   type?: string;
@@ -899,27 +479,9 @@ export interface SecurityConfigDetail {
   createdDate?: number;
   lastModifiedDate?: number;
 }
-export const SecurityConfigDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    type: S.optional(S.String),
-    configVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    samlOptions: S.optional(SamlConfigOptions),
-    iamIdentityCenterOptions: S.optional(IamIdentityCenterConfigOptions),
-    iamFederationOptions: S.optional(IamFederationConfigOptions),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SecurityConfigDetail" }) as any as S.Schema<SecurityConfigDetail>;
 export interface CreateSecurityConfigResponse {
   securityConfigDetail?: SecurityConfigDetail;
 }
-export const CreateSecurityConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityConfigDetail: S.optional(SecurityConfigDetail) }),
-).annotate({
-  identifier: "CreateSecurityConfigResponse",
-}) as any as S.Schema<CreateSecurityConfigResponse>;
 export type SecurityPolicyType = string;
 export interface CreateSecurityPolicyRequest {
   type: string;
@@ -928,17 +490,6 @@ export interface CreateSecurityPolicyRequest {
   policy: string;
   clientToken?: string;
 }
-export const CreateSecurityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    policy: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSecurityPolicyRequest",
-}) as any as S.Schema<CreateSecurityPolicyRequest>;
 export interface SecurityPolicyDetail {
   type?: string;
   name?: string;
@@ -948,25 +499,9 @@ export interface SecurityPolicyDetail {
   createdDate?: number;
   lastModifiedDate?: number;
 }
-export const SecurityPolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    policy: S.optional(S.Any),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SecurityPolicyDetail" }) as any as S.Schema<SecurityPolicyDetail>;
 export interface CreateSecurityPolicyResponse {
   securityPolicyDetail?: SecurityPolicyDetail;
 }
-export const CreateSecurityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityPolicyDetail: S.optional(SecurityPolicyDetail) }),
-).annotate({
-  identifier: "CreateSecurityPolicyResponse",
-}) as any as S.Schema<CreateSecurityPolicyResponse>;
 export interface CreateVpcEndpointRequest {
   name: string;
   vpcId: string;
@@ -974,276 +509,113 @@ export interface CreateVpcEndpointRequest {
   securityGroupIds?: string[];
   clientToken?: string;
 }
-export const CreateVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    vpcId: S.String,
-    subnetIds: SubnetIds,
-    securityGroupIds: S.optional(SecurityGroupIds),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "CreateVpcEndpointRequest" }) as any as S.Schema<CreateVpcEndpointRequest>;
 export interface CreateVpcEndpointDetail {
   id?: string;
   name?: string;
   status?: string;
 }
-export const CreateVpcEndpointDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), name: S.optional(S.String), status: S.optional(S.String) }),
-).annotate({ identifier: "CreateVpcEndpointDetail" }) as any as S.Schema<CreateVpcEndpointDetail>;
 export interface CreateVpcEndpointResponse {
   createVpcEndpointDetail?: CreateVpcEndpointDetail;
 }
-export const CreateVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ createVpcEndpointDetail: S.optional(CreateVpcEndpointDetail) }),
-).annotate({
-  identifier: "CreateVpcEndpointResponse",
-}) as any as S.Schema<CreateVpcEndpointResponse>;
 export interface DeleteAccessPolicyRequest {
   type: string;
   name: string;
   clientToken?: string;
 }
-export const DeleteAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteAccessPolicyRequest",
-}) as any as S.Schema<DeleteAccessPolicyRequest>;
 export interface DeleteAccessPolicyResponse {}
-export const DeleteAccessPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteAccessPolicyResponse",
-}) as any as S.Schema<DeleteAccessPolicyResponse>;
 export interface DeleteCollectionRequest {
   id: string;
   clientToken?: string;
 }
-export const DeleteCollectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, clientToken: S.optional(S.String).pipe(T.IdempotencyToken()) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteCollectionRequest" }) as any as S.Schema<DeleteCollectionRequest>;
 export interface DeleteCollectionDetail {
   id?: string;
   name?: string;
   status?: string;
   deletionProtection?: string;
 }
-export const DeleteCollectionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    deletionProtection: S.optional(S.String),
-  }),
-).annotate({ identifier: "DeleteCollectionDetail" }) as any as S.Schema<DeleteCollectionDetail>;
 export interface DeleteCollectionResponse {
   deleteCollectionDetail?: DeleteCollectionDetail;
 }
-export const DeleteCollectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ deleteCollectionDetail: S.optional(DeleteCollectionDetail) }),
-).annotate({ identifier: "DeleteCollectionResponse" }) as any as S.Schema<DeleteCollectionResponse>;
 export interface DeleteCollectionGroupRequest {
   id: string;
   clientToken?: string;
 }
-export const DeleteCollectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, clientToken: S.optional(S.String).pipe(T.IdempotencyToken()) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCollectionGroupRequest",
-}) as any as S.Schema<DeleteCollectionGroupRequest>;
 export interface DeleteCollectionGroupResponse {}
-export const DeleteCollectionGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteCollectionGroupResponse",
-}) as any as S.Schema<DeleteCollectionGroupResponse>;
 export interface DeleteIndexRequest {
   id: string;
   indexName: string;
 }
-export const DeleteIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, indexName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteIndexRequest" }) as any as S.Schema<DeleteIndexRequest>;
 export interface DeleteIndexResponse {}
-export const DeleteIndexResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteIndexResponse",
-}) as any as S.Schema<DeleteIndexResponse>;
 export interface DeleteLifecyclePolicyRequest {
   type: string;
   name: string;
   clientToken?: string;
 }
-export const DeleteLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteLifecyclePolicyRequest",
-}) as any as S.Schema<DeleteLifecyclePolicyRequest>;
 export interface DeleteLifecyclePolicyResponse {}
-export const DeleteLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteLifecyclePolicyResponse",
-}) as any as S.Schema<DeleteLifecyclePolicyResponse>;
 export interface DeleteSecurityConfigRequest {
   id: string;
   clientToken?: string;
 }
-export const DeleteSecurityConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, clientToken: S.optional(S.String).pipe(T.IdempotencyToken()) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteSecurityConfigRequest",
-}) as any as S.Schema<DeleteSecurityConfigRequest>;
 export interface DeleteSecurityConfigResponse {}
-export const DeleteSecurityConfigResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteSecurityConfigResponse",
-}) as any as S.Schema<DeleteSecurityConfigResponse>;
 export interface DeleteSecurityPolicyRequest {
   type: string;
   name: string;
   clientToken?: string;
 }
-export const DeleteSecurityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteSecurityPolicyRequest",
-}) as any as S.Schema<DeleteSecurityPolicyRequest>;
 export interface DeleteSecurityPolicyResponse {}
-export const DeleteSecurityPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteSecurityPolicyResponse",
-}) as any as S.Schema<DeleteSecurityPolicyResponse>;
 export interface DeleteVpcEndpointRequest {
   id: string;
   clientToken?: string;
 }
-export const DeleteVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, clientToken: S.optional(S.String).pipe(T.IdempotencyToken()) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteVpcEndpointRequest" }) as any as S.Schema<DeleteVpcEndpointRequest>;
 export interface DeleteVpcEndpointDetail {
   id?: string;
   name?: string;
   status?: string;
 }
-export const DeleteVpcEndpointDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), name: S.optional(S.String), status: S.optional(S.String) }),
-).annotate({ identifier: "DeleteVpcEndpointDetail" }) as any as S.Schema<DeleteVpcEndpointDetail>;
 export interface DeleteVpcEndpointResponse {
   deleteVpcEndpointDetail?: DeleteVpcEndpointDetail;
 }
-export const DeleteVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ deleteVpcEndpointDetail: S.optional(DeleteVpcEndpointDetail) }),
-).annotate({
-  identifier: "DeleteVpcEndpointResponse",
-}) as any as S.Schema<DeleteVpcEndpointResponse>;
 export interface GetAccessPolicyRequest {
   type: string;
   name: string;
 }
-export const GetAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String, name: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetAccessPolicyRequest" }) as any as S.Schema<GetAccessPolicyRequest>;
 export interface GetAccessPolicyResponse {
   accessPolicyDetail?: AccessPolicyDetail;
 }
-export const GetAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accessPolicyDetail: S.optional(AccessPolicyDetail) }),
-).annotate({ identifier: "GetAccessPolicyResponse" }) as any as S.Schema<GetAccessPolicyResponse>;
 export interface GetAccountSettingsRequest {}
-export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetAccountSettingsRequest",
-}) as any as S.Schema<GetAccountSettingsRequest>;
 export type IndexingCapacityValue = number;
 export type SearchCapacityValue = number;
 export interface CapacityLimits {
   maxIndexingCapacityInOCU?: number;
   maxSearchCapacityInOCU?: number;
 }
-export const CapacityLimits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxIndexingCapacityInOCU: S.optional(S.Number),
-    maxSearchCapacityInOCU: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CapacityLimits" }) as any as S.Schema<CapacityLimits>;
 export interface AccountSettingsDetail {
   capacityLimits?: CapacityLimits;
 }
-export const AccountSettingsDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ capacityLimits: S.optional(CapacityLimits) }),
-).annotate({ identifier: "AccountSettingsDetail" }) as any as S.Schema<AccountSettingsDetail>;
 export interface GetAccountSettingsResponse {
   accountSettingsDetail?: AccountSettingsDetail;
 }
-export const GetAccountSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountSettingsDetail: S.optional(AccountSettingsDetail) }),
-).annotate({
-  identifier: "GetAccountSettingsResponse",
-}) as any as S.Schema<GetAccountSettingsResponse>;
 export interface GetIndexRequest {
   id: string;
   indexName: string;
 }
-export const GetIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, indexName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetIndexRequest" }) as any as S.Schema<GetIndexRequest>;
 export interface GetIndexResponse {
   indexSchema?: any;
 }
-export const GetIndexResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ indexSchema: S.optional(S.Any) }),
-).annotate({ identifier: "GetIndexResponse" }) as any as S.Schema<GetIndexResponse>;
 export interface GetPoliciesStatsRequest {}
-export const GetPoliciesStatsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetPoliciesStatsRequest" }) as any as S.Schema<GetPoliciesStatsRequest>;
 export interface AccessPolicyStats {
   DataPolicyCount?: number;
 }
-export const AccessPolicyStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataPolicyCount: S.optional(S.Number) }),
-).annotate({ identifier: "AccessPolicyStats" }) as any as S.Schema<AccessPolicyStats>;
 export interface SecurityPolicyStats {
   EncryptionPolicyCount?: number;
   NetworkPolicyCount?: number;
 }
-export const SecurityPolicyStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncryptionPolicyCount: S.optional(S.Number),
-    NetworkPolicyCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SecurityPolicyStats" }) as any as S.Schema<SecurityPolicyStats>;
 export interface SecurityConfigStats {
   SamlConfigCount?: number;
 }
-export const SecurityConfigStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SamlConfigCount: S.optional(S.Number) }),
-).annotate({ identifier: "SecurityConfigStats" }) as any as S.Schema<SecurityConfigStats>;
 export interface LifecyclePolicyStats {
   RetentionPolicyCount?: number;
 }
-export const LifecyclePolicyStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RetentionPolicyCount: S.optional(S.Number) }),
-).annotate({ identifier: "LifecyclePolicyStats" }) as any as S.Schema<LifecyclePolicyStats>;
 export interface GetPoliciesStatsResponse {
   AccessPolicyStats?: AccessPolicyStats;
   SecurityPolicyStats?: SecurityPolicyStats;
@@ -1251,66 +623,26 @@ export interface GetPoliciesStatsResponse {
   LifecyclePolicyStats?: LifecyclePolicyStats;
   TotalPolicyCount?: number;
 }
-export const GetPoliciesStatsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPolicyStats: S.optional(AccessPolicyStats),
-    SecurityPolicyStats: S.optional(SecurityPolicyStats),
-    SecurityConfigStats: S.optional(SecurityConfigStats),
-    LifecyclePolicyStats: S.optional(LifecyclePolicyStats),
-    TotalPolicyCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "GetPoliciesStatsResponse" }) as any as S.Schema<GetPoliciesStatsResponse>;
 export interface GetSecurityConfigRequest {
   id: string;
 }
-export const GetSecurityConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetSecurityConfigRequest" }) as any as S.Schema<GetSecurityConfigRequest>;
 export interface GetSecurityConfigResponse {
   securityConfigDetail?: SecurityConfigDetail;
 }
-export const GetSecurityConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityConfigDetail: S.optional(SecurityConfigDetail) }),
-).annotate({
-  identifier: "GetSecurityConfigResponse",
-}) as any as S.Schema<GetSecurityConfigResponse>;
 export interface GetSecurityPolicyRequest {
   type: string;
   name: string;
 }
-export const GetSecurityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String, name: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetSecurityPolicyRequest" }) as any as S.Schema<GetSecurityPolicyRequest>;
 export interface GetSecurityPolicyResponse {
   securityPolicyDetail?: SecurityPolicyDetail;
 }
-export const GetSecurityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityPolicyDetail: S.optional(SecurityPolicyDetail) }),
-).annotate({
-  identifier: "GetSecurityPolicyResponse",
-}) as any as S.Schema<GetSecurityPolicyResponse>;
 export type ResourceFilter = string[];
-export const ResourceFilter = /*@__PURE__*/ S.Array(S.String);
 export interface ListAccessPoliciesRequest {
   type: string;
   resource?: string[];
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAccessPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    resource: S.optional(ResourceFilter),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAccessPoliciesRequest",
-}) as any as S.Schema<ListAccessPoliciesRequest>;
 export interface AccessPolicySummary {
   type?: string;
   name?: string;
@@ -1319,41 +651,15 @@ export interface AccessPolicySummary {
   createdDate?: number;
   lastModifiedDate?: number;
 }
-export const AccessPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AccessPolicySummary" }) as any as S.Schema<AccessPolicySummary>;
 export type AccessPolicySummaries = AccessPolicySummary[];
-export const AccessPolicySummaries = /*@__PURE__*/ S.Array(AccessPolicySummary);
 export interface ListAccessPoliciesResponse {
   accessPolicySummaries?: AccessPolicySummary[];
   nextToken?: string;
 }
-export const ListAccessPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessPolicySummaries: S.optional(AccessPolicySummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAccessPoliciesResponse",
-}) as any as S.Schema<ListAccessPoliciesResponse>;
 export interface ListCollectionGroupsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCollectionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCollectionGroupsRequest",
-}) as any as S.Schema<ListCollectionGroupsRequest>;
 export interface CollectionGroupSummary {
   id?: string;
   arn?: string;
@@ -1363,55 +669,21 @@ export interface CollectionGroupSummary {
   capacityLimits?: CollectionGroupCapacityLimits;
   generation?: string;
 }
-export const CollectionGroupSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    numberOfCollections: S.optional(S.Number),
-    createdDate: S.optional(S.Number),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    generation: S.optional(S.String),
-  }),
-).annotate({ identifier: "CollectionGroupSummary" }) as any as S.Schema<CollectionGroupSummary>;
 export type CollectionGroupSummaries = CollectionGroupSummary[];
-export const CollectionGroupSummaries = /*@__PURE__*/ S.Array(CollectionGroupSummary);
 export interface ListCollectionGroupsResponse {
   collectionGroupSummaries?: CollectionGroupSummary[];
   nextToken?: string;
 }
-export const ListCollectionGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionGroupSummaries: S.optional(CollectionGroupSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCollectionGroupsResponse",
-}) as any as S.Schema<ListCollectionGroupsResponse>;
 export interface CollectionFilters {
   name?: string;
   status?: string;
   collectionGroupName?: string;
 }
-export const CollectionFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    collectionGroupName: S.optional(S.String),
-  }),
-).annotate({ identifier: "CollectionFilters" }) as any as S.Schema<CollectionFilters>;
 export interface ListCollectionsRequest {
   collectionFilters?: CollectionFilters;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionFilters: S.optional(CollectionFilters),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListCollectionsRequest" }) as any as S.Schema<ListCollectionsRequest>;
 export interface CollectionSummary {
   id?: string;
   name?: string;
@@ -1420,47 +692,19 @@ export interface CollectionSummary {
   kmsKeyArn?: string;
   collectionGroupName?: string;
 }
-export const CollectionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    arn: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    collectionGroupName: S.optional(S.String),
-  }),
-).annotate({ identifier: "CollectionSummary" }) as any as S.Schema<CollectionSummary>;
 export type CollectionSummaries = CollectionSummary[];
-export const CollectionSummaries = /*@__PURE__*/ S.Array(CollectionSummary);
 export interface ListCollectionsResponse {
   collectionSummaries?: CollectionSummary[];
   nextToken?: string;
 }
-export const ListCollectionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionSummaries: S.optional(CollectionSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "ListCollectionsResponse" }) as any as S.Schema<ListCollectionsResponse>;
 export type LifecycleResource = string;
 export type LifecycleResourceFilter = string[];
-export const LifecycleResourceFilter = /*@__PURE__*/ S.Array(S.String);
 export interface ListLifecyclePoliciesRequest {
   type: string;
   resources?: string[];
   nextToken?: string;
   maxResults?: number;
 }
-export const ListLifecyclePoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    resources: S.optional(LifecycleResourceFilter),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListLifecyclePoliciesRequest",
-}) as any as S.Schema<ListLifecyclePoliciesRequest>;
 export interface LifecyclePolicySummary {
   type?: string;
   name?: string;
@@ -1469,44 +713,16 @@ export interface LifecyclePolicySummary {
   createdDate?: number;
   lastModifiedDate?: number;
 }
-export const LifecyclePolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "LifecyclePolicySummary" }) as any as S.Schema<LifecyclePolicySummary>;
 export type LifecyclePolicySummaries = LifecyclePolicySummary[];
-export const LifecyclePolicySummaries = /*@__PURE__*/ S.Array(LifecyclePolicySummary);
 export interface ListLifecyclePoliciesResponse {
   lifecyclePolicySummaries?: LifecyclePolicySummary[];
   nextToken?: string;
 }
-export const ListLifecyclePoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lifecyclePolicySummaries: S.optional(LifecyclePolicySummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLifecyclePoliciesResponse",
-}) as any as S.Schema<ListLifecyclePoliciesResponse>;
 export interface ListSecurityConfigsRequest {
   type: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListSecurityConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSecurityConfigsRequest",
-}) as any as S.Schema<ListSecurityConfigsRequest>;
 export interface SecurityConfigSummary {
   id?: string;
   type?: string;
@@ -1515,46 +731,17 @@ export interface SecurityConfigSummary {
   createdDate?: number;
   lastModifiedDate?: number;
 }
-export const SecurityConfigSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    type: S.optional(S.String),
-    configVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SecurityConfigSummary" }) as any as S.Schema<SecurityConfigSummary>;
 export type SecurityConfigSummaries = SecurityConfigSummary[];
-export const SecurityConfigSummaries = /*@__PURE__*/ S.Array(SecurityConfigSummary);
 export interface ListSecurityConfigsResponse {
   securityConfigSummaries?: SecurityConfigSummary[];
   nextToken?: string;
 }
-export const ListSecurityConfigsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    securityConfigSummaries: S.optional(SecurityConfigSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSecurityConfigsResponse",
-}) as any as S.Schema<ListSecurityConfigsResponse>;
 export interface ListSecurityPoliciesRequest {
   type: string;
   resource?: string[];
   nextToken?: string;
   maxResults?: number;
 }
-export const ListSecurityPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    resource: S.optional(ResourceFilter),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListSecurityPoliciesRequest",
-}) as any as S.Schema<ListSecurityPoliciesRequest>;
 export interface SecurityPolicySummary {
   type?: string;
   name?: string;
@@ -1563,115 +750,47 @@ export interface SecurityPolicySummary {
   createdDate?: number;
   lastModifiedDate?: number;
 }
-export const SecurityPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "SecurityPolicySummary" }) as any as S.Schema<SecurityPolicySummary>;
 export type SecurityPolicySummaries = SecurityPolicySummary[];
-export const SecurityPolicySummaries = /*@__PURE__*/ S.Array(SecurityPolicySummary);
 export interface ListSecurityPoliciesResponse {
   securityPolicySummaries?: SecurityPolicySummary[];
   nextToken?: string;
 }
-export const ListSecurityPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    securityPolicySummaries: S.optional(SecurityPolicySummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSecurityPoliciesResponse",
-}) as any as S.Schema<ListSecurityPoliciesResponse>;
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: Tag[];
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface VpcEndpointFilters {
   status?: string;
 }
-export const VpcEndpointFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
-).annotate({ identifier: "VpcEndpointFilters" }) as any as S.Schema<VpcEndpointFilters>;
 export interface ListVpcEndpointsRequest {
   vpcEndpointFilters?: VpcEndpointFilters;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListVpcEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcEndpointFilters: S.optional(VpcEndpointFilters),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListVpcEndpointsRequest" }) as any as S.Schema<ListVpcEndpointsRequest>;
 export interface VpcEndpointSummary {
   id?: string;
   name?: string;
   status?: string;
 }
-export const VpcEndpointSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.optional(S.String), name: S.optional(S.String), status: S.optional(S.String) }),
-).annotate({ identifier: "VpcEndpointSummary" }) as any as S.Schema<VpcEndpointSummary>;
 export type VpcEndpointSummaries = VpcEndpointSummary[];
-export const VpcEndpointSummaries = /*@__PURE__*/ S.Array(VpcEndpointSummary);
 export interface ListVpcEndpointsResponse {
   vpcEndpointSummaries?: VpcEndpointSummary[];
   nextToken?: string;
 }
-export const ListVpcEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcEndpointSummaries: S.optional(VpcEndpointSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "ListVpcEndpointsResponse" }) as any as S.Schema<ListVpcEndpointsResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String, tagKeys: TagKeys }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccessPolicyRequest {
   type: string;
   name: string;
@@ -1680,44 +799,15 @@ export interface UpdateAccessPolicyRequest {
   policy?: string;
   clientToken?: string;
 }
-export const UpdateAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    policyVersion: S.String,
-    description: S.optional(S.String),
-    policy: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateAccessPolicyRequest",
-}) as any as S.Schema<UpdateAccessPolicyRequest>;
 export interface UpdateAccessPolicyResponse {
   accessPolicyDetail?: AccessPolicyDetail;
 }
-export const UpdateAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accessPolicyDetail: S.optional(AccessPolicyDetail) }),
-).annotate({
-  identifier: "UpdateAccessPolicyResponse",
-}) as any as S.Schema<UpdateAccessPolicyResponse>;
 export interface UpdateAccountSettingsRequest {
   capacityLimits?: CapacityLimits;
 }
-export const UpdateAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ capacityLimits: S.optional(CapacityLimits) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateAccountSettingsRequest",
-}) as any as S.Schema<UpdateAccountSettingsRequest>;
 export interface UpdateAccountSettingsResponse {
   accountSettingsDetail?: AccountSettingsDetail;
 }
-export const UpdateAccountSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountSettingsDetail: S.optional(AccountSettingsDetail) }),
-).annotate({
-  identifier: "UpdateAccountSettingsResponse",
-}) as any as S.Schema<UpdateAccountSettingsResponse>;
 export interface UpdateCollectionRequest {
   id: string;
   description?: string;
@@ -1725,15 +815,6 @@ export interface UpdateCollectionRequest {
   deletionProtection?: string;
   clientToken?: string;
 }
-export const UpdateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    description: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    deletionProtection: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "UpdateCollectionRequest" }) as any as S.Schema<UpdateCollectionRequest>;
 export interface UpdateCollectionDetail {
   id?: string;
   name?: string;
@@ -1746,42 +827,15 @@ export interface UpdateCollectionDetail {
   lastModifiedDate?: number;
   deletionProtection?: string;
 }
-export const UpdateCollectionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    type: S.optional(S.String),
-    description: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    arn: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-    deletionProtection: S.optional(S.String),
-  }),
-).annotate({ identifier: "UpdateCollectionDetail" }) as any as S.Schema<UpdateCollectionDetail>;
 export interface UpdateCollectionResponse {
   updateCollectionDetail?: UpdateCollectionDetail;
 }
-export const UpdateCollectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ updateCollectionDetail: S.optional(UpdateCollectionDetail) }),
-).annotate({ identifier: "UpdateCollectionResponse" }) as any as S.Schema<UpdateCollectionResponse>;
 export interface UpdateCollectionGroupRequest {
   id: string;
   description?: string;
   capacityLimits?: CollectionGroupCapacityLimits;
   clientToken?: string;
 }
-export const UpdateCollectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    description: S.optional(S.String),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateCollectionGroupRequest",
-}) as any as S.Schema<UpdateCollectionGroupRequest>;
 export interface UpdateCollectionGroupDetail {
   id?: string;
   arn?: string;
@@ -1792,42 +846,15 @@ export interface UpdateCollectionGroupDetail {
   lastModifiedDate?: number;
   generation?: string;
 }
-export const UpdateCollectionGroupDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-    generation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateCollectionGroupDetail",
-}) as any as S.Schema<UpdateCollectionGroupDetail>;
 export interface UpdateCollectionGroupResponse {
   updateCollectionGroupDetail?: UpdateCollectionGroupDetail;
 }
-export const UpdateCollectionGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ updateCollectionGroupDetail: S.optional(UpdateCollectionGroupDetail) }),
-).annotate({
-  identifier: "UpdateCollectionGroupResponse",
-}) as any as S.Schema<UpdateCollectionGroupResponse>;
 export interface UpdateIndexRequest {
   id: string;
   indexName: string;
   indexSchema?: any;
 }
-export const UpdateIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, indexName: S.String, indexSchema: S.optional(S.Any) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UpdateIndexRequest" }) as any as S.Schema<UpdateIndexRequest>;
 export interface UpdateIndexResponse {}
-export const UpdateIndexResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UpdateIndexResponse",
-}) as any as S.Schema<UpdateIndexResponse>;
 export interface UpdateLifecyclePolicyRequest {
   type: string;
   name: string;
@@ -1836,35 +863,13 @@ export interface UpdateLifecyclePolicyRequest {
   policy?: string;
   clientToken?: string;
 }
-export const UpdateLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    policyVersion: S.String,
-    description: S.optional(S.String),
-    policy: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateLifecyclePolicyRequest",
-}) as any as S.Schema<UpdateLifecyclePolicyRequest>;
 export interface UpdateLifecyclePolicyResponse {
   lifecyclePolicyDetail?: LifecyclePolicyDetail;
 }
-export const UpdateLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ lifecyclePolicyDetail: S.optional(LifecyclePolicyDetail) }),
-).annotate({
-  identifier: "UpdateLifecyclePolicyResponse",
-}) as any as S.Schema<UpdateLifecyclePolicyResponse>;
 export interface UpdateIamIdentityCenterConfigOptions {
   userAttribute?: string;
   groupAttribute?: string;
 }
-export const UpdateIamIdentityCenterConfigOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ userAttribute: S.optional(S.String), groupAttribute: S.optional(S.String) }),
-).annotate({
-  identifier: "UpdateIamIdentityCenterConfigOptions",
-}) as any as S.Schema<UpdateIamIdentityCenterConfigOptions>;
 export interface UpdateSecurityConfigRequest {
   id: string;
   configVersion: string;
@@ -1874,27 +879,9 @@ export interface UpdateSecurityConfigRequest {
   iamFederationOptions?: IamFederationConfigOptions;
   clientToken?: string;
 }
-export const UpdateSecurityConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    configVersion: S.String,
-    description: S.optional(S.String),
-    samlOptions: S.optional(SamlConfigOptions),
-    iamIdentityCenterOptionsUpdates: S.optional(UpdateIamIdentityCenterConfigOptions),
-    iamFederationOptions: S.optional(IamFederationConfigOptions),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateSecurityConfigRequest",
-}) as any as S.Schema<UpdateSecurityConfigRequest>;
 export interface UpdateSecurityConfigResponse {
   securityConfigDetail?: SecurityConfigDetail;
 }
-export const UpdateSecurityConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityConfigDetail: S.optional(SecurityConfigDetail) }),
-).annotate({
-  identifier: "UpdateSecurityConfigResponse",
-}) as any as S.Schema<UpdateSecurityConfigResponse>;
 export interface UpdateSecurityPolicyRequest {
   type: string;
   name: string;
@@ -1903,26 +890,9 @@ export interface UpdateSecurityPolicyRequest {
   policy?: string;
   clientToken?: string;
 }
-export const UpdateSecurityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    policyVersion: S.String,
-    description: S.optional(S.String),
-    policy: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateSecurityPolicyRequest",
-}) as any as S.Schema<UpdateSecurityPolicyRequest>;
 export interface UpdateSecurityPolicyResponse {
   securityPolicyDetail?: SecurityPolicyDetail;
 }
-export const UpdateSecurityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityPolicyDetail: S.optional(SecurityPolicyDetail) }),
-).annotate({
-  identifier: "UpdateSecurityPolicyResponse",
-}) as any as S.Schema<UpdateSecurityPolicyResponse>;
 export interface UpdateVpcEndpointRequest {
   id: string;
   addSubnetIds?: string[];
@@ -1931,16 +901,6 @@ export interface UpdateVpcEndpointRequest {
   removeSecurityGroupIds?: string[];
   clientToken?: string;
 }
-export const UpdateVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    addSubnetIds: S.optional(SubnetIds),
-    removeSubnetIds: S.optional(SubnetIds),
-    addSecurityGroupIds: S.optional(SecurityGroupIds),
-    removeSecurityGroupIds: S.optional(SecurityGroupIds),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "UpdateVpcEndpointRequest" }) as any as S.Schema<UpdateVpcEndpointRequest>;
 export interface UpdateVpcEndpointDetail {
   id?: string;
   name?: string;
@@ -1949,24 +909,9 @@ export interface UpdateVpcEndpointDetail {
   securityGroupIds?: string[];
   lastModifiedDate?: number;
 }
-export const UpdateVpcEndpointDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    subnetIds: S.optional(SubnetIds),
-    securityGroupIds: S.optional(SecurityGroupIds),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({ identifier: "UpdateVpcEndpointDetail" }) as any as S.Schema<UpdateVpcEndpointDetail>;
 export interface UpdateVpcEndpointResponse {
   UpdateVpcEndpointDetail?: UpdateVpcEndpointDetail;
 }
-export const UpdateVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UpdateVpcEndpointDetail: S.optional(UpdateVpcEndpointDetail) }),
-).annotate({
-  identifier: "UpdateVpcEndpointResponse",
-}) as any as S.Schema<UpdateVpcEndpointResponse>;
 export type BatchGetCollectionError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
@@ -1977,8 +922,8 @@ export const batchGetCollection: API.OperationMethod<
   BatchGetCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetCollectionRequest,
-  output: BatchGetCollectionResponse,
+  input: __S(400, __c50, 0) as any as S.Schema<BatchGetCollectionRequest>,
+  output: __S(404, __c50, 4) as any as S.Schema<BatchGetCollectionResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1998,8 +943,8 @@ export const batchGetCollectionGroup: API.OperationMethod<
   BatchGetCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetCollectionGroupRequest,
-  output: BatchGetCollectionGroupResponse,
+  input: __S(432, __c54, 0) as any as S.Schema<BatchGetCollectionGroupRequest>,
+  output: __S(437, __c54, 5) as any as S.Schema<BatchGetCollectionGroupResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2019,8 +964,8 @@ export const batchGetEffectiveLifecyclePolicy: API.OperationMethod<
   BatchGetEffectiveLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetEffectiveLifecyclePolicyRequest,
-  output: BatchGetEffectiveLifecyclePolicyResponse,
+  input: __S(458, __c57, 2) as any as S.Schema<BatchGetEffectiveLifecyclePolicyRequest>,
+  output: __S(463, __c57, 7) as any as S.Schema<BatchGetEffectiveLifecyclePolicyResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2040,8 +985,8 @@ export const batchGetLifecyclePolicy: API.OperationMethod<
   BatchGetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetLifecyclePolicyRequest,
-  output: BatchGetLifecyclePolicyResponse,
+  input: __S(466, __c58, 2) as any as S.Schema<BatchGetLifecyclePolicyRequest>,
+  output: __S(470, __c58, 6) as any as S.Schema<BatchGetLifecyclePolicyResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2058,8 +1003,8 @@ export const batchGetVpcEndpoint: API.OperationMethod<
   BatchGetVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetVpcEndpointRequest,
-  output: BatchGetVpcEndpointResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<BatchGetVpcEndpointRequest>,
+  output: __S(5, __c0, 5) as any as S.Schema<BatchGetVpcEndpointResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2081,8 +1026,8 @@ export const createAccessPolicy: API.OperationMethod<
   CreateAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAccessPolicyRequest,
-  output: CreateAccessPolicyResponse,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateAccessPolicyRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<CreateAccessPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2110,8 +1055,8 @@ export const createCollection: API.OperationMethod<
   CreateCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCollectionRequest,
-  output: CreateCollectionResponse,
+  input: __S(25, __c3, 1) as any as S.Schema<CreateCollectionRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<CreateCollectionResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2141,8 +1086,8 @@ export const createCollectionGroup: API.OperationMethod<
   CreateCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCollectionGroupRequest,
-  output: CreateCollectionGroupResponse,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateCollectionGroupRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<CreateCollectionGroupResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2169,8 +1114,8 @@ export const createIndex: API.OperationMethod<
   CreateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateIndexRequest,
-  output: CreateIndexResponse,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateIndexRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<CreateIndexResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2197,8 +1142,8 @@ export const createLifecyclePolicy: API.OperationMethod<
   CreateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLifecyclePolicyRequest,
-  output: CreateLifecyclePolicyResponse,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateLifecyclePolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<CreateLifecyclePolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2225,8 +1170,8 @@ export const createSecurityConfig: API.OperationMethod<
   CreateSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSecurityConfigRequest,
-  output: CreateSecurityConfigResponse,
+  input: __S(73, __c9, 1) as any as S.Schema<CreateSecurityConfigRequest>,
+  output: __S(84, __c10, 4) as any as S.Schema<CreateSecurityConfigResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2253,8 +1198,8 @@ export const createSecurityPolicy: API.OperationMethod<
   CreateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSecurityPolicyRequest,
-  output: CreateSecurityPolicyResponse,
+  input: __S(88, __c11, 0) as any as S.Schema<CreateSecurityPolicyRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<CreateSecurityPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2281,8 +1226,8 @@ export const createVpcEndpoint: API.OperationMethod<
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVpcEndpointRequest,
-  output: CreateVpcEndpointResponse,
+  input: __S(104, __c13, 0) as any as S.Schema<CreateVpcEndpointRequest>,
+  output: __S(105, __c13, 1) as any as S.Schema<CreateVpcEndpointResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2309,8 +1254,8 @@ export const deleteAccessPolicy: API.OperationMethod<
   DeleteAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAccessPolicyRequest,
-  output: DeleteAccessPolicyResponse,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteAccessPolicyRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteAccessPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2337,8 +1282,8 @@ export const deleteCollection: API.OperationMethod<
   DeleteCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCollectionRequest,
-  output: DeleteCollectionResponse,
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteCollectionRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<DeleteCollectionResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2365,8 +1310,8 @@ export const deleteCollectionGroup: API.OperationMethod<
   DeleteCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCollectionGroupRequest,
-  output: DeleteCollectionGroupResponse,
+  input: __S(136, __c17, 0) as any as S.Schema<DeleteCollectionGroupRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteCollectionGroupResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2392,8 +1337,8 @@ export const deleteIndex: API.OperationMethod<
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIndexRequest,
-  output: DeleteIndexResponse,
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteIndexRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteIndexResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2415,8 +1360,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLifecyclePolicyRequest,
-  output: DeleteLifecyclePolicyResponse,
+  input: __S(152, __c19, 0) as any as S.Schema<DeleteLifecyclePolicyRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteLifecyclePolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2443,8 +1388,8 @@ export const deleteSecurityConfig: API.OperationMethod<
   DeleteSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSecurityConfigRequest,
-  output: DeleteSecurityConfigResponse,
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteSecurityConfigRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteSecurityConfigResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2471,8 +1416,8 @@ export const deleteSecurityPolicy: API.OperationMethod<
   DeleteSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSecurityPolicyRequest,
-  output: DeleteSecurityPolicyResponse,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteSecurityPolicyRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteSecurityPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2499,8 +1444,8 @@ export const deleteVpcEndpoint: API.OperationMethod<
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVpcEndpointRequest,
-  output: DeleteVpcEndpointResponse,
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteVpcEndpointRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<DeleteVpcEndpointResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2526,8 +1471,8 @@ export const getAccessPolicy: API.OperationMethod<
   GetAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccessPolicyRequest,
-  output: GetAccessPolicyResponse,
+  input: __S(184, __c23, 0) as any as S.Schema<GetAccessPolicyRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<GetAccessPolicyResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2544,8 +1489,8 @@ export const getAccountSettings: API.OperationMethod<
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountSettingsRequest,
-  output: GetAccountSettingsResponse,
+  input: __S(192, __c24, 0) as any as S.Schema<GetAccountSettingsRequest>,
+  output: __S(202, __c25, 2) as any as S.Schema<GetAccountSettingsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2566,8 +1511,8 @@ export const getIndex: API.OperationMethod<
   GetIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIndexRequest,
-  output: GetIndexResponse,
+  input: __S(208, __c26, 0) as any as S.Schema<GetIndexRequest>,
+  output: __S(209, __c26, 1) as any as S.Schema<GetIndexResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2584,8 +1529,8 @@ export const getPoliciesStats: API.OperationMethod<
   GetPoliciesStatsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPoliciesStatsRequest,
-  output: GetPoliciesStatsResponse,
+  input: __S(216, __c27, 0) as any as S.Schema<GetPoliciesStatsRequest>,
+  output: __S(221, __c27, 5) as any as S.Schema<GetPoliciesStatsResponse>,
   errors: [InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2606,8 +1551,8 @@ export const getSecurityConfig: API.OperationMethod<
   GetSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSecurityConfigRequest,
-  output: GetSecurityConfigResponse,
+  input: __S(224, __c28, 0) as any as S.Schema<GetSecurityConfigRequest>,
+  output: __S(84, __c10, 4) as any as S.Schema<GetSecurityConfigResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2628,8 +1573,8 @@ export const getSecurityPolicy: API.OperationMethod<
   GetSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSecurityPolicyRequest,
-  output: GetSecurityPolicyResponse,
+  input: __S(232, __c29, 0) as any as S.Schema<GetSecurityPolicyRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<GetSecurityPolicyResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2647,8 +1592,8 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAccessPoliciesRequest,
-  output: ListAccessPoliciesResponse,
+  input: __S(240, __c30, 0) as any as S.Schema<ListAccessPoliciesRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<ListAccessPoliciesResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2670,8 +1615,8 @@ export const listCollectionGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCollectionGroupsRequest,
-  output: ListCollectionGroupsResponse,
+  input: __S(256, __c32, 0) as any as S.Schema<ListCollectionGroupsRequest>,
+  output: __S(259, __c32, 3) as any as S.Schema<ListCollectionGroupsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2692,8 +1637,8 @@ export const listCollections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCollectionsRequest,
-  output: ListCollectionsResponse,
+  input: __S(265, __c33, 1) as any as S.Schema<ListCollectionsRequest>,
+  output: __S(268, __c33, 4) as any as S.Schema<ListCollectionsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2715,8 +1660,8 @@ export const listLifecyclePolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLifecyclePoliciesRequest,
-  output: ListLifecyclePoliciesResponse,
+  input: __S(272, __c34, 0) as any as S.Schema<ListLifecyclePoliciesRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<ListLifecyclePoliciesResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2735,8 +1680,8 @@ export const listSecurityConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSecurityConfigsRequest,
-  output: ListSecurityConfigsResponse,
+  input: __S(280, __c35, 0) as any as S.Schema<ListSecurityConfigsRequest>,
+  output: __S(283, __c35, 3) as any as S.Schema<ListSecurityConfigsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2758,8 +1703,8 @@ export const listSecurityPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSecurityPoliciesRequest,
-  output: ListSecurityPoliciesResponse,
+  input: __S(288, __c36, 0) as any as S.Schema<ListSecurityPoliciesRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<ListSecurityPoliciesResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2781,8 +1726,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(296, __c37, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(297, __c37, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2800,8 +1745,8 @@ export const listVpcEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListVpcEndpointsRequest,
-  output: ListVpcEndpointsResponse,
+  input: __S(305, __c38, 1) as any as S.Schema<ListVpcEndpointsRequest>,
+  output: __S(307, __c38, 3) as any as S.Schema<ListVpcEndpointsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2825,8 +1770,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(312, __c39, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2854,8 +1799,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(320, __c40, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2882,8 +1827,8 @@ export const updateAccessPolicy: API.OperationMethod<
   UpdateAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccessPolicyRequest,
-  output: UpdateAccessPolicyResponse,
+  input: __S(328, __c41, 0) as any as S.Schema<UpdateAccessPolicyRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<UpdateAccessPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2909,8 +1854,8 @@ export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccountSettingsRequest,
-  output: UpdateAccountSettingsResponse,
+  input: __S(336, __c42, 0) as any as S.Schema<UpdateAccountSettingsRequest>,
+  output: __S(202, __c25, 2) as any as S.Schema<UpdateAccountSettingsResponse>,
   errors: [InternalServerException, ServiceQuotaExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2931,8 +1876,8 @@ export const updateCollection: API.OperationMethod<
   UpdateCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCollectionRequest,
-  output: UpdateCollectionResponse,
+  input: __S(344, __c43, 0) as any as S.Schema<UpdateCollectionRequest>,
+  output: __S(346, __c43, 2) as any as S.Schema<UpdateCollectionResponse>,
   errors: [ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2954,8 +1899,8 @@ export const updateCollectionGroup: API.OperationMethod<
   UpdateCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCollectionGroupRequest,
-  output: UpdateCollectionGroupResponse,
+  input: __S(352, __c44, 0) as any as S.Schema<UpdateCollectionGroupRequest>,
+  output: __S(354, __c44, 2) as any as S.Schema<UpdateCollectionGroupResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2981,8 +1926,8 @@ export const updateIndex: API.OperationMethod<
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateIndexRequest,
-  output: UpdateIndexResponse,
+  input: __S(360, __c45, 0) as any as S.Schema<UpdateIndexRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<UpdateIndexResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3005,8 +1950,8 @@ export const updateLifecyclePolicy: API.OperationMethod<
   UpdateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLifecyclePolicyRequest,
-  output: UpdateLifecyclePolicyResponse,
+  input: __S(368, __c46, 0) as any as S.Schema<UpdateLifecyclePolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<UpdateLifecyclePolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3034,8 +1979,8 @@ export const updateSecurityConfig: API.OperationMethod<
   UpdateSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSecurityConfigRequest,
-  output: UpdateSecurityConfigResponse,
+  input: __S(377, __c47, 1) as any as S.Schema<UpdateSecurityConfigRequest>,
+  output: __S(84, __c10, 4) as any as S.Schema<UpdateSecurityConfigResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3063,8 +2008,8 @@ export const updateSecurityPolicy: API.OperationMethod<
   UpdateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSecurityPolicyRequest,
-  output: UpdateSecurityPolicyResponse,
+  input: __S(384, __c48, 0) as any as S.Schema<UpdateSecurityPolicyRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<UpdateSecurityPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3091,10 +2036,1205 @@ export const updateVpcEndpoint: API.OperationMethod<
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateVpcEndpointRequest,
-  output: UpdateVpcEndpointResponse,
+  input: __S(392, __c49, 0) as any as S.Schema<UpdateVpcEndpointRequest>,
+  output: __S(394, __c49, 2) as any as S.Schema<UpdateVpcEndpointResponse>,
   errors: [ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ids: __S(424, __c53, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchGetVpcEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          vpcId: S.optional(S.String),
+          subnetIds: S.optional(__S(424, __c53, 0)),
+          securityGroupIds: S.optional(__S(424, __c53, 0)),
+          status: S.optional(S.String),
+          createdDate: S.optional(S.Number),
+          failureCode: S.optional(S.String),
+          failureMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcEndpointDetail" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          errorCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcEndpointErrorDetail" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          vpcEndpointDetails: S.optional(__S(2, __c0, 2)),
+          vpcEndpointErrorDetails: S.optional(__S(4, __c0, 4)),
+        }),
+      ).annotate({ identifier: "BatchGetVpcEndpointResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          policy: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateAccessPolicyRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ accessPolicyDetail: S.optional(__S(472, __c59, 0)) }),
+      ).annotate({ identifier: "CreateAccessPolicyResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ aWSOwnedKey: S.optional(S.Boolean), kmsKeyArn: S.optional(S.String) }),
+      ).annotate({ identifier: "EncryptionConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          tags: S.optional(__S(441, __c55, 1)),
+          standbyReplicas: S.optional(S.String),
+          vectorOptions: S.optional(__S(408, __c51, 0)),
+          collectionGroupName: S.optional(S.String),
+          encryptionConfig: S.optional(__S(24, __c3, 0)),
+          deletionProtection: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCollectionRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          arn: S.optional(S.String),
+          kmsKeyArn: S.optional(S.String),
+          standbyReplicas: S.optional(S.String),
+          deletionProtection: S.optional(S.String),
+          vectorOptions: S.optional(__S(408, __c51, 0)),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+          collectionGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCollectionDetail" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ createCollectionDetail: S.optional(__S(26, __c3, 2)) }),
+      ).annotate({ identifier: "CreateCollectionResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          standbyReplicas: S.String,
+          description: S.optional(S.String),
+          tags: S.optional(__S(441, __c55, 1)),
+          capacityLimits: S.optional(__S(448, __c56, 0)),
+          generation: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCollectionGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          standbyReplicas: S.optional(S.String),
+          description: S.optional(S.String),
+          tags: S.optional(__S(441, __c55, 1)),
+          createdDate: S.optional(S.Number),
+          capacityLimits: S.optional(__S(448, __c56, 0)),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCollectionGroupDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ createCollectionGroupDetail: S.optional(__S(33, __c4, 1)) }),
+      ).annotate({ identifier: "CreateCollectionGroupResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, indexName: S.String, indexSchema: S.optional(S.Any) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateIndexRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateIndexResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          policy: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLifecyclePolicyRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ lifecyclePolicyDetail: S.optional(__S(472, __c59, 0)) }),
+      ).annotate({ identifier: "CreateLifecyclePolicyResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceArn: S.String,
+          userAttribute: S.optional(S.String),
+          groupAttribute: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateIamIdentityCenterConfigOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          samlOptions: S.optional(__S(80, __c10, 0)),
+          iamIdentityCenterOptions: S.optional(__S(72, __c9, 0)),
+          iamFederationOptions: S.optional(__S(81, __c10, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSecurityConfigRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.String,
+          userAttribute: S.optional(S.String),
+          groupAttribute: S.optional(S.String),
+          openSearchServerlessEntityId: S.optional(S.String),
+          sessionTimeout: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SamlConfigOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ groupAttribute: S.optional(S.String), userAttribute: S.optional(S.String) }),
+      ).annotate({ identifier: "IamFederationConfigOptions" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceArn: S.optional(S.String),
+          applicationArn: S.optional(S.String),
+          applicationName: S.optional(S.String),
+          applicationDescription: S.optional(S.String),
+          userAttribute: S.optional(S.String),
+          groupAttribute: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IamIdentityCenterConfigOptions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          configVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          samlOptions: S.optional(__S(80, __c10, 0)),
+          iamIdentityCenterOptions: S.optional(__S(82, __c10, 2)),
+          iamFederationOptions: S.optional(__S(81, __c10, 1)),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SecurityConfigDetail" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ securityConfigDetail: S.optional(__S(83, __c10, 3)) }),
+      ).annotate({ identifier: "CreateSecurityConfigResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          policy: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSecurityPolicyRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ securityPolicyDetail: S.optional(__S(472, __c59, 0)) }),
+      ).annotate({ identifier: "CreateSecurityPolicyResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          vpcId: S.String,
+          subnetIds: __S(424, __c53, 0),
+          securityGroupIds: S.optional(__S(424, __c53, 0)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateVpcEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ createVpcEndpointDetail: S.optional(__S(112, __c14, 0)) }),
+      ).annotate({ identifier: "CreateVpcEndpointResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateVpcEndpointDetail" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteAccessPolicyRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteCollectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          deletionProtection: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteCollectionDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ deleteCollectionDetail: S.optional(__S(129, __c16, 1)) }),
+      ).annotate({ identifier: "DeleteCollectionResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteCollectionGroupRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, indexName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteIndexRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteLifecyclePolicyRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteSecurityConfigRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteSecurityPolicyRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteVpcEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ deleteVpcEndpointDetail: S.optional(__S(112, __c14, 0)) }),
+      ).annotate({ identifier: "DeleteVpcEndpointResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ type: S.String, name: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAccessPolicyRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAccountSettingsRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxIndexingCapacityInOCU: S.optional(S.Number),
+          maxSearchCapacityInOCU: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CapacityLimits" });
+    case 1:
+      return S.suspend(() => S.Struct({ capacityLimits: S.optional(__S(200, __c25, 0)) })).annotate(
+        { identifier: "AccountSettingsDetail" },
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ accountSettingsDetail: S.optional(__S(201, __c25, 1)) }),
+      ).annotate({ identifier: "GetAccountSettingsResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, indexName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetIndexRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ indexSchema: S.optional(S.Any) })).annotate({
+        identifier: "GetIndexResponse",
+      });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetPoliciesStatsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ DataPolicyCount: S.optional(S.Number) })).annotate({
+        identifier: "AccessPolicyStats",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          EncryptionPolicyCount: S.optional(S.Number),
+          NetworkPolicyCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SecurityPolicyStats" });
+    case 3:
+      return S.suspend(() => S.Struct({ SamlConfigCount: S.optional(S.Number) })).annotate({
+        identifier: "SecurityConfigStats",
+      });
+    case 4:
+      return S.suspend(() => S.Struct({ RetentionPolicyCount: S.optional(S.Number) })).annotate({
+        identifier: "LifecyclePolicyStats",
+      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          AccessPolicyStats: S.optional(__S(217, __c27, 1)),
+          SecurityPolicyStats: S.optional(__S(218, __c27, 2)),
+          SecurityConfigStats: S.optional(__S(219, __c27, 3)),
+          LifecyclePolicyStats: S.optional(__S(220, __c27, 4)),
+          TotalPolicyCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetPoliciesStatsResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetSecurityConfigRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ type: S.String, name: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetSecurityPolicyRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          resource: S.optional(__S(424, __c53, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAccessPoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accessPolicySummaries: S.optional(__S(249, __c31, 1)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAccessPoliciesResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          policyVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AccessPolicySummary" });
+    case 1:
+      return S.Array(__S(248, __c31, 0));
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListCollectionGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          numberOfCollections: S.optional(S.Number),
+          createdDate: S.optional(S.Number),
+          capacityLimits: S.optional(__S(448, __c56, 0)),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionGroupSummary" });
+    case 2:
+      return S.Array(__S(257, __c32, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          collectionGroupSummaries: S.optional(__S(258, __c32, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListCollectionGroupsResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          collectionGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionFilters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          collectionFilters: S.optional(__S(264, __c33, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListCollectionsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          arn: S.optional(S.String),
+          kmsKeyArn: S.optional(S.String),
+          collectionGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionSummary" });
+    case 3:
+      return S.Array(__S(266, __c33, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          collectionSummaries: S.optional(__S(267, __c33, 3)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListCollectionsResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          resources: S.optional(__S(424, __c53, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLifecyclePoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          lifecyclePolicySummaries: S.optional(__S(249, __c31, 1)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListLifecyclePoliciesResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListSecurityConfigsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          configVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SecurityConfigSummary" });
+    case 2:
+      return S.Array(__S(281, __c35, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          securityConfigSummaries: S.optional(__S(282, __c35, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListSecurityConfigsResponse" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          resource: S.optional(__S(424, __c53, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListSecurityPoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          securityPolicySummaries: S.optional(__S(249, __c31, 1)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListSecurityPoliciesResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(441, __c55, 1)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ status: S.optional(S.String) })).annotate({
+        identifier: "VpcEndpointFilters",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vpcEndpointFilters: S.optional(__S(304, __c38, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListVpcEndpointsRequest" });
+    case 2:
+      return S.Array(__S(112, __c14, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          vpcEndpointSummaries: S.optional(__S(306, __c38, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListVpcEndpointsResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, tags: __S(441, __c55, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, tagKeys: __S(424, __c53, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          policyVersion: S.String,
+          description: S.optional(S.String),
+          policy: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateAccessPolicyRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ capacityLimits: S.optional(__S(200, __c25, 0)) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateAccountSettingsRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          description: S.optional(S.String),
+          vectorOptions: S.optional(__S(408, __c51, 0)),
+          deletionProtection: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateCollectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          vectorOptions: S.optional(__S(408, __c51, 0)),
+          arn: S.optional(S.String),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+          deletionProtection: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateCollectionDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ updateCollectionDetail: S.optional(__S(345, __c43, 1)) }),
+      ).annotate({ identifier: "UpdateCollectionResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          description: S.optional(S.String),
+          capacityLimits: S.optional(__S(448, __c56, 0)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateCollectionGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          capacityLimits: S.optional(__S(448, __c56, 0)),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateCollectionGroupDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ updateCollectionGroupDetail: S.optional(__S(353, __c44, 1)) }),
+      ).annotate({ identifier: "UpdateCollectionGroupResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, indexName: S.String, indexSchema: S.optional(S.Any) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateIndexRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          policyVersion: S.String,
+          description: S.optional(S.String),
+          policy: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateLifecyclePolicyRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ userAttribute: S.optional(S.String), groupAttribute: S.optional(S.String) }),
+      ).annotate({ identifier: "UpdateIamIdentityCenterConfigOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          configVersion: S.String,
+          description: S.optional(S.String),
+          samlOptions: S.optional(__S(80, __c10, 0)),
+          iamIdentityCenterOptionsUpdates: S.optional(__S(376, __c47, 0)),
+          iamFederationOptions: S.optional(__S(81, __c10, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSecurityConfigRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          policyVersion: S.String,
+          description: S.optional(S.String),
+          policy: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSecurityPolicyRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          addSubnetIds: S.optional(__S(424, __c53, 0)),
+          removeSubnetIds: S.optional(__S(424, __c53, 0)),
+          addSecurityGroupIds: S.optional(__S(424, __c53, 0)),
+          removeSecurityGroupIds: S.optional(__S(424, __c53, 0)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateVpcEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          subnetIds: S.optional(__S(424, __c53, 0)),
+          securityGroupIds: S.optional(__S(424, __c53, 0)),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "UpdateVpcEndpointDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ UpdateVpcEndpointDetail: S.optional(__S(393, __c49, 1)) }),
+      ).annotate({ identifier: "UpdateVpcEndpointResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ids: S.optional(__S(424, __c53, 0)),
+          names: S.optional(__S(424, __c53, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchGetCollectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          collectionEndpoint: S.optional(S.String),
+          dashboardEndpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FipsEndpoints" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          arn: S.optional(S.String),
+          kmsKeyArn: S.optional(S.String),
+          standbyReplicas: S.optional(S.String),
+          deletionProtection: S.optional(S.String),
+          vectorOptions: S.optional(__S(408, __c51, 0)),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+          collectionEndpoint: S.optional(S.String),
+          dashboardEndpoint: S.optional(S.String),
+          fipsEndpoints: S.optional(__S(401, __c50, 1)),
+          failureCode: S.optional(S.String),
+          failureMessage: S.optional(S.String),
+          collectionGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionDetail" });
+    case 3:
+      return S.Array(__S(402, __c50, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          collectionDetails: S.optional(__S(403, __c50, 3)),
+          collectionErrorDetails: S.optional(__S(417, __c52, 1)),
+        }),
+      ).annotate({ identifier: "BatchGetCollectionResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ServerlessVectorAcceleration: S.String })).annotate({
+        identifier: "VectorOptions",
+      });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          errorCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionErrorDetail" });
+    case 1:
+      return S.Array(__S(416, __c52, 0));
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ids: S.optional(__S(424, __c53, 0)),
+          names: S.optional(__S(424, __c53, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchGetCollectionGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ capacityInOcu: S.optional(S.Number), autoscalingStatus: S.optional(S.String) }),
+      ).annotate({ identifier: "CapacityDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          search: S.optional(__S(433, __c54, 1)),
+          indexing: S.optional(__S(433, __c54, 1)),
+        }),
+      ).annotate({ identifier: "CurrentCapacity" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          standbyReplicas: S.optional(S.String),
+          description: S.optional(S.String),
+          tags: S.optional(__S(441, __c55, 1)),
+          createdDate: S.optional(S.Number),
+          capacityLimits: S.optional(__S(448, __c56, 0)),
+          currentCapacity: S.optional(__S(434, __c54, 2)),
+          numberOfCollections: S.optional(S.Number),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionGroupDetail" });
+    case 4:
+      return S.Array(__S(435, __c54, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          collectionGroupDetails: S.optional(__S(436, __c54, 4)),
+          collectionGroupErrorDetails: S.optional(__S(417, __c52, 1)),
+        }),
+      ).annotate({ identifier: "BatchGetCollectionGroupResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(440, __c55, 0));
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxIndexingCapacityInOCU: S.optional(S.Number),
+          maxSearchCapacityInOCU: S.optional(S.Number),
+          minIndexingCapacityInOCU: S.optional(S.Number),
+          minSearchCapacityInOCU: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CollectionGroupCapacityLimits" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ type: S.String, resource: S.String })).annotate({
+        identifier: "LifecyclePolicyResourceIdentifier",
+      });
+    case 1:
+      return S.Array(__S(456, __c57, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ resourceIdentifiers: __S(457, __c57, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchGetEffectiveLifecyclePolicyRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          resource: S.optional(S.String),
+          policyName: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          retentionPeriod: S.optional(S.String),
+          noMinRetentionPeriod: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EffectiveLifecyclePolicyDetail" });
+    case 4:
+      return S.Array(__S(459, __c57, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          resource: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          errorCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EffectiveLifecyclePolicyErrorDetail" });
+    case 6:
+      return S.Array(__S(461, __c57, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          effectiveLifecyclePolicyDetails: S.optional(__S(460, __c57, 4)),
+          effectiveLifecyclePolicyErrorDetails: S.optional(__S(462, __c57, 6)),
+        }),
+      ).annotate({ identifier: "BatchGetEffectiveLifecyclePolicyResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ type: S.String, name: S.String })).annotate({
+        identifier: "LifecyclePolicyIdentifier",
+      });
+    case 1:
+      return S.Array(__S(464, __c58, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ identifiers: __S(465, __c58, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchGetLifecyclePolicyRequest" });
+    case 3:
+      return S.Array(__S(472, __c59, 0));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          errorCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LifecyclePolicyErrorDetail" });
+    case 5:
+      return S.Array(__S(468, __c58, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          lifecyclePolicyDetails: S.optional(__S(467, __c58, 3)),
+          lifecyclePolicyErrorDetails: S.optional(__S(469, __c58, 5)),
+        }),
+      ).annotate({ identifier: "BatchGetLifecyclePolicyResponse" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          policyVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          policy: S.optional(S.Any),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LifecyclePolicyDetail" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

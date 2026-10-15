@@ -3,8 +3,8 @@
  *
  * Re-exports the common HTTP errors from core and adds the Clerk fallback
  * errors. Note the generated service module additionally defines its own
- * per-status matcher classes (BadRequest/NotFound/…) for the statuses each
- * operation declares — those share `_tag`s with the core classes here, so
+ * per-status matcher classes (BadRequest/NotFound/...) for the statuses each
+ * operation declares -- those share `_tag`s with the core classes here, so
  * `catchTag` works against either.
  */
 export {
@@ -28,20 +28,19 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import * as Schema from "effect/Schema";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
-/** Unknown Clerk error — returned when nothing else matches the failure. */
-export class UnknownClerkError extends Schema.TaggedError<UnknownClerkError>()(
-  "UnknownClerkError",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
+/** Unknown Clerk error -- returned when nothing else matches the failure. */
+export class UnknownClerkError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownClerkError>()("UnknownClerkError", {
+    code: /*@__PURE__*/ Schema.optional(Schema.String),
+    message: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class ClerkParseError extends Schema.TaggedError<ClerkParseError>()("ClerkParseError", {
-  body: Schema.Unknown,
-  cause: Schema.Unknown,
-}).pipe(Category.withParseError) {}
+export class ClerkParseError
+  extends /*@__PURE__*/ Schema.TaggedError<ClerkParseError>()("ClerkParseError", {
+    body: Schema.Unknown,
+    cause: Schema.Unknown,
+  }).pipe(Category.withParseError) {}

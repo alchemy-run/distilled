@@ -1,17 +1,20 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({ sdkId: "FMS", serviceShapeName: "AWSFMS_20180101" });
-const auth = T.AwsAuthSigv4({ name: "fms" });
-const ver = T.ServiceVersion("2018-01-01");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "FMS", serviceShapeName: "AWSFMS_20180101" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "fms" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-01-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -64,63 +67,44 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://fms.{R}.{D}","properties":{},"headers":{}}');
 
 export class InternalErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalErrorException>()("InternalErrorException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withServerError) {}
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()("InvalidInputException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InvalidOperationException
   extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()("InvalidOperationException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class InvalidTypeException
   extends /*@__PURE__*/ S.TaggedError<InvalidTypeException>()("InvalidTypeException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export type AWSAccountId = string;
 export interface AssociateAdminAccountRequest {
   AdminAccount: string;
 }
-export const AssociateAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AdminAccount: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateAdminAccountRequest",
-}) as any as S.Schema<AssociateAdminAccountRequest>;
 export interface AssociateAdminAccountResponse {}
-export const AssociateAdminAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "AssociateAdminAccountResponse",
-}) as any as S.Schema<AssociateAdminAccountResponse>;
 export type ThirdPartyFirewall =
   | "PALO_ALTO_NETWORKS_CLOUD_NGFW"
   | "FORTIGATE_CLOUD_NATIVE_FIREWALL"
   | (string & {});
-export const ThirdPartyFirewall = S.String;
-
 export interface AssociateThirdPartyFirewallRequest {
   ThirdPartyFirewall: ThirdPartyFirewall;
 }
-export const AssociateThirdPartyFirewallRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ThirdPartyFirewall: ThirdPartyFirewall }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AssociateThirdPartyFirewallRequest",
-}) as any as S.Schema<AssociateThirdPartyFirewallRequest>;
 export type ThirdPartyFirewallAssociationStatus =
   | "ONBOARDING"
   | "ONBOARD_COMPLETE"
@@ -128,30 +112,15 @@ export type ThirdPartyFirewallAssociationStatus =
   | "OFFBOARD_COMPLETE"
   | "NOT_EXIST"
   | (string & {});
-export const ThirdPartyFirewallAssociationStatus = S.String;
-
 export interface AssociateThirdPartyFirewallResponse {
   ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
 }
-export const AssociateThirdPartyFirewallResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus) }),
-).annotate({
-  identifier: "AssociateThirdPartyFirewallResponse",
-}) as any as S.Schema<AssociateThirdPartyFirewallResponse>;
 export type Identifier = string;
 export type IdentifierList = string[];
-export const IdentifierList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchAssociateResourceRequest {
   ResourceSetIdentifier: string;
   Items: string[];
 }
-export const BatchAssociateResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSetIdentifier: S.String, Items: IdentifierList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchAssociateResourceRequest",
-}) as any as S.Schema<BatchAssociateResourceRequest>;
 export type FailedItemReason =
   | "NOT_VALID_ARN"
   | "NOT_VALID_PARTITION"
@@ -160,146 +129,54 @@ export type FailedItemReason =
   | "NOT_VALID_RESOURCE_TYPE"
   | "NOT_VALID_ACCOUNT_ID"
   | (string & {});
-export const FailedItemReason = S.String;
-
 export interface FailedItem {
   URI?: string;
   Reason?: FailedItemReason;
 }
-export const FailedItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ URI: S.optional(S.String), Reason: S.optional(FailedItemReason) }),
-).annotate({ identifier: "FailedItem" }) as any as S.Schema<FailedItem>;
 export type FailedItemList = FailedItem[];
-export const FailedItemList = /*@__PURE__*/ S.Array(FailedItem);
 export interface BatchAssociateResourceResponse {
   ResourceSetIdentifier: string;
   FailedItems: FailedItem[];
 }
-export const BatchAssociateResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSetIdentifier: S.String, FailedItems: FailedItemList }),
-).annotate({
-  identifier: "BatchAssociateResourceResponse",
-}) as any as S.Schema<BatchAssociateResourceResponse>;
 export interface BatchDisassociateResourceRequest {
   ResourceSetIdentifier: string;
   Items: string[];
 }
-export const BatchDisassociateResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSetIdentifier: S.String, Items: IdentifierList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchDisassociateResourceRequest",
-}) as any as S.Schema<BatchDisassociateResourceRequest>;
 export interface BatchDisassociateResourceResponse {
   ResourceSetIdentifier: string;
   FailedItems: FailedItem[];
 }
-export const BatchDisassociateResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSetIdentifier: S.String, FailedItems: FailedItemList }),
-).annotate({
-  identifier: "BatchDisassociateResourceResponse",
-}) as any as S.Schema<BatchDisassociateResourceResponse>;
 export type ListId = string;
 export interface DeleteAppsListRequest {
   ListId: string;
 }
-export const DeleteAppsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ListId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteAppsListRequest" }) as any as S.Schema<DeleteAppsListRequest>;
 export interface DeleteAppsListResponse {}
-export const DeleteAppsListResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteAppsListResponse",
-}) as any as S.Schema<DeleteAppsListResponse>;
 export interface DeleteNotificationChannelRequest {}
-export const DeleteNotificationChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteNotificationChannelRequest",
-}) as any as S.Schema<DeleteNotificationChannelRequest>;
 export interface DeleteNotificationChannelResponse {}
-export const DeleteNotificationChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteNotificationChannelResponse",
-}) as any as S.Schema<DeleteNotificationChannelResponse>;
 export type PolicyId = string;
 export interface DeletePolicyRequest {
   PolicyId: string;
   DeleteAllPolicyResources?: boolean;
 }
-export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyId: S.String, DeleteAllPolicyResources: S.optional(S.Boolean) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 export interface DeletePolicyResponse {}
-export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeletePolicyResponse",
-}) as any as S.Schema<DeletePolicyResponse>;
 export interface DeleteProtocolsListRequest {
   ListId: string;
 }
-export const DeleteProtocolsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ListId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteProtocolsListRequest",
-}) as any as S.Schema<DeleteProtocolsListRequest>;
 export interface DeleteProtocolsListResponse {}
-export const DeleteProtocolsListResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteProtocolsListResponse",
-}) as any as S.Schema<DeleteProtocolsListResponse>;
 export type Base62Id = string;
 export interface DeleteResourceSetRequest {
   Identifier: string;
 }
-export const DeleteResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteResourceSetRequest" }) as any as S.Schema<DeleteResourceSetRequest>;
 export interface DeleteResourceSetResponse {}
-export const DeleteResourceSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteResourceSetResponse",
-}) as any as S.Schema<DeleteResourceSetResponse>;
 export interface DisassociateAdminAccountRequest {}
-export const DisassociateAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DisassociateAdminAccountRequest",
-}) as any as S.Schema<DisassociateAdminAccountRequest>;
 export interface DisassociateAdminAccountResponse {}
-export const DisassociateAdminAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisassociateAdminAccountResponse",
-}) as any as S.Schema<DisassociateAdminAccountResponse>;
 export interface DisassociateThirdPartyFirewallRequest {
   ThirdPartyFirewall: ThirdPartyFirewall;
 }
-export const DisassociateThirdPartyFirewallRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ThirdPartyFirewall: ThirdPartyFirewall }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DisassociateThirdPartyFirewallRequest",
-}) as any as S.Schema<DisassociateThirdPartyFirewallRequest>;
 export interface DisassociateThirdPartyFirewallResponse {
   ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
 }
-export const DisassociateThirdPartyFirewallResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus) }),
-).annotate({
-  identifier: "DisassociateThirdPartyFirewallResponse",
-}) as any as S.Schema<DisassociateThirdPartyFirewallResponse>;
 export interface GetAdminAccountRequest {}
-export const GetAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetAdminAccountRequest" }) as any as S.Schema<GetAdminAccountRequest>;
 export type AccountRoleStatus =
   | "READY"
   | "CREATING"
@@ -307,62 +184,32 @@ export type AccountRoleStatus =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const AccountRoleStatus = S.String;
-
 export interface GetAdminAccountResponse {
   AdminAccount?: string;
   RoleStatus?: AccountRoleStatus;
 }
-export const GetAdminAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AdminAccount: S.optional(S.String), RoleStatus: S.optional(AccountRoleStatus) }),
-).annotate({ identifier: "GetAdminAccountResponse" }) as any as S.Schema<GetAdminAccountResponse>;
 export interface GetAdminScopeRequest {
   AdminAccount: string;
 }
-export const GetAdminScopeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AdminAccount: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetAdminScopeRequest" }) as any as S.Schema<GetAdminScopeRequest>;
 export type AccountIdList = string[];
-export const AccountIdList = /*@__PURE__*/ S.Array(S.String);
 export interface AccountScope {
   Accounts?: string[];
   AllAccountsEnabled?: boolean;
   ExcludeSpecifiedAccounts?: boolean;
 }
-export const AccountScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Accounts: S.optional(AccountIdList),
-    AllAccountsEnabled: S.optional(S.Boolean),
-    ExcludeSpecifiedAccounts: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "AccountScope" }) as any as S.Schema<AccountScope>;
 export type OrganizationalUnitId = string;
 export type OrganizationalUnitIdList = string[];
-export const OrganizationalUnitIdList = /*@__PURE__*/ S.Array(S.String);
 export interface OrganizationalUnitScope {
   OrganizationalUnits?: string[];
   AllOrganizationalUnitsEnabled?: boolean;
   ExcludeSpecifiedOrganizationalUnits?: boolean;
 }
-export const OrganizationalUnitScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OrganizationalUnits: S.optional(OrganizationalUnitIdList),
-    AllOrganizationalUnitsEnabled: S.optional(S.Boolean),
-    ExcludeSpecifiedOrganizationalUnits: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "OrganizationalUnitScope" }) as any as S.Schema<OrganizationalUnitScope>;
 export type AWSRegion = string;
 export type AWSRegionList = string[];
-export const AWSRegionList = /*@__PURE__*/ S.Array(S.String);
 export interface RegionScope {
   Regions?: string[];
   AllRegionsEnabled?: boolean;
 }
-export const RegionScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Regions: S.optional(AWSRegionList), AllRegionsEnabled: S.optional(S.Boolean) }),
-).annotate({ identifier: "RegionScope" }) as any as S.Schema<RegionScope>;
 export type SecurityServiceType =
   | "WAF"
   | "WAFV2"
@@ -376,58 +223,31 @@ export type SecurityServiceType =
   | "IMPORT_NETWORK_FIREWALL"
   | "NETWORK_ACL_COMMON"
   | (string & {});
-export const SecurityServiceType = S.String;
-
 export type SecurityServiceTypeList = SecurityServiceType[];
-export const SecurityServiceTypeList = /*@__PURE__*/ S.Array(SecurityServiceType);
 export interface PolicyTypeScope {
   PolicyTypes?: SecurityServiceType[];
   AllPolicyTypesEnabled?: boolean;
 }
-export const PolicyTypeScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyTypes: S.optional(SecurityServiceTypeList),
-    AllPolicyTypesEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "PolicyTypeScope" }) as any as S.Schema<PolicyTypeScope>;
 export interface AdminScope {
   AccountScope?: AccountScope;
   OrganizationalUnitScope?: OrganizationalUnitScope;
   RegionScope?: RegionScope;
   PolicyTypeScope?: PolicyTypeScope;
 }
-export const AdminScope = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccountScope: S.optional(AccountScope),
-    OrganizationalUnitScope: S.optional(OrganizationalUnitScope),
-    RegionScope: S.optional(RegionScope),
-    PolicyTypeScope: S.optional(PolicyTypeScope),
-  }),
-).annotate({ identifier: "AdminScope" }) as any as S.Schema<AdminScope>;
 export type OrganizationStatus =
   | "ONBOARDING"
   | "ONBOARDING_COMPLETE"
   | "OFFBOARDING"
   | "OFFBOARDING_COMPLETE"
   | (string & {});
-export const OrganizationStatus = S.String;
-
 export interface GetAdminScopeResponse {
   AdminScope?: AdminScope;
   Status?: OrganizationStatus;
 }
-export const GetAdminScopeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AdminScope: S.optional(AdminScope), Status: S.optional(OrganizationStatus) }),
-).annotate({ identifier: "GetAdminScopeResponse" }) as any as S.Schema<GetAdminScopeResponse>;
 export interface GetAppsListRequest {
   ListId: string;
   DefaultList?: boolean;
 }
-export const GetAppsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ListId: S.String, DefaultList: S.optional(S.Boolean) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetAppsListRequest" }) as any as S.Schema<GetAppsListRequest>;
 export type ResourceName = string;
 export type UpdateToken = string;
 export type Protocol = string;
@@ -437,14 +257,9 @@ export interface App {
   Protocol: string;
   Port: number;
 }
-export const App = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppName: S.String, Protocol: S.String, Port: S.Number }),
-).annotate({ identifier: "App" }) as any as S.Schema<App>;
 export type AppsList = App[];
-export const AppsList = /*@__PURE__*/ S.Array(App);
 export type PreviousListVersion = string;
 export type PreviousAppsList = { [key: string]: App[] | undefined };
-export const PreviousAppsList = /*@__PURE__*/ S.Record(S.String, AppsList.pipe(S.optional));
 export interface AppsListData {
   ListId?: string;
   ListName: string;
@@ -454,36 +269,15 @@ export interface AppsListData {
   AppsList: App[];
   PreviousAppsList?: { [key: string]: App[] | undefined };
 }
-export const AppsListData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListId: S.optional(S.String),
-    ListName: S.String,
-    ListUpdateToken: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AppsList: AppsList,
-    PreviousAppsList: S.optional(PreviousAppsList),
-  }),
-).annotate({ identifier: "AppsListData" }) as any as S.Schema<AppsListData>;
 export type ResourceArn = string;
 export interface GetAppsListResponse {
   AppsList?: AppsListData;
   AppsListArn?: string;
 }
-export const GetAppsListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppsList: S.optional(AppsListData), AppsListArn: S.optional(S.String) }),
-).annotate({ identifier: "GetAppsListResponse" }) as any as S.Schema<GetAppsListResponse>;
 export interface GetComplianceDetailRequest {
   PolicyId: string;
   MemberAccount: string;
 }
-export const GetComplianceDetailRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyId: S.String, MemberAccount: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetComplianceDetailRequest",
-}) as any as S.Schema<GetComplianceDetailRequest>;
 export type ResourceId = string;
 export type ViolationReason =
   | "WEB_ACL_MISSING_RULE_GROUP"
@@ -517,42 +311,24 @@ export type ViolationReason =
   | "INVALID_NETWORK_ACL_ENTRY"
   | "WEB_ACL_CONFIGURATION_OR_SCOPE_OF_USE"
   | (string & {});
-export const ViolationReason = S.String;
-
 export type ResourceType = string;
 export type LengthBoundedString = string;
 export type ComplianceViolatorMetadata = { [key: string]: string | undefined };
-export const ComplianceViolatorMetadata = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ComplianceViolator {
   ResourceId?: string;
   ViolationReason?: ViolationReason;
   ResourceType?: string;
   Metadata?: { [key: string]: string | undefined };
 }
-export const ComplianceViolator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceId: S.optional(S.String),
-    ViolationReason: S.optional(ViolationReason),
-    ResourceType: S.optional(S.String),
-    Metadata: S.optional(ComplianceViolatorMetadata),
-  }),
-).annotate({ identifier: "ComplianceViolator" }) as any as S.Schema<ComplianceViolator>;
 export type ComplianceViolators = ComplianceViolator[];
-export const ComplianceViolators = /*@__PURE__*/ S.Array(ComplianceViolator);
 export type DependentServiceName =
   | "AWSCONFIG"
   | "AWSWAF"
   | "AWSSHIELD_ADVANCED"
   | "AWSVPC"
   | (string & {});
-export const DependentServiceName = S.String;
-
 export type DetailedInfo = string;
 export type IssueInfoMap = { [key in DependentServiceName]?: string };
-export const IssueInfoMap = /*@__PURE__*/ S.Record(DependentServiceName, S.String.pipe(S.optional));
 export interface PolicyComplianceDetail {
   PolicyOwner?: string;
   PolicyId?: string;
@@ -562,85 +338,38 @@ export interface PolicyComplianceDetail {
   ExpiredAt?: Date;
   IssueInfoMap?: { [key: string]: string | undefined };
 }
-export const PolicyComplianceDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyOwner: S.optional(S.String),
-    PolicyId: S.optional(S.String),
-    MemberAccount: S.optional(S.String),
-    Violators: S.optional(ComplianceViolators),
-    EvaluationLimitExceeded: S.optional(S.Boolean),
-    ExpiredAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IssueInfoMap: S.optional(IssueInfoMap),
-  }),
-).annotate({ identifier: "PolicyComplianceDetail" }) as any as S.Schema<PolicyComplianceDetail>;
 export interface GetComplianceDetailResponse {
   PolicyComplianceDetail?: PolicyComplianceDetail;
 }
-export const GetComplianceDetailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyComplianceDetail: S.optional(PolicyComplianceDetail) }),
-).annotate({
-  identifier: "GetComplianceDetailResponse",
-}) as any as S.Schema<GetComplianceDetailResponse>;
 export interface GetNotificationChannelRequest {}
-export const GetNotificationChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetNotificationChannelRequest",
-}) as any as S.Schema<GetNotificationChannelRequest>;
 export interface GetNotificationChannelResponse {
   SnsTopicArn?: string;
   SnsRoleName?: string;
 }
-export const GetNotificationChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SnsTopicArn: S.optional(S.String), SnsRoleName: S.optional(S.String) }),
-).annotate({
-  identifier: "GetNotificationChannelResponse",
-}) as any as S.Schema<GetNotificationChannelResponse>;
 export interface GetPolicyRequest {
   PolicyId: string;
 }
-export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyId: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 export type PolicyUpdateToken = string;
 export type ManagedServiceData = string;
 export type FirewallDeploymentModel = "CENTRALIZED" | "DISTRIBUTED" | (string & {});
-export const FirewallDeploymentModel = S.String;
-
 export interface NetworkFirewallPolicy {
   FirewallDeploymentModel?: FirewallDeploymentModel;
 }
-export const NetworkFirewallPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallDeploymentModel: S.optional(FirewallDeploymentModel) }),
-).annotate({ identifier: "NetworkFirewallPolicy" }) as any as S.Schema<NetworkFirewallPolicy>;
 export interface ThirdPartyFirewallPolicy {
   FirewallDeploymentModel?: FirewallDeploymentModel;
 }
-export const ThirdPartyFirewallPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallDeploymentModel: S.optional(FirewallDeploymentModel) }),
-).annotate({ identifier: "ThirdPartyFirewallPolicy" }) as any as S.Schema<ThirdPartyFirewallPolicy>;
 export type IntegerObject = number;
 export interface NetworkAclIcmpTypeCode {
   Code?: number;
   Type?: number;
 }
-export const NetworkAclIcmpTypeCode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Code: S.optional(S.Number), Type: S.optional(S.Number) }),
-).annotate({ identifier: "NetworkAclIcmpTypeCode" }) as any as S.Schema<NetworkAclIcmpTypeCode>;
 export type IPPortNumberInteger = number;
 export interface NetworkAclPortRange {
   From?: number;
   To?: number;
 }
-export const NetworkAclPortRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ From: S.optional(S.Number), To: S.optional(S.Number) }),
-).annotate({ identifier: "NetworkAclPortRange" }) as any as S.Schema<NetworkAclPortRange>;
 export type LengthBoundedNonEmptyString = string;
 export type NetworkAclRuleAction = "allow" | "deny" | (string & {});
-export const NetworkAclRuleAction = S.String;
-
 export interface NetworkAclEntry {
   IcmpTypeCode?: NetworkAclIcmpTypeCode;
   Protocol: string;
@@ -650,98 +379,42 @@ export interface NetworkAclEntry {
   RuleAction: NetworkAclRuleAction;
   Egress: boolean;
 }
-export const NetworkAclEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IcmpTypeCode: S.optional(NetworkAclIcmpTypeCode),
-    Protocol: S.String,
-    PortRange: S.optional(NetworkAclPortRange),
-    CidrBlock: S.optional(S.String),
-    Ipv6CidrBlock: S.optional(S.String),
-    RuleAction: NetworkAclRuleAction,
-    Egress: S.Boolean,
-  }),
-).annotate({ identifier: "NetworkAclEntry" }) as any as S.Schema<NetworkAclEntry>;
 export type NetworkAclEntries = NetworkAclEntry[];
-export const NetworkAclEntries = /*@__PURE__*/ S.Array(NetworkAclEntry);
 export interface NetworkAclEntrySet {
   FirstEntries?: NetworkAclEntry[];
   ForceRemediateForFirstEntries: boolean;
   LastEntries?: NetworkAclEntry[];
   ForceRemediateForLastEntries: boolean;
 }
-export const NetworkAclEntrySet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirstEntries: S.optional(NetworkAclEntries),
-    ForceRemediateForFirstEntries: S.Boolean,
-    LastEntries: S.optional(NetworkAclEntries),
-    ForceRemediateForLastEntries: S.Boolean,
-  }),
-).annotate({ identifier: "NetworkAclEntrySet" }) as any as S.Schema<NetworkAclEntrySet>;
 export interface NetworkAclCommonPolicy {
   NetworkAclEntrySet: NetworkAclEntrySet;
 }
-export const NetworkAclCommonPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NetworkAclEntrySet: NetworkAclEntrySet }),
-).annotate({ identifier: "NetworkAclCommonPolicy" }) as any as S.Schema<NetworkAclCommonPolicy>;
 export interface PolicyOption {
   NetworkFirewallPolicy?: NetworkFirewallPolicy;
   ThirdPartyFirewallPolicy?: ThirdPartyFirewallPolicy;
   NetworkAclCommonPolicy?: NetworkAclCommonPolicy;
 }
-export const PolicyOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetworkFirewallPolicy: S.optional(NetworkFirewallPolicy),
-    ThirdPartyFirewallPolicy: S.optional(ThirdPartyFirewallPolicy),
-    NetworkAclCommonPolicy: S.optional(NetworkAclCommonPolicy),
-  }),
-).annotate({ identifier: "PolicyOption" }) as any as S.Schema<PolicyOption>;
 export interface SecurityServicePolicyData {
   Type: SecurityServiceType;
   ManagedServiceData?: string;
   PolicyOption?: PolicyOption;
 }
-export const SecurityServicePolicyData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: SecurityServiceType,
-    ManagedServiceData: S.optional(S.String),
-    PolicyOption: S.optional(PolicyOption),
-  }),
-).annotate({
-  identifier: "SecurityServicePolicyData",
-}) as any as S.Schema<SecurityServicePolicyData>;
 export type ResourceTypeList = string[];
-export const ResourceTypeList = /*@__PURE__*/ S.Array(S.String);
 export type ResourceTagKey = string;
 export type ResourceTagValue = string;
 export interface ResourceTag {
   Key: string;
   Value?: string;
 }
-export const ResourceTag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.optional(S.String) }),
-).annotate({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
 export type ResourceTags = ResourceTag[];
-export const ResourceTags = /*@__PURE__*/ S.Array(ResourceTag);
 export type CustomerPolicyScopeIdType = "ACCOUNT" | "ORG_UNIT" | (string & {});
-export const CustomerPolicyScopeIdType = S.String;
-
 export type CustomerPolicyScopeId = string;
 export type CustomerPolicyScopeIdList = string[];
-export const CustomerPolicyScopeIdList = /*@__PURE__*/ S.Array(S.String);
 export type CustomerPolicyScopeMap = { [key in CustomerPolicyScopeIdType]?: string[] };
-export const CustomerPolicyScopeMap = /*@__PURE__*/ S.Record(
-  CustomerPolicyScopeIdType,
-  CustomerPolicyScopeIdList.pipe(S.optional),
-);
 export type ResourceSetIds = string[];
-export const ResourceSetIds = /*@__PURE__*/ S.Array(S.String);
 export type ResourceDescription = string;
 export type CustomerPolicyStatus = "ACTIVE" | "OUT_OF_ADMIN_SCOPE" | (string & {});
-export const CustomerPolicyStatus = S.String;
-
 export type ResourceTagLogicalOperator = "AND" | "OR" | (string & {});
-export const ResourceTagLogicalOperator = S.String;
-
 export interface Policy {
   PolicyId?: string;
   PolicyName: string;
@@ -760,33 +433,10 @@ export interface Policy {
   PolicyStatus?: CustomerPolicyStatus;
   ResourceTagLogicalOperator?: ResourceTagLogicalOperator;
 }
-export const Policy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyId: S.optional(S.String),
-    PolicyName: S.String,
-    PolicyUpdateToken: S.optional(S.String),
-    SecurityServicePolicyData: SecurityServicePolicyData,
-    ResourceType: S.String,
-    ResourceTypeList: S.optional(ResourceTypeList),
-    ResourceTags: S.optional(ResourceTags),
-    ExcludeResourceTags: S.Boolean,
-    RemediationEnabled: S.Boolean,
-    DeleteUnusedFMManagedResources: S.optional(S.Boolean),
-    IncludeMap: S.optional(CustomerPolicyScopeMap),
-    ExcludeMap: S.optional(CustomerPolicyScopeMap),
-    ResourceSetIds: S.optional(ResourceSetIds),
-    PolicyDescription: S.optional(S.String),
-    PolicyStatus: S.optional(CustomerPolicyStatus),
-    ResourceTagLogicalOperator: S.optional(ResourceTagLogicalOperator),
-  }),
-).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 export interface GetPolicyResponse {
   Policy?: Policy;
   PolicyArn?: string;
 }
-export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(Policy), PolicyArn: S.optional(S.String) }),
-).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 export type PaginationToken = string;
 export type PaginationMaxResults = number;
 export interface GetProtectionStatusRequest {
@@ -797,18 +447,6 @@ export interface GetProtectionStatusRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const GetProtectionStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyId: S.String,
-    MemberAccountId: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetProtectionStatusRequest",
-}) as any as S.Schema<GetProtectionStatusRequest>;
 export type ProtectionData = string;
 export interface GetProtectionStatusResponse {
   AdminAccountId?: string;
@@ -816,32 +454,12 @@ export interface GetProtectionStatusResponse {
   Data?: string;
   NextToken?: string;
 }
-export const GetProtectionStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdminAccountId: S.optional(S.String),
-    ServiceType: S.optional(SecurityServiceType),
-    Data: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetProtectionStatusResponse",
-}) as any as S.Schema<GetProtectionStatusResponse>;
 export interface GetProtocolsListRequest {
   ListId: string;
   DefaultList?: boolean;
 }
-export const GetProtocolsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ListId: S.String, DefaultList: S.optional(S.Boolean) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetProtocolsListRequest" }) as any as S.Schema<GetProtocolsListRequest>;
 export type ProtocolsList = string[];
-export const ProtocolsList = /*@__PURE__*/ S.Array(S.String);
 export type PreviousProtocolsList = { [key: string]: string[] | undefined };
-export const PreviousProtocolsList = /*@__PURE__*/ S.Record(
-  S.String,
-  ProtocolsList.pipe(S.optional),
-);
 export interface ProtocolsListData {
   ListId?: string;
   ListName: string;
@@ -851,40 +469,16 @@ export interface ProtocolsListData {
   ProtocolsList: string[];
   PreviousProtocolsList?: { [key: string]: string[] | undefined };
 }
-export const ProtocolsListData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListId: S.optional(S.String),
-    ListName: S.String,
-    ListUpdateToken: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ProtocolsList: ProtocolsList,
-    PreviousProtocolsList: S.optional(PreviousProtocolsList),
-  }),
-).annotate({ identifier: "ProtocolsListData" }) as any as S.Schema<ProtocolsListData>;
 export interface GetProtocolsListResponse {
   ProtocolsList?: ProtocolsListData;
   ProtocolsListArn?: string;
 }
-export const GetProtocolsListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProtocolsList: S.optional(ProtocolsListData),
-    ProtocolsListArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "GetProtocolsListResponse" }) as any as S.Schema<GetProtocolsListResponse>;
 export interface GetResourceSetRequest {
   Identifier: string;
 }
-export const GetResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Identifier: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "GetResourceSetRequest" }) as any as S.Schema<GetResourceSetRequest>;
 export type Name = string;
 export type Description = string;
 export type ResourceSetStatus = "ACTIVE" | "OUT_OF_ADMIN_SCOPE" | (string & {});
-export const ResourceSetStatus = S.String;
-
 export interface ResourceSet {
   Id?: string;
   Name: string;
@@ -894,89 +488,38 @@ export interface ResourceSet {
   LastUpdateTime?: Date;
   ResourceSetStatus?: ResourceSetStatus;
 }
-export const ResourceSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.String,
-    Description: S.optional(S.String),
-    UpdateToken: S.optional(S.String),
-    ResourceTypeList: ResourceTypeList,
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ResourceSetStatus: S.optional(ResourceSetStatus),
-  }),
-).annotate({ identifier: "ResourceSet" }) as any as S.Schema<ResourceSet>;
 export interface GetResourceSetResponse {
   ResourceSet: ResourceSet;
   ResourceSetArn: string;
 }
-export const GetResourceSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSet: ResourceSet, ResourceSetArn: S.String }),
-).annotate({ identifier: "GetResourceSetResponse" }) as any as S.Schema<GetResourceSetResponse>;
 export interface GetThirdPartyFirewallAssociationStatusRequest {
   ThirdPartyFirewall: ThirdPartyFirewall;
 }
-export const GetThirdPartyFirewallAssociationStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ThirdPartyFirewall: ThirdPartyFirewall }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetThirdPartyFirewallAssociationStatusRequest",
-}) as any as S.Schema<GetThirdPartyFirewallAssociationStatusRequest>;
 export type MarketplaceSubscriptionOnboardingStatus =
   | "NO_SUBSCRIPTION"
   | "NOT_COMPLETE"
   | "COMPLETE"
   | (string & {});
-export const MarketplaceSubscriptionOnboardingStatus = S.String;
-
 export interface GetThirdPartyFirewallAssociationStatusResponse {
   ThirdPartyFirewallStatus?: ThirdPartyFirewallAssociationStatus;
   MarketplaceOnboardingStatus?: MarketplaceSubscriptionOnboardingStatus;
 }
-export const GetThirdPartyFirewallAssociationStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ThirdPartyFirewallStatus: S.optional(ThirdPartyFirewallAssociationStatus),
-    MarketplaceOnboardingStatus: S.optional(MarketplaceSubscriptionOnboardingStatus),
-  }),
-).annotate({
-  identifier: "GetThirdPartyFirewallAssociationStatusResponse",
-}) as any as S.Schema<GetThirdPartyFirewallAssociationStatusResponse>;
 export interface GetViolationDetailsRequest {
   PolicyId: string;
   MemberAccount: string;
   ResourceId: string;
   ResourceType: string;
 }
-export const GetViolationDetailsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyId: S.String,
-    MemberAccount: S.String,
-    ResourceId: S.String,
-    ResourceType: S.String,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetViolationDetailsRequest",
-}) as any as S.Schema<GetViolationDetailsRequest>;
 export type ViolationTarget = string;
 export type ReferenceRule = string;
 export type TargetViolationReason = string;
 export type TargetViolationReasons = string[];
-export const TargetViolationReasons = /*@__PURE__*/ S.Array(S.String);
 export interface PartialMatch {
   Reference?: string;
   TargetViolationReasons?: string[];
 }
-export const PartialMatch = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Reference: S.optional(S.String),
-    TargetViolationReasons: S.optional(TargetViolationReasons),
-  }),
-).annotate({ identifier: "PartialMatch" }) as any as S.Schema<PartialMatch>;
 export type PartialMatches = PartialMatch[];
-export const PartialMatches = /*@__PURE__*/ S.Array(PartialMatch);
 export type RemediationActionType = "REMOVE" | "MODIFY" | (string & {});
-export const RemediationActionType = S.String;
-
 export type RemediationActionDescription = string;
 export type CIDR = string;
 export interface SecurityGroupRuleDescription {
@@ -987,114 +530,41 @@ export interface SecurityGroupRuleDescription {
   FromPort?: number;
   ToPort?: number;
 }
-export const SecurityGroupRuleDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IPV4Range: S.optional(S.String),
-    IPV6Range: S.optional(S.String),
-    PrefixListId: S.optional(S.String),
-    Protocol: S.optional(S.String),
-    FromPort: S.optional(S.Number),
-    ToPort: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SecurityGroupRuleDescription",
-}) as any as S.Schema<SecurityGroupRuleDescription>;
 export interface SecurityGroupRemediationAction {
   RemediationActionType?: RemediationActionType;
   Description?: string;
   RemediationResult?: SecurityGroupRuleDescription;
   IsDefaultAction?: boolean;
 }
-export const SecurityGroupRemediationAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RemediationActionType: S.optional(RemediationActionType),
-    Description: S.optional(S.String),
-    RemediationResult: S.optional(SecurityGroupRuleDescription),
-    IsDefaultAction: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SecurityGroupRemediationAction",
-}) as any as S.Schema<SecurityGroupRemediationAction>;
 export type SecurityGroupRemediationActions = SecurityGroupRemediationAction[];
-export const SecurityGroupRemediationActions = /*@__PURE__*/ S.Array(
-  SecurityGroupRemediationAction,
-);
 export interface AwsVPCSecurityGroupViolation {
   ViolationTarget?: string;
   ViolationTargetDescription?: string;
   PartialMatches?: PartialMatch[];
   PossibleSecurityGroupRemediationActions?: SecurityGroupRemediationAction[];
 }
-export const AwsVPCSecurityGroupViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    ViolationTargetDescription: S.optional(S.String),
-    PartialMatches: S.optional(PartialMatches),
-    PossibleSecurityGroupRemediationActions: S.optional(SecurityGroupRemediationActions),
-  }),
-).annotate({
-  identifier: "AwsVPCSecurityGroupViolation",
-}) as any as S.Schema<AwsVPCSecurityGroupViolation>;
 export type ResourceIdList = string[];
-export const ResourceIdList = /*@__PURE__*/ S.Array(S.String);
 export interface AwsEc2NetworkInterfaceViolation {
   ViolationTarget?: string;
   ViolatingSecurityGroups?: string[];
 }
-export const AwsEc2NetworkInterfaceViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    ViolatingSecurityGroups: S.optional(ResourceIdList),
-  }),
-).annotate({
-  identifier: "AwsEc2NetworkInterfaceViolation",
-}) as any as S.Schema<AwsEc2NetworkInterfaceViolation>;
 export type AwsEc2NetworkInterfaceViolations = AwsEc2NetworkInterfaceViolation[];
-export const AwsEc2NetworkInterfaceViolations = /*@__PURE__*/ S.Array(
-  AwsEc2NetworkInterfaceViolation,
-);
 export interface AwsEc2InstanceViolation {
   ViolationTarget?: string;
   AwsEc2NetworkInterfaceViolations?: AwsEc2NetworkInterfaceViolation[];
 }
-export const AwsEc2InstanceViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    AwsEc2NetworkInterfaceViolations: S.optional(AwsEc2NetworkInterfaceViolations),
-  }),
-).annotate({ identifier: "AwsEc2InstanceViolation" }) as any as S.Schema<AwsEc2InstanceViolation>;
 export interface NetworkFirewallMissingFirewallViolation {
   ViolationTarget?: string;
   VPC?: string;
   AvailabilityZone?: string;
   TargetViolationReason?: string;
 }
-export const NetworkFirewallMissingFirewallViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    VPC: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    TargetViolationReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NetworkFirewallMissingFirewallViolation",
-}) as any as S.Schema<NetworkFirewallMissingFirewallViolation>;
 export interface NetworkFirewallMissingSubnetViolation {
   ViolationTarget?: string;
   VPC?: string;
   AvailabilityZone?: string;
   TargetViolationReason?: string;
 }
-export const NetworkFirewallMissingSubnetViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    VPC: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    TargetViolationReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NetworkFirewallMissingSubnetViolation",
-}) as any as S.Schema<NetworkFirewallMissingSubnetViolation>;
 export interface NetworkFirewallMissingExpectedRTViolation {
   ViolationTarget?: string;
   VPC?: string;
@@ -1102,17 +572,6 @@ export interface NetworkFirewallMissingExpectedRTViolation {
   CurrentRouteTable?: string;
   ExpectedRouteTable?: string;
 }
-export const NetworkFirewallMissingExpectedRTViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    VPC: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    CurrentRouteTable: S.optional(S.String),
-    ExpectedRouteTable: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NetworkFirewallMissingExpectedRTViolation",
-}) as any as S.Schema<NetworkFirewallMissingExpectedRTViolation>;
 export type NetworkFirewallResourceName = string;
 export type StatelessRuleGroupPriority = number;
 export interface StatelessRuleGroup {
@@ -1120,62 +579,27 @@ export interface StatelessRuleGroup {
   ResourceId?: string;
   Priority?: number;
 }
-export const StatelessRuleGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupName: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    Priority: S.optional(S.Number),
-  }),
-).annotate({ identifier: "StatelessRuleGroup" }) as any as S.Schema<StatelessRuleGroup>;
 export type StatelessRuleGroupList = StatelessRuleGroup[];
-export const StatelessRuleGroupList = /*@__PURE__*/ S.Array(StatelessRuleGroup);
 export type NetworkFirewallAction = string;
 export type NetworkFirewallActionList = string[];
-export const NetworkFirewallActionList = /*@__PURE__*/ S.Array(S.String);
 export type PriorityNumber = number;
 export type NetworkFirewallOverrideAction = "DROP_TO_ALERT" | (string & {});
-export const NetworkFirewallOverrideAction = S.String;
-
 export interface NetworkFirewallStatefulRuleGroupOverride {
   Action?: NetworkFirewallOverrideAction;
 }
-export const NetworkFirewallStatefulRuleGroupOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Action: S.optional(NetworkFirewallOverrideAction) }),
-).annotate({
-  identifier: "NetworkFirewallStatefulRuleGroupOverride",
-}) as any as S.Schema<NetworkFirewallStatefulRuleGroupOverride>;
 export interface StatefulRuleGroup {
   RuleGroupName?: string;
   ResourceId?: string;
   Priority?: number;
   Override?: NetworkFirewallStatefulRuleGroupOverride;
 }
-export const StatefulRuleGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleGroupName: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    Priority: S.optional(S.Number),
-    Override: S.optional(NetworkFirewallStatefulRuleGroupOverride),
-  }),
-).annotate({ identifier: "StatefulRuleGroup" }) as any as S.Schema<StatefulRuleGroup>;
 export type StatefulRuleGroupList = StatefulRuleGroup[];
-export const StatefulRuleGroupList = /*@__PURE__*/ S.Array(StatefulRuleGroup);
 export type RuleOrder = "STRICT_ORDER" | "DEFAULT_ACTION_ORDER" | (string & {});
-export const RuleOrder = S.String;
-
 export type StreamExceptionPolicy = "DROP" | "CONTINUE" | "REJECT" | "FMS_IGNORE" | (string & {});
-export const StreamExceptionPolicy = S.String;
-
 export interface StatefulEngineOptions {
   RuleOrder?: RuleOrder;
   StreamExceptionPolicy?: StreamExceptionPolicy;
 }
-export const StatefulEngineOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleOrder: S.optional(RuleOrder),
-    StreamExceptionPolicy: S.optional(StreamExceptionPolicy),
-  }),
-).annotate({ identifier: "StatefulEngineOptions" }) as any as S.Schema<StatefulEngineOptions>;
 export interface NetworkFirewallPolicyDescription {
   StatelessRuleGroups?: StatelessRuleGroup[];
   StatelessDefaultActions?: string[];
@@ -1185,36 +609,12 @@ export interface NetworkFirewallPolicyDescription {
   StatefulDefaultActions?: string[];
   StatefulEngineOptions?: StatefulEngineOptions;
 }
-export const NetworkFirewallPolicyDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StatelessRuleGroups: S.optional(StatelessRuleGroupList),
-    StatelessDefaultActions: S.optional(NetworkFirewallActionList),
-    StatelessFragmentDefaultActions: S.optional(NetworkFirewallActionList),
-    StatelessCustomActions: S.optional(NetworkFirewallActionList),
-    StatefulRuleGroups: S.optional(StatefulRuleGroupList),
-    StatefulDefaultActions: S.optional(NetworkFirewallActionList),
-    StatefulEngineOptions: S.optional(StatefulEngineOptions),
-  }),
-).annotate({
-  identifier: "NetworkFirewallPolicyDescription",
-}) as any as S.Schema<NetworkFirewallPolicyDescription>;
 export interface NetworkFirewallPolicyModifiedViolation {
   ViolationTarget?: string;
   CurrentPolicyDescription?: NetworkFirewallPolicyDescription;
   ExpectedPolicyDescription?: NetworkFirewallPolicyDescription;
 }
-export const NetworkFirewallPolicyModifiedViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    CurrentPolicyDescription: S.optional(NetworkFirewallPolicyDescription),
-    ExpectedPolicyDescription: S.optional(NetworkFirewallPolicyDescription),
-  }),
-).annotate({
-  identifier: "NetworkFirewallPolicyModifiedViolation",
-}) as any as S.Schema<NetworkFirewallPolicyModifiedViolation>;
 export type DestinationType = "IPV4" | "IPV6" | "PREFIX_LIST" | (string & {});
-export const DestinationType = S.String;
-
 export type TargetType =
   | "GATEWAY"
   | "CARRIER_GATEWAY"
@@ -1227,26 +627,14 @@ export type TargetType =
   | "EGRESS_ONLY_INTERNET_GATEWAY"
   | "TRANSIT_GATEWAY"
   | (string & {});
-export const TargetType = S.String;
-
 export interface Route {
   DestinationType?: DestinationType;
   TargetType?: TargetType;
   Destination?: string;
   Target?: string;
 }
-export const Route = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DestinationType: S.optional(DestinationType),
-    TargetType: S.optional(TargetType),
-    Destination: S.optional(S.String),
-    Target: S.optional(S.String),
-  }),
-).annotate({ identifier: "Route" }) as any as S.Schema<Route>;
 export type Routes = Route[];
-export const Routes = /*@__PURE__*/ S.Array(Route);
 export type LengthBoundedStringList = string[];
-export const LengthBoundedStringList = /*@__PURE__*/ S.Array(S.String);
 export interface ExpectedRoute {
   IpV4Cidr?: string;
   PrefixListId?: string;
@@ -1255,18 +643,7 @@ export interface ExpectedRoute {
   AllowedTargets?: string[];
   RouteTableId?: string;
 }
-export const ExpectedRoute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IpV4Cidr: S.optional(S.String),
-    PrefixListId: S.optional(S.String),
-    IpV6Cidr: S.optional(S.String),
-    ContributingSubnets: S.optional(ResourceIdList),
-    AllowedTargets: S.optional(LengthBoundedStringList),
-    RouteTableId: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExpectedRoute" }) as any as S.Schema<ExpectedRoute>;
 export type ExpectedRoutes = ExpectedRoute[];
-export const ExpectedRoutes = /*@__PURE__*/ S.Array(ExpectedRoute);
 export interface NetworkFirewallInternetTrafficNotInspectedViolation {
   SubnetId?: string;
   SubnetAvailabilityZone?: string;
@@ -1284,27 +661,6 @@ export interface NetworkFirewallInternetTrafficNotInspectedViolation {
   ActualInternetGatewayRoutes?: Route[];
   VpcId?: string;
 }
-export const NetworkFirewallInternetTrafficNotInspectedViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetId: S.optional(S.String),
-    SubnetAvailabilityZone: S.optional(S.String),
-    RouteTableId: S.optional(S.String),
-    ViolatingRoutes: S.optional(Routes),
-    IsRouteTableUsedInDifferentAZ: S.optional(S.Boolean),
-    CurrentFirewallSubnetRouteTable: S.optional(S.String),
-    ExpectedFirewallEndpoint: S.optional(S.String),
-    FirewallSubnetId: S.optional(S.String),
-    ExpectedFirewallSubnetRoutes: S.optional(ExpectedRoutes),
-    ActualFirewallSubnetRoutes: S.optional(Routes),
-    InternetGatewayId: S.optional(S.String),
-    CurrentInternetGatewayRouteTable: S.optional(S.String),
-    ExpectedInternetGatewayRoutes: S.optional(ExpectedRoutes),
-    ActualInternetGatewayRoutes: S.optional(Routes),
-    VpcId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NetworkFirewallInternetTrafficNotInspectedViolation",
-}) as any as S.Schema<NetworkFirewallInternetTrafficNotInspectedViolation>;
 export interface NetworkFirewallInvalidRouteConfigurationViolation {
   AffectedSubnets?: string[];
   RouteTableId?: string;
@@ -1323,44 +679,12 @@ export interface NetworkFirewallInvalidRouteConfigurationViolation {
   ActualInternetGatewayRoutes?: Route[];
   VpcId?: string;
 }
-export const NetworkFirewallInvalidRouteConfigurationViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AffectedSubnets: S.optional(ResourceIdList),
-    RouteTableId: S.optional(S.String),
-    IsRouteTableUsedInDifferentAZ: S.optional(S.Boolean),
-    ViolatingRoute: S.optional(Route),
-    CurrentFirewallSubnetRouteTable: S.optional(S.String),
-    ExpectedFirewallEndpoint: S.optional(S.String),
-    ActualFirewallEndpoint: S.optional(S.String),
-    ExpectedFirewallSubnetId: S.optional(S.String),
-    ActualFirewallSubnetId: S.optional(S.String),
-    ExpectedFirewallSubnetRoutes: S.optional(ExpectedRoutes),
-    ActualFirewallSubnetRoutes: S.optional(Routes),
-    InternetGatewayId: S.optional(S.String),
-    CurrentInternetGatewayRouteTable: S.optional(S.String),
-    ExpectedInternetGatewayRoutes: S.optional(ExpectedRoutes),
-    ActualInternetGatewayRoutes: S.optional(Routes),
-    VpcId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NetworkFirewallInvalidRouteConfigurationViolation",
-}) as any as S.Schema<NetworkFirewallInvalidRouteConfigurationViolation>;
 export interface NetworkFirewallBlackHoleRouteDetectedViolation {
   ViolationTarget?: string;
   RouteTableId?: string;
   VpcId?: string;
   ViolatingRoutes?: Route[];
 }
-export const NetworkFirewallBlackHoleRouteDetectedViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    RouteTableId: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    ViolatingRoutes: S.optional(Routes),
-  }),
-).annotate({
-  identifier: "NetworkFirewallBlackHoleRouteDetectedViolation",
-}) as any as S.Schema<NetworkFirewallBlackHoleRouteDetectedViolation>;
 export interface NetworkFirewallUnexpectedFirewallRoutesViolation {
   FirewallSubnetId?: string;
   ViolatingRoutes?: Route[];
@@ -1368,50 +692,19 @@ export interface NetworkFirewallUnexpectedFirewallRoutesViolation {
   FirewallEndpoint?: string;
   VpcId?: string;
 }
-export const NetworkFirewallUnexpectedFirewallRoutesViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallSubnetId: S.optional(S.String),
-    ViolatingRoutes: S.optional(Routes),
-    RouteTableId: S.optional(S.String),
-    FirewallEndpoint: S.optional(S.String),
-    VpcId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NetworkFirewallUnexpectedFirewallRoutesViolation",
-}) as any as S.Schema<NetworkFirewallUnexpectedFirewallRoutesViolation>;
 export interface NetworkFirewallUnexpectedGatewayRoutesViolation {
   GatewayId?: string;
   ViolatingRoutes?: Route[];
   RouteTableId?: string;
   VpcId?: string;
 }
-export const NetworkFirewallUnexpectedGatewayRoutesViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayId: S.optional(S.String),
-    ViolatingRoutes: S.optional(Routes),
-    RouteTableId: S.optional(S.String),
-    VpcId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NetworkFirewallUnexpectedGatewayRoutesViolation",
-}) as any as S.Schema<NetworkFirewallUnexpectedGatewayRoutesViolation>;
 export interface NetworkFirewallMissingExpectedRoutesViolation {
   ViolationTarget?: string;
   ExpectedRoutes?: ExpectedRoute[];
   VpcId?: string;
 }
-export const NetworkFirewallMissingExpectedRoutesViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    ExpectedRoutes: S.optional(ExpectedRoutes),
-    VpcId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NetworkFirewallMissingExpectedRoutesViolation",
-}) as any as S.Schema<NetworkFirewallMissingExpectedRoutesViolation>;
 export type DnsRuleGroupPriority = number;
 export type DnsRuleGroupPriorities = number[];
-export const DnsRuleGroupPriorities = /*@__PURE__*/ S.Array(S.Number);
 export interface DnsRuleGroupPriorityConflictViolation {
   ViolationTarget?: string;
   ViolationTargetDescription?: string;
@@ -1419,44 +712,16 @@ export interface DnsRuleGroupPriorityConflictViolation {
   ConflictingPolicyId?: string;
   UnavailablePriorities?: number[];
 }
-export const DnsRuleGroupPriorityConflictViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    ViolationTargetDescription: S.optional(S.String),
-    ConflictingPriority: S.optional(S.Number),
-    ConflictingPolicyId: S.optional(S.String),
-    UnavailablePriorities: S.optional(DnsRuleGroupPriorities),
-  }),
-).annotate({
-  identifier: "DnsRuleGroupPriorityConflictViolation",
-}) as any as S.Schema<DnsRuleGroupPriorityConflictViolation>;
 export interface DnsDuplicateRuleGroupViolation {
   ViolationTarget?: string;
   ViolationTargetDescription?: string;
 }
-export const DnsDuplicateRuleGroupViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    ViolationTargetDescription: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DnsDuplicateRuleGroupViolation",
-}) as any as S.Schema<DnsDuplicateRuleGroupViolation>;
 export type BasicInteger = number;
 export interface DnsRuleGroupLimitExceededViolation {
   ViolationTarget?: string;
   ViolationTargetDescription?: string;
   NumberOfRuleGroupsAlreadyAssociated?: number;
 }
-export const DnsRuleGroupLimitExceededViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    ViolationTargetDescription: S.optional(S.String),
-    NumberOfRuleGroupsAlreadyAssociated: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "DnsRuleGroupLimitExceededViolation",
-}) as any as S.Schema<DnsRuleGroupLimitExceededViolation>;
 export interface FirewallSubnetIsOutOfScopeViolation {
   FirewallSubnetId?: string;
   VpcId?: string;
@@ -1464,17 +729,6 @@ export interface FirewallSubnetIsOutOfScopeViolation {
   SubnetAvailabilityZoneId?: string;
   VpcEndpointId?: string;
 }
-export const FirewallSubnetIsOutOfScopeViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallSubnetId: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    SubnetAvailabilityZone: S.optional(S.String),
-    SubnetAvailabilityZoneId: S.optional(S.String),
-    VpcEndpointId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FirewallSubnetIsOutOfScopeViolation",
-}) as any as S.Schema<FirewallSubnetIsOutOfScopeViolation>;
 export interface RouteHasOutOfScopeEndpointViolation {
   SubnetId?: string;
   VpcId?: string;
@@ -1489,56 +743,18 @@ export interface RouteHasOutOfScopeEndpointViolation {
   CurrentInternetGatewayRouteTable?: string;
   InternetGatewayRoutes?: Route[];
 }
-export const RouteHasOutOfScopeEndpointViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetId: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    RouteTableId: S.optional(S.String),
-    ViolatingRoutes: S.optional(Routes),
-    SubnetAvailabilityZone: S.optional(S.String),
-    SubnetAvailabilityZoneId: S.optional(S.String),
-    CurrentFirewallSubnetRouteTable: S.optional(S.String),
-    FirewallSubnetId: S.optional(S.String),
-    FirewallSubnetRoutes: S.optional(Routes),
-    InternetGatewayId: S.optional(S.String),
-    CurrentInternetGatewayRouteTable: S.optional(S.String),
-    InternetGatewayRoutes: S.optional(Routes),
-  }),
-).annotate({
-  identifier: "RouteHasOutOfScopeEndpointViolation",
-}) as any as S.Schema<RouteHasOutOfScopeEndpointViolation>;
 export interface ThirdPartyFirewallMissingFirewallViolation {
   ViolationTarget?: string;
   VPC?: string;
   AvailabilityZone?: string;
   TargetViolationReason?: string;
 }
-export const ThirdPartyFirewallMissingFirewallViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    VPC: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    TargetViolationReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ThirdPartyFirewallMissingFirewallViolation",
-}) as any as S.Schema<ThirdPartyFirewallMissingFirewallViolation>;
 export interface ThirdPartyFirewallMissingSubnetViolation {
   ViolationTarget?: string;
   VPC?: string;
   AvailabilityZone?: string;
   TargetViolationReason?: string;
 }
-export const ThirdPartyFirewallMissingSubnetViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    VPC: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    TargetViolationReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ThirdPartyFirewallMissingSubnetViolation",
-}) as any as S.Schema<ThirdPartyFirewallMissingSubnetViolation>;
 export interface ThirdPartyFirewallMissingExpectedRouteTableViolation {
   ViolationTarget?: string;
   VPC?: string;
@@ -1546,64 +762,30 @@ export interface ThirdPartyFirewallMissingExpectedRouteTableViolation {
   CurrentRouteTable?: string;
   ExpectedRouteTable?: string;
 }
-export const ThirdPartyFirewallMissingExpectedRouteTableViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ViolationTarget: S.optional(S.String),
-    VPC: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    CurrentRouteTable: S.optional(S.String),
-    ExpectedRouteTable: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ThirdPartyFirewallMissingExpectedRouteTableViolation",
-}) as any as S.Schema<ThirdPartyFirewallMissingExpectedRouteTableViolation>;
 export interface FirewallSubnetMissingVPCEndpointViolation {
   FirewallSubnetId?: string;
   VpcId?: string;
   SubnetAvailabilityZone?: string;
   SubnetAvailabilityZoneId?: string;
 }
-export const FirewallSubnetMissingVPCEndpointViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FirewallSubnetId: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    SubnetAvailabilityZone: S.optional(S.String),
-    SubnetAvailabilityZoneId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FirewallSubnetMissingVPCEndpointViolation",
-}) as any as S.Schema<FirewallSubnetMissingVPCEndpointViolation>;
 export type IntegerObjectMinimum0 = number;
 export type EntryType =
   | "FMS_MANAGED_FIRST_ENTRY"
   | "FMS_MANAGED_LAST_ENTRY"
   | "CUSTOM_ENTRY"
   | (string & {});
-export const EntryType = S.String;
-
 export interface EntryDescription {
   EntryDetail?: NetworkAclEntry;
   EntryRuleNumber?: number;
   EntryType?: EntryType;
 }
-export const EntryDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EntryDetail: S.optional(NetworkAclEntry),
-    EntryRuleNumber: S.optional(S.Number),
-    EntryType: S.optional(EntryType),
-  }),
-).annotate({ identifier: "EntryDescription" }) as any as S.Schema<EntryDescription>;
 export type EntriesWithConflicts = EntryDescription[];
-export const EntriesWithConflicts = /*@__PURE__*/ S.Array(EntryDescription);
 export type EntryViolationReason =
   | "MISSING_EXPECTED_ENTRY"
   | "INCORRECT_ENTRY_ORDER"
   | "ENTRY_CONFLICT"
   | (string & {});
-export const EntryViolationReason = S.String;
-
 export type EntryViolationReasons = EntryViolationReason[];
-export const EntryViolationReasons = /*@__PURE__*/ S.Array(EntryViolationReason);
 export interface EntryViolation {
   ExpectedEntry?: EntryDescription;
   ExpectedEvaluationOrder?: string;
@@ -1612,18 +794,7 @@ export interface EntryViolation {
   EntriesWithConflicts?: EntryDescription[];
   EntryViolationReasons?: EntryViolationReason[];
 }
-export const EntryViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExpectedEntry: S.optional(EntryDescription),
-    ExpectedEvaluationOrder: S.optional(S.String),
-    ActualEvaluationOrder: S.optional(S.String),
-    EntryAtExpectedEvaluationOrder: S.optional(EntryDescription),
-    EntriesWithConflicts: S.optional(EntriesWithConflicts),
-    EntryViolationReasons: S.optional(EntryViolationReasons),
-  }),
-).annotate({ identifier: "EntryViolation" }) as any as S.Schema<EntryViolation>;
 export type EntryViolations = EntryViolation[];
-export const EntryViolations = /*@__PURE__*/ S.Array(EntryViolation);
 export interface InvalidNetworkAclEntriesViolation {
   Vpc?: string;
   Subnet?: string;
@@ -1631,24 +802,10 @@ export interface InvalidNetworkAclEntriesViolation {
   CurrentAssociatedNetworkAcl?: string;
   EntryViolations?: EntryViolation[];
 }
-export const InvalidNetworkAclEntriesViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Vpc: S.optional(S.String),
-    Subnet: S.optional(S.String),
-    SubnetAvailabilityZone: S.optional(S.String),
-    CurrentAssociatedNetworkAcl: S.optional(S.String),
-    EntryViolations: S.optional(EntryViolations),
-  }),
-).annotate({
-  identifier: "InvalidNetworkAclEntriesViolation",
-}) as any as S.Schema<InvalidNetworkAclEntriesViolation>;
 export interface ActionTarget {
   ResourceId?: string;
   Description?: string;
 }
-export const ActionTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceId: S.optional(S.String), Description: S.optional(S.String) }),
-).annotate({ identifier: "ActionTarget" }) as any as S.Schema<ActionTarget>;
 export interface EC2CreateRouteAction {
   Description?: string;
   DestinationCidrBlock?: string;
@@ -1658,17 +815,6 @@ export interface EC2CreateRouteAction {
   GatewayId?: ActionTarget;
   RouteTableId: ActionTarget;
 }
-export const EC2CreateRouteAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    DestinationCidrBlock: S.optional(S.String),
-    DestinationPrefixListId: S.optional(S.String),
-    DestinationIpv6CidrBlock: S.optional(S.String),
-    VpcEndpointId: S.optional(ActionTarget),
-    GatewayId: S.optional(ActionTarget),
-    RouteTableId: ActionTarget,
-  }),
-).annotate({ identifier: "EC2CreateRouteAction" }) as any as S.Schema<EC2CreateRouteAction>;
 export interface EC2ReplaceRouteAction {
   Description?: string;
   DestinationCidrBlock?: string;
@@ -1677,16 +823,6 @@ export interface EC2ReplaceRouteAction {
   GatewayId?: ActionTarget;
   RouteTableId: ActionTarget;
 }
-export const EC2ReplaceRouteAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    DestinationCidrBlock: S.optional(S.String),
-    DestinationPrefixListId: S.optional(S.String),
-    DestinationIpv6CidrBlock: S.optional(S.String),
-    GatewayId: S.optional(ActionTarget),
-    RouteTableId: ActionTarget,
-  }),
-).annotate({ identifier: "EC2ReplaceRouteAction" }) as any as S.Schema<EC2ReplaceRouteAction>;
 export interface EC2DeleteRouteAction {
   Description?: string;
   DestinationCidrBlock?: string;
@@ -1694,133 +830,54 @@ export interface EC2DeleteRouteAction {
   DestinationIpv6CidrBlock?: string;
   RouteTableId: ActionTarget;
 }
-export const EC2DeleteRouteAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    DestinationCidrBlock: S.optional(S.String),
-    DestinationPrefixListId: S.optional(S.String),
-    DestinationIpv6CidrBlock: S.optional(S.String),
-    RouteTableId: ActionTarget,
-  }),
-).annotate({ identifier: "EC2DeleteRouteAction" }) as any as S.Schema<EC2DeleteRouteAction>;
 export interface EC2CopyRouteTableAction {
   Description?: string;
   VpcId: ActionTarget;
   RouteTableId: ActionTarget;
 }
-export const EC2CopyRouteTableAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Description: S.optional(S.String), VpcId: ActionTarget, RouteTableId: ActionTarget }),
-).annotate({ identifier: "EC2CopyRouteTableAction" }) as any as S.Schema<EC2CopyRouteTableAction>;
 export interface EC2ReplaceRouteTableAssociationAction {
   Description?: string;
   AssociationId: ActionTarget;
   RouteTableId: ActionTarget;
 }
-export const EC2ReplaceRouteTableAssociationAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    AssociationId: ActionTarget,
-    RouteTableId: ActionTarget,
-  }),
-).annotate({
-  identifier: "EC2ReplaceRouteTableAssociationAction",
-}) as any as S.Schema<EC2ReplaceRouteTableAssociationAction>;
 export interface EC2AssociateRouteTableAction {
   Description?: string;
   RouteTableId: ActionTarget;
   SubnetId?: ActionTarget;
   GatewayId?: ActionTarget;
 }
-export const EC2AssociateRouteTableAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    RouteTableId: ActionTarget,
-    SubnetId: S.optional(ActionTarget),
-    GatewayId: S.optional(ActionTarget),
-  }),
-).annotate({
-  identifier: "EC2AssociateRouteTableAction",
-}) as any as S.Schema<EC2AssociateRouteTableAction>;
 export interface EC2CreateRouteTableAction {
   Description?: string;
   VpcId: ActionTarget;
 }
-export const EC2CreateRouteTableAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Description: S.optional(S.String), VpcId: ActionTarget }),
-).annotate({
-  identifier: "EC2CreateRouteTableAction",
-}) as any as S.Schema<EC2CreateRouteTableAction>;
 export interface FMSPolicyUpdateFirewallCreationConfigAction {
   Description?: string;
   FirewallCreationConfig?: string;
 }
-export const FMSPolicyUpdateFirewallCreationConfigAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Description: S.optional(S.String), FirewallCreationConfig: S.optional(S.String) }),
-).annotate({
-  identifier: "FMSPolicyUpdateFirewallCreationConfigAction",
-}) as any as S.Schema<FMSPolicyUpdateFirewallCreationConfigAction>;
 export interface CreateNetworkAclAction {
   Description?: string;
   Vpc?: ActionTarget;
   FMSCanRemediate?: boolean;
 }
-export const CreateNetworkAclAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Vpc: S.optional(ActionTarget),
-    FMSCanRemediate: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "CreateNetworkAclAction" }) as any as S.Schema<CreateNetworkAclAction>;
 export interface ReplaceNetworkAclAssociationAction {
   Description?: string;
   AssociationId?: ActionTarget;
   NetworkAclId?: ActionTarget;
   FMSCanRemediate?: boolean;
 }
-export const ReplaceNetworkAclAssociationAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    AssociationId: S.optional(ActionTarget),
-    NetworkAclId: S.optional(ActionTarget),
-    FMSCanRemediate: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ReplaceNetworkAclAssociationAction",
-}) as any as S.Schema<ReplaceNetworkAclAssociationAction>;
 export type EntriesDescription = EntryDescription[];
-export const EntriesDescription = /*@__PURE__*/ S.Array(EntryDescription);
 export interface CreateNetworkAclEntriesAction {
   Description?: string;
   NetworkAclId?: ActionTarget;
   NetworkAclEntriesToBeCreated?: EntryDescription[];
   FMSCanRemediate?: boolean;
 }
-export const CreateNetworkAclEntriesAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    NetworkAclId: S.optional(ActionTarget),
-    NetworkAclEntriesToBeCreated: S.optional(EntriesDescription),
-    FMSCanRemediate: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "CreateNetworkAclEntriesAction",
-}) as any as S.Schema<CreateNetworkAclEntriesAction>;
 export interface DeleteNetworkAclEntriesAction {
   Description?: string;
   NetworkAclId?: ActionTarget;
   NetworkAclEntriesToBeDeleted?: EntryDescription[];
   FMSCanRemediate?: boolean;
 }
-export const DeleteNetworkAclEntriesAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    NetworkAclId: S.optional(ActionTarget),
-    NetworkAclEntriesToBeDeleted: S.optional(EntriesDescription),
-    FMSCanRemediate: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DeleteNetworkAclEntriesAction",
-}) as any as S.Schema<DeleteNetworkAclEntriesAction>;
 export interface RemediationAction {
   Description?: string;
   EC2CreateRouteAction?: EC2CreateRouteAction;
@@ -1836,87 +893,30 @@ export interface RemediationAction {
   CreateNetworkAclEntriesAction?: CreateNetworkAclEntriesAction;
   DeleteNetworkAclEntriesAction?: DeleteNetworkAclEntriesAction;
 }
-export const RemediationAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    EC2CreateRouteAction: S.optional(EC2CreateRouteAction),
-    EC2ReplaceRouteAction: S.optional(EC2ReplaceRouteAction),
-    EC2DeleteRouteAction: S.optional(EC2DeleteRouteAction),
-    EC2CopyRouteTableAction: S.optional(EC2CopyRouteTableAction),
-    EC2ReplaceRouteTableAssociationAction: S.optional(EC2ReplaceRouteTableAssociationAction),
-    EC2AssociateRouteTableAction: S.optional(EC2AssociateRouteTableAction),
-    EC2CreateRouteTableAction: S.optional(EC2CreateRouteTableAction),
-    FMSPolicyUpdateFirewallCreationConfigAction: S.optional(
-      FMSPolicyUpdateFirewallCreationConfigAction,
-    ),
-    CreateNetworkAclAction: S.optional(CreateNetworkAclAction),
-    ReplaceNetworkAclAssociationAction: S.optional(ReplaceNetworkAclAssociationAction),
-    CreateNetworkAclEntriesAction: S.optional(CreateNetworkAclEntriesAction),
-    DeleteNetworkAclEntriesAction: S.optional(DeleteNetworkAclEntriesAction),
-  }),
-).annotate({ identifier: "RemediationAction" }) as any as S.Schema<RemediationAction>;
 export interface RemediationActionWithOrder {
   RemediationAction?: RemediationAction;
   Order?: number;
 }
-export const RemediationActionWithOrder = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RemediationAction: S.optional(RemediationAction), Order: S.optional(S.Number) }),
-).annotate({
-  identifier: "RemediationActionWithOrder",
-}) as any as S.Schema<RemediationActionWithOrder>;
 export type OrderedRemediationActions = RemediationActionWithOrder[];
-export const OrderedRemediationActions = /*@__PURE__*/ S.Array(RemediationActionWithOrder);
 export interface PossibleRemediationAction {
   Description?: string;
   OrderedRemediationActions: RemediationActionWithOrder[];
   IsDefaultAction?: boolean;
 }
-export const PossibleRemediationAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    OrderedRemediationActions: OrderedRemediationActions,
-    IsDefaultAction: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "PossibleRemediationAction",
-}) as any as S.Schema<PossibleRemediationAction>;
 export type PossibleRemediationActionList = PossibleRemediationAction[];
-export const PossibleRemediationActionList = /*@__PURE__*/ S.Array(PossibleRemediationAction);
 export interface PossibleRemediationActions {
   Description?: string;
   Actions?: PossibleRemediationAction[];
 }
-export const PossibleRemediationActions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Description: S.optional(S.String),
-    Actions: S.optional(PossibleRemediationActionList),
-  }),
-).annotate({
-  identifier: "PossibleRemediationActions",
-}) as any as S.Schema<PossibleRemediationActions>;
 export interface WebACLHasIncompatibleConfigurationViolation {
   WebACLArn?: string;
   Description?: string;
 }
-export const WebACLHasIncompatibleConfigurationViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ WebACLArn: S.optional(S.String), Description: S.optional(S.String) }),
-).annotate({
-  identifier: "WebACLHasIncompatibleConfigurationViolation",
-}) as any as S.Schema<WebACLHasIncompatibleConfigurationViolation>;
 export type ResourceArnList = string[];
-export const ResourceArnList = /*@__PURE__*/ S.Array(S.String);
 export interface WebACLHasOutOfScopeResourcesViolation {
   WebACLArn?: string;
   OutOfScopeResourceList?: string[];
 }
-export const WebACLHasOutOfScopeResourcesViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WebACLArn: S.optional(S.String),
-    OutOfScopeResourceList: S.optional(ResourceArnList),
-  }),
-).annotate({
-  identifier: "WebACLHasOutOfScopeResourcesViolation",
-}) as any as S.Schema<WebACLHasOutOfScopeResourcesViolation>;
 export interface ResourceViolation {
   AwsVPCSecurityGroupViolation?: AwsVPCSecurityGroupViolation;
   AwsEc2NetworkInterfaceViolation?: AwsEc2NetworkInterfaceViolation;
@@ -1945,71 +945,14 @@ export interface ResourceViolation {
   WebACLHasIncompatibleConfigurationViolation?: WebACLHasIncompatibleConfigurationViolation;
   WebACLHasOutOfScopeResourcesViolation?: WebACLHasOutOfScopeResourcesViolation;
 }
-export const ResourceViolation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AwsVPCSecurityGroupViolation: S.optional(AwsVPCSecurityGroupViolation),
-    AwsEc2NetworkInterfaceViolation: S.optional(AwsEc2NetworkInterfaceViolation),
-    AwsEc2InstanceViolation: S.optional(AwsEc2InstanceViolation),
-    NetworkFirewallMissingFirewallViolation: S.optional(NetworkFirewallMissingFirewallViolation),
-    NetworkFirewallMissingSubnetViolation: S.optional(NetworkFirewallMissingSubnetViolation),
-    NetworkFirewallMissingExpectedRTViolation: S.optional(
-      NetworkFirewallMissingExpectedRTViolation,
-    ),
-    NetworkFirewallPolicyModifiedViolation: S.optional(NetworkFirewallPolicyModifiedViolation),
-    NetworkFirewallInternetTrafficNotInspectedViolation: S.optional(
-      NetworkFirewallInternetTrafficNotInspectedViolation,
-    ),
-    NetworkFirewallInvalidRouteConfigurationViolation: S.optional(
-      NetworkFirewallInvalidRouteConfigurationViolation,
-    ),
-    NetworkFirewallBlackHoleRouteDetectedViolation: S.optional(
-      NetworkFirewallBlackHoleRouteDetectedViolation,
-    ),
-    NetworkFirewallUnexpectedFirewallRoutesViolation: S.optional(
-      NetworkFirewallUnexpectedFirewallRoutesViolation,
-    ),
-    NetworkFirewallUnexpectedGatewayRoutesViolation: S.optional(
-      NetworkFirewallUnexpectedGatewayRoutesViolation,
-    ),
-    NetworkFirewallMissingExpectedRoutesViolation: S.optional(
-      NetworkFirewallMissingExpectedRoutesViolation,
-    ),
-    DnsRuleGroupPriorityConflictViolation: S.optional(DnsRuleGroupPriorityConflictViolation),
-    DnsDuplicateRuleGroupViolation: S.optional(DnsDuplicateRuleGroupViolation),
-    DnsRuleGroupLimitExceededViolation: S.optional(DnsRuleGroupLimitExceededViolation),
-    FirewallSubnetIsOutOfScopeViolation: S.optional(FirewallSubnetIsOutOfScopeViolation),
-    RouteHasOutOfScopeEndpointViolation: S.optional(RouteHasOutOfScopeEndpointViolation),
-    ThirdPartyFirewallMissingFirewallViolation: S.optional(
-      ThirdPartyFirewallMissingFirewallViolation,
-    ),
-    ThirdPartyFirewallMissingSubnetViolation: S.optional(ThirdPartyFirewallMissingSubnetViolation),
-    ThirdPartyFirewallMissingExpectedRouteTableViolation: S.optional(
-      ThirdPartyFirewallMissingExpectedRouteTableViolation,
-    ),
-    FirewallSubnetMissingVPCEndpointViolation: S.optional(
-      FirewallSubnetMissingVPCEndpointViolation,
-    ),
-    InvalidNetworkAclEntriesViolation: S.optional(InvalidNetworkAclEntriesViolation),
-    PossibleRemediationActions: S.optional(PossibleRemediationActions),
-    WebACLHasIncompatibleConfigurationViolation: S.optional(
-      WebACLHasIncompatibleConfigurationViolation,
-    ),
-    WebACLHasOutOfScopeResourcesViolation: S.optional(WebACLHasOutOfScopeResourcesViolation),
-  }),
-).annotate({ identifier: "ResourceViolation" }) as any as S.Schema<ResourceViolation>;
 export type ResourceViolations = ResourceViolation[];
-export const ResourceViolations = /*@__PURE__*/ S.Array(ResourceViolation);
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface ViolationDetail {
   PolicyId: string;
   MemberAccount: string;
@@ -2019,146 +962,60 @@ export interface ViolationDetail {
   ResourceTags?: Tag[];
   ResourceDescription?: string;
 }
-export const ViolationDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyId: S.String,
-    MemberAccount: S.String,
-    ResourceId: S.String,
-    ResourceType: S.String,
-    ResourceViolations: ResourceViolations,
-    ResourceTags: S.optional(TagList),
-    ResourceDescription: S.optional(S.String),
-  }),
-).annotate({ identifier: "ViolationDetail" }) as any as S.Schema<ViolationDetail>;
 export interface GetViolationDetailsResponse {
   ViolationDetail?: ViolationDetail;
 }
-export const GetViolationDetailsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ViolationDetail: S.optional(ViolationDetail) }),
-).annotate({
-  identifier: "GetViolationDetailsResponse",
-}) as any as S.Schema<GetViolationDetailsResponse>;
 export interface ListAdminAccountsForOrganizationRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListAdminAccountsForOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAdminAccountsForOrganizationRequest",
-}) as any as S.Schema<ListAdminAccountsForOrganizationRequest>;
 export interface AdminAccountSummary {
   AdminAccount?: string;
   DefaultAdmin?: boolean;
   Status?: OrganizationStatus;
 }
-export const AdminAccountSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AdminAccount: S.optional(S.String),
-    DefaultAdmin: S.optional(S.Boolean),
-    Status: S.optional(OrganizationStatus),
-  }),
-).annotate({ identifier: "AdminAccountSummary" }) as any as S.Schema<AdminAccountSummary>;
 export type AdminAccountSummaryList = AdminAccountSummary[];
-export const AdminAccountSummaryList = /*@__PURE__*/ S.Array(AdminAccountSummary);
 export interface ListAdminAccountsForOrganizationResponse {
   AdminAccounts?: AdminAccountSummary[];
   NextToken?: string;
 }
-export const ListAdminAccountsForOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AdminAccounts: S.optional(AdminAccountSummaryList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAdminAccountsForOrganizationResponse",
-}) as any as S.Schema<ListAdminAccountsForOrganizationResponse>;
 export interface ListAdminsManagingAccountRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListAdminsManagingAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAdminsManagingAccountRequest",
-}) as any as S.Schema<ListAdminsManagingAccountRequest>;
 export interface ListAdminsManagingAccountResponse {
   AdminAccounts?: string[];
   NextToken?: string;
 }
-export const ListAdminsManagingAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AdminAccounts: S.optional(AccountIdList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAdminsManagingAccountResponse",
-}) as any as S.Schema<ListAdminsManagingAccountResponse>;
 export interface ListAppsListsRequest {
   DefaultLists?: boolean;
   NextToken?: string;
   MaxResults: number;
 }
-export const ListAppsListsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DefaultLists: S.optional(S.Boolean),
-    NextToken: S.optional(S.String),
-    MaxResults: S.Number,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListAppsListsRequest" }) as any as S.Schema<ListAppsListsRequest>;
 export interface AppsListDataSummary {
   ListArn?: string;
   ListId?: string;
   ListName?: string;
   AppsList?: App[];
 }
-export const AppsListDataSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListArn: S.optional(S.String),
-    ListId: S.optional(S.String),
-    ListName: S.optional(S.String),
-    AppsList: S.optional(AppsList),
-  }),
-).annotate({ identifier: "AppsListDataSummary" }) as any as S.Schema<AppsListDataSummary>;
 export type AppsListsData = AppsListDataSummary[];
-export const AppsListsData = /*@__PURE__*/ S.Array(AppsListDataSummary);
 export interface ListAppsListsResponse {
   AppsLists?: AppsListDataSummary[];
   NextToken?: string;
 }
-export const ListAppsListsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppsLists: S.optional(AppsListsData), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListAppsListsResponse" }) as any as S.Schema<ListAppsListsResponse>;
 export interface ListComplianceStatusRequest {
   PolicyId: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListComplianceStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyId: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListComplianceStatusRequest",
-}) as any as S.Schema<ListComplianceStatusRequest>;
 export type PolicyComplianceStatusType = "COMPLIANT" | "NON_COMPLIANT" | (string & {});
-export const PolicyComplianceStatusType = S.String;
-
 export type ResourceCount = number;
 export interface EvaluationResult {
   ComplianceStatus?: PolicyComplianceStatusType;
   ViolatorCount?: number;
   EvaluationLimitExceeded?: boolean;
 }
-export const EvaluationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComplianceStatus: S.optional(PolicyComplianceStatusType),
-    ViolatorCount: S.optional(S.Number),
-    EvaluationLimitExceeded: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "EvaluationResult" }) as any as S.Schema<EvaluationResult>;
 export type EvaluationResults = EvaluationResult[];
-export const EvaluationResults = /*@__PURE__*/ S.Array(EvaluationResult);
 export interface PolicyComplianceStatus {
   PolicyOwner?: string;
   PolicyId?: string;
@@ -2168,105 +1025,42 @@ export interface PolicyComplianceStatus {
   LastUpdated?: Date;
   IssueInfoMap?: { [key: string]: string | undefined };
 }
-export const PolicyComplianceStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyOwner: S.optional(S.String),
-    PolicyId: S.optional(S.String),
-    PolicyName: S.optional(S.String),
-    MemberAccount: S.optional(S.String),
-    EvaluationResults: S.optional(EvaluationResults),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IssueInfoMap: S.optional(IssueInfoMap),
-  }),
-).annotate({ identifier: "PolicyComplianceStatus" }) as any as S.Schema<PolicyComplianceStatus>;
 export type PolicyComplianceStatusList = PolicyComplianceStatus[];
-export const PolicyComplianceStatusList = /*@__PURE__*/ S.Array(PolicyComplianceStatus);
 export interface ListComplianceStatusResponse {
   PolicyComplianceStatusList?: PolicyComplianceStatus[];
   NextToken?: string;
 }
-export const ListComplianceStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyComplianceStatusList: S.optional(PolicyComplianceStatusList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListComplianceStatusResponse",
-}) as any as S.Schema<ListComplianceStatusResponse>;
 export type AWSAccountIdList = string[];
-export const AWSAccountIdList = /*@__PURE__*/ S.Array(S.String);
 export interface ListDiscoveredResourcesRequest {
   MemberAccountIds: string[];
   ResourceType: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListDiscoveredResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MemberAccountIds: AWSAccountIdList,
-    ResourceType: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDiscoveredResourcesRequest",
-}) as any as S.Schema<ListDiscoveredResourcesRequest>;
 export interface DiscoveredResource {
   URI?: string;
   AccountId?: string;
   Type?: string;
   Name?: string;
 }
-export const DiscoveredResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    URI: S.optional(S.String),
-    AccountId: S.optional(S.String),
-    Type: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
-).annotate({ identifier: "DiscoveredResource" }) as any as S.Schema<DiscoveredResource>;
 export type DiscoveredResourceList = DiscoveredResource[];
-export const DiscoveredResourceList = /*@__PURE__*/ S.Array(DiscoveredResource);
 export interface ListDiscoveredResourcesResponse {
   Items?: DiscoveredResource[];
   NextToken?: string;
 }
-export const ListDiscoveredResourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Items: S.optional(DiscoveredResourceList), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDiscoveredResourcesResponse",
-}) as any as S.Schema<ListDiscoveredResourcesResponse>;
 export interface ListMemberAccountsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListMemberAccountsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListMemberAccountsRequest",
-}) as any as S.Schema<ListMemberAccountsRequest>;
 export type MemberAccounts = string[];
-export const MemberAccounts = /*@__PURE__*/ S.Array(S.String);
 export interface ListMemberAccountsResponse {
   MemberAccounts?: string[];
   NextToken?: string;
 }
-export const ListMemberAccountsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MemberAccounts: S.optional(MemberAccounts), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListMemberAccountsResponse",
-}) as any as S.Schema<ListMemberAccountsResponse>;
 export interface ListPoliciesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
 export interface PolicySummary {
   PolicyArn?: string;
   PolicyId?: string;
@@ -2277,107 +1071,45 @@ export interface PolicySummary {
   DeleteUnusedFMManagedResources?: boolean;
   PolicyStatus?: CustomerPolicyStatus;
 }
-export const PolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PolicyArn: S.optional(S.String),
-    PolicyId: S.optional(S.String),
-    PolicyName: S.optional(S.String),
-    ResourceType: S.optional(S.String),
-    SecurityServiceType: S.optional(SecurityServiceType),
-    RemediationEnabled: S.optional(S.Boolean),
-    DeleteUnusedFMManagedResources: S.optional(S.Boolean),
-    PolicyStatus: S.optional(CustomerPolicyStatus),
-  }),
-).annotate({ identifier: "PolicySummary" }) as any as S.Schema<PolicySummary>;
 export type PolicySummaryList = PolicySummary[];
-export const PolicySummaryList = /*@__PURE__*/ S.Array(PolicySummary);
 export interface ListPoliciesResponse {
   PolicyList?: PolicySummary[];
   NextToken?: string;
 }
-export const ListPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PolicyList: S.optional(PolicySummaryList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListPoliciesResponse" }) as any as S.Schema<ListPoliciesResponse>;
 export interface ListProtocolsListsRequest {
   DefaultLists?: boolean;
   NextToken?: string;
   MaxResults: number;
 }
-export const ListProtocolsListsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DefaultLists: S.optional(S.Boolean),
-    NextToken: S.optional(S.String),
-    MaxResults: S.Number,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListProtocolsListsRequest",
-}) as any as S.Schema<ListProtocolsListsRequest>;
 export interface ProtocolsListDataSummary {
   ListArn?: string;
   ListId?: string;
   ListName?: string;
   ProtocolsList?: string[];
 }
-export const ProtocolsListDataSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ListArn: S.optional(S.String),
-    ListId: S.optional(S.String),
-    ListName: S.optional(S.String),
-    ProtocolsList: S.optional(ProtocolsList),
-  }),
-).annotate({ identifier: "ProtocolsListDataSummary" }) as any as S.Schema<ProtocolsListDataSummary>;
 export type ProtocolsListsData = ProtocolsListDataSummary[];
-export const ProtocolsListsData = /*@__PURE__*/ S.Array(ProtocolsListDataSummary);
 export interface ListProtocolsListsResponse {
   ProtocolsLists?: ProtocolsListDataSummary[];
   NextToken?: string;
 }
-export const ListProtocolsListsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProtocolsLists: S.optional(ProtocolsListsData), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListProtocolsListsResponse",
-}) as any as S.Schema<ListProtocolsListsResponse>;
 export interface ListResourceSetResourcesRequest {
   Identifier: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListResourceSetResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identifier: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListResourceSetResourcesRequest",
-}) as any as S.Schema<ListResourceSetResourcesRequest>;
 export interface Resource {
   URI: string;
   AccountId?: string;
 }
-export const Resource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ URI: S.String, AccountId: S.optional(S.String) }),
-).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type ResourceList = Resource[];
-export const ResourceList = /*@__PURE__*/ S.Array(Resource);
 export interface ListResourceSetResourcesResponse {
   Items: Resource[];
   NextToken?: string;
 }
-export const ListResourceSetResourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Items: ResourceList, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListResourceSetResourcesResponse",
-}) as any as S.Schema<ListResourceSetResourcesResponse>;
 export interface ListResourceSetsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListResourceSetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "ListResourceSetsRequest" }) as any as S.Schema<ListResourceSetsRequest>;
 export interface ResourceSetSummary {
   Id?: string;
   Name?: string;
@@ -2385,206 +1117,86 @@ export interface ResourceSetSummary {
   LastUpdateTime?: Date;
   ResourceSetStatus?: ResourceSetStatus;
 }
-export const ResourceSetSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ResourceSetStatus: S.optional(ResourceSetStatus),
-  }),
-).annotate({ identifier: "ResourceSetSummary" }) as any as S.Schema<ResourceSetSummary>;
 export type ResourceSetSummaryList = ResourceSetSummary[];
-export const ResourceSetSummaryList = /*@__PURE__*/ S.Array(ResourceSetSummary);
 export interface ListResourceSetsResponse {
   ResourceSets?: ResourceSetSummary[];
   NextToken?: string;
 }
-export const ListResourceSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSets: S.optional(ResourceSetSummaryList), NextToken: S.optional(S.String) }),
-).annotate({ identifier: "ListResourceSetsResponse" }) as any as S.Schema<ListResourceSetsResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   TagList?: Tag[];
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagList: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListThirdPartyFirewallFirewallPoliciesRequest {
   ThirdPartyFirewall: ThirdPartyFirewall;
   NextToken?: string;
   MaxResults: number;
 }
-export const ListThirdPartyFirewallFirewallPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ThirdPartyFirewall: ThirdPartyFirewall,
-    NextToken: S.optional(S.String),
-    MaxResults: S.Number,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListThirdPartyFirewallFirewallPoliciesRequest",
-}) as any as S.Schema<ListThirdPartyFirewallFirewallPoliciesRequest>;
 export type FirewallPolicyId = string;
 export type FirewallPolicyName = string;
 export interface ThirdPartyFirewallFirewallPolicy {
   FirewallPolicyId?: string;
   FirewallPolicyName?: string;
 }
-export const ThirdPartyFirewallFirewallPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FirewallPolicyId: S.optional(S.String), FirewallPolicyName: S.optional(S.String) }),
-).annotate({
-  identifier: "ThirdPartyFirewallFirewallPolicy",
-}) as any as S.Schema<ThirdPartyFirewallFirewallPolicy>;
 export type ThirdPartyFirewallFirewallPolicies = ThirdPartyFirewallFirewallPolicy[];
-export const ThirdPartyFirewallFirewallPolicies = /*@__PURE__*/ S.Array(
-  ThirdPartyFirewallFirewallPolicy,
-);
 export interface ListThirdPartyFirewallFirewallPoliciesResponse {
   ThirdPartyFirewallFirewallPolicies?: ThirdPartyFirewallFirewallPolicy[];
   NextToken?: string;
 }
-export const ListThirdPartyFirewallFirewallPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ThirdPartyFirewallFirewallPolicies: S.optional(ThirdPartyFirewallFirewallPolicies),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListThirdPartyFirewallFirewallPoliciesResponse",
-}) as any as S.Schema<ListThirdPartyFirewallFirewallPoliciesResponse>;
 export interface PutAdminAccountRequest {
   AdminAccount: string;
   AdminScope?: AdminScope;
 }
-export const PutAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AdminAccount: S.String, AdminScope: S.optional(AdminScope) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutAdminAccountRequest" }) as any as S.Schema<PutAdminAccountRequest>;
 export interface PutAdminAccountResponse {}
-export const PutAdminAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "PutAdminAccountResponse",
-}) as any as S.Schema<PutAdminAccountResponse>;
 export interface PutAppsListRequest {
   AppsList: AppsListData;
   TagList?: Tag[];
 }
-export const PutAppsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppsList: AppsListData, TagList: S.optional(TagList) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutAppsListRequest" }) as any as S.Schema<PutAppsListRequest>;
 export interface PutAppsListResponse {
   AppsList?: AppsListData;
   AppsListArn?: string;
 }
-export const PutAppsListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AppsList: S.optional(AppsListData), AppsListArn: S.optional(S.String) }),
-).annotate({ identifier: "PutAppsListResponse" }) as any as S.Schema<PutAppsListResponse>;
 export interface PutNotificationChannelRequest {
   SnsTopicArn: string;
   SnsRoleName: string;
 }
-export const PutNotificationChannelRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SnsTopicArn: S.String, SnsRoleName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "PutNotificationChannelRequest",
-}) as any as S.Schema<PutNotificationChannelRequest>;
 export interface PutNotificationChannelResponse {}
-export const PutNotificationChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "PutNotificationChannelResponse",
-}) as any as S.Schema<PutNotificationChannelResponse>;
 export interface PutPolicyRequest {
   Policy: Policy;
   TagList?: Tag[];
 }
-export const PutPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: Policy, TagList: S.optional(TagList) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutPolicyRequest" }) as any as S.Schema<PutPolicyRequest>;
 export interface PutPolicyResponse {
   Policy?: Policy;
   PolicyArn?: string;
 }
-export const PutPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Policy: S.optional(Policy), PolicyArn: S.optional(S.String) }),
-).annotate({ identifier: "PutPolicyResponse" }) as any as S.Schema<PutPolicyResponse>;
 export interface PutProtocolsListRequest {
   ProtocolsList: ProtocolsListData;
   TagList?: Tag[];
 }
-export const PutProtocolsListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProtocolsList: ProtocolsListData, TagList: S.optional(TagList) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutProtocolsListRequest" }) as any as S.Schema<PutProtocolsListRequest>;
 export interface PutProtocolsListResponse {
   ProtocolsList?: ProtocolsListData;
   ProtocolsListArn?: string;
 }
-export const PutProtocolsListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProtocolsList: S.optional(ProtocolsListData),
-    ProtocolsListArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "PutProtocolsListResponse" }) as any as S.Schema<PutProtocolsListResponse>;
 export interface PutResourceSetRequest {
   ResourceSet: ResourceSet;
   TagList?: Tag[];
 }
-export const PutResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSet: ResourceSet, TagList: S.optional(TagList) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "PutResourceSetRequest" }) as any as S.Schema<PutResourceSetRequest>;
 export interface PutResourceSetResponse {
   ResourceSet: ResourceSet;
   ResourceSetArn: string;
 }
-export const PutResourceSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceSet: ResourceSet, ResourceSetArn: S.String }),
-).annotate({ identifier: "PutResourceSetResponse" }) as any as S.Schema<PutResourceSetResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   TagList: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagList: TagList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export type ErrorMessage = string;
 export type AssociateAdminAccountError =
   | InternalErrorException
@@ -2604,8 +1216,8 @@ export const associateAdminAccount: API.OperationMethod<
   AssociateAdminAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateAdminAccountRequest,
-  output: AssociateAdminAccountResponse,
+  input: __S(1600, __c50, 0) as any as S.Schema<AssociateAdminAccountRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<AssociateAdminAccountResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -2633,8 +1245,8 @@ export const associateThirdPartyFirewall: API.OperationMethod<
   AssociateThirdPartyFirewallError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociateThirdPartyFirewallRequest,
-  output: AssociateThirdPartyFirewallResponse,
+  input: __S(1664, __c52, 0) as any as S.Schema<AssociateThirdPartyFirewallRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<AssociateThirdPartyFirewallResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -2662,8 +1274,8 @@ export const batchAssociateResource: API.OperationMethod<
   BatchAssociateResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchAssociateResourceRequest,
-  output: BatchAssociateResourceResponse,
+  input: __S(1728, __c54, 0) as any as S.Schema<BatchAssociateResourceRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<BatchAssociateResourceResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -2691,8 +1303,8 @@ export const batchDisassociateResource: API.OperationMethod<
   BatchDisassociateResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchDisassociateResourceRequest,
-  output: BatchDisassociateResourceResponse,
+  input: __S(1824, __c57, 0) as any as S.Schema<BatchDisassociateResourceRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<BatchDisassociateResourceResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -2718,8 +1330,8 @@ export const deleteAppsList: API.OperationMethod<
   DeleteAppsListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAppsListRequest,
-  output: DeleteAppsListResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteAppsListRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<DeleteAppsListResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2741,8 +1353,8 @@ export const deleteNotificationChannel: API.OperationMethod<
   DeleteNotificationChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteNotificationChannelRequest,
-  output: DeleteNotificationChannelResponse,
+  input: __S(32, __c1, 0) as any as S.Schema<DeleteNotificationChannelRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<DeleteNotificationChannelResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2765,8 +1377,8 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePolicyRequest,
-  output: DeletePolicyResponse,
+  input: __S(64, __c2, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -2793,8 +1405,8 @@ export const deleteProtocolsList: API.OperationMethod<
   DeleteProtocolsListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteProtocolsListRequest,
-  output: DeleteProtocolsListResponse,
+  input: __S(96, __c3, 0) as any as S.Schema<DeleteProtocolsListRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<DeleteProtocolsListResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2816,8 +1428,8 @@ export const deleteResourceSet: API.OperationMethod<
   DeleteResourceSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteResourceSetRequest,
-  output: DeleteResourceSetResponse,
+  input: __S(128, __c4, 0) as any as S.Schema<DeleteResourceSetRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<DeleteResourceSetResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -2845,8 +1457,8 @@ export const disassociateAdminAccount: API.OperationMethod<
   DisassociateAdminAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateAdminAccountRequest,
-  output: DisassociateAdminAccountResponse,
+  input: __S(160, __c5, 0) as any as S.Schema<DisassociateAdminAccountRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<DisassociateAdminAccountResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2868,8 +1480,8 @@ export const disassociateThirdPartyFirewall: API.OperationMethod<
   DisassociateThirdPartyFirewallError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DisassociateThirdPartyFirewallRequest,
-  output: DisassociateThirdPartyFirewallResponse,
+  input: __S(192, __c6, 0) as any as S.Schema<DisassociateThirdPartyFirewallRequest>,
+  output: __S(1696, __c53, 0) as any as S.Schema<DisassociateThirdPartyFirewallResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -2896,8 +1508,8 @@ export const getAdminAccount: API.OperationMethod<
   GetAdminAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAdminAccountRequest,
-  output: GetAdminAccountResponse,
+  input: __S(224, __c7, 0) as any as S.Schema<GetAdminAccountRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<GetAdminAccountResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2920,8 +1532,8 @@ export const getAdminScope: API.OperationMethod<
   GetAdminScopeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAdminScopeRequest,
-  output: GetAdminScopeResponse,
+  input: __S(256, __c8, 0) as any as S.Schema<GetAdminScopeRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<GetAdminScopeResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -2948,8 +1560,8 @@ export const getAppsList: API.OperationMethod<
   GetAppsListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAppsListRequest,
-  output: GetAppsListResponse,
+  input: __S(352, __c11, 0) as any as S.Schema<GetAppsListRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<GetAppsListResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2974,8 +1586,8 @@ export const getComplianceDetail: API.OperationMethod<
   GetComplianceDetailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetComplianceDetailRequest,
-  output: GetComplianceDetailResponse,
+  input: __S(448, __c14, 0) as any as S.Schema<GetComplianceDetailRequest>,
+  output: __S(453, __c14, 5) as any as S.Schema<GetComplianceDetailResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3003,8 +1615,8 @@ export const getNotificationChannel: API.OperationMethod<
   GetNotificationChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetNotificationChannelRequest,
-  output: GetNotificationChannelResponse,
+  input: __S(512, __c16, 0) as any as S.Schema<GetNotificationChannelRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<GetNotificationChannelResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3026,8 +1638,8 @@ export const getPolicy: API.OperationMethod<
   GetPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPolicyRequest,
-  output: GetPolicyResponse,
+  input: __S(544, __c17, 0) as any as S.Schema<GetPolicyRequest>,
+  output: __S(618, __c19, 10) as any as S.Schema<GetPolicyResponse>,
   errors: [
     InternalErrorException,
     InvalidOperationException,
@@ -3054,8 +1666,8 @@ export const getProtectionStatus: API.OperationMethod<
   GetProtectionStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProtectionStatusRequest,
-  output: GetProtectionStatusResponse,
+  input: __S(640, __c20, 0) as any as S.Schema<GetProtectionStatusRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<GetProtectionStatusResponse>,
   errors: [InternalErrorException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3076,8 +1688,8 @@ export const getProtocolsList: API.OperationMethod<
   GetProtocolsListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetProtocolsListRequest,
-  output: GetProtocolsListResponse,
+  input: __S(672, __c21, 0) as any as S.Schema<GetProtocolsListRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<GetProtocolsListResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3099,8 +1711,8 @@ export const getResourceSet: API.OperationMethod<
   GetResourceSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetResourceSetRequest,
-  output: GetResourceSetResponse,
+  input: __S(736, __c23, 0) as any as S.Schema<GetResourceSetRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<GetResourceSetResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3127,8 +1739,8 @@ export const getThirdPartyFirewallAssociationStatus: API.OperationMethod<
   GetThirdPartyFirewallAssociationStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetThirdPartyFirewallAssociationStatusRequest,
-  output: GetThirdPartyFirewallAssociationStatusResponse,
+  input: __S(800, __c25, 0) as any as S.Schema<GetThirdPartyFirewallAssociationStatusRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<GetThirdPartyFirewallAssociationStatusResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3154,8 +1766,8 @@ export const getViolationDetails: API.OperationMethod<
   GetViolationDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetViolationDetailsRequest,
-  output: GetViolationDetailsResponse,
+  input: __S(832, __c26, 0) as any as S.Schema<GetViolationDetailsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<GetViolationDetailsResponse>,
   errors: [InternalErrorException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3180,8 +1792,8 @@ export const listAdminAccountsForOrganization: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AdminAccountSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAdminAccountsForOrganizationRequest,
-  output: ListAdminAccountsForOrganizationResponse,
+  input: __S(960, __c30, 0) as any as S.Schema<ListAdminAccountsForOrganizationRequest>,
+  output: __S(963, __c30, 3) as any as S.Schema<ListAdminAccountsForOrganizationResponse>,
   errors: [
     InternalErrorException,
     InvalidOperationException,
@@ -3214,8 +1826,8 @@ export const listAdminsManagingAccount: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AWSAccountId
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAdminsManagingAccountRequest,
-  output: ListAdminsManagingAccountResponse,
+  input: __S(992, __c31, 0) as any as S.Schema<ListAdminsManagingAccountRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<ListAdminsManagingAccountResponse>,
   errors: [InternalErrorException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3244,8 +1856,8 @@ export const listAppsLists: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AppsListDataSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAppsListsRequest,
-  output: ListAppsListsResponse,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListAppsListsRequest>,
+  output: __S(1027, __c32, 3) as any as S.Schema<ListAppsListsResponse>,
   errors: [
     InternalErrorException,
     InvalidOperationException,
@@ -3279,8 +1891,8 @@ export const listComplianceStatus: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyComplianceStatus
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListComplianceStatusRequest,
-  output: ListComplianceStatusResponse,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListComplianceStatusRequest>,
+  output: __S(1061, __c33, 5) as any as S.Schema<ListComplianceStatusResponse>,
   errors: [InternalErrorException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3307,8 +1919,8 @@ export const listDiscoveredResources: API.OperationMethod<
   ListDiscoveredResourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDiscoveredResourcesRequest,
-  output: ListDiscoveredResourcesResponse,
+  input: __S(1088, __c34, 0) as any as S.Schema<ListDiscoveredResourcesRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<ListDiscoveredResourcesResponse>,
   errors: [InternalErrorException, InvalidInputException, InvalidOperationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3332,8 +1944,8 @@ export const listMemberAccounts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AWSAccountId
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListMemberAccountsRequest,
-  output: ListMemberAccountsResponse,
+  input: __S(1120, __c35, 0) as any as S.Schema<ListMemberAccountsRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<ListMemberAccountsResponse>,
   errors: [InternalErrorException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3362,8 +1974,8 @@ export const listPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPoliciesRequest,
-  output: ListPoliciesResponse,
+  input: __S(1152, __c36, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(1155, __c36, 3) as any as S.Schema<ListPoliciesResponse>,
   errors: [
     InternalErrorException,
     InvalidOperationException,
@@ -3396,8 +2008,8 @@ export const listProtocolsLists: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ProtocolsListDataSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListProtocolsListsRequest,
-  output: ListProtocolsListsResponse,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListProtocolsListsRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<ListProtocolsListsResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3425,8 +2037,8 @@ export const listResourceSetResources: API.OperationMethod<
   ListResourceSetResourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListResourceSetResourcesRequest,
-  output: ListResourceSetResourcesResponse,
+  input: __S(1216, __c38, 0) as any as S.Schema<ListResourceSetResourcesRequest>,
+  output: __S(1219, __c38, 3) as any as S.Schema<ListResourceSetResourcesResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3452,8 +2064,8 @@ export const listResourceSets: API.OperationMethod<
   ListResourceSetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListResourceSetsRequest,
-  output: ListResourceSetsResponse,
+  input: __S(1248, __c39, 0) as any as S.Schema<ListResourceSetsRequest>,
+  output: __S(1251, __c39, 3) as any as S.Schema<ListResourceSetsResponse>,
   errors: [InternalErrorException, InvalidInputException, InvalidOperationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3475,8 +2087,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3504,8 +2116,8 @@ export const listThirdPartyFirewallFirewallPolicies: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   ThirdPartyFirewallFirewallPolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListThirdPartyFirewallFirewallPoliciesRequest,
-  output: ListThirdPartyFirewallFirewallPoliciesResponse,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListThirdPartyFirewallFirewallPoliciesRequest>,
+  output: __S(1315, __c41, 3) as any as S.Schema<ListThirdPartyFirewallFirewallPoliciesResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3539,8 +2151,8 @@ export const putAdminAccount: API.OperationMethod<
   PutAdminAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutAdminAccountRequest,
-  output: PutAdminAccountResponse,
+  input: __S(1344, __c42, 0) as any as S.Schema<PutAdminAccountRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<PutAdminAccountResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3568,8 +2180,8 @@ export const putAppsList: API.OperationMethod<
   PutAppsListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutAppsListRequest,
-  output: PutAppsListResponse,
+  input: __S(1376, __c43, 0) as any as S.Schema<PutAppsListRequest>,
+  output: __S(418, __c13, 2) as any as S.Schema<PutAppsListResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3600,8 +2212,8 @@ export const putNotificationChannel: API.OperationMethod<
   PutNotificationChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutNotificationChannelRequest,
-  output: PutNotificationChannelResponse,
+  input: __S(1408, __c44, 0) as any as S.Schema<PutNotificationChannelRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<PutNotificationChannelResponse>,
   errors: [InternalErrorException, InvalidOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3662,8 +2274,8 @@ export const putPolicy: API.OperationMethod<
   PutPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutPolicyRequest,
-  output: PutPolicyResponse,
+  input: __S(1440, __c45, 0) as any as S.Schema<PutPolicyRequest>,
+  output: __S(618, __c19, 10) as any as S.Schema<PutPolicyResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3693,8 +2305,8 @@ export const putProtocolsList: API.OperationMethod<
   PutProtocolsListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutProtocolsListRequest,
-  output: PutProtocolsListResponse,
+  input: __S(1472, __c46, 0) as any as S.Schema<PutProtocolsListRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<PutProtocolsListResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3724,8 +2336,8 @@ export const putResourceSet: API.OperationMethod<
   PutResourceSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutResourceSetRequest,
-  output: PutResourceSetResponse,
+  input: __S(1504, __c47, 0) as any as S.Schema<PutResourceSetRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<PutResourceSetResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3753,8 +2365,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(1536, __c48, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3782,8 +2394,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(1568, __c49, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(1632, __c51, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalErrorException,
     InvalidInputException,
@@ -3794,3 +2406,1498 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ListId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteAppsListRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteNotificationChannelRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PolicyId: S.String, DeleteAllPolicyResources: S.optional(S.Boolean) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeletePolicyRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ListId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteProtocolsListRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Identifier: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteResourceSetRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateAdminAccountRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ThirdPartyFirewall: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateThirdPartyFirewallRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAdminAccountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AdminAccount: S.optional(S.String), RoleStatus: S.optional(S.String) }),
+      ).annotate({ identifier: "GetAdminAccountResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AdminAccount: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAdminScopeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AdminScope: S.optional(__S(324, __c10, 4)), Status: S.optional(S.String) }),
+      ).annotate({ identifier: "GetAdminScopeResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Accounts: S.optional(__S(1792, __c56, 0)),
+          AllAccountsEnabled: S.optional(S.Boolean),
+          ExcludeSpecifiedAccounts: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AccountScope" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          OrganizationalUnits: S.optional(__S(1792, __c56, 0)),
+          AllOrganizationalUnitsEnabled: S.optional(S.Boolean),
+          ExcludeSpecifiedOrganizationalUnits: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "OrganizationalUnitScope" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Regions: S.optional(__S(1792, __c56, 0)),
+          AllRegionsEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "RegionScope" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyTypes: S.optional(__S(288, __c9, 0)),
+          AllPolicyTypesEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PolicyTypeScope" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          AccountScope: S.optional(__S(320, __c10, 0)),
+          OrganizationalUnitScope: S.optional(__S(321, __c10, 1)),
+          RegionScope: S.optional(__S(322, __c10, 2)),
+          PolicyTypeScope: S.optional(__S(323, __c10, 3)),
+        }),
+      ).annotate({ identifier: "AdminScope" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ListId: S.String, DefaultList: S.optional(S.Boolean) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAppsListRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AppName: S.String, Protocol: S.String, Port: S.Number }),
+      ).annotate({ identifier: "App" });
+    case 1:
+      return S.Array(__S(384, __c12, 0));
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ __S(385, __c12, 1).pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ListId: S.optional(S.String),
+          ListName: S.String,
+          ListUpdateToken: S.optional(S.String),
+          CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          AppsList: __S(385, __c12, 1),
+          PreviousAppsList: S.optional(__S(416, __c13, 0)),
+        }),
+      ).annotate({ identifier: "AppsListData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ AppsList: S.optional(__S(417, __c13, 1)), AppsListArn: S.optional(S.String) }),
+      ).annotate({ identifier: "GetAppsListResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PolicyId: S.String, MemberAccount: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetComplianceDetailRequest" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceId: S.optional(S.String),
+          ViolationReason: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          Metadata: S.optional(__S(449, __c14, 1)),
+        }),
+      ).annotate({ identifier: "ComplianceViolator" });
+    case 3:
+      return S.Array(__S(450, __c14, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyOwner: S.optional(S.String),
+          PolicyId: S.optional(S.String),
+          MemberAccount: S.optional(S.String),
+          Violators: S.optional(__S(451, __c14, 3)),
+          EvaluationLimitExceeded: S.optional(S.Boolean),
+          ExpiredAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          IssueInfoMap: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "PolicyComplianceDetail" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ PolicyComplianceDetail: S.optional(__S(452, __c14, 4)) }),
+      ).annotate({ identifier: "GetComplianceDetailResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetNotificationChannelRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ SnsTopicArn: S.optional(S.String), SnsRoleName: S.optional(S.String) }),
+      ).annotate({ identifier: "GetNotificationChannelResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PolicyId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetPolicyRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Code: S.optional(S.Number), Type: S.optional(S.Number) }),
+      ).annotate({ identifier: "NetworkAclIcmpTypeCode" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ From: S.optional(S.Number), To: S.optional(S.Number) }),
+      ).annotate({ identifier: "NetworkAclPortRange" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          IcmpTypeCode: S.optional(__S(576, __c18, 0)),
+          Protocol: S.String,
+          PortRange: S.optional(__S(577, __c18, 1)),
+          CidrBlock: S.optional(S.String),
+          Ipv6CidrBlock: S.optional(S.String),
+          RuleAction: S.String,
+          Egress: S.Boolean,
+        }),
+      ).annotate({ identifier: "NetworkAclEntry" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ FirewallDeploymentModel: S.optional(S.String) })).annotate({
+        identifier: "NetworkFirewallPolicy",
+      });
+    case 1:
+      return S.Array(__S(578, __c18, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FirstEntries: S.optional(__S(609, __c19, 1)),
+          ForceRemediateForFirstEntries: S.Boolean,
+          LastEntries: S.optional(__S(609, __c19, 1)),
+          ForceRemediateForLastEntries: S.Boolean,
+        }),
+      ).annotate({ identifier: "NetworkAclEntrySet" });
+    case 3:
+      return S.suspend(() => S.Struct({ NetworkAclEntrySet: __S(610, __c19, 2) })).annotate({
+        identifier: "NetworkAclCommonPolicy",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          NetworkFirewallPolicy: S.optional(__S(608, __c19, 0)),
+          ThirdPartyFirewallPolicy: S.optional(__S(608, __c19, 0)),
+          NetworkAclCommonPolicy: S.optional(__S(611, __c19, 3)),
+        }),
+      ).annotate({ identifier: "PolicyOption" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.String,
+          ManagedServiceData: S.optional(S.String),
+          PolicyOption: S.optional(__S(612, __c19, 4)),
+        }),
+      ).annotate({ identifier: "SecurityServicePolicyData" });
+    case 6:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.optional(S.String) })).annotate({
+        identifier: "ResourceTag",
+      });
+    case 7:
+      return S.Array(__S(614, __c19, 6));
+    case 8:
+      return S.Record(S.String, /*@__PURE__*/ __S(1792, __c56, 0).pipe(S.optional));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyId: S.optional(S.String),
+          PolicyName: S.String,
+          PolicyUpdateToken: S.optional(S.String),
+          SecurityServicePolicyData: __S(613, __c19, 5),
+          ResourceType: S.String,
+          ResourceTypeList: S.optional(__S(1792, __c56, 0)),
+          ResourceTags: S.optional(__S(615, __c19, 7)),
+          ExcludeResourceTags: S.Boolean,
+          RemediationEnabled: S.Boolean,
+          DeleteUnusedFMManagedResources: S.optional(S.Boolean),
+          IncludeMap: S.optional(__S(616, __c19, 8)),
+          ExcludeMap: S.optional(__S(616, __c19, 8)),
+          ResourceSetIds: S.optional(__S(1792, __c56, 0)),
+          PolicyDescription: S.optional(S.String),
+          PolicyStatus: S.optional(S.String),
+          ResourceTagLogicalOperator: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Policy" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({ Policy: S.optional(__S(617, __c19, 9)), PolicyArn: S.optional(S.String) }),
+      ).annotate({ identifier: "GetPolicyResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyId: S.String,
+          MemberAccountId: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetProtectionStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AdminAccountId: S.optional(S.String),
+          ServiceType: S.optional(S.String),
+          Data: S.optional(S.String),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetProtectionStatusResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ListId: S.String, DefaultList: S.optional(S.Boolean) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetProtocolsListRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ __S(1792, __c56, 0).pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ListId: S.optional(S.String),
+          ListName: S.String,
+          ListUpdateToken: S.optional(S.String),
+          CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ProtocolsList: __S(1792, __c56, 0),
+          PreviousProtocolsList: S.optional(__S(704, __c22, 0)),
+        }),
+      ).annotate({ identifier: "ProtocolsListData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ProtocolsList: S.optional(__S(705, __c22, 1)),
+          ProtocolsListArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetProtocolsListResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Identifier: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetResourceSetRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Name: S.String,
+          Description: S.optional(S.String),
+          UpdateToken: S.optional(S.String),
+          ResourceTypeList: __S(1792, __c56, 0),
+          LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ResourceSetStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceSet" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ResourceSet: __S(768, __c24, 0), ResourceSetArn: S.String }),
+      ).annotate({ identifier: "GetResourceSetResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ThirdPartyFirewall: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetThirdPartyFirewallAssociationStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ThirdPartyFirewallStatus: S.optional(S.String),
+          MarketplaceOnboardingStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetThirdPartyFirewallAssociationStatusResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyId: S.String,
+          MemberAccount: S.String,
+          ResourceId: S.String,
+          ResourceType: S.String,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetViolationDetailsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Reference: S.optional(S.String),
+          TargetViolationReasons: S.optional(__S(1792, __c56, 0)),
+        }),
+      ).annotate({ identifier: "PartialMatch" });
+    case 2:
+      return S.Array(__S(833, __c26, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          IPV4Range: S.optional(S.String),
+          IPV6Range: S.optional(S.String),
+          PrefixListId: S.optional(S.String),
+          Protocol: S.optional(S.String),
+          FromPort: S.optional(S.Number),
+          ToPort: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SecurityGroupRuleDescription" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          RemediationActionType: S.optional(S.String),
+          Description: S.optional(S.String),
+          RemediationResult: S.optional(__S(835, __c26, 3)),
+          IsDefaultAction: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SecurityGroupRemediationAction" });
+    case 5:
+      return S.Array(__S(836, __c26, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          ViolationTargetDescription: S.optional(S.String),
+          PartialMatches: S.optional(__S(834, __c26, 2)),
+          PossibleSecurityGroupRemediationActions: S.optional(__S(837, __c26, 5)),
+        }),
+      ).annotate({ identifier: "AwsVPCSecurityGroupViolation" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          ViolatingSecurityGroups: S.optional(__S(1792, __c56, 0)),
+        }),
+      ).annotate({ identifier: "AwsEc2NetworkInterfaceViolation" });
+    case 8:
+      return S.Array(__S(839, __c26, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          AwsEc2NetworkInterfaceViolations: S.optional(__S(840, __c26, 8)),
+        }),
+      ).annotate({ identifier: "AwsEc2InstanceViolation" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          VPC: S.optional(S.String),
+          AvailabilityZone: S.optional(S.String),
+          TargetViolationReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkFirewallMissingFirewallViolation" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          VPC: S.optional(S.String),
+          AvailabilityZone: S.optional(S.String),
+          CurrentRouteTable: S.optional(S.String),
+          ExpectedRouteTable: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkFirewallMissingExpectedRTViolation" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupName: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          Priority: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StatelessRuleGroup" });
+    case 13:
+      return S.Array(__S(844, __c26, 12));
+    case 14:
+      return S.suspend(() => S.Struct({ Action: S.optional(S.String) })).annotate({
+        identifier: "NetworkFirewallStatefulRuleGroupOverride",
+      });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          RuleGroupName: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          Priority: S.optional(S.Number),
+          Override: S.optional(__S(846, __c26, 14)),
+        }),
+      ).annotate({ identifier: "StatefulRuleGroup" });
+    case 16:
+      return S.Array(__S(847, __c26, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({ RuleOrder: S.optional(S.String), StreamExceptionPolicy: S.optional(S.String) }),
+      ).annotate({ identifier: "StatefulEngineOptions" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          StatelessRuleGroups: S.optional(__S(845, __c26, 13)),
+          StatelessDefaultActions: S.optional(__S(1792, __c56, 0)),
+          StatelessFragmentDefaultActions: S.optional(__S(1792, __c56, 0)),
+          StatelessCustomActions: S.optional(__S(1792, __c56, 0)),
+          StatefulRuleGroups: S.optional(__S(848, __c26, 16)),
+          StatefulDefaultActions: S.optional(__S(1792, __c56, 0)),
+          StatefulEngineOptions: S.optional(__S(849, __c26, 17)),
+        }),
+      ).annotate({ identifier: "NetworkFirewallPolicyDescription" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          CurrentPolicyDescription: S.optional(__S(850, __c26, 18)),
+          ExpectedPolicyDescription: S.optional(__S(850, __c26, 18)),
+        }),
+      ).annotate({ identifier: "NetworkFirewallPolicyModifiedViolation" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          DestinationType: S.optional(S.String),
+          TargetType: S.optional(S.String),
+          Destination: S.optional(S.String),
+          Target: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Route" });
+    case 21:
+      return S.Array(__S(852, __c26, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          IpV4Cidr: S.optional(S.String),
+          PrefixListId: S.optional(S.String),
+          IpV6Cidr: S.optional(S.String),
+          ContributingSubnets: S.optional(__S(1792, __c56, 0)),
+          AllowedTargets: S.optional(__S(1792, __c56, 0)),
+          RouteTableId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExpectedRoute" });
+    case 23:
+      return S.Array(__S(854, __c26, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetId: S.optional(S.String),
+          SubnetAvailabilityZone: S.optional(S.String),
+          RouteTableId: S.optional(S.String),
+          ViolatingRoutes: S.optional(__S(853, __c26, 21)),
+          IsRouteTableUsedInDifferentAZ: S.optional(S.Boolean),
+          CurrentFirewallSubnetRouteTable: S.optional(S.String),
+          ExpectedFirewallEndpoint: S.optional(S.String),
+          FirewallSubnetId: S.optional(S.String),
+          ExpectedFirewallSubnetRoutes: S.optional(__S(855, __c26, 23)),
+          ActualFirewallSubnetRoutes: S.optional(__S(853, __c26, 21)),
+          InternetGatewayId: S.optional(S.String),
+          CurrentInternetGatewayRouteTable: S.optional(S.String),
+          ExpectedInternetGatewayRoutes: S.optional(__S(855, __c26, 23)),
+          ActualInternetGatewayRoutes: S.optional(__S(853, __c26, 21)),
+          VpcId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkFirewallInternetTrafficNotInspectedViolation" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          AffectedSubnets: S.optional(__S(1792, __c56, 0)),
+          RouteTableId: S.optional(S.String),
+          IsRouteTableUsedInDifferentAZ: S.optional(S.Boolean),
+          ViolatingRoute: S.optional(__S(852, __c26, 20)),
+          CurrentFirewallSubnetRouteTable: S.optional(S.String),
+          ExpectedFirewallEndpoint: S.optional(S.String),
+          ActualFirewallEndpoint: S.optional(S.String),
+          ExpectedFirewallSubnetId: S.optional(S.String),
+          ActualFirewallSubnetId: S.optional(S.String),
+          ExpectedFirewallSubnetRoutes: S.optional(__S(855, __c26, 23)),
+          ActualFirewallSubnetRoutes: S.optional(__S(853, __c26, 21)),
+          InternetGatewayId: S.optional(S.String),
+          CurrentInternetGatewayRouteTable: S.optional(S.String),
+          ExpectedInternetGatewayRoutes: S.optional(__S(855, __c26, 23)),
+          ActualInternetGatewayRoutes: S.optional(__S(853, __c26, 21)),
+          VpcId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkFirewallInvalidRouteConfigurationViolation" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          RouteTableId: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          ViolatingRoutes: S.optional(__S(853, __c26, 21)),
+        }),
+      ).annotate({ identifier: "NetworkFirewallBlackHoleRouteDetectedViolation" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallSubnetId: S.optional(S.String),
+          ViolatingRoutes: S.optional(__S(853, __c26, 21)),
+          RouteTableId: S.optional(S.String),
+          FirewallEndpoint: S.optional(S.String),
+          VpcId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkFirewallUnexpectedFirewallRoutesViolation" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          GatewayId: S.optional(S.String),
+          ViolatingRoutes: S.optional(__S(853, __c26, 21)),
+          RouteTableId: S.optional(S.String),
+          VpcId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkFirewallUnexpectedGatewayRoutesViolation" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          ExpectedRoutes: S.optional(__S(855, __c26, 23)),
+          VpcId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkFirewallMissingExpectedRoutesViolation" });
+    case 30:
+      return S.Array(S.Number);
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          ViolationTargetDescription: S.optional(S.String),
+          ConflictingPriority: S.optional(S.Number),
+          ConflictingPolicyId: S.optional(S.String),
+          UnavailablePriorities: S.optional(__S(862, __c26, 30)),
+        }),
+      ).annotate({ identifier: "DnsRuleGroupPriorityConflictViolation" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          ViolationTargetDescription: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DnsDuplicateRuleGroupViolation" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ViolationTarget: S.optional(S.String),
+          ViolationTargetDescription: S.optional(S.String),
+          NumberOfRuleGroupsAlreadyAssociated: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DnsRuleGroupLimitExceededViolation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallSubnetId: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          SubnetAvailabilityZone: S.optional(S.String),
+          SubnetAvailabilityZoneId: S.optional(S.String),
+          VpcEndpointId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallSubnetIsOutOfScopeViolation" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetId: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          RouteTableId: S.optional(S.String),
+          ViolatingRoutes: S.optional(__S(853, __c26, 21)),
+          SubnetAvailabilityZone: S.optional(S.String),
+          SubnetAvailabilityZoneId: S.optional(S.String),
+          CurrentFirewallSubnetRouteTable: S.optional(S.String),
+          FirewallSubnetId: S.optional(S.String),
+          FirewallSubnetRoutes: S.optional(__S(853, __c26, 21)),
+          InternetGatewayId: S.optional(S.String),
+          CurrentInternetGatewayRouteTable: S.optional(S.String),
+          InternetGatewayRoutes: S.optional(__S(853, __c26, 21)),
+        }),
+      ).annotate({ identifier: "RouteHasOutOfScopeEndpointViolation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallSubnetId: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          SubnetAvailabilityZone: S.optional(S.String),
+          SubnetAvailabilityZoneId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FirewallSubnetMissingVPCEndpointViolation" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          EntryDetail: S.optional(__S(578, __c18, 2)),
+          EntryRuleNumber: S.optional(S.Number),
+          EntryType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EntryDescription" });
+    case 6:
+      return S.Array(__S(869, __c27, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          ExpectedEntry: S.optional(__S(869, __c27, 5)),
+          ExpectedEvaluationOrder: S.optional(S.String),
+          ActualEvaluationOrder: S.optional(S.String),
+          EntryAtExpectedEvaluationOrder: S.optional(__S(869, __c27, 5)),
+          EntriesWithConflicts: S.optional(__S(870, __c27, 6)),
+          EntryViolationReasons: S.optional(__S(288, __c9, 0)),
+        }),
+      ).annotate({ identifier: "EntryViolation" });
+    case 8:
+      return S.Array(__S(871, __c27, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          Vpc: S.optional(S.String),
+          Subnet: S.optional(S.String),
+          SubnetAvailabilityZone: S.optional(S.String),
+          CurrentAssociatedNetworkAcl: S.optional(S.String),
+          EntryViolations: S.optional(__S(872, __c27, 8)),
+        }),
+      ).annotate({ identifier: "InvalidNetworkAclEntriesViolation" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({ ResourceId: S.optional(S.String), Description: S.optional(S.String) }),
+      ).annotate({ identifier: "ActionTarget" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          DestinationCidrBlock: S.optional(S.String),
+          DestinationPrefixListId: S.optional(S.String),
+          DestinationIpv6CidrBlock: S.optional(S.String),
+          VpcEndpointId: S.optional(__S(874, __c27, 10)),
+          GatewayId: S.optional(__S(874, __c27, 10)),
+          RouteTableId: __S(874, __c27, 10),
+        }),
+      ).annotate({ identifier: "EC2CreateRouteAction" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          DestinationCidrBlock: S.optional(S.String),
+          DestinationPrefixListId: S.optional(S.String),
+          DestinationIpv6CidrBlock: S.optional(S.String),
+          GatewayId: S.optional(__S(874, __c27, 10)),
+          RouteTableId: __S(874, __c27, 10),
+        }),
+      ).annotate({ identifier: "EC2ReplaceRouteAction" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          DestinationCidrBlock: S.optional(S.String),
+          DestinationPrefixListId: S.optional(S.String),
+          DestinationIpv6CidrBlock: S.optional(S.String),
+          RouteTableId: __S(874, __c27, 10),
+        }),
+      ).annotate({ identifier: "EC2DeleteRouteAction" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          VpcId: __S(874, __c27, 10),
+          RouteTableId: __S(874, __c27, 10),
+        }),
+      ).annotate({ identifier: "EC2CopyRouteTableAction" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          AssociationId: __S(874, __c27, 10),
+          RouteTableId: __S(874, __c27, 10),
+        }),
+      ).annotate({ identifier: "EC2ReplaceRouteTableAssociationAction" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          RouteTableId: __S(874, __c27, 10),
+          SubnetId: S.optional(__S(874, __c27, 10)),
+          GatewayId: S.optional(__S(874, __c27, 10)),
+        }),
+      ).annotate({ identifier: "EC2AssociateRouteTableAction" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({ Description: S.optional(S.String), VpcId: __S(874, __c27, 10) }),
+      ).annotate({ identifier: "EC2CreateRouteTableAction" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          FirewallCreationConfig: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FMSPolicyUpdateFirewallCreationConfigAction" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          Vpc: S.optional(__S(874, __c27, 10)),
+          FMSCanRemediate: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateNetworkAclAction" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          AssociationId: S.optional(__S(874, __c27, 10)),
+          NetworkAclId: S.optional(__S(874, __c27, 10)),
+          FMSCanRemediate: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ReplaceNetworkAclAssociationAction" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          NetworkAclId: S.optional(__S(874, __c27, 10)),
+          NetworkAclEntriesToBeCreated: S.optional(__S(870, __c27, 6)),
+          FMSCanRemediate: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateNetworkAclEntriesAction" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          NetworkAclId: S.optional(__S(874, __c27, 10)),
+          NetworkAclEntriesToBeDeleted: S.optional(__S(870, __c27, 6)),
+          FMSCanRemediate: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DeleteNetworkAclEntriesAction" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          EC2CreateRouteAction: S.optional(__S(875, __c27, 11)),
+          EC2ReplaceRouteAction: S.optional(__S(876, __c27, 12)),
+          EC2DeleteRouteAction: S.optional(__S(877, __c27, 13)),
+          EC2CopyRouteTableAction: S.optional(__S(878, __c27, 14)),
+          EC2ReplaceRouteTableAssociationAction: S.optional(__S(879, __c27, 15)),
+          EC2AssociateRouteTableAction: S.optional(__S(880, __c27, 16)),
+          EC2CreateRouteTableAction: S.optional(__S(881, __c27, 17)),
+          FMSPolicyUpdateFirewallCreationConfigAction: S.optional(__S(882, __c27, 18)),
+          CreateNetworkAclAction: S.optional(__S(883, __c27, 19)),
+          ReplaceNetworkAclAssociationAction: S.optional(__S(884, __c27, 20)),
+          CreateNetworkAclEntriesAction: S.optional(__S(885, __c27, 21)),
+          DeleteNetworkAclEntriesAction: S.optional(__S(886, __c27, 22)),
+        }),
+      ).annotate({ identifier: "RemediationAction" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          RemediationAction: S.optional(__S(887, __c27, 23)),
+          Order: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RemediationActionWithOrder" });
+    case 25:
+      return S.Array(__S(888, __c27, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          Description: S.optional(S.String),
+          OrderedRemediationActions: __S(889, __c27, 25),
+          IsDefaultAction: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PossibleRemediationAction" });
+    case 27:
+      return S.Array(__S(890, __c27, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({ Description: S.optional(S.String), Actions: S.optional(__S(891, __c27, 27)) }),
+      ).annotate({ identifier: "PossibleRemediationActions" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({ WebACLArn: S.optional(S.String), Description: S.optional(S.String) }),
+      ).annotate({ identifier: "WebACLHasIncompatibleConfigurationViolation" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          WebACLArn: S.optional(S.String),
+          OutOfScopeResourceList: S.optional(__S(1792, __c56, 0)),
+        }),
+      ).annotate({ identifier: "WebACLHasOutOfScopeResourcesViolation" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          AwsVPCSecurityGroupViolation: S.optional(__S(838, __c26, 6)),
+          AwsEc2NetworkInterfaceViolation: S.optional(__S(839, __c26, 7)),
+          AwsEc2InstanceViolation: S.optional(__S(841, __c26, 9)),
+          NetworkFirewallMissingFirewallViolation: S.optional(__S(842, __c26, 10)),
+          NetworkFirewallMissingSubnetViolation: S.optional(__S(842, __c26, 10)),
+          NetworkFirewallMissingExpectedRTViolation: S.optional(__S(843, __c26, 11)),
+          NetworkFirewallPolicyModifiedViolation: S.optional(__S(851, __c26, 19)),
+          NetworkFirewallInternetTrafficNotInspectedViolation: S.optional(__S(856, __c26, 24)),
+          NetworkFirewallInvalidRouteConfigurationViolation: S.optional(__S(857, __c26, 25)),
+          NetworkFirewallBlackHoleRouteDetectedViolation: S.optional(__S(858, __c26, 26)),
+          NetworkFirewallUnexpectedFirewallRoutesViolation: S.optional(__S(859, __c26, 27)),
+          NetworkFirewallUnexpectedGatewayRoutesViolation: S.optional(__S(860, __c26, 28)),
+          NetworkFirewallMissingExpectedRoutesViolation: S.optional(__S(861, __c26, 29)),
+          DnsRuleGroupPriorityConflictViolation: S.optional(__S(863, __c26, 31)),
+          DnsDuplicateRuleGroupViolation: S.optional(__S(864, __c27, 0)),
+          DnsRuleGroupLimitExceededViolation: S.optional(__S(865, __c27, 1)),
+          FirewallSubnetIsOutOfScopeViolation: S.optional(__S(866, __c27, 2)),
+          RouteHasOutOfScopeEndpointViolation: S.optional(__S(867, __c27, 3)),
+          ThirdPartyFirewallMissingFirewallViolation: S.optional(__S(842, __c26, 10)),
+          ThirdPartyFirewallMissingSubnetViolation: S.optional(__S(842, __c26, 10)),
+          ThirdPartyFirewallMissingExpectedRouteTableViolation: S.optional(__S(843, __c26, 11)),
+          FirewallSubnetMissingVPCEndpointViolation: S.optional(__S(868, __c27, 4)),
+          InvalidNetworkAclEntriesViolation: S.optional(__S(873, __c27, 9)),
+          PossibleRemediationActions: S.optional(__S(892, __c27, 28)),
+          WebACLHasIncompatibleConfigurationViolation: S.optional(__S(893, __c27, 29)),
+          WebACLHasOutOfScopeResourcesViolation: S.optional(__S(894, __c27, 30)),
+        }),
+      ).annotate({ identifier: "ResourceViolation" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(895, __c27, 31));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyId: S.String,
+          MemberAccount: S.String,
+          ResourceId: S.String,
+          ResourceType: S.String,
+          ResourceViolations: __S(896, __c28, 0),
+          ResourceTags: S.optional(__S(929, __c29, 1)),
+          ResourceDescription: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ViolationDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ViolationDetail: S.optional(__S(897, __c28, 1)) }),
+      ).annotate({ identifier: "GetViolationDetailsResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(928, __c29, 0));
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListAdminAccountsForOrganizationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AdminAccount: S.optional(S.String),
+          DefaultAdmin: S.optional(S.Boolean),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AdminAccountSummary" });
+    case 2:
+      return S.Array(__S(961, __c30, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          AdminAccounts: S.optional(__S(962, __c30, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAdminAccountsForOrganizationResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListAdminsManagingAccountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AdminAccounts: S.optional(__S(1792, __c56, 0)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAdminsManagingAccountResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DefaultLists: S.optional(S.Boolean),
+          NextToken: S.optional(S.String),
+          MaxResults: S.Number,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAppsListsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ListArn: S.optional(S.String),
+          ListId: S.optional(S.String),
+          ListName: S.optional(S.String),
+          AppsList: S.optional(__S(385, __c12, 1)),
+        }),
+      ).annotate({ identifier: "AppsListDataSummary" });
+    case 2:
+      return S.Array(__S(1025, __c32, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ AppsLists: S.optional(__S(1026, __c32, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAppsListsResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyId: S.String,
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListComplianceStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ComplianceStatus: S.optional(S.String),
+          ViolatorCount: S.optional(S.Number),
+          EvaluationLimitExceeded: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EvaluationResult" });
+    case 2:
+      return S.Array(__S(1057, __c33, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyOwner: S.optional(S.String),
+          PolicyId: S.optional(S.String),
+          PolicyName: S.optional(S.String),
+          MemberAccount: S.optional(S.String),
+          EvaluationResults: S.optional(__S(1058, __c33, 2)),
+          LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          IssueInfoMap: S.optional(__S(480, __c15, 0)),
+        }),
+      ).annotate({ identifier: "PolicyComplianceStatus" });
+    case 4:
+      return S.Array(__S(1059, __c33, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyComplianceStatusList: S.optional(__S(1060, __c33, 4)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListComplianceStatusResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MemberAccountIds: __S(1792, __c56, 0),
+          ResourceType: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListDiscoveredResourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          URI: S.optional(S.String),
+          AccountId: S.optional(S.String),
+          Type: S.optional(S.String),
+          Name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiscoveredResource" });
+    case 2:
+      return S.Array(__S(1089, __c34, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Items: S.optional(__S(1090, __c34, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListDiscoveredResourcesResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListMemberAccountsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MemberAccounts: S.optional(__S(1792, __c56, 0)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListMemberAccountsResponse" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListPoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PolicyArn: S.optional(S.String),
+          PolicyId: S.optional(S.String),
+          PolicyName: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          SecurityServiceType: S.optional(S.String),
+          RemediationEnabled: S.optional(S.Boolean),
+          DeleteUnusedFMManagedResources: S.optional(S.Boolean),
+          PolicyStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PolicySummary" });
+    case 2:
+      return S.Array(__S(1153, __c36, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ PolicyList: S.optional(__S(1154, __c36, 2)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListPoliciesResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DefaultLists: S.optional(S.Boolean),
+          NextToken: S.optional(S.String),
+          MaxResults: S.Number,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListProtocolsListsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ListArn: S.optional(S.String),
+          ListId: S.optional(S.String),
+          ListName: S.optional(S.String),
+          ProtocolsList: S.optional(__S(1792, __c56, 0)),
+        }),
+      ).annotate({ identifier: "ProtocolsListDataSummary" });
+    case 2:
+      return S.Array(__S(1185, __c37, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ProtocolsLists: S.optional(__S(1186, __c37, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListProtocolsListsResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Identifier: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResourceSetResourcesRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ URI: S.String, AccountId: S.optional(S.String) })).annotate(
+        { identifier: "Resource" },
+      );
+    case 2:
+      return S.Array(__S(1217, __c38, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Items: __S(1218, __c38, 2), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListResourceSetResourcesResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListResourceSetsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ResourceSetStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceSetSummary" });
+    case 2:
+      return S.Array(__S(1249, __c39, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceSets: S.optional(__S(1250, __c39, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListResourceSetsResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ TagList: S.optional(__S(929, __c29, 1)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ThirdPartyFirewall: S.String,
+          NextToken: S.optional(S.String),
+          MaxResults: S.Number,
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListThirdPartyFirewallFirewallPoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FirewallPolicyId: S.optional(S.String),
+          FirewallPolicyName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ThirdPartyFirewallFirewallPolicy" });
+    case 2:
+      return S.Array(__S(1313, __c41, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ThirdPartyFirewallFirewallPolicies: S.optional(__S(1314, __c41, 2)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListThirdPartyFirewallFirewallPoliciesResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AdminAccount: S.String, AdminScope: S.optional(__S(324, __c10, 4)) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutAdminAccountRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AppsList: __S(417, __c13, 1), TagList: S.optional(__S(929, __c29, 1)) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutAppsListRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SnsTopicArn: S.String, SnsRoleName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutNotificationChannelRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Policy: __S(617, __c19, 9), TagList: S.optional(__S(929, __c29, 1)) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutPolicyRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProtocolsList: __S(705, __c22, 1),
+          TagList: S.optional(__S(929, __c29, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "PutProtocolsListRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceSet: __S(768, __c24, 0), TagList: S.optional(__S(929, __c29, 1)) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutResourceSetRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, TagList: __S(929, __c29, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(1792, __c56, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AdminAccount: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateAdminAccountRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "AssociateAdminAccountResponse",
+      });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ThirdPartyFirewall: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateThirdPartyFirewallRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ThirdPartyFirewallStatus: S.optional(S.String) })).annotate(
+        { identifier: "AssociateThirdPartyFirewallResponse" },
+      );
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceSetIdentifier: S.String, Items: __S(1792, __c56, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchAssociateResourceRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ URI: S.optional(S.String), Reason: S.optional(S.String) }),
+      ).annotate({ identifier: "FailedItem" });
+    case 1:
+      return S.Array(__S(1760, __c55, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ResourceSetIdentifier: S.String, FailedItems: __S(1761, __c55, 1) }),
+      ).annotate({ identifier: "BatchAssociateResourceResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceSetIdentifier: S.String, Items: __S(1792, __c56, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchDisassociateResourceRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

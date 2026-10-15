@@ -2,12 +2,12 @@ import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
- * OktaProtocol — hand-written.
+ * OktaProtocol -- hand-written.
  *
  * Okta speaks JSON REST (no response envelope), so the whole protocol is one
  * `makeRestProtocol` call from `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: SSWS <apiToken>` (API token) or
+ *   request:  credentials -> `Authorization: SSWS <apiToken>` (API token) or
  *             `Authorization: Bearer <apiToken>` (OAuth) + org base URL
  *             (`https://{yourOktaDomain}`), resolved from the calling fiber
  *             on every request
@@ -60,13 +60,10 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const OktaProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
-  // The Credentials service holds an effect — resolving it here (per
+export const OktaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: Effect.gen(function* () {
-    const resolve = yield* Credentials;
-    return yield* resolve;
-  }),
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => formatHeaders(creds),
   errorEnvelope,

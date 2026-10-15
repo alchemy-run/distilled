@@ -5,9 +5,8 @@
  * when the user doesn't provide a value. This ensures request retry safety.
  */
 
-import * as crypto from "node:crypto";
-import * as S from "effect/Schema";
-import * as AST from "effect/SchemaAST";
+import type * as S from "effect/Schema";
+import type * as AST from "effect/SchemaAST";
 import { hasIdempotencyToken } from "../traits.ts";
 
 /**
@@ -72,7 +71,7 @@ export const fillIdempotencyTokens = (input: unknown, idempotencyTokenProps: str
       }
       // `globalThis.crypto`, not `node:crypto`, so this stays on the browser
       // graph that the Cognito and STS credential providers pull in.
-      result[propName] = crypto.randomUUID();
+      result[propName] = globalThis.crypto.randomUUID();
       modified = true;
     }
   }

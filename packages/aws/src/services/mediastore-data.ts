@@ -1,21 +1,24 @@
 import * as API from "@distilled.cloud/core/api";
-import * as S from "@distilled.cloud/core/schema";
-import * as HttpClient from "effect/http/HttpClient";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const ns = T.XmlNamespace("https://object.mediastore.amazonaws.com/doc/2017-09-01");
-const svc = T.AwsApiService({
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("https://object.mediastore.amazonaws.com/doc/2017-09-01");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "MediaStore Data",
   serviceShapeName: "MediaStoreObject_20170901",
 });
-const auth = T.AwsAuthSigv4({ name: "mediastore" });
-const ver = T.ServiceVersion("2017-09-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "mediastore" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2017-09-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -72,51 +75,38 @@ const rules = T.EndpointResolver((p, _) => {
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://data.mediastore.{R}.{D}","properties":{},"headers":{}}');
 
 export class ContainerNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ContainerNotFoundException>()(
     "ContainerNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()("InternalServerError", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ObjectNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ObjectNotFoundException>()(
     "ObjectNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class RequestedRangeNotSatisfiableException
   extends /*@__PURE__*/ S.TaggedError<RequestedRangeNotSatisfiableException>()(
     "RequestedRangeNotSatisfiableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(416),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(416),
   ) {}
 export type PathNaming = string;
 export interface DeleteObjectRequest {
   Path: string;
 }
-export const DeleteObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
-    T.all(ns, T.Http({ method: "DELETE", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DeleteObjectRequest" }) as any as S.Schema<DeleteObjectRequest>;
 export interface DeleteObjectResponse {}
-export const DeleteObjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "DeleteObjectResponse",
-}) as any as S.Schema<DeleteObjectResponse>;
 export interface DescribeObjectRequest {
   Path: string;
 }
-export const DescribeObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
-    T.all(ns, T.Http({ method: "HEAD", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({ identifier: "DescribeObjectRequest" }) as any as S.Schema<DescribeObjectRequest>;
 export type ETag = string;
 export type ContentType = string;
 export type NonNegativeLong = number;
@@ -128,28 +118,11 @@ export interface DescribeObjectResponse {
   CacheControl?: string;
   LastModified?: Date;
 }
-export const DescribeObjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Last-Modified"),
-    ),
-  }).pipe(ns),
-).annotate({ identifier: "DescribeObjectResponse" }) as any as S.Schema<DescribeObjectResponse>;
 export type RangePattern = string;
 export interface GetObjectRequest {
   Path: string;
   Range?: string;
 }
-export const GetObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.String.pipe(T.HttpLabel("Path")),
-    Range: S.optional(S.String).pipe(T.HttpHeader("Range")),
-  }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/{Path+}" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "GetObjectRequest" }) as any as S.Schema<GetObjectRequest>;
 export type ContentRangePattern = string;
 export type StatusCode = number;
 export interface GetObjectResponse {
@@ -162,20 +135,6 @@ export interface GetObjectResponse {
   LastModified?: Date;
   StatusCode: number;
 }
-export const GetObjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    ContentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
-    ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
-      T.HttpHeader("Last-Modified"),
-    ),
-    StatusCode: S.Number.pipe(T.HttpResponseCode()),
-  }).pipe(ns),
-).annotate({ identifier: "GetObjectResponse" }) as any as S.Schema<GetObjectResponse>;
 export type ListPathNaming = string;
 export type ListLimit = number;
 export type PaginationToken = string;
@@ -184,17 +143,8 @@ export interface ListItemsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListItemsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.optional(S.String).pipe(T.HttpQuery("Path")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-  }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "ListItemsRequest" }) as any as S.Schema<ListItemsRequest>;
 export type ItemName = string;
 export type ItemType = "OBJECT" | "FOLDER" | (string & {});
-export const ItemType = S.String;
-
 export interface Item {
   Name?: string;
   Type?: ItemType;
@@ -203,31 +153,13 @@ export interface Item {
   ContentType?: string;
   ContentLength?: number;
 }
-export const Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Type: S.optional(ItemType),
-    ETag: S.optional(S.String),
-    LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ContentType: S.optional(S.String),
-    ContentLength: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 export type ItemList = Item[];
-export const ItemList = /*@__PURE__*/ S.Array(Item);
 export interface ListItemsResponse {
   Items?: Item[];
   NextToken?: string;
 }
-export const ListItemsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Items: S.optional(ItemList), NextToken: S.optional(S.String) }).pipe(ns),
-).annotate({ identifier: "ListItemsResponse" }) as any as S.Schema<ListItemsResponse>;
 export type StorageClass = "TEMPORAL" | (string & {});
-export const StorageClass = S.String;
-
 export type UploadAvailability = "STANDARD" | "STREAMING" | (string & {});
-export const UploadAvailability = S.String;
-
 export interface PutObjectRequest {
   Body: T.StreamingInputBody;
   Path: string;
@@ -236,31 +168,12 @@ export interface PutObjectRequest {
   StorageClass?: StorageClass;
   UploadAvailability?: UploadAvailability;
 }
-export const PutObjectRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Body: T.StreamingInput.pipe(T.HttpPayload()),
-    Path: S.String.pipe(T.HttpLabel("Path")),
-    ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    StorageClass: S.optional(StorageClass).pipe(T.HttpHeader("x-amz-storage-class")),
-    UploadAvailability: S.optional(UploadAvailability).pipe(
-      T.HttpHeader("x-amz-upload-availability"),
-    ),
-  }).pipe(T.all(ns, T.Http({ method: "PUT", uri: "/{Path+}" }), svc, auth, proto, ver, rules)),
-).annotate({ identifier: "PutObjectRequest" }) as any as S.Schema<PutObjectRequest>;
 export type SHA256Hash = string;
 export interface PutObjectResponse {
   ContentSHA256?: string;
   ETag?: string;
   StorageClass?: StorageClass;
 }
-export const PutObjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContentSHA256: S.optional(S.String),
-    ETag: S.optional(S.String),
-    StorageClass: S.optional(StorageClass),
-  }).pipe(ns),
-).annotate({ identifier: "PutObjectResponse" }) as any as S.Schema<PutObjectResponse>;
 export type ErrorMessage = string;
 export type DeleteObjectError =
   | ContainerNotFoundException
@@ -276,8 +189,8 @@ export const deleteObject: API.OperationMethod<
   DeleteObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteObjectRequest,
-  output: DeleteObjectResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteObjectRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<DeleteObjectResponse>,
   errors: [ContainerNotFoundException, InternalServerError, ObjectNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -298,8 +211,8 @@ export const describeObject: API.OperationMethod<
   DescribeObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeObjectRequest,
-  output: DescribeObjectResponse,
+  input: __S(4, __c1, 0) as any as S.Schema<DescribeObjectRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<DescribeObjectResponse>,
   errors: [ContainerNotFoundException, InternalServerError, ObjectNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -313,7 +226,7 @@ export type GetObjectError =
   | RequestedRangeNotSatisfiableException
   | CommonErrors;
 /**
- * Downloads the object at the specified path. If the object’s upload availability is set to `streaming`, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
+ * Downloads the object at the specified path. If the object's upload availability is set to `streaming`, AWS Elemental MediaStore downloads the object even if it's still uploading the object.
  */
 export const getObject: API.OperationMethod<
   GetObjectRequest,
@@ -321,8 +234,8 @@ export const getObject: API.OperationMethod<
   GetObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetObjectRequest,
-  output: GetObjectResponse,
+  input: __S(8, __c2, 0) as any as S.Schema<GetObjectRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<GetObjectResponse>,
   errors: [
     ContainerNotFoundException,
     InternalServerError,
@@ -346,8 +259,8 @@ export const listItems: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListItemsRequest,
-  output: ListItemsResponse,
+  input: __S(12, __c3, 0) as any as S.Schema<ListItemsRequest>,
+  output: __S(15, __c3, 3) as any as S.Schema<ListItemsResponse>,
   errors: [ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -369,10 +282,134 @@ export const putObject: API.OperationMethod<
   PutObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutObjectRequest,
-  output: PutObjectResponse,
+  input: __S(16, __c4, 0) as any as S.Schema<PutObjectRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<PutObjectResponse>,
   errors: [ContainerNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObject",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
+          T.all(ns, T.Http({ method: "DELETE", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteObjectRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "DeleteObjectResponse",
+      });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Path: S.String.pipe(T.HttpLabel("Path")) }).pipe(
+          T.all(ns, T.Http({ method: "HEAD", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeObjectRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+          ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+          ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
+          CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+          LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
+            T.HttpHeader("Last-Modified"),
+          ),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeObjectResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Path: S.String.pipe(T.HttpLabel("Path")),
+          Range: S.optional(S.String).pipe(T.HttpHeader("Range")),
+        }).pipe(
+          T.all(ns, T.Http({ method: "GET", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetObjectRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Body: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+          CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+          ContentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
+          ContentLength: S.optional(S.Number).pipe(T.HttpHeader("Content-Length")),
+          ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+          ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
+          LastModified: S.optional(S.Date.pipe(T.TimestampFormat("http-date"))).pipe(
+            T.HttpHeader("Last-Modified"),
+          ),
+          StatusCode: S.Number.pipe(T.HttpResponseCode()),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetObjectResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Path: S.optional(S.String).pipe(T.HttpQuery("Path")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+        }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListItemsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Type: S.optional(S.String),
+          ETag: S.optional(S.String),
+          LastModified: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ContentType: S.optional(S.String),
+          ContentLength: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Item" });
+    case 2:
+      return S.Array(__S(13, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Items: S.optional(__S(14, __c3, 2)), NextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListItemsResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Body: T.StreamingInput.pipe(T.HttpPayload()),
+          Path: S.String.pipe(T.HttpLabel("Path")),
+          ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+          CacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+          StorageClass: S.optional(S.String).pipe(T.HttpHeader("x-amz-storage-class")),
+          UploadAvailability: S.optional(S.String).pipe(T.HttpHeader("x-amz-upload-availability")),
+        }).pipe(
+          T.all(ns, T.Http({ method: "PUT", uri: "/{Path+}" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutObjectRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ContentSHA256: S.optional(S.String),
+          ETag: S.optional(S.String),
+          StorageClass: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "PutObjectResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}
