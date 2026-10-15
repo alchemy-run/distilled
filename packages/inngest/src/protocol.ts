@@ -80,7 +80,8 @@ export const InngestProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Confi
     const resolve = yield* Credentials;
     return yield* resolve;
   }),
-  baseUrl: (creds) => creds.apiBaseUrl,
+  baseUrl: (creds, target) =>
+    target.uri.startsWith("/v1/") ? new URL(creds.apiBaseUrl).origin : creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
