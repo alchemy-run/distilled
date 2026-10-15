@@ -3245,6 +3245,9 @@
           "target": "com.cloudflare.hyperdrive#InvalidObjectIdentifier"
         },
         {
+          "target": "com.cloudflare.hyperdrive#HyperdriveConfigAlreadyExists"
+        },
+        {
           "target": "com.cloudflare.hyperdrive#HyperdriveOriginUnavailable"
         }
       ]
@@ -3584,8 +3587,11 @@
         "smithy.api#documentation": "Returns a list of Hyperdrives.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
-          "mode": "single",
-          "items": "result"
+          "mode": "page",
+          "inputToken": "page",
+          "outputToken": "resultInfo.page",
+          "items": "result",
+          "pageSize": "perPage"
         }
       },
       "errors": [
@@ -3957,6 +3963,25 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.hyperdrive#HyperdriveConfigAlreadyExists": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 2017
+          }
+        ]
       }
     },
     "com.cloudflare.hyperdrive#HyperdriveOriginUnavailable": {
