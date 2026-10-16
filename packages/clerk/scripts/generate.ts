@@ -35,6 +35,16 @@ const clerkSpec: SdkSpec = {
     },
   ],
 
+  // Clerk's error codes are strings (`resource_not_found`), and the
+  // protocols forward them (`forwardStringCodes`), so error shapes with no
+  // members declare `code` as number | string rather than the number default.
+  errors: {
+    defaultFields: (prelude) => [
+      `  code: S.Union([S.Number, S.String]),`,
+      `  message: ${prelude.String},`,
+    ],
+  },
+
   // Sensitive strings (secret keys, tokens): the schema member carries
   // T.SensitiveValue; the REST protocol delivers Redacted values and accepts
   // string | Redacted on input.

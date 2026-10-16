@@ -15,7 +15,9 @@ import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/
  *   response: 2xx JSON is the payload (sensitive members delivered as
  *             `Redacted`); non-2xx `{ errors: [{ code, message }] }` bodies
  *             map to the operation's typed error classes by status, then the
- *             shared HTTP-status classes, then {@link UnknownClerkError}.
+ *             shared HTTP-status classes, then {@link UnknownClerkError}. Typed
+ *             errors carry the envelope's string `code` (e.g.
+ *             `resource_not_found`).
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
@@ -83,6 +85,7 @@ export const ClerkProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>
     "Clerk-API-Version": creds.apiVersion,
   }),
   errorEnvelope,
+  forwardStringCodes: true,
   unknownError: ({ code, message, body }) =>
     new UnknownClerkError({
       code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
