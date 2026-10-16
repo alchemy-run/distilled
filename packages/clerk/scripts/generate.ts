@@ -1,11 +1,14 @@
 #!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
- * generate — turn the Smithy JSON model in .generated-specs into the Clerk
+ * generate — turn the Smithy JSON models in .generated-specs into the Clerk
  * Effect SDK.
  *
- * Input:  .generated-specs/clerk.json  (written by scripts/convert.ts)
- * Output: src/services/clerk.ts  +  src/services/index.ts
+ * Input:  .generated-specs/clerk.json     (Backend API)
+ *         .generated-specs/platform.json  (Platform API)
+ *         (both written by scripts/convert.ts)
+ * Output: src/services/clerk.ts  +  src/services/platform.ts  +
+ *         src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/core/codegen`; this script is Clerk's provider spec.
@@ -34,6 +37,16 @@ const clerkSpec: SdkSpec = {
       rootPipe: "T.RawResponseRoot()",
     },
   ],
+
+  // Clerk's error codes are strings (`resource_not_found`), and the
+  // protocols forward them (`forwardStringCodes`), so error shapes with no
+  // members declare `code` as number | string rather than the number default.
+  errors: {
+    defaultFields: (prelude) => [
+      `  code: S.Union([S.Number, S.String]),`,
+      `  message: ${prelude.String},`,
+    ],
+  },
 
   // Sensitive strings (secret keys, tokens): the schema member carries
   // T.SensitiveValue; the REST protocol delivers Redacted values and accepts
@@ -74,11 +87,33 @@ const clerkSpec: SdkSpec = {
       : code,
 };
 
+/**
+ * The Platform API model (`com.clerk.platform`, written by convert.ts as
+ * `.generated-specs/platform.json`). Every one of its operations runs on the
+ * Platform protocol and requires Platform credentials, so the whole module
+ * gets its own operation declaration rather than per-operation overrides —
+ * the default header then imports exactly the Platform names.
+ */
+const PLATFORM_SERVICE = "com.clerk.platform#ClerkPlatform";
+
+/** Clerk Platform API spec: the Backend spec on the Platform protocol. */
+const platformSpec: SdkSpec = {
+  ...clerkSpec,
+  operationDecl: {
+    ...clerkSpec.operationDecl!,
+    contextType: "ClerkPlatformOpContext",
+    protocol: "ClerkPlatformProtocol",
+  },
+};
+
+const isPlatformModel = (model: any): boolean =>
+  model.shapes?.[PLATFORM_SERVICE]?.type === "service";
+
 runGeneratorCli({
-  description: "Generate the Clerk Effect SDK from the Smithy model",
+  description: "Generate the Clerk Effect SDK from the Smithy models",
   root: `${import.meta.dirname}/..`,
-  // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
-  // there is no smithy-model patch chain.
+  // Convert applies the Smithy-model patches before operation renaming;
+  // the committed models are already finalized, so generate does not patch.
   patchesDir: false,
-  spec: () => clerkSpec,
+  spec: (model) => (isPlatformModel(model) ? platformSpec : clerkSpec),
 });

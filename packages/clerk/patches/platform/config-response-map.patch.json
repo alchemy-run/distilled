@@ -1,0 +1,44 @@
+{
+  "description": "Type GetConfig's response as the open map it is. The spec declares PlatformConfigResponse with one property (config_version) plus additionalProperties: true; convert keeps only the declared property, so the generated output type is { config_version?: string } and every config key is invisible to callers. Live GET .../instances/development/config on 2026-10-02 returned 50 top-level keys (auth_*, connection_oauth_*, session_settings, branding, …; some null, e.g. session) alongside config_version (e.g. `v1_45593ba3`). Replace the schema with a pure map so the whole document, config_version included, is typed as Record<string, unknown>.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.clerk.platform#PlatformConfigResponse",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "traits": {
+          "smithy.api#documentation": "Instance configuration: every config key, plus `config_version` for optimistic concurrency control."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clerk.platform#GetConfigResponse",
+      "before": "com.clerk.platform#GetConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "com.clerk.platform#PlatformConfigResponse",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": { "smithy.api#output": {} }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.clerk.platform#GetConfig/output/target",
+      "value": "com.clerk.platform#GetConfigResponse"
+    }
+  ]
+}

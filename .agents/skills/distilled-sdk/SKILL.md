@@ -225,7 +225,7 @@ fallback are both constructed outside the generated code — this must print
 two or more lines:
 
 ```sh
-grep -rnE 'new \w+(ParseError|Unknown\w*Error)\(' packages/<pkg>/src \
+grep -rnE 'new \w*(ParseError|Unknown\w*Error)\(' packages/<pkg>/src \
   --include='*.ts' --exclude-dir=services
 ```
 

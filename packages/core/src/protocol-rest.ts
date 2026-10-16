@@ -227,6 +227,18 @@ export interface RestProtocolOptions<C> {
    * when the body wasn't JSON; `cause` is the schema error.
    */
   readonly parseError: (info: RestParseErrorInfo) => unknown;
+  /**
+   * Pass a string envelope `code` (e.g. `"resource_not_found"`) to per-op
+   * typed errors. Default: off — only numeric codes are passed and a typed
+   * error gets `code: 0` otherwise, because the generator's default error
+   * fields declare `code` as a number and would reject a string. Enable it
+   * only together with error fields that accept strings: a provider declares
+   * them through the `errors.defaultFields` generator option (the mechanism
+   * gcp uses for its envelope fields), and an error shape with explicit
+   * members must declare `code` as `number | string` itself. A class whose
+   * `code` still rejects the string is constructed with `code: 0` instead.
+   */
+  readonly forwardStringCodes?: boolean;
   /** Transform the parsed 2xx JSON before decoding (e.g. stripNulls). */
   readonly transformResponse?: (body: unknown) => unknown;
   /** Passed through to `buildRequest` (member-header transforms). */
@@ -331,7 +343,11 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
           status,
           [
             {
-              code: typeof env.code === "number" ? env.code : undefined,
+              code:
+                typeof env.code === "number" ||
+                (options.forwardStringCodes && typeof env.code === "string")
+                  ? env.code
+                  : undefined,
               message,
             },
           ],

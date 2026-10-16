@@ -153,7 +153,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   github: "git repos actions",
   forgejo: "git gitea",
   auth0: "auth oidc",
-  clerk: "auth users",
+  clerk: "auth users platform applications instances",
   workos: "auth sso",
   okta: "auth sso",
   "better-auth": "auth sessions self-hosted",
