@@ -701,3 +701,99 @@ describe("makeRestProtocol errorEnvelope and statusMap options", () => {
     expect(error.message).toBe("boom");
   });
 });
+
+class StringCodeParseError extends Schema.TaggedError<StringCodeParseError>()(
+  "StringCodeParseError",
+  { body: Schema.Unknown, cause: Schema.Unknown },
+) {}
+
+class StringCodeUnknownError extends Schema.TaggedError<StringCodeUnknownError>()(
+  "StringCodeUnknownError",
+  { message: Schema.String },
+) {}
+
+// The generator's default error fields: `code` is a number.
+class NumericNotFound extends T.applyErrorMatchers(
+  Schema.TaggedError<NumericNotFound>()("NumericNotFound", {
+    code: Schema.Number,
+    message: Schema.String,
+  }),
+  [{ status: 404 }],
+) {}
+
+// A provider that opts in declares `code` as number | string.
+class StringNotFound extends T.applyErrorMatchers(
+  Schema.TaggedError<StringNotFound>()("StringNotFound", {
+    code: Schema.Union([Schema.Number, Schema.String]),
+    message: Schema.String,
+  }),
+  [{ status: 404 }],
+) {}
+
+const stringCodeProtocol = (forwardStringCodes?: boolean) =>
+  makeRestProtocol<{}>({
+    credentials: Effect.succeed({}),
+    baseUrl: () => "https://api.test",
+    headers: () => ({}),
+    forwardStringCodes,
+    unknownError: ({ message }) => new StringCodeUnknownError({ message }),
+    parseError: ({ body, cause }) => new StringCodeParseError({ body, cause }),
+  });
+
+/** Decode a 404 `{ code, message }` body and return the typed error. */
+const decodeTypedNotFound = (
+  code: string | number,
+  errorClass: API.ApiErrorClass,
+  forwardStringCodes?: boolean,
+) =>
+  Effect.runPromise(
+    Effect.flip(
+      Effect.gen(function* () {
+        const p = yield* API.Protocol;
+        const request = HttpClientRequest.get("https://api.test/thing");
+        return yield* p.decode({
+          response: HttpClientResponse.fromWeb(
+            request,
+            new Response(JSON.stringify({ code, message: "not found" }), {
+              status: 404,
+            }),
+          ),
+          outputAst: Schema.Struct({}).ast,
+          errors: [errorClass],
+          config: {},
+        });
+      }).pipe(Effect.provide(stringCodeProtocol(forwardStringCodes))),
+    ),
+  ) as Promise<{ readonly code: unknown }>;
+
+describe("makeRestProtocol typed error codes", () => {
+  test("a numeric envelope code reaches the typed error", async () => {
+    const error = await decodeTypedNotFound(10007, NumericNotFound);
+    expect(error).toBeInstanceOf(NumericNotFound);
+    expect(error.code).toBe(10007);
+  });
+
+  test("by default a string envelope code is dropped to 0", async () => {
+    const error = await decodeTypedNotFound("resource_not_found", NumericNotFound);
+    expect(error).toBeInstanceOf(NumericNotFound);
+    expect(error.code).toBe(0);
+  });
+
+  test("forwardStringCodes passes a string envelope code through", async () => {
+    const error = await decodeTypedNotFound("resource_not_found", StringNotFound, true);
+    expect(error).toBeInstanceOf(StringNotFound);
+    expect(error.code).toBe("resource_not_found");
+  });
+
+  test("forwardStringCodes degrades to 0 on a numeric code field", async () => {
+    // Misconfigured opt-in: the class still declares `code: Schema.Number`.
+    const error = await decodeTypedNotFound("resource_not_found", NumericNotFound, true);
+    expect(error).toBeInstanceOf(NumericNotFound);
+    expect(error.code).toBe(0);
+  });
+
+  test("forwardStringCodes keeps a numeric envelope code numeric", async () => {
+    const error = await decodeTypedNotFound(10007, StringNotFound, true);
+    expect(error.code).toBe(10007);
+  });
+});
