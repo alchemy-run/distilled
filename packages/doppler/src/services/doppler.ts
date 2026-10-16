@@ -297,7 +297,7 @@ export interface AuthMeResponse {
   slug?: string;
   name?: string;
   created_at?: string;
-  last_seen_at?: string;
+  last_seen_at?: string | null;
   type?: string;
   token_preview?: string;
   workplace?: AuthMeResponseWorkplace;
@@ -308,7 +308,7 @@ export const AuthMeResponse = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String),
     name: S.optional(S.String),
     created_at: S.optional(S.String),
-    last_seen_at: S.optional(S.String),
+    last_seen_at: S.optional(S.NullOr(S.String)),
     type: S.optional(S.String),
     token_preview: S.optional(S.String),
     workplace: S.optional(AuthMeResponseWorkplace),
@@ -318,13 +318,13 @@ export const AuthMeResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface AuthOidcRequest {
   /** the OIDC token string from your OIDC provider (likely CI) */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Identity ID from the Doppler Dashboard */
   identity: string;
 }
 export const AuthOidcRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    token: S.String,
+    token: S.String.pipe(T.SensitiveValue({})),
     identity: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v3/auth/oidc", code: 200 })),
 ).annotate({ identifier: "AuthOidcRequest" }) as any as S.Schema<AuthOidcRequest>;
@@ -378,6 +378,32 @@ export const CloneConfigRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/clone", code: 200 })),
 ).annotate({ identifier: "CloneConfigRequest" }) as any as S.Schema<CloneConfigRequest>;
 
+export interface CloneConfigResponseConfigInheritsItem {
+  project?: string;
+  config?: string;
+}
+export const CloneConfigResponseConfigInheritsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project: S.optional(S.String),
+    config: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CloneConfigResponseConfigInheritsItem",
+}) as any as S.Schema<CloneConfigResponseConfigInheritsItem>;
+
+export type CloneConfigResponseConfigInheritsList = Array<CloneConfigResponseConfigInheritsItem>;
+export const CloneConfigResponseConfigInheritsList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<CloneConfigResponseConfigInheritsList>;
+
+export type CloneConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+export const CloneConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+
+export type CloneConfigResponseConfigInheritedByList = Array<CloneConfigResponseConfigInheritsItem>;
+export const CloneConfigResponseConfigInheritedByList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<CloneConfigResponseConfigInheritedByList>;
+
 export interface CloneConfigResponseConfig {
   name?: string;
   root?: boolean;
@@ -387,6 +413,11 @@ export interface CloneConfigResponseConfig {
   created_at?: string;
   environment?: string;
   project?: string;
+  slug?: string;
+  inheritable?: boolean;
+  inheriting?: boolean;
+  inherits?: CloneConfigResponseConfigInheritsList;
+  inheritedBy?: CloneConfigResponseConfigInheritedByList;
 }
 export const CloneConfigResponseConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -398,6 +429,11 @@ export const CloneConfigResponseConfig = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     environment: S.optional(S.String),
     project: S.optional(S.String),
+    slug: S.optional(S.String),
+    inheritable: S.optional(S.Boolean),
+    inheriting: S.optional(S.Boolean),
+    inherits: S.optional(CloneConfigResponseConfigInheritsList),
+    inheritedBy: S.optional(CloneConfigResponseConfigInheritedByList),
   }),
 ).annotate({
   identifier: "CloneConfigResponseConfig",
@@ -709,14 +745,23 @@ export const ConfigsInheritableRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigsInheritableRequest",
 }) as any as S.Schema<ConfigsInheritableRequest>;
 
-export type ConfigsInheritableResponseConfigInheritsList = Array<unknown>;
+export type ConfigsInheritableResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+export const ConfigsInheritableResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+
+export type ConfigsInheritableResponseConfigInheritsList =
+  Array<CloneConfigResponseConfigInheritsItem>;
 export const ConfigsInheritableResponseConfigInheritsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  CloneConfigResponseConfigInheritsItem,
 ) as any as S.Schema<ConfigsInheritableResponseConfigInheritsList>;
 
-export type ConfigsInheritableResponseConfigInheritedByList = Array<unknown>;
+export type ConfigsInheritableResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+export const ConfigsInheritableResponseConfigInheritedByItem =
+  CloneConfigResponseConfigInheritsItem;
+
+export type ConfigsInheritableResponseConfigInheritedByList =
+  Array<CloneConfigResponseConfigInheritsItem>;
 export const ConfigsInheritableResponseConfigInheritedByList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  CloneConfigResponseConfigInheritsItem,
 ) as any as S.Schema<ConfigsInheritableResponseConfigInheritedByList>;
 
 export interface ConfigsInheritableResponseConfig {
@@ -804,28 +849,22 @@ export const ConfigsInheritsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/inherits", code: 200 })),
 ).annotate({ identifier: "ConfigsInheritsRequest" }) as any as S.Schema<ConfigsInheritsRequest>;
 
-export interface ConfigsInheritsResponseConfigInheritsItem {
-  project?: string;
-  config?: string;
-}
-export const ConfigsInheritsResponseConfigInheritsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project: S.optional(S.String),
-    config: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConfigsInheritsResponseConfigInheritsItem",
-}) as any as S.Schema<ConfigsInheritsResponseConfigInheritsItem>;
+export type ConfigsInheritsResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+export const ConfigsInheritsResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
 
 export type ConfigsInheritsResponseConfigInheritsList =
-  Array<ConfigsInheritsResponseConfigInheritsItem>;
+  Array<CloneConfigResponseConfigInheritsItem>;
 export const ConfigsInheritsResponseConfigInheritsList = /*@__PURE__*/ S.Array(
-  ConfigsInheritsResponseConfigInheritsItem,
+  CloneConfigResponseConfigInheritsItem,
 ) as any as S.Schema<ConfigsInheritsResponseConfigInheritsList>;
 
-export type ConfigsInheritsResponseConfigInheritedByList = Array<unknown>;
+export type ConfigsInheritsResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+export const ConfigsInheritsResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+
+export type ConfigsInheritsResponseConfigInheritedByList =
+  Array<CloneConfigResponseConfigInheritsItem>;
 export const ConfigsInheritsResponseConfigInheritedByList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  CloneConfigResponseConfigInheritsItem,
 ) as any as S.Schema<ConfigsInheritsResponseConfigInheritedByList>;
 
 export interface ConfigsInheritsResponseConfig {
@@ -1063,15 +1102,64 @@ export const CreateConfigRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs", code: 200 })),
 ).annotate({ identifier: "CreateConfigRequest" }) as any as S.Schema<CreateConfigRequest>;
 
-export type CreateConfigResponseConfig = CloneConfigResponseConfig;
-export const CreateConfigResponseConfig = CloneConfigResponseConfig;
+export type CreateConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+export const CreateConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+
+export type CreateConfigResponseConfigInheritsList = Array<CloneConfigResponseConfigInheritsItem>;
+export const CreateConfigResponseConfigInheritsList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<CreateConfigResponseConfigInheritsList>;
+
+export type CreateConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+export const CreateConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+
+export type CreateConfigResponseConfigInheritedByList =
+  Array<CloneConfigResponseConfigInheritsItem>;
+export const CreateConfigResponseConfigInheritedByList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<CreateConfigResponseConfigInheritedByList>;
+
+export interface CreateConfigResponseConfig {
+  name?: string;
+  root?: boolean;
+  locked?: boolean;
+  initial_fetch_at?: string;
+  last_fetch_at?: string;
+  created_at?: string;
+  environment?: string;
+  project?: string;
+  slug?: string;
+  inheritable?: boolean;
+  inheriting?: boolean;
+  inherits?: CreateConfigResponseConfigInheritsList;
+  inheritedBy?: CreateConfigResponseConfigInheritedByList;
+}
+export const CreateConfigResponseConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    root: S.optional(S.Boolean),
+    locked: S.optional(S.Boolean),
+    initial_fetch_at: S.optional(S.String),
+    last_fetch_at: S.optional(S.String),
+    created_at: S.optional(S.String),
+    environment: S.optional(S.String),
+    project: S.optional(S.String),
+    slug: S.optional(S.String),
+    inheritable: S.optional(S.Boolean),
+    inheriting: S.optional(S.Boolean),
+    inherits: S.optional(CreateConfigResponseConfigInheritsList),
+    inheritedBy: S.optional(CreateConfigResponseConfigInheritedByList),
+  }),
+).annotate({
+  identifier: "CreateConfigResponseConfig",
+}) as any as S.Schema<CreateConfigResponseConfig>;
 
 export interface CreateConfigResponse {
-  config?: CloneConfigResponseConfig;
+  config?: CreateConfigResponseConfig;
 }
 export const CreateConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    config: S.optional(CloneConfigResponseConfig),
+    config: S.optional(CreateConfigResponseConfig),
   }),
 ).annotate({ identifier: "CreateConfigResponse" }) as any as S.Schema<CreateConfigResponse>;
 
@@ -2030,15 +2118,61 @@ export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config", code: 200 })),
 ).annotate({ identifier: "GetConfigRequest" }) as any as S.Schema<GetConfigRequest>;
 
-export type GetConfigResponseConfig = CloneConfigResponseConfig;
-export const GetConfigResponseConfig = CloneConfigResponseConfig;
+export type GetConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+export const GetConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+
+export type GetConfigResponseConfigInheritsList = Array<CloneConfigResponseConfigInheritsItem>;
+export const GetConfigResponseConfigInheritsList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<GetConfigResponseConfigInheritsList>;
+
+export type GetConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+export const GetConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+
+export type GetConfigResponseConfigInheritedByList = Array<CloneConfigResponseConfigInheritsItem>;
+export const GetConfigResponseConfigInheritedByList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<GetConfigResponseConfigInheritedByList>;
+
+export interface GetConfigResponseConfig {
+  name?: string;
+  root?: boolean;
+  locked?: boolean;
+  initial_fetch_at?: string;
+  last_fetch_at?: string;
+  created_at?: string;
+  environment?: string;
+  project?: string;
+  slug?: string;
+  inheritable?: boolean;
+  inheriting?: boolean;
+  inherits?: GetConfigResponseConfigInheritsList;
+  inheritedBy?: GetConfigResponseConfigInheritedByList;
+}
+export const GetConfigResponseConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    root: S.optional(S.Boolean),
+    locked: S.optional(S.Boolean),
+    initial_fetch_at: S.optional(S.String),
+    last_fetch_at: S.optional(S.String),
+    created_at: S.optional(S.String),
+    environment: S.optional(S.String),
+    project: S.optional(S.String),
+    slug: S.optional(S.String),
+    inheritable: S.optional(S.Boolean),
+    inheriting: S.optional(S.Boolean),
+    inherits: S.optional(GetConfigResponseConfigInheritsList),
+    inheritedBy: S.optional(GetConfigResponseConfigInheritedByList),
+  }),
+).annotate({ identifier: "GetConfigResponseConfig" }) as any as S.Schema<GetConfigResponseConfig>;
 
 export interface GetConfigResponse {
-  config?: CloneConfigResponseConfig;
+  config?: GetConfigResponseConfig;
 }
 export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    config: S.optional(CloneConfigResponseConfig),
+    config: S.optional(GetConfigResponseConfig),
   }),
 ).annotate({ identifier: "GetConfigResponse" }) as any as S.Schema<GetConfigResponse>;
 
@@ -2386,8 +2520,8 @@ export type GetSecretResponseValueComputedValueType = GetSecretResponseValueRawV
 export const GetSecretResponseValueComputedValueType = GetSecretResponseValueRawValueType;
 
 export interface GetSecretResponseValue {
-  raw?: string;
-  computed?: string;
+  raw?: string | Redacted.Redacted<string> | null;
+  computed?: string | Redacted.Redacted<string> | null;
   note?: string;
   rawVisibility?: GetSecretResponseValueRawVisibility;
   computedVisibility?: string;
@@ -2396,8 +2530,8 @@ export interface GetSecretResponseValue {
 }
 export const GetSecretResponseValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    raw: S.optional(S.String),
-    computed: S.optional(S.String),
+    raw: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+    computed: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
     note: S.optional(S.String),
     rawVisibility: S.optional(GetSecretResponseValueRawVisibility),
     computedVisibility: S.optional(S.String),
@@ -3195,43 +3329,31 @@ export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesR
 export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsType =
   S.String;
 
-export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsAudList =
+export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsValueList =
   Array<string>;
-export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsAudList =
+export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsValueList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsAudList>;
+  ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsValueList>;
 
-export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsSubList =
-  Array<string>;
-export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsSubList =
-  /*@__PURE__*/ S.Array(
+/** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsMap =
+  {
+    [key: string]:
+      | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsValueList
+      | undefined;
+  };
+export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsMap =
+  /*@__PURE__*/ S.Record(
     S.String,
-  ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsSubList>;
-
-export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaims {
-  aud?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsAudList;
-  sub?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsSubList;
-}
-export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaims =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      aud: S.optional(
-        GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsAudList,
-      ),
-      sub: S.optional(
-        GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsSubList,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaims",
-  }) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaims>;
+    GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsValueList,
+  ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsMap>;
 
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfig {
   discovery_url?: string;
   claims_type?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsType;
-  claims?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaims;
+  /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+  claims?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsMap;
 }
 export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfig =
   /*@__PURE__*/ S.suspend(() =>
@@ -3241,7 +3363,7 @@ export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
         GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsType,
       ),
       claims: S.optional(
-        GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaims,
+        GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsMap,
       ),
     }),
   ).annotate({
@@ -3256,7 +3378,7 @@ export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdenti
   config?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfig;
   ttl_seconds?: number;
   created_at?: string;
-  last_seen_at?: string;
+  last_seen_at?: string | null;
 }
 export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -3269,7 +3391,7 @@ export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
       ),
       ttl_seconds: S.optional(S.Number),
       created_at: S.optional(S.String),
-      last_seen_at: S.optional(S.String),
+      last_seen_at: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
@@ -3331,43 +3453,31 @@ export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesi
 export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType =
   S.String;
 
-export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList =
+export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList =
   Array<string>;
-export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList =
+export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList>;
+  ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList>;
 
-export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList =
-  Array<string>;
-export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList =
-  /*@__PURE__*/ S.Array(
+/** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+export type GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap =
+  {
+    [key: string]:
+      | GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList
+      | undefined;
+  };
+export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap =
+  /*@__PURE__*/ S.Record(
     S.String,
-  ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList>;
-
-export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims {
-  aud?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList;
-  sub?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList;
-}
-export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      aud: S.optional(
-        GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList,
-      ),
-      sub: S.optional(
-        GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims",
-  }) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims>;
+    GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList,
+  ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap>;
 
 export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig {
   discovery_url?: string;
   claims_type?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType;
-  claims?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims;
+  /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+  claims?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap;
 }
 export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig =
   /*@__PURE__*/ S.suspend(() =>
@@ -3377,7 +3487,7 @@ export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
         GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType,
       ),
       claims: S.optional(
-        GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims,
+        GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap,
       ),
     }),
   ).annotate({
@@ -3392,7 +3502,7 @@ export interface GetV3workplaceserviceAccountsserviceAccountServiceAccountIdenti
   config?: GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig;
   ttl_seconds?: number;
   created_at?: string;
-  last_seen_at?: string;
+  last_seen_at?: string | null;
 }
 export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentity =
   /*@__PURE__*/ S.suspend(() =>
@@ -3407,7 +3517,7 @@ export const GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
       ),
       ttl_seconds: S.optional(S.Number),
       created_at: S.optional(S.String),
-      last_seen_at: S.optional(S.String),
+      last_seen_at: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
@@ -3742,12 +3852,51 @@ export const ListConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs", code: 200 })),
 ).annotate({ identifier: "ListConfigsRequest" }) as any as S.Schema<ListConfigsRequest>;
 
-export type ListConfigsResponseConfigsItem = CloneConfigResponseConfig;
-export const ListConfigsResponseConfigsItem = CloneConfigResponseConfig;
+export type ListConfigsResponseConfigsItemInheritsItem = CloneConfigResponseConfigInheritsItem;
+export const ListConfigsResponseConfigsItemInheritsItem = CloneConfigResponseConfigInheritsItem;
 
-export type ListConfigsResponseConfigsList = Array<CloneConfigResponseConfig>;
+export type ListConfigsResponseConfigsItemInheritsList =
+  Array<CloneConfigResponseConfigInheritsItem>;
+export const ListConfigsResponseConfigsItemInheritsList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<ListConfigsResponseConfigsItemInheritsList>;
+
+export interface ListConfigsResponseConfigsItem {
+  name?: string;
+  root?: boolean;
+  locked?: boolean;
+  initial_fetch_at?: string;
+  last_fetch_at?: string;
+  created_at?: string;
+  environment?: string;
+  project?: string;
+  slug?: string;
+  inheritable?: boolean;
+  inheriting?: boolean;
+  inherits?: ListConfigsResponseConfigsItemInheritsList;
+}
+export const ListConfigsResponseConfigsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    root: S.optional(S.Boolean),
+    locked: S.optional(S.Boolean),
+    initial_fetch_at: S.optional(S.String),
+    last_fetch_at: S.optional(S.String),
+    created_at: S.optional(S.String),
+    environment: S.optional(S.String),
+    project: S.optional(S.String),
+    slug: S.optional(S.String),
+    inheritable: S.optional(S.Boolean),
+    inheriting: S.optional(S.Boolean),
+    inherits: S.optional(ListConfigsResponseConfigsItemInheritsList),
+  }),
+).annotate({
+  identifier: "ListConfigsResponseConfigsItem",
+}) as any as S.Schema<ListConfigsResponseConfigsItem>;
+
+export type ListConfigsResponseConfigsList = Array<ListConfigsResponseConfigsItem>;
 export const ListConfigsResponseConfigsList = /*@__PURE__*/ S.Array(
-  CloneConfigResponseConfig,
+  ListConfigsResponseConfigsItem,
 ) as any as S.Schema<ListConfigsResponseConfigsList>;
 
 export interface ListConfigsResponse {
@@ -4019,117 +4168,52 @@ export const ListSecretsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/secrets", code: 200 })),
 ).annotate({ identifier: "ListSecretsRequest" }) as any as S.Schema<ListSecretsRequest>;
 
-export type ListSecretsResponseSecretsSTRIPERawVisibility = "unmasked" | "masked" | "restricted";
-export const ListSecretsResponseSecretsSTRIPERawVisibility = S.String;
+export type ListSecretsResponseSecretsValueRawVisibility = "unmasked" | "masked" | "restricted";
+export const ListSecretsResponseSecretsValueRawVisibility = S.String;
 
-export interface ListSecretsResponseSecretsSTRIPE {
-  raw?: string;
-  computed?: string;
+export type ListSecretsResponseSecretsValueRawValueType = GetSecretResponseValueRawValueType;
+export const ListSecretsResponseSecretsValueRawValueType = GetSecretResponseValueRawValueType;
+
+export type ListSecretsResponseSecretsValueComputedValueType = GetSecretResponseValueRawValueType;
+export const ListSecretsResponseSecretsValueComputedValueType = GetSecretResponseValueRawValueType;
+
+export interface ListSecretsResponseSecretsValue {
+  raw?: string | Redacted.Redacted<string> | null;
+  computed?: string | Redacted.Redacted<string> | null;
   note?: string;
-  rawVisibility?: ListSecretsResponseSecretsSTRIPERawVisibility;
+  rawVisibility?: ListSecretsResponseSecretsValueRawVisibility;
   computedVisibility?: string;
+  rawValueType?: GetSecretResponseValueRawValueType;
+  computedValueType?: GetSecretResponseValueRawValueType;
 }
-export const ListSecretsResponseSecretsSTRIPE = /*@__PURE__*/ S.suspend(() =>
+export const ListSecretsResponseSecretsValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    raw: S.optional(S.String),
-    computed: S.optional(S.String),
+    raw: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+    computed: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
     note: S.optional(S.String),
-    rawVisibility: S.optional(ListSecretsResponseSecretsSTRIPERawVisibility),
+    rawVisibility: S.optional(ListSecretsResponseSecretsValueRawVisibility),
     computedVisibility: S.optional(S.String),
+    rawValueType: S.optional(GetSecretResponseValueRawValueType),
+    computedValueType: S.optional(GetSecretResponseValueRawValueType),
   }),
 ).annotate({
-  identifier: "ListSecretsResponseSecretsSTRIPE",
-}) as any as S.Schema<ListSecretsResponseSecretsSTRIPE>;
+  identifier: "ListSecretsResponseSecretsValue",
+}) as any as S.Schema<ListSecretsResponseSecretsValue>;
 
-export type ListSecretsResponseSecretsALGOLIARawVisibility = "unmasked" | "masked" | "restricted";
-export const ListSecretsResponseSecretsALGOLIARawVisibility = S.String;
-
-export interface ListSecretsResponseSecretsALGOLIA {
-  raw?: string;
-  computed?: string;
-  note?: string;
-  rawVisibility?: ListSecretsResponseSecretsALGOLIARawVisibility;
-  computedVisibility?: string;
-}
-export const ListSecretsResponseSecretsALGOLIA = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    raw: S.optional(S.String),
-    computed: S.optional(S.String),
-    note: S.optional(S.String),
-    rawVisibility: S.optional(ListSecretsResponseSecretsALGOLIARawVisibility),
-    computedVisibility: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSecretsResponseSecretsALGOLIA",
-}) as any as S.Schema<ListSecretsResponseSecretsALGOLIA>;
-
-export type ListSecretsResponseSecretsDATABASERawVisibility = "unmasked" | "masked" | "restricted";
-export const ListSecretsResponseSecretsDATABASERawVisibility = S.String;
-
-export interface ListSecretsResponseSecretsDATABASE {
-  raw?: string;
-  computed?: string;
-  note?: string;
-  rawVisibility?: ListSecretsResponseSecretsDATABASERawVisibility;
-  computedVisibility?: string;
-}
-export const ListSecretsResponseSecretsDATABASE = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    raw: S.optional(S.String),
-    computed: S.optional(S.String),
-    note: S.optional(S.String),
-    rawVisibility: S.optional(ListSecretsResponseSecretsDATABASERawVisibility),
-    computedVisibility: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSecretsResponseSecretsDATABASE",
-}) as any as S.Schema<ListSecretsResponseSecretsDATABASE>;
-
-export type ListSecretsResponseSecretsUSERRawVisibility = "unmasked" | "masked" | "restricted";
-export const ListSecretsResponseSecretsUSERRawVisibility = S.String;
-
-export interface ListSecretsResponseSecretsUSER {
-  raw?: string;
-  computed?: string;
-  note?: string;
-  rawVisibility?: ListSecretsResponseSecretsUSERRawVisibility;
-  computedVisibility?: string;
-}
-export const ListSecretsResponseSecretsUSER = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    raw: S.optional(S.String),
-    computed: S.optional(S.String),
-    note: S.optional(S.String),
-    rawVisibility: S.optional(ListSecretsResponseSecretsUSERRawVisibility),
-    computedVisibility: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSecretsResponseSecretsUSER",
-}) as any as S.Schema<ListSecretsResponseSecretsUSER>;
-
-export interface ListSecretsResponseSecrets {
-  STRIPE?: ListSecretsResponseSecretsSTRIPE;
-  ALGOLIA?: ListSecretsResponseSecretsALGOLIA;
-  DATABASE?: ListSecretsResponseSecretsDATABASE;
-  USER?: ListSecretsResponseSecretsUSER;
-}
-export const ListSecretsResponseSecrets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    STRIPE: S.optional(ListSecretsResponseSecretsSTRIPE),
-    ALGOLIA: S.optional(ListSecretsResponseSecretsALGOLIA),
-    DATABASE: S.optional(ListSecretsResponseSecretsDATABASE),
-    USER: S.optional(ListSecretsResponseSecretsUSER),
-  }),
-).annotate({
-  identifier: "ListSecretsResponseSecrets",
-}) as any as S.Schema<ListSecretsResponseSecrets>;
+export type ListSecretsResponseSecretsMap = {
+  [key: string]: ListSecretsResponseSecretsValue | undefined;
+};
+export const ListSecretsResponseSecretsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ListSecretsResponseSecretsValue,
+) as any as S.Schema<ListSecretsResponseSecretsMap>;
 
 export interface ListSecretsResponse {
-  secrets?: ListSecretsResponseSecrets;
+  secrets?: ListSecretsResponseSecretsMap;
 }
 export const ListSecretsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    secrets: S.optional(ListSecretsResponseSecrets),
+    secrets: S.optional(ListSecretsResponseSecretsMap),
   }),
 ).annotate({ identifier: "ListSecretsResponse" }) as any as S.Schema<ListSecretsResponse>;
 
@@ -4261,15 +4345,61 @@ export const LockConfigRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/lock", code: 200 })),
 ).annotate({ identifier: "LockConfigRequest" }) as any as S.Schema<LockConfigRequest>;
 
-export type LockConfigResponseConfig = CloneConfigResponseConfig;
-export const LockConfigResponseConfig = CloneConfigResponseConfig;
+export type LockConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+export const LockConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+
+export type LockConfigResponseConfigInheritsList = Array<CloneConfigResponseConfigInheritsItem>;
+export const LockConfigResponseConfigInheritsList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<LockConfigResponseConfigInheritsList>;
+
+export type LockConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+export const LockConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+
+export type LockConfigResponseConfigInheritedByList = Array<CloneConfigResponseConfigInheritsItem>;
+export const LockConfigResponseConfigInheritedByList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<LockConfigResponseConfigInheritedByList>;
+
+export interface LockConfigResponseConfig {
+  name?: string;
+  root?: boolean;
+  locked?: boolean;
+  initial_fetch_at?: string;
+  last_fetch_at?: string;
+  created_at?: string;
+  environment?: string;
+  project?: string;
+  slug?: string;
+  inheritable?: boolean;
+  inheriting?: boolean;
+  inherits?: LockConfigResponseConfigInheritsList;
+  inheritedBy?: LockConfigResponseConfigInheritedByList;
+}
+export const LockConfigResponseConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    root: S.optional(S.Boolean),
+    locked: S.optional(S.Boolean),
+    initial_fetch_at: S.optional(S.String),
+    last_fetch_at: S.optional(S.String),
+    created_at: S.optional(S.String),
+    environment: S.optional(S.String),
+    project: S.optional(S.String),
+    slug: S.optional(S.String),
+    inheritable: S.optional(S.Boolean),
+    inheriting: S.optional(S.Boolean),
+    inherits: S.optional(LockConfigResponseConfigInheritsList),
+    inheritedBy: S.optional(LockConfigResponseConfigInheritedByList),
+  }),
+).annotate({ identifier: "LockConfigResponseConfig" }) as any as S.Schema<LockConfigResponseConfig>;
 
 export interface LockConfigResponse {
-  config?: CloneConfigResponseConfig;
+  config?: LockConfigResponseConfig;
 }
 export const LockConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    config: S.optional(CloneConfigResponseConfig),
+    config: S.optional(LockConfigResponseConfig),
   }),
 ).annotate({ identifier: "LockConfigResponse" }) as any as S.Schema<LockConfigResponse>;
 
@@ -4750,41 +4880,33 @@ export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
 export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsType =
   S.String;
 
-export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsAudList =
+export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsValueList =
   Array<string>;
-export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsAudList =
+export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsValueList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsAudList>;
+  ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsValueList>;
 
-export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsSubList =
-  Array<string>;
-export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsSubList =
-  /*@__PURE__*/ S.Array(
+/** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsMap =
+  {
+    [key: string]:
+      | PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsValueList
+      | undefined;
+  };
+export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsMap =
+  /*@__PURE__*/ S.Record(
     S.String,
-  ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsSubList>;
-
-export interface PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaims {
-  aud: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsAudList;
-  sub: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsSubList;
-}
-export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaims =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      aud: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsAudList,
-      sub: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsSubList,
-    }),
-  ).annotate({
-    identifier:
-      "PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaims",
-  }) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaims>;
+    PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsValueList,
+  ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsMap>;
 
 export interface PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfig {
   discovery_url: string;
   claims_type:
     | PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsType
     | (string & {});
-  claims: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaims;
+  /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+  claims: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsMap;
 }
 export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfig =
   /*@__PURE__*/ S.suspend(() =>
@@ -4793,7 +4915,7 @@ export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitie
       claims_type:
         PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsType,
       claims:
-        PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaims,
+        PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsMap,
     }),
   ).annotate({
     identifier: "PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfig",
@@ -4832,46 +4954,31 @@ export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
 export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityMethod =
   S.String;
 
-export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsAudList =
+export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsValueList =
   Array<string>;
-export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsAudList =
+export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsValueList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsAudList>;
+  ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsValueList>;
 
-export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsSubList =
-  Array<string>;
-export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsSubList =
-  /*@__PURE__*/ S.Array(
+/** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+export type PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsMap =
+  {
+    [key: string]:
+      | PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsValueList
+      | undefined;
+  };
+export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsMap =
+  /*@__PURE__*/ S.Record(
     S.String,
-  ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsSubList>;
-
-export interface PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaims {
-  aud?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsAudList;
-  sub?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsSubList;
-}
-export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaims =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      aud: S.optional(
-        PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsAudList,
-      ),
-      sub: S.optional(
-        PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsSubList,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaims",
-  }) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaims>;
+    PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsValueList,
+  ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsMap>;
 
 export interface PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfig {
   discovery_url?: string;
   claims_type?: string;
-  claims?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaims;
-  ttl_seconds?: number;
-  created_at?: string;
-  last_seen_at?: string;
+  /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+  claims?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsMap;
 }
 export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfig =
   /*@__PURE__*/ S.suspend(() =>
@@ -4879,11 +4986,8 @@ export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitie
       discovery_url: S.optional(S.String),
       claims_type: S.optional(S.String),
       claims: S.optional(
-        PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaims,
+        PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsMap,
       ),
-      ttl_seconds: S.optional(S.Number),
-      created_at: S.optional(S.String),
-      last_seen_at: S.optional(S.String),
     }),
   ).annotate({
     identifier:
@@ -4895,6 +4999,9 @@ export interface PostV3workplaceserviceAccountsserviceAccountServiceAccountIdent
   name?: string;
   method?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityMethod;
   config?: PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfig;
+  ttl_seconds?: number;
+  created_at?: string;
+  last_seen_at?: string | null;
 }
 export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentity =
   /*@__PURE__*/ S.suspend(() =>
@@ -4907,6 +5014,9 @@ export const PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitie
       config: S.optional(
         PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfig,
       ),
+      ttl_seconds: S.optional(S.Number),
+      created_at: S.optional(S.String),
+      last_seen_at: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
@@ -5667,41 +5777,33 @@ export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesi
 export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsType =
   S.String;
 
-export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsAudList =
+export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsValueList =
   Array<string>;
-export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsAudList =
+export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsValueList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsAudList>;
+  ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsValueList>;
 
-export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsSubList =
-  Array<string>;
-export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsSubList =
-  /*@__PURE__*/ S.Array(
+/** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsMap =
+  {
+    [key: string]:
+      | PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsValueList
+      | undefined;
+  };
+export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsMap =
+  /*@__PURE__*/ S.Record(
     S.String,
-  ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsSubList>;
-
-export interface PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaims {
-  aud: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsAudList;
-  sub: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsSubList;
-}
-export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaims =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      aud: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsAudList,
-      sub: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsSubList,
-    }),
-  ).annotate({
-    identifier:
-      "PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaims",
-  }) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaims>;
+    PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsValueList,
+  ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsMap>;
 
 export interface PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfig {
   discovery_url: string;
   claims_type:
     | PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsType
     | (string & {});
-  claims: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaims;
+  /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+  claims: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsMap;
 }
 export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfig =
   /*@__PURE__*/ S.suspend(() =>
@@ -5710,7 +5812,7 @@ export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
       claims_type:
         PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsType,
       claims:
-        PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaims,
+        PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsMap,
     }),
   ).annotate({
     identifier:
@@ -5761,43 +5863,31 @@ export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesi
 export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType =
   S.String;
 
-export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList =
+export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList =
   Array<string>;
-export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList =
+export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList>;
+  ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList>;
 
-export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList =
-  Array<string>;
-export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList =
-  /*@__PURE__*/ S.Array(
+/** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+export type PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap =
+  {
+    [key: string]:
+      | PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList
+      | undefined;
+  };
+export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap =
+  /*@__PURE__*/ S.Record(
     S.String,
-  ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList>;
-
-export interface PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims {
-  aud?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList;
-  sub?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList;
-}
-export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      aud: S.optional(
-        PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList,
-      ),
-      sub: S.optional(
-        PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList,
-      ),
-    }),
-  ).annotate({
-    identifier:
-      "PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims",
-  }) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims>;
+    PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList,
+  ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap>;
 
 export interface PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig {
   discovery_url?: string;
   claims_type?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType;
-  claims?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims;
+  /** Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required. */
+  claims?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap;
 }
 export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig =
   /*@__PURE__*/ S.suspend(() =>
@@ -5807,7 +5897,7 @@ export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
         PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType,
       ),
       claims: S.optional(
-        PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims,
+        PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap,
       ),
     }),
   ).annotate({
@@ -5822,7 +5912,7 @@ export interface PutV3workplaceserviceAccountsserviceAccountServiceAccountIdenti
   config?: PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig;
   ttl_seconds?: number;
   created_at?: string;
-  last_seen_at?: string;
+  last_seen_at?: string | null;
 }
 export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentity =
   /*@__PURE__*/ S.suspend(() =>
@@ -5837,7 +5927,7 @@ export const PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
       ),
       ttl_seconds: S.optional(S.Number),
       created_at: S.optional(S.String),
-      last_seen_at: S.optional(S.String),
+      last_seen_at: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier:
@@ -6385,16 +6475,16 @@ export interface ServiceAccountTokensCreateResponseApiToken {
   name?: string;
   slug?: string;
   created_at?: string;
-  last_seen_at?: unknown;
-  expires_at?: string;
+  last_seen_at?: string | null;
+  expires_at?: string | null;
 }
 export const ServiceAccountTokensCreateResponseApiToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     slug: S.optional(S.String),
     created_at: S.optional(S.String),
-    last_seen_at: S.optional(S.Unknown),
-    expires_at: S.optional(S.String),
+    last_seen_at: S.optional(S.NullOr(S.String)),
+    expires_at: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "ServiceAccountTokensCreateResponseApiToken",
@@ -6464,32 +6554,16 @@ export const ServiceAccountTokensGetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServiceAccountTokensGetRequest",
 }) as any as S.Schema<ServiceAccountTokensGetRequest>;
 
-export interface ServiceAccountTokensGetResponseApiToken {
-  name?: string;
-  slug?: string;
-  created_at?: string;
-  last_seen_at?: string;
-  expires_at?: string;
-}
-export const ServiceAccountTokensGetResponseApiToken = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    slug: S.optional(S.String),
-    created_at: S.optional(S.String),
-    last_seen_at: S.optional(S.String),
-    expires_at: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServiceAccountTokensGetResponseApiToken",
-}) as any as S.Schema<ServiceAccountTokensGetResponseApiToken>;
+export type ServiceAccountTokensGetResponseApiToken = ServiceAccountTokensCreateResponseApiToken;
+export const ServiceAccountTokensGetResponseApiToken = ServiceAccountTokensCreateResponseApiToken;
 
 export interface ServiceAccountTokensGetResponse {
-  api_token?: ServiceAccountTokensGetResponseApiToken;
+  api_token?: ServiceAccountTokensCreateResponseApiToken;
   success?: boolean;
 }
 export const ServiceAccountTokensGetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    api_token: S.optional(ServiceAccountTokensGetResponseApiToken),
+    api_token: S.optional(ServiceAccountTokensCreateResponseApiToken),
     success: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -6518,14 +6592,15 @@ export const ServiceAccountTokensListRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServiceAccountTokensListRequest",
 }) as any as S.Schema<ServiceAccountTokensListRequest>;
 
-export type ServiceAccountTokensListResponseApiTokensItem = ServiceAccountTokensGetResponseApiToken;
+export type ServiceAccountTokensListResponseApiTokensItem =
+  ServiceAccountTokensCreateResponseApiToken;
 export const ServiceAccountTokensListResponseApiTokensItem =
-  ServiceAccountTokensGetResponseApiToken;
+  ServiceAccountTokensCreateResponseApiToken;
 
 export type ServiceAccountTokensListResponseApiTokensList =
-  Array<ServiceAccountTokensGetResponseApiToken>;
+  Array<ServiceAccountTokensCreateResponseApiToken>;
 export const ServiceAccountTokensListResponseApiTokensList = /*@__PURE__*/ S.Array(
-  ServiceAccountTokensGetResponseApiToken,
+  ServiceAccountTokensCreateResponseApiToken,
 ) as any as S.Schema<ServiceAccountTokensListResponseApiTokensList>;
 
 export interface ServiceAccountTokensListResponse {
@@ -6573,11 +6648,11 @@ export interface ServiceTokensCreateResponseToken {
   name?: string;
   slug?: string;
   created_at?: string;
-  key?: string;
+  key?: string | Redacted.Redacted<string>;
   config?: string;
   environment?: string;
   project?: string;
-  expires_at?: unknown;
+  expires_at?: string | null;
   access?: string;
 }
 export const ServiceTokensCreateResponseToken = /*@__PURE__*/ S.suspend(() =>
@@ -6585,11 +6660,11 @@ export const ServiceTokensCreateResponseToken = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     slug: S.optional(S.String),
     created_at: S.optional(S.String),
-    key: S.optional(S.String),
+    key: S.optional(S.String.pipe(T.SensitiveValue({}))),
     config: S.optional(S.String),
     environment: S.optional(S.String),
     project: S.optional(S.String),
-    expires_at: S.optional(S.Unknown),
+    expires_at: S.optional(S.NullOr(S.String)),
     access: S.optional(S.String),
   }),
 ).annotate({
@@ -6615,14 +6690,14 @@ export interface ServiceTokensDeleteRequest {
   /** The slug of the service token. */
   slug?: string;
   /** The token value. */
-  token?: string;
+  token?: string | Redacted.Redacted<string>;
 }
 export const ServiceTokensDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String,
     config: S.String,
     slug: S.optional(S.String),
-    token: S.optional(S.String),
+    token: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(T.Http({ method: "DELETE", uri: "/v3/configs/config/tokens/token", code: 200 })),
 ).annotate({
   identifier: "ServiceTokensDeleteRequest",
@@ -6659,7 +6734,7 @@ export interface ServiceTokensListResponseTokensItem {
   config?: string;
   environment?: string;
   project?: string;
-  expires_at?: unknown;
+  expires_at?: string | null;
 }
 export const ServiceTokensListResponseTokensItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6669,7 +6744,7 @@ export const ServiceTokensListResponseTokensItem = /*@__PURE__*/ S.suspend(() =>
     config: S.optional(S.String),
     environment: S.optional(S.String),
     project: S.optional(S.String),
-    expires_at: S.optional(S.Unknown),
+    expires_at: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "ServiceTokensListResponseTokensItem",
@@ -6775,15 +6850,64 @@ export const UnlockConfigRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/unlock", code: 200 })),
 ).annotate({ identifier: "UnlockConfigRequest" }) as any as S.Schema<UnlockConfigRequest>;
 
-export type UnlockConfigResponseConfig = CloneConfigResponseConfig;
-export const UnlockConfigResponseConfig = CloneConfigResponseConfig;
+export type UnlockConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+export const UnlockConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+
+export type UnlockConfigResponseConfigInheritsList = Array<CloneConfigResponseConfigInheritsItem>;
+export const UnlockConfigResponseConfigInheritsList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<UnlockConfigResponseConfigInheritsList>;
+
+export type UnlockConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+export const UnlockConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+
+export type UnlockConfigResponseConfigInheritedByList =
+  Array<CloneConfigResponseConfigInheritsItem>;
+export const UnlockConfigResponseConfigInheritedByList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<UnlockConfigResponseConfigInheritedByList>;
+
+export interface UnlockConfigResponseConfig {
+  name?: string;
+  root?: boolean;
+  locked?: boolean;
+  initial_fetch_at?: string;
+  last_fetch_at?: string;
+  created_at?: string;
+  environment?: string;
+  project?: string;
+  slug?: string;
+  inheritable?: boolean;
+  inheriting?: boolean;
+  inherits?: UnlockConfigResponseConfigInheritsList;
+  inheritedBy?: UnlockConfigResponseConfigInheritedByList;
+}
+export const UnlockConfigResponseConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    root: S.optional(S.Boolean),
+    locked: S.optional(S.Boolean),
+    initial_fetch_at: S.optional(S.String),
+    last_fetch_at: S.optional(S.String),
+    created_at: S.optional(S.String),
+    environment: S.optional(S.String),
+    project: S.optional(S.String),
+    slug: S.optional(S.String),
+    inheritable: S.optional(S.Boolean),
+    inheriting: S.optional(S.Boolean),
+    inherits: S.optional(UnlockConfigResponseConfigInheritsList),
+    inheritedBy: S.optional(UnlockConfigResponseConfigInheritedByList),
+  }),
+).annotate({
+  identifier: "UnlockConfigResponseConfig",
+}) as any as S.Schema<UnlockConfigResponseConfig>;
 
 export interface UnlockConfigResponse {
-  config?: CloneConfigResponseConfig;
+  config?: UnlockConfigResponseConfig;
 }
 export const UnlockConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    config: S.optional(CloneConfigResponseConfig),
+    config: S.optional(UnlockConfigResponseConfig),
   }),
 ).annotate({ identifier: "UnlockConfigResponse" }) as any as S.Schema<UnlockConfigResponse>;
 
@@ -6936,15 +7060,64 @@ export const UpdateConfigRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config", code: 200 })),
 ).annotate({ identifier: "UpdateConfigRequest" }) as any as S.Schema<UpdateConfigRequest>;
 
-export type UpdateConfigResponseConfig = CloneConfigResponseConfig;
-export const UpdateConfigResponseConfig = CloneConfigResponseConfig;
+export type UpdateConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+export const UpdateConfigResponseConfigInheritsItem = CloneConfigResponseConfigInheritsItem;
+
+export type UpdateConfigResponseConfigInheritsList = Array<CloneConfigResponseConfigInheritsItem>;
+export const UpdateConfigResponseConfigInheritsList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<UpdateConfigResponseConfigInheritsList>;
+
+export type UpdateConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+export const UpdateConfigResponseConfigInheritedByItem = CloneConfigResponseConfigInheritsItem;
+
+export type UpdateConfigResponseConfigInheritedByList =
+  Array<CloneConfigResponseConfigInheritsItem>;
+export const UpdateConfigResponseConfigInheritedByList = /*@__PURE__*/ S.Array(
+  CloneConfigResponseConfigInheritsItem,
+) as any as S.Schema<UpdateConfigResponseConfigInheritedByList>;
+
+export interface UpdateConfigResponseConfig {
+  name?: string;
+  root?: boolean;
+  locked?: boolean;
+  initial_fetch_at?: string;
+  last_fetch_at?: string;
+  created_at?: string;
+  environment?: string;
+  project?: string;
+  slug?: string;
+  inheritable?: boolean;
+  inheriting?: boolean;
+  inherits?: UpdateConfigResponseConfigInheritsList;
+  inheritedBy?: UpdateConfigResponseConfigInheritedByList;
+}
+export const UpdateConfigResponseConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    root: S.optional(S.Boolean),
+    locked: S.optional(S.Boolean),
+    initial_fetch_at: S.optional(S.String),
+    last_fetch_at: S.optional(S.String),
+    created_at: S.optional(S.String),
+    environment: S.optional(S.String),
+    project: S.optional(S.String),
+    slug: S.optional(S.String),
+    inheritable: S.optional(S.Boolean),
+    inheriting: S.optional(S.Boolean),
+    inherits: S.optional(UpdateConfigResponseConfigInheritsList),
+    inheritedBy: S.optional(UpdateConfigResponseConfigInheritedByList),
+  }),
+).annotate({
+  identifier: "UpdateConfigResponseConfig",
+}) as any as S.Schema<UpdateConfigResponseConfig>;
 
 export interface UpdateConfigResponse {
-  config?: CloneConfigResponseConfig;
+  config?: UpdateConfigResponseConfig;
 }
 export const UpdateConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    config: S.optional(CloneConfigResponseConfig),
+    config: S.optional(UpdateConfigResponseConfig),
   }),
 ).annotate({ identifier: "UpdateConfigResponse" }) as any as S.Schema<UpdateConfigResponse>;
 
@@ -7135,21 +7308,12 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
 
-/** Either `secrets` or `change_requests` is required (can't use both). Object of secrets you would like to save to the config. Try it with the sample secrets below. */
-export interface UpdateSecretRequestSecrets {
-  STRIPE?: string;
-  ALGOLIA?: string;
-  DATABASE?: string;
-}
-export const UpdateSecretRequestSecrets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    STRIPE: S.optional(S.String),
-    ALGOLIA: S.optional(S.String),
-    DATABASE: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateSecretRequestSecrets",
-}) as any as S.Schema<UpdateSecretRequestSecrets>;
+/** Either `secrets` or `change_requests` is required (can't use both). Secret name to value; a `null` value deletes the secret. */
+export type UpdateSecretRequestSecretsMap = { [key: string]: string | null | undefined };
+export const UpdateSecretRequestSecretsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(S.String),
+) as any as S.Schema<UpdateSecretRequestSecretsMap>;
 
 export type UpdateSecretRequestChangeRequestsItemValueTypeType =
   | "string"
@@ -7213,11 +7377,11 @@ export interface UpdateSecretRequestChangeRequestsItem {
   /** The name of the secret. */
   name: string;
   /** The original name of the secret. Use `null` (an actual `null`, not the string `null`) or omit this parameter for new secrets. If it differs from `name` then a rename is inferred. */
-  originalName: string;
+  originalName?: string | null;
   /** The value the secret should have. Use `null` (an actual `null`, not the string `null`) to leave the existing secret value unchanged. */
-  value: string;
+  value: string | Redacted.Redacted<string> | null;
   /** The value you expect the secret to have before `name` is applied. If specified, the request will only be processed if the provided value matches what's found in Doppler. */
-  originalValue?: string;
+  originalValue?: string | Redacted.Redacted<string>;
   /** Must be set to either `masked`, `unmasked`, or `restricted`. */
   visibility?: string;
   /** Must be set to either `masked`, `unmasked`, or `restricted`. The visibility you expect the secret to have before `visibility` is applied. If specified, the request will only be processed if the provided visibility matches what's found in Doppler. */
@@ -7236,9 +7400,9 @@ export interface UpdateSecretRequestChangeRequestsItem {
 export const UpdateSecretRequestChangeRequestsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
-    originalName: S.String,
-    value: S.String,
-    originalValue: S.optional(S.String),
+    originalName: S.optional(S.NullOr(S.String)),
+    value: S.NullOr(S.String).pipe(T.SensitiveValue({})),
+    originalValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
     visibility: S.optional(S.String),
     originalVisibility: S.optional(S.String),
     shouldPromote: S.optional(S.Boolean),
@@ -7262,8 +7426,8 @@ export interface UpdateSecretRequest {
   project: string;
   /** Name of the config object. */
   config: string;
-  /** Either `secrets` or `change_requests` is required (can't use both). Object of secrets you would like to save to the config. Try it with the sample secrets below. */
-  secrets?: UpdateSecretRequestSecrets;
+  /** Either `secrets` or `change_requests` is required (can't use both). Secret name to value; a `null` value deletes the secret. */
+  secrets?: UpdateSecretRequestSecretsMap;
   /** Either `secrets` or `change_requests` is required (can't use both). Object of secrets you would like to save to the config. Try it with the sample secrets below. */
   change_requests?: UpdateSecretRequestChangeRequestsList;
 }
@@ -7271,53 +7435,57 @@ export const UpdateSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String,
     config: S.String,
-    secrets: S.optional(UpdateSecretRequestSecrets),
+    secrets: S.optional(UpdateSecretRequestSecretsMap),
     change_requests: S.optional(UpdateSecretRequestChangeRequestsList),
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/secrets", code: 200 })),
 ).annotate({ identifier: "UpdateSecretRequest" }) as any as S.Schema<UpdateSecretRequest>;
 
-export interface UpdateSecretResponseSecretsSTRIPE {
-  raw?: string;
-  computed?: string;
+export type UpdateSecretResponseSecretsValueRawVisibility = "unmasked" | "masked" | "restricted";
+export const UpdateSecretResponseSecretsValueRawVisibility = S.String;
+
+export type UpdateSecretResponseSecretsValueRawValueType = GetSecretResponseValueRawValueType;
+export const UpdateSecretResponseSecretsValueRawValueType = GetSecretResponseValueRawValueType;
+
+export type UpdateSecretResponseSecretsValueComputedValueType = GetSecretResponseValueRawValueType;
+export const UpdateSecretResponseSecretsValueComputedValueType = GetSecretResponseValueRawValueType;
+
+export interface UpdateSecretResponseSecretsValue {
+  raw?: string | Redacted.Redacted<string> | null;
+  computed?: string | Redacted.Redacted<string> | null;
   note?: string;
+  rawVisibility?: UpdateSecretResponseSecretsValueRawVisibility;
+  computedVisibility?: string;
+  rawValueType?: GetSecretResponseValueRawValueType;
+  computedValueType?: GetSecretResponseValueRawValueType;
 }
-export const UpdateSecretResponseSecretsSTRIPE = /*@__PURE__*/ S.suspend(() =>
+export const UpdateSecretResponseSecretsValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    raw: S.optional(S.String),
-    computed: S.optional(S.String),
+    raw: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+    computed: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
     note: S.optional(S.String),
+    rawVisibility: S.optional(UpdateSecretResponseSecretsValueRawVisibility),
+    computedVisibility: S.optional(S.String),
+    rawValueType: S.optional(GetSecretResponseValueRawValueType),
+    computedValueType: S.optional(GetSecretResponseValueRawValueType),
   }),
 ).annotate({
-  identifier: "UpdateSecretResponseSecretsSTRIPE",
-}) as any as S.Schema<UpdateSecretResponseSecretsSTRIPE>;
+  identifier: "UpdateSecretResponseSecretsValue",
+}) as any as S.Schema<UpdateSecretResponseSecretsValue>;
 
-export type UpdateSecretResponseSecretsALGOLIA = UpdateSecretResponseSecretsSTRIPE;
-export const UpdateSecretResponseSecretsALGOLIA = UpdateSecretResponseSecretsSTRIPE;
-
-export type UpdateSecretResponseSecretsDATABASE = UpdateSecretResponseSecretsSTRIPE;
-export const UpdateSecretResponseSecretsDATABASE = UpdateSecretResponseSecretsSTRIPE;
-
-export interface UpdateSecretResponseSecrets {
-  STRIPE?: UpdateSecretResponseSecretsSTRIPE;
-  ALGOLIA?: UpdateSecretResponseSecretsSTRIPE;
-  DATABASE?: UpdateSecretResponseSecretsSTRIPE;
-}
-export const UpdateSecretResponseSecrets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    STRIPE: S.optional(UpdateSecretResponseSecretsSTRIPE),
-    ALGOLIA: S.optional(UpdateSecretResponseSecretsSTRIPE),
-    DATABASE: S.optional(UpdateSecretResponseSecretsSTRIPE),
-  }),
-).annotate({
-  identifier: "UpdateSecretResponseSecrets",
-}) as any as S.Schema<UpdateSecretResponseSecrets>;
+export type UpdateSecretResponseSecretsMap = {
+  [key: string]: UpdateSecretResponseSecretsValue | undefined;
+};
+export const UpdateSecretResponseSecretsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateSecretResponseSecretsValue,
+) as any as S.Schema<UpdateSecretResponseSecretsMap>;
 
 export interface UpdateSecretResponse {
-  secrets?: UpdateSecretResponseSecrets;
+  secrets?: UpdateSecretResponseSecretsMap;
 }
 export const UpdateSecretResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    secrets: S.optional(UpdateSecretResponseSecrets),
+    secrets: S.optional(UpdateSecretResponseSecretsMap),
   }),
 ).annotate({ identifier: "UpdateSecretResponse" }) as any as S.Schema<UpdateSecretResponse>;
 

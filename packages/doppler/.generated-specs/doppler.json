@@ -174,7 +174,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "the OIDC token string from your OIDC provider (likely CI)",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "identity": {
@@ -295,6 +296,25 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#ListConfigsResponseConfigsItemInheritsItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#ListConfigsResponseConfigsItemInheritsList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#ListConfigsResponseConfigsItemInheritsItem"
+      },
+      "traits": {}
+    },
     "com.doppler.api#ListConfigsResponseConfigsItem": {
       "type": "structure",
       "members": {
@@ -321,6 +341,18 @@
         },
         "project": {
           "target": "smithy.api#String"
+        },
+        "slug": {
+          "target": "smithy.api#String"
+        },
+        "inheritable": {
+          "target": "smithy.api#Boolean"
+        },
+        "inheriting": {
+          "target": "smithy.api#Boolean"
+        },
+        "inherits": {
+          "target": "com.doppler.api#ListConfigsResponseConfigsItemInheritsList"
         }
       },
       "traits": {}
@@ -392,6 +424,44 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#CreateConfigResponseConfigInheritsItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#CreateConfigResponseConfigInheritsList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#CreateConfigResponseConfigInheritsItem"
+      },
+      "traits": {}
+    },
+    "com.doppler.api#CreateConfigResponseConfigInheritedByItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#CreateConfigResponseConfigInheritedByList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#CreateConfigResponseConfigInheritedByItem"
+      },
+      "traits": {}
+    },
     "com.doppler.api#CreateConfigResponseConfig": {
       "type": "structure",
       "members": {
@@ -418,6 +488,21 @@
         },
         "project": {
           "target": "smithy.api#String"
+        },
+        "slug": {
+          "target": "smithy.api#String"
+        },
+        "inheritable": {
+          "target": "smithy.api#Boolean"
+        },
+        "inheriting": {
+          "target": "smithy.api#Boolean"
+        },
+        "inherits": {
+          "target": "com.doppler.api#CreateConfigResponseConfigInheritsList"
+        },
+        "inheritedBy": {
+          "target": "com.doppler.api#CreateConfigResponseConfigInheritedByList"
         }
       },
       "traits": {}
@@ -474,6 +559,44 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#GetConfigResponseConfigInheritsItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#GetConfigResponseConfigInheritsList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#GetConfigResponseConfigInheritsItem"
+      },
+      "traits": {}
+    },
+    "com.doppler.api#GetConfigResponseConfigInheritedByItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#GetConfigResponseConfigInheritedByList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#GetConfigResponseConfigInheritedByItem"
+      },
+      "traits": {}
+    },
     "com.doppler.api#GetConfigResponseConfig": {
       "type": "structure",
       "members": {
@@ -500,6 +623,21 @@
         },
         "project": {
           "target": "smithy.api#String"
+        },
+        "slug": {
+          "target": "smithy.api#String"
+        },
+        "inheritable": {
+          "target": "smithy.api#Boolean"
+        },
+        "inheriting": {
+          "target": "smithy.api#Boolean"
+        },
+        "inherits": {
+          "target": "com.doppler.api#GetConfigResponseConfigInheritsList"
+        },
+        "inheritedBy": {
+          "target": "com.doppler.api#GetConfigResponseConfigInheritedByList"
         }
       },
       "traits": {}
@@ -561,6 +699,44 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#UpdateConfigResponseConfigInheritsItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#UpdateConfigResponseConfigInheritsList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#UpdateConfigResponseConfigInheritsItem"
+      },
+      "traits": {}
+    },
+    "com.doppler.api#UpdateConfigResponseConfigInheritedByItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#UpdateConfigResponseConfigInheritedByList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#UpdateConfigResponseConfigInheritedByItem"
+      },
+      "traits": {}
+    },
     "com.doppler.api#UpdateConfigResponseConfig": {
       "type": "structure",
       "members": {
@@ -587,6 +763,21 @@
         },
         "project": {
           "target": "smithy.api#String"
+        },
+        "slug": {
+          "target": "smithy.api#String"
+        },
+        "inheritable": {
+          "target": "smithy.api#Boolean"
+        },
+        "inheriting": {
+          "target": "smithy.api#Boolean"
+        },
+        "inherits": {
+          "target": "com.doppler.api#UpdateConfigResponseConfigInheritsList"
+        },
+        "inheritedBy": {
+          "target": "com.doppler.api#UpdateConfigResponseConfigInheritedByList"
         }
       },
       "traits": {}
@@ -700,6 +891,44 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#CloneConfigResponseConfigInheritsItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#CloneConfigResponseConfigInheritsList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#CloneConfigResponseConfigInheritsItem"
+      },
+      "traits": {}
+    },
+    "com.doppler.api#CloneConfigResponseConfigInheritedByItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#CloneConfigResponseConfigInheritedByList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#CloneConfigResponseConfigInheritedByItem"
+      },
+      "traits": {}
+    },
     "com.doppler.api#CloneConfigResponseConfig": {
       "type": "structure",
       "members": {
@@ -726,6 +955,21 @@
         },
         "project": {
           "target": "smithy.api#String"
+        },
+        "slug": {
+          "target": "smithy.api#String"
+        },
+        "inheritable": {
+          "target": "smithy.api#Boolean"
+        },
+        "inheriting": {
+          "target": "smithy.api#Boolean"
+        },
+        "inherits": {
+          "target": "com.doppler.api#CloneConfigResponseConfigInheritsList"
+        },
+        "inheritedBy": {
+          "target": "com.doppler.api#CloneConfigResponseConfigInheritedByList"
         }
       },
       "traits": {}
@@ -926,17 +1170,41 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#ConfigsInheritableResponseConfigInheritsItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
     "com.doppler.api#ConfigsInheritableResponseConfigInheritsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.doppler.api#ConfigsInheritableResponseConfigInheritsItem"
+      },
+      "traits": {}
+    },
+    "com.doppler.api#ConfigsInheritableResponseConfigInheritedByItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
       },
       "traits": {}
     },
     "com.doppler.api#ConfigsInheritableResponseConfigInheritedByList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.doppler.api#ConfigsInheritableResponseConfigInheritedByItem"
       },
       "traits": {}
     },
@@ -1093,10 +1361,22 @@
       },
       "traits": {}
     },
+    "com.doppler.api#ConfigsInheritsResponseConfigInheritedByItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
     "com.doppler.api#ConfigsInheritsResponseConfigInheritedByList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.doppler.api#ConfigsInheritsResponseConfigInheritedByItem"
       },
       "traits": {}
     },
@@ -1198,6 +1478,44 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#LockConfigResponseConfigInheritsItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#LockConfigResponseConfigInheritsList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#LockConfigResponseConfigInheritsItem"
+      },
+      "traits": {}
+    },
+    "com.doppler.api#LockConfigResponseConfigInheritedByItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#LockConfigResponseConfigInheritedByList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#LockConfigResponseConfigInheritedByItem"
+      },
+      "traits": {}
+    },
     "com.doppler.api#LockConfigResponseConfig": {
       "type": "structure",
       "members": {
@@ -1224,6 +1542,21 @@
         },
         "project": {
           "target": "smithy.api#String"
+        },
+        "slug": {
+          "target": "smithy.api#String"
+        },
+        "inheritable": {
+          "target": "smithy.api#Boolean"
+        },
+        "inheriting": {
+          "target": "smithy.api#Boolean"
+        },
+        "inherits": {
+          "target": "com.doppler.api#LockConfigResponseConfigInheritsList"
+        },
+        "inheritedBy": {
+          "target": "com.doppler.api#LockConfigResponseConfigInheritedByList"
         }
       },
       "traits": {}
@@ -1727,10 +2060,18 @@
       "type": "structure",
       "members": {
         "raw": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
         },
         "computed": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
         },
         "note": {
           "target": "smithy.api#String"
@@ -1882,7 +2223,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.doppler.api#ListSecretsResponseSecretsSTRIPERawVisibility": {
+    "com.doppler.api#ListSecretsResponseSecretsValueRawVisibility": {
       "type": "enum",
       "members": {
         "UNMASKED": {
@@ -1906,177 +2247,66 @@
       },
       "traits": {}
     },
-    "com.doppler.api#ListSecretsResponseSecretsSTRIPE": {
+    "com.doppler.api#ListSecretsResponseSecretsValueRawValueType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#ListSecretsResponseSecretsValueComputedValueType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#ListSecretsResponseSecretsValue": {
       "type": "structure",
       "members": {
         "raw": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
         },
         "computed": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
         },
         "note": {
           "target": "smithy.api#String"
         },
         "rawVisibility": {
-          "target": "com.doppler.api#ListSecretsResponseSecretsSTRIPERawVisibility"
+          "target": "com.doppler.api#ListSecretsResponseSecretsValueRawVisibility"
         },
         "computedVisibility": {
           "target": "smithy.api#String"
+        },
+        "rawValueType": {
+          "target": "com.doppler.api#ListSecretsResponseSecretsValueRawValueType"
+        },
+        "computedValueType": {
+          "target": "com.doppler.api#ListSecretsResponseSecretsValueComputedValueType"
         }
       },
       "traits": {}
     },
-    "com.doppler.api#ListSecretsResponseSecretsALGOLIARawVisibility": {
-      "type": "enum",
-      "members": {
-        "UNMASKED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "unmasked"
-          }
-        },
-        "MASKED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "masked"
-          }
-        },
-        "RESTRICTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "restricted"
-          }
-        }
+    "com.doppler.api#ListSecretsResponseSecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
       },
-      "traits": {}
-    },
-    "com.doppler.api#ListSecretsResponseSecretsALGOLIA": {
-      "type": "structure",
-      "members": {
-        "raw": {
-          "target": "smithy.api#String"
-        },
-        "computed": {
-          "target": "smithy.api#String"
-        },
-        "note": {
-          "target": "smithy.api#String"
-        },
-        "rawVisibility": {
-          "target": "com.doppler.api#ListSecretsResponseSecretsALGOLIARawVisibility"
-        },
-        "computedVisibility": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.doppler.api#ListSecretsResponseSecretsDATABASERawVisibility": {
-      "type": "enum",
-      "members": {
-        "UNMASKED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "unmasked"
-          }
-        },
-        "MASKED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "masked"
-          }
-        },
-        "RESTRICTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "restricted"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.doppler.api#ListSecretsResponseSecretsDATABASE": {
-      "type": "structure",
-      "members": {
-        "raw": {
-          "target": "smithy.api#String"
-        },
-        "computed": {
-          "target": "smithy.api#String"
-        },
-        "note": {
-          "target": "smithy.api#String"
-        },
-        "rawVisibility": {
-          "target": "com.doppler.api#ListSecretsResponseSecretsDATABASERawVisibility"
-        },
-        "computedVisibility": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.doppler.api#ListSecretsResponseSecretsUSERRawVisibility": {
-      "type": "enum",
-      "members": {
-        "UNMASKED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "unmasked"
-          }
-        },
-        "MASKED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "masked"
-          }
-        },
-        "RESTRICTED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "restricted"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.doppler.api#ListSecretsResponseSecretsUSER": {
-      "type": "structure",
-      "members": {
-        "raw": {
-          "target": "smithy.api#String"
-        },
-        "computed": {
-          "target": "smithy.api#String"
-        },
-        "note": {
-          "target": "smithy.api#String"
-        },
-        "rawVisibility": {
-          "target": "com.doppler.api#ListSecretsResponseSecretsUSERRawVisibility"
-        },
-        "computedVisibility": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.doppler.api#ListSecretsResponseSecrets": {
-      "type": "structure",
-      "members": {
-        "STRIPE": {
-          "target": "com.doppler.api#ListSecretsResponseSecretsSTRIPE"
-        },
-        "ALGOLIA": {
-          "target": "com.doppler.api#ListSecretsResponseSecretsALGOLIA"
-        },
-        "DATABASE": {
-          "target": "com.doppler.api#ListSecretsResponseSecretsDATABASE"
-        },
-        "USER": {
-          "target": "com.doppler.api#ListSecretsResponseSecretsUSER"
-        }
+      "value": {
+        "target": "com.doppler.api#ListSecretsResponseSecretsValue"
       },
       "traits": {}
     },
@@ -2084,7 +2314,7 @@
       "type": "structure",
       "members": {
         "secrets": {
-          "target": "com.doppler.api#ListSecretsResponseSecrets"
+          "target": "com.doppler.api#ListSecretsResponseSecretsMap"
         }
       },
       "traits": {
@@ -2108,21 +2338,19 @@
         "smithy.api#documentation": "List\n\nSecrets"
       }
     },
-    "com.doppler.api#UpdateSecretRequestSecrets": {
-      "type": "structure",
-      "members": {
-        "STRIPE": {
-          "target": "smithy.api#String"
-        },
-        "ALGOLIA": {
-          "target": "smithy.api#String"
-        },
-        "DATABASE": {
-          "target": "smithy.api#String"
+    "com.doppler.api#UpdateSecretRequestSecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
         }
       },
       "traits": {
-        "smithy.api#documentation": "Either `secrets` or `change_requests` is required (can't use both). Object of secrets you would like to save to the config. Try it with the sample secrets below."
+        "smithy.api#documentation": "Either `secrets` or `change_requests` is required (can't use both). Secret name to value; a `null` value deletes the secret."
       }
     },
     "com.doppler.api#UpdateSecretRequestChangeRequestsItemValueTypeType": {
@@ -2341,20 +2569,23 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The original name of the secret. Use `null` (an actual `null`, not the string `null`) or omit this parameter for new secrets. If it differs from `name` then a rename is inferred.",
-            "smithy.api#required": {}
+            "com.distilled.openapi#nullable": {}
           }
         },
         "value": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The value the secret should have. Use `null` (an actual `null`, not the string `null`) to leave the existing secret value unchanged.",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
           }
         },
         "originalValue": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The value you expect the secret to have before `name` is applied. If specified, the request will only be processed if the provided value matches what's found in Doppler."
+            "smithy.api#documentation": "The value you expect the secret to have before `name` is applied. If specified, the request will only be processed if the provided value matches what's found in Doppler.",
+            "smithy.api#sensitive": {}
           }
         },
         "visibility": {
@@ -2429,9 +2660,9 @@
           }
         },
         "secrets": {
-          "target": "com.doppler.api#UpdateSecretRequestSecrets",
+          "target": "com.doppler.api#UpdateSecretRequestSecretsMap",
           "traits": {
-            "smithy.api#documentation": "Either `secrets` or `change_requests` is required (can't use both). Object of secrets you would like to save to the config. Try it with the sample secrets below."
+            "smithy.api#documentation": "Either `secrets` or `change_requests` is required (can't use both). Secret name to value; a `null` value deletes the secret."
           }
         },
         "change_requests": {
@@ -2445,63 +2676,90 @@
         "smithy.api#input": {}
       }
     },
-    "com.doppler.api#UpdateSecretResponseSecretsSTRIPE": {
+    "com.doppler.api#UpdateSecretResponseSecretsValueRawVisibility": {
+      "type": "enum",
+      "members": {
+        "UNMASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unmasked"
+          }
+        },
+        "MASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "masked"
+          }
+        },
+        "RESTRICTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restricted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#UpdateSecretResponseSecretsValueRawValueType": {
       "type": "structure",
       "members": {
-        "raw": {
-          "target": "smithy.api#String"
-        },
-        "computed": {
-          "target": "smithy.api#String"
-        },
-        "note": {
+        "type": {
           "target": "smithy.api#String"
         }
       },
       "traits": {}
     },
-    "com.doppler.api#UpdateSecretResponseSecretsALGOLIA": {
+    "com.doppler.api#UpdateSecretResponseSecretsValueComputedValueType": {
       "type": "structure",
       "members": {
-        "raw": {
-          "target": "smithy.api#String"
-        },
-        "computed": {
-          "target": "smithy.api#String"
-        },
-        "note": {
+        "type": {
           "target": "smithy.api#String"
         }
       },
       "traits": {}
     },
-    "com.doppler.api#UpdateSecretResponseSecretsDATABASE": {
+    "com.doppler.api#UpdateSecretResponseSecretsValue": {
       "type": "structure",
       "members": {
         "raw": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
         },
         "computed": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
         },
         "note": {
           "target": "smithy.api#String"
+        },
+        "rawVisibility": {
+          "target": "com.doppler.api#UpdateSecretResponseSecretsValueRawVisibility"
+        },
+        "computedVisibility": {
+          "target": "smithy.api#String"
+        },
+        "rawValueType": {
+          "target": "com.doppler.api#UpdateSecretResponseSecretsValueRawValueType"
+        },
+        "computedValueType": {
+          "target": "com.doppler.api#UpdateSecretResponseSecretsValueComputedValueType"
         }
       },
       "traits": {}
     },
-    "com.doppler.api#UpdateSecretResponseSecrets": {
-      "type": "structure",
-      "members": {
-        "STRIPE": {
-          "target": "com.doppler.api#UpdateSecretResponseSecretsSTRIPE"
-        },
-        "ALGOLIA": {
-          "target": "com.doppler.api#UpdateSecretResponseSecretsALGOLIA"
-        },
-        "DATABASE": {
-          "target": "com.doppler.api#UpdateSecretResponseSecretsDATABASE"
-        }
+    "com.doppler.api#UpdateSecretResponseSecretsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.doppler.api#UpdateSecretResponseSecretsValue"
       },
       "traits": {}
     },
@@ -2509,7 +2767,7 @@
       "type": "structure",
       "members": {
         "secrets": {
-          "target": "com.doppler.api#UpdateSecretResponseSecrets"
+          "target": "com.doppler.api#UpdateSecretResponseSecretsMap"
         }
       },
       "traits": {
@@ -3139,7 +3397,10 @@
           "target": "smithy.api#String"
         },
         "expires_at": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -3253,7 +3514,10 @@
           "target": "smithy.api#String"
         },
         "key": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
         },
         "config": {
           "target": "smithy.api#String"
@@ -3265,7 +3529,10 @@
           "target": "smithy.api#String"
         },
         "expires_at": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "access": {
           "target": "smithy.api#String"
@@ -3327,7 +3594,8 @@
         "token": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The token value."
+            "smithy.api#documentation": "The token value.",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -3550,6 +3818,44 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#UnlockConfigResponseConfigInheritsItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#UnlockConfigResponseConfigInheritsList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#UnlockConfigResponseConfigInheritsItem"
+      },
+      "traits": {}
+    },
+    "com.doppler.api#UnlockConfigResponseConfigInheritedByItem": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#UnlockConfigResponseConfigInheritedByList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#UnlockConfigResponseConfigInheritedByItem"
+      },
+      "traits": {}
+    },
     "com.doppler.api#UnlockConfigResponseConfig": {
       "type": "structure",
       "members": {
@@ -3576,6 +3882,21 @@
         },
         "project": {
           "target": "smithy.api#String"
+        },
+        "slug": {
+          "target": "smithy.api#String"
+        },
+        "inheritable": {
+          "target": "smithy.api#Boolean"
+        },
+        "inheriting": {
+          "target": "smithy.api#Boolean"
+        },
+        "inherits": {
+          "target": "com.doppler.api#UnlockConfigResponseConfigInheritsList"
+        },
+        "inheritedBy": {
+          "target": "com.doppler.api#UnlockConfigResponseConfigInheritedByList"
         }
       },
       "traits": {}
@@ -5130,7 +5451,10 @@
           "target": "smithy.api#String"
         },
         "last_seen_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "type": {
           "target": "smithy.api#String"
@@ -12084,31 +12408,24 @@
       },
       "traits": {}
     },
-    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsAudList": {
+    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsValueList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsSubList": {
-      "type": "list",
-      "member": {
+    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsMap": {
+      "type": "map",
+      "key": {
         "target": "smithy.api#String"
       },
-      "traits": {}
-    },
-    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaims": {
-      "type": "structure",
-      "members": {
-        "aud": {
-          "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsAudList"
-        },
-        "sub": {
-          "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsSubList"
-        }
+      "value": {
+        "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsValueList"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+      }
     },
     "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfig": {
       "type": "structure",
@@ -12120,7 +12437,10 @@
           "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsType"
         },
         "claims": {
-          "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaims"
+          "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentitiesItemConfigClaimsMap",
+          "traits": {
+            "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+          }
         }
       },
       "traits": {}
@@ -12147,7 +12467,10 @@
           "target": "smithy.api#String"
         },
         "last_seen_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -12219,37 +12542,24 @@
       },
       "traits": {}
     },
-    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsAudList": {
+    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsValueList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsSubList": {
-      "type": "list",
-      "member": {
+    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsMap": {
+      "type": "map",
+      "key": {
         "target": "smithy.api#String"
       },
-      "traits": {}
-    },
-    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaims": {
-      "type": "structure",
-      "members": {
-        "aud": {
-          "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsAudList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "sub": {
-          "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsSubList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
+      "value": {
+        "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsValueList"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+      }
     },
     "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfig": {
       "type": "structure",
@@ -12267,9 +12577,10 @@
           }
         },
         "claims": {
-          "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaims",
+          "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesRequestConfigClaimsMap",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
           }
         }
       },
@@ -12326,31 +12637,24 @@
       },
       "traits": {}
     },
-    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsAudList": {
+    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsValueList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsSubList": {
-      "type": "list",
-      "member": {
+    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsMap": {
+      "type": "map",
+      "key": {
         "target": "smithy.api#String"
       },
-      "traits": {}
-    },
-    "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaims": {
-      "type": "structure",
-      "members": {
-        "aud": {
-          "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsAudList"
-        },
-        "sub": {
-          "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsSubList"
-        }
+      "value": {
+        "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsValueList"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+      }
     },
     "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfig": {
       "type": "structure",
@@ -12362,16 +12666,10 @@
           "target": "smithy.api#String"
         },
         "claims": {
-          "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaims"
-        },
-        "ttl_seconds": {
-          "target": "smithy.api#Integer"
-        },
-        "created_at": {
-          "target": "smithy.api#String"
-        },
-        "last_seen_at": {
-          "target": "smithy.api#String"
+          "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfigClaimsMap",
+          "traits": {
+            "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+          }
         }
       },
       "traits": {}
@@ -12390,6 +12688,18 @@
         },
         "config": {
           "target": "com.doppler.api#PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponseIdentityConfig"
+        },
+        "ttl_seconds": {
+          "target": "smithy.api#Integer"
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "last_seen_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -12473,31 +12783,24 @@
       },
       "traits": {}
     },
-    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList": {
+    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList": {
-      "type": "list",
-      "member": {
+    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap": {
+      "type": "map",
+      "key": {
         "target": "smithy.api#String"
       },
-      "traits": {}
-    },
-    "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims": {
-      "type": "structure",
-      "members": {
-        "aud": {
-          "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList"
-        },
-        "sub": {
-          "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList"
-        }
+      "value": {
+        "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+      }
     },
     "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig": {
       "type": "structure",
@@ -12509,7 +12812,10 @@
           "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType"
         },
         "claims": {
-          "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims"
+          "target": "com.doppler.api#GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap",
+          "traits": {
+            "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+          }
         }
       },
       "traits": {}
@@ -12536,7 +12842,10 @@
           "target": "smithy.api#String"
         },
         "last_seen_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -12598,37 +12907,24 @@
       },
       "traits": {}
     },
-    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsAudList": {
+    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsValueList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsSubList": {
-      "type": "list",
-      "member": {
+    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsMap": {
+      "type": "map",
+      "key": {
         "target": "smithy.api#String"
       },
-      "traits": {}
-    },
-    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaims": {
-      "type": "structure",
-      "members": {
-        "aud": {
-          "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsAudList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "sub": {
-          "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsSubList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
+      "value": {
+        "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsValueList"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+      }
     },
     "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfig": {
       "type": "structure",
@@ -12646,9 +12942,10 @@
           }
         },
         "claims": {
-          "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaims",
+          "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityRequestConfigClaimsMap",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
           }
         }
       },
@@ -12730,31 +13027,24 @@
       },
       "traits": {}
     },
-    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList": {
+    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       },
       "traits": {}
     },
-    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList": {
-      "type": "list",
-      "member": {
+    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap": {
+      "type": "map",
+      "key": {
         "target": "smithy.api#String"
       },
-      "traits": {}
-    },
-    "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims": {
-      "type": "structure",
-      "members": {
-        "aud": {
-          "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsAudList"
-        },
-        "sub": {
-          "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsSubList"
-        }
+      "value": {
+        "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsValueList"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+      }
     },
     "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfig": {
       "type": "structure",
@@ -12766,7 +13056,10 @@
           "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsType"
         },
         "claims": {
-          "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaims"
+          "target": "com.doppler.api#PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponseIdentityConfigClaimsMap",
+          "traits": {
+            "smithy.api#documentation": "Claim name, or a JSON Pointer to a nested claim, to the values it may take. `aud` and `sub` are required."
+          }
         }
       },
       "traits": {}
@@ -12793,7 +13086,10 @@
           "target": "smithy.api#String"
         },
         "last_seen_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -12904,10 +13200,16 @@
           "target": "smithy.api#String"
         },
         "last_seen_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "expires_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -12991,10 +13293,16 @@
           "target": "smithy.api#String"
         },
         "last_seen_at": {
-          "target": "smithy.api#Document"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "expires_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -13073,10 +13381,16 @@
           "target": "smithy.api#String"
         },
         "last_seen_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "expires_at": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
