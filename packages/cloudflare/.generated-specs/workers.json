@@ -69175,8 +69175,9 @@
         "smithy.api#documentation": "List your Workers Observability Telemetry Destinations.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
-          "mode": "single",
-          "items": "result"
+          "mode": "page",
+          "items": "result",
+          "inputToken": "page"
         }
       },
       "errors": [

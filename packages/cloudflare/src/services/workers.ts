@@ -37676,7 +37676,7 @@ export const listObservabilityDestinations: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
-    pagination: { mode: "single", items: "result" } as const,
+    pagination: { mode: "page", items: "result", inputToken: "page" } as const,
   }),
   cloudflarePaginate,
 ) as any;
