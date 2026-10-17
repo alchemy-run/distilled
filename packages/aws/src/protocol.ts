@@ -25,6 +25,7 @@ import * as API from "@distilled.cloud/core/api";
  * rules) is keyed off the operation config's identity, which `API.make`
  * memoizes — so it runs once per operation per process.
  */
+import * as Cause from "effect/Cause";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
@@ -33,6 +34,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as LogLevel from "effect/LogLevel";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
@@ -60,6 +62,10 @@ export type AwsOpContext = Credentials.Credentials | HttpClient.HttpClient;
 
 interface Prepared {
   readonly buildRequest: (input: unknown) => Effect.Effect<Request, any, any>;
+  /** Fills idempotency tokens, so the sent and the logged request agree. */
+  readonly fillInput: (input: unknown) => unknown;
+  /** Copies input with secret values replaced by placeholders, for logging. */
+  readonly redactInput: (input: unknown) => unknown;
   readonly parseResponse: (response: {
     status: number;
     statusText: string;
@@ -95,8 +101,11 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
   const operationName =
     config.operationName ?? getIdentifier(inputAst)?.replace(/(?:Request|Input|Message)$/, "");
 
+  const requestBuilder = makeRequestBuilder(op);
   const prepared: Prepared = {
-    buildRequest: makeRequestBuilder(op),
+    buildRequest: requestBuilder.build,
+    fillInput: requestBuilder.fillInput,
+    redactInput: requestBuilder.redact,
     parseResponse: makeResponseParser(op, {
       service: serviceSdkId,
       operation: operationName,
@@ -130,18 +139,47 @@ const encode = ({
   Effect.gen(function* () {
     const {
       buildRequest,
+      fillInput,
+      redactInput,
       sigv4,
       sigv2,
       serviceSdkId,
       resolveEndpoint: rulesResolver,
     } = prepare(config);
 
-    yield* Effect.logDebug("Payload", input);
+    // Fill idempotency tokens once so the logged request carries the same
+    // tokens as the one that is sent.
+    const filledInput = fillInput(input);
+
+    // Debug logs never carry secrets: the serializers unwrap `Redacted` values
+    // and write sensitive members verbatim into the body, so both logs use a
+    // masked copy of the input instead of the input and the sent request.
+    // `Payload` is logged before serialization, so it is logged even when
+    // serialization fails.
+    const debug = yield* LogLevel.isEnabled("Debug");
+    const maskedInput = debug ? redactInput(filledInput) : undefined;
+    if (debug) {
+      yield* Effect.logDebug("Payload", maskedInput);
+    }
 
     // Serialize the input (protocol serializer + annotation middleware)
-    const request = yield* buildRequest(input);
+    const request = yield* buildRequest(filledInput);
 
-    yield* Effect.logDebug("Built Request", request);
+    if (debug) {
+      // A failure or defect in the masked build only loses this log line;
+      // interruption still propagates.
+      yield* buildRequest(maskedInput).pipe(
+        Effect.flatMap((masked) => Effect.logDebug("Built Request", masked)),
+        Effect.catchCauseIf(
+          (cause) => !Cause.hasInterrupts(cause),
+          () =>
+            Effect.logDebug(
+              "Built Request",
+              "(unavailable: the redacted copy failed to serialize)",
+            ),
+        ),
+      );
+    }
 
     const credentials = yield* yield* Credentials.Credentials;
     // The region the credentials authenticated against, unless this scope
