@@ -16,6 +16,7 @@ const sdks = readdirSync(PACKAGES)
 /** Packages without a `<Sdk>OpError` union over a REST/RPC protocol, and why. */
 const NO_OP_ERROR: Record<string, string> = {
   aws: "hand-written protocols; ParseError is part of CommonErrors in src/errors.ts",
+  linear: "GraphQL Query SDK; errors are typed per root by core/graphql",
   railway: "GraphQL Query SDK; errors are typed per root by core/graphql",
 };
 
