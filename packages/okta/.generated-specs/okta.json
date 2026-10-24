@@ -617,7 +617,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#WellKnownOrgMetadataLinksOrganization": {
       "type": "structure",
@@ -651,7 +653,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#WellKnownOrgMetadataLinks": {
       "type": "structure",
@@ -1162,7 +1166,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AgentPoolAgentsList": {
       "type": "list",
@@ -3529,7 +3535,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectActivateLink": {
       "type": "structure",
@@ -3563,7 +3571,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObject": {
       "type": "structure",
@@ -3597,7 +3607,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ApplicationLinksAppLinksList": {
       "type": "list",
@@ -3640,7 +3652,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#GroupsLink": {
       "type": "structure",
@@ -3674,7 +3688,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HelpLink": {
       "type": "structure",
@@ -3708,7 +3724,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ApplicationLinksLogoList": {
       "type": "list",
@@ -3751,7 +3769,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UsersLink": {
       "type": "structure",
@@ -3785,7 +3805,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListApplicationsResponseBodyList": {
       "type": "list",
@@ -5357,7 +5379,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OAuth2ClientJsonWebKeyRsaResponseKty": {
       "type": "enum",
@@ -8649,7 +8673,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#GrantConsentToScopeRequestLinks": {
       "type": "structure",
@@ -9067,7 +9093,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectGroupLink": {
       "type": "structure",
@@ -9101,7 +9129,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListGroupPushMappingsResponseBodyList": {
       "type": "list",
@@ -9630,7 +9660,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectGroupLinkInput": {
       "type": "structure",
@@ -9643,7 +9675,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AssignGroupToApplicationRequestLinks": {
       "type": "structure",
@@ -11203,7 +11237,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListApplicationUsersResponseBodyList": {
       "type": "list",
@@ -11873,7 +11909,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectDeactivateLinkInput": {
       "type": "structure",
@@ -11886,7 +11924,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectInput": {
       "type": "structure",
@@ -11899,7 +11939,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#CreateAuthenticatorRequest": {
       "type": "structure",
@@ -13827,7 +13869,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AuthServerLinksMetadataList": {
       "type": "list",
@@ -13870,7 +13914,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AuthServerLinksRotateKey": {
       "type": "structure",
@@ -13904,7 +13950,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AuthServerLinksScopes": {
       "type": "structure",
@@ -13938,7 +13986,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListAuthorizationServersResponseBodyList": {
       "type": "list",
@@ -14055,7 +14105,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AuthServerLinksInputMetadataList": {
       "type": "list",
@@ -14077,7 +14129,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AuthServerLinksInputRotateKey": {
       "type": "structure",
@@ -14090,7 +14144,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AuthServerLinksInputScopes": {
       "type": "structure",
@@ -14103,7 +14159,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#CreateAuthorizationServerRequest": {
       "type": "structure",
@@ -15989,7 +16047,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AuthorizationServerPolicyLinks": {
       "type": "structure",
@@ -16101,7 +16161,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#CreateAuthorizationServerPolicyRequestLinks": {
       "type": "structure",
@@ -16251,7 +16313,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#CreateAuthorizationServerPolicyResponseLinks": {
       "type": "structure",
@@ -16457,7 +16521,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#GetAuthorizationServerPolicyResponseLinks": {
       "type": "structure",
@@ -16615,7 +16681,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ReplaceAuthorizationServerPolicyRequestLinks": {
       "type": "structure",
@@ -16773,7 +16841,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ReplaceAuthorizationServerPolicyResponseLinks": {
       "type": "structure",
@@ -19997,7 +20067,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#DomainLinksCertificate": {
       "type": "structure",
@@ -20031,7 +20103,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#DomainLinksVerify": {
       "type": "structure",
@@ -20065,7 +20139,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#BrandWithEmbeddedEmbeddedDomainsList": {
       "type": "list",
@@ -28602,7 +28678,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectUnsuspendLink": {
       "type": "structure",
@@ -28636,7 +28714,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#DeviceUserOutput": {
       "type": "structure",
@@ -29255,7 +29335,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Specifies the default and custom profile properties for a user.\n\nThe default user profile is based on the [System for Cross-domain Identity Management: Core Schema](https://datatracker.ietf.org/doc/html/rfc7643).\n\nThe only permitted customizations of the default profile are to update permissions, change whether the `firstName` and `lastName` properties are nullable, and specify a [pattern](https://developer.okta.com/docs/reference/api/schemas/#login-pattern-validation) for `login`. You can use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UISchema/#tag/UISchema) to make schema modifications.\n\nYou can extend user profiles with custom properties. You must first add the custom property to the user profile schema before you reference it.\nYou can use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UISchema/#tag/UISchema) to manage schema extensions.\n\nCustom attributes can contain HTML tags. It's the client's responsibility to escape or encode this data before displaying it. Use [best-practices](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) to prevent cross-site scripting."
+        "smithy.api#documentation": "Specifies the default and custom profile properties for a user.\n\nThe default user profile is based on the [System for Cross-domain Identity Management: Core Schema](https://datatracker.ietf.org/doc/html/rfc7643).\n\nThe only permitted customizations of the default profile are to update permissions, change whether the `firstName` and `lastName` properties are nullable, and specify a [pattern](https://developer.okta.com/docs/reference/api/schemas/#login-pattern-validation) for `login`. You can use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UISchema/#tag/UISchema) to make schema modifications.\n\nYou can extend user profiles with custom properties. You must first add the custom property to the user profile schema before you reference it.\nYou can use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UISchema/#tag/UISchema) to manage schema extensions.\n\nCustom attributes can contain HTML tags. It's the client's responsibility to escape or encode this data before displaying it. Use [best-practices](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) to prevent cross-site scripting.",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.okta.management#UserStatus": {
@@ -36145,7 +36226,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#CatalogApplicationLinksLogoList": {
       "type": "list",
@@ -36268,7 +36351,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#CustomRole": {
       "type": "structure",
@@ -36386,7 +36471,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectPermissionsLink": {
       "type": "structure",
@@ -36420,7 +36507,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectResourceSetLink": {
       "type": "structure",
@@ -36454,7 +36543,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectRoleLink": {
       "type": "structure",
@@ -36488,7 +36579,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListGroupAssignedRolesResponseBodyItem": {
       "type": "union",
@@ -38122,7 +38215,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListUsersWithRoleAssignments": {
       "type": "operation",
@@ -38257,7 +38352,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#GovernanceBundleLinks": {
       "type": "structure",
@@ -38314,7 +38411,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#GovernanceBundlesResponseLinks": {
       "type": "structure",
@@ -38718,7 +38817,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#BundleEntitlementLinks": {
       "type": "structure",
@@ -38772,7 +38873,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#BundleEntitlementsResponseLinks": {
       "type": "structure",
@@ -39045,7 +39148,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OptInStatusResponseLinks": {
       "type": "structure",
@@ -39225,7 +39330,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectBindingsLink": {
       "type": "structure",
@@ -39259,7 +39366,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ResourceSetLinks": {
       "type": "structure",
@@ -39431,7 +39540,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectBindingsLinkInput": {
       "type": "structure",
@@ -39444,7 +39555,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ReplaceResourceSetRequestLinks": {
       "type": "structure",
@@ -39646,7 +39759,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ResourceSetBindingRoleLinks": {
       "type": "structure",
@@ -39701,7 +39816,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ResourceSetBindingsLinks": {
       "type": "structure",
@@ -40083,7 +40200,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectBindingLink": {
       "type": "structure",
@@ -40117,7 +40236,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ResourceSetBindingMembersLinks": {
       "type": "structure",
@@ -40491,7 +40612,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ResourceSetResourceLinksResource": {
       "type": "structure",
@@ -40525,7 +40648,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ResourceSetResourceLinksGroups": {
       "type": "structure",
@@ -40559,7 +40684,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ResourceSetResourceLinksUsers": {
       "type": "structure",
@@ -40593,7 +40720,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ResourceSetResourceLinks": {
       "type": "structure",
@@ -45416,7 +45545,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListIdentityProvidersResponseBodyList": {
       "type": "list",
@@ -45540,7 +45671,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#CreateIdentityProviderRequest": {
       "type": "structure",
@@ -45684,7 +45817,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "A [JSON Web Key](https://tools.ietf.org/html/rfc7517) for a signature or encryption credential for an IdP"
+        "smithy.api#documentation": "A [JSON Web Key](https://tools.ietf.org/html/rfc7517) for a signature or encryption credential for an IdP",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.okta.management#X5c": {
@@ -46058,7 +46192,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ReplaceIdentityProviderRequest": {
       "type": "structure",
@@ -46239,7 +46375,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListCsrsForIdentityProviderResponseBodyList": {
       "type": "list",
@@ -46972,7 +47110,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListIdentityProviderApplicationUsersResponseBodyList": {
       "type": "list",
@@ -52660,7 +52800,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ProfileMappingTarget": {
       "type": "structure",
@@ -54646,7 +54788,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListLinkedObjectDefinitionsResponseBodyList": {
       "type": "list",
@@ -55038,7 +55182,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListUserTypesResponseBodyList": {
       "type": "list",
@@ -55107,7 +55253,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#CreateUserTypeRequest": {
       "type": "structure",
@@ -55930,7 +56078,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgGeneralSettingLinksLogo": {
       "type": "structure",
@@ -55964,7 +56114,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgGeneralSettingLinksOktaCommunication": {
       "type": "structure",
@@ -55998,7 +56150,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgGeneralSettingLinksOktaSupport": {
       "type": "structure",
@@ -56032,7 +56186,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgGeneralSettingLinksPreferences": {
       "type": "structure",
@@ -56066,7 +56222,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgGeneralSettingLinksUploadLogo": {
       "type": "structure",
@@ -56100,7 +56258,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#GetOrgSettings": {
       "type": "operation",
@@ -56572,7 +56732,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgBillingContactTypeLinks": {
       "type": "structure",
@@ -56634,7 +56796,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgTechnicalContactTypeLinks": {
       "type": "structure",
@@ -57298,7 +57462,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksCancel": {
       "type": "structure",
@@ -57332,7 +57498,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksDeactivate": {
       "type": "structure",
@@ -57366,7 +57534,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksEnroll": {
       "type": "structure",
@@ -57400,7 +57570,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksFactor": {
       "type": "structure",
@@ -57434,7 +57606,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksPoll": {
       "type": "structure",
@@ -57468,7 +57642,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksQrcode": {
       "type": "structure",
@@ -57502,7 +57678,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksQuestion": {
       "type": "structure",
@@ -57536,7 +57714,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksResend": {
       "type": "structure",
@@ -57570,7 +57750,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksSend": {
       "type": "structure",
@@ -57604,7 +57786,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksUser": {
       "type": "structure",
@@ -57638,7 +57822,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorLinksVerify": {
       "type": "structure",
@@ -57672,7 +57858,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListYubikeyOtpTokensResponseBodyList": {
       "type": "list",
@@ -58107,7 +58295,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgPreferencesLinksShowEndUserFooter": {
       "type": "structure",
@@ -58141,7 +58331,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgPreferencesLinks": {
       "type": "structure",
@@ -58295,7 +58487,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#GetAerialConsent": {
       "type": "operation",
@@ -58430,7 +58624,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#RevokeAerialConsent": {
       "type": "operation",
@@ -58507,7 +58703,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgOktaCommunicationSettingLinksOptOut": {
       "type": "structure",
@@ -58541,7 +58739,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgOktaCommunicationSettingLinks": {
       "type": "structure",
@@ -58704,7 +58904,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgOktaSupportSettingsObjLinksRevoke": {
       "type": "structure",
@@ -58738,7 +58940,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgOktaSupportSettingsObjLinksGrant": {
       "type": "structure",
@@ -58772,7 +58976,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgOktaSupportSettingsObjLinksCase": {
       "type": "structure",
@@ -58806,7 +59012,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgOktaSupportSettingsObjLinksCases": {
       "type": "structure",
@@ -58840,7 +59048,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#OrgOktaSupportSettingsObjLinks": {
       "type": "structure",
@@ -59371,7 +59581,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Specifies the profile attributes for the first super admin user. The minimal set of required attributes are `email`, `firstName`, `lastName`, and `login`.\nSee [profile](/openapi/okta-management/management/user/getuser#user/getuser/t=response&c=200&path=profile) for additional profile attributes."
+        "smithy.api#documentation": "Specifies the profile attributes for the first super admin user. The minimal set of required attributes are `email`, `firstName`, `lastName`, and `login`.\nSee [profile](/openapi/okta-management/management/user/getuser#user/getuser/t=response&c=200&path=profile) for additional profile attributes.",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.okta.management#CreateChildOrgRequestEdition": {
@@ -59872,7 +60083,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#HrefObjectRulesLink": {
       "type": "structure",
@@ -59906,7 +60119,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListPoliciesResponseBodyList": {
       "type": "list",
@@ -60982,7 +61197,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#PolicyMappingLinksPolicy": {
       "type": "structure",
@@ -61016,7 +61233,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#PolicyMappingLinks": {
       "type": "structure",
@@ -70009,7 +70228,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#AuthenticatorEnrollmentLinksAuthenticator": {
       "type": "structure",
@@ -70043,7 +70264,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListAuthenticatorEnrollments": {
       "type": "operation",
@@ -72447,7 +72670,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorActivateResponseLinksVerify": {
       "type": "structure",
@@ -72481,7 +72706,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#UserFactorActivateResponseLinks": {
       "type": "structure",
@@ -74037,7 +74264,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#RoleGovernanceSourceLinks": {
       "type": "structure",
@@ -76270,7 +76499,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.okta.management#ListApiServiceIntegrationInstancesResponseBodyList": {
       "type": "list",

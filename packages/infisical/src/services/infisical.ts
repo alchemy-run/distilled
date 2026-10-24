@@ -110936,6 +110936,7 @@ export type ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList
 export interface ListPkiSyncCertificatesResponseCertificatesItemSyncMetadata {
   isDefault?: boolean;
   files?: ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList;
+  [key: string]: unknown;
 }
 export interface ListPkiSyncCertificatesResponseCertificatesItem {
   id: string;
@@ -110981,6 +110982,7 @@ export type ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList
 export interface ListPkiSyncCertificatesResponseCertificatesItemSyncMetadata2 {
   isDefault?: boolean;
   files?: ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList2;
+  [key: string]: unknown;
 }
 export interface ListPkiSyncCertificatesResponseCertificatesItem2 {
   id: string;
@@ -242452,10 +242454,13 @@ function __c705(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          isDefault: S.optional(S.Boolean),
-          files: S.optional(__S(35584, __c2224, 0)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            isDefault: S.optional(S.Boolean),
+            files: S.optional(__S(35584, __c2224, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ListPkiSyncCertificatesResponseCertificatesItemSyncMetadata" });
     case 1:
       return S.suspend(() =>

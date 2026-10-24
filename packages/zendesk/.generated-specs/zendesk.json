@@ -5384,7 +5384,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "For some channels a source object gives more information about how or why the ticket or event was created\n"
+        "smithy.api#documentation": "For some channels a source object gives more information about how or why the ticket or event was created\n",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#ListBookmarksResponseBookmarksList": {
@@ -8231,7 +8232,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/)"
+        "smithy.api#documentation": "Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/)",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#TicketCreateVoicemailTicketInputInputAdditionalTagsList": {
@@ -12295,7 +12297,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.zendesk.api#CustomObjectRecordFilteredSearchConditionFieldKeyValueCase2Item": {
       "type": "union",
@@ -12379,7 +12383,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.zendesk.api#CustomObjectRecordFilterExpressionLevel1FieldKeyValueCase2Item": {
       "type": "union",
@@ -20091,7 +20097,9 @@
           "target": "com.zendesk.api#TicketAuditViaObjectInput"
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.zendesk.api#TicketImportInputInputCommentsItemUploadsList": {
       "type": "list",
@@ -20172,7 +20180,9 @@
           "target": "com.zendesk.api#TicketAuditViaObjectInput"
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.zendesk.api#TicketImportInputInputCommentsList": {
       "type": "list",
@@ -23128,7 +23138,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.zendesk.api#ItamAssetFilteredSearchConditionFieldKeyValueCase2Item": {
       "type": "union",
@@ -25121,7 +25133,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Who may access this macro. Will be null when everyone in the account can access it"
+        "smithy.api#documentation": "Who may access this macro. Will be null when everyone in the account can access it",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#CreateMacroRequest": {
@@ -37539,7 +37552,9 @@
           "target": "smithy.api#String"
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.zendesk.api#TargetsResponseTargetsList": {
       "type": "list",
@@ -43430,7 +43445,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/)"
+        "smithy.api#documentation": "Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/)",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#CreateTicketRequest": {
@@ -44543,7 +44559,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.zendesk.api#ConversationLogObjectAttachmentsList": {
       "type": "list",
@@ -44605,7 +44623,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Object that describes the user who created the event"
+        "smithy.api#documentation": "Object that describes the user who created the event",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#ConversationLogObjectContentMap": {
@@ -47500,7 +47519,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/)"
+        "smithy.api#documentation": "Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/)",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#TicketsUpdateRequestInputCase0TicketAdditionalTagsList": {
@@ -48685,7 +48705,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/)"
+        "smithy.api#documentation": "Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/)",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#TicketsUpdateRequestInputCase1TicketsItemAdditionalTagsList": {
@@ -57894,7 +57915,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.zendesk.api#GetCurrentUser": {
       "type": "operation",
@@ -58013,7 +58036,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Admin Center UI settings"
+        "smithy.api#documentation": "Admin Center UI settings",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#UserSettingsResponseSettingsAgentHomePinnedViewsList": {
@@ -58109,7 +58133,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Lotus UI settings for onboarding, tooltips, and feature preferences"
+        "smithy.api#documentation": "Lotus UI settings for onboarding, tooltips, and feature preferences",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#UserSettingsResponseSettingsSharedViewsOrderList": {
@@ -58183,7 +58208,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Admin Center UI settings for onboarding and preferences"
+        "smithy.api#documentation": "Admin Center UI settings for onboarding and preferences",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#UpdateCurrentUserSettingsRequestSettingsAgentHomePinnedViewsList": {
@@ -58282,7 +58308,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Lotus UI settings for onboarding, tooltips, and feature preferences"
+        "smithy.api#documentation": "Lotus UI settings for onboarding, tooltips, and feature preferences",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.zendesk.api#UpdateCurrentUserSettingsRequestSettingsSharedViewsOrderList": {

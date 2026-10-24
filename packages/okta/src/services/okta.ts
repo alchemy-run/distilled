@@ -92,6 +92,7 @@ export interface HrefObjectSelfLink {
   templated?: boolean;
   /** The media type of the link. If omitted, it is implicitly `application/json`. */
   type?: string;
+  [key: string]: unknown;
 }
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface LinksSelf {
@@ -1163,6 +1164,7 @@ export interface IdentityProviderLinks {
   activate?: HrefObjectSelfLink;
   /** IdP keys */
   keys?: HrefObjectSelfLink;
+  [key: string]: unknown;
 }
 export interface IdentityProvider {
   created?: string;
@@ -2022,6 +2024,7 @@ export type GroupAssignmentProfile = { [key: string]: unknown | undefined };
 export interface HrefObjectSelfLinkInput {
   /** Link URI */
   href: string;
+  [key: string]: unknown;
 }
 export type HrefObjectAppLinkInput = HrefObjectSelfLinkInput;
 export type HrefObjectGroupLinkInput = HrefObjectSelfLinkInput;
@@ -2520,6 +2523,7 @@ export interface IdPKeyCredential {
   x5c?: X5c;
   /** Base64url-encoded SHA-256 thumbprint of the DER encoding of an X.509 certificate */
   x5t_S256?: string;
+  [key: string]: unknown;
 }
 export interface ClonePolicyRequest {
   /** `id` of the policy */
@@ -3369,6 +3373,7 @@ export interface OrgCreationAdminProfile {
   email: string;
   /** The unique identifier for the User (`username`) */
   login: string;
+  [key: string]: unknown;
 }
 /** Profile and credential information for the first super admin user of the child org. If you plan to configure and manage the org programmatically, create a system user with a dedicated email address and a strong password. > **Note:** If you don't provide `credentials`, the super admin user is prompted to set up their credentials when they sign in to the org for the first time. */
 export interface OrgCreationAdmin {
@@ -4076,6 +4081,7 @@ export interface CreateIdentityProviderRequestLinks {
   activate?: HrefObjectSelfLinkInput;
   /** IdP keys */
   keys?: HrefObjectSelfLinkInput;
+  [key: string]: unknown;
 }
 export interface CreateIdentityProviderRequest {
   issuerMode?: IdentityProviderIssuerMode | (string & {});
@@ -5093,6 +5099,7 @@ export interface UserProfile {
   userType?: string | null;
   /** The ZIP code or postal code component of the user's address (`postalCode`) */
   zipCode?: string | null;
+  [key: string]: unknown;
 }
 /** The ID of the user type. Add this value if you want to create a user with a non-default [User Type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/). The user type determines which [schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) applies to that user. After a user has been created, the user can only be assigned a different user type by an administrator through a full replacement (`PUT`) operation. */
 export interface CreateUserRequestType {
@@ -6885,6 +6892,7 @@ export interface IdPCsrLinks {
   self?: HrefObjectSelfLink;
   /** Publish the CSR */
   publish?: HrefObjectSelfLink;
+  [key: string]: unknown;
 }
 /** Defines a CSR for a signature or decryption credential for an IdP */
 export interface IdPCsr {
@@ -8877,6 +8885,7 @@ export interface IdentityProviderApplicationUserLinks {
   idp?: HrefObjectSelfLink;
   /** The linked Okta user */
   user?: HrefObjectSelfLink;
+  [key: string]: unknown;
 }
 export interface IdentityProviderApplicationUser {
   created?: string;
@@ -14590,8 +14599,8 @@ export const activateApplication: API.OperationMethod<
   ActivateApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26464, __c827, 0) as any as S.Schema<ActivateApplicationRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ActivateApplicationResponse>,
+  input: __S(26496, __c828, 0) as any as S.Schema<ActivateApplicationRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ActivateApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14605,8 +14614,8 @@ export const activateAuthenticator: API.OperationMethod<
   ActivateAuthenticatorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28352, __c886, 0) as any as S.Schema<ActivateAuthenticatorRequest>,
-  output: __S(28385, __c887, 1) as any as S.Schema<AuthenticatorBase>,
+  input: __S(28384, __c887, 0) as any as S.Schema<ActivateAuthenticatorRequest>,
+  output: __S(28417, __c888, 1) as any as S.Schema<AuthenticatorBase>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14620,8 +14629,8 @@ export const activateAuthenticatorMethod: API.OperationMethod<
   ActivateAuthenticatorMethodError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29120, __c910, 0) as any as S.Schema<ActivateAuthenticatorMethodRequest>,
-  output: __S(29152, __c911, 0) as any as S.Schema<AuthenticatorMethodBase>,
+  input: __S(29152, __c911, 0) as any as S.Schema<ActivateAuthenticatorMethodRequest>,
+  output: __S(29184, __c912, 0) as any as S.Schema<AuthenticatorMethodBase>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14636,7 +14645,7 @@ export const activateAuthorizationServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ActivateAuthorizationServerRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ActivateAuthorizationServerResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ActivateAuthorizationServerResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14651,7 +14660,7 @@ export const activateAuthorizationServerPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ActivateAuthorizationServerPolicyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ActivateAuthorizationServerPolicyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ActivateAuthorizationServerPolicyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14666,7 +14675,7 @@ export const activateAuthorizationServerPolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ActivateAuthorizationServerPolicyRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ActivateAuthorizationServerPolicyRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ActivateAuthorizationServerPolicyRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14719,8 +14728,8 @@ export const activateDefaultProvisioningConnectionForApplication: API.OperationM
     0,
   ) as any as S.Schema<ActivateDefaultProvisioningConnectionForApplicationRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<ActivateDefaultProvisioningConnectionForApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -14737,7 +14746,7 @@ export const activateDevice: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<ActivateDeviceRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ActivateDeviceResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ActivateDeviceResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14797,7 +14806,7 @@ export const activateGroupRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<ActivateGroupRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ActivateGroupRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ActivateGroupRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14917,7 +14926,7 @@ export const activatePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<ActivatePolicyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ActivatePolicyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ActivatePolicyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14932,7 +14941,7 @@ export const activatePolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<ActivatePolicyRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ActivatePolicyRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ActivatePolicyRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -14966,7 +14975,7 @@ export const activateRealmAssignment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<ActivateRealmAssignmentRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ActivateRealmAssignmentResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ActivateRealmAssignmentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15112,7 +15121,7 @@ export const assignAllAppsAsTargetToRoleForUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<AssignAllAppsAsTargetToRoleForUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignAllAppsAsTargetToRoleForUserResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignAllAppsAsTargetToRoleForUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15132,8 +15141,8 @@ export const assignAppInstanceTargetToAppAdminRoleForGroup: API.OperationMethod<
     0,
   ) as any as S.Schema<AssignAppInstanceTargetToAppAdminRoleForGroupRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<AssignAppInstanceTargetToAppAdminRoleForGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -15155,8 +15164,8 @@ export const assignAppInstanceTargetToAppAdminRoleForUser: API.OperationMethod<
     0,
   ) as any as S.Schema<AssignAppInstanceTargetToAppAdminRoleForUserRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<AssignAppInstanceTargetToAppAdminRoleForUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -15173,7 +15182,7 @@ export const assignApplicationPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16000, __c500, 0) as any as S.Schema<AssignApplicationPolicyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignApplicationPolicyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignApplicationPolicyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15188,7 +15197,7 @@ export const assignAppTargetInstanceRoleForClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16416, __c513, 0) as any as S.Schema<AssignAppTargetInstanceRoleForClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignAppTargetInstanceRoleForClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignAppTargetInstanceRoleForClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15203,7 +15212,7 @@ export const assignAppTargetRoleToClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16800, __c525, 0) as any as S.Schema<AssignAppTargetRoleToClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignAppTargetRoleToClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignAppTargetRoleToClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15218,7 +15227,7 @@ export const assignAppTargetToAdminRoleForGroup: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17216, __c538, 0) as any as S.Schema<AssignAppTargetToAdminRoleForGroupRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignAppTargetToAdminRoleForGroupResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignAppTargetToAdminRoleForGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15233,7 +15242,7 @@ export const assignAppTargetToAdminRoleForUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17632, __c551, 0) as any as S.Schema<AssignAppTargetToAdminRoleForUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignAppTargetToAdminRoleForUserResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignAppTargetToAdminRoleForUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15271,8 +15280,8 @@ export const assignFulfillmentErrorWebAuthnPreregistrationFactor: API.OperationM
     0,
   ) as any as S.Schema<AssignFulfillmentErrorWebAuthnPreregistrationFactorRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<AssignFulfillmentErrorWebAuthnPreregistrationFactorResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -15304,7 +15313,7 @@ export const assignGroupTargetRoleForClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<AssignGroupTargetRoleForClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignGroupTargetRoleForClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignGroupTargetRoleForClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15319,7 +15328,7 @@ export const assignGroupTargetToGroupAdminRole: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19872, __c621, 0) as any as S.Schema<AssignGroupTargetToGroupAdminRoleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignGroupTargetToGroupAdminRoleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignGroupTargetToGroupAdminRoleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15334,7 +15343,7 @@ export const assignGroupTargetToUserRole: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20224, __c632, 0) as any as S.Schema<AssignGroupTargetToUserRoleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignGroupTargetToUserRoleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignGroupTargetToUserRoleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15364,7 +15373,7 @@ export const assignLinkedObjectValueForPrimary: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21024, __c657, 0) as any as S.Schema<AssignLinkedObjectValueForPrimaryRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignLinkedObjectValueForPrimaryResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignLinkedObjectValueForPrimaryResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15439,7 +15448,7 @@ export const assignUserToGroup: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22944, __c717, 0) as any as S.Schema<AssignUserToGroupRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<AssignUserToGroupResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<AssignUserToGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15514,7 +15523,7 @@ export const cloneIdentityProviderKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24896, __c778, 0) as any as S.Schema<CloneIdentityProviderKeyRequest>,
-  output: __S(24544, __c767, 0) as any as S.Schema<IdPKeyCredential>,
+  output: __S(24928, __c779, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15528,8 +15537,8 @@ export const clonePolicy: API.OperationMethod<
   ClonePolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25248, __c789, 0) as any as S.Schema<ClonePolicyRequest>,
-  output: __S(25312, __c791, 0) as any as S.Schema<Policy>,
+  input: __S(25280, __c790, 0) as any as S.Schema<ClonePolicyRequest>,
+  output: __S(25344, __c792, 0) as any as S.Schema<Policy>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15543,7 +15552,7 @@ export const createAgentPoolsUpdate: API.OperationMethod<
   CreateAgentPoolsUpdateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25664, __c802, 0) as any as S.Schema<CreateAgentPoolsUpdateRequest>,
+  input: __S(25696, __c803, 0) as any as S.Schema<CreateAgentPoolsUpdateRequest>,
   output: __S(18625, __c582, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -15558,8 +15567,8 @@ export const createApiServiceIntegrationInstance: API.OperationMethod<
   CreateApiServiceIntegrationInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26080, __c815, 0) as any as S.Schema<CreateApiServiceIntegrationInstanceRequest>,
-  output: __S(26081, __c815, 1) as any as S.Schema<CreateApiServiceIntegrationInstanceResponse>,
+  input: __S(26112, __c816, 0) as any as S.Schema<CreateApiServiceIntegrationInstanceRequest>,
+  output: __S(26113, __c816, 1) as any as S.Schema<CreateApiServiceIntegrationInstanceResponse>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15573,7 +15582,7 @@ export const createApiServiceIntegrationInstanceSecret: API.OperationMethod<
   CreateApiServiceIntegrationInstanceSecretError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26528, __c829, 0) as any as S.Schema<CreateApiServiceIntegrationInstanceSecretRequest>,
+  input: __S(26560, __c830, 0) as any as S.Schema<CreateApiServiceIntegrationInstanceSecretRequest>,
   output: __S(22496, __c703, 0) as any as S.Schema<APIServiceIntegrationInstanceSecret>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -15588,8 +15597,8 @@ export const createApplication: API.OperationMethod<
   CreateApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26880, __c840, 0) as any as S.Schema<CreateApplicationRequest>,
-  output: __S(26921, __c841, 9) as any as S.Schema<Application>,
+  input: __S(26912, __c841, 0) as any as S.Schema<CreateApplicationRequest>,
+  output: __S(26953, __c842, 9) as any as S.Schema<Application>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15603,8 +15612,8 @@ export const createAppServiceAccount: API.OperationMethod<
   CreateAppServiceAccountError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27328, __c854, 0) as any as S.Schema<CreateAppServiceAccountRequest>,
-  output: __S(27360, __c855, 0) as any as S.Schema<AppServiceAccountOutput>,
+  input: __S(27360, __c855, 0) as any as S.Schema<CreateAppServiceAccountRequest>,
+  output: __S(27392, __c856, 0) as any as S.Schema<AppServiceAccountOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15618,8 +15627,8 @@ export const createAssociatedServers: API.OperationMethod<
   CreateAssociatedServersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27712, __c866, 0) as any as S.Schema<CreateAssociatedServersRequest>,
-  output: __S(27745, __c867, 1) as any as S.Schema<CreateAssociatedServersResponse>,
+  input: __S(27744, __c867, 0) as any as S.Schema<CreateAssociatedServersRequest>,
+  output: __S(27777, __c868, 1) as any as S.Schema<CreateAssociatedServersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15633,8 +15642,8 @@ export const createAuthenticator: API.OperationMethod<
   CreateAuthenticatorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27872, __c871, 0) as any as S.Schema<CreateAuthenticatorRequest>,
-  output: __S(28385, __c887, 1) as any as S.Schema<AuthenticatorBase>,
+  input: __S(27904, __c872, 0) as any as S.Schema<CreateAuthenticatorRequest>,
+  output: __S(28417, __c888, 1) as any as S.Schema<AuthenticatorBase>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15648,8 +15657,8 @@ export const createAuthenticatorEnrollment: API.OperationMethod<
   CreateAuthenticatorEnrollmentError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27936, __c873, 0) as any as S.Schema<CreateAuthenticatorEnrollmentRequest>,
-  output: __S(28001, __c875, 1) as any as S.Schema<AuthenticatorEnrollment>,
+  input: __S(27968, __c874, 0) as any as S.Schema<CreateAuthenticatorEnrollmentRequest>,
+  output: __S(28033, __c876, 1) as any as S.Schema<AuthenticatorEnrollment>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15663,8 +15672,8 @@ export const createAuthorizationServer: API.OperationMethod<
   CreateAuthorizationServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28032, __c876, 0) as any as S.Schema<CreateAuthorizationServerRequest>,
-  output: __S(27782, __c868, 6) as any as S.Schema<AuthorizationServer>,
+  input: __S(28064, __c877, 0) as any as S.Schema<CreateAuthorizationServerRequest>,
+  output: __S(27814, __c869, 6) as any as S.Schema<AuthorizationServer>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15678,8 +15687,8 @@ export const createAuthorizationServerPolicy: API.OperationMethod<
   CreateAuthorizationServerPolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28096, __c878, 0) as any as S.Schema<CreateAuthorizationServerPolicyRequest>,
-  output: __S(28130, __c879, 2) as any as S.Schema<CreateAuthorizationServerPolicyResponse>,
+  input: __S(28128, __c879, 0) as any as S.Schema<CreateAuthorizationServerPolicyRequest>,
+  output: __S(28162, __c880, 2) as any as S.Schema<CreateAuthorizationServerPolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15697,8 +15706,8 @@ export const createAuthorizationServerPolicyRule: API.OperationMethod<
   CreateAuthorizationServerPolicyRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28192, __c881, 0) as any as S.Schema<CreateAuthorizationServerPolicyRuleRequest>,
-  output: __S(28292, __c884, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
+  input: __S(28224, __c882, 0) as any as S.Schema<CreateAuthorizationServerPolicyRuleRequest>,
+  output: __S(28324, __c885, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15712,7 +15721,7 @@ export const createBehaviorDetectionRule: API.OperationMethod<
   CreateBehaviorDetectionRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28320, __c885, 0) as any as S.Schema<CreateBehaviorDetectionRuleRequest>,
+  input: __S(28352, __c886, 0) as any as S.Schema<CreateBehaviorDetectionRuleRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<BehaviorRule>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -15727,8 +15736,8 @@ export const createBrand: API.OperationMethod<
   CreateBrandError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28416, __c888, 0) as any as S.Schema<CreateBrandRequest>,
-  output: __S(28480, __c890, 0) as any as S.Schema<Brand>,
+  input: __S(28448, __c889, 0) as any as S.Schema<CreateBrandRequest>,
+  output: __S(28512, __c891, 0) as any as S.Schema<Brand>,
   errors: [BadRequest, Forbidden, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15742,8 +15751,8 @@ export const createCaptchaInstance: API.OperationMethod<
   CreateCaptchaInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28512, __c891, 0) as any as S.Schema<CreateCaptchaInstanceRequest>,
-  output: __S(28544, __c892, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
+  input: __S(28544, __c892, 0) as any as S.Schema<CreateCaptchaInstanceRequest>,
+  output: __S(28576, __c893, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15757,8 +15766,8 @@ export const createChildOrg: API.OperationMethod<
   CreateChildOrgError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28579, __c893, 3) as any as S.Schema<CreateChildOrgRequest>,
-  output: __S(28580, __c893, 4) as any as S.Schema<ChildOrgOutput>,
+  input: __S(28611, __c894, 3) as any as S.Schema<CreateChildOrgRequest>,
+  output: __S(28612, __c894, 4) as any as S.Schema<ChildOrgOutput>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15772,8 +15781,8 @@ export const createCrossAppAccessConnection: API.OperationMethod<
   CreateCrossAppAccessConnectionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28608, __c894, 0) as any as S.Schema<CreateCrossAppAccessConnectionRequest>,
-  output: __S(28640, __c895, 0) as any as S.Schema<OrgCrossAppAccessConnection>,
+  input: __S(28640, __c895, 0) as any as S.Schema<CreateCrossAppAccessConnectionRequest>,
+  output: __S(28672, __c896, 0) as any as S.Schema<OrgCrossAppAccessConnection>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15787,8 +15796,8 @@ export const createCustomAAGUID: API.OperationMethod<
   CreateCustomAAGUIDError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28672, __c896, 0) as any as S.Schema<CreateCustomAAGUIDRequest>,
-  output: __S(28707, __c897, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
+  input: __S(28704, __c897, 0) as any as S.Schema<CreateCustomAAGUIDRequest>,
+  output: __S(28739, __c898, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15802,8 +15811,8 @@ export const createCustomDomain: API.OperationMethod<
   CreateCustomDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28768, __c899, 0) as any as S.Schema<CreateCustomDomainRequest>,
-  output: __S(28804, __c900, 4) as any as S.Schema<DomainResponse>,
+  input: __S(28800, __c900, 0) as any as S.Schema<CreateCustomDomainRequest>,
+  output: __S(28836, __c901, 4) as any as S.Schema<DomainResponse>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15817,7 +15826,7 @@ export const createCustomTelephonyProviderCredentials: API.OperationMethod<
   CreateCustomTelephonyProviderCredentialsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28832, __c901, 0) as any as S.Schema<CreateCustomTelephonyProviderCredentialsRequest>,
+  input: __S(28864, __c902, 0) as any as S.Schema<CreateCustomTelephonyProviderCredentialsRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<CustomTelephonyProviderCredentialResponse>,
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -15832,8 +15841,8 @@ export const createDeviceAssurancePolicy: API.OperationMethod<
   CreateDeviceAssurancePolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28864, __c902, 0) as any as S.Schema<CreateDeviceAssurancePolicyRequest>,
-  output: __S(28897, __c903, 1) as any as S.Schema<DeviceAssurance>,
+  input: __S(28896, __c903, 0) as any as S.Schema<CreateDeviceAssurancePolicyRequest>,
+  output: __S(28929, __c904, 1) as any as S.Schema<DeviceAssurance>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15847,8 +15856,8 @@ export const createDevicePostureCheck: API.OperationMethod<
   CreateDevicePostureCheckError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28928, __c904, 0) as any as S.Schema<CreateDevicePostureCheckRequest>,
-  output: __S(28963, __c905, 3) as any as S.Schema<DevicePostureCheck>,
+  input: __S(28960, __c905, 0) as any as S.Schema<CreateDevicePostureCheckRequest>,
+  output: __S(28995, __c906, 3) as any as S.Schema<DevicePostureCheck>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15867,8 +15876,8 @@ export const createEmailCustomization: API.OperationMethod<
   CreateEmailCustomizationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28992, __c906, 0) as any as S.Schema<CreateEmailCustomizationRequest>,
-  output: __S(29056, __c908, 0) as any as S.Schema<CreateEmailCustomizationResponse>,
+  input: __S(29024, __c907, 0) as any as S.Schema<CreateEmailCustomizationRequest>,
+  output: __S(29088, __c909, 0) as any as S.Schema<CreateEmailCustomizationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15882,8 +15891,8 @@ export const createEmailDomain: API.OperationMethod<
   CreateEmailDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29216, __c913, 0) as any as S.Schema<CreateEmailDomainRequest>,
-  output: __S(29280, __c915, 0) as any as S.Schema<CreateEmailDomainResponse>,
+  input: __S(29248, __c914, 0) as any as S.Schema<CreateEmailDomainRequest>,
+  output: __S(29312, __c916, 0) as any as S.Schema<CreateEmailDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15897,8 +15906,8 @@ export const createEmailServer: API.OperationMethod<
   CreateEmailServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29312, __c916, 0) as any as S.Schema<CreateEmailServerRequest>,
-  output: __S(29344, __c917, 0) as any as S.Schema<BaseEmailServer>,
+  input: __S(29344, __c917, 0) as any as S.Schema<CreateEmailServerRequest>,
+  output: __S(29376, __c918, 0) as any as S.Schema<BaseEmailServer>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15912,7 +15921,7 @@ export const createEventHook: API.OperationMethod<
   CreateEventHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29376, __c918, 0) as any as S.Schema<CreateEventHookRequest>,
+  input: __S(29408, __c919, 0) as any as S.Schema<CreateEventHookRequest>,
   output: __S(3691, __c115, 11) as any as S.Schema<EventHookOutput>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -15927,8 +15936,8 @@ export const createFederatedClaim: API.OperationMethod<
   CreateFederatedClaimError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29440, __c920, 0) as any as S.Schema<CreateFederatedClaimRequest>,
-  output: __S(29472, __c921, 0) as any as S.Schema<FederatedClaim>,
+  input: __S(29472, __c921, 0) as any as S.Schema<CreateFederatedClaimRequest>,
+  output: __S(29504, __c922, 0) as any as S.Schema<FederatedClaim>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15942,8 +15951,8 @@ export const createGovernanceBundle: API.OperationMethod<
   CreateGovernanceBundleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29504, __c922, 0) as any as S.Schema<CreateGovernanceBundleRequest>,
-  output: __S(29537, __c923, 1) as any as S.Schema<GovernanceBundle>,
+  input: __S(29536, __c923, 0) as any as S.Schema<CreateGovernanceBundleRequest>,
+  output: __S(29569, __c924, 1) as any as S.Schema<GovernanceBundle>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15957,8 +15966,8 @@ export const createGroupPushMapping: API.OperationMethod<
   CreateGroupPushMappingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29600, __c925, 0) as any as S.Schema<CreateGroupPushMappingRequest>,
-  output: __S(29634, __c926, 2) as any as S.Schema<GroupPushMapping>,
+  input: __S(29632, __c926, 0) as any as S.Schema<CreateGroupPushMappingRequest>,
+  output: __S(29666, __c927, 2) as any as S.Schema<GroupPushMapping>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15972,8 +15981,8 @@ export const createGroupRule: API.OperationMethod<
   CreateGroupRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29664, __c927, 0) as any as S.Schema<CreateGroupRuleRequest>,
-  output: __S(29766, __c930, 6) as any as S.Schema<GroupRule>,
+  input: __S(29696, __c928, 0) as any as S.Schema<CreateGroupRuleRequest>,
+  output: __S(29798, __c931, 6) as any as S.Schema<GroupRule>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -15987,8 +15996,8 @@ export const createHookKey: API.OperationMethod<
   CreateHookKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29792, __c931, 0) as any as S.Schema<CreateHookKeyRequest>,
-  output: __S(29856, __c933, 0) as any as S.Schema<DetailedHookKeyInstance>,
+  input: __S(29824, __c932, 0) as any as S.Schema<CreateHookKeyRequest>,
+  output: __S(29888, __c934, 0) as any as S.Schema<DetailedHookKeyInstance>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16002,7 +16011,7 @@ export const createIdentityProvider: API.OperationMethod<
   CreateIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29888, __c934, 0) as any as S.Schema<CreateIdentityProviderRequest>,
+  input: __S(29920, __c935, 0) as any as S.Schema<CreateIdentityProviderRequest>,
   output: __S(4813, __c150, 13) as any as S.Schema<IdentityProvider>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -16017,8 +16026,8 @@ export const createIdentityProviderKey: API.OperationMethod<
   CreateIdentityProviderKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29952, __c936, 0) as any as S.Schema<CreateIdentityProviderKeyRequest>,
-  output: __S(24544, __c767, 0) as any as S.Schema<IdPKeyCredential>,
+  input: __S(29984, __c937, 0) as any as S.Schema<CreateIdentityProviderKeyRequest>,
+  output: __S(24928, __c779, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16052,7 +16061,7 @@ export const createIdentitySourceGroupsMemberships: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<CreateIdentitySourceGroupsMembershipsRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<CreateIdentitySourceGroupsMembershipsResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<CreateIdentitySourceGroupsMembershipsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16082,7 +16091,7 @@ export const createIdentitySourceUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<CreateIdentitySourceUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<CreateIdentitySourceUserResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<CreateIdentitySourceUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16232,7 +16241,7 @@ export const createPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<CreatePolicyRequest>,
-  output: __S(25312, __c791, 0) as any as S.Schema<CreateOrUpdatePolicy>,
+  output: __S(25344, __c792, 0) as any as S.Schema<CreateOrUpdatePolicy>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16382,7 +16391,7 @@ export const createRolePermission: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<CreateRolePermissionRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<CreateRolePermissionResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<CreateRolePermissionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16551,7 +16560,7 @@ export const deactivateApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<DeactivateApplicationRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateApplicationResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivateApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16566,7 +16575,7 @@ export const deactivateAuthenticator: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<DeactivateAuthenticatorRequest>,
-  output: __S(28385, __c887, 1) as any as S.Schema<AuthenticatorBase>,
+  output: __S(28417, __c888, 1) as any as S.Schema<AuthenticatorBase>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16581,7 +16590,7 @@ export const deactivateAuthenticatorMethod: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<DeactivateAuthenticatorMethodRequest>,
-  output: __S(29152, __c911, 0) as any as S.Schema<AuthenticatorMethodBase>,
+  output: __S(29184, __c912, 0) as any as S.Schema<AuthenticatorMethodBase>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16596,7 +16605,7 @@ export const deactivateAuthorizationServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<DeactivateAuthorizationServerRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateAuthorizationServerResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivateAuthorizationServerResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16611,7 +16620,7 @@ export const deactivateAuthorizationServerPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16626,7 +16635,7 @@ export const deactivateAuthorizationServerPolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16679,8 +16688,8 @@ export const deactivateDefaultProvisioningConnectionForApplication: API.Operatio
     0,
   ) as any as S.Schema<DeactivateDefaultProvisioningConnectionForApplicationRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<DeactivateDefaultProvisioningConnectionForApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -16697,7 +16706,7 @@ export const deactivateDevice: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<DeactivateDeviceRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateDeviceResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivateDeviceResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16742,7 +16751,7 @@ export const deactivateGroupRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<DeactivateGroupRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateGroupRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivateGroupRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16866,7 +16875,7 @@ export const deactivatePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<DeactivatePolicyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivatePolicyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivatePolicyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16881,7 +16890,7 @@ export const deactivatePolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<DeactivatePolicyRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivatePolicyRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivatePolicyRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16896,7 +16905,7 @@ export const deactivateRealmAssignment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<DeactivateRealmAssignmentRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateRealmAssignmentResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivateRealmAssignmentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16941,7 +16950,7 @@ export const deactivateUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<DeactivateUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateUserResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeactivateUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16956,7 +16965,7 @@ export const deleteAgentPoolsUpdate: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<DeleteAgentPoolsUpdateRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAgentPoolsUpdateResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteAgentPoolsUpdateResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16971,7 +16980,7 @@ export const deleteAllCustomizations: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<DeleteAllCustomizationsRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAllCustomizationsResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteAllCustomizationsResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -16986,7 +16995,7 @@ export const deleteApiServiceIntegrationInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<DeleteApiServiceIntegrationInstanceRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteApiServiceIntegrationInstanceResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteApiServiceIntegrationInstanceResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17002,8 +17011,8 @@ export const deleteApiServiceIntegrationInstanceSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<DeleteApiServiceIntegrationInstanceSecretRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<DeleteApiServiceIntegrationInstanceSecretResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -17020,7 +17029,7 @@ export const deleteApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<DeleteApplicationRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteApplicationResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17035,7 +17044,7 @@ export const deleteAppServiceAccount: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<DeleteAppServiceAccountRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAppServiceAccountResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteAppServiceAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17050,7 +17059,7 @@ export const deleteAssociatedServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<DeleteAssociatedServerRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAssociatedServerResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteAssociatedServerResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17065,7 +17074,7 @@ export const deleteAuthenticatorEnrollment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<DeleteAuthenticatorEnrollmentRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAuthenticatorEnrollmentResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteAuthenticatorEnrollmentResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17080,7 +17089,7 @@ export const deleteAuthorizationServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<DeleteAuthorizationServerRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAuthorizationServerResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteAuthorizationServerResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17095,7 +17104,7 @@ export const deleteAuthorizationServerPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<DeleteAuthorizationServerPolicyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAuthorizationServerPolicyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteAuthorizationServerPolicyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17110,7 +17119,7 @@ export const deleteAuthorizationServerPolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<DeleteAuthorizationServerPolicyRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAuthorizationServerPolicyRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteAuthorizationServerPolicyRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17125,7 +17134,7 @@ export const deleteBehaviorDetectionRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<DeleteBehaviorDetectionRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBehaviorDetectionRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteBehaviorDetectionRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17140,7 +17149,7 @@ export const deleteBinding: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<DeleteBindingRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBindingResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteBindingResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17155,7 +17164,7 @@ export const deleteBrand: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<DeleteBrandRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBrandResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteBrandResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17170,7 +17179,7 @@ export const deleteBrandThemeBackgroundImage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<DeleteBrandThemeBackgroundImageRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBrandThemeBackgroundImageResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteBrandThemeBackgroundImageResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17185,7 +17194,7 @@ export const deleteBrandThemeFavicon: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<DeleteBrandThemeFaviconRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBrandThemeFaviconResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteBrandThemeFaviconResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17200,7 +17209,7 @@ export const deleteBrandThemeLogo: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<DeleteBrandThemeLogoRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBrandThemeLogoResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteBrandThemeLogoResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17215,7 +17224,7 @@ export const deleteCaptchaInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<DeleteCaptchaInstanceRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCaptchaInstanceResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteCaptchaInstanceResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17230,7 +17239,7 @@ export const deleteCrossAppAccessConnection: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<DeleteCrossAppAccessConnectionRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCrossAppAccessConnectionResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteCrossAppAccessConnectionResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17245,7 +17254,7 @@ export const deleteCustomAAGUID: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<DeleteCustomAAGUIDRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomAAGUIDResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteCustomAAGUIDResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17260,7 +17269,7 @@ export const deleteCustomDomain: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<DeleteCustomDomainRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomDomainResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteCustomDomainResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17275,7 +17284,7 @@ export const deleteCustomizedErrorPage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<DeleteCustomizedErrorPageRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomizedErrorPageResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteCustomizedErrorPageResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17290,7 +17299,7 @@ export const deleteCustomizedSignInPage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<DeleteCustomizedSignInPageRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomizedSignInPageResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteCustomizedSignInPageResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17305,7 +17314,7 @@ export const deleteCustomTelephonyProviderCredential: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<DeleteCustomTelephonyProviderCredentialRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomTelephonyProviderCredentialResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteCustomTelephonyProviderCredentialResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17320,7 +17329,7 @@ export const deleteDevice: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<DeleteDeviceRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteDeviceResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteDeviceResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17335,7 +17344,7 @@ export const deleteDeviceAssurancePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<DeleteDeviceAssurancePolicyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteDeviceAssurancePolicyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteDeviceAssurancePolicyResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17350,7 +17359,7 @@ export const deleteDevicePostureCheck: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<DeleteDevicePostureCheckRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteDevicePostureCheckResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteDevicePostureCheckResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17365,7 +17374,7 @@ export const deleteEmailCustomization: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<DeleteEmailCustomizationRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteEmailCustomizationResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteEmailCustomizationResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17380,7 +17389,7 @@ export const deleteEmailDomain: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<DeleteEmailDomainRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteEmailDomainResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteEmailDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17395,7 +17404,7 @@ export const deleteEmailServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<DeleteEmailServerRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteEmailServerResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteEmailServerResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17410,7 +17419,7 @@ export const deleteEventHook: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<DeleteEventHookRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteEventHookResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteEventHookResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17425,7 +17434,7 @@ export const deleteFederatedClaim: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<DeleteFederatedClaimRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteFederatedClaimResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteFederatedClaimResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17440,7 +17449,7 @@ export const deleteGovernanceBundle: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<DeleteGovernanceBundleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGovernanceBundleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteGovernanceBundleResponse>,
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17455,7 +17464,7 @@ export const deleteGroup: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGroupResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17470,7 +17479,7 @@ export const deleteGroupOwner: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<DeleteGroupOwnerRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGroupOwnerResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteGroupOwnerResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17485,7 +17494,7 @@ export const deleteGroupPushMapping: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<DeleteGroupPushMappingRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGroupPushMappingResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteGroupPushMappingResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17500,7 +17509,7 @@ export const deleteGroupRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<DeleteGroupRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGroupRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteGroupRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17515,7 +17524,7 @@ export const deleteHookKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<DeleteHookKeyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteHookKeyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteHookKeyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17530,7 +17539,7 @@ export const deleteIdentityProvider: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<DeleteIdentityProviderRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17545,7 +17554,7 @@ export const deleteIdentityProviderKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<DeleteIdentityProviderKeyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentityProviderKeyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteIdentityProviderKeyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17560,7 +17569,7 @@ export const deleteIdentitySourceGroup: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<DeleteIdentitySourceGroupRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentitySourceGroupResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteIdentitySourceGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17575,7 +17584,7 @@ export const deleteIdentitySourceGroupMemberships: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<DeleteIdentitySourceGroupMembershipsRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentitySourceGroupMembershipsResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteIdentitySourceGroupMembershipsResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17590,7 +17599,7 @@ export const deleteIdentitySourceSession: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<DeleteIdentitySourceSessionRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentitySourceSessionResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteIdentitySourceSessionResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17605,7 +17614,7 @@ export const deleteIdentitySourceUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<DeleteIdentitySourceUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentitySourceUserResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteIdentitySourceUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17620,7 +17629,7 @@ export const deleteInlineHook: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<DeleteInlineHookRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteInlineHookResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteInlineHookResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17635,7 +17644,7 @@ export const deleteInterclientTrustMapping: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<DeleteInterclientTrustMappingRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteInterclientTrustMappingResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteInterclientTrustMappingResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17650,7 +17659,7 @@ export const deletejwk: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<DeletejwkRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeletejwkResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeletejwkResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17665,7 +17674,7 @@ export const deleteLinkedObjectDefinition: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<DeleteLinkedObjectDefinitionRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteLinkedObjectDefinitionResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteLinkedObjectDefinitionResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17680,7 +17689,7 @@ export const deleteLinkedObjectForUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<DeleteLinkedObjectForUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteLinkedObjectForUserResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteLinkedObjectForUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17695,7 +17704,7 @@ export const deleteLogStream: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<DeleteLogStreamRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteLogStreamResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteLogStreamResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17710,7 +17719,7 @@ export const deleteNetworkZone: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<DeleteNetworkZoneRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteNetworkZoneResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteNetworkZoneResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17725,7 +17734,7 @@ export const deleteOAuth2Claim: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<DeleteOAuth2ClaimRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOAuth2ClaimResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteOAuth2ClaimResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17740,7 +17749,7 @@ export const deleteOAuth2ClientSecret: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<DeleteOAuth2ClientSecretRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOAuth2ClientSecretResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteOAuth2ClientSecretResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17759,7 +17768,7 @@ export const deleteOAuth2ResourceServerJsonWebKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<DeleteOAuth2ResourceServerJsonWebKeyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOAuth2ResourceServerJsonWebKeyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteOAuth2ResourceServerJsonWebKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17774,7 +17783,7 @@ export const deleteOAuth2Scope: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<DeleteOAuth2ScopeRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOAuth2ScopeResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteOAuth2ScopeResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17789,7 +17798,7 @@ export const deleteOktaManagedUserAccount: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<DeleteOktaManagedUserAccountRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOktaManagedUserAccountResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteOktaManagedUserAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17804,7 +17813,7 @@ export const deleteOrgCaptchaSettings: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<DeleteOrgCaptchaSettingsRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOrgCaptchaSettingsResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteOrgCaptchaSettingsResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17819,7 +17828,7 @@ export const deletePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeletePolicyResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17834,7 +17843,7 @@ export const deletePolicyResourceMapping: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<DeletePolicyResourceMappingRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeletePolicyResourceMappingResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeletePolicyResourceMappingResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17849,7 +17858,7 @@ export const deletePolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<DeletePolicyRuleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeletePolicyRuleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeletePolicyRuleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17864,7 +17873,7 @@ export const deletePreviewErrorPage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<DeletePreviewErrorPageRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeletePreviewErrorPageResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeletePreviewErrorPageResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17879,7 +17888,7 @@ export const deletePreviewSignInPage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<DeletePreviewSignInPageRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeletePreviewSignInPageResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeletePreviewSignInPageResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17894,7 +17903,7 @@ export const deletePushProvider: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<DeletePushProviderRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeletePushProviderResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeletePushProviderResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17909,7 +17918,7 @@ export const deleteRealm: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<DeleteRealmRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRealmResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteRealmResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17924,7 +17933,7 @@ export const deleteRealmAssignment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<DeleteRealmAssignmentRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRealmAssignmentResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteRealmAssignmentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17939,7 +17948,7 @@ export const deleteResourceSet: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<DeleteResourceSetRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteResourceSetResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteResourceSetResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17954,7 +17963,7 @@ export const deleteResourceSetResource: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<DeleteResourceSetResourceRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteResourceSetResourceResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteResourceSetResourceResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17969,7 +17978,7 @@ export const deleteRole: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRoleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteRoleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17984,7 +17993,7 @@ export const deleteRoleFromClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<DeleteRoleFromClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRoleFromClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteRoleFromClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -17999,7 +18008,7 @@ export const deleteRolePermission: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<DeleteRolePermissionRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRolePermissionResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteRolePermissionResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18014,7 +18023,7 @@ export const deleteSecurityEventsProviderInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<DeleteSecurityEventsProviderInstanceRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteSecurityEventsProviderInstanceResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteSecurityEventsProviderInstanceResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18029,7 +18038,7 @@ export const deleteSmsTemplate: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<DeleteSmsTemplateRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteSmsTemplateResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteSmsTemplateResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18044,7 +18053,7 @@ export const deleteSsfStream: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<DeleteSsfStreamRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteSsfStreamResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteSsfStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18059,7 +18068,7 @@ export const deleteTrustedOrigin: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<DeleteTrustedOriginRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteTrustedOriginResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteTrustedOriginResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18074,7 +18083,7 @@ export const deleteUISchemas: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<DeleteUISchemasRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteUISchemasResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteUISchemasResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18089,7 +18098,7 @@ export const deleteUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteUserResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18104,7 +18113,7 @@ export const deleteUserType: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<DeleteUserTypeRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteUserTypeResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteUserTypeResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18119,7 +18128,7 @@ export const deleteWebAuthnPreregistrationFactor: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<DeleteWebAuthnPreregistrationFactorRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<DeleteWebAuthnPreregistrationFactorResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<DeleteWebAuthnPreregistrationFactorResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18299,7 +18308,7 @@ export const generateFulfillmentRequest: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6530, __c204, 2) as any as S.Schema<GenerateFulfillmentRequestRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<GenerateFulfillmentRequestResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<GenerateFulfillmentRequestResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18314,7 +18323,7 @@ export const generateIdentityProviderSigningKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<GenerateIdentityProviderSigningKeyRequest>,
-  output: __S(24544, __c767, 0) as any as S.Schema<IdPKeyCredential>,
+  output: __S(24928, __c779, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18449,7 +18458,7 @@ export const getApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(26921, __c841, 9) as any as S.Schema<Application>,
+  output: __S(26953, __c842, 9) as any as S.Schema<Application>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18524,7 +18533,7 @@ export const getAppServiceAccount: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<GetAppServiceAccountRequest>,
-  output: __S(27360, __c855, 0) as any as S.Schema<AppServiceAccountOutput>,
+  output: __S(27392, __c856, 0) as any as S.Schema<AppServiceAccountOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18554,7 +18563,7 @@ export const getAuthenticator: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<GetAuthenticatorRequest>,
-  output: __S(28385, __c887, 1) as any as S.Schema<AuthenticatorBase>,
+  output: __S(28417, __c888, 1) as any as S.Schema<AuthenticatorBase>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18569,7 +18578,7 @@ export const getAuthenticatorEnrollment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<GetAuthenticatorEnrollmentRequest>,
-  output: __S(28001, __c875, 1) as any as S.Schema<AuthenticatorEnrollment>,
+  output: __S(28033, __c876, 1) as any as S.Schema<AuthenticatorEnrollment>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18584,7 +18593,7 @@ export const getAuthenticatorMethod: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<GetAuthenticatorMethodRequest>,
-  output: __S(29152, __c911, 0) as any as S.Schema<AuthenticatorMethodBase>,
+  output: __S(29184, __c912, 0) as any as S.Schema<AuthenticatorMethodBase>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18614,7 +18623,7 @@ export const getAuthorizationServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<GetAuthorizationServerRequest>,
-  output: __S(27782, __c868, 6) as any as S.Schema<AuthorizationServer>,
+  output: __S(27814, __c869, 6) as any as S.Schema<AuthorizationServer>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18644,7 +18653,7 @@ export const getAuthorizationServerPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<GetAuthorizationServerPolicyRequest>,
-  output: __S(28130, __c879, 2) as any as S.Schema<GetAuthorizationServerPolicyResponse>,
+  output: __S(28162, __c880, 2) as any as S.Schema<GetAuthorizationServerPolicyResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18659,7 +18668,7 @@ export const getAuthorizationServerPolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<GetAuthorizationServerPolicyRuleRequest>,
-  output: __S(28292, __c884, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
+  output: __S(28324, __c885, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18779,7 +18788,7 @@ export const getCaptchaInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<GetCaptchaInstanceRequest>,
-  output: __S(28544, __c892, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
+  output: __S(28576, __c893, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18824,7 +18833,7 @@ export const getCrossAppAccessConnection: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<GetCrossAppAccessConnectionRequest>,
-  output: __S(28640, __c895, 0) as any as S.Schema<OrgCrossAppAccessConnection>,
+  output: __S(28672, __c896, 0) as any as S.Schema<OrgCrossAppAccessConnection>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18884,7 +18893,7 @@ export const getCustomAAGUID: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<GetCustomAAGUIDRequest>,
-  output: __S(28707, __c897, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
+  output: __S(28739, __c898, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -18899,7 +18908,7 @@ export const getCustomDomain: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<GetCustomDomainRequest>,
-  output: __S(28804, __c900, 4) as any as S.Schema<DomainResponse>,
+  output: __S(28836, __c901, 4) as any as S.Schema<DomainResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19041,7 +19050,7 @@ export const getDeviceAssurancePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<GetDeviceAssurancePolicyRequest>,
-  output: __S(28897, __c903, 1) as any as S.Schema<DeviceAssurance>,
+  output: __S(28929, __c904, 1) as any as S.Schema<DeviceAssurance>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19086,7 +19095,7 @@ export const getDevicePostureCheck: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<GetDevicePostureCheckRequest>,
-  output: __S(28963, __c905, 3) as any as S.Schema<DevicePostureCheck>,
+  output: __S(28995, __c906, 3) as any as S.Schema<DevicePostureCheck>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19131,7 +19140,7 @@ export const getEmailCustomization: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<GetEmailCustomizationRequest>,
-  output: __S(29056, __c908, 0) as any as S.Schema<GetEmailCustomizationResponse>,
+  output: __S(29088, __c909, 0) as any as S.Schema<GetEmailCustomizationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19191,7 +19200,7 @@ export const getEmailServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<GetEmailServerRequest>,
-  output: __S(29344, __c917, 0) as any as S.Schema<BaseEmailServer>,
+  output: __S(29376, __c918, 0) as any as S.Schema<BaseEmailServer>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19356,7 +19365,7 @@ export const getGovernanceBundle: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<GetGovernanceBundleRequest>,
-  output: __S(29537, __c923, 1) as any as S.Schema<GovernanceBundle>,
+  output: __S(29569, __c924, 1) as any as S.Schema<GovernanceBundle>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19412,7 +19421,7 @@ export const getGroupPushMapping: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<GetGroupPushMappingRequest>,
-  output: __S(29634, __c926, 2) as any as S.Schema<GroupPushMapping>,
+  output: __S(29666, __c927, 2) as any as S.Schema<GroupPushMapping>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19427,7 +19436,7 @@ export const getGroupRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<GetGroupRuleRequest>,
-  output: __S(29766, __c930, 6) as any as S.Schema<GroupRule>,
+  output: __S(29798, __c931, 6) as any as S.Schema<GroupRule>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19502,7 +19511,7 @@ export const getIdentityProviderKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<GetIdentityProviderKeyRequest>,
-  output: __S(24544, __c767, 0) as any as S.Schema<IdPKeyCredential>,
+  output: __S(24928, __c779, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19517,7 +19526,7 @@ export const getIdentityProviderSigningKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<GetIdentityProviderSigningKeyRequest>,
-  output: __S(24544, __c767, 0) as any as S.Schema<IdPKeyCredential>,
+  output: __S(24928, __c779, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19892,7 +19901,7 @@ export const getPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(25312, __c791, 0) as any as S.Schema<Policy>,
+  output: __S(25344, __c792, 0) as any as S.Schema<Policy>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -19997,7 +20006,7 @@ export const getPublicKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<GetPublicKeyRequest>,
-  output: __S(29824, __c932, 0) as any as S.Schema<Embedded>,
+  output: __S(29856, __c933, 0) as any as S.Schema<Embedded>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -20720,7 +20729,7 @@ export const listActiveIdentityProviderSigningKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14816, __c463, 0) as any as S.Schema<ListActiveIdentityProviderSigningKeyRequest>,
-  output: __S(14848, __c464, 0) as any as S.Schema<ListActiveIdentityProviderSigningKeyResponse>,
+  output: __S(14849, __c464, 1) as any as S.Schema<ListActiveIdentityProviderSigningKeyResponse>,
   errors: [UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -20878,7 +20887,7 @@ export const listApplicationKeys: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15232, __c476, 0) as any as S.Schema<ListApplicationKeysRequest>,
-  output: __S(14848, __c464, 0) as any as S.Schema<ListApplicationKeysResponse>,
+  output: __S(15233, __c476, 1) as any as S.Schema<ListApplicationKeysResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -21050,7 +21059,7 @@ export const listAssociatedServersByTrustedType: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15648, __c489, 0) as any as S.Schema<ListAssociatedServersByTrustedTypeRequest>,
-  output: __S(27745, __c867, 1) as any as S.Schema<ListAssociatedServersByTrustedTypeResponse>,
+  output: __S(27777, __c868, 1) as any as S.Schema<ListAssociatedServersByTrustedTypeResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -21065,7 +21074,7 @@ export const listAuthenticatorEnrollments: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15680, __c490, 0) as any as S.Schema<ListAuthenticatorEnrollmentsRequest>,
-  output: __S(28001, __c875, 1) as any as S.Schema<AuthenticatorEnrollment>,
+  output: __S(28033, __c876, 1) as any as S.Schema<AuthenticatorEnrollment>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -21155,7 +21164,7 @@ export const listAuthorizationServers: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15904, __c497, 0) as any as S.Schema<ListAuthorizationServersRequest>,
-  output: __S(27745, __c867, 1) as any as S.Schema<ListAuthorizationServersResponse>,
+  output: __S(27777, __c868, 1) as any as S.Schema<ListAuthorizationServersResponse>,
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -21800,7 +21809,7 @@ export const listIdentityProviderKeys: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17664, __c552, 0) as any as S.Schema<ListIdentityProviderKeysRequest>,
-  output: __S(14848, __c464, 0) as any as S.Schema<ListIdentityProviderKeysResponse>,
+  output: __S(14849, __c464, 1) as any as S.Schema<ListIdentityProviderKeysResponse>,
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -21830,7 +21839,7 @@ export const listIdentityProviderSigningKeys: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17760, __c555, 0) as any as S.Schema<ListIdentityProviderSigningKeysRequest>,
-  output: __S(14848, __c464, 0) as any as S.Schema<ListIdentityProviderSigningKeysResponse>,
+  output: __S(14849, __c464, 1) as any as S.Schema<ListIdentityProviderSigningKeysResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22801,7 +22810,7 @@ export const previewSAMLmetadataForApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20448, __c639, 0) as any as S.Schema<PreviewSAMLmetadataForApplicationRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<PreviewSAMLmetadataForApplicationResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<PreviewSAMLmetadataForApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22816,7 +22825,7 @@ export const publishCsrForIdentityProvider: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20480, __c640, 0) as any as S.Schema<PublishCsrForIdentityProviderRequest>,
-  output: __S(24544, __c767, 0) as any as S.Schema<IdPKeyCredential>,
+  output: __S(24928, __c779, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22846,7 +22855,7 @@ export const publishSecurityEventTokens: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20544, __c642, 0) as any as S.Schema<PublishSecurityEventTokensRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<PublishSecurityEventTokensResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<PublishSecurityEventTokensResponse>,
   errors: [BadRequest, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22891,7 +22900,7 @@ export const removeAppTargetInstanceRoleForClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20768, __c649, 0) as any as S.Schema<RemoveAppTargetInstanceRoleForClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RemoveAppTargetInstanceRoleForClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RemoveAppTargetInstanceRoleForClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22906,7 +22915,7 @@ export const removeAppTargetRoleFromClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20800, __c650, 0) as any as S.Schema<RemoveAppTargetRoleFromClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RemoveAppTargetRoleFromClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RemoveAppTargetRoleFromClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22921,7 +22930,7 @@ export const removeGroupTargetRoleFromClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20832, __c651, 0) as any as S.Schema<RemoveGroupTargetRoleFromClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RemoveGroupTargetRoleFromClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RemoveGroupTargetRoleFromClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22936,7 +22945,7 @@ export const replaceApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20864, __c652, 0) as any as S.Schema<ReplaceApplicationRequest>,
-  output: __S(26921, __c841, 9) as any as S.Schema<Application>,
+  output: __S(26953, __c842, 9) as any as S.Schema<Application>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22951,7 +22960,7 @@ export const replaceAuthenticator: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20896, __c653, 0) as any as S.Schema<ReplaceAuthenticatorRequest>,
-  output: __S(28385, __c887, 1) as any as S.Schema<AuthenticatorBase>,
+  output: __S(28417, __c888, 1) as any as S.Schema<AuthenticatorBase>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22966,7 +22975,7 @@ export const replaceAuthenticatorMethod: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20928, __c654, 0) as any as S.Schema<ReplaceAuthenticatorMethodRequest>,
-  output: __S(29152, __c911, 0) as any as S.Schema<AuthenticatorMethodBase>,
+  output: __S(29184, __c912, 0) as any as S.Schema<AuthenticatorMethodBase>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -22996,7 +23005,7 @@ export const replaceAuthorizationServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20992, __c656, 0) as any as S.Schema<ReplaceAuthorizationServerRequest>,
-  output: __S(27782, __c868, 6) as any as S.Schema<AuthorizationServer>,
+  output: __S(27814, __c869, 6) as any as S.Schema<AuthorizationServer>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23011,7 +23020,7 @@ export const replaceAuthorizationServerPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21056, __c658, 0) as any as S.Schema<ReplaceAuthorizationServerPolicyRequest>,
-  output: __S(28130, __c879, 2) as any as S.Schema<ReplaceAuthorizationServerPolicyResponse>,
+  output: __S(28162, __c880, 2) as any as S.Schema<ReplaceAuthorizationServerPolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23030,7 +23039,7 @@ export const replaceAuthorizationServerPolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21088, __c659, 0) as any as S.Schema<ReplaceAuthorizationServerPolicyRuleRequest>,
-  output: __S(28292, __c884, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
+  output: __S(28324, __c885, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23060,7 +23069,7 @@ export const replaceBrand: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21152, __c661, 0) as any as S.Schema<ReplaceBrandRequest>,
-  output: __S(28480, __c890, 0) as any as S.Schema<Brand>,
+  output: __S(28512, __c891, 0) as any as S.Schema<Brand>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23105,7 +23114,7 @@ export const replaceCaptchaInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21248, __c664, 0) as any as S.Schema<ReplaceCaptchaInstanceRequest>,
-  output: __S(28544, __c892, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
+  output: __S(28576, __c893, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23120,7 +23129,7 @@ export const replaceCustomAAGUID: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21280, __c665, 0) as any as S.Schema<ReplaceCustomAAGUIDRequest>,
-  output: __S(28707, __c897, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
+  output: __S(28739, __c898, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23135,7 +23144,7 @@ export const replaceCustomDomain: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21312, __c666, 0) as any as S.Schema<ReplaceCustomDomainRequest>,
-  output: __S(28804, __c900, 4) as any as S.Schema<DomainResponse>,
+  output: __S(28836, __c901, 4) as any as S.Schema<DomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23180,7 +23189,7 @@ export const replaceDeviceAssurancePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21440, __c670, 0) as any as S.Schema<ReplaceDeviceAssurancePolicyRequest>,
-  output: __S(28897, __c903, 1) as any as S.Schema<DeviceAssurance>,
+  output: __S(28929, __c904, 1) as any as S.Schema<DeviceAssurance>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23195,7 +23204,7 @@ export const replaceDevicePostureCheck: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21472, __c671, 0) as any as S.Schema<ReplaceDevicePostureCheckRequest>,
-  output: __S(28963, __c905, 3) as any as S.Schema<DevicePostureCheck>,
+  output: __S(28995, __c906, 3) as any as S.Schema<DevicePostureCheck>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23215,7 +23224,7 @@ export const replaceEmailCustomization: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21504, __c672, 0) as any as S.Schema<ReplaceEmailCustomizationRequest>,
-  output: __S(29056, __c908, 0) as any as S.Schema<ReplaceEmailCustomizationResponse>,
+  output: __S(29088, __c909, 0) as any as S.Schema<ReplaceEmailCustomizationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23230,7 +23239,7 @@ export const replaceEmailDomain: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21536, __c673, 0) as any as S.Schema<ReplaceEmailDomainRequest>,
-  output: __S(29280, __c915, 0) as any as S.Schema<ReplaceEmailDomainResponse>,
+  output: __S(29312, __c916, 0) as any as S.Schema<ReplaceEmailDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23296,7 +23305,7 @@ export const replaceFederatedClaim: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21664, __c677, 0) as any as S.Schema<ReplaceFederatedClaimRequest>,
-  output: __S(29472, __c921, 0) as any as S.Schema<FederatedClaim>,
+  output: __S(29504, __c922, 0) as any as S.Schema<FederatedClaim>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23326,7 +23335,7 @@ export const replaceGovernanceBundle: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21760, __c680, 0) as any as S.Schema<ReplaceGovernanceBundleRequest>,
-  output: __S(29537, __c923, 1) as any as S.Schema<GovernanceBundle>,
+  output: __S(29569, __c924, 1) as any as S.Schema<GovernanceBundle>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23356,7 +23365,7 @@ export const replaceGroupRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<ReplaceGroupRuleRequest>,
-  output: __S(29766, __c930, 6) as any as S.Schema<GroupRule>,
+  output: __S(29798, __c931, 6) as any as S.Schema<GroupRule>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23371,7 +23380,7 @@ export const replaceHookKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21856, __c683, 0) as any as S.Schema<ReplaceHookKeyRequest>,
-  output: __S(29856, __c933, 0) as any as S.Schema<DetailedHookKeyInstance>,
+  output: __S(29888, __c934, 0) as any as S.Schema<DetailedHookKeyInstance>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23401,7 +23410,7 @@ export const replaceIdentityProviderKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21920, __c685, 0) as any as S.Schema<ReplaceIdentityProviderKeyRequest>,
-  output: __S(24544, __c767, 0) as any as S.Schema<IdPKeyCredential>,
+  output: __S(24928, __c779, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23521,7 +23530,7 @@ export const replacePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22208, __c694, 0) as any as S.Schema<ReplacePolicyRequest>,
-  output: __S(25312, __c791, 0) as any as S.Schema<Policy>,
+  output: __S(25344, __c792, 0) as any as S.Schema<Policy>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -23934,7 +23943,7 @@ export const resetFactors: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23360, __c730, 0) as any as S.Schema<ResetFactorsRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<ResetFactorsResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<ResetFactorsResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24009,7 +24018,7 @@ export const revokeApiToken: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23520, __c735, 0) as any as S.Schema<RevokeApiTokenRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeApiTokenResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeApiTokenResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24024,7 +24033,7 @@ export const revokeCsrForIdentityProvider: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23552, __c736, 0) as any as S.Schema<RevokeCsrForIdentityProviderRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeCsrForIdentityProviderResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeCsrForIdentityProviderResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24039,7 +24048,7 @@ export const revokeCsrFromApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23584, __c737, 0) as any as S.Schema<RevokeCsrFromApplicationRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeCsrFromApplicationResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeCsrFromApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24054,7 +24063,7 @@ export const revokeCurrentApiToken: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23616, __c738, 0) as any as S.Schema<RevokeCurrentApiTokenRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeCurrentApiTokenResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeCurrentApiTokenResponse>,
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24069,7 +24078,7 @@ export const revokeGrantsForUserAndClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23648, __c739, 0) as any as S.Schema<RevokeGrantsForUserAndClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeGrantsForUserAndClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeGrantsForUserAndClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24084,7 +24093,7 @@ export const revokeOAuth2TokenForApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23776, __c743, 0) as any as S.Schema<RevokeOAuth2TokenForApplicationRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeOAuth2TokenForApplicationResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeOAuth2TokenForApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24099,7 +24108,7 @@ export const revokeOAuth2TokensForApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23808, __c744, 0) as any as S.Schema<RevokeOAuth2TokensForApplicationRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeOAuth2TokensForApplicationResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeOAuth2TokensForApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24122,8 +24131,8 @@ export const revokeRefreshTokenForAuthorizationServerAndClient: API.OperationMet
     0,
   ) as any as S.Schema<RevokeRefreshTokenForAuthorizationServerAndClientRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<RevokeRefreshTokenForAuthorizationServerAndClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -24148,8 +24157,8 @@ export const revokeRefreshTokensForAuthorizationServerAndClient: API.OperationMe
     0,
   ) as any as S.Schema<RevokeRefreshTokensForAuthorizationServerAndClientRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<RevokeRefreshTokensForAuthorizationServerAndClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -24166,7 +24175,7 @@ export const revokeScopeConsentGrant: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23904, __c747, 0) as any as S.Schema<RevokeScopeConsentGrantRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeScopeConsentGrantResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeScopeConsentGrantResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24181,7 +24190,7 @@ export const revokeSession: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23936, __c748, 0) as any as S.Schema<RevokeSessionRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeSessionResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeSessionResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24196,7 +24205,7 @@ export const revokeTokenForUserAndClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23968, __c749, 0) as any as S.Schema<RevokeTokenForUserAndClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeTokenForUserAndClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeTokenForUserAndClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24211,7 +24220,7 @@ export const revokeTokensForUserAndClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24000, __c750, 0) as any as S.Schema<RevokeTokensForUserAndClientRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeTokensForUserAndClientResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeTokensForUserAndClientResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24226,7 +24235,7 @@ export const revokeUserGrant: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24032, __c751, 0) as any as S.Schema<RevokeUserGrantRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeUserGrantResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeUserGrantResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24241,7 +24250,7 @@ export const revokeUserGrants: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24064, __c752, 0) as any as S.Schema<RevokeUserGrantsRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeUserGrantsResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeUserGrantsResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24256,7 +24265,7 @@ export const revokeUserSessions: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24160, __c755, 0) as any as S.Schema<RevokeUserSessionsRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<RevokeUserSessionsResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<RevokeUserSessionsResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24286,7 +24295,7 @@ export const sendPin: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24224, __c757, 0) as any as S.Schema<SendPinRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<SendPinResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<SendPinResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24302,8 +24311,8 @@ export const sendTestCustomTelephonyProviderCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24256, __c758, 0) as any as S.Schema<SendTestCustomTelephonyProviderCredentialRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<SendTestCustomTelephonyProviderCredentialResponse>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
@@ -24320,7 +24329,7 @@ export const sendTestEmail: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24288, __c759, 0) as any as S.Schema<SendTestEmailRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<SendTestEmailResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<SendTestEmailResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24440,7 +24449,7 @@ export const submitGroupAttributeQuery: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24640, __c770, 0) as any as S.Schema<SubmitGroupAttributeQueryRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<SubmitGroupAttributeQueryResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<SubmitGroupAttributeQueryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24455,7 +24464,7 @@ export const subscribeByNotificationTypeRole: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24672, __c771, 0) as any as S.Schema<SubscribeByNotificationTypeRoleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<SubscribeByNotificationTypeRoleResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<SubscribeByNotificationTypeRoleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24470,7 +24479,7 @@ export const subscribeByNotificationTypeUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24704, __c772, 0) as any as S.Schema<SubscribeByNotificationTypeUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<SubscribeByNotificationTypeUserResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<SubscribeByNotificationTypeUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24485,7 +24494,7 @@ export const suspendDevice: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24736, __c773, 0) as any as S.Schema<SuspendDeviceRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<SuspendDeviceResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<SuspendDeviceResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24500,7 +24509,7 @@ export const suspendUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24768, __c774, 0) as any as S.Schema<SuspendUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<SuspendUserResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<SuspendUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24515,7 +24524,7 @@ export const testEmailServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24800, __c775, 0) as any as S.Schema<TestEmailServerRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<TestEmailServerResponse>,
+  output: __S(26528, __c829, 0) as any as S.Schema<TestEmailServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24535,8 +24544,8 @@ export const unassignAppInstanceTargetFromAdminRoleForUser: API.OperationMethod<
     0,
   ) as any as S.Schema<UnassignAppInstanceTargetFromAdminRoleForUserRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<UnassignAppInstanceTargetFromAdminRoleForUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -24561,8 +24570,8 @@ export const unassignAppInstanceTargetToAppAdminRoleForGroup: API.OperationMetho
     0,
   ) as any as S.Schema<UnassignAppInstanceTargetToAppAdminRoleForGroupRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<UnassignAppInstanceTargetToAppAdminRoleForGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -24578,8 +24587,8 @@ export const unassignApplicationFromGroup: API.OperationMethod<
   UnassignApplicationFromGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24928, __c779, 0) as any as S.Schema<UnassignApplicationFromGroupRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnassignApplicationFromGroupResponse>,
+  input: __S(24960, __c780, 0) as any as S.Schema<UnassignApplicationFromGroupRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnassignApplicationFromGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24593,10 +24602,10 @@ export const unassignAppTargetFromAppAdminRoleForUser: API.OperationMethod<
   UnassignAppTargetFromAppAdminRoleForUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24960, __c780, 0) as any as S.Schema<UnassignAppTargetFromAppAdminRoleForUserRequest>,
+  input: __S(24992, __c781, 0) as any as S.Schema<UnassignAppTargetFromAppAdminRoleForUserRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<UnassignAppTargetFromAppAdminRoleForUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -24612,8 +24621,8 @@ export const unassignAppTargetToAdminRoleForGroup: API.OperationMethod<
   UnassignAppTargetToAdminRoleForGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24992, __c781, 0) as any as S.Schema<UnassignAppTargetToAdminRoleForGroupRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnassignAppTargetToAdminRoleForGroupResponse>,
+  input: __S(25024, __c782, 0) as any as S.Schema<UnassignAppTargetToAdminRoleForGroupRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnassignAppTargetToAdminRoleForGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24627,8 +24636,8 @@ export const unassignGroupTargetFromGroupAdminRole: API.OperationMethod<
   UnassignGroupTargetFromGroupAdminRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25024, __c782, 0) as any as S.Schema<UnassignGroupTargetFromGroupAdminRoleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnassignGroupTargetFromGroupAdminRoleResponse>,
+  input: __S(25056, __c783, 0) as any as S.Schema<UnassignGroupTargetFromGroupAdminRoleRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnassignGroupTargetFromGroupAdminRoleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24642,8 +24651,8 @@ export const unassignGroupTargetFromUserAdminRole: API.OperationMethod<
   UnassignGroupTargetFromUserAdminRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25056, __c783, 0) as any as S.Schema<UnassignGroupTargetFromUserAdminRoleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnassignGroupTargetFromUserAdminRoleResponse>,
+  input: __S(25088, __c784, 0) as any as S.Schema<UnassignGroupTargetFromUserAdminRoleRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnassignGroupTargetFromUserAdminRoleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24657,8 +24666,8 @@ export const unassignMemberFromBinding: API.OperationMethod<
   UnassignMemberFromBindingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25088, __c784, 0) as any as S.Schema<UnassignMemberFromBindingRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnassignMemberFromBindingResponse>,
+  input: __S(25120, __c785, 0) as any as S.Schema<UnassignMemberFromBindingRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnassignMemberFromBindingResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24672,8 +24681,8 @@ export const unassignRoleFromGroup: API.OperationMethod<
   UnassignRoleFromGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25120, __c785, 0) as any as S.Schema<UnassignRoleFromGroupRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnassignRoleFromGroupResponse>,
+  input: __S(25152, __c786, 0) as any as S.Schema<UnassignRoleFromGroupRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnassignRoleFromGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24687,8 +24696,8 @@ export const unassignRoleFromUser: API.OperationMethod<
   UnassignRoleFromUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25152, __c786, 0) as any as S.Schema<UnassignRoleFromUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnassignRoleFromUserResponse>,
+  input: __S(25184, __c787, 0) as any as S.Schema<UnassignRoleFromUserRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnassignRoleFromUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24702,8 +24711,8 @@ export const unassignUserFromApplication: API.OperationMethod<
   UnassignUserFromApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25184, __c787, 0) as any as S.Schema<UnassignUserFromApplicationRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnassignUserFromApplicationResponse>,
+  input: __S(25216, __c788, 0) as any as S.Schema<UnassignUserFromApplicationRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnassignUserFromApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24717,8 +24726,8 @@ export const unassignUserFromGroup: API.OperationMethod<
   UnassignUserFromGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25216, __c788, 0) as any as S.Schema<UnassignUserFromGroupRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnassignUserFromGroupResponse>,
+  input: __S(25248, __c789, 0) as any as S.Schema<UnassignUserFromGroupRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnassignUserFromGroupResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24732,8 +24741,8 @@ export const unenrollFactor: API.OperationMethod<
   UnenrollFactorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25344, __c792, 0) as any as S.Schema<UnenrollFactorRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnenrollFactorResponse>,
+  input: __S(25376, __c793, 0) as any as S.Schema<UnenrollFactorRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnenrollFactorResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24747,8 +24756,8 @@ export const unlinkUserFromIdentityProvider: API.OperationMethod<
   UnlinkUserFromIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25376, __c793, 0) as any as S.Schema<UnlinkUserFromIdentityProviderRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnlinkUserFromIdentityProviderResponse>,
+  input: __S(25408, __c794, 0) as any as S.Schema<UnlinkUserFromIdentityProviderRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnlinkUserFromIdentityProviderResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24762,8 +24771,8 @@ export const unlockUser: API.OperationMethod<
   UnlockUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25408, __c794, 0) as any as S.Schema<UnlockUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnlockUserResponse>,
+  input: __S(25440, __c795, 0) as any as S.Schema<UnlockUserRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnlockUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24777,8 +24786,8 @@ export const unsubscribeByNotificationTypeRole: API.OperationMethod<
   UnsubscribeByNotificationTypeRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25440, __c795, 0) as any as S.Schema<UnsubscribeByNotificationTypeRoleRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnsubscribeByNotificationTypeRoleResponse>,
+  input: __S(25472, __c796, 0) as any as S.Schema<UnsubscribeByNotificationTypeRoleRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnsubscribeByNotificationTypeRoleResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24792,8 +24801,8 @@ export const unsubscribeByNotificationTypeUser: API.OperationMethod<
   UnsubscribeByNotificationTypeUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25472, __c796, 0) as any as S.Schema<UnsubscribeByNotificationTypeUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnsubscribeByNotificationTypeUserResponse>,
+  input: __S(25504, __c797, 0) as any as S.Schema<UnsubscribeByNotificationTypeUserRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnsubscribeByNotificationTypeUserResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24807,8 +24816,8 @@ export const unsuspendDevice: API.OperationMethod<
   UnsuspendDeviceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25504, __c797, 0) as any as S.Schema<UnsuspendDeviceRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnsuspendDeviceResponse>,
+  input: __S(25536, __c798, 0) as any as S.Schema<UnsuspendDeviceRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnsuspendDeviceResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24822,8 +24831,8 @@ export const unsuspendUser: API.OperationMethod<
   UnsuspendUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25536, __c798, 0) as any as S.Schema<UnsuspendUserRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UnsuspendUserResponse>,
+  input: __S(25568, __c799, 0) as any as S.Schema<UnsuspendUserRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UnsuspendUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24837,7 +24846,7 @@ export const updateAgentPoolsUpdate: API.OperationMethod<
   UpdateAgentPoolsUpdateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25568, __c799, 0) as any as S.Schema<UpdateAgentPoolsUpdateRequest>,
+  input: __S(25600, __c800, 0) as any as S.Schema<UpdateAgentPoolsUpdateRequest>,
   output: __S(18625, __c582, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -24852,7 +24861,7 @@ export const updateAgentPoolsUpdateSettings: API.OperationMethod<
   UpdateAgentPoolsUpdateSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25600, __c800, 0) as any as S.Schema<UpdateAgentPoolsUpdateSettingsRequest>,
+  input: __S(25632, __c801, 0) as any as S.Schema<UpdateAgentPoolsUpdateSettingsRequest>,
   output: __S(6752, __c211, 0) as any as S.Schema<AgentPoolUpdateSettingResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -24867,7 +24876,7 @@ export const updateApplicationUser: API.OperationMethod<
   UpdateApplicationUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25632, __c801, 0) as any as S.Schema<UpdateApplicationUserRequest>,
+  input: __S(25664, __c802, 0) as any as S.Schema<UpdateApplicationUserRequest>,
   output: __S(22562, __c705, 2) as any as S.Schema<AppUserOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -24882,7 +24891,7 @@ export const updateApplicationUserProfile: API.OperationMethod<
   UpdateApplicationUserProfileError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25728, __c804, 0) as any as S.Schema<UpdateApplicationUserProfileRequest>,
+  input: __S(25760, __c805, 0) as any as S.Schema<UpdateApplicationUserProfileRequest>,
   output: __S(7399, __c231, 7) as any as S.Schema<UserSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -24897,8 +24906,8 @@ export const updateAppServiceAccount: API.OperationMethod<
   UpdateAppServiceAccountError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25792, __c806, 0) as any as S.Schema<UpdateAppServiceAccountRequest>,
-  output: __S(27360, __c855, 0) as any as S.Schema<AppServiceAccountOutput>,
+  input: __S(25824, __c807, 0) as any as S.Schema<UpdateAppServiceAccountRequest>,
+  output: __S(27392, __c856, 0) as any as S.Schema<AppServiceAccountOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24912,7 +24921,7 @@ export const updateAutoAssignAdminAppSetting: API.OperationMethod<
   UpdateAutoAssignAdminAppSettingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25824, __c807, 0) as any as S.Schema<UpdateAutoAssignAdminAppSettingRequest>,
+  input: __S(25856, __c808, 0) as any as S.Schema<UpdateAutoAssignAdminAppSettingRequest>,
   output: __S(7904, __c247, 0) as any as S.Schema<AutoAssignAdminAppSetting>,
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -24927,7 +24936,7 @@ export const updateBotProtectionConfiguration: API.OperationMethod<
   UpdateBotProtectionConfigurationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25856, __c808, 0) as any as S.Schema<UpdateBotProtectionConfigurationRequest>,
+  input: __S(25888, __c809, 0) as any as S.Schema<UpdateBotProtectionConfigurationRequest>,
   output: __S(8032, __c251, 0) as any as S.Schema<BotProtectionConfiguration>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -24942,8 +24951,8 @@ export const updateCaptchaInstance: API.OperationMethod<
   UpdateCaptchaInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25888, __c809, 0) as any as S.Schema<UpdateCaptchaInstanceRequest>,
-  output: __S(28544, __c892, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
+  input: __S(25920, __c810, 0) as any as S.Schema<UpdateCaptchaInstanceRequest>,
+  output: __S(28576, __c893, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24957,7 +24966,7 @@ export const updateConfiguration: API.OperationMethod<
   UpdateConfigurationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25920, __c810, 0) as any as S.Schema<UpdateConfigurationRequest>,
+  input: __S(25952, __c811, 0) as any as S.Schema<UpdateConfigurationRequest>,
   output: __S(8544, __c267, 0) as any as S.Schema<ThreatInsightConfiguration>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -24972,8 +24981,8 @@ export const updateCrossAppAccessConnection: API.OperationMethod<
   UpdateCrossAppAccessConnectionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25952, __c811, 0) as any as S.Schema<UpdateCrossAppAccessConnectionRequest>,
-  output: __S(28640, __c895, 0) as any as S.Schema<OrgCrossAppAccessConnection>,
+  input: __S(25984, __c812, 0) as any as S.Schema<UpdateCrossAppAccessConnectionRequest>,
+  output: __S(28672, __c896, 0) as any as S.Schema<OrgCrossAppAccessConnection>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -24987,8 +24996,8 @@ export const updateCustomAAGUID: API.OperationMethod<
   UpdateCustomAAGUIDError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25984, __c812, 0) as any as S.Schema<UpdateCustomAAGUIDRequest>,
-  output: __S(28707, __c897, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
+  input: __S(26016, __c813, 0) as any as S.Schema<UpdateCustomAAGUIDRequest>,
+  output: __S(28739, __c898, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25002,7 +25011,7 @@ export const updateCustomTelephonyProviderCredential: API.OperationMethod<
   UpdateCustomTelephonyProviderCredentialError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26016, __c813, 0) as any as S.Schema<UpdateCustomTelephonyProviderCredentialRequest>,
+  input: __S(26048, __c814, 0) as any as S.Schema<UpdateCustomTelephonyProviderCredentialRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<CustomTelephonyProviderCredentialResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25022,8 +25031,8 @@ export const updateDefaultProvisioningConnectionForApplication: API.OperationMet
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    26048,
-    __c814,
+    26080,
+    __c815,
     0,
   ) as any as S.Schema<UpdateDefaultProvisioningConnectionForApplicationRequest>,
   output: __S(8997, __c281, 5) as any as S.Schema<ProvisioningConnectionResponse>,
@@ -25040,8 +25049,8 @@ export const updateEmailServer: API.OperationMethod<
   UpdateEmailServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26144, __c817, 0) as any as S.Schema<UpdateEmailServerRequest>,
-  output: __S(29344, __c917, 0) as any as S.Schema<BaseEmailServer>,
+  input: __S(26176, __c818, 0) as any as S.Schema<UpdateEmailServerRequest>,
+  output: __S(29376, __c918, 0) as any as S.Schema<BaseEmailServer>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25055,7 +25064,7 @@ export const updateFeatureForApplication: API.OperationMethod<
   UpdateFeatureForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26176, __c818, 0) as any as S.Schema<UpdateFeatureForApplicationRequest>,
+  input: __S(26208, __c819, 0) as any as S.Schema<UpdateFeatureForApplicationRequest>,
   output: __S(10048, __c314, 0) as any as S.Schema<ApplicationFeature>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25070,7 +25079,7 @@ export const updateFeatureLifecycle: API.OperationMethod<
   UpdateFeatureLifecycleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26208, __c819, 0) as any as S.Schema<UpdateFeatureLifecycleRequest>,
+  input: __S(26240, __c820, 0) as any as S.Schema<UpdateFeatureLifecycleRequest>,
   output: __S(9986, __c312, 2) as any as S.Schema<Feature>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25089,7 +25098,7 @@ export const updateGroupAssignmentToApplication: API.OperationMethod<
   UpdateGroupAssignmentToApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26242, __c820, 2) as any as S.Schema<UpdateGroupAssignmentToApplicationRequest>,
+  input: __S(26274, __c821, 2) as any as S.Schema<UpdateGroupAssignmentToApplicationRequest>,
   output: __S(20609, __c644, 1) as any as S.Schema<ApplicationGroupAssignment>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25104,8 +25113,8 @@ export const updateGroupMembership: API.OperationMethod<
   UpdateGroupMembershipError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26273, __c821, 1) as any as S.Schema<UpdateGroupMembershipRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UpdateGroupMembershipResponse>,
+  input: __S(26305, __c822, 1) as any as S.Schema<UpdateGroupMembershipRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UpdateGroupMembershipResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25119,8 +25128,8 @@ export const updateGroupPushMapping: API.OperationMethod<
   UpdateGroupPushMappingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26304, __c822, 0) as any as S.Schema<UpdateGroupPushMappingRequest>,
-  output: __S(29634, __c926, 2) as any as S.Schema<GroupPushMapping>,
+  input: __S(26336, __c823, 0) as any as S.Schema<UpdateGroupPushMappingRequest>,
+  output: __S(29666, __c927, 2) as any as S.Schema<GroupPushMapping>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25134,7 +25143,7 @@ export const updateGroupSchema: API.OperationMethod<
   UpdateGroupSchemaError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26339, __c823, 3) as any as S.Schema<UpdateGroupSchemaRequest>,
+  input: __S(26371, __c824, 3) as any as S.Schema<UpdateGroupSchemaRequest>,
   output: __S(10472, __c327, 8) as any as S.Schema<GroupSchema>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25149,7 +25158,7 @@ export const updateIdentitySourceGroups: API.OperationMethod<
   UpdateIdentitySourceGroupsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26368, __c824, 0) as any as S.Schema<UpdateIdentitySourceGroupsRequest>,
+  input: __S(26400, __c825, 0) as any as S.Schema<UpdateIdentitySourceGroupsRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<GroupsResponseSchema>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25164,7 +25173,7 @@ export const updateIdentitySourceUsers: API.OperationMethod<
   UpdateIdentitySourceUsersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26400, __c825, 0) as any as S.Schema<UpdateIdentitySourceUsersRequest>,
+  input: __S(26432, __c826, 0) as any as S.Schema<UpdateIdentitySourceUsersRequest>,
   output: __S(10912, __c341, 0) as any as S.Schema<UserResponseSchema>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25179,7 +25188,7 @@ export const updateInlineHook: API.OperationMethod<
   UpdateInlineHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26432, __c826, 0) as any as S.Schema<UpdateInlineHookRequest>,
+  input: __S(26464, __c827, 0) as any as S.Schema<UpdateInlineHookRequest>,
   output: __S(5217, __c163, 1) as any as S.Schema<InlineHook>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25194,7 +25203,7 @@ export const updateOktaManagedUserAccount: API.OperationMethod<
   UpdateOktaManagedUserAccountError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26560, __c830, 0) as any as S.Schema<UpdateOktaManagedUserAccountRequest>,
+  input: __S(26592, __c831, 0) as any as S.Schema<UpdateOktaManagedUserAccountRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<OktaManagedUserAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25209,7 +25218,7 @@ export const updateOktaSupportCase: API.OperationMethod<
   UpdateOktaSupportCaseError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26592, __c831, 0) as any as S.Schema<UpdateOktaSupportCaseRequest>,
+  input: __S(26624, __c832, 0) as any as S.Schema<UpdateOktaSupportCaseRequest>,
   output: __S(18818, __c588, 2) as any as S.Schema<OktaSupportCase>,
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25224,7 +25233,7 @@ export const updateOrgSettings: API.OperationMethod<
   UpdateOrgSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26624, __c832, 0) as any as S.Schema<UpdateOrgSettingsRequest>,
+  input: __S(26656, __c833, 0) as any as S.Schema<UpdateOrgSettingsRequest>,
   output: __S(12097, __c378, 1) as any as S.Schema<OrgSetting>,
   errors: [BadRequest, Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25239,7 +25248,7 @@ export const updatePauseAgentPool: API.OperationMethod<
   UpdatePauseAgentPoolError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26656, __c833, 0) as any as S.Schema<UpdatePauseAgentPoolRequest>,
+  input: __S(26688, __c834, 0) as any as S.Schema<UpdatePauseAgentPoolRequest>,
   output: __S(18625, __c582, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25254,7 +25263,7 @@ export const updateProfileMapping: API.OperationMethod<
   UpdateProfileMappingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26688, __c834, 0) as any as S.Schema<UpdateProfileMappingRequest>,
+  input: __S(26720, __c835, 0) as any as S.Schema<UpdateProfileMappingRequest>,
   output: __S(12449, __c389, 1) as any as S.Schema<ProfileMapping>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25269,7 +25278,7 @@ export const updateSmsTemplate: API.OperationMethod<
   UpdateSmsTemplateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26720, __c835, 0) as any as S.Schema<UpdateSmsTemplateRequest>,
+  input: __S(26752, __c836, 0) as any as S.Schema<UpdateSmsTemplateRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<SmsTemplate>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25284,7 +25293,7 @@ export const updateSsfStream: API.OperationMethod<
   UpdateSsfStreamError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26752, __c836, 0) as any as S.Schema<UpdateSsfStreamRequest>,
+  input: __S(26784, __c837, 0) as any as S.Schema<UpdateSsfStreamRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<StreamConfiguration>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25299,7 +25308,7 @@ export const updateThirdPartyAdminSetting: API.OperationMethod<
   UpdateThirdPartyAdminSettingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26784, __c837, 0) as any as S.Schema<UpdateThirdPartyAdminSettingRequest>,
+  input: __S(26816, __c838, 0) as any as S.Schema<UpdateThirdPartyAdminSettingRequest>,
   output: __S(13824, __c432, 0) as any as S.Schema<ThirdPartyAdminSetting>,
   errors: [Forbidden, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25314,7 +25323,7 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26816, __c838, 0) as any as S.Schema<UpdateUserRequest>,
+  input: __S(26848, __c839, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<UserOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25329,7 +25338,7 @@ export const updateUserProfile: API.OperationMethod<
   UpdateUserProfileError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26848, __c839, 0) as any as S.Schema<UpdateUserProfileRequest>,
+  input: __S(26880, __c840, 0) as any as S.Schema<UpdateUserProfileRequest>,
   output: __S(7399, __c231, 7) as any as S.Schema<UserSchema>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25344,7 +25353,7 @@ export const updateUserType: API.OperationMethod<
   UpdateUserTypeError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26944, __c842, 0) as any as S.Schema<UpdateUserTypeRequest>,
+  input: __S(26976, __c843, 0) as any as S.Schema<UpdateUserTypeRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<UserType>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25359,8 +25368,8 @@ export const uploadApplicationLogo: API.OperationMethod<
   UploadApplicationLogoError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26976, __c843, 0) as any as S.Schema<UploadApplicationLogoRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UploadApplicationLogoResponse>,
+  input: __S(27008, __c844, 0) as any as S.Schema<UploadApplicationLogoRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UploadApplicationLogoResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25374,8 +25383,8 @@ export const uploadBrandThemeBackgroundImage: API.OperationMethod<
   UploadBrandThemeBackgroundImageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27008, __c844, 0) as any as S.Schema<UploadBrandThemeBackgroundImageRequest>,
-  output: __S(27040, __c845, 0) as any as S.Schema<ImageUploadResponse>,
+  input: __S(27040, __c845, 0) as any as S.Schema<UploadBrandThemeBackgroundImageRequest>,
+  output: __S(27072, __c846, 0) as any as S.Schema<ImageUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25389,8 +25398,8 @@ export const uploadBrandThemeFavicon: API.OperationMethod<
   UploadBrandThemeFaviconError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27072, __c846, 0) as any as S.Schema<UploadBrandThemeFaviconRequest>,
-  output: __S(27040, __c845, 0) as any as S.Schema<ImageUploadResponse>,
+  input: __S(27104, __c847, 0) as any as S.Schema<UploadBrandThemeFaviconRequest>,
+  output: __S(27072, __c846, 0) as any as S.Schema<ImageUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25404,8 +25413,8 @@ export const uploadBrandThemeLogo: API.OperationMethod<
   UploadBrandThemeLogoError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27104, __c847, 0) as any as S.Schema<UploadBrandThemeLogoRequest>,
-  output: __S(27040, __c845, 0) as any as S.Schema<ImageUploadResponse>,
+  input: __S(27136, __c848, 0) as any as S.Schema<UploadBrandThemeLogoRequest>,
+  output: __S(27072, __c846, 0) as any as S.Schema<ImageUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25423,8 +25432,8 @@ export const uploadIdentitySourceDataForDelete: API.OperationMethod<
   UploadIdentitySourceDataForDeleteError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27138, __c848, 2) as any as S.Schema<UploadIdentitySourceDataForDeleteRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UploadIdentitySourceDataForDeleteResponse>,
+  input: __S(27170, __c849, 2) as any as S.Schema<UploadIdentitySourceDataForDeleteRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UploadIdentitySourceDataForDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25442,8 +25451,8 @@ export const uploadIdentitySourceDataForUpsert: API.OperationMethod<
   UploadIdentitySourceDataForUpsertError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27170, __c849, 2) as any as S.Schema<UploadIdentitySourceDataForUpsertRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UploadIdentitySourceDataForUpsertResponse>,
+  input: __S(27202, __c850, 2) as any as S.Schema<UploadIdentitySourceDataForUpsertRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UploadIdentitySourceDataForUpsertResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25462,13 +25471,13 @@ export const uploadIdentitySourceGroupMembershipsForDelete: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27200,
-    __c850,
+    27232,
+    __c851,
     0,
   ) as any as S.Schema<UploadIdentitySourceGroupMembershipsForDeleteRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<UploadIdentitySourceGroupMembershipsForDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
@@ -25489,13 +25498,13 @@ export const uploadIdentitySourceGroupMembershipsForUpsert: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27264,
-    __c852,
+    27296,
+    __c853,
     0,
   ) as any as S.Schema<UploadIdentitySourceGroupMembershipsForUpsertRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<UploadIdentitySourceGroupMembershipsForUpsertResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
@@ -25515,8 +25524,8 @@ export const uploadIdentitySourceGroupsDataForDelete: API.OperationMethod<
   UploadIdentitySourceGroupsDataForDeleteError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27296, __c853, 0) as any as S.Schema<UploadIdentitySourceGroupsDataForDeleteRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UploadIdentitySourceGroupsDataForDeleteResponse>,
+  input: __S(27328, __c854, 0) as any as S.Schema<UploadIdentitySourceGroupsDataForDeleteRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UploadIdentitySourceGroupsDataForDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25534,8 +25543,8 @@ export const uploadIdentitySourceGroupsForUpsert: API.OperationMethod<
   UploadIdentitySourceGroupsForUpsertError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27394, __c856, 2) as any as S.Schema<UploadIdentitySourceGroupsForUpsertRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UploadIdentitySourceGroupsForUpsertResponse>,
+  input: __S(27426, __c857, 2) as any as S.Schema<UploadIdentitySourceGroupsForUpsertRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UploadIdentitySourceGroupsForUpsertResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25549,7 +25558,7 @@ export const uploadYubikeyOtpTokenSeed: API.OperationMethod<
   UploadYubikeyOtpTokenSeedError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27424, __c857, 0) as any as S.Schema<UploadYubikeyOtpTokenSeedRequest>,
+  input: __S(27456, __c858, 0) as any as S.Schema<UploadYubikeyOtpTokenSeedRequest>,
   output: __S(14656, __c458, 0) as any as S.Schema<UserFactorYubikeyOtpToken>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25564,7 +25573,7 @@ export const upsertApiToken: API.OperationMethod<
   UpsertApiTokenError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27456, __c858, 0) as any as S.Schema<UpsertApiTokenRequest>,
+  input: __S(27488, __c859, 0) as any as S.Schema<UpsertApiTokenRequest>,
   output: __S(7009, __c219, 1) as any as S.Schema<ApiToken>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25579,8 +25588,8 @@ export const upsertCertificate: API.OperationMethod<
   UpsertCertificateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27488, __c859, 0) as any as S.Schema<UpsertCertificateRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<UpsertCertificateResponse>,
+  input: __S(27520, __c860, 0) as any as S.Schema<UpsertCertificateRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<UpsertCertificateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25594,8 +25603,8 @@ export const upsertUserRisk: API.OperationMethod<
   UpsertUserRiskError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27520, __c860, 0) as any as S.Schema<UpsertUserRiskRequest>,
-  output: __S(27521, __c860, 1) as any as S.Schema<UserRiskPutResponse>,
+  input: __S(27552, __c861, 0) as any as S.Schema<UpsertUserRiskRequest>,
+  output: __S(27553, __c861, 1) as any as S.Schema<UserRiskPutResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25609,8 +25618,8 @@ export const verifyDomain: API.OperationMethod<
   VerifyDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27552, __c861, 0) as any as S.Schema<VerifyDomainRequest>,
-  output: __S(28804, __c900, 4) as any as S.Schema<DomainResponse>,
+  input: __S(27584, __c862, 0) as any as S.Schema<VerifyDomainRequest>,
+  output: __S(28836, __c901, 4) as any as S.Schema<DomainResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25624,8 +25633,8 @@ export const verifyEmailDomain: API.OperationMethod<
   VerifyEmailDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27584, __c862, 0) as any as S.Schema<VerifyEmailDomainRequest>,
-  output: __S(29280, __c915, 0) as any as S.Schema<VerifyEmailDomainResponse>,
+  input: __S(27616, __c863, 0) as any as S.Schema<VerifyEmailDomainRequest>,
+  output: __S(29312, __c916, 0) as any as S.Schema<VerifyEmailDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25639,7 +25648,7 @@ export const verifyEventHook: API.OperationMethod<
   VerifyEventHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27616, __c863, 0) as any as S.Schema<VerifyEventHookRequest>,
+  input: __S(27648, __c864, 0) as any as S.Schema<VerifyEventHookRequest>,
   output: __S(3691, __c115, 11) as any as S.Schema<EventHookOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
@@ -25654,8 +25663,8 @@ export const verifyFactor: API.OperationMethod<
   VerifyFactorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27648, __c864, 0) as any as S.Schema<VerifyFactorRequest>,
-  output: __S(27650, __c864, 2) as any as S.Schema<UserFactorVerifyResponse>,
+  input: __S(27680, __c865, 0) as any as S.Schema<VerifyFactorRequest>,
+  output: __S(27682, __c865, 2) as any as S.Schema<UserFactorVerifyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25670,13 +25679,13 @@ export const verifyProvisioningConnectionForApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27680,
-    __c865,
+    27712,
+    __c866,
     0,
   ) as any as S.Schema<VerifyProvisioningConnectionForApplicationRequest>,
   output: __S(
-    26496,
-    __c828,
+    26528,
+    __c829,
     0,
   ) as any as S.Schema<VerifyProvisioningConnectionForApplicationResponse>,
   errors: [Forbidden, NotFound, UnknownOktaError],
@@ -25692,8 +25701,8 @@ export const verifyRpIdDomain: API.OperationMethod<
   VerifyRpIdDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27808, __c869, 0) as any as S.Schema<VerifyRpIdDomainRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<VerifyRpIdDomainResponse>,
+  input: __S(27840, __c870, 0) as any as S.Schema<VerifyRpIdDomainRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<VerifyRpIdDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25707,8 +25716,8 @@ export const verifySsfStream: API.OperationMethod<
   VerifySsfStreamError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27840, __c870, 0) as any as S.Schema<VerifySsfStreamRequest>,
-  output: __S(26496, __c828, 0) as any as S.Schema<VerifySsfStreamResponse>,
+  input: __S(27872, __c871, 0) as any as S.Schema<VerifySsfStreamRequest>,
+  output: __S(26528, __c829, 0) as any as S.Schema<VerifySsfStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
@@ -25932,7 +25941,7 @@ function __c11(j: number): any {
         S.Struct({
           associated: S.optional(__S(384, __c12, 0)),
           primary: S.optional(__S(384, __c12, 0)),
-          _links: S.optional(__S(26496, __c828, 0)),
+          _links: S.optional(__S(26528, __c829, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/meta/schemas/user/linkedObjects", code: 200 }),
         ),
@@ -25986,7 +25995,7 @@ function __c14(j: number): any {
           status: S.optional(S.String),
           type: S.String,
           usage: S.optional(S.String),
-          _links: S.optional(__S(28224, __c882, 0)),
+          _links: S.optional(__S(28256, __c883, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/zones", code: 200 })),
       ).annotate({ identifier: "CreateNetworkZoneRequest" });
   }
@@ -26203,7 +26212,7 @@ function __c25(j: number): any {
           status: S.optional(S.Unknown),
           system: S.optional(S.Boolean),
           type: S.optional(S.String),
-          _links: S.optional(__S(25280, __c790, 0)),
+          _links: S.optional(__S(25312, __c791, 0)),
         }),
       ).annotate({ identifier: "PolicyRule" });
   }
@@ -26707,7 +26716,7 @@ function __c48(j: number): any {
           profile: S.optional(__S(1538, __c48, 2)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(27968, __c874, 0)),
+          _links: S.optional(__S(28000, __c875, 0)),
         }),
       ).annotate({ identifier: "TacAuthenticatorEnrollment" });
   }
@@ -26826,7 +26835,7 @@ function __c54(j: number): any {
           groupIds: S.optional(__S(3648, __c114, 0)),
           profile: __S(1760, __c55, 0),
           realmId: S.optional(S.String),
-          type: S.optional(__S(28256, __c883, 0)),
+          type: S.optional(__S(28288, __c884, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/users", code: 200 })),
       ).annotate({ identifier: "CreateUserRequest" });
   }
@@ -26835,39 +26844,42 @@ function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          city: S.optional(S.NullOr(S.String)),
-          costCenter: S.optional(S.NullOr(S.String)),
-          countryCode: S.optional(S.NullOr(S.String)),
-          department: S.optional(S.String),
-          displayName: S.optional(S.NullOr(S.String)),
-          division: S.optional(S.NullOr(S.String)),
-          email: S.optional(S.String),
-          employeeNumber: S.optional(S.String),
-          firstName: S.optional(S.NullOr(S.String)),
-          honorificPrefix: S.optional(S.NullOr(S.String)),
-          honorificSuffix: S.optional(S.NullOr(S.String)),
-          lastName: S.optional(S.NullOr(S.String)),
-          locale: S.optional(S.String),
-          login: S.optional(S.String),
-          manager: S.optional(S.NullOr(S.String)),
-          managerId: S.optional(S.NullOr(S.String)),
-          middleName: S.optional(S.NullOr(S.String)),
-          mobilePhone: S.optional(S.NullOr(S.String)),
-          nickName: S.optional(S.NullOr(S.String)),
-          organization: S.optional(S.NullOr(S.String)),
-          postalAddress: S.optional(S.NullOr(S.String)),
-          preferredLanguage: S.optional(S.NullOr(S.String)),
-          primaryPhone: S.optional(S.NullOr(S.String)),
-          profileUrl: S.optional(S.NullOr(S.String)),
-          secondEmail: S.optional(S.NullOr(S.String)),
-          state: S.optional(S.NullOr(S.String)),
-          streetAddress: S.optional(S.NullOr(S.String)),
-          timezone: S.optional(S.NullOr(S.String)),
-          title: S.optional(S.NullOr(S.String)),
-          userType: S.optional(S.NullOr(S.String)),
-          zipCode: S.optional(S.NullOr(S.String)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            city: S.optional(S.NullOr(S.String)),
+            costCenter: S.optional(S.NullOr(S.String)),
+            countryCode: S.optional(S.NullOr(S.String)),
+            department: S.optional(S.String),
+            displayName: S.optional(S.NullOr(S.String)),
+            division: S.optional(S.NullOr(S.String)),
+            email: S.optional(S.String),
+            employeeNumber: S.optional(S.String),
+            firstName: S.optional(S.NullOr(S.String)),
+            honorificPrefix: S.optional(S.NullOr(S.String)),
+            honorificSuffix: S.optional(S.NullOr(S.String)),
+            lastName: S.optional(S.NullOr(S.String)),
+            locale: S.optional(S.String),
+            login: S.optional(S.String),
+            manager: S.optional(S.NullOr(S.String)),
+            managerId: S.optional(S.NullOr(S.String)),
+            middleName: S.optional(S.NullOr(S.String)),
+            mobilePhone: S.optional(S.NullOr(S.String)),
+            nickName: S.optional(S.NullOr(S.String)),
+            organization: S.optional(S.NullOr(S.String)),
+            postalAddress: S.optional(S.NullOr(S.String)),
+            preferredLanguage: S.optional(S.NullOr(S.String)),
+            primaryPhone: S.optional(S.NullOr(S.String)),
+            profileUrl: S.optional(S.NullOr(S.String)),
+            secondEmail: S.optional(S.NullOr(S.String)),
+            state: S.optional(S.NullOr(S.String)),
+            streetAddress: S.optional(S.NullOr(S.String)),
+            timezone: S.optional(S.NullOr(S.String)),
+            title: S.optional(S.NullOr(S.String)),
+            userType: S.optional(S.NullOr(S.String)),
+            zipCode: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "UserProfile" });
     case 1:
       return S.suspend(() =>
@@ -26904,7 +26916,7 @@ function __c55(j: number): any {
           status: S.optional(S.String),
           statusChanged: S.optional(S.NullOr(S.String)),
           transitioningToStatus: S.optional(S.NullOr(S.String)),
-          type: S.optional(__S(28256, __c883, 0)),
+          type: S.optional(__S(28288, __c884, 0)),
           _embedded: S.optional(__S(20640, __c645, 0)),
           _links: S.optional(__S(1761, __c55, 1)),
         }),
@@ -27666,7 +27678,7 @@ function __c102(j: number): any {
           name: S.optional(S.String),
           platform: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(29184, __c912, 0)),
+          _links: S.optional(__S(29216, __c913, 0)),
         }),
       ).annotate({ identifier: "DeviceIntegrations" });
   }
@@ -28529,17 +28541,20 @@ function __c150(j: number): any {
       ).annotate({ identifier: "IdentityProviderProperties" });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(18560, __c580, 0)),
-          acs: S.optional(__S(18560, __c580, 0)),
-          authorize: S.optional(__S(18560, __c580, 0)),
-          clientRedirectUri: S.optional(__S(18560, __c580, 0)),
-          metadata: S.optional(__S(18560, __c580, 0)),
-          users: S.optional(__S(18560, __c580, 0)),
-          deactivate: S.optional(__S(18560, __c580, 0)),
-          activate: S.optional(__S(18560, __c580, 0)),
-          keys: S.optional(__S(18560, __c580, 0)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            self: S.optional(__S(18560, __c580, 0)),
+            acs: S.optional(__S(18560, __c580, 0)),
+            authorize: S.optional(__S(18560, __c580, 0)),
+            clientRedirectUri: S.optional(__S(18560, __c580, 0)),
+            metadata: S.optional(__S(18560, __c580, 0)),
+            users: S.optional(__S(18560, __c580, 0)),
+            deactivate: S.optional(__S(18560, __c580, 0)),
+            activate: S.optional(__S(18560, __c580, 0)),
+            keys: S.optional(__S(18560, __c580, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "IdentityProviderLinks" });
     case 13:
       return S.suspend(() =>
@@ -29161,7 +29176,7 @@ function __c189(j: number): any {
           system: S.optional(S.Boolean),
           type: S.String,
           usage: S.optional(S.String),
-          _links: S.optional(__S(29184, __c912, 0)),
+          _links: S.optional(__S(29216, __c913, 0)),
         }),
       ).annotate({ identifier: "NetworkZone" });
   }
@@ -29411,10 +29426,13 @@ function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(18560, __c580, 0)),
-          publish: S.optional(__S(18560, __c580, 0)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            self: S.optional(__S(18560, __c580, 0)),
+            publish: S.optional(__S(18560, __c580, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "IdPCsrLinks" });
     case 1:
       return S.suspend(() =>
@@ -29584,7 +29602,7 @@ function __c212(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/cwo/connections", code: 200 })),
       ).annotate({ identifier: "GetAllCrossAppAccessConnectionsRequest" });
     case 1:
-      return S.Array(__S(28640, __c895, 0));
+      return S.Array(__S(28672, __c896, 0));
     case 2:
       return S.suspend(() => __S(6785, __c212, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAllCrossAppAccessConnectionsResponse",
@@ -29695,9 +29713,9 @@ function __c217(j: number): any {
           grantedScopes: S.optional(__S(3648, __c114, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          properties: S.optional(__S(26113, __c816, 1)),
+          properties: S.optional(__S(26145, __c817, 1)),
           type: S.optional(S.String),
-          _links: S.optional(__S(26114, __c816, 2)),
+          _links: S.optional(__S(26146, __c817, 2)),
         }),
       ).annotate({ identifier: "APIServiceIntegrationInstance" });
   }
@@ -29870,7 +29888,7 @@ function __c229(j: number): any {
 function __c230(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(29696, __c928, 0));
+      return S.Array(__S(29728, __c929, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -30368,7 +30386,7 @@ function __c253(j: number): any {
 function __c254(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(28804, __c900, 4));
+      return S.Array(__S(28836, __c901, 4));
   }
 }
 function __c255(j: number): any {
@@ -30378,7 +30396,7 @@ function __c255(j: number): any {
         S.Struct({
           themes: S.optional(__S(8192, __c256, 0)),
           domains: S.optional(__S(8128, __c254, 0)),
-          emailDomain: S.optional(__S(29280, __c915, 0)),
+          emailDomain: S.optional(__S(29312, __c916, 0)),
         }),
       ).annotate({ identifier: "GetBrandResponseEmbedded" });
     case 1:
@@ -30393,7 +30411,7 @@ function __c255(j: number): any {
         S.Struct({
           agreeToCustomPrivacyPolicy: S.optional(S.Boolean),
           customPrivacyPolicyUrl: S.optional(S.String),
-          defaultApp: S.optional(__S(28448, __c889, 0)),
+          defaultApp: S.optional(__S(28480, __c890, 0)),
           emailDomainId: S.optional(S.String),
           id: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
@@ -30760,7 +30778,7 @@ function __c277(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scriptSource: S.optional(S.String),
-          scriptParams: S.optional(__S(29728, __c929, 0)),
+          scriptParams: S.optional(__S(29760, __c930, 0)),
         }),
       ).annotate({ identifier: "WidgetConfigurationHcaptcha" });
     case 4:
@@ -30784,7 +30802,7 @@ function __c277(j: number): any {
         }),
       ).annotate({ identifier: "WidgetConfigurationHelpLinks" });
     case 7:
-      return S.Record(S.String, __S(29728, __c929, 0));
+      return S.Record(S.String, __S(29760, __c930, 0));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -31414,7 +31432,7 @@ function __c295(j: number): any {
         S.Struct({
           body: S.String,
           subject: S.String,
-          _links: S.optional(__S(29024, __c907, 0)),
+          _links: S.optional(__S(29056, __c908, 0)),
         }),
       ).annotate({ identifier: "GetEmailDefaultContentResponse" });
   }
@@ -31451,7 +31469,7 @@ function __c297(j: number): any {
 function __c298(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(28480, __c890, 0));
+      return S.Array(__S(28512, __c891, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -31463,7 +31481,7 @@ function __c298(j: number): any {
         S.Struct({
           displayName: S.String,
           userName: S.String,
-          dnsValidationRecords: S.optional(__S(29249, __c914, 1)),
+          dnsValidationRecords: S.optional(__S(29281, __c915, 1)),
           domain: S.optional(S.String),
           id: S.optional(S.String),
           validationStatus: S.optional(S.String),
@@ -31845,7 +31863,7 @@ function __c320(j: number): any {
           settings: S.optional(__S(10240, __c320, 0)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(29184, __c912, 0)),
+          _links: S.optional(__S(29216, __c913, 0)),
         }),
       ).annotate({ identifier: "SecurityEventsProviderResponse" });
   }
@@ -32080,12 +32098,15 @@ function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(18560, __c580, 0)),
-          next: S.optional(__S(18560, __c580, 0)),
-          idp: S.optional(__S(18560, __c580, 0)),
-          user: S.optional(__S(18560, __c580, 0)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            self: S.optional(__S(18560, __c580, 0)),
+            next: S.optional(__S(18560, __c580, 0)),
+            idp: S.optional(__S(18560, __c580, 0)),
+            user: S.optional(__S(18560, __c580, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "IdentityProviderApplicationUserLinks" });
     case 1:
       return S.suspend(() =>
@@ -32150,7 +32171,7 @@ function __c335(j: number): any {
           origin: S.optional(S.String),
           scopes: S.optional(__S(10721, __c335, 1)),
           status: S.optional(S.String),
-          _links: S.optional(__S(29184, __c912, 0)),
+          _links: S.optional(__S(29216, __c913, 0)),
         }),
       ).annotate({ identifier: "TrustedOrigin" });
   }
@@ -33495,7 +33516,7 @@ function __c417(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scope: S.optional(__S(28256, __c883, 0)),
+          scope: S.optional(__S(28288, __c884, 0)),
         }),
       ).annotate({ identifier: "OAuth2ScopeConsentGrantEmbedded" });
     case 1:
@@ -34309,7 +34330,9 @@ function __c463(j: number): any {
 function __c464(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(14272, __c446, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.Array(__S(24928, __c779, 0));
+    case 1:
+      return S.suspend(() => __S(14848, __c464, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListActiveIdentityProviderSigningKeyResponse",
       });
   }
@@ -34377,7 +34400,7 @@ function __c467(j: number): any {
         ),
       ).annotate({ identifier: "ListAllCustomAAGUIDsRequest" });
     case 1:
-      return S.Array(__S(28707, __c897, 3));
+      return S.Array(__S(28739, __c898, 3));
     case 2:
       return S.suspend(() => __S(14945, __c467, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAllCustomAAGUIDsResponse",
@@ -34521,6 +34544,10 @@ function __c476(j: number): any {
           appId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/keys", code: 200 })),
       ).annotate({ identifier: "ListApplicationKeysRequest" });
+    case 1:
+      return S.suspend(() => __S(14272, __c446, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListApplicationKeysResponse",
+      });
   }
 }
 function __c477(j: number): any {
@@ -34543,7 +34570,7 @@ function __c477(j: number): any {
 function __c478(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(26921, __c841, 9));
+      return S.Array(__S(26953, __c842, 9));
     case 1:
       return S.suspend(() => __S(15296, __c478, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationsResponse",
@@ -34690,7 +34717,7 @@ function __c484(j: number): any {
         ),
       ).annotate({ identifier: "ListAppServiceAccountsRequest" });
     case 1:
-      return S.Array(__S(27360, __c855, 0));
+      return S.Array(__S(27392, __c856, 0));
     case 2:
       return S.suspend(() => __S(15489, __c484, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAppServiceAccountsResponse",
@@ -34816,7 +34843,7 @@ function __c491(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthenticatorMethodsRequest" });
     case 1:
-      return S.Array(__S(29152, __c911, 0));
+      return S.Array(__S(29184, __c912, 0));
     case 2:
       return S.suspend(() => __S(15713, __c491, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAuthenticatorMethodsResponse",
@@ -34830,7 +34857,7 @@ function __c492(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/authenticators", code: 200 })),
       ).annotate({ identifier: "ListAuthenticatorsRequest" });
     case 1:
-      return S.Array(__S(28385, __c887, 1));
+      return S.Array(__S(28417, __c888, 1));
     case 2:
       return S.suspend(() => __S(15745, __c492, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAuthenticatorsResponse",
@@ -34878,7 +34905,7 @@ function __c495(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthorizationServerPoliciesRequest" });
     case 1:
-      return S.Array(__S(28130, __c879, 2));
+      return S.Array(__S(28162, __c880, 2));
     case 2:
       return S.suspend(() => __S(15841, __c495, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAuthorizationServerPoliciesResponse",
@@ -34901,7 +34928,7 @@ function __c496(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthorizationServerPolicyRulesRequest" });
     case 1:
-      return S.Array(__S(28292, __c884, 4));
+      return S.Array(__S(28324, __c885, 4));
     case 2:
       return S.suspend(() => __S(15873, __c496, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAuthorizationServerPolicyRulesResponse",
@@ -35160,7 +35187,7 @@ function __c507(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/captchas", code: 200 })),
       ).annotate({ identifier: "ListCaptchaInstancesRequest" });
     case 1:
-      return S.Array(__S(28544, __c892, 0));
+      return S.Array(__S(28576, __c893, 0));
     case 2:
       return S.suspend(() => __S(16225, __c507, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCaptchaInstancesResponse",
@@ -35220,7 +35247,7 @@ function __c511(j: number): any {
 function __c512(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(28963, __c905, 3));
+      return S.Array(__S(28995, __c906, 3));
     case 1:
       return S.suspend(() => __S(16384, __c512, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDefaultDevicePostureChecksResponse",
@@ -35253,7 +35280,7 @@ function __c514(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/device-assurances", code: 200 })),
       ).annotate({ identifier: "ListDeviceAssurancePoliciesRequest" });
     case 1:
-      return S.Array(__S(28897, __c903, 1));
+      return S.Array(__S(28929, __c904, 1));
     case 2:
       return S.suspend(() => __S(16449, __c514, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDeviceAssurancePoliciesResponse",
@@ -35391,7 +35418,7 @@ function __c521(j: number): any {
         ),
       ).annotate({ identifier: "ListEmailCustomizationsRequest" });
     case 1:
-      return S.Array(__S(29056, __c908, 0));
+      return S.Array(__S(29088, __c909, 0));
     case 2:
       return S.suspend(() => __S(16673, __c521, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEmailCustomizationsResponse",
@@ -35421,7 +35448,7 @@ function __c523(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/email-servers", code: 200 })),
       ).annotate({ identifier: "ListEmailServersRequest" });
     case 1:
-      return S.Array(__S(29344, __c917, 0));
+      return S.Array(__S(29376, __c918, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -35566,7 +35593,7 @@ function __c533(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/federated-claims", code: 200 })),
       ).annotate({ identifier: "ListFederatedClaimsRequest" });
     case 1:
-      return S.Array(__S(29472, __c921, 0));
+      return S.Array(__S(29504, __c922, 0));
     case 2:
       return S.suspend(() => __S(17057, __c533, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFederatedClaimsResponse",
@@ -35583,7 +35610,7 @@ function __c534(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/iam/governance/bundles", code: 200 })),
       ).annotate({ identifier: "ListGovernanceBundlesRequest" });
     case 1:
-      return S.Array(__S(29537, __c923, 1));
+      return S.Array(__S(29569, __c924, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -35693,7 +35720,7 @@ function __c540(j: number): any {
         ),
       ).annotate({ identifier: "ListGroupPushMappingsRequest" });
     case 1:
-      return S.Array(__S(29634, __c926, 2));
+      return S.Array(__S(29666, __c927, 2));
     case 2:
       return S.suspend(() => __S(17281, __c540, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupPushMappingsResponse",
@@ -35712,7 +35739,7 @@ function __c541(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups/rules", code: 200 })),
       ).annotate({ identifier: "ListGroupRulesRequest" });
     case 1:
-      return S.Array(__S(29766, __c930, 6));
+      return S.Array(__S(29798, __c931, 6));
     case 2:
       return S.suspend(() => __S(17313, __c541, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupRulesResponse",
@@ -36556,13 +36583,16 @@ function __c580(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          hints: S.optional(__S(18528, __c579, 0)),
-          href: S.String,
-          name: S.optional(S.String),
-          templated: S.optional(S.Boolean),
-          type: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            hints: S.optional(__S(18528, __c579, 0)),
+            href: S.String,
+            name: S.optional(S.String),
+            templated: S.optional(S.Boolean),
+            type: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "HrefObjectSelfLink" });
   }
 }
@@ -36758,7 +36788,7 @@ function __c590(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/policies", code: 200 })),
       ).annotate({ identifier: "ListPoliciesRequest" });
     case 1:
-      return S.Array(__S(25312, __c791, 0));
+      return S.Array(__S(25344, __c792, 0));
     case 2:
       return S.suspend(() => __S(18881, __c590, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPoliciesResponse",
@@ -37755,9 +37785,12 @@ function __c646(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            href: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "HrefObjectSelfLinkInput" });
   }
 }
@@ -37851,12 +37884,12 @@ function __c652(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appId: S.String.pipe(T.Label()),
-          accessibility: S.optional(__S(26912, __c841, 0)),
+          accessibility: S.optional(__S(26944, __c842, 0)),
           label: S.String,
-          licensing: S.optional(__S(26913, __c841, 1)),
+          licensing: S.optional(__S(26945, __c842, 1)),
           profile: S.optional(__S(20640, __c645, 0)),
           signOnMode: S.String,
-          visibility: S.optional(__S(26916, __c841, 4)),
+          visibility: S.optional(__S(26948, __c842, 4)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/apps/{appId}", code: 200 })),
       ).annotate({ identifier: "ReplaceApplicationRequest" });
   }
@@ -37872,7 +37905,7 @@ function __c653(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.Unknown),
           type: S.optional(S.String),
-          _links: S.optional(__S(27904, __c872, 0)),
+          _links: S.optional(__S(27936, __c873, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/authenticators/{authenticatorId}", code: 200 }),
         ),
@@ -37888,7 +37921,7 @@ function __c654(j: number): any {
           methodType: S.String.pipe(T.Label()),
           status: S.optional(S.Unknown),
           type: S.optional(S.String),
-          _links: S.optional(__S(28224, __c882, 0)),
+          _links: S.optional(__S(28256, __c883, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -37923,15 +37956,15 @@ function __c656(j: number): any {
           authServerId: S.String.pipe(T.Label()),
           accessTokenEncryptedResponseAlgorithm: S.optional(S.String),
           audiences: S.optional(__S(3648, __c114, 0)),
-          credentials: S.optional(__S(28065, __c877, 1)),
+          credentials: S.optional(__S(28097, __c878, 1)),
           description: S.optional(S.String),
           issuer: S.optional(S.String),
           issuerMode: S.optional(S.String),
-          jwks: S.optional(__S(27780, __c868, 4)),
+          jwks: S.optional(__S(27812, __c869, 4)),
           jwks_uri: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(28067, __c877, 3)),
+          _links: S.optional(__S(28099, __c878, 3)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/authorizationServers/{authServerId}", code: 200 }),
         ),
@@ -37966,12 +37999,12 @@ function __c658(j: number): any {
           id: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
-          conditions: S.optional(__S(28128, __c879, 0)),
+          conditions: S.optional(__S(28160, __c880, 0)),
           description: S.optional(S.String),
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
-          _links: S.optional(__S(28160, __c880, 0)),
+          _links: S.optional(__S(28192, __c881, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -37990,14 +38023,14 @@ function __c659(j: number): any {
           authServerId: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
           ruleId: S.String.pipe(T.Label()),
-          actions: S.optional(__S(28289, __c884, 1)),
-          conditions: __S(28291, __c884, 3),
+          actions: S.optional(__S(28321, __c885, 1)),
+          conditions: __S(28323, __c885, 3),
           name: S.String,
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
           type: S.String,
-          _links: S.optional(__S(28224, __c882, 0)),
+          _links: S.optional(__S(28256, __c883, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -38029,7 +38062,7 @@ function __c661(j: number): any {
           brandId: S.String.pipe(T.Label()),
           agreeToCustomPrivacyPolicy: S.optional(S.Boolean),
           customPrivacyPolicyUrl: S.optional(S.String),
-          defaultApp: S.optional(__S(28448, __c889, 0)),
+          defaultApp: S.optional(__S(28480, __c890, 0)),
           emailDomainId: S.optional(S.String),
           locale: S.optional(S.String),
           name: S.String,
@@ -38099,8 +38132,8 @@ function __c665(j: number): any {
         S.Struct({
           authenticatorId: S.String.pipe(T.Label()),
           aaguid: S.String.pipe(T.Label()),
-          attestationRootCertificates: S.optional(__S(28737, __c898, 1)),
-          authenticatorCharacteristics: S.optional(__S(28704, __c897, 0)),
+          attestationRootCertificates: S.optional(__S(28769, __c899, 1)),
+          authenticatorCharacteristics: S.optional(__S(28736, __c898, 0)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -38184,7 +38217,7 @@ function __c670(j: number): any {
         S.Struct({
           deviceAssuranceId: S.String.pipe(T.Label()),
           displayRemediationMode: S.optional(S.String),
-          gracePeriod: S.optional(__S(28896, __c903, 0)),
+          gracePeriod: S.optional(__S(28928, __c904, 0)),
           name: S.optional(S.String),
           platform: S.optional(S.String),
         }).pipe(
@@ -38208,7 +38241,7 @@ function __c671(j: number): any {
           name: S.optional(S.String),
           platform: S.optional(S.String),
           query: S.optional(S.String),
-          remediationSettings: S.optional(__S(28962, __c905, 2)),
+          remediationSettings: S.optional(__S(28994, __c906, 2)),
           type: S.optional(S.String),
           variableName: S.optional(S.String),
         }).pipe(
@@ -38233,7 +38266,7 @@ function __c672(j: number): any {
           subject: S.String,
           isDefault: S.optional(S.Boolean),
           language: S.String,
-          _links: S.optional(__S(29088, __c909, 0)),
+          _links: S.optional(__S(29120, __c910, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -38287,11 +38320,11 @@ function __c675(j: number): any {
       return S.suspend(() =>
         S.Struct({
           eventHookId: S.String.pipe(T.Label()),
-          channel: __S(29410, __c919, 2),
+          channel: __S(29442, __c920, 2),
           description: S.optional(S.NullOr(S.String)),
-          events: __S(29415, __c919, 7),
+          events: __S(29447, __c920, 7),
           name: S.String,
-          _links: S.optional(__S(29416, __c919, 8)),
+          _links: S.optional(__S(29448, __c920, 8)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/eventHooks/{eventHookId}", code: 200 })),
       ).annotate({ identifier: "ReplaceEventHookRequest" });
   }
@@ -38370,7 +38403,7 @@ function __c680(j: number): any {
         S.Struct({
           bundleId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          entitlements: S.optional(__S(29569, __c924, 1)),
+          entitlements: S.optional(__S(29601, __c925, 1)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/iam/governance/bundles/{bundleId}", code: 200 }),
@@ -38395,8 +38428,8 @@ function __c682(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupRuleId: S.String.pipe(T.Label()),
-          actions: S.optional(__S(29761, __c930, 1)),
-          conditions: S.optional(__S(29764, __c930, 4)),
+          actions: S.optional(__S(29793, __c931, 1)),
+          conditions: S.optional(__S(29796, __c931, 4)),
           name: S.optional(S.String),
           status: S.optional(S.String),
           type: S.optional(S.String),
@@ -38428,7 +38461,7 @@ function __c684(j: number): any {
           protocol: S.optional(S.Unknown),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(29920, __c935, 0)),
+          _links: S.optional(__S(29952, __c936, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/idps/{idpId}", code: 200 })),
       ).annotate({ identifier: "ReplaceIdentityProviderRequest" });
   }
@@ -38484,7 +38517,7 @@ function __c688(j: number): any {
           status: S.optional(S.String),
           type: S.String,
           usage: S.optional(S.String),
-          _links: S.optional(__S(28224, __c882, 0)),
+          _links: S.optional(__S(28256, __c883, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/zones/{zoneId}", code: 200 })),
       ).annotate({ identifier: "ReplaceNetworkZoneRequest" });
   }
@@ -38779,7 +38812,7 @@ function __c705(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(__S(26496, __c828, 0)),
+          password: S.optional(__S(26528, __c829, 0)),
           userName: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppUserCredentialsOutput" });
@@ -39058,7 +39091,7 @@ function __c721(j: number): any {
           origin: S.optional(S.String),
           scopes: S.optional(__S(10721, __c335, 1)),
           status: S.optional(S.String),
-          _links: S.optional(__S(28224, __c882, 0)),
+          _links: S.optional(__S(28256, __c883, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/trustedOrigins/{trustedOriginId}", code: 200 }),
         ),
@@ -39086,7 +39119,7 @@ function __c723(j: number): any {
           credentials: S.optional(__S(23168, __c724, 0)),
           profile: S.optional(__S(1760, __c55, 0)),
           realmId: S.optional(S.String),
-          type: S.optional(__S(28256, __c883, 0)),
+          type: S.optional(__S(28288, __c884, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/users/{id}", code: 200 })),
       ).annotate({ identifier: "ReplaceUserRequest" });
   }
@@ -39976,6 +40009,28 @@ function __c779(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            created: S.optional(S.String),
+            e: S.optional(S.String),
+            expiresAt: S.optional(S.String),
+            kid: S.optional(S.String),
+            kty: S.optional(S.String),
+            lastUpdated: S.optional(S.String),
+            n: S.optional(S.String),
+            use: S.optional(S.String),
+            x5c: S.optional(__S(3648, __c114, 0)),
+            x5t_S256: S.optional(S.String.pipe(T.Body("x5t#S256"))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "IdPKeyCredential" });
+  }
+}
+function __c780(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           appId: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
@@ -39985,7 +40040,7 @@ function __c779(j: number): any {
       ).annotate({ identifier: "UnassignApplicationFromGroupRequest" });
   }
 }
-function __c780(j: number): any {
+function __c781(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40003,7 +40058,7 @@ function __c780(j: number): any {
       ).annotate({ identifier: "UnassignAppTargetFromAppAdminRoleForUserRequest" });
   }
 }
-function __c781(j: number): any {
+function __c782(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40021,7 +40076,7 @@ function __c781(j: number): any {
       ).annotate({ identifier: "UnassignAppTargetToAdminRoleForGroupRequest" });
   }
 }
-function __c782(j: number): any {
+function __c783(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40039,7 +40094,7 @@ function __c782(j: number): any {
       ).annotate({ identifier: "UnassignGroupTargetFromGroupAdminRoleRequest" });
   }
 }
-function __c783(j: number): any {
+function __c784(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40057,7 +40112,7 @@ function __c783(j: number): any {
       ).annotate({ identifier: "UnassignGroupTargetFromUserAdminRoleRequest" });
   }
 }
-function __c784(j: number): any {
+function __c785(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40075,7 +40130,7 @@ function __c784(j: number): any {
       ).annotate({ identifier: "UnassignMemberFromBindingRequest" });
   }
 }
-function __c785(j: number): any {
+function __c786(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40092,7 +40147,7 @@ function __c785(j: number): any {
       ).annotate({ identifier: "UnassignRoleFromGroupRequest" });
   }
 }
-function __c786(j: number): any {
+function __c787(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40109,7 +40164,7 @@ function __c786(j: number): any {
       ).annotate({ identifier: "UnassignRoleFromUserRequest" });
   }
 }
-function __c787(j: number): any {
+function __c788(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40123,7 +40178,7 @@ function __c787(j: number): any {
       ).annotate({ identifier: "UnassignUserFromApplicationRequest" });
   }
 }
-function __c788(j: number): any {
+function __c789(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40136,7 +40191,7 @@ function __c788(j: number): any {
       ).annotate({ identifier: "UnassignUserFromGroupRequest" });
   }
 }
-function __c789(j: number): any {
+function __c790(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40146,7 +40201,7 @@ function __c789(j: number): any {
       ).annotate({ identifier: "ClonePolicyRequest" });
   }
 }
-function __c790(j: number): any {
+function __c791(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40160,7 +40215,7 @@ function __c790(j: number): any {
       ).annotate({ identifier: "PolicyLinks" });
   }
 }
-function __c791(j: number): any {
+function __c792(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40175,12 +40230,12 @@ function __c791(j: number): any {
           system: S.optional(S.Boolean),
           type: S.String,
           _embedded: S.optional(__S(20640, __c645, 0)),
-          _links: S.optional(__S(25280, __c790, 0)),
+          _links: S.optional(__S(25312, __c791, 0)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c792(j: number): any {
+function __c793(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40194,7 +40249,7 @@ function __c792(j: number): any {
       ).annotate({ identifier: "UnenrollFactorRequest" });
   }
 }
-function __c793(j: number): any {
+function __c794(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40207,7 +40262,7 @@ function __c793(j: number): any {
       ).annotate({ identifier: "UnlinkUserFromIdentityProviderRequest" });
   }
 }
-function __c794(j: number): any {
+function __c795(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40217,7 +40272,7 @@ function __c794(j: number): any {
       ).annotate({ identifier: "UnlockUserRequest" });
   }
 }
-function __c795(j: number): any {
+function __c796(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40234,7 +40289,7 @@ function __c795(j: number): any {
       ).annotate({ identifier: "UnsubscribeByNotificationTypeRoleRequest" });
   }
 }
-function __c796(j: number): any {
+function __c797(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40251,7 +40306,7 @@ function __c796(j: number): any {
       ).annotate({ identifier: "UnsubscribeByNotificationTypeUserRequest" });
   }
 }
-function __c797(j: number): any {
+function __c798(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40267,7 +40322,7 @@ function __c797(j: number): any {
       ).annotate({ identifier: "UnsuspendDeviceRequest" });
   }
 }
-function __c798(j: number): any {
+function __c799(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40279,14 +40334,14 @@ function __c798(j: number): any {
       ).annotate({ identifier: "UnsuspendUserRequest" });
   }
 }
-function __c799(j: number): any {
+function __c800(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           poolId: S.String.pipe(T.Label()),
           updateId: S.String.pipe(T.Label()),
-          agents: S.optional(__S(25697, __c803, 1)),
+          agents: S.optional(__S(25729, __c804, 1)),
           agentType: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           name: S.optional(S.String),
@@ -40306,7 +40361,7 @@ function __c799(j: number): any {
       ).annotate({ identifier: "UpdateAgentPoolsUpdateRequest" });
   }
 }
-function __c800(j: number): any {
+function __c801(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40328,7 +40383,7 @@ function __c800(j: number): any {
       ).annotate({ identifier: "UpdateAgentPoolsUpdateSettingsRequest" });
   }
 }
-function __c801(j: number): any {
+function __c802(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40340,13 +40395,13 @@ function __c801(j: number): any {
       ).annotate({ identifier: "UpdateApplicationUserRequest" });
   }
 }
-function __c802(j: number): any {
+function __c803(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           poolId: S.String.pipe(T.Label()),
-          agents: S.optional(__S(25697, __c803, 1)),
+          agents: S.optional(__S(25729, __c804, 1)),
           agentType: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           name: S.optional(S.String),
@@ -40360,7 +40415,7 @@ function __c802(j: number): any {
       ).annotate({ identifier: "CreateAgentPoolsUpdateRequest" });
   }
 }
-function __c803(j: number): any {
+function __c804(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40378,16 +40433,16 @@ function __c803(j: number): any {
         }),
       ).annotate({ identifier: "AgentInput" });
     case 1:
-      return S.Array(__S(25696, __c803, 0));
+      return S.Array(__S(25728, __c804, 0));
   }
 }
-function __c804(j: number): any {
+function __c805(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           appId: S.String.pipe(T.Label()),
-          definitions: S.optional(__S(25762, __c805, 2)),
+          definitions: S.optional(__S(25794, __c806, 2)),
           properties: S.optional(__S(7367, __c230, 7)),
           title: S.optional(S.String),
         }).pipe(
@@ -40396,7 +40451,7 @@ function __c804(j: number): any {
       ).annotate({ identifier: "UpdateApplicationUserProfileRequest" });
   }
 }
-function __c805(j: number): any {
+function __c806(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40413,13 +40468,13 @@ function __c805(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          base: S.optional(__S(25760, __c805, 0)),
-          custom: S.optional(__S(25761, __c805, 1)),
+          base: S.optional(__S(25792, __c806, 0)),
+          custom: S.optional(__S(25793, __c806, 1)),
         }),
       ).annotate({ identifier: "UserSchemaDefinitionsInput" });
   }
 }
-function __c806(j: number): any {
+function __c807(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40439,7 +40494,7 @@ function __c806(j: number): any {
       ).annotate({ identifier: "UpdateAppServiceAccountRequest" });
   }
 }
-function __c807(j: number): any {
+function __c808(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40455,7 +40510,7 @@ function __c807(j: number): any {
       ).annotate({ identifier: "UpdateAutoAssignAdminAppSettingRequest" });
   }
 }
-function __c808(j: number): any {
+function __c809(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40468,7 +40523,7 @@ function __c808(j: number): any {
       ).annotate({ identifier: "UpdateBotProtectionConfigurationRequest" });
   }
 }
-function __c809(j: number): any {
+function __c810(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40482,7 +40537,7 @@ function __c809(j: number): any {
       ).annotate({ identifier: "UpdateCaptchaInstanceRequest" });
   }
 }
-function __c810(j: number): any {
+function __c811(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40493,7 +40548,7 @@ function __c810(j: number): any {
       ).annotate({ identifier: "UpdateConfigurationRequest" });
   }
 }
-function __c811(j: number): any {
+function __c812(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40511,7 +40566,7 @@ function __c811(j: number): any {
       ).annotate({ identifier: "UpdateCrossAppAccessConnectionRequest" });
   }
 }
-function __c812(j: number): any {
+function __c813(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40528,7 +40583,7 @@ function __c812(j: number): any {
       ).annotate({ identifier: "UpdateCustomAAGUIDRequest" });
   }
 }
-function __c813(j: number): any {
+function __c814(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40548,7 +40603,7 @@ function __c813(j: number): any {
       ).annotate({ identifier: "UpdateCustomTelephonyProviderCredentialRequest" });
   }
 }
-function __c814(j: number): any {
+function __c815(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40562,13 +40617,13 @@ function __c814(j: number): any {
       ).annotate({ identifier: "UpdateDefaultProvisioningConnectionForApplicationRequest" });
   }
 }
-function __c815(j: number): any {
+function __c816(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           grantedScopes: __S(3648, __c114, 0),
-          properties: S.optional(__S(26113, __c816, 1)),
+          properties: S.optional(__S(26145, __c817, 1)),
           type: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/integrations/api/v1/api-services", code: 200 })),
       ).annotate({ identifier: "CreateApiServiceIntegrationInstanceRequest" });
@@ -40581,15 +40636,15 @@ function __c815(j: number): any {
           grantedScopes: S.optional(__S(3648, __c114, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          properties: S.optional(__S(26113, __c816, 1)),
+          properties: S.optional(__S(26145, __c817, 1)),
           type: S.optional(S.String),
-          _links: S.optional(__S(26114, __c816, 2)),
+          _links: S.optional(__S(26146, __c817, 2)),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateApiServiceIntegrationInstanceResponse" });
   }
 }
-function __c816(j: number): any {
+function __c817(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40599,7 +40654,7 @@ function __c816(j: number): any {
         }),
       ).annotate({ identifier: "AppPropertiesValue" });
     case 1:
-      return S.Record(S.String, __S(26112, __c816, 0));
+      return S.Record(S.String, __S(26144, __c817, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -40610,7 +40665,7 @@ function __c816(j: number): any {
       ).annotate({ identifier: "APIServiceIntegrationLinks" });
   }
 }
-function __c817(j: number): any {
+function __c818(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40628,7 +40683,7 @@ function __c817(j: number): any {
       ).annotate({ identifier: "UpdateEmailServerRequest" });
   }
 }
-function __c818(j: number): any {
+function __c819(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40642,7 +40697,7 @@ function __c818(j: number): any {
       ).annotate({ identifier: "UpdateFeatureForApplicationRequest" });
   }
 }
-function __c819(j: number): any {
+function __c820(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40656,7 +40711,7 @@ function __c819(j: number): any {
       ).annotate({ identifier: "UpdateFeatureLifecycleRequest" });
   }
 }
-function __c820(j: number): any {
+function __c821(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40667,20 +40722,20 @@ function __c820(j: number): any {
         }),
       ).annotate({ identifier: "JsonPatchOperation" });
     case 1:
-      return S.Array(__S(26240, __c820, 0));
+      return S.Array(__S(26272, __c821, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           appId: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          body: S.optional(__S(26241, __c820, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(26273, __c821, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/apps/{appId}/groups/{groupId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateGroupAssignmentToApplicationRequest" });
   }
 }
-function __c821(j: number): any {
+function __c822(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40695,7 +40750,7 @@ function __c821(j: number): any {
         S.Struct({
           appInstanceId: S.String.pipe(T.Label()),
           id: S.String,
-          parameters: __S(26272, __c821, 0),
+          parameters: __S(26304, __c822, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -40706,7 +40761,7 @@ function __c821(j: number): any {
       ).annotate({ identifier: "UpdateGroupMembershipRequest" });
   }
 }
-function __c822(j: number): any {
+function __c823(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40724,7 +40779,7 @@ function __c822(j: number): any {
       ).annotate({ identifier: "UpdateGroupPushMappingRequest" });
   }
 }
-function __c823(j: number): any {
+function __c824(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40741,14 +40796,14 @@ function __c823(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          base: S.optional(__S(26336, __c823, 0)),
-          custom: S.optional(__S(26337, __c823, 1)),
+          base: S.optional(__S(26368, __c824, 0)),
+          custom: S.optional(__S(26369, __c824, 1)),
         }),
       ).annotate({ identifier: "GroupSchemaDefinitionsInput" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          definitions: S.optional(__S(26338, __c823, 2)),
+          definitions: S.optional(__S(26370, __c824, 2)),
           description: S.optional(S.String),
           properties: S.optional(__S(7367, __c230, 7)),
           title: S.optional(S.String),
@@ -40756,7 +40811,7 @@ function __c823(j: number): any {
       ).annotate({ identifier: "UpdateGroupSchemaRequest" });
   }
 }
-function __c824(j: number): any {
+function __c825(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40775,7 +40830,7 @@ function __c824(j: number): any {
       ).annotate({ identifier: "UpdateIdentitySourceGroupsRequest" });
   }
 }
-function __c825(j: number): any {
+function __c826(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40793,7 +40848,7 @@ function __c825(j: number): any {
       ).annotate({ identifier: "UpdateIdentitySourceUsersRequest" });
   }
 }
-function __c826(j: number): any {
+function __c827(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40806,7 +40861,7 @@ function __c826(j: number): any {
       ).annotate({ identifier: "UpdateInlineHookRequest" });
   }
 }
-function __c827(j: number): any {
+function __c828(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40818,13 +40873,13 @@ function __c827(j: number): any {
       ).annotate({ identifier: "ActivateApplicationRequest" });
   }
 }
-function __c828(j: number): any {
+function __c829(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ActivateApplicationResponse" });
   }
 }
-function __c829(j: number): any {
+function __c830(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40840,7 +40895,7 @@ function __c829(j: number): any {
       ).annotate({ identifier: "CreateApiServiceIntegrationInstanceSecretRequest" });
   }
 }
-function __c830(j: number): any {
+function __c831(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40860,7 +40915,7 @@ function __c830(j: number): any {
       ).annotate({ identifier: "UpdateOktaManagedUserAccountRequest" });
   }
 }
-function __c831(j: number): any {
+function __c832(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40878,7 +40933,7 @@ function __c831(j: number): any {
       ).annotate({ identifier: "UpdateOktaSupportCaseRequest" });
   }
 }
-function __c832(j: number): any {
+function __c833(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40898,7 +40953,7 @@ function __c832(j: number): any {
       ).annotate({ identifier: "UpdateOrgSettingsRequest" });
   }
 }
-function __c833(j: number): any {
+function __c834(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40915,7 +40970,7 @@ function __c833(j: number): any {
       ).annotate({ identifier: "UpdatePauseAgentPoolRequest" });
   }
 }
-function __c834(j: number): any {
+function __c835(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40926,7 +40981,7 @@ function __c834(j: number): any {
       ).annotate({ identifier: "UpdateProfileMappingRequest" });
   }
 }
-function __c835(j: number): any {
+function __c836(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40940,7 +40995,7 @@ function __c835(j: number): any {
       ).annotate({ identifier: "UpdateSmsTemplateRequest" });
   }
 }
-function __c836(j: number): any {
+function __c837(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40958,7 +41013,7 @@ function __c836(j: number): any {
       ).annotate({ identifier: "UpdateSsfStreamRequest" });
   }
 }
-function __c837(j: number): any {
+function __c838(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40974,7 +41029,7 @@ function __c837(j: number): any {
       ).annotate({ identifier: "UpdateThirdPartyAdminSettingRequest" });
   }
 }
-function __c838(j: number): any {
+function __c839(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40984,22 +41039,9 @@ function __c838(j: number): any {
           credentials: S.optional(__S(23168, __c724, 0)),
           profile: S.optional(__S(1760, __c55, 0)),
           realmId: S.optional(S.String),
-          type: S.optional(__S(28256, __c883, 0)),
+          type: S.optional(__S(28288, __c884, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateUserRequest" });
-  }
-}
-function __c839(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          schemaId: S.String.pipe(T.Label()),
-          definitions: S.optional(__S(25762, __c805, 2)),
-          properties: S.optional(__S(7367, __c230, 7)),
-          title: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/schemas/user/{schemaId}", code: 200 })),
-      ).annotate({ identifier: "UpdateUserProfileRequest" });
   }
 }
 function __c840(j: number): any {
@@ -41007,18 +41049,31 @@ function __c840(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          schemaId: S.String.pipe(T.Label()),
+          definitions: S.optional(__S(25794, __c806, 2)),
+          properties: S.optional(__S(7367, __c230, 7)),
+          title: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/schemas/user/{schemaId}", code: 200 })),
+      ).annotate({ identifier: "UpdateUserProfileRequest" });
+  }
+}
+function __c841(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           activate: S.optional(S.Boolean.pipe(T.Query())),
-          accessibility: S.optional(__S(26912, __c841, 0)),
+          accessibility: S.optional(__S(26944, __c842, 0)),
           label: S.String,
-          licensing: S.optional(__S(26913, __c841, 1)),
+          licensing: S.optional(__S(26945, __c842, 1)),
           profile: S.optional(__S(20640, __c645, 0)),
           signOnMode: S.String,
-          visibility: S.optional(__S(26916, __c841, 4)),
+          visibility: S.optional(__S(26948, __c842, 4)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps", code: 200 })),
       ).annotate({ identifier: "CreateApplicationRequest" });
   }
 }
-function __c841(j: number): any {
+function __c842(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41046,10 +41101,10 @@ function __c841(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          appLinks: S.optional(__S(26914, __c841, 2)),
+          appLinks: S.optional(__S(26946, __c842, 2)),
           autoLaunch: S.optional(S.Boolean),
           autoSubmitToolbar: S.optional(S.Boolean),
-          hide: S.optional(__S(26915, __c841, 3)),
+          hide: S.optional(__S(26947, __c842, 3)),
         }),
       ).annotate({ identifier: "ApplicationVisibility" });
     case 5:
@@ -41092,27 +41147,27 @@ function __c841(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          accessibility: S.optional(__S(26912, __c841, 0)),
+          accessibility: S.optional(__S(26944, __c842, 0)),
           created: S.optional(S.String),
-          expressConfiguration: S.optional(__S(26917, __c841, 5)),
+          expressConfiguration: S.optional(__S(26949, __c842, 5)),
           features: S.optional(__S(18496, __c578, 0)),
           id: S.optional(S.String),
           label: S.String,
           lastUpdated: S.optional(S.String),
-          licensing: S.optional(__S(26913, __c841, 1)),
+          licensing: S.optional(__S(26945, __c842, 1)),
           orn: S.optional(S.String),
           profile: S.optional(__S(20640, __c645, 0)),
           signOnMode: S.String,
           status: S.optional(S.String),
-          universalLogout: S.optional(__S(26918, __c841, 6)),
-          visibility: S.optional(__S(26916, __c841, 4)),
-          _embedded: S.optional(__S(26919, __c841, 7)),
-          _links: S.optional(__S(26920, __c841, 8)),
+          universalLogout: S.optional(__S(26950, __c842, 6)),
+          visibility: S.optional(__S(26948, __c842, 4)),
+          _embedded: S.optional(__S(26951, __c842, 7)),
+          _links: S.optional(__S(26952, __c842, 8)),
         }),
       ).annotate({ identifier: "Application" });
   }
 }
-function __c842(j: number): any {
+function __c843(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41124,7 +41179,7 @@ function __c842(j: number): any {
       ).annotate({ identifier: "UpdateUserTypeRequest" });
   }
 }
-function __c843(j: number): any {
+function __c844(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41142,7 +41197,7 @@ function __c843(j: number): any {
       ).annotate({ identifier: "UploadApplicationLogoRequest" });
   }
 }
-function __c844(j: number): any {
+function __c845(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41161,7 +41216,7 @@ function __c844(j: number): any {
       ).annotate({ identifier: "UploadBrandThemeBackgroundImageRequest" });
   }
 }
-function __c845(j: number): any {
+function __c846(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41171,7 +41226,7 @@ function __c845(j: number): any {
       ).annotate({ identifier: "OidcSloEndpoint" });
   }
 }
-function __c846(j: number): any {
+function __c847(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41190,7 +41245,7 @@ function __c846(j: number): any {
       ).annotate({ identifier: "UploadBrandThemeFaviconRequest" });
   }
 }
-function __c847(j: number): any {
+function __c848(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41209,7 +41264,7 @@ function __c847(j: number): any {
       ).annotate({ identifier: "UploadBrandThemeLogoRequest" });
   }
 }
-function __c848(j: number): any {
+function __c849(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41217,34 +41272,6 @@ function __c848(j: number): any {
           externalId: S.optional(S.String),
         }),
       ).annotate({ identifier: "IdentitySourceUserProfileForDelete" });
-    case 1:
-      return S.Array(__S(27136, __c848, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          identitySourceId: S.String.pipe(T.Label()),
-          sessionId: S.String.pipe(T.Label()),
-          entityType: S.optional(S.String),
-          profiles: S.optional(__S(27137, __c848, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/identity-sources/{identitySourceId}/sessions/{sessionId}/bulk-delete",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UploadIdentitySourceDataForDeleteRequest" });
-  }
-}
-function __c849(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          externalId: S.optional(S.String),
-          profile: S.optional(__S(10944, __c342, 0)),
-        }),
-      ).annotate({ identifier: "UploadIdentitySourceDataForUpsertRequestProfilesItem" });
     case 1:
       return S.Array(__S(27168, __c849, 0));
     case 2:
@@ -41257,11 +41284,11 @@ function __c849(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/v1/identity-sources/{identitySourceId}/sessions/{sessionId}/bulk-upsert",
+            uri: "/api/v1/identity-sources/{identitySourceId}/sessions/{sessionId}/bulk-delete",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "UploadIdentitySourceDataForUpsertRequest" });
+      ).annotate({ identifier: "UploadIdentitySourceDataForDeleteRequest" });
   }
 }
 function __c850(j: number): any {
@@ -41269,9 +41296,37 @@ function __c850(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          externalId: S.optional(S.String),
+          profile: S.optional(__S(10944, __c342, 0)),
+        }),
+      ).annotate({ identifier: "UploadIdentitySourceDataForUpsertRequestProfilesItem" });
+    case 1:
+      return S.Array(__S(27200, __c850, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           identitySourceId: S.String.pipe(T.Label()),
           sessionId: S.String.pipe(T.Label()),
-          memberships: S.optional(__S(27233, __c851, 1)),
+          entityType: S.optional(S.String),
+          profiles: S.optional(__S(27201, __c850, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/identity-sources/{identitySourceId}/sessions/{sessionId}/bulk-upsert",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UploadIdentitySourceDataForUpsertRequest" });
+  }
+}
+function __c851(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          identitySourceId: S.String.pipe(T.Label()),
+          sessionId: S.String.pipe(T.Label()),
+          memberships: S.optional(__S(27265, __c852, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -41282,7 +41337,7 @@ function __c850(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceGroupMembershipsForDeleteRequest" });
   }
 }
-function __c851(j: number): any {
+function __c852(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41292,17 +41347,17 @@ function __c851(j: number): any {
         }),
       ).annotate({ identifier: "IdentitySourceGroupMembershipsDeleteProfileItem" });
     case 1:
-      return S.Array(__S(27232, __c851, 0));
+      return S.Array(__S(27264, __c852, 0));
   }
 }
-function __c852(j: number): any {
+function __c853(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           identitySourceId: S.String.pipe(T.Label()),
           sessionId: S.String.pipe(T.Label()),
-          memberships: S.optional(__S(27233, __c851, 1)),
+          memberships: S.optional(__S(27265, __c852, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -41313,7 +41368,7 @@ function __c852(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceGroupMembershipsForUpsertRequest" });
   }
 }
-function __c853(j: number): any {
+function __c854(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41331,7 +41386,7 @@ function __c853(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceGroupsDataForDeleteRequest" });
   }
 }
-function __c854(j: number): any {
+function __c855(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41349,7 +41404,7 @@ function __c854(j: number): any {
       ).annotate({ identifier: "CreateAppServiceAccountRequest" });
   }
 }
-function __c855(j: number): any {
+function __c856(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41371,7 +41426,7 @@ function __c855(j: number): any {
       ).annotate({ identifier: "AppServiceAccountOutput" });
   }
 }
-function __c856(j: number): any {
+function __c857(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41381,13 +41436,13 @@ function __c856(j: number): any {
         }),
       ).annotate({ identifier: "UploadIdentitySourceGroupsForUpsertRequestProfilesItem" });
     case 1:
-      return S.Array(__S(27392, __c856, 0));
+      return S.Array(__S(27424, __c857, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           identitySourceId: S.String.pipe(T.Label()),
           sessionId: S.String.pipe(T.Label()),
-          profiles: S.optional(__S(27393, __c856, 1)),
+          profiles: S.optional(__S(27425, __c857, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -41398,7 +41453,7 @@ function __c856(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceGroupsForUpsertRequest" });
   }
 }
-function __c857(j: number): any {
+function __c858(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41420,7 +41475,7 @@ function __c857(j: number): any {
       ).annotate({ identifier: "UploadYubikeyOtpTokenSeedRequest" });
   }
 }
-function __c858(j: number): any {
+function __c859(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41433,7 +41488,7 @@ function __c858(j: number): any {
       ).annotate({ identifier: "UpsertApiTokenRequest" });
   }
 }
-function __c859(j: number): any {
+function __c860(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41449,7 +41504,7 @@ function __c859(j: number): any {
       ).annotate({ identifier: "UpsertCertificateRequest" });
   }
 }
-function __c860(j: number): any {
+function __c861(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41469,7 +41524,7 @@ function __c860(j: number): any {
       ).annotate({ identifier: "UserRiskPutResponse" });
   }
 }
-function __c861(j: number): any {
+function __c862(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41479,7 +41534,7 @@ function __c861(j: number): any {
       ).annotate({ identifier: "VerifyDomainRequest" });
   }
 }
-function __c862(j: number): any {
+function __c863(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41495,7 +41550,7 @@ function __c862(j: number): any {
       ).annotate({ identifier: "VerifyEmailDomainRequest" });
   }
 }
-function __c863(j: number): any {
+function __c864(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41511,7 +41566,7 @@ function __c863(j: number): any {
       ).annotate({ identifier: "VerifyEventHookRequest" });
   }
 }
-function __c864(j: number): any {
+function __c865(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41538,13 +41593,13 @@ function __c864(j: number): any {
           factorMessage: S.optional(S.NullOr(S.String)),
           factorResult: S.optional(S.String),
           profile: S.optional(__S(20640, __c645, 0)),
-          _embedded: S.optional(__S(27649, __c864, 1)),
+          _embedded: S.optional(__S(27681, __c865, 1)),
           _links: S.optional(__S(5920, __c185, 0)),
         }),
       ).annotate({ identifier: "UserFactorVerifyResponse" });
   }
 }
-function __c865(j: number): any {
+function __c866(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41563,7 +41618,7 @@ function __c865(j: number): any {
       ).annotate({ identifier: "VerifyProvisioningConnectionForApplicationRequest" });
   }
 }
-function __c866(j: number): any {
+function __c867(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41580,17 +41635,17 @@ function __c866(j: number): any {
       ).annotate({ identifier: "CreateAssociatedServersRequest" });
   }
 }
-function __c867(j: number): any {
+function __c868(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(27782, __c868, 6));
+      return S.Array(__S(27814, __c869, 6));
     case 1:
-      return S.suspend(() => __S(27744, __c867, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(27776, __c868, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateAssociatedServersResponse",
       });
   }
 }
-function __c868(j: number): any {
+function __c869(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41605,7 +41660,7 @@ function __c868(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          signing: S.optional(__S(27776, __c868, 0)),
+          signing: S.optional(__S(27808, __c869, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerCredentials" });
     case 2:
@@ -41620,11 +41675,11 @@ function __c868(j: number): any {
         }),
       ).annotate({ identifier: "ResourceServerJsonWebKey" });
     case 3:
-      return S.Array(__S(27778, __c868, 2));
+      return S.Array(__S(27810, __c869, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(27779, __c868, 3)),
+          keys: S.optional(__S(27811, __c869, 3)),
         }),
       ).annotate({ identifier: "ResourceServerJsonWebKeys" });
     case 5:
@@ -41645,22 +41700,22 @@ function __c868(j: number): any {
           accessTokenEncryptedResponseAlgorithm: S.optional(S.String),
           audiences: S.optional(__S(3648, __c114, 0)),
           created: S.optional(S.String),
-          credentials: S.optional(__S(27777, __c868, 1)),
+          credentials: S.optional(__S(27809, __c869, 1)),
           description: S.optional(S.String),
           id: S.optional(S.String),
           issuer: S.optional(S.String),
           issuerMode: S.optional(S.String),
-          jwks: S.optional(__S(27780, __c868, 4)),
+          jwks: S.optional(__S(27812, __c869, 4)),
           jwks_uri: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(27781, __c868, 5)),
+          _links: S.optional(__S(27813, __c869, 5)),
         }),
       ).annotate({ identifier: "AuthorizationServer" });
   }
 }
-function __c869(j: number): any {
+function __c870(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41677,7 +41732,7 @@ function __c869(j: number): any {
       ).annotate({ identifier: "VerifyRpIdDomainRequest" });
   }
 }
-function __c870(j: number): any {
+function __c871(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41688,7 +41743,7 @@ function __c870(j: number): any {
       ).annotate({ identifier: "VerifySsfStreamRequest" });
   }
 }
-function __c871(j: number): any {
+function __c872(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41699,12 +41754,12 @@ function __c871(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.Unknown),
           type: S.optional(S.String),
-          _links: S.optional(__S(27904, __c872, 0)),
+          _links: S.optional(__S(27936, __c873, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/authenticators", code: 200 })),
       ).annotate({ identifier: "CreateAuthenticatorRequest" });
   }
 }
-function __c872(j: number): any {
+function __c873(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41717,14 +41772,14 @@ function __c872(j: number): any {
       ).annotate({ identifier: "AuthenticatorLinksInput" });
   }
 }
-function __c873(j: number): any {
+function __c874(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           userId: S.String.pipe(T.Label()),
           authenticatorId: S.String,
-          profile: __S(28000, __c875, 0),
+          profile: __S(28032, __c876, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -41735,7 +41790,7 @@ function __c873(j: number): any {
       ).annotate({ identifier: "CreateAuthenticatorEnrollmentRequest" });
   }
 }
-function __c874(j: number): any {
+function __c875(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41747,7 +41802,7 @@ function __c874(j: number): any {
       ).annotate({ identifier: "AuthenticatorEnrollmentLinks" });
   }
 }
-function __c875(j: number): any {
+function __c876(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41763,35 +41818,35 @@ function __c875(j: number): any {
           key: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           name: S.optional(S.String),
-          profile: S.optional(__S(28000, __c875, 0)),
+          profile: S.optional(__S(28032, __c876, 0)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(27968, __c874, 0)),
+          _links: S.optional(__S(28000, __c875, 0)),
         }),
       ).annotate({ identifier: "AuthenticatorEnrollment" });
   }
 }
-function __c876(j: number): any {
+function __c877(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accessTokenEncryptedResponseAlgorithm: S.optional(S.String),
           audiences: S.optional(__S(3648, __c114, 0)),
-          credentials: S.optional(__S(28065, __c877, 1)),
+          credentials: S.optional(__S(28097, __c878, 1)),
           description: S.optional(S.String),
           issuer: S.optional(S.String),
           issuerMode: S.optional(S.String),
-          jwks: S.optional(__S(27780, __c868, 4)),
+          jwks: S.optional(__S(27812, __c869, 4)),
           jwks_uri: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(28067, __c877, 3)),
+          _links: S.optional(__S(28099, __c878, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/authorizationServers", code: 200 })),
       ).annotate({ identifier: "CreateAuthorizationServerRequest" });
   }
 }
-function __c877(j: number): any {
+function __c878(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41803,7 +41858,7 @@ function __c877(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          signing: S.optional(__S(28064, __c877, 0)),
+          signing: S.optional(__S(28096, __c878, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerCredentialsInput" });
     case 2:
@@ -41814,7 +41869,7 @@ function __c877(j: number): any {
           self: S.optional(__S(20672, __c646, 0)),
           claims: S.optional(__S(20672, __c646, 0)),
           deactivate: S.optional(__S(20672, __c646, 0)),
-          metadata: S.optional(__S(28066, __c877, 2)),
+          metadata: S.optional(__S(28098, __c878, 2)),
           policies: S.optional(__S(20672, __c646, 0)),
           rotateKey: S.optional(__S(20672, __c646, 0)),
           scopes: S.optional(__S(20672, __c646, 0)),
@@ -41822,7 +41877,7 @@ function __c877(j: number): any {
       ).annotate({ identifier: "AuthServerLinksInput" });
   }
 }
-function __c878(j: number): any {
+function __c879(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41831,12 +41886,12 @@ function __c878(j: number): any {
           id: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
-          conditions: S.optional(__S(28128, __c879, 0)),
+          conditions: S.optional(__S(28160, __c880, 0)),
           description: S.optional(S.String),
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
-          _links: S.optional(__S(28160, __c880, 0)),
+          _links: S.optional(__S(28192, __c881, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -41847,7 +41902,7 @@ function __c878(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationServerPolicyRequest" });
   }
 }
-function __c879(j: number): any {
+function __c880(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41870,19 +41925,19 @@ function __c879(j: number): any {
           id: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
-          conditions: S.optional(__S(28128, __c879, 0)),
+          conditions: S.optional(__S(28160, __c880, 0)),
           description: S.optional(S.String),
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
           created: S.optional(S.String),
           lastUpdated: S.optional(S.String),
-          _links: S.optional(__S(28129, __c879, 1)),
+          _links: S.optional(__S(28161, __c880, 1)),
         }),
       ).annotate({ identifier: "CreateAuthorizationServerPolicyResponse" });
   }
 }
-function __c880(j: number): any {
+function __c881(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41895,21 +41950,21 @@ function __c880(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationServerPolicyRequestLinks" });
   }
 }
-function __c881(j: number): any {
+function __c882(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authServerId: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
-          actions: S.optional(__S(28289, __c884, 1)),
-          conditions: __S(28291, __c884, 3),
+          actions: S.optional(__S(28321, __c885, 1)),
+          conditions: __S(28323, __c885, 3),
           name: S.String,
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
           type: S.String,
-          _links: S.optional(__S(28224, __c882, 0)),
+          _links: S.optional(__S(28256, __c883, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -41920,7 +41975,7 @@ function __c881(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationServerPolicyRuleRequest" });
   }
 }
-function __c882(j: number): any {
+function __c883(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41932,7 +41987,7 @@ function __c882(j: number): any {
       ).annotate({ identifier: "LinksSelfAndLifecycleInput" });
   }
 }
-function __c883(j: number): any {
+function __c884(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41942,13 +41997,13 @@ function __c883(j: number): any {
       ).annotate({ identifier: "TokenAuthorizationServerPolicyRuleActionInlineHook" });
   }
 }
-function __c884(j: number): any {
+function __c885(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accessTokenLifetimeMinutes: S.optional(S.Number),
-          inlineHook: S.optional(__S(28256, __c883, 0)),
+          inlineHook: S.optional(__S(28288, __c884, 0)),
           refreshTokenLifetimeMinutes: S.optional(S.Number),
           refreshTokenWindowMinutes: S.optional(S.Number),
         }),
@@ -41956,7 +42011,7 @@ function __c884(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(__S(28288, __c884, 0)),
+          token: S.optional(__S(28320, __c885, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerPolicyRuleActions" });
     case 2:
@@ -41970,15 +42025,15 @@ function __c884(j: number): any {
       return S.suspend(() =>
         S.Struct({
           grantTypes: S.optional(__S(4768, __c149, 0)),
-          people: S.optional(__S(28290, __c884, 2)),
+          people: S.optional(__S(28322, __c885, 2)),
           scopes: S.optional(__S(4768, __c149, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerPolicyRuleConditions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(28289, __c884, 1)),
-          conditions: S.optional(__S(28291, __c884, 3)),
+          actions: S.optional(__S(28321, __c885, 1)),
+          conditions: S.optional(__S(28323, __c885, 3)),
           created: S.optional(S.String),
           id: S.optional(S.String),
           lastUpdated: S.optional(S.String),
@@ -41987,12 +42042,12 @@ function __c884(j: number): any {
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
           type: S.optional(S.String),
-          _links: S.optional(__S(29184, __c912, 0)),
+          _links: S.optional(__S(29216, __c913, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerPolicyRule" });
   }
 }
-function __c885(j: number): any {
+function __c886(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42004,7 +42059,7 @@ function __c885(j: number): any {
       ).annotate({ identifier: "CreateBehaviorDetectionRuleRequest" });
   }
 }
-function __c886(j: number): any {
+function __c887(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42020,7 +42075,7 @@ function __c886(j: number): any {
       ).annotate({ identifier: "ActivateAuthenticatorRequest" });
   }
 }
-function __c887(j: number): any {
+function __c888(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42042,12 +42097,12 @@ function __c887(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.Unknown),
           type: S.optional(S.String),
-          _links: S.optional(__S(28384, __c887, 0)),
+          _links: S.optional(__S(28416, __c888, 0)),
         }),
       ).annotate({ identifier: "AuthenticatorBase" });
   }
 }
-function __c888(j: number): any {
+function __c889(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42057,7 +42112,7 @@ function __c888(j: number): any {
       ).annotate({ identifier: "CreateBrandRequest" });
   }
 }
-function __c889(j: number): any {
+function __c890(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42069,14 +42124,14 @@ function __c889(j: number): any {
       ).annotate({ identifier: "DefaultApp" });
   }
 }
-function __c890(j: number): any {
+function __c891(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           agreeToCustomPrivacyPolicy: S.optional(S.Boolean),
           customPrivacyPolicyUrl: S.optional(S.String),
-          defaultApp: S.optional(__S(28448, __c889, 0)),
+          defaultApp: S.optional(__S(28480, __c890, 0)),
           emailDomainId: S.optional(S.String),
           id: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
@@ -42087,7 +42142,7 @@ function __c890(j: number): any {
       ).annotate({ identifier: "Brand" });
   }
 }
-function __c891(j: number): any {
+function __c892(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42100,7 +42155,7 @@ function __c891(j: number): any {
       ).annotate({ identifier: "CreateCaptchaInstanceRequest" });
   }
 }
-function __c892(j: number): any {
+function __c893(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42114,7 +42169,7 @@ function __c892(j: number): any {
       ).annotate({ identifier: "CAPTCHAInstanceOutput" });
   }
 }
-function __c893(j: number): any {
+function __c894(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42125,24 +42180,27 @@ function __c893(j: number): any {
       ).annotate({ identifier: "OrgCreationAdminCredentials" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          firstName: S.NullOr(S.String),
-          lastName: S.NullOr(S.String),
-          email: S.String,
-          login: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            firstName: S.NullOr(S.String),
+            lastName: S.NullOr(S.String),
+            email: S.String,
+            login: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "OrgCreationAdminProfile" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(28576, __c893, 0)),
-          profile: __S(28577, __c893, 1),
+          credentials: S.optional(__S(28608, __c894, 0)),
+          profile: __S(28609, __c894, 1),
         }),
       ).annotate({ identifier: "OrgCreationAdmin" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          admin: __S(28578, __c893, 2),
+          admin: __S(28610, __c894, 2),
           edition: S.String,
           name: S.String,
           subdomain: S.String,
@@ -42168,7 +42226,7 @@ function __c893(j: number): any {
       ).annotate({ identifier: "ChildOrgOutput" });
   }
 }
-function __c894(j: number): any {
+function __c895(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42181,7 +42239,7 @@ function __c894(j: number): any {
       ).annotate({ identifier: "CreateCrossAppAccessConnectionRequest" });
   }
 }
-function __c895(j: number): any {
+function __c896(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42196,15 +42254,15 @@ function __c895(j: number): any {
       ).annotate({ identifier: "OrgCrossAppAccessConnection" });
   }
 }
-function __c896(j: number): any {
+function __c897(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authenticatorId: S.String.pipe(T.Label()),
           aaguid: S.optional(S.String),
-          attestationRootCertificates: S.optional(__S(28737, __c898, 1)),
-          authenticatorCharacteristics: S.optional(__S(28704, __c897, 0)),
+          attestationRootCertificates: S.optional(__S(28769, __c899, 1)),
+          authenticatorCharacteristics: S.optional(__S(28736, __c898, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -42215,7 +42273,7 @@ function __c896(j: number): any {
       ).annotate({ identifier: "CreateCustomAAGUIDRequest" });
   }
 }
-function __c897(j: number): any {
+function __c898(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42235,20 +42293,20 @@ function __c897(j: number): any {
         }),
       ).annotate({ identifier: "AttestationRootCertificatesResponseItem" });
     case 2:
-      return S.Array(__S(28705, __c897, 1));
+      return S.Array(__S(28737, __c898, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           aaguid: S.optional(S.String),
-          attestationRootCertificates: S.optional(__S(28706, __c897, 2)),
-          authenticatorCharacteristics: S.optional(__S(28704, __c897, 0)),
+          attestationRootCertificates: S.optional(__S(28738, __c898, 2)),
+          authenticatorCharacteristics: S.optional(__S(28736, __c898, 0)),
           name: S.optional(S.String),
           _links: S.optional(__S(18464, __c577, 0)),
         }),
       ).annotate({ identifier: "CustomAAGUIDResponseObject" });
   }
 }
-function __c898(j: number): any {
+function __c899(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42257,10 +42315,10 @@ function __c898(j: number): any {
         }),
       ).annotate({ identifier: "AttestationRootCertificatesRequestItem" });
     case 1:
-      return S.Array(__S(28736, __c898, 0));
+      return S.Array(__S(28768, __c899, 0));
   }
 }
-function __c899(j: number): any {
+function __c900(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42271,7 +42329,7 @@ function __c899(j: number): any {
       ).annotate({ identifier: "CreateCustomDomainRequest" });
   }
 }
-function __c900(j: number): any {
+function __c901(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42283,7 +42341,7 @@ function __c900(j: number): any {
         }),
       ).annotate({ identifier: "DNSRecordDomains" });
     case 1:
-      return S.Array(__S(28800, __c900, 0));
+      return S.Array(__S(28832, __c901, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -42306,17 +42364,17 @@ function __c900(j: number): any {
         S.Struct({
           brandId: S.optional(S.String),
           certificateSourceType: S.optional(S.String),
-          dnsRecords: S.optional(__S(28801, __c900, 1)),
+          dnsRecords: S.optional(__S(28833, __c901, 1)),
           domain: S.optional(S.String),
           id: S.optional(S.String),
-          publicCertificate: S.optional(__S(28802, __c900, 2)),
+          publicCertificate: S.optional(__S(28834, __c901, 2)),
           validationStatus: S.optional(S.String),
-          _links: S.optional(__S(28803, __c900, 3)),
+          _links: S.optional(__S(28835, __c901, 3)),
         }),
       ).annotate({ identifier: "DomainResponse" });
   }
 }
-function __c901(j: number): any {
+function __c902(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42330,20 +42388,20 @@ function __c901(j: number): any {
       ).annotate({ identifier: "CreateCustomTelephonyProviderCredentialsRequest" });
   }
 }
-function __c902(j: number): any {
+function __c903(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           displayRemediationMode: S.optional(S.String),
-          gracePeriod: S.optional(__S(28896, __c903, 0)),
+          gracePeriod: S.optional(__S(28928, __c904, 0)),
           name: S.optional(S.String),
           platform: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/device-assurances", code: 200 })),
       ).annotate({ identifier: "CreateDeviceAssurancePolicyRequest" });
   }
 }
-function __c903(j: number): any {
+function __c904(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42358,7 +42416,7 @@ function __c903(j: number): any {
           createdBy: S.optional(S.String),
           createdDate: S.optional(S.String),
           displayRemediationMode: S.optional(S.String),
-          gracePeriod: S.optional(__S(28896, __c903, 0)),
+          gracePeriod: S.optional(__S(28928, __c904, 0)),
           id: S.optional(S.String),
           lastUpdate: S.optional(S.String),
           lastUpdatedBy: S.optional(S.String),
@@ -42369,7 +42427,7 @@ function __c903(j: number): any {
       ).annotate({ identifier: "DeviceAssurance" });
   }
 }
-function __c904(j: number): any {
+function __c905(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42379,14 +42437,14 @@ function __c904(j: number): any {
           name: S.optional(S.String),
           platform: S.optional(S.String),
           query: S.optional(S.String),
-          remediationSettings: S.optional(__S(28962, __c905, 2)),
+          remediationSettings: S.optional(__S(28994, __c906, 2)),
           type: S.optional(S.String),
           variableName: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/device-posture-checks", code: 200 })),
       ).annotate({ identifier: "CreateDevicePostureCheckRequest" });
   }
 }
-function __c905(j: number): any {
+function __c906(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42405,8 +42463,8 @@ function __c905(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(__S(28960, __c905, 0)),
-          message: S.optional(__S(28961, __c905, 1)),
+          link: S.optional(__S(28992, __c906, 0)),
+          message: S.optional(__S(28993, __c906, 1)),
         }),
       ).annotate({ identifier: "DevicePostureChecksRemediationSettings" });
     case 3:
@@ -42422,7 +42480,7 @@ function __c905(j: number): any {
           name: S.optional(S.String),
           platform: S.optional(S.String),
           query: S.optional(S.String),
-          remediationSettings: S.optional(__S(28962, __c905, 2)),
+          remediationSettings: S.optional(__S(28994, __c906, 2)),
           type: S.optional(S.String),
           variableName: S.optional(S.String),
           _links: S.optional(__S(18464, __c577, 0)),
@@ -42430,7 +42488,7 @@ function __c905(j: number): any {
       ).annotate({ identifier: "DevicePostureCheck" });
   }
 }
-function __c906(j: number): any {
+function __c907(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42441,7 +42499,7 @@ function __c906(j: number): any {
           subject: S.String,
           isDefault: S.optional(S.Boolean),
           language: S.String,
-          _links: S.optional(__S(29088, __c909, 0)),
+          _links: S.optional(__S(29120, __c910, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -42452,7 +42510,7 @@ function __c906(j: number): any {
       ).annotate({ identifier: "CreateEmailCustomizationRequest" });
   }
 }
-function __c907(j: number): any {
+function __c908(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42465,7 +42523,7 @@ function __c907(j: number): any {
       ).annotate({ identifier: "CreateEmailCustomizationResponseLinks" });
   }
 }
-function __c908(j: number): any {
+function __c909(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42477,12 +42535,12 @@ function __c908(j: number): any {
           isDefault: S.optional(S.Boolean),
           language: S.String,
           lastUpdated: S.optional(S.String),
-          _links: S.optional(__S(29024, __c907, 0)),
+          _links: S.optional(__S(29056, __c908, 0)),
         }),
       ).annotate({ identifier: "CreateEmailCustomizationResponse" });
   }
 }
-function __c909(j: number): any {
+function __c910(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42495,7 +42553,7 @@ function __c909(j: number): any {
       ).annotate({ identifier: "CreateEmailCustomizationRequestLinks" });
   }
 }
-function __c910(j: number): any {
+function __c911(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42512,19 +42570,19 @@ function __c910(j: number): any {
       ).annotate({ identifier: "ActivateAuthenticatorMethodRequest" });
   }
 }
-function __c911(j: number): any {
+function __c912(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.Unknown),
           type: S.optional(S.String),
-          _links: S.optional(__S(29184, __c912, 0)),
+          _links: S.optional(__S(29216, __c913, 0)),
         }),
       ).annotate({ identifier: "AuthenticatorMethodBase" });
   }
 }
-function __c912(j: number): any {
+function __c913(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42536,7 +42594,7 @@ function __c912(j: number): any {
       ).annotate({ identifier: "LinksSelfAndLifecycle" });
   }
 }
-function __c913(j: number): any {
+function __c914(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42551,7 +42609,7 @@ function __c913(j: number): any {
       ).annotate({ identifier: "CreateEmailDomainRequest" });
   }
 }
-function __c914(j: number): any {
+function __c915(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42562,17 +42620,17 @@ function __c914(j: number): any {
         }),
       ).annotate({ identifier: "EmailDomainDNSRecord" });
     case 1:
-      return S.Array(__S(29248, __c914, 0));
+      return S.Array(__S(29280, __c915, 0));
   }
 }
-function __c915(j: number): any {
+function __c916(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           displayName: S.String,
           userName: S.String,
-          dnsValidationRecords: S.optional(__S(29249, __c914, 1)),
+          dnsValidationRecords: S.optional(__S(29281, __c915, 1)),
           domain: S.optional(S.String),
           id: S.optional(S.String),
           validationStatus: S.optional(S.String),
@@ -42581,7 +42639,7 @@ function __c915(j: number): any {
       ).annotate({ identifier: "CreateEmailDomainResponse" });
   }
 }
-function __c916(j: number): any {
+function __c917(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42596,7 +42654,7 @@ function __c916(j: number): any {
       ).annotate({ identifier: "CreateEmailServerRequest" });
   }
 }
-function __c917(j: number): any {
+function __c918(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42612,21 +42670,21 @@ function __c917(j: number): any {
       ).annotate({ identifier: "BaseEmailServer" });
   }
 }
-function __c918(j: number): any {
+function __c919(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          channel: __S(29410, __c919, 2),
+          channel: __S(29442, __c920, 2),
           description: S.optional(S.NullOr(S.String)),
-          events: __S(29415, __c919, 7),
+          events: __S(29447, __c920, 7),
           name: S.String,
-          _links: S.optional(__S(29416, __c919, 8)),
+          _links: S.optional(__S(29448, __c920, 8)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/eventHooks", code: 200 })),
       ).annotate({ identifier: "CreateEventHookRequest" });
   }
 }
-function __c919(j: number): any {
+function __c920(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42639,7 +42697,7 @@ function __c919(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authScheme: S.optional(__S(29408, __c919, 0)),
+          authScheme: S.optional(__S(29440, __c920, 0)),
           headers: S.optional(__S(3682, __c115, 2)),
           uri: S.String,
         }),
@@ -42647,7 +42705,7 @@ function __c919(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          config: __S(29409, __c919, 1),
+          config: __S(29441, __c920, 1),
           type: S.String,
           version: S.String,
         }),
@@ -42661,22 +42719,22 @@ function __c919(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(29411, __c919, 3)),
+          condition: S.optional(__S(29443, __c920, 3)),
           event: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventHookFilterMapObjectInput" });
     case 5:
-      return S.Array(__S(29412, __c919, 4));
+      return S.Array(__S(29444, __c920, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          eventFilterMap: S.optional(__S(29413, __c919, 5)),
+          eventFilterMap: S.optional(__S(29445, __c920, 5)),
         }),
       ).annotate({ identifier: "EventHookFiltersInput" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.NullOr(__S(29414, __c919, 6))),
+          filter: S.optional(S.NullOr(__S(29446, __c920, 6))),
           items: __S(3648, __c114, 0),
           type: S.String,
         }),
@@ -42691,7 +42749,7 @@ function __c919(j: number): any {
       ).annotate({ identifier: "CreateEventHookRequestLinks" });
   }
 }
-function __c920(j: number): any {
+function __c921(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42705,7 +42763,7 @@ function __c920(j: number): any {
       ).annotate({ identifier: "CreateFederatedClaimRequest" });
   }
 }
-function __c921(j: number): any {
+function __c922(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42719,19 +42777,19 @@ function __c921(j: number): any {
       ).annotate({ identifier: "FederatedClaim" });
   }
 }
-function __c922(j: number): any {
+function __c923(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          entitlements: S.optional(__S(29569, __c924, 1)),
+          entitlements: S.optional(__S(29601, __c925, 1)),
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/iam/governance/bundles", code: 200 })),
       ).annotate({ identifier: "CreateGovernanceBundleRequest" });
   }
 }
-function __c923(j: number): any {
+function __c924(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42748,12 +42806,12 @@ function __c923(j: number): any {
           name: S.optional(S.String),
           orn: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(29536, __c923, 0)),
+          _links: S.optional(__S(29568, __c924, 0)),
         }),
       ).annotate({ identifier: "GovernanceBundle" });
   }
 }
-function __c924(j: number): any {
+function __c925(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42764,16 +42822,16 @@ function __c924(j: number): any {
         }),
       ).annotate({ identifier: "IAMBundleEntitlement" });
     case 1:
-      return S.Array(__S(29568, __c924, 0));
+      return S.Array(__S(29600, __c925, 0));
   }
 }
-function __c925(j: number): any {
+function __c926(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           appId: S.String.pipe(T.Label()),
-          appConfig: S.optional(__S(29632, __c926, 0)),
+          appConfig: S.optional(__S(29664, __c927, 0)),
           sourceGroupId: S.String,
           status: S.optional(S.String),
           targetGroupId: S.optional(S.String),
@@ -42784,7 +42842,7 @@ function __c925(j: number): any {
       ).annotate({ identifier: "CreateGroupPushMappingRequest" });
   }
 }
-function __c926(j: number): any {
+function __c927(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42803,7 +42861,7 @@ function __c926(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          appConfig: S.optional(__S(29632, __c926, 0)),
+          appConfig: S.optional(__S(29664, __c927, 0)),
           created: S.optional(S.String),
           errorSummary: S.optional(S.String),
           id: S.optional(S.String),
@@ -42812,25 +42870,25 @@ function __c926(j: number): any {
           sourceGroupId: S.optional(S.String),
           status: S.optional(S.String),
           targetGroupId: S.optional(S.String),
-          _links: S.optional(__S(29633, __c926, 1)),
+          _links: S.optional(__S(29665, __c927, 1)),
         }),
       ).annotate({ identifier: "GroupPushMapping" });
   }
 }
-function __c927(j: number): any {
+function __c928(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(29761, __c930, 1)),
-          conditions: S.optional(__S(29764, __c930, 4)),
+          actions: S.optional(__S(29793, __c931, 1)),
+          conditions: S.optional(__S(29796, __c931, 4)),
           name: S.optional(S.String),
           type: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups/rules", code: 200 })),
       ).annotate({ identifier: "CreateGroupRuleRequest" });
   }
 }
-function __c928(j: number): any {
+function __c929(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42841,13 +42899,13 @@ function __c928(j: number): any {
       ).annotate({ identifier: "GroupRuleExpression" });
   }
 }
-function __c929(j: number): any {
+function __c930(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c930(j: number): any {
+function __c931(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42858,7 +42916,7 @@ function __c930(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          assignUserToGroups: S.optional(__S(29760, __c930, 0)),
+          assignUserToGroups: S.optional(__S(29792, __c931, 0)),
         }),
       ).annotate({ identifier: "GroupRuleAction" });
     case 2:
@@ -42870,40 +42928,40 @@ function __c930(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(29762, __c930, 2)),
-          users: S.optional(__S(29762, __c930, 2)),
+          groups: S.optional(__S(29794, __c931, 2)),
+          users: S.optional(__S(29794, __c931, 2)),
         }),
       ).annotate({ identifier: "GroupRulePeopleCondition" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(__S(29696, __c928, 0)),
-          people: S.optional(__S(29763, __c930, 3)),
+          expression: S.optional(__S(29728, __c929, 0)),
+          people: S.optional(__S(29795, __c931, 3)),
         }),
       ).annotate({ identifier: "GroupRuleConditions" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          groupIdToGroupNameMap: S.optional(__S(29728, __c929, 0)),
+          groupIdToGroupNameMap: S.optional(__S(29760, __c930, 0)),
         }),
       ).annotate({ identifier: "GroupRuleEmbedded" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(29761, __c930, 1)),
-          conditions: S.optional(__S(29764, __c930, 4)),
+          actions: S.optional(__S(29793, __c931, 1)),
+          conditions: S.optional(__S(29796, __c931, 4)),
           created: S.optional(S.String),
           id: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _embedded: S.optional(__S(29765, __c930, 5)),
+          _embedded: S.optional(__S(29797, __c931, 5)),
         }),
       ).annotate({ identifier: "GroupRule" });
   }
 }
-function __c931(j: number): any {
+function __c932(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42913,7 +42971,7 @@ function __c931(j: number): any {
       ).annotate({ identifier: "CreateHookKeyRequest" });
   }
 }
-function __c932(j: number): any {
+function __c933(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42928,7 +42986,7 @@ function __c932(j: number): any {
       ).annotate({ identifier: "Embedded" });
   }
 }
-function __c933(j: number): any {
+function __c934(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42939,12 +42997,12 @@ function __c933(j: number): any {
           keyId: S.optional(S.String),
           lastUpdated: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          _embedded: S.optional(__S(29824, __c932, 0)),
+          _embedded: S.optional(__S(29856, __c933, 0)),
         }),
       ).annotate({ identifier: "DetailedHookKeyInstance" });
   }
 }
-function __c934(j: number): any {
+function __c935(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42956,30 +43014,33 @@ function __c934(j: number): any {
           protocol: S.optional(S.Unknown),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(29920, __c935, 0)),
+          _links: S.optional(__S(29952, __c936, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/idps", code: 200 })),
       ).annotate({ identifier: "CreateIdentityProviderRequest" });
   }
 }
-function __c935(j: number): any {
+function __c936(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(20672, __c646, 0)),
-          acs: S.optional(__S(20672, __c646, 0)),
-          authorize: S.optional(__S(20672, __c646, 0)),
-          clientRedirectUri: S.optional(__S(20672, __c646, 0)),
-          metadata: S.optional(__S(20672, __c646, 0)),
-          users: S.optional(__S(20672, __c646, 0)),
-          deactivate: S.optional(__S(20672, __c646, 0)),
-          activate: S.optional(__S(20672, __c646, 0)),
-          keys: S.optional(__S(20672, __c646, 0)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            self: S.optional(__S(20672, __c646, 0)),
+            acs: S.optional(__S(20672, __c646, 0)),
+            authorize: S.optional(__S(20672, __c646, 0)),
+            clientRedirectUri: S.optional(__S(20672, __c646, 0)),
+            metadata: S.optional(__S(20672, __c646, 0)),
+            users: S.optional(__S(20672, __c646, 0)),
+            deactivate: S.optional(__S(20672, __c646, 0)),
+            activate: S.optional(__S(20672, __c646, 0)),
+            keys: S.optional(__S(20672, __c646, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "CreateIdentityProviderRequestLinks" });
   }
 }
-function __c936(j: number): any {
+function __c937(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -173310,7 +173310,9 @@
           "target": "com.infisical.api#ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList"
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.infisical.api#ListPkiSyncCertificatesResponseCertificatesItem": {
       "type": "structure",
@@ -226252,7 +226254,9 @@
           "target": "com.infisical.api#ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList2"
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.infisical.api#ListPkiSyncCertificatesResponseCertificatesItem2": {
       "type": "structure",

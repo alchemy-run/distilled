@@ -349,6 +349,7 @@ export interface ViaObjectSource {
   from?: ViaObjectSourceFrom;
   rel?: string | null;
   to?: ViaObjectSourceTo;
+  [key: string]: unknown;
 }
 /** An object explaining how the ticket was created. See the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference) */
 export interface ViaObject {
@@ -2578,6 +2579,7 @@ export interface MacroInputRestriction {
   ids?: MacroInputRestrictionIdsList;
   /** Allowed values are Group or User */
   type?: string;
+  [key: string]: unknown;
 }
 export interface MacroInput {
   /** Each action describes what the macro will do */
@@ -3468,6 +3470,7 @@ export interface TargetObject {
   /** "application/json", "application/xml", or "application/x-www-form-urlencoded" */
   content_type?: string;
   group_id?: string;
+  [key: string]: unknown;
 }
 export interface TargetResponse {
   target?: TargetObject;
@@ -3798,6 +3801,7 @@ export interface TicketObjectInputVoiceComment {
   to?: string;
   /** Transcription of the call */
   transcription_text?: string | null;
+  [key: string]: unknown;
 }
 export interface TicketObjectInput {
   /** Write only. An array of numeric IDs, emails, or objects containing name and email properties. See [Setting Collaborators](/api-reference/ticketing/tickets/tickets/#setting-collaborators). An email notification is sent to them when the ticket is updated */
@@ -5474,6 +5478,7 @@ export interface CustomObjectRecordFilteredSearchConditionFieldKey {
 }
 export interface CustomObjectRecordFilteredSearchCondition {
   field_key?: CustomObjectRecordFilteredSearchConditionFieldKey | null;
+  [key: string]: unknown;
 }
 export interface CustomObjectRecordsFilteredSearchRequestBasic {
   filter?: CustomObjectRecordFilteredSearchCondition;
@@ -5491,6 +5496,7 @@ export interface CustomObjectRecordFilterExpressionLevel1FieldKey {
 }
 export interface CustomObjectRecordFilterExpressionLevel1 {
   field_key?: CustomObjectRecordFilterExpressionLevel1FieldKey | null;
+  [key: string]: unknown;
 }
 export type CustomObjectRecordFilterExpressionLevel2Case1AndList =
   Array<CustomObjectRecordFilterExpressionLevel1>;
@@ -5622,6 +5628,7 @@ export interface ItamAssetFilteredSearchConditionFieldKey {
 }
 export interface ItamAssetFilteredSearchCondition {
   field_key?: ItamAssetFilteredSearchConditionFieldKey | null;
+  [key: string]: unknown;
 }
 export interface ItamAssetFilteredSearchRequestBasic {
   filter?: ItamAssetFilteredSearchCondition;
@@ -6387,6 +6394,7 @@ export interface CurrentUserResponseUser {
   verified?: boolean;
   /** CSRF token required by some Zendesk APIs. */
   authenticity_token?: string;
+  [key: string]: unknown;
 }
 export interface CurrentUserResponse {
   user?: CurrentUserResponseUser;
@@ -6395,6 +6403,7 @@ export interface GetCurrentUserSettingsRequest {}
 /** Admin Center UI settings */
 export interface UserSettingsResponseSettingsAdminCenter {
   has_admin_center_side_nav_open?: boolean;
+  [key: string]: unknown;
 }
 /** Ordered list of view IDs pinned in the Agent Home sidebar (max 8) */
 export type UserSettingsResponseSettingsAgentHomePinnedViewsList = Array<number>;
@@ -6416,6 +6425,7 @@ export interface UserSettingsResponseSettingsLotus {
   show_onboarding_tooltips?: boolean;
   /** Whether user is eligible for 2FA */
   two_factor_authentication?: boolean;
+  [key: string]: unknown;
 }
 /** Order of shared views (array of view IDs) */
 export type UserSettingsResponseSettingsSharedViewsOrderList = Array<number>;
@@ -7718,6 +7728,7 @@ export interface TicketImportInputInputComment {
   /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
   uploads?: TicketImportInputInputCommentUploadsList;
   via?: AttachmentObjectInput;
+  [key: string]: unknown;
 }
 /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
 export type TicketImportInputInputCommentsItemUploadsList = Array<string>;
@@ -7743,6 +7754,7 @@ export interface TicketImportInputInputCommentsItem {
   /** List of tokens received from [uploading files](/api-reference/ticketing/tickets/ticket-attachments/#upload-files) for comment attachments. The files are attached by creating or updating tickets with the tokens. See [Attaching files](/api-reference/ticketing/tickets/tickets/#attaching-files) in Tickets */
   uploads?: TicketImportInputInputCommentsItemUploadsList;
   via?: AttachmentObjectInput;
+  [key: string]: unknown;
 }
 /** The conversation between requesters, collaborators, and agents */
 export type TicketImportInputInputCommentsList = Array<TicketImportInputInputCommentsItem>;
@@ -8647,6 +8659,7 @@ export interface ConversationLogObjectAuthor {
   zen_sunco_user_id?: string;
   /** A Zendesk resource name prefix describing a Support user */
   zen_support_user_id?: number;
+  [key: string]: unknown;
 }
 /** Object that describes the content of the message. The inner fields depends on the record type */
 export type ConversationLogObjectContentMap = { [key: string]: unknown | undefined };
@@ -8669,6 +8682,7 @@ export interface ConversationLogObject {
   reference: string;
   /** The type of record, representing one of the conversational ticket events. Examples: `Comment` or `Messaging::ConversationMessage` */
   type: string;
+  [key: string]: unknown;
 }
 export type ConversationLogResponseEventsList = Array<ConversationLogObject>;
 export interface ConversationLogResponseLinks {
@@ -11789,6 +11803,7 @@ export interface UpdateClientRequest {
 export interface UpdateCurrentUserSettingsRequestSettingsAdminCenter {
   /** Whether the Admin Center side navigation is open */
   has_admin_center_side_nav_open?: boolean;
+  [key: string]: unknown;
 }
 /** Ordered list of view IDs pinned in the Agent Home sidebar (max 8) */
 export type UpdateCurrentUserSettingsRequestSettingsAgentHomePinnedViewsList = Array<number>;
@@ -11818,6 +11833,7 @@ export interface UpdateCurrentUserSettingsRequestSettingsLotus {
   macro_shortcuts_enabled?: boolean;
   /** Show tooltips for first-time user */
   show_onboarding_tooltips?: boolean;
+  [key: string]: unknown;
 }
 /** Order of shared views (array of view IDs) */
 export type UpdateCurrentUserSettingsRequestSettingsSharedViewsOrderList = Array<number>;
@@ -22675,11 +22691,14 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ViaObjectSourceTo" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          from: S.optional(__S(192, __c6, 0)),
-          rel: S.optional(S.NullOr(S.String)),
-          to: S.optional(__S(193, __c6, 1)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            from: S.optional(__S(192, __c6, 0)),
+            rel: S.optional(S.NullOr(S.String)),
+            to: S.optional(__S(193, __c6, 1)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ViaObjectSource" });
     case 3:
       return S.suspend(() =>
@@ -22930,43 +22949,46 @@ function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          created_at: S.optional(S.String),
-          id: S.optional(S.Number),
-          title: S.String,
-          type: S.String,
-          message_id: S.optional(S.String),
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          project_id: S.optional(S.String),
-          resource: S.optional(S.String),
-          target_url: S.optional(S.String),
-          todo_list_id: S.optional(S.String),
-          token: S.optional(S.String),
-          username: S.optional(S.String),
-          preserve_format: S.optional(S.Boolean),
-          room: S.optional(S.String),
-          ssl: S.optional(S.Boolean),
-          subdomain: S.optional(S.String),
-          api_id: S.optional(S.String),
-          attribute: S.optional(S.String),
-          from: S.optional(S.String),
-          method: S.optional(S.String),
-          to: S.optional(S.String),
-          us_small_business_account: S.optional(S.String),
-          email: S.optional(S.String),
-          subject: S.optional(S.String),
-          api_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          account_name: S.optional(S.String),
-          owner_by: S.optional(S.String),
-          requested_by: S.optional(S.String),
-          story_labels: S.optional(S.String),
-          story_title: S.optional(S.String),
-          story_type: S.optional(S.String),
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          content_type: S.optional(S.String),
-          group_id: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            active: S.optional(S.Boolean),
+            created_at: S.optional(S.String),
+            id: S.optional(S.Number),
+            title: S.String,
+            type: S.String,
+            message_id: S.optional(S.String),
+            password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            project_id: S.optional(S.String),
+            resource: S.optional(S.String),
+            target_url: S.optional(S.String),
+            todo_list_id: S.optional(S.String),
+            token: S.optional(S.String),
+            username: S.optional(S.String),
+            preserve_format: S.optional(S.Boolean),
+            room: S.optional(S.String),
+            ssl: S.optional(S.Boolean),
+            subdomain: S.optional(S.String),
+            api_id: S.optional(S.String),
+            attribute: S.optional(S.String),
+            from: S.optional(S.String),
+            method: S.optional(S.String),
+            to: S.optional(S.String),
+            us_small_business_account: S.optional(S.String),
+            email: S.optional(S.String),
+            subject: S.optional(S.String),
+            api_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            account_name: S.optional(S.String),
+            owner_by: S.optional(S.String),
+            requested_by: S.optional(S.String),
+            story_labels: S.optional(S.String),
+            story_title: S.optional(S.String),
+            story_type: S.optional(S.String),
+            secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            content_type: S.optional(S.String),
+            group_id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "TargetObject" });
   }
 }
@@ -23266,15 +23288,18 @@ function __c28(j: number): any {
       ).annotate({ identifier: "TicketObjectInputTpeVoiceComment" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          answered_by_id: S.optional(S.NullOr(S.Number)),
-          call_duration: S.optional(S.Number),
-          from: S.optional(S.String),
-          location: S.optional(S.NullOr(S.String)),
-          recording_url: S.optional(S.NullOr(S.String)),
-          to: S.optional(S.String),
-          transcription_text: S.optional(S.NullOr(S.String)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            answered_by_id: S.optional(S.NullOr(S.Number)),
+            call_duration: S.optional(S.Number),
+            from: S.optional(S.String),
+            location: S.optional(S.NullOr(S.String)),
+            recording_url: S.optional(S.NullOr(S.String)),
+            to: S.optional(S.String),
+            transcription_text: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "TicketObjectInputVoiceComment" });
   }
 }
@@ -26998,51 +27023,54 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetCurrentUserRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          agent_brand_ids: S.optional(__S(32, __c1, 0)),
-          alias: S.optional(S.String),
-          chat_only: S.optional(S.Boolean),
-          created_at: S.optional(S.String),
-          custom_role_id: S.optional(S.NullOr(S.Number)),
-          default_group_id: S.optional(S.Number),
-          details: S.optional(S.String),
-          email: S.optional(S.String),
-          external_id: S.optional(S.NullOr(S.String)),
-          iana_time_zone: S.optional(S.String),
-          id: S.optional(S.Number),
-          last_login_at: S.optional(S.String),
-          locale: S.optional(S.String),
-          locale_id: S.optional(S.Number),
-          moderator: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          notes: S.optional(S.String),
-          only_private_comments: S.optional(S.Boolean),
-          organization_id: S.optional(S.NullOr(S.Number)),
-          phone: S.optional(S.NullOr(S.String)),
-          photo: S.optional(S.NullOr(__S(27392, __c856, 0))),
-          remote_photo_url: S.optional(S.String),
-          report_csv: S.optional(S.Boolean),
-          restricted_agent: S.optional(S.Boolean),
-          role: S.optional(S.String),
-          role_type: S.optional(S.NullOr(S.Number)),
-          separation: S.optional(__S(7712, __c241, 0)),
-          shared: S.optional(S.Boolean),
-          shared_agent: S.optional(S.Boolean),
-          shared_phone_number: S.optional(S.NullOr(S.Boolean)),
-          signature: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          suspension_details: S.optional(S.NullOr(__S(7713, __c241, 1))),
-          tags: S.optional(__S(19008, __c594, 0)),
-          ticket_restriction: S.optional(S.NullOr(S.String)),
-          time_zone: S.optional(S.String),
-          two_factor_auth_enabled: S.optional(S.NullOr(S.Boolean)),
-          updated_at: S.optional(S.String),
-          url: S.optional(S.String),
-          user_fields: S.optional(__S(27392, __c856, 0)),
-          verified: S.optional(S.Boolean),
-          authenticity_token: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            active: S.optional(S.Boolean),
+            agent_brand_ids: S.optional(__S(32, __c1, 0)),
+            alias: S.optional(S.String),
+            chat_only: S.optional(S.Boolean),
+            created_at: S.optional(S.String),
+            custom_role_id: S.optional(S.NullOr(S.Number)),
+            default_group_id: S.optional(S.Number),
+            details: S.optional(S.String),
+            email: S.optional(S.String),
+            external_id: S.optional(S.NullOr(S.String)),
+            iana_time_zone: S.optional(S.String),
+            id: S.optional(S.Number),
+            last_login_at: S.optional(S.String),
+            locale: S.optional(S.String),
+            locale_id: S.optional(S.Number),
+            moderator: S.optional(S.Boolean),
+            name: S.optional(S.String),
+            notes: S.optional(S.String),
+            only_private_comments: S.optional(S.Boolean),
+            organization_id: S.optional(S.NullOr(S.Number)),
+            phone: S.optional(S.NullOr(S.String)),
+            photo: S.optional(S.NullOr(__S(27392, __c856, 0))),
+            remote_photo_url: S.optional(S.String),
+            report_csv: S.optional(S.Boolean),
+            restricted_agent: S.optional(S.Boolean),
+            role: S.optional(S.String),
+            role_type: S.optional(S.NullOr(S.Number)),
+            separation: S.optional(__S(7712, __c241, 0)),
+            shared: S.optional(S.Boolean),
+            shared_agent: S.optional(S.Boolean),
+            shared_phone_number: S.optional(S.NullOr(S.Boolean)),
+            signature: S.optional(S.String),
+            suspended: S.optional(S.Boolean),
+            suspension_details: S.optional(S.NullOr(__S(7713, __c241, 1))),
+            tags: S.optional(__S(19008, __c594, 0)),
+            ticket_restriction: S.optional(S.NullOr(S.String)),
+            time_zone: S.optional(S.String),
+            two_factor_auth_enabled: S.optional(S.NullOr(S.Boolean)),
+            updated_at: S.optional(S.String),
+            url: S.optional(S.String),
+            user_fields: S.optional(__S(27392, __c856, 0)),
+            verified: S.optional(S.Boolean),
+            authenticity_token: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "CurrentUserResponseUser" });
     case 4:
       return S.suspend(() =>
@@ -27064,20 +27092,26 @@ function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          has_admin_center_side_nav_open: S.optional(S.Boolean),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            has_admin_center_side_nav_open: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "UserSettingsResponseSettingsAdminCenter" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          agent_workspace_theme_preference: S.optional(S.String),
-          agent_workspace_theme_preference_for_conversation_panel: S.optional(S.String),
-          keyboard_shortcuts_enabled: S.optional(S.Boolean),
-          macro_shortcuts_enabled: S.optional(S.Boolean),
-          show_onboarding_tooltips: S.optional(S.Boolean),
-          two_factor_authentication: S.optional(S.Boolean),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            agent_workspace_theme_preference: S.optional(S.String),
+            agent_workspace_theme_preference_for_conversation_panel: S.optional(S.String),
+            keyboard_shortcuts_enabled: S.optional(S.Boolean),
+            macro_shortcuts_enabled: S.optional(S.Boolean),
+            show_onboarding_tooltips: S.optional(S.Boolean),
+            two_factor_authentication: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "UserSettingsResponseSettingsLotus" });
     case 2:
       return S.suspend(() =>
@@ -29580,19 +29614,22 @@ function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          add_short_url: S.optional(S.Boolean),
-          author_id: S.optional(S.NullOr(S.Number)),
-          body: S.optional(S.String),
-          channel_back: S.optional(S.String),
-          channel_source_id: S.optional(S.NullOr(S.String)),
-          html_body: S.optional(S.String),
-          public: S.optional(S.Boolean),
-          translate_to: S.optional(S.NullOr(S.String)),
-          uploads: S.optional(__S(19008, __c594, 0)),
-          via: S.optional(__S(2784, __c87, 0)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            value: S.optional(S.String),
+            add_short_url: S.optional(S.Boolean),
+            author_id: S.optional(S.NullOr(S.Number)),
+            body: S.optional(S.String),
+            channel_back: S.optional(S.String),
+            channel_source_id: S.optional(S.NullOr(S.String)),
+            html_body: S.optional(S.String),
+            public: S.optional(S.Boolean),
+            translate_to: S.optional(S.NullOr(S.String)),
+            uploads: S.optional(__S(19008, __c594, 0)),
+            via: S.optional(__S(2784, __c87, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "TicketImportInputInputComment" });
     case 1:
       return S.Array(__S(12512, __c391, 0));
@@ -30712,24 +30749,30 @@ function __c446(j: number): any {
       ).annotate({ identifier: "ListConversationLogForTicketRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          zen_sunco_user_id: S.optional(S.String.pipe(T.Body("zen:sunco:user_id"))),
-          zen_support_user_id: S.optional(S.Number.pipe(T.Body("zen:support:user_id"))),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            type: S.optional(S.String),
+            zen_sunco_user_id: S.optional(S.String.pipe(T.Body("zen:sunco:user_id"))),
+            zen_support_user_id: S.optional(S.Number.pipe(T.Body("zen:support:user_id"))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ConversationLogObjectAuthor" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          attachments: __S(128, __c4, 0),
-          author: __S(14273, __c446, 1),
-          content: __S(27392, __c856, 0),
-          created_at: S.String,
-          id: S.String,
-          metadata: __S(27392, __c856, 0),
-          reference: S.String,
-          type: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            attachments: __S(128, __c4, 0),
+            author: __S(14273, __c446, 1),
+            content: __S(27392, __c856, 0),
+            created_at: S.String,
+            id: S.String,
+            metadata: __S(27392, __c856, 0),
+            reference: S.String,
+            type: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "ConversationLogObject" });
     case 3:
       return S.Array(__S(14274, __c446, 2));
@@ -35531,13 +35574,16 @@ function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          agent_workspace_theme_preference: S.optional(S.String),
-          agent_workspace_theme_preference_for_conversation_panel: S.optional(S.String),
-          keyboard_shortcuts_enabled: S.optional(S.Boolean),
-          macro_shortcuts_enabled: S.optional(S.Boolean),
-          show_onboarding_tooltips: S.optional(S.Boolean),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            agent_workspace_theme_preference: S.optional(S.String),
+            agent_workspace_theme_preference_for_conversation_panel: S.optional(S.String),
+            keyboard_shortcuts_enabled: S.optional(S.Boolean),
+            macro_shortcuts_enabled: S.optional(S.Boolean),
+            show_onboarding_tooltips: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "UpdateCurrentUserSettingsRequestSettingsLotus" });
     case 1:
       return S.suspend(() =>
@@ -37650,11 +37696,14 @@ function __c849(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          ids: S.optional(__S(32, __c1, 0)),
-          type: S.optional(S.String),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            id: S.optional(S.Number),
+            ids: S.optional(__S(32, __c1, 0)),
+            type: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "MacroInputRestriction" });
     case 1:
       return S.suspend(() =>
