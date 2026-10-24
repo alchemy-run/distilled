@@ -7661,6 +7661,35 @@ export interface CreatePacketCaptureResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
+/** The type of identity that created the resource. */
+export type CreateReachabilityAnalysisIntentRequestSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type CreateReachabilityAnalysisIntentRequestSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface CreateReachabilityAnalysisIntentRequestSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreateReachabilityAnalysisIntentRequestSystemDataCreatedByType | (string & {});
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?:
+    | CreateReachabilityAnalysisIntentRequestSystemDataLastModifiedByType
+    | (string & {});
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 /** Provisioning states of a resource. */
 export type ReachabilityAnalysisIntentPropertiesProvisioningState =
   | "Failed"
@@ -7715,6 +7744,8 @@ export interface CreateReachabilityAnalysisIntentRequest {
   workspaceName: string;
   /** Reachability Analysis Intent name. */
   reachabilityAnalysisIntentName: string;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: CreateReachabilityAnalysisIntentRequestSystemData;
   /** Represents the Reachability Analysis Intent properties. */
   properties: ReachabilityAnalysisIntentProperties;
 }
@@ -7757,6 +7788,35 @@ export interface CreateReachabilityAnalysisIntentResponse {
   /** Represents the Reachability Analysis Intent properties. */
   properties: ReachabilityAnalysisIntentProperties;
 }
+/** The type of identity that created the resource. */
+export type CreateReachabilityAnalysisRunRequestSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type CreateReachabilityAnalysisRunRequestSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface CreateReachabilityAnalysisRunRequestSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreateReachabilityAnalysisRunRequestSystemDataCreatedByType | (string & {});
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?:
+    | CreateReachabilityAnalysisRunRequestSystemDataLastModifiedByType
+    | (string & {});
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 /** Provisioning states of a resource. */
 export type ReachabilityAnalysisRunPropertiesInputProvisioningState =
   | "Failed"
@@ -7784,6 +7844,8 @@ export interface CreateReachabilityAnalysisRunRequest {
   workspaceName: string;
   /** Reachability Analysis Run name. */
   reachabilityAnalysisRunName: string;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: CreateReachabilityAnalysisRunRequestSystemData;
   /** Represents the Reachability Analysis Run properties. */
   properties: ReachabilityAnalysisRunPropertiesInput;
 }
@@ -7950,6 +8012,33 @@ export interface CreateStaticCidrResponse {
   /** Properties of static CIDR resource. */
   properties?: StaticCidrProperties;
 }
+/** The type of identity that created the resource. */
+export type CreateVerifierWorkspaceRequestSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type CreateVerifierWorkspaceRequestSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface CreateVerifierWorkspaceRequestSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreateVerifierWorkspaceRequestSystemDataCreatedByType | (string & {});
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreateVerifierWorkspaceRequestSystemDataLastModifiedByType | (string & {});
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 /** Resource tags. */
 export type CreateVerifierWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 /** Provisioning states of a resource. */
@@ -7975,6 +8064,8 @@ export interface CreateVerifierWorkspaceRequest {
   networkManagerName: string;
   /** The name of the resource */
   workspaceName: string;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: CreateVerifierWorkspaceRequestSystemData;
   /** Resource tags. */
   tags?: CreateVerifierWorkspaceRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -76163,6 +76254,7 @@ function __c384(j: number): any {
           networkManagerName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           reachabilityAnalysisIntentName: S.String.pipe(T.Label()),
+          systemData: S.optional(__S(6592, __c206, 0)),
           properties: __S(12352, __c386, 0),
         }).pipe(
           T.Http({
@@ -76832,6 +76924,7 @@ function __c407(j: number): any {
           networkManagerName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           reachabilityAnalysisRunName: S.String.pipe(T.Label()),
+          systemData: S.optional(__S(6592, __c206, 0)),
           properties: __S(13024, __c407, 0),
         }).pipe(
           T.Http({
@@ -77854,6 +77947,7 @@ function __c445(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           networkManagerName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          systemData: S.optional(__S(6592, __c206, 0)),
           tags: S.optional(__S(22048, __c689, 0)),
           location: S.String,
           properties: S.optional(__S(14272, __c446, 0)),

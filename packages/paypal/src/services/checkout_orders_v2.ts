@@ -988,6 +988,8 @@ export interface CardVaultResponseCustomer {
   email_address?: unknown;
   phone?: CardVaultResponseCustomerPhone;
   name?: CardCustomerName;
+  /** Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer. */
+  merchant_customer_id?: string;
 }
 /** The HTTP method required to make the related call. */
 export type CardVaultResponseLinksItemMethod =
@@ -1171,6 +1173,7 @@ export type PaypalWalletVaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED"
 export type PaypalWalletVaultResponseCustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
 export type PaypalWalletVaultResponseCustomerPhone = CardVaultResponseCustomerPhone;
 export type PaypalWalletVaultResponseCustomerName = CardCustomerName;
+/** The details about a customer in PayPal's system of record. */
 export type PaypalWalletVaultResponseCustomer = CardVaultResponseCustomer;
 /** The HTTP method required to make the related call. */
 export type PaypalWalletVaultResponseLinksItemMethod =
@@ -1287,6 +1290,7 @@ export interface PaypalWalletVaultResponse {
   id?: string;
   /** The vault status. */
   status?: PaypalWalletVaultResponseStatus;
+  /** The details about a customer in PayPal's system of record. */
   customer?: CardVaultResponseCustomer;
   /** An array of request-related HATEOAS links. */
   links?: PaypalWalletVaultResponseLinksList;
@@ -1439,7 +1443,12 @@ export type VaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
 export type VaultResponseCustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
 export type VaultResponseCustomerPhone = CardVaultResponseCustomerPhone;
 export type VaultResponseCustomerName = CardCustomerName;
-export type VaultResponseCustomer = CardVaultResponseCustomer;
+export interface VaultResponseCustomer {
+  id?: string;
+  email_address?: unknown;
+  phone?: CardVaultResponseCustomerPhone;
+  name?: CardCustomerName;
+}
 /** The HTTP method required to make the related call. */
 export type VaultResponseLinksItemMethod =
   | "GET"
@@ -1554,7 +1563,7 @@ export interface VaultResponse {
   id?: string;
   /** The vault status. */
   status?: VaultResponseStatus;
-  customer?: CardVaultResponseCustomer;
+  customer?: VaultResponseCustomer;
   /** An array of request-related HATEOAS links. */
   links?: VaultResponseLinksList;
 }
@@ -1608,7 +1617,7 @@ export type VenmoVaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
 export type VenmoVaultResponseCustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
 export type VenmoVaultResponseCustomerPhone = CardVaultResponseCustomerPhone;
 export type VenmoVaultResponseCustomerName = CardCustomerName;
-export type VenmoVaultResponseCustomer = CardVaultResponseCustomer;
+export type VenmoVaultResponseCustomer = VaultResponseCustomer;
 /** The HTTP method required to make the related call. */
 export type VenmoVaultResponseLinksItemMethod =
   | "GET"
@@ -1723,7 +1732,7 @@ export interface VenmoVaultResponse {
   id?: string;
   /** The vault status. */
   status?: VenmoVaultResponseStatus;
-  customer?: CardVaultResponseCustomer;
+  customer?: VaultResponseCustomer;
   /** An array of request-related HATEOAS links. */
   links?: VenmoVaultResponseLinksList;
 }
@@ -12876,7 +12885,7 @@ export const authorizeOrder: API.OperationMethod<
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<AuthorizeOrderRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<AuthorizeOrderResponse>,
+  output: __S(388, __c12, 4) as any as S.Schema<AuthorizeOrderResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -12897,7 +12906,7 @@ export const captureOrder: API.OperationMethod<
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CaptureOrderRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<CaptureOrderResponse>,
+  output: __S(388, __c12, 4) as any as S.Schema<CaptureOrderResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -12912,7 +12921,7 @@ export const confirmOrder: API.OperationMethod<
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(481, __c15, 1) as any as S.Schema<ConfirmOrderRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<ConfirmOrderResponse>,
+  output: __S(388, __c12, 4) as any as S.Schema<ConfirmOrderResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -12927,7 +12936,7 @@ export const createOrder: API.OperationMethod<
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(514, __c16, 2) as any as S.Schema<CreateOrderRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<CreateOrderResponse>,
+  output: __S(388, __c12, 4) as any as S.Schema<CreateOrderResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -12947,7 +12956,7 @@ export const createOrdersTrack: API.OperationMethod<
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<CreateOrdersTrackRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<CreateOrdersTrackResponse>,
+  output: __S(388, __c12, 4) as any as S.Schema<CreateOrdersTrackResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -12962,7 +12971,7 @@ export const getOrder: API.OperationMethod<
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetOrderRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<GetOrderResponse>,
+  output: __S(388, __c12, 4) as any as S.Schema<GetOrderResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -13112,7 +13121,7 @@ function __c5(j: number): any {
           prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
           payPalClientMetadataId: S.optional(S.String.pipe(T.Header("PayPal-Client-Metadata-Id"))),
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
-          payment_source: S.optional(__S(233, __c7, 9)),
+          payment_source: S.optional(__S(232, __c7, 8)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/checkout/orders/{id}/authorize", code: 200 })),
       ).annotate({ identifier: "AuthorizeOrderRequest" });
   }
@@ -13122,34 +13131,24 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          email_address: S.optional(S.Unknown),
-          phone: S.optional(__S(321, __c10, 1)),
-          name: S.optional(__S(418, __c13, 2)),
-          merchant_customer_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CardCustomer" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           store_in_vault: S.optional(S.String),
         }),
       ).annotate({ identifier: "CardRequestInputAttributesVault" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
         }),
       ).annotate({ identifier: "CardRequestInputAttributesVerification" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(__S(192, __c6, 0)),
-          vault: S.optional(__S(193, __c6, 1)),
-          verification: S.optional(__S(194, __c6, 2)),
+          customer: S.optional(__S(322, __c10, 2)),
+          vault: S.optional(__S(192, __c6, 0)),
+          verification: S.optional(__S(193, __c6, 1)),
         }),
       ).annotate({ identifier: "CardRequestInputAttributes" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           number: S.String,
@@ -13159,14 +13158,14 @@ function __c6(j: number): any {
           token_requestor_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "CardRequestInputNetworkToken" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           return_url: S.optional(S.Unknown),
           cancel_url: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "CardRequestInputExperienceContext" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Unknown),
@@ -13178,22 +13177,22 @@ function __c6(j: number): any {
           type: S.optional(S.Unknown),
           brand: S.optional(S.Unknown),
           billing_address: S.optional(__S(417, __c13, 1)),
-          attributes: S.optional(__S(195, __c6, 3)),
+          attributes: S.optional(__S(194, __c6, 2)),
           vault_id: S.optional(S.Unknown),
           single_use_token: S.optional(S.Unknown),
-          stored_credential: S.optional(__S(323, __c10, 3)),
-          network_token: S.optional(__S(196, __c6, 4)),
-          experience_context: S.optional(__S(197, __c6, 5)),
+          stored_credential: S.optional(__S(324, __c10, 4)),
+          network_token: S.optional(__S(195, __c6, 3)),
+          experience_context: S.optional(__S(196, __c6, 4)),
         }),
       ).annotate({ identifier: "CardRequestInput" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           type: S.String,
         }),
       ).annotate({ identifier: "Token" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           store_in_vault: S.optional(S.String),
@@ -13205,34 +13204,34 @@ function __c6(j: number): any {
           permit_multiple_payment_tokens: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourcePaypalAttributesVault" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(__S(192, __c6, 0)),
-          vault: S.optional(__S(200, __c6, 8)),
+          customer: S.optional(__S(322, __c10, 2)),
+          vault: S.optional(__S(199, __c6, 7)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourcePaypalAttributes" });
-    case 10:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           buyer_user_agent: S.optional(S.String),
         }),
       ).annotate({ identifier: "MobileWebContextInput" });
-    case 11:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           native_app: S.optional(__S(256, __c8, 0)),
-          mobile_web: S.optional(__S(202, __c6, 10)),
+          mobile_web: S.optional(__S(201, __c6, 9)),
         }),
       ).annotate({ identifier: "PaypalWalletExperienceContextInputAppSwitchContext" });
-    case 12:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          callback_events: __S(325, __c10, 5),
+          callback_events: __S(326, __c10, 6),
           callback_url: S.String,
         }),
       ).annotate({ identifier: "PaypalWalletExperienceContextInputOrderUpdateCallbackConfig" });
-    case 13:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           brand_name: S.optional(S.String),
@@ -13241,14 +13240,14 @@ function __c6(j: number): any {
           contact_preference: S.optional(S.String),
           return_url: S.optional(S.Unknown),
           cancel_url: S.optional(S.Unknown),
-          app_switch_context: S.optional(__S(203, __c6, 11)),
+          app_switch_context: S.optional(__S(202, __c6, 10)),
           landing_page: S.optional(S.String),
           user_action: S.optional(S.String),
           payment_method_preference: S.optional(S.String),
-          order_update_callback_config: S.optional(__S(204, __c6, 12)),
+          order_update_callback_config: S.optional(__S(203, __c6, 11)),
         }),
       ).annotate({ identifier: "PaypalWalletExperienceContextInput" });
-    case 14:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           vault_id: S.optional(S.Unknown),
@@ -13256,23 +13255,23 @@ function __c6(j: number): any {
           name: S.optional(__S(418, __c13, 2)),
           phone: S.optional(__S(321, __c10, 1)),
           birth_date: S.optional(S.Unknown),
-          tax_info: S.optional(__S(324, __c10, 4)),
+          tax_info: S.optional(__S(325, __c10, 5)),
           address: S.optional(__S(417, __c13, 1)),
-          attributes: S.optional(__S(201, __c6, 9)),
-          experience_context: S.optional(__S(205, __c6, 13)),
+          attributes: S.optional(__S(200, __c6, 8)),
+          experience_context: S.optional(__S(204, __c6, 12)),
           billing_agreement_id: S.optional(S.String),
-          stored_credential: S.optional(__S(326, __c10, 6)),
+          stored_credential: S.optional(__S(327, __c10, 7)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourcePaypal" });
-    case 15:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           name: S.Unknown,
           country_code: S.Unknown,
-          experience_context: S.optional(__S(327, __c10, 7)),
+          experience_context: S.optional(__S(328, __c10, 8)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceBancontact" });
-    case 16:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           brand_name: S.optional(S.String),
@@ -13284,13 +13283,13 @@ function __c6(j: number): any {
           consumer_user_agent: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceBlikExperienceContext" });
-    case 17:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           auth_code: S.String,
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceBlikLevel0" });
-    case 18:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           auth_code: S.optional(S.String),
@@ -13299,45 +13298,45 @@ function __c6(j: number): any {
           alias_key: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceBlikOneClick" });
-    case 19:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           name: S.Unknown,
           country_code: S.Unknown,
           email: S.optional(S.Unknown),
-          experience_context: S.optional(__S(208, __c6, 16)),
-          level_0: S.optional(__S(209, __c6, 17)),
-          one_click: S.optional(__S(210, __c6, 18)),
+          experience_context: S.optional(__S(207, __c6, 15)),
+          level_0: S.optional(__S(208, __c6, 16)),
+          one_click: S.optional(__S(209, __c6, 17)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceBlik" });
-    case 20:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           name: S.Unknown,
           country_code: S.Unknown,
           bic: S.optional(S.Unknown),
-          experience_context: S.optional(__S(327, __c10, 7)),
+          experience_context: S.optional(__S(328, __c10, 8)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceIdeal" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.Unknown,
+          email: S.Unknown,
+          country_code: S.Unknown,
+          experience_context: S.optional(__S(328, __c10, 8)),
+        }),
+      ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceP24" });
     case 21:
       return S.suspend(() =>
         S.Struct({
           name: S.Unknown,
-          email: S.Unknown,
-          country_code: S.Unknown,
-          experience_context: S.optional(__S(327, __c10, 7)),
-        }),
-      ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceP24" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.Unknown,
           country_code: S.Unknown,
           email: S.Unknown,
-          experience_context: S.optional(__S(327, __c10, 7)),
+          experience_context: S.optional(__S(328, __c10, 8)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceTrustly" });
-    case 23:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Unknown),
@@ -13349,12 +13348,12 @@ function __c6(j: number): any {
           type: S.optional(S.Unknown),
           brand: S.optional(S.Unknown),
           billing_address: S.optional(__S(417, __c13, 1)),
-          attributes: S.optional(__S(195, __c6, 3)),
+          attributes: S.optional(__S(194, __c6, 2)),
         }),
       ).annotate({
         identifier: "AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCard",
       });
-    case 24:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           cryptogram: S.optional(S.String),
@@ -13365,51 +13364,51 @@ function __c6(j: number): any {
       ).annotate({
         identifier: "AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData",
       });
-    case 25:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           transaction_amount: S.optional(__S(420, __c13, 4)),
-          tokenized_card: __S(215, __c6, 23),
+          tokenized_card: __S(214, __c6, 22),
           device_manufacturer_id: S.optional(S.String),
           payment_data_type: S.optional(S.String),
-          payment_data: S.optional(__S(216, __c6, 24)),
+          payment_data: S.optional(__S(215, __c6, 23)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceApplePayDecryptedToken" });
-    case 26:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           store_in_vault: S.String,
         }),
       ).annotate({ identifier: "V3VaultInstructionBase" });
-    case 27:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(__S(328, __c10, 8)),
-          vault: S.optional(__S(218, __c6, 26)),
+          customer: S.optional(__S(329, __c10, 9)),
+          vault: S.optional(__S(217, __c6, 25)),
         }),
       ).annotate({ identifier: "ApplePayAttributes" });
-    case 28:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           return_url: S.Unknown,
           cancel_url: S.Unknown,
         }),
       ).annotate({ identifier: "ApplePayExperienceContext" });
-    case 29:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.Unknown),
           email_address: S.optional(S.Unknown),
           phone_number: S.optional(__S(320, __c10, 0)),
-          decrypted_token: S.optional(__S(217, __c6, 25)),
-          stored_credential: S.optional(__S(323, __c10, 3)),
+          decrypted_token: S.optional(__S(216, __c6, 24)),
+          stored_credential: S.optional(__S(324, __c10, 4)),
           vault_id: S.optional(S.Unknown),
-          attributes: S.optional(__S(219, __c6, 27)),
-          experience_context: S.optional(__S(220, __c6, 28)),
+          attributes: S.optional(__S(218, __c6, 26)),
+          experience_context: S.optional(__S(219, __c6, 27)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceApplePay" });
-    case 30:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -13420,7 +13419,7 @@ function __c6(j: number): any {
           billing_address: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceGooglePayCard" });
-    case 31:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -13431,6 +13430,18 @@ function __c6(j: number): any {
           billing_address: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceGooglePayDecryptedTokenCard" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          message_id: S.optional(S.String),
+          message_expiration: S.optional(S.String),
+          payment_method: S.String,
+          card: __S(222, __c6, 30),
+          authentication_method: S.String,
+          cryptogram: S.optional(S.String),
+          eci_indicator: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceGooglePayDecryptedToken" });
   }
 }
 function __c7(j: number): any {
@@ -13438,44 +13449,32 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message_id: S.optional(S.String),
-          message_expiration: S.optional(S.String),
-          payment_method: S.String,
-          card: __S(223, __c6, 31),
-          authentication_method: S.String,
-          cryptogram: S.optional(S.String),
-          eci_indicator: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceGooglePayDecryptedToken" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           account_verified: S.optional(S.Boolean),
           card_holder_authenticated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.Unknown),
           email_address: S.optional(S.Unknown),
-          phone_number: S.optional(__S(329, __c10, 9)),
-          card: S.optional(__S(222, __c6, 30)),
-          decrypted_token: S.optional(__S(224, __c7, 0)),
-          assurance_details: S.optional(__S(225, __c7, 1)),
-          experience_context: S.optional(__S(220, __c6, 28)),
+          phone_number: S.optional(__S(330, __c10, 10)),
+          card: S.optional(__S(221, __c6, 29)),
+          decrypted_token: S.optional(__S(223, __c6, 31)),
+          assurance_details: S.optional(__S(224, __c7, 0)),
+          experience_context: S.optional(__S(219, __c6, 27)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceGooglePay" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           brand_name: S.optional(S.String),
           shipping_preference: S.optional(S.String),
-          order_update_callback_config: S.optional(__S(204, __c6, 12)),
+          order_update_callback_config: S.optional(__S(203, __c6, 11)),
           user_action: S.optional(S.String),
         }),
       ).annotate({ identifier: "VenmoWalletExperienceContext" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           store_in_vault: S.String,
@@ -13486,23 +13485,23 @@ function __c7(j: number): any {
           permit_multiple_payment_tokens: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceVenmoAttributesVault" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(__S(328, __c10, 8)),
-          vault: S.optional(__S(228, __c7, 4)),
+          customer: S.optional(__S(329, __c10, 9)),
+          vault: S.optional(__S(227, __c7, 3)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceVenmoAttributes" });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           vault_id: S.optional(S.Unknown),
           email_address: S.optional(S.Unknown),
-          experience_context: S.optional(__S(227, __c7, 3)),
-          attributes: S.optional(__S(229, __c7, 5)),
+          experience_context: S.optional(__S(226, __c7, 2)),
+          attributes: S.optional(__S(228, __c7, 4)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceVenmo" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           locale: S.optional(S.Unknown),
@@ -13510,33 +13509,33 @@ function __c7(j: number): any {
           cancel_url: S.Unknown,
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceCryptoExperienceContext" });
-    case 8:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           country_code: S.Unknown,
-          name: __S(330, __c10, 10),
-          experience_context: __S(231, __c7, 7),
+          name: __S(331, __c10, 11),
+          experience_context: __S(230, __c7, 6),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceCrypto" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          card: S.optional(__S(198, __c6, 6)),
-          token: S.optional(__S(199, __c6, 7)),
-          paypal: S.optional(__S(206, __c6, 14)),
-          bancontact: S.optional(__S(207, __c6, 15)),
-          blik: S.optional(__S(211, __c6, 19)),
-          eps: S.optional(__S(207, __c6, 15)),
-          giropay: S.optional(__S(207, __c6, 15)),
-          ideal: S.optional(__S(212, __c6, 20)),
-          mybank: S.optional(__S(207, __c6, 15)),
-          p24: S.optional(__S(213, __c6, 21)),
-          sofort: S.optional(__S(207, __c6, 15)),
-          trustly: S.optional(__S(214, __c6, 22)),
-          apple_pay: S.optional(__S(221, __c6, 29)),
-          google_pay: S.optional(__S(226, __c7, 2)),
-          venmo: S.optional(__S(230, __c7, 6)),
-          crypto: S.optional(__S(232, __c7, 8)),
+          card: S.optional(__S(197, __c6, 5)),
+          token: S.optional(__S(198, __c6, 6)),
+          paypal: S.optional(__S(205, __c6, 13)),
+          bancontact: S.optional(__S(206, __c6, 14)),
+          blik: S.optional(__S(210, __c6, 18)),
+          eps: S.optional(__S(206, __c6, 14)),
+          giropay: S.optional(__S(206, __c6, 14)),
+          ideal: S.optional(__S(211, __c6, 19)),
+          mybank: S.optional(__S(206, __c6, 14)),
+          p24: S.optional(__S(212, __c6, 20)),
+          sofort: S.optional(__S(206, __c6, 14)),
+          trustly: S.optional(__S(213, __c6, 21)),
+          apple_pay: S.optional(__S(220, __c6, 28)),
+          google_pay: S.optional(__S(225, __c7, 1)),
+          venmo: S.optional(__S(229, __c7, 5)),
+          crypto: S.optional(__S(231, __c7, 7)),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSource" });
   }
@@ -13581,30 +13580,40 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
+          email_address: S.optional(S.Unknown),
+          phone: S.optional(__S(321, __c10, 1)),
+          name: S.optional(__S(418, __c13, 2)),
+          merchant_customer_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CardCustomer" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
           date: S.optional(S.String),
           network: S.optional(S.Unknown),
           acquirer_reference_number: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkTransaction" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           payment_initiator: S.String,
           payment_type: S.String,
           usage: S.optional(S.String),
-          previous_network_transaction_reference: S.optional(__S(322, __c10, 2)),
+          previous_network_transaction_reference: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "CardStoredCredential" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           tax_id: S.String,
           tax_id_type: S.String,
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourcePaypalTaxInfo" });
-    case 5:
-      return S.Array(S.String);
     case 6:
+      return S.Array(S.String);
+    case 7:
       return S.suspend(() =>
         S.Struct({
           payment_initiator: S.String,
@@ -13613,7 +13622,7 @@ function __c10(j: number): any {
           usage: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaypalWalletStoredCredential" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           brand_name: S.optional(S.String),
@@ -13623,7 +13632,7 @@ function __c10(j: number): any {
           cancel_url: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceBancontactExperienceContext" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -13632,14 +13641,14 @@ function __c10(j: number): any {
           name: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "Customer" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           country_code: S.optional(S.String),
           national_number: S.String,
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           prefix: S.optional(S.String),
@@ -13648,30 +13657,30 @@ function __c10(j: number): any {
           middle_name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizeOrderRequestPaymentSourceCryptoName" });
-    case 11:
-      return S.Array(S.Unknown);
     case 12:
+      return S.Array(S.Unknown);
+    case 13:
       return S.suspend(() =>
         S.Struct({
           authentication_status: S.optional(S.Unknown),
           enrollment_status: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "ThreeDSecureAuthenticationResponse" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           liability_shift: S.optional(S.String),
-          three_d_secure: S.optional(__S(332, __c10, 12)),
+          three_d_secure: S.optional(__S(333, __c10, 13)),
         }),
       ).annotate({ identifier: "AuthenticationResponse" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           binaryEncoding: S.optional(S.String),
         }),
       ).annotate({ identifier: "CardVaultResponseLinksItemSchemaMedia" });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           additionalItems: S.optional(S.Unknown),
@@ -13680,17 +13689,17 @@ function __c10(j: number): any {
           definitions: S.optional(S.Unknown),
           patternProperties: S.optional(S.Unknown),
           properties: S.optional(S.Unknown),
-          allOf: S.optional(__S(331, __c10, 11)),
-          anyOf: S.optional(__S(331, __c10, 11)),
-          oneOf: S.optional(__S(331, __c10, 11)),
+          allOf: S.optional(__S(332, __c10, 12)),
+          anyOf: S.optional(__S(332, __c10, 12)),
+          oneOf: S.optional(__S(332, __c10, 12)),
           not: S.optional(S.Unknown),
-          links: S.optional(__S(331, __c10, 11)),
+          links: S.optional(__S(332, __c10, 12)),
           fragmentResolution: S.optional(S.String),
-          media: S.optional(__S(334, __c10, 14)),
+          media: S.optional(__S(335, __c10, 15)),
           pathStart: S.optional(S.String),
         }),
       ).annotate({ identifier: "CardVaultResponseLinksItemSchema" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           href: S.String,
@@ -13699,79 +13708,79 @@ function __c10(j: number): any {
           title: S.optional(S.String),
           mediaType: S.optional(S.String),
           encType: S.optional(S.String),
-          schema: S.optional(__S(335, __c10, 15)),
-          targetSchema: S.optional(__S(335, __c10, 15)),
+          schema: S.optional(__S(336, __c10, 16)),
+          targetSchema: S.optional(__S(336, __c10, 16)),
         }),
       ).annotate({ identifier: "CardVaultResponseLinksItem" });
-    case 17:
-      return S.Array(__S(336, __c10, 16));
     case 18:
+      return S.Array(__S(337, __c10, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           status: S.optional(S.String),
-          customer: S.optional(__S(328, __c10, 8)),
-          links: S.optional(__S(337, __c10, 17)),
+          customer: S.optional(__S(322, __c10, 2)),
+          links: S.optional(__S(338, __c10, 18)),
         }),
       ).annotate({ identifier: "CardVaultResponse" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          vault: S.optional(__S(338, __c10, 18)),
+          vault: S.optional(__S(339, __c10, 19)),
         }),
       ).annotate({ identifier: "CardAttributesResponse" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           expiry: S.optional(S.Unknown),
           last_digits: S.optional(S.String),
         }),
       ).annotate({ identifier: "CardFromRequest" });
-    case 21:
-      return S.Array(S.String);
     case 22:
+      return S.Array(S.String);
+    case 23:
       return S.suspend(() =>
         S.Struct({
           bin: S.optional(S.String),
           issuing_bank: S.optional(S.String),
           bin_country_code: S.optional(S.Unknown),
-          products: S.optional(__S(341, __c10, 21)),
+          products: S.optional(__S(342, __c10, 22)),
         }),
       ).annotate({ identifier: "CardResponseBinDetails" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           last_digits: S.optional(S.String),
           brand: S.optional(S.Unknown),
-          available_networks: S.optional(__S(331, __c10, 11)),
+          available_networks: S.optional(__S(332, __c10, 12)),
           type: S.optional(S.Unknown),
-          authentication_result: S.optional(__S(333, __c10, 13)),
-          attributes: S.optional(__S(339, __c10, 19)),
-          from_request: S.optional(__S(340, __c10, 20)),
+          authentication_result: S.optional(__S(334, __c10, 14)),
+          attributes: S.optional(__S(340, __c10, 20)),
+          from_request: S.optional(__S(341, __c10, 21)),
           expiry: S.optional(S.Unknown),
-          bin_details: S.optional(__S(342, __c10, 22)),
-          stored_credential: S.optional(__S(323, __c10, 3)),
+          bin_details: S.optional(__S(343, __c10, 23)),
+          stored_credential: S.optional(__S(324, __c10, 4)),
         }),
       ).annotate({ identifier: "CardResponse" });
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(341, __c10, 21)),
+          labels: S.optional(__S(342, __c10, 22)),
           payee: S.optional(__S(423, __c13, 7)),
           amount: S.optional(__S(420, __c13, 4)),
         }),
       ).annotate({ identifier: "PaypalWalletAttributesResponseCobrandedCardsItem" });
-    case 25:
-      return S.Array(__S(344, __c10, 24));
     case 26:
+      return S.Array(__S(345, __c10, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          vault: S.optional(__S(338, __c10, 18)),
-          cobranded_cards: S.optional(__S(345, __c10, 25)),
+          vault: S.optional(__S(339, __c10, 19)),
+          cobranded_cards: S.optional(__S(346, __c10, 26)),
         }),
       ).annotate({ identifier: "PaypalWalletAttributesResponse" });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           email_address: S.optional(S.Unknown),
@@ -13782,14 +13791,14 @@ function __c10(j: number): any {
           phone_number: S.optional(__S(320, __c10, 0)),
           birth_date: S.optional(S.Unknown),
           business_name: S.optional(S.String),
-          tax_info: S.optional(__S(324, __c10, 4)),
+          tax_info: S.optional(__S(325, __c10, 5)),
           address: S.optional(__S(417, __c13, 1)),
-          attributes: S.optional(__S(346, __c10, 26)),
-          stored_credential: S.optional(__S(326, __c10, 6)),
+          attributes: S.optional(__S(347, __c10, 27)),
+          stored_credential: S.optional(__S(327, __c10, 7)),
           experience_status: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaypalWalletResponse" });
-    case 28:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.Unknown),
@@ -13799,29 +13808,21 @@ function __c10(j: number): any {
           card_last_digits: S.optional(S.String),
         }),
       ).annotate({ identifier: "Bancontact" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           consumer_reference: S.optional(S.String),
         }),
       ).annotate({ identifier: "BlikOneClick" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.Unknown),
-          country_code: S.optional(S.Unknown),
-          email: S.optional(S.Unknown),
-          one_click: S.optional(__S(349, __c10, 29)),
-        }),
-      ).annotate({ identifier: "Blik" });
     case 31:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.Unknown),
           country_code: S.optional(S.Unknown),
-          bic: S.optional(S.Unknown),
+          email: S.optional(S.Unknown),
+          one_click: S.optional(__S(350, __c10, 30)),
         }),
-      ).annotate({ identifier: "Eps" });
+      ).annotate({ identifier: "Blik" });
   }
 }
 function __c11(j: number): any {
@@ -13832,10 +13833,18 @@ function __c11(j: number): any {
           name: S.optional(S.Unknown),
           country_code: S.optional(S.Unknown),
           bic: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "Eps" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.Unknown),
+          country_code: S.optional(S.Unknown),
+          bic: S.optional(S.Unknown),
           iban_last_chars: S.optional(S.String),
         }),
       ).annotate({ identifier: "Ideal" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.Unknown),
@@ -13846,7 +13855,7 @@ function __c11(j: number): any {
           method_description: S.optional(S.String),
         }),
       ).annotate({ identifier: "P24" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.Unknown),
@@ -13856,25 +13865,40 @@ function __c11(j: number): any {
           iban_last_chars: S.optional(S.String),
         }),
       ).annotate({ identifier: "Trustly" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           last_digits: S.optional(S.String),
           brand: S.optional(S.Unknown),
-          available_networks: S.optional(__S(331, __c10, 11)),
+          available_networks: S.optional(__S(332, __c10, 12)),
           type: S.optional(S.Unknown),
-          authentication_result: S.optional(__S(333, __c10, 13)),
-          attributes: S.optional(__S(339, __c10, 19)),
-          from_request: S.optional(__S(340, __c10, 20)),
+          authentication_result: S.optional(__S(334, __c10, 14)),
+          attributes: S.optional(__S(340, __c10, 20)),
+          from_request: S.optional(__S(341, __c10, 21)),
           expiry: S.optional(S.Unknown),
-          bin_details: S.optional(__S(342, __c10, 22)),
-          stored_credential: S.optional(__S(323, __c10, 3)),
+          bin_details: S.optional(__S(343, __c10, 23)),
+          stored_credential: S.optional(__S(324, __c10, 4)),
           billing_address: S.optional(__S(417, __c13, 1)),
           country_code: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "ApplePayCard" });
-    case 4:
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          status: S.optional(S.String),
+          customer: S.optional(__S(329, __c10, 9)),
+          links: S.optional(__S(338, __c10, 18)),
+        }),
+      ).annotate({ identifier: "VaultResponse" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          vault: S.optional(__S(357, __c11, 5)),
+        }),
+      ).annotate({ identifier: "ApplePayAttributes2" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -13882,12 +13906,12 @@ function __c11(j: number): any {
           name: S.optional(S.Unknown),
           email_address: S.optional(S.Unknown),
           phone_number: S.optional(__S(419, __c13, 3)),
-          card: S.optional(__S(355, __c11, 3)),
-          attributes: S.optional(__S(339, __c10, 19)),
-          stored_credential: S.optional(__S(323, __c10, 3)),
+          card: S.optional(__S(356, __c11, 4)),
+          attributes: S.optional(__S(358, __c11, 6)),
+          stored_credential: S.optional(__S(324, __c10, 4)),
         }),
       ).annotate({ identifier: "ApplePay" });
-    case 5:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -13895,19 +13919,19 @@ function __c11(j: number): any {
           type: S.optional(S.Unknown),
           brand: S.optional(S.Unknown),
           billing_address: S.optional(__S(417, __c13, 1)),
-          authentication_result: S.optional(__S(333, __c10, 13)),
+          authentication_result: S.optional(__S(334, __c10, 14)),
         }),
       ).annotate({ identifier: "GooglePayCard" });
-    case 6:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.Unknown),
           email_address: S.optional(S.Unknown),
-          phone_number: S.optional(__S(329, __c10, 9)),
-          card: S.optional(__S(357, __c11, 5)),
+          phone_number: S.optional(__S(330, __c10, 10)),
+          card: S.optional(__S(360, __c11, 8)),
         }),
       ).annotate({ identifier: "GooglePay" });
-    case 7:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           email_address: S.optional(S.Unknown),
@@ -13917,38 +13941,38 @@ function __c11(j: number): any {
           phone_number: S.optional(__S(320, __c10, 0)),
           address: S.optional(__S(417, __c13, 1)),
           return_flow: S.optional(S.String),
-          attributes: S.optional(__S(339, __c10, 19)),
+          attributes: S.optional(__S(358, __c11, 6)),
         }),
       ).annotate({ identifier: "VenmoWalletResponse" });
-    case 8:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           country_code: S.optional(S.Unknown),
-          name: S.optional(__S(330, __c10, 10)),
-          experience_context: S.optional(__S(327, __c10, 7)),
+          name: S.optional(__S(331, __c10, 11)),
+          experience_context: S.optional(__S(328, __c10, 8)),
         }),
       ).annotate({ identifier: "Crypto" });
-    case 9:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          card: S.optional(__S(343, __c10, 23)),
-          paypal: S.optional(__S(347, __c10, 27)),
-          bancontact: S.optional(__S(348, __c10, 28)),
-          blik: S.optional(__S(350, __c10, 30)),
-          eps: S.optional(__S(351, __c10, 31)),
-          giropay: S.optional(__S(351, __c10, 31)),
-          ideal: S.optional(__S(352, __c11, 0)),
-          mybank: S.optional(__S(352, __c11, 0)),
-          p24: S.optional(__S(353, __c11, 1)),
-          sofort: S.optional(__S(352, __c11, 0)),
-          trustly: S.optional(__S(354, __c11, 2)),
-          apple_pay: S.optional(__S(356, __c11, 4)),
-          google_pay: S.optional(__S(358, __c11, 6)),
-          venmo: S.optional(__S(359, __c11, 7)),
-          crypto: S.optional(__S(360, __c11, 8)),
+          card: S.optional(__S(344, __c10, 24)),
+          paypal: S.optional(__S(348, __c10, 28)),
+          bancontact: S.optional(__S(349, __c10, 29)),
+          blik: S.optional(__S(351, __c10, 31)),
+          eps: S.optional(__S(352, __c11, 0)),
+          giropay: S.optional(__S(352, __c11, 0)),
+          ideal: S.optional(__S(353, __c11, 1)),
+          mybank: S.optional(__S(353, __c11, 1)),
+          p24: S.optional(__S(354, __c11, 2)),
+          sofort: S.optional(__S(353, __c11, 1)),
+          trustly: S.optional(__S(355, __c11, 3)),
+          apple_pay: S.optional(__S(359, __c11, 7)),
+          google_pay: S.optional(__S(361, __c11, 9)),
+          venmo: S.optional(__S(362, __c11, 10)),
+          crypto: S.optional(__S(363, __c11, 11)),
         }),
       ).annotate({ identifier: "AuthorizeOrderResponsePaymentSource" });
-    case 10:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           email_address: S.optional(S.Unknown),
@@ -13956,11 +13980,11 @@ function __c11(j: number): any {
           name: S.optional(__S(418, __c13, 2)),
           phone: S.optional(__S(321, __c10, 1)),
           birth_date: S.optional(S.Unknown),
-          tax_info: S.optional(__S(324, __c10, 4)),
+          tax_info: S.optional(__S(325, __c10, 5)),
           address: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "Payer" });
-    case 11:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -13971,22 +13995,22 @@ function __c11(j: number): any {
           upc: S.optional(__S(429, __c13, 13)),
         }),
       ).annotate({ identifier: "TrackerItemsItem" });
-    case 12:
-      return S.Array(__S(363, __c11, 11));
-    case 13:
+    case 15:
+      return S.Array(__S(366, __c11, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           status: S.optional(S.String),
-          items: S.optional(__S(364, __c11, 12)),
-          links: S.optional(__S(337, __c10, 17)),
+          items: S.optional(__S(367, __c11, 15)),
+          links: S.optional(__S(338, __c10, 18)),
           create_time: S.optional(S.Unknown),
           update_time: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "Tracker" });
-    case 14:
-      return S.Array(__S(365, __c11, 13));
-    case 15:
+    case 17:
+      return S.Array(__S(368, __c11, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(__S(418, __c13, 2)),
@@ -13995,10 +14019,10 @@ function __c11(j: number): any {
           type: S.optional(S.String),
           options: S.optional(__S(422, __c13, 6)),
           address: S.optional(__S(417, __c13, 1)),
-          trackers: S.optional(__S(366, __c11, 14)),
+          trackers: S.optional(__S(369, __c11, 17)),
         }),
       ).annotate({ identifier: "AuthorizeOrderResponsePurchaseUnitsItemShipping" });
-    case 16:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           reason: S.optional(S.String),
@@ -14007,17 +14031,17 @@ function __c11(j: number): any {
         identifier:
           "AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails",
       });
-    case 17:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          dispute_categories: S.optional(__S(325, __c10, 5)),
+          dispute_categories: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({
         identifier:
           "AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection",
       });
-    case 18:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           avs_code: S.optional(S.String),
@@ -14029,29 +14053,29 @@ function __c11(j: number): any {
         identifier:
           "AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse",
       });
-    case 19:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          status_details: S.optional(__S(368, __c11, 16)),
+          status_details: S.optional(__S(371, __c11, 19)),
           id: S.optional(S.String),
           amount: S.optional(__S(425, __c13, 9)),
           invoice_id: S.optional(S.String),
           custom_id: S.optional(S.String),
-          network_transaction_reference: S.optional(__S(322, __c10, 2)),
-          seller_protection: S.optional(__S(369, __c11, 17)),
+          network_transaction_reference: S.optional(__S(323, __c10, 3)),
+          seller_protection: S.optional(__S(372, __c11, 20)),
           expiration_time: S.optional(S.Unknown),
-          links: S.optional(__S(337, __c10, 17)),
+          links: S.optional(__S(338, __c10, 18)),
           create_time: S.optional(S.Unknown),
           update_time: S.optional(S.Unknown),
-          processor_response: S.optional(__S(370, __c11, 18)),
+          processor_response: S.optional(__S(373, __c11, 21)),
         }),
       ).annotate({
         identifier: "AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItem",
       });
-    case 20:
-      return S.Array(__S(371, __c11, 19));
-    case 21:
+    case 23:
+      return S.Array(__S(374, __c11, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           source_currency: S.optional(S.Unknown),
@@ -14062,7 +14086,7 @@ function __c11(j: number): any {
         identifier:
           "AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate",
       });
-    case 22:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           gross_amount: __S(420, __c13, 4),
@@ -14070,49 +14094,49 @@ function __c11(j: number): any {
           paypal_fee_in_receivable_currency: S.optional(__S(420, __c13, 4)),
           net_amount: S.optional(__S(420, __c13, 4)),
           receivable_amount: S.optional(__S(420, __c13, 4)),
-          exchange_rate: S.optional(__S(373, __c11, 21)),
+          exchange_rate: S.optional(__S(376, __c11, 24)),
           platform_fees: S.optional(__S(427, __c13, 11)),
         }),
       ).annotate({
         identifier:
           "AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown",
       });
-    case 23:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          status_details: S.optional(__S(368, __c11, 16)),
+          status_details: S.optional(__S(371, __c11, 19)),
           id: S.optional(S.String),
           amount: S.optional(__S(425, __c13, 9)),
           invoice_id: S.optional(S.String),
           custom_id: S.optional(S.String),
-          network_transaction_reference: S.optional(__S(322, __c10, 2)),
-          seller_protection: S.optional(__S(369, __c11, 17)),
+          network_transaction_reference: S.optional(__S(323, __c10, 3)),
+          seller_protection: S.optional(__S(372, __c11, 20)),
           final_capture: S.optional(S.Boolean),
-          seller_receivable_breakdown: S.optional(__S(374, __c11, 22)),
+          seller_receivable_breakdown: S.optional(__S(377, __c11, 25)),
           disbursement_mode: S.optional(S.String),
-          links: S.optional(__S(337, __c10, 17)),
-          processor_response: S.optional(__S(370, __c11, 18)),
+          links: S.optional(__S(338, __c10, 18)),
+          processor_response: S.optional(__S(373, __c11, 21)),
           create_time: S.optional(S.Unknown),
           update_time: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItem" });
-    case 24:
-      return S.Array(__S(375, __c11, 23));
-    case 25:
+    case 27:
+      return S.Array(__S(378, __c11, 26));
+    case 28:
       return S.suspend(() =>
         S.Struct({
           payable_amount: S.optional(__S(420, __c13, 4)),
           converted_amount: S.optional(__S(420, __c13, 4)),
-          exchange_rate: S.optional(__S(373, __c11, 21)),
+          exchange_rate: S.optional(__S(376, __c11, 24)),
         }),
       ).annotate({
         identifier:
           "AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownItem",
       });
-    case 26:
-      return S.Array(__S(377, __c11, 25));
-    case 27:
+    case 29:
+      return S.Array(__S(380, __c11, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           gross_amount: S.optional(__S(420, __c13, 4)),
@@ -14121,42 +14145,46 @@ function __c11(j: number): any {
           net_amount: S.optional(__S(420, __c13, 4)),
           net_amount_in_receivable_currency: S.optional(__S(420, __c13, 4)),
           platform_fees: S.optional(__S(427, __c13, 11)),
-          net_amount_breakdown: S.optional(__S(378, __c11, 26)),
+          net_amount_breakdown: S.optional(__S(381, __c11, 29)),
           total_refunded_amount: S.optional(__S(420, __c13, 4)),
         }),
       ).annotate({
         identifier:
           "AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown",
       });
-    case 28:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          status_details: S.optional(__S(368, __c11, 16)),
+          status_details: S.optional(__S(371, __c11, 19)),
           id: S.optional(S.String),
           amount: S.optional(__S(420, __c13, 4)),
           invoice_id: S.optional(S.String),
           custom_id: S.optional(S.String),
           acquirer_reference_number: S.optional(S.String),
           note_to_payer: S.optional(S.String),
-          seller_payable_breakdown: S.optional(__S(379, __c11, 27)),
+          seller_payable_breakdown: S.optional(__S(382, __c11, 30)),
           payer: S.optional(__S(423, __c13, 7)),
-          links: S.optional(__S(337, __c10, 17)),
+          links: S.optional(__S(338, __c10, 18)),
           create_time: S.optional(S.Unknown),
           update_time: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItem" });
-    case 29:
-      return S.Array(__S(380, __c11, 28));
-    case 30:
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(383, __c11, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          authorizations: S.optional(__S(372, __c11, 20)),
-          captures: S.optional(__S(376, __c11, 24)),
-          refunds: S.optional(__S(381, __c11, 29)),
+          authorizations: S.optional(__S(375, __c11, 23)),
+          captures: S.optional(__S(379, __c11, 27)),
+          refunds: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "AuthorizeOrderResponsePurchaseUnitsItemPayments" });
-    case 31:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           reference_id: S.optional(S.String),
@@ -14169,29 +14197,25 @@ function __c11(j: number): any {
           id: S.optional(S.String),
           soft_descriptor: S.optional(S.String),
           items: S.optional(__S(435, __c13, 19)),
-          shipping: S.optional(__S(367, __c11, 15)),
+          shipping: S.optional(__S(370, __c11, 18)),
           supplementary_data: S.optional(__S(443, __c13, 27)),
-          payments: S.optional(__S(382, __c11, 30)),
+          payments: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "AuthorizeOrderResponsePurchaseUnitsItem" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(383, __c11, 31));
-    case 1:
+    case 3:
+      return S.Array(__S(386, __c12, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           create_time: S.optional(S.Unknown),
           update_time: S.optional(S.Unknown),
           id: S.optional(S.String),
-          payment_source: S.optional(__S(361, __c11, 9)),
+          payment_source: S.optional(__S(364, __c11, 12)),
           intent: S.optional(S.String),
-          payer: S.optional(__S(362, __c11, 10)),
-          purchase_units: S.optional(__S(384, __c12, 0)),
+          payer: S.optional(__S(365, __c11, 13)),
+          purchase_units: S.optional(__S(387, __c12, 3)),
           status: S.optional(S.Unknown),
-          links: S.optional(__S(337, __c10, 17)),
+          links: S.optional(__S(338, __c10, 18)),
         }),
       ).annotate({ identifier: "AuthorizeOrderResponse" });
   }
@@ -14444,7 +14468,7 @@ function __c14(j: number): any {
           prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
           payPalClientMetadataId: S.optional(S.String.pipe(T.Header("PayPal-Client-Metadata-Id"))),
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
-          payment_source: S.optional(__S(233, __c7, 9)),
+          payment_source: S.optional(__S(232, __c7, 8)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/checkout/orders/{id}/capture", code: 200 })),
       ).annotate({ identifier: "CaptureOrderRequest" });
   }
@@ -14458,7 +14482,7 @@ function __c15(j: number): any {
           locale: S.optional(S.Unknown),
           return_url: S.optional(S.String),
           cancel_url: S.optional(S.String),
-          stored_payment_source: S.optional(__S(323, __c10, 3)),
+          stored_payment_source: S.optional(__S(324, __c10, 4)),
         }),
       ).annotate({ identifier: "OrderConfirmApplicationContext" });
     case 1:
@@ -14468,7 +14492,7 @@ function __c15(j: number): any {
           payPalClientMetadataId: S.optional(S.String.pipe(T.Header("PayPal-Client-Metadata-Id"))),
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
           prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
-          payment_source: __S(233, __c7, 9),
+          payment_source: __S(232, __c7, 8),
           application_context: S.optional(__S(480, __c15, 0)),
         }).pipe(
           T.Http({
@@ -14500,7 +14524,7 @@ function __c16(j: number): any {
           payment_method: S.optional(__S(512, __c16, 0)),
           return_url: S.optional(S.String),
           cancel_url: S.optional(S.String),
-          stored_payment_source: S.optional(__S(323, __c10, 3)),
+          stored_payment_source: S.optional(__S(324, __c10, 4)),
         }),
       ).annotate({ identifier: "CreateOrderRequestApplicationContext" });
     case 2:
@@ -14514,9 +14538,9 @@ function __c16(j: number): any {
           prefer: S.optional(S.String.pipe(T.Header("Prefer"))),
           payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
           intent: S.String,
-          payer: S.optional(__S(362, __c11, 10)),
+          payer: S.optional(__S(365, __c11, 13)),
           purchase_units: __S(545, __c17, 1),
-          payment_source: S.optional(__S(233, __c7, 9)),
+          payment_source: S.optional(__S(232, __c7, 8)),
           application_context: S.optional(__S(513, __c16, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/checkout/orders", code: 200 })),
       ).annotate({ identifier: "CreateOrderRequest" });
@@ -14556,7 +14580,7 @@ function __c18(j: number): any {
           carrier_name_other: S.optional(S.String),
           capture_id: S.String,
           notify_payer: S.optional(S.Boolean),
-          items: S.optional(__S(364, __c11, 12)),
+          items: S.optional(__S(367, __c11, 15)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/checkout/orders/{id}/track", code: 200 })),
       ).annotate({ identifier: "CreateOrdersTrackRequest" });
   }

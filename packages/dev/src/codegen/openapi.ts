@@ -420,10 +420,13 @@ const flattenObject = (ctx: Ctx, def: any, depth = 0): FlatObject => {
     required: new Set(),
     isObject: false,
   };
-  // Revisiting a `$ref` under the same flags merges nothing new — dedupe so shared/cyclic allOf bases are walked
-  // once per flag combination instead of exponentially (MongoDB Atlas's
-  // polymorphic allOf/oneOf graph never finished under the bare depth cap).
+  // Revisiting a `$ref` under the same flags merges nothing new — dedupe so
+  // shared/cyclic allOf bases are walked once per flag combination instead
+  // of exponentially (MongoDB Atlas's polymorphic allOf/oneOf graph never
+  // finished under the bare depth cap).
   const seen = new Set<string>();
+  // Properties whose stored schema came only from a union branch.
+  const fromUnion = new Set<string>();
   const visit = (d: any, dep: number, inAllOf: boolean, inUnion: boolean): void => {
     if (dep > MAX_SCHEMA_DEPTH) return;
     if (d && typeof d === "object" && typeof d.$ref === "string") {
@@ -447,8 +450,21 @@ const flattenObject = (ctx: Ctx, def: any, depth = 0): FlatObject => {
     if (r.properties && typeof r.properties === "object") {
       out.isObject = true;
       for (const [k, v] of Object.entries(r.properties)) {
-        out.properties[k] =
-          k in out.properties ? mergePropertySchemas(ctx, out.properties[k], v) : v;
+        if (!(k in out.properties)) {
+          out.properties[k] = v;
+          if (inUnion) fromUnion.add(k);
+          continue;
+        }
+        // A union branch only contributes optional members, nested ones
+        // included — one variant's required fields must not bind the others.
+        out.properties[k] = mergePropertySchemas(
+          ctx,
+          out.properties[k],
+          v,
+          fromUnion.has(k),
+          inUnion,
+        );
+        if (!inUnion) fromUnion.delete(k);
       }
     }
     if (r.type === "object") out.isObject = true;
@@ -476,19 +492,24 @@ const isMergeableObject = (r: any): boolean =>
   !Array.isArray(r.enum) &&
   (typeOf(r) === "object" || !!r.properties || Array.isArray(r.allOf));
 
+/** Whether two property schemas are the same node or `$ref` the same schema. */
+const sameSchema = (ctx: Ctx, a: any, b: any): boolean =>
+  a === b || (a?.$ref !== undefined && a.$ref === b?.$ref) || deref(ctx, a) === deref(ctx, b);
+
 /**
  * Combine two schemas for the same property seen in different `allOf`
  * branches. Branches commonly extend a shared nested object (`data`) or an
  * array's item object with extra fields, so objects merge as an `allOf` of
  * both and arrays merge their `items` recursively. Anything else (scalars,
- * unions, conflicting types) keeps the first schema.
+ * unions, conflicting types) keeps the first schema. A side flagged loose
+ * came from a union branch: where it differs from the other side, its
+ * object's `required` is dropped before merging.
  */
-const mergePropertySchemas = (ctx: Ctx, a: any, b: any): any => {
-  if (a === b) return a;
-  if (a?.$ref !== undefined && a.$ref === b?.$ref) return a;
+const mergePropertySchemas = (ctx: Ctx, a: any, b: any, aLoose = false, bLoose = false): any => {
+  if (sameSchema(ctx, a, b)) return a;
   const ra = deref(ctx, a);
   const rb = deref(ctx, b);
-  if (!ra || !rb || typeof ra !== "object" || typeof rb !== "object" || ra === rb) return a;
+  if (!ra || !rb || typeof ra !== "object" || typeof rb !== "object") return a;
   // The intersection is only nullable when both sides allow null.
   const nullable = ownNullable(ctx, ra) && ownNullable(ctx, rb) ? { nullable: true } : {};
   const description =
@@ -500,15 +521,43 @@ const mergePropertySchemas = (ctx: Ctx, a: any, b: any): any => {
   if (typeOf(ra) === "array" && typeOf(rb) === "array" && ra.items && rb.items) {
     return {
       type: "array",
-      items: mergePropertySchemas(ctx, ra.items, rb.items),
+      items: mergePropertySchemas(ctx, ra.items, rb.items, aLoose, bLoose),
       ...description,
       ...nullable,
     };
   }
   if (isMergeableObject(ra) && isMergeableObject(rb)) {
-    return { type: "object", allOf: [a, b], ...description, ...nullable };
+    return {
+      type: "object",
+      allOf: [aLoose ? optionalize(ctx, a) : a, bLoose ? optionalize(ctx, b) : b],
+      ...description,
+      ...nullable,
+    };
   }
   return a;
+};
+
+/**
+ * Drop the top-level `required` of an object schema, keeping its
+ * properties. Used for object schemas contributed by a union branch before
+ * they merge with another branch's.
+ */
+const optionalize = (ctx: Ctx, def: any): any => {
+  const r = deref(ctx, def);
+  if (!r || typeof r !== "object") return def;
+  if (!isMergeableObject(r)) return def;
+  const description = typeof r.description === "string" ? { description: r.description } : {};
+  const nullable = ownNullable(ctx, r) ? { nullable: true } : {};
+  const flat = flattenObject(ctx, r);
+  return {
+    type: "object",
+    properties: flat.properties,
+    ...(flat.additionalProperties !== undefined
+      ? { additionalProperties: flat.additionalProperties }
+      : {}),
+    ...description,
+    ...nullable,
+  };
 };
 
 /** Whether a `oneOf`/`anyOf` branch represents JSON null. */

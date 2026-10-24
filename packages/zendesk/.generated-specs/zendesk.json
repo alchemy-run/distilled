@@ -8181,6 +8181,32 @@
         "smithy.api#documentation": "The type of this ticket"
       }
     },
+    "com.zendesk.api#TicketCreateVoicemailTicketInputInputVoiceCommentRecordingType": {
+      "type": "enum",
+      "members": {
+        "CALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "call"
+          }
+        },
+        "VOICEMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "voicemail"
+          }
+        },
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type of recording"
+      }
+    },
     "com.zendesk.api#TicketCreateVoicemailTicketInputInputVoiceComment": {
       "type": "structure",
       "members": {
@@ -8228,6 +8254,24 @@
           "traits": {
             "smithy.api#documentation": "Transcription of the call",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the voice comment is public"
+          }
+        },
+        "recording_type": {
+          "target": "com.zendesk.api#TicketCreateVoicemailTicketInputInputVoiceCommentRecordingType",
+          "traits": {
+            "smithy.api#documentation": "Type of recording"
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the call starting time"
           }
         }
       },
@@ -57535,9 +57579,7 @@
       "value": {
         "target": "smithy.api#Document"
       },
-      "traits": {
-        "smithy.api#documentation": "The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object"
-      }
+      "traits": {}
     },
     "com.zendesk.api#CurrentUserResponseUserSeparationScope": {
       "type": "enum",
@@ -57779,8 +57821,7 @@
         "photo": {
           "target": "com.zendesk.api#CurrentUserResponseUserPhotoMap",
           "traits": {
-            "smithy.api#documentation": "The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object",
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object"
           }
         },
         "remote_photo_url": {

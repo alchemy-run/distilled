@@ -6920,6 +6920,15 @@
         "smithy.api#input": {}
       }
     },
+    "com.porkbun.api#DnsCreateDnssecRecordResponseWarningsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Advisory, and present only when there is something to say. It never means the call failed. The one to handle: a DNS write is accepted and stored even when the domain is NOT delegated to our nameservers -- we keep the zone ready in case the delegation comes back -- so the write changed nothing that resolves, and this field says so. Show these to the user as written."
+      }
+    },
     "com.porkbun.api#DnsCreateDnssecRecordResponseStatus": {
       "type": "enum",
       "members": {
@@ -6942,7 +6951,10 @@
       "type": "structure",
       "members": {
         "warnings": {
-          "target": "com.porkbun.api#DnsWriteWarnings"
+          "target": "com.porkbun.api#DnsCreateDnssecRecordResponseWarningsList",
+          "traits": {
+            "smithy.api#documentation": "Advisory, and present only when there is something to say. It never means the call failed. The one to handle: a DNS write is accepted and stored even when the domain is NOT delegated to our nameservers -- we keep the zone ready in case the delegation comes back -- so the write changed nothing that resolves, and this field says so. Show these to the user as written."
+          }
         },
         "status": {
           "target": "com.porkbun.api#DnsCreateDnssecRecordResponseStatus",

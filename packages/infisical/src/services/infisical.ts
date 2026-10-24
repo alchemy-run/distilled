@@ -2290,9 +2290,11 @@ export interface CreateAgentVaultAccessBundleResponse {
 export type CreateAgentVaultAwsAppConnectionRequestMethod = "assume-role";
 /** The credentials used to connect with AWS. */
 export interface CreateAgentVaultAwsAppConnectionRequestCredentials {
-  roleArn: string;
+  roleArn?: string;
   /** An optional custom endpoint URL for the AWS STS API to use when connecting with AWS. */
   stsEndpoint?: string;
+  accessKeyId?: string | Redacted.Redacted<string>;
+  secretAccessKey?: string | Redacted.Redacted<string>;
 }
 export interface CreateAgentVaultAwsAppConnectionRequest {
   /** The method used to authenticate with AWS. */
@@ -4542,8 +4544,12 @@ export interface CreateAzureAdCsCertificateAuthorityV1Response {
 export type CreateAzureAppConfigurationAppConnectionRequestMethod = "oauth";
 /** The credentials used to connect with Azure App Configuration. */
 export interface CreateAzureAppConfigurationAppConnectionRequestCredentials {
-  code: string;
+  code?: string;
   tenantId?: string;
+  clientId?: string;
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked. */
+  clientSecretKeyId?: string | Redacted.Redacted<string>;
 }
 export type CreateAzureAppConfigurationAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Azure App Configuration Connections. */
@@ -4891,9 +4897,19 @@ export type CreateAzureClientSecretsAppConnectionRequestMethod = "oauth";
 /** The credentials used to connect with Azure Client Secrets. */
 export interface CreateAzureClientSecretsAppConnectionRequestCredentials {
   /** The OAuth code to use to connect with Azure Client Secrets. */
-  code: string;
+  code?: string;
   /** The Tenant ID to use to connect with Azure Client Secrets. */
-  tenantId: string;
+  tenantId?: string;
+  /** The Client ID to use to connect with Azure Client Secrets. */
+  clientId?: string;
+  /** The Client Secret to use to connect with Azure Client Secrets. */
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked. */
+  clientSecretKeyId?: string | Redacted.Redacted<string>;
+  /** The certificate body in PEM format to use to connect with Azure Client Secrets. */
+  certificateBody?: string;
+  /** The private key to use to connect with Azure Client Secrets. This is never transmitted to Azure and is only used to sign the Azure client assertion with. */
+  privateKey?: string | Redacted.Redacted<string>;
 }
 export type CreateAzureClientSecretsAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Azure Client Secrets Connections. */
@@ -5091,11 +5107,18 @@ export type CreateAzureDevopsAppConnectionRequestMethod = "oauth";
 /** The credentials used to connect with Azure DevOps. */
 export interface CreateAzureDevopsAppConnectionRequestCredentials {
   /** The OAuth code to use to connect with Azure DevOps. */
-  code: string;
+  code?: string;
   /** The Tenant ID to use to connect with Azure DevOps. */
-  tenantId: string;
+  tenantId?: string;
   /** The Organization name to use to connect with Azure DevOps. */
-  orgName: string;
+  orgName?: string;
+  accessToken?: string | Redacted.Redacted<string>;
+  /** The Client ID to use to connect with Azure Client Secrets. */
+  clientId?: string;
+  /** The Client Secret to use to connect with Azure Client Secrets. */
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked. */
+  clientSecretKeyId?: string | Redacted.Redacted<string>;
 }
 export type CreateAzureDevopsAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Azure DevOps Connections. */
@@ -5709,8 +5732,16 @@ export interface CreateAzureEntraIdScimSecretSyncResponse {
 /** The method used to authenticate with Azure Key Vault. */
 export type CreateAzureKeyVaultAppConnectionRequestMethod = "oauth";
 /** The credentials used to connect with Azure Key Vault. */
-export type CreateAzureKeyVaultAppConnectionRequestCredentials =
-  CreateAzureAppConfigurationAppConnectionRequestCredentials;
+export interface CreateAzureKeyVaultAppConnectionRequestCredentials {
+  code?: string;
+  tenantId?: string;
+  clientId?: string;
+  clientSecret?: string | Redacted.Redacted<string>;
+  /** The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked. */
+  clientSecretKeyId?: string | Redacted.Redacted<string>;
+  certificateBody?: string;
+  privateKey?: string | Redacted.Redacted<string>;
+}
 export type CreateAzureKeyVaultAppConnectionRequestRotationRotateAtUtc =
   CreateAzureAppConfigurationAppConnectionRequestRotationRotateAtUtc;
 /** The credential rotation configuration for the Azure Key Vault Connection. */
@@ -5720,7 +5751,7 @@ export interface CreateAzureKeyVaultAppConnectionRequest {
   /** The method used to authenticate with Azure Key Vault. */
   method?: CreateAzureKeyVaultAppConnectionRequestMethod | (string & {});
   /** The credentials used to connect with Azure Key Vault. */
-  credentials?: CreateAzureAppConfigurationAppConnectionRequestCredentials;
+  credentials?: CreateAzureKeyVaultAppConnectionRequestCredentials;
   /** The name of the Azure Key Vault Connection to create. Must be slug-friendly. */
   name: string;
   /** An optional description for the Azure Key Vault Connection. */
@@ -9631,9 +9662,13 @@ export type CreateDatadogAppConnectionRequestMethod = "token";
 /** The credentials used to connect with Datadog. */
 export interface CreateDatadogAppConnectionRequestCredentials {
   /** The Datadog site URL to connect to (e.g., 'https://api.datadoghq.com'). */
-  url: string;
+  url?: string;
   /** The Datadog Service Access Token used to authenticate. */
-  token: string;
+  token?: string;
+  /** The Datadog API key used to authenticate. */
+  apiKey?: string | Redacted.Redacted<string>;
+  /** The Datadog Application key used to authenticate. */
+  applicationKey?: string;
 }
 export type CreateDatadogAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Datadog Connections. */
@@ -14698,11 +14733,15 @@ export type CreateHashicorpVaultAppConnectionRequestMethod = "access-token";
 /** The credentials used to connect with Hashicorp Vault. */
 export interface CreateHashicorpVaultAppConnectionRequestCredentials {
   /** The Hashicrop Vault instance URL to connect with. */
-  instanceUrl: string;
+  instanceUrl?: string;
   /** The Hashicrop Vault namespace to connect with. */
   namespace?: string;
   /** The access token used to connect with Hashicorp Vault. */
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string>;
+  /** The Role ID used to connect with Hashicorp Vault. */
+  roleId?: string;
+  /** The Secret ID used to connect with Hashicorp Vault. */
+  secretId?: string;
 }
 export type CreateHashicorpVaultAppConnectionRequestRotationCase1 = "null";
 /** Not supported for Hashicorp Vault Connections. */
@@ -21255,11 +21294,13 @@ export interface CreateNorthflankSecretSyncResponse {
 export type CreateNutanixPrismCentralAppConnectionRequestMethod = "api-key";
 /** The credentials used to connect with Nutanix Prism Central. */
 export interface CreateNutanixPrismCentralAppConnectionRequestCredentials {
-  hostname: string;
+  hostname?: string;
   port?: number;
   sslRejectUnauthorized?: boolean;
   sslCertificate?: string;
-  apiKey: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string>;
+  username?: string;
+  password?: string | Redacted.Redacted<string>;
 }
 export type CreateNutanixPrismCentralAppConnectionRequestRotationCase1 = "null";
 /** Not supported for Nutanix Prism Central Connections. */
@@ -37055,13 +37096,17 @@ export type CreateSshAppConnectionRequestMethod = "password";
 /** The credentials used to connect with SSH. */
 export interface CreateSshAppConnectionRequestCredentials {
   /** The hostname or IP address of the SSH server. */
-  host: string;
+  host?: string;
   /** The port number of the SSH server (default: 22). */
-  port: number;
+  port?: number;
   /** The username for SSH authentication. */
-  username: string;
+  username?: string;
   /** The password for SSH authentication (required when authMethod is 'password'). */
-  password: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string>;
+  /** The private key in PEM format for SSH authentication (required when authMethod is 'ssh-key'). */
+  privateKey?: string | Redacted.Redacted<string>;
+  /** The passphrase for the private key, if encrypted (optional, only for 'ssh-key' authMethod). */
+  passphrase?: string;
 }
 export interface CreateSshAppConnectionRequestConfiguration {
   /** A comma-separated list of usernames that are blocked from being used in operations like secret rotation (e.g., 'root,admin,ubuntu'). */
@@ -144035,12 +144080,15 @@ export interface UpdateAgentVaultAccessBundleResponse {
 }
 export type UpdateAgentVaultAwsAppConnectionRequestCredentialsCase0 =
   GetAWSIAMUserSecretRotationGeneratedCredentialsResponseGeneratedCredentialsItem;
-export type UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1 =
-  CreateAgentVaultAwsAppConnectionRequestCredentials;
+export interface UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1 {
+  roleArn: string;
+  /** An optional custom endpoint URL for the AWS STS API to use when connecting with AWS. */
+  stsEndpoint?: string;
+}
 /** The credentials used to connect with AWS. */
 export type UpdateAgentVaultAwsAppConnectionRequestCredentials =
   | GetAWSIAMUserSecretRotationGeneratedCredentialsResponseGeneratedCredentialsItem
-  | CreateAgentVaultAwsAppConnectionRequestCredentials;
+  | UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1;
 export type UpdateAgentVaultAwsAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for AWS Connections. */
 export type UpdateAgentVaultAwsAppConnectionRequestGatewayId =
@@ -144950,11 +144998,11 @@ export interface UpdateAwsAcmPublicCaCertificateAuthorityV1Response {
 export type UpdateAwsAppConnectionRequestCredentialsCase0 =
   GetAWSIAMUserSecretRotationGeneratedCredentialsResponseGeneratedCredentialsItem;
 export type UpdateAwsAppConnectionRequestCredentialsCase1 =
-  CreateAgentVaultAwsAppConnectionRequestCredentials;
+  UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1;
 /** The credentials used to connect with AWS. */
 export type UpdateAwsAppConnectionRequestCredentials =
   | GetAWSIAMUserSecretRotationGeneratedCredentialsResponseGeneratedCredentialsItem
-  | CreateAgentVaultAwsAppConnectionRequestCredentials;
+  | UpdateAgentVaultAwsAppConnectionRequestCredentialsCase1;
 export type UpdateAwsAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for AWS Connections. */
 export type UpdateAwsAppConnectionRequestGatewayId =
@@ -146313,13 +146361,15 @@ export interface UpdateAzureAdCsCertificateAuthorityV1Response {
   type: UpdateAzureAdCsCertificateAuthorityV1ResponseType;
   configuration: CreateAzureAdCsCertificateAuthorityV1RequestConfiguration;
 }
-export type UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0 =
-  CreateAzureAppConfigurationAppConnectionRequestCredentials;
+export interface UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0 {
+  code: string;
+  tenantId?: string;
+}
 export type UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase1 =
   CreateAzureEntraIdAppConnectionRequestCredentials;
 /** The credentials used to connect with Azure App Configuration. */
 export type UpdateAzureAppConfigurationAppConnectionRequestCredentials =
-  | CreateAzureAppConfigurationAppConnectionRequestCredentials
+  | UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0
   | CreateAzureEntraIdAppConnectionRequestCredentials;
 export type UpdateAzureAppConfigurationAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Azure App Configuration Connections. */
@@ -146664,8 +146714,12 @@ export interface UpdateAzureClientSecretRotationResponseSecretRotation {
 export interface UpdateAzureClientSecretRotationResponse {
   secretRotation: UpdateAzureClientSecretRotationResponseSecretRotation;
 }
-export type UpdateAzureClientSecretsAppConnectionRequestCredentialsCase0 =
-  CreateAzureClientSecretsAppConnectionRequestCredentials;
+export interface UpdateAzureClientSecretsAppConnectionRequestCredentialsCase0 {
+  /** The OAuth code to use to connect with Azure Client Secrets. */
+  code: string;
+  /** The Tenant ID to use to connect with Azure Client Secrets. */
+  tenantId: string;
+}
 export interface UpdateAzureClientSecretsAppConnectionRequestCredentialsCase1 {
   /** The Client ID to use to connect with Azure Client Secrets. */
   clientId: string;
@@ -146688,7 +146742,7 @@ export interface UpdateAzureClientSecretsAppConnectionRequestCredentialsCase2 {
 }
 /** The credentials used to connect with Azure Client Secrets. */
 export type UpdateAzureClientSecretsAppConnectionRequestCredentials =
-  | CreateAzureClientSecretsAppConnectionRequestCredentials
+  | UpdateAzureClientSecretsAppConnectionRequestCredentialsCase0
   | UpdateAzureClientSecretsAppConnectionRequestCredentialsCase1
   | UpdateAzureClientSecretsAppConnectionRequestCredentialsCase2;
 export type UpdateAzureClientSecretsAppConnectionRequestGatewayIdCase1 = "null";
@@ -146877,8 +146931,14 @@ export type UpdateAzureClientSecretsAppConnectionResponseAppConnection =
 export interface UpdateAzureClientSecretsAppConnectionResponse {
   appConnection: UpdateAzureClientSecretsAppConnectionResponseAppConnection;
 }
-export type UpdateAzureDevopsAppConnectionRequestCredentialsCase0 =
-  CreateAzureDevopsAppConnectionRequestCredentials;
+export interface UpdateAzureDevopsAppConnectionRequestCredentialsCase0 {
+  /** The OAuth code to use to connect with Azure DevOps. */
+  code: string;
+  /** The Tenant ID to use to connect with Azure DevOps. */
+  tenantId: string;
+  /** The Organization name to use to connect with Azure DevOps. */
+  orgName: string;
+}
 export interface UpdateAzureDevopsAppConnectionRequestCredentialsCase1 {
   accessToken: string | Redacted.Redacted<string>;
   orgName: string;
@@ -146897,7 +146957,7 @@ export interface UpdateAzureDevopsAppConnectionRequestCredentialsCase2 {
 }
 /** The credentials used to connect with Azure DevOps. */
 export type UpdateAzureDevopsAppConnectionRequestCredentials =
-  | CreateAzureDevopsAppConnectionRequestCredentials
+  | UpdateAzureDevopsAppConnectionRequestCredentialsCase0
   | UpdateAzureDevopsAppConnectionRequestCredentialsCase1
   | UpdateAzureDevopsAppConnectionRequestCredentialsCase2;
 export type UpdateAzureDevopsAppConnectionRequestGatewayIdCase1 = "null";
@@ -147468,7 +147528,7 @@ export interface UpdateAzureEntraIdScimSecretSyncResponse {
   secretSync: UpdateAzureEntraIdScimSecretSyncResponseSecretSync;
 }
 export type UpdateAzureKeyVaultAppConnectionRequestCredentialsCase0 =
-  CreateAzureAppConfigurationAppConnectionRequestCredentials;
+  UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0;
 export type UpdateAzureKeyVaultAppConnectionRequestCredentialsCase1 =
   CreateAzureEntraIdAppConnectionRequestCredentials;
 export interface UpdateAzureKeyVaultAppConnectionRequestCredentialsCase2 {
@@ -147479,7 +147539,7 @@ export interface UpdateAzureKeyVaultAppConnectionRequestCredentialsCase2 {
 }
 /** The credentials used to connect with Azure Key Vault. */
 export type UpdateAzureKeyVaultAppConnectionRequestCredentials =
-  | CreateAzureAppConfigurationAppConnectionRequestCredentials
+  | UpdateAzureAppConfigurationAppConnectionRequestCredentialsCase0
   | CreateAzureEntraIdAppConnectionRequestCredentials
   | UpdateAzureKeyVaultAppConnectionRequestCredentialsCase2;
 export type UpdateAzureKeyVaultAppConnectionRequestRotationRotateAtUtc =
@@ -151005,12 +151065,16 @@ export interface UpdateDatadogAppConnectionRequestCredentialsCase0 {
   /** The Datadog Application key used to authenticate. */
   applicationKey: string;
 }
-export type UpdateDatadogAppConnectionRequestCredentialsCase1 =
-  CreateDatadogAppConnectionRequestCredentials;
+export interface UpdateDatadogAppConnectionRequestCredentialsCase1 {
+  /** The Datadog site URL to connect to (e.g., 'https://api.datadoghq.com'). */
+  url: string;
+  /** The Datadog Service Access Token used to authenticate. */
+  token: string;
+}
 /** The credentials used to connect with Datadog. */
 export type UpdateDatadogAppConnectionRequestCredentials =
   | UpdateDatadogAppConnectionRequestCredentialsCase0
-  | CreateDatadogAppConnectionRequestCredentials;
+  | UpdateDatadogAppConnectionRequestCredentialsCase1;
 export type UpdateDatadogAppConnectionRequestGatewayIdCase1 = "null";
 /** Not supported for Datadog Connections. */
 export type UpdateDatadogAppConnectionRequestGatewayId =
@@ -155040,8 +155104,14 @@ export interface UpdateGroupResponse {
   createdAt: string;
   updatedAt: string;
 }
-export type UpdateHashicorpVaultAppConnectionRequestCredentialsCase0 =
-  CreateHashicorpVaultAppConnectionRequestCredentials;
+export interface UpdateHashicorpVaultAppConnectionRequestCredentialsCase0 {
+  /** The Hashicrop Vault instance URL to connect with. */
+  instanceUrl: string;
+  /** The Hashicrop Vault namespace to connect with. */
+  namespace?: string;
+  /** The access token used to connect with Hashicorp Vault. */
+  accessToken: string | Redacted.Redacted<string>;
+}
 export interface UpdateHashicorpVaultAppConnectionRequestCredentialsCase1 {
   /** The Hashicrop Vault instance URL to connect with. */
   instanceUrl: string;
@@ -155054,7 +155124,7 @@ export interface UpdateHashicorpVaultAppConnectionRequestCredentialsCase1 {
 }
 /** The credentials used to connect with Hashicorp Vault. */
 export type UpdateHashicorpVaultAppConnectionRequestCredentials =
-  | CreateHashicorpVaultAppConnectionRequestCredentials
+  | UpdateHashicorpVaultAppConnectionRequestCredentialsCase0
   | UpdateHashicorpVaultAppConnectionRequestCredentialsCase1;
 export type UpdateHashicorpVaultAppConnectionRequestRotationCase1 = "null";
 /** Not supported for Hashicorp Vault Connections. */
@@ -161495,8 +161565,13 @@ export interface UpdateNorthflankSecretSyncResponseSecretSync {
 export interface UpdateNorthflankSecretSyncResponse {
   secretSync: UpdateNorthflankSecretSyncResponseSecretSync;
 }
-export type UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase0 =
-  CreateNutanixPrismCentralAppConnectionRequestCredentials;
+export interface UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase0 {
+  hostname: string;
+  port?: number;
+  sslRejectUnauthorized?: boolean;
+  sslCertificate?: string;
+  apiKey: string | Redacted.Redacted<string>;
+}
 export interface UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase1 {
   hostname: string;
   port?: number;
@@ -161507,7 +161582,7 @@ export interface UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase1 {
 }
 /** The credentials used to connect with Nutanix Prism Central. */
 export type UpdateNutanixPrismCentralAppConnectionRequestCredentials =
-  | CreateNutanixPrismCentralAppConnectionRequestCredentials
+  | UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase0
   | UpdateNutanixPrismCentralAppConnectionRequestCredentialsCase1;
 export type UpdateNutanixPrismCentralAppConnectionRequestRotationCase1 = "null";
 /** Not supported for Nutanix Prism Central Connections. */
@@ -176798,8 +176873,16 @@ export interface UpdateSpiffeAuthResponseIdentitySpiffeAuth {
 export interface UpdateSpiffeAuthResponse {
   identitySpiffeAuth: UpdateSpiffeAuthResponseIdentitySpiffeAuth;
 }
-export type UpdateSshAppConnectionRequestCredentialsCase0 =
-  CreateSshAppConnectionRequestCredentials;
+export interface UpdateSshAppConnectionRequestCredentialsCase0 {
+  /** The hostname or IP address of the SSH server. */
+  host: string;
+  /** The port number of the SSH server (default: 22). */
+  port: number;
+  /** The username for SSH authentication. */
+  username: string;
+  /** The password for SSH authentication (required when authMethod is 'password'). */
+  password: string | Redacted.Redacted<string>;
+}
 export interface UpdateSshAppConnectionRequestCredentialsCase1 {
   /** The hostname or IP address of the SSH server. */
   host: string;
@@ -176814,7 +176897,7 @@ export interface UpdateSshAppConnectionRequestCredentialsCase1 {
 }
 /** The credentials used to connect with SSH. */
 export type UpdateSshAppConnectionRequestCredentials =
-  | CreateSshAppConnectionRequestCredentials
+  | UpdateSshAppConnectionRequestCredentialsCase0
   | UpdateSshAppConnectionRequestCredentialsCase1;
 export type UpdateSshAppConnectionRequestConfiguration = CreateSshAppConnectionRequestConfiguration;
 export type UpdateSshAppConnectionRequestRotationCase1 = "null";
@@ -182551,8 +182634,8 @@ export const createAzureAppConfigurationAppConnection: API.OperationMethod<
   CreateAzureAppConfigurationAppConnectionError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateAzureAppConfigurationAppConnectionRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<CreateAzureAppConfigurationAppConnectionResponse>,
+  input: __S(65, __c4, 1) as any as S.Schema<CreateAzureAppConfigurationAppConnectionRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<CreateAzureAppConfigurationAppConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -182571,8 +182654,8 @@ export const createAzureAppConfigurationSecretSync: API.OperationMethod<
   CreateAzureAppConfigurationSecretSyncError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<CreateAzureAppConfigurationSecretSyncResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<CreateAzureAppConfigurationSecretSyncRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<CreateAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -182591,8 +182674,8 @@ export const createAzureClientSecretRotation: API.OperationMethod<
   CreateAzureClientSecretRotationError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<CreateAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<CreateAzureClientSecretRotationResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<CreateAzureClientSecretRotationRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<CreateAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -182611,8 +182694,8 @@ export const createAzureClientSecretsAppConnection: API.OperationMethod<
   CreateAzureClientSecretsAppConnectionError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(817, __c51, 1) as any as S.Schema<CreateAzureClientSecretsAppConnectionRequest>,
-  output: __S(818, __c51, 2) as any as S.Schema<CreateAzureClientSecretsAppConnectionResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<CreateAzureClientSecretsAppConnectionRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<CreateAzureClientSecretsAppConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -188171,7 +188254,7 @@ export const deleteAzureAppConfigurationSecretSync: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33344, __c2084, 0) as any as S.Schema<DeleteAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<DeleteAzureAppConfigurationSecretSyncResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -188211,7 +188294,7 @@ export const deleteAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33392, __c2087, 0) as any as S.Schema<DeleteAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<DeleteAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<DeleteAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -194149,7 +194232,7 @@ export const getAzureAppConfigurationSecretSync: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38960, __c2435, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -194169,7 +194252,7 @@ export const getAzureAppConfigurationSecretSyncByName: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38976, __c2436, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncByNameRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncByNameResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<GetAzureAppConfigurationSecretSyncByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -194209,7 +194292,7 @@ export const getAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39008, __c2438, 0) as any as S.Schema<GetAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<GetAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<GetAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -194229,7 +194312,7 @@ export const getAzureClientSecretRotationByName: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39056, __c2441, 0) as any as S.Schema<GetAzureClientSecretRotationByNameRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<GetAzureClientSecretRotationByNameResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<GetAzureClientSecretRotationByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -200831,8 +200914,8 @@ export const getPkiSync: API.OperationMethod<
   GetPkiSyncError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetPkiSyncRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<GetPkiSyncResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetPkiSyncRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<GetPkiSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -200851,7 +200934,7 @@ export const getPkiSyncAwsCertificateManager: API.OperationMethod<
   GetPkiSyncAwsCertificateManagerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetPkiSyncAwsCertificateManagerRequest>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetPkiSyncAwsCertificateManagerRequest>,
   output: __S(29392, __c1837, 0) as any as S.Schema<GetPkiSyncAwsCertificateManagerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -200871,7 +200954,7 @@ export const getPkiSyncAwsElasticLoadBalancer: API.OperationMethod<
   GetPkiSyncAwsElasticLoadBalancerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetPkiSyncAwsElasticLoadBalancerRequest>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetPkiSyncAwsElasticLoadBalancerRequest>,
   output: __S(29424, __c1839, 0) as any as S.Schema<GetPkiSyncAwsElasticLoadBalancerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -200891,7 +200974,7 @@ export const getPkiSyncAwsSecretsManager: API.OperationMethod<
   GetPkiSyncAwsSecretsManagerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetPkiSyncAwsSecretsManagerRequest>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetPkiSyncAwsSecretsManagerRequest>,
   output: __S(29520, __c1845, 0) as any as S.Schema<GetPkiSyncAwsSecretsManagerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -200911,7 +200994,7 @@ export const getPkiSyncAzureKeyVault: API.OperationMethod<
   GetPkiSyncAzureKeyVaultError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetPkiSyncAzureKeyVaultRequest>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetPkiSyncAzureKeyVaultRequest>,
   output: __S(29552, __c1847, 0) as any as S.Schema<GetPkiSyncAzureKeyVaultResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -200931,8 +201014,8 @@ export const getPkiSyncByPkiSyncId: API.OperationMethod<
   GetPkiSyncByPkiSyncIdError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetPkiSyncByPkiSyncIdRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<GetPkiSyncByPkiSyncIdResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetPkiSyncByPkiSyncIdRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<GetPkiSyncByPkiSyncIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -200951,7 +201034,7 @@ export const getPkiSyncChef: API.OperationMethod<
   GetPkiSyncChefError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetPkiSyncChefRequest>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetPkiSyncChefRequest>,
   output: __S(29600, __c1850, 0) as any as S.Schema<GetPkiSyncChefResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -200971,7 +201054,7 @@ export const getPkiSyncCloudflareCustomCertificate: API.OperationMethod<
   GetPkiSyncCloudflareCustomCertificateError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetPkiSyncCloudflareCustomCertificateRequest>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetPkiSyncCloudflareCustomCertificateRequest>,
   output: __S(29632, __c1852, 0) as any as S.Schema<GetPkiSyncCloudflareCustomCertificateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -200991,7 +201074,7 @@ export const getPkiSyncF5BigIp: API.OperationMethod<
   GetPkiSyncF5BigIpError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetPkiSyncF5BigIpRequest>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetPkiSyncF5BigIpRequest>,
   output: __S(29664, __c1854, 0) as any as S.Schema<GetPkiSyncF5BigIpResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201011,7 +201094,7 @@ export const getPkiSyncGcpCertificateManager: API.OperationMethod<
   GetPkiSyncGcpCertificateManagerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetPkiSyncGcpCertificateManagerRequest>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetPkiSyncGcpCertificateManagerRequest>,
   output: __S(29696, __c1856, 0) as any as S.Schema<GetPkiSyncGcpCertificateManagerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201031,7 +201114,7 @@ export const getPkiSyncKempLoadmaster: API.OperationMethod<
   GetPkiSyncKempLoadmasterError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetPkiSyncKempLoadmasterRequest>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetPkiSyncKempLoadmasterRequest>,
   output: __S(29728, __c1858, 0) as any as S.Schema<GetPkiSyncKempLoadmasterResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201051,7 +201134,7 @@ export const getPkiSyncLinuxServer: API.OperationMethod<
   GetPkiSyncLinuxServerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetPkiSyncLinuxServerRequest>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetPkiSyncLinuxServerRequest>,
   output: __S(29760, __c1860, 0) as any as S.Schema<GetPkiSyncLinuxServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201071,7 +201154,7 @@ export const getPkiSyncNetscaler: API.OperationMethod<
   GetPkiSyncNetscalerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetPkiSyncNetscalerRequest>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetPkiSyncNetscalerRequest>,
   output: __S(29824, __c1864, 0) as any as S.Schema<GetPkiSyncNetscalerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201091,7 +201174,7 @@ export const getPkiSyncNutanixPrismCentral: API.OperationMethod<
   GetPkiSyncNutanixPrismCentralError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetPkiSyncNutanixPrismCentralRequest>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetPkiSyncNutanixPrismCentralRequest>,
   output: __S(29856, __c1866, 0) as any as S.Schema<GetPkiSyncNutanixPrismCentralResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201111,7 +201194,7 @@ export const getPkiSyncWindowsServer: API.OperationMethod<
   GetPkiSyncWindowsServerError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetPkiSyncWindowsServerRequest>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetPkiSyncWindowsServerRequest>,
   output: __S(29920, __c1870, 0) as any as S.Schema<GetPkiSyncWindowsServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201131,7 +201214,7 @@ export const getPostgresAppConnection: API.OperationMethod<
   GetPostgresAppConnectionError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetPostgresAppConnectionRequest>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetPostgresAppConnectionRequest>,
   output: __S(25776, __c1611, 0) as any as S.Schema<GetPostgresAppConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201151,7 +201234,7 @@ export const getPostgresAppConnectionByName: API.OperationMethod<
   GetPostgresAppConnectionByNameError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetPostgresAppConnectionByNameRequest>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetPostgresAppConnectionByNameRequest>,
   output: __S(25776, __c1611, 0) as any as S.Schema<GetPostgresAppConnectionByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201171,7 +201254,7 @@ export const getPostgreSQLCredentialsRotation: API.OperationMethod<
   GetPostgreSQLCredentialsRotationError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationRequest>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationRequest>,
   output: __S(25120, __c1570, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201191,7 +201274,7 @@ export const getPostgreSQLCredentialsRotationByName: API.OperationMethod<
   GetPostgreSQLCredentialsRotationByNameError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationByNameRequest>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationByNameRequest>,
   output: __S(25120, __c1570, 0) as any as S.Schema<GetPostgreSQLCredentialsRotationByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201212,8 +201295,8 @@ export const getPostgreSQLCredentialsRotationGeneratedCredentials: API.Operation
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    528,
-    __c33,
+    512,
+    __c32,
     0,
   ) as any as S.Schema<GetPostgreSQLCredentialsRotationGeneratedCredentialsRequest>,
   output: __S(
@@ -201239,7 +201322,7 @@ export const getPowerdnsAppConnection: API.OperationMethod<
   GetPowerdnsAppConnectionError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetPowerdnsAppConnectionRequest>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetPowerdnsAppConnectionRequest>,
   output: __S(30016, __c1876, 0) as any as S.Schema<GetPowerdnsAppConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201259,7 +201342,7 @@ export const getPowerdnsAppConnectionByName: API.OperationMethod<
   GetPowerdnsAppConnectionByNameError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetPowerdnsAppConnectionByNameRequest>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetPowerdnsAppConnectionByNameRequest>,
   output: __S(30016, __c1876, 0) as any as S.Schema<GetPowerdnsAppConnectionByNameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201279,8 +201362,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(628, __c39, 4) as any as S.Schema<GetProjectResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(612, __c38, 4) as any as S.Schema<GetProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -201299,8 +201382,8 @@ export const getProjectBySlug: API.OperationMethod<
   GetProjectBySlugError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetProjectBySlugRequest>,
-  output: __S(643, __c40, 3) as any as S.Schema<GetProjectBySlugResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetProjectBySlugRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<GetProjectBySlugResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -201319,7 +201402,7 @@ export const getProjectGroupMembership: API.OperationMethod<
   GetProjectGroupMembershipError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetProjectGroupMembershipRequest>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetProjectGroupMembershipRequest>,
   output: __S(30096, __c1881, 0) as any as S.Schema<GetProjectGroupMembershipResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201339,8 +201422,8 @@ export const getProjectIdentityMembership: API.OperationMethod<
   GetProjectIdentityMembershipError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetProjectIdentityMembershipRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<GetProjectIdentityMembershipResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetProjectIdentityMembershipRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<GetProjectIdentityMembershipResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -201359,8 +201442,8 @@ export const getProjectIdentityMembershipById: API.OperationMethod<
   GetProjectIdentityMembershipByIdError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetProjectIdentityMembershipByIdRequest>,
-  output: __S(723, __c45, 3) as any as S.Schema<GetProjectIdentityMembershipByIdResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetProjectIdentityMembershipByIdRequest>,
+  output: __S(707, __c44, 3) as any as S.Schema<GetProjectIdentityMembershipByIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -201379,13 +201462,13 @@ export const getProjectIdentityMembershipByIdentityMembershipId: API.OperationMe
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    736,
-    __c46,
+    720,
+    __c45,
     0,
   ) as any as S.Schema<GetProjectIdentityMembershipByIdentityMembershipIdRequest>,
   output: __S(
-    752,
-    __c47,
+    736,
+    __c46,
     0,
   ) as any as S.Schema<GetProjectIdentityMembershipByIdentityMembershipIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
@@ -201406,7 +201489,7 @@ export const getProjectMachineIdentityById: API.OperationMethod<
   GetProjectMachineIdentityByIdError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetProjectMachineIdentityByIdRequest>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetProjectMachineIdentityByIdRequest>,
   output: __S(30192, __c1887, 0) as any as S.Schema<GetProjectMachineIdentityByIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -201426,7 +201509,7 @@ export const getProjectMembershipByUsername: API.OperationMethod<
   GetProjectMembershipByUsernameError,
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetProjectMembershipByUsernameRequest>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetProjectMembershipByUsernameRequest>,
   output: __S(32753, __c2047, 1) as any as S.Schema<GetProjectMembershipByUsernameResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
@@ -204119,7 +204202,7 @@ export const getWorkspaceIdentityMembership: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c234, 0) as any as S.Schema<GetWorkspaceIdentityMembershipRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<GetWorkspaceIdentityMembershipResponse>,
+  output: __S(736, __c46, 0) as any as S.Schema<GetWorkspaceIdentityMembershipResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -204143,8 +204226,8 @@ export const getWorkspaceIdentityMembershipByIdentityMembershipId: API.Operation
     0,
   ) as any as S.Schema<GetWorkspaceIdentityMembershipByIdentityMembershipIdRequest>,
   output: __S(
-    752,
-    __c47,
+    736,
+    __c46,
     0,
   ) as any as S.Schema<GetWorkspaceIdentityMembershipByIdentityMembershipIdResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
@@ -204337,8 +204420,8 @@ export const importAzureAppConfigurationSecretSyncSecrets: API.OperationMethod<
     0,
   ) as any as S.Schema<ImportAzureAppConfigurationSecretSyncSecretsRequest>,
   output: __S(
-    368,
-    __c23,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<ImportAzureAppConfigurationSecretSyncSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
@@ -214110,7 +214193,7 @@ export const moveAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c920, 0) as any as S.Schema<MoveAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<MoveAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<MoveAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -214933,8 +215016,8 @@ export const removeAzureAppConfigurationSecretSyncSecrets: API.OperationMethod<
     0,
   ) as any as S.Schema<RemoveAzureAppConfigurationSecretSyncSecretsRequest>,
   output: __S(
-    368,
-    __c23,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<RemoveAzureAppConfigurationSecretSyncSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
@@ -217170,7 +217253,7 @@ export const rotateAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17808, __c1113, 0) as any as S.Schema<RotateAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<RotateAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<RotateAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -220104,7 +220187,7 @@ export const syncAzureAppConfigurationSecretSync: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20576, __c1286, 0) as any as S.Schema<SyncAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<SyncAzureAppConfigurationSecretSyncResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<SyncAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -222254,7 +222337,7 @@ export const updateAzureAppConfigurationSecretSync: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22688, __c1418, 0) as any as S.Schema<UpdateAzureAppConfigurationSecretSyncRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<UpdateAzureAppConfigurationSecretSyncResponse>,
+  output: __S(352, __c22, 0) as any as S.Schema<UpdateAzureAppConfigurationSecretSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -222294,7 +222377,7 @@ export const updateAzureClientSecretRotation: API.OperationMethod<
   InfisicalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22736, __c1421, 0) as any as S.Schema<UpdateAzureClientSecretRotationRequest>,
-  output: __S(576, __c36, 0) as any as S.Schema<UpdateAzureClientSecretRotationResponse>,
+  output: __S(560, __c35, 0) as any as S.Schema<UpdateAzureClientSecretRotationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInfisicalError],
   protocol: InfisicalProtocol,
   retry: Retry.Retry,
@@ -227823,8 +227906,18 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientSecretKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "CreateAzureAppConfigurationAppConnectionRequestCredentials" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           method: S.optional(S.String),
-          credentials: S.optional(__S(96, __c6, 0)),
+          credentials: S.optional(__S(64, __c4, 0)),
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           projectId: S.optional(S.String),
@@ -227841,7 +227934,7 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateAzureAppConfigurationAppConnectionRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           appConnection: S.Unknown,
@@ -227865,17 +227958,6 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
-          tenantId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateAzureAppConfigurationAppConnectionRequestCredentials" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           pkiSyncId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/v1/cert-manager/syncs/{pkiSyncId}", code: 200 }),
@@ -227883,13 +227965,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetPkiSyncRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -227916,8 +227998,8 @@ function __c9(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           destination: S.String,
           isAutoSyncEnabled: S.Boolean,
-          destinationConfig: __S(128, __c8, 0),
-          syncOptions: __S(128, __c8, 0),
+          destinationConfig: __S(112, __c7, 0),
+          syncOptions: __S(112, __c7, 0),
           applicationId: S.optional(S.NullOr(S.String)),
           subscriberId: S.optional(S.NullOr(S.String)),
           connectionId: S.String,
@@ -227940,7 +228022,7 @@ function __c9(j: number): any {
           lastRemovedAt: S.optional(S.NullOr(S.String)),
           appConnectionName: S.String,
           appConnectionApp: S.String,
-          connection: __S(144, __c9, 0),
+          connection: __S(128, __c8, 0),
           subscriber: S.optional(S.NullOr(__S(32416, __c2026, 0))),
           hasCertificate: S.optional(S.Boolean),
           filters: S.optional(S.NullOr(__S(44112, __c2757, 0))),
@@ -227948,7 +228030,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetPkiSyncResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -227964,7 +228046,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetPkiSyncAwsCertificateManagerRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -227980,7 +228062,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetPkiSyncAwsElasticLoadBalancerRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -227996,7 +228078,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetPkiSyncAwsSecretsManagerRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228012,7 +228094,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetPkiSyncAzureKeyVaultRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228022,7 +228104,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetPkiSyncByPkiSyncIdRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228050,8 +228132,8 @@ function __c15(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           destination: S.String,
           isAutoSyncEnabled: S.Boolean,
-          destinationConfig: __S(128, __c8, 0),
-          syncOptions: __S(128, __c8, 0),
+          destinationConfig: __S(112, __c7, 0),
+          syncOptions: __S(112, __c7, 0),
           projectId: S.String,
           applicationId: S.optional(S.NullOr(S.String)),
           subscriberId: S.optional(S.NullOr(S.String)),
@@ -228075,7 +228157,7 @@ function __c15(j: number): any {
           lastRemovedAt: S.optional(S.NullOr(S.String)),
           appConnectionName: S.String,
           appConnectionApp: S.String,
-          connection: __S(240, __c15, 0),
+          connection: __S(224, __c14, 0),
           subscriber: S.optional(S.NullOr(__S(32416, __c2026, 0))),
           hasCertificate: S.optional(S.Boolean),
           filters: S.optional(S.NullOr(__S(44112, __c2757, 0))),
@@ -228083,7 +228165,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetPkiSyncByPkiSyncIdResponse" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228093,7 +228175,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetPkiSyncChefRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228109,7 +228191,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetPkiSyncCloudflareCustomCertificateRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228121,7 +228203,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetPkiSyncF5BigIpRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228137,7 +228219,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetPkiSyncGcpCertificateManagerRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228149,8 +228231,8 @@ function __c20(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
-          destinationConfig: __S(352, __c22, 0),
+          syncOptions: __S(320, __c20, 0),
+          destinationConfig: __S(336, __c21, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -228161,7 +228243,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateAzureAppConfigurationSecretSyncRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228174,7 +228256,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateAzureAppConfigurationSecretSyncRequestSyncOptions" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228208,27 +228290,27 @@ function __c22(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
           destination: S.String,
-          destinationConfig: __S(352, __c22, 0),
+          destinationConfig: __S(336, __c21, 0),
         }),
       ).annotate({ identifier: "CreateAzureAppConfigurationSecretSyncResponseSecretSync" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secretSync: __S(353, __c22, 1),
+          secretSync: __S(337, __c21, 1),
         }),
       ).annotate({ identifier: "CreateAzureAppConfigurationSecretSyncResponse" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228244,7 +228326,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetPkiSyncKempLoadmasterRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228256,7 +228338,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetPkiSyncLinuxServerRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228268,7 +228350,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetPkiSyncNetscalerRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228284,7 +228366,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetPkiSyncNutanixPrismCentralRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228296,7 +228378,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetPkiSyncWindowsServerRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228312,7 +228394,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetPostgresAppConnectionRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228329,7 +228411,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetPostgresAppConnectionByNameRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228345,7 +228427,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetPostgreSQLCredentialsRotationRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228364,7 +228446,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetPostgreSQLCredentialsRotationByNameRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228380,7 +228462,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetPostgreSQLCredentialsRotationGeneratedCredentialsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228394,7 +228476,7 @@ function __c34(j: number): any {
           isAutoRotationEnabled: S.optional(S.Boolean),
           rotationInterval: S.Number,
           rotateAtUtc: S.optional(__S(40624, __c2539, 0)),
-          parameters: __S(560, __c35, 0),
+          parameters: __S(544, __c34, 0),
           secretsMapping: __S(43344, __c2709, 0),
         }).pipe(
           T.Http({
@@ -228406,7 +228488,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateAzureClientSecretRotationRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228442,23 +228524,23 @@ function __c35(j: number): any {
           rotateAtUtc: __S(40624, __c2539, 0),
           lastRotationMessage: S.optional(S.NullOr(S.String)),
           type: S.String,
-          parameters: __S(560, __c35, 0),
+          parameters: __S(544, __c34, 0),
           secretsMapping: __S(43344, __c2709, 0),
         }),
       ).annotate({ identifier: "CreateAzureClientSecretRotationResponseSecretRotation" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secretRotation: __S(561, __c35, 1),
+          secretRotation: __S(545, __c34, 1),
         }),
       ).annotate({ identifier: "CreateAzureClientSecretRotationResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228474,7 +228556,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetPowerdnsAppConnectionRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228491,7 +228573,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetPowerdnsAppConnectionByNameRequest" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228510,6 +228592,66 @@ function __c39(j: number): any {
           deletedBy: S.NullOr(S.Unknown),
         }),
       ).annotate({ identifier: "GetProjectResponseProjectDeletedEnvironmentsItem" });
+    case 2:
+      return S.Array(__S(609, __c38, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          type: S.String,
+          defaultProduct: S.optional(S.NullOr(S.String)),
+          slug: S.String,
+          autoCapitalization: S.optional(S.NullOr(S.Boolean)),
+          orgId: S.String,
+          createdAt: S.String,
+          updatedAt: S.String,
+          version: S.optional(S.Number),
+          upgradeStatus: S.optional(S.NullOr(S.String)),
+          pitVersionLimit: S.optional(S.Number),
+          kmsCertificateKeyId: S.optional(S.NullOr(S.String)),
+          kmsSecretManagerKeyId: S.optional(S.NullOr(S.String)),
+          auditLogsRetentionDays: S.optional(S.NullOr(S.Number)),
+          hasDeleteProtection: S.optional(S.NullOr(S.Boolean)),
+          secretSharing: S.optional(S.Boolean),
+          showSnapshotsLegacy: S.optional(S.Boolean),
+          secretDetectionIgnoreValues: S.optional(S.NullOr(__S(35584, __c2224, 0))),
+          enforceEncryptedSecretManagerSecretMetadata: S.optional(S.NullOr(S.Boolean)),
+          secretBlindIndexEnabled: S.optional(S.Boolean),
+          isLegacyAdditionalPrivilegesEnabled: S.optional(S.Boolean),
+          _id: S.String,
+          environments: __S(30064, __c1879, 0),
+          deletedEnvironments: __S(610, __c38, 2),
+        }),
+      ).annotate({ identifier: "GetProjectResponseProject" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.optional(__S(611, __c38, 3)),
+        }),
+      ).annotate({ identifier: "GetProjectResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          slug: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/slug/{slug}", code: 200 })),
+      ).annotate({ identifier: "GetProjectBySlugRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          slug: S.String,
+          deleteAfter: S.String,
+          softDeletedAt: S.String,
+          deletedBy: S.NullOr(S.Unknown),
+        }),
+      ).annotate({ identifier: "GetProjectBySlugResponseDeletedEnvironmentsItem" });
     case 2:
       return S.Array(__S(625, __c39, 1));
     case 3:
@@ -228542,70 +228684,10 @@ function __c39(j: number): any {
           environments: __S(30064, __c1879, 0),
           deletedEnvironments: __S(626, __c39, 2),
         }),
-      ).annotate({ identifier: "GetProjectResponseProject" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.optional(__S(627, __c39, 3)),
-        }),
-      ).annotate({ identifier: "GetProjectResponse" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          slug: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/slug/{slug}", code: 200 })),
-      ).annotate({ identifier: "GetProjectBySlugRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          slug: S.String,
-          deleteAfter: S.String,
-          softDeletedAt: S.String,
-          deletedBy: S.NullOr(S.Unknown),
-        }),
-      ).annotate({ identifier: "GetProjectBySlugResponseDeletedEnvironmentsItem" });
-    case 2:
-      return S.Array(__S(641, __c40, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.NullOr(S.String)),
-          type: S.String,
-          defaultProduct: S.optional(S.NullOr(S.String)),
-          slug: S.String,
-          autoCapitalization: S.optional(S.NullOr(S.Boolean)),
-          orgId: S.String,
-          createdAt: S.String,
-          updatedAt: S.String,
-          version: S.optional(S.Number),
-          upgradeStatus: S.optional(S.NullOr(S.String)),
-          pitVersionLimit: S.optional(S.Number),
-          kmsCertificateKeyId: S.optional(S.NullOr(S.String)),
-          kmsSecretManagerKeyId: S.optional(S.NullOr(S.String)),
-          auditLogsRetentionDays: S.optional(S.NullOr(S.Number)),
-          hasDeleteProtection: S.optional(S.NullOr(S.Boolean)),
-          secretSharing: S.optional(S.Boolean),
-          showSnapshotsLegacy: S.optional(S.Boolean),
-          secretDetectionIgnoreValues: S.optional(S.NullOr(__S(35584, __c2224, 0))),
-          enforceEncryptedSecretManagerSecretMetadata: S.optional(S.NullOr(S.Boolean)),
-          secretBlindIndexEnabled: S.optional(S.Boolean),
-          isLegacyAdditionalPrivilegesEnabled: S.optional(S.Boolean),
-          _id: S.String,
-          environments: __S(30064, __c1879, 0),
-          deletedEnvironments: __S(642, __c40, 2),
-        }),
       ).annotate({ identifier: "GetProjectBySlugResponse" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228622,7 +228704,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetProjectGroupMembershipRequest" });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228647,19 +228729,19 @@ function __c42(j: number): any {
           roles: __S(32737, __c2046, 1),
           lastLoginAuthMethod: S.optional(S.NullOr(S.String)),
           lastLoginTime: S.optional(S.NullOr(S.String)),
-          identity: __S(704, __c44, 0),
-          project: __S(688, __c43, 0),
+          identity: __S(688, __c43, 0),
+          project: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipResponseIdentityMembership" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          identityMembership: __S(673, __c42, 1),
+          identityMembership: __S(657, __c41, 1),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipResponse" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228670,7 +228752,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetProjectIdentityMembershipResponseIdentityMembershipProject" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228684,7 +228766,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetProjectIdentityMembershipResponseIdentityMembershipIdentity" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228721,18 +228803,18 @@ function __c45(j: number): any {
           roles: __S(32737, __c2046, 1),
           lastLoginAuthMethod: S.optional(S.NullOr(S.String)),
           lastLoginTime: S.optional(S.NullOr(S.String)),
-          identity: __S(721, __c45, 1),
+          identity: __S(705, __c44, 1),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipByIdResponseIdentityMembership" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          identityMembership: __S(722, __c45, 2),
+          identityMembership: __S(706, __c44, 2),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipByIdResponse" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228748,17 +228830,17 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetProjectIdentityMembershipByIdentityMembershipIdRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identityMembership: __S(769, __c48, 1),
+          identityMembership: __S(753, __c47, 1),
         }),
       ).annotate({ identifier: "GetProjectIdentityMembershipByIdentityMembershipIdResponse" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228779,15 +228861,15 @@ function __c48(j: number): any {
           createdAt: S.String,
           updatedAt: S.String,
           roles: __S(32737, __c2046, 1),
-          identity: __S(768, __c48, 0),
-          project: __S(688, __c43, 0),
+          identity: __S(752, __c47, 0),
+          project: __S(672, __c42, 0),
         }),
       ).annotate({
         identifier: "GetProjectIdentityMembershipByIdentityMembershipIdResponseIdentityMembership",
       });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228804,7 +228886,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetProjectMachineIdentityByIdRequest" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -228821,16 +228903,9 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetProjectMembershipByUsernameRequest" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String,
-          tenantId: S.String,
-        }),
-      ).annotate({ identifier: "CreateAzureClientSecretsAppConnectionRequestCredentials" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
@@ -228851,12 +228926,28 @@ function __c51(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateAzureClientSecretsAppConnectionRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           appConnection: S.Unknown,
         }),
       ).annotate({ identifier: "CreateAzureClientSecretsAppConnectionResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientSecretKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          certificateBody: S.optional(S.String),
+          privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "CreateAzureClientSecretsAppConnectionRequestCredentials" });
   }
 }
 function __c52(j: number): any {
@@ -229189,9 +229280,13 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
-          tenantId: S.String,
-          orgName: S.String,
+          code: S.optional(S.String),
+          tenantId: S.optional(S.String),
+          orgName: S.optional(S.String),
+          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clientSecretKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateAzureDevopsAppConnectionRequestCredentials" });
     case 1:
@@ -229441,7 +229536,7 @@ function __c77(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(1248, __c78, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/azure-devops", code: 200 })),
       ).annotate({ identifier: "CreateAzureDevopsSecretSyncRequest" });
@@ -229481,7 +229576,7 @@ function __c78(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -230860,7 +230955,7 @@ function __c136(j: number): any {
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
-          credentials: S.optional(__S(96, __c6, 0)),
+          credentials: S.optional(__S(816, __c51, 0)),
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           projectId: S.optional(S.String),
@@ -231611,7 +231706,7 @@ function __c173(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -231667,7 +231762,7 @@ function __c174(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -231967,7 +232062,7 @@ function __c190(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(3056, __c191, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/bitbucket", code: 200 })),
       ).annotate({ identifier: "CreateBitbucketSecretSyncRequest" });
@@ -232008,7 +232103,7 @@ function __c191(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232351,7 +232446,7 @@ function __c211(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232407,7 +232502,7 @@ function __c212(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232497,7 +232592,7 @@ function __c217(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(3488, __c218, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/camunda", code: 200 })),
       ).annotate({ identifier: "CreateCamundaSecretSyncRequest" });
@@ -232537,7 +232632,7 @@ function __c218(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232928,7 +233023,7 @@ function __c241(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -232984,7 +233079,7 @@ function __c242(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -233780,7 +233875,7 @@ function __c275(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -233836,7 +233931,7 @@ function __c276(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -233892,7 +233987,7 @@ function __c277(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -233999,7 +234094,7 @@ function __c281(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -234536,7 +234631,7 @@ function __c305(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -234626,7 +234721,7 @@ function __c308(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -234725,7 +234820,7 @@ function __c311(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -235993,7 +236088,7 @@ function __c374(j: number): any {
         ),
       ).annotate({ identifier: "ListAzureAppConfigurationSecretSyncsRequest" });
     case 1:
-      return S.Array(__S(353, __c22, 1));
+      return S.Array(__S(337, __c21, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -236032,7 +236127,7 @@ function __c376(j: number): any {
         ),
       ).annotate({ identifier: "ListAzureClientSecretRotationsRequest" });
     case 1:
-      return S.Array(__S(561, __c35, 1));
+      return S.Array(__S(545, __c34, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -236207,7 +236302,7 @@ function __c386(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(6192, __c387, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/checkly", code: 200 })),
       ).annotate({ identifier: "CreateChecklySecretSyncRequest" });
@@ -236249,7 +236344,7 @@ function __c387(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -237156,7 +237251,7 @@ function __c431(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(6912, __c432, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/chef", code: 200 })),
       ).annotate({ identifier: "CreateChefSecretSyncRequest" });
@@ -237196,7 +237291,7 @@ function __c432(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -237673,7 +237768,7 @@ function __c460(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(7376, __c461, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/circleci", code: 200 })),
       ).annotate({ identifier: "CreateCircleciSecretSyncRequest" });
@@ -237714,7 +237809,7 @@ function __c461(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -238088,7 +238183,7 @@ function __c486(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(7792, __c487, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/cloud-66", code: 200 })),
       ).annotate({ identifier: "CreateCloud66SecretSyncRequest" });
@@ -238128,7 +238223,7 @@ function __c487(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -238639,7 +238734,7 @@ function __c516(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -238819,7 +238914,7 @@ function __c525(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -238900,7 +238995,7 @@ function __c528(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -239266,7 +239361,7 @@ function __c545(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(8736, __c546, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/secret-syncs/cloudflare-pages", code: 200 }),
@@ -239308,7 +239403,7 @@ function __c546(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -239677,7 +239772,7 @@ function __c564(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -240913,7 +241008,7 @@ function __c632(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(10128, __c633, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/databricks", code: 200 })),
       ).annotate({ identifier: "CreateDatabricksSecretSyncRequest" });
@@ -240952,7 +241047,7 @@ function __c633(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -241724,8 +241819,10 @@ function __c672(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          url: S.String,
-          token: S.String,
+          url: S.optional(S.String),
+          token: S.optional(S.String),
+          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          applicationKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDatadogAppConnectionRequestCredentials" });
     case 1:
@@ -242649,7 +242746,7 @@ function __c714(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/daytona", code: 200 })),
       ).annotate({ identifier: "CreateDaytonaSecretSyncRequest" });
@@ -242682,7 +242779,7 @@ function __c715(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -242795,7 +242892,7 @@ function __c722(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/cert-manager/syncs", code: 200 })),
       ).annotate({ identifier: "ListPkiSyncsRequest" });
     case 1:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(129, __c8, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -242814,7 +242911,7 @@ function __c723(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/pki/syncs", code: 200 })),
       ).annotate({ identifier: "ListPkiSyncsRequest2" });
     case 1:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(225, __c14, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -243106,8 +243203,8 @@ function __c739(j: number): any {
           createdAt: S.String,
           updatedAt: S.String,
           roles: __S(32737, __c2046, 1),
-          identity: __S(704, __c44, 0),
-          project: __S(688, __c43, 0),
+          identity: __S(688, __c43, 0),
+          project: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "ListProjectIdentityMembershipsResponseIdentityMembershipsItem" });
     case 2:
@@ -243894,7 +243991,7 @@ function __c775(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(12416, __c776, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/devin", code: 200 })),
       ).annotate({ identifier: "CreateDevinSecretSyncRequest" });
@@ -243933,7 +244030,7 @@ function __c776(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -245037,7 +245134,7 @@ function __c829(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(13280, __c830, 0),
         }).pipe(
           T.Http({
@@ -245087,7 +245184,7 @@ function __c831(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -245420,7 +245517,7 @@ function __c852(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -245712,7 +245809,7 @@ function __c869(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -246064,7 +246161,7 @@ function __c888(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceIdentityMembershipsRequest" });
     case 1:
-      return S.Array(__S(769, __c48, 1));
+      return S.Array(__S(753, __c47, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -246236,7 +246333,7 @@ function __c898(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -247143,7 +247240,7 @@ function __c950(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(15216, __c951, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/secret-syncs/external-infisical", code: 200 }),
@@ -247186,7 +247283,7 @@ function __c951(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -248405,7 +248502,7 @@ function __c1008(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -248460,7 +248557,7 @@ function __c1009(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -248515,7 +248612,7 @@ function __c1010(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -248618,7 +248715,7 @@ function __c1014(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -249582,7 +249679,7 @@ function __c1065(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -249711,7 +249808,7 @@ function __c1071(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -249798,7 +249895,7 @@ function __c1074(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -250239,7 +250336,7 @@ function __c1095(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/secret-syncs/gcp-secret-manager", code: 200 }),
@@ -250270,7 +250367,7 @@ function __c1095(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -250918,7 +251015,7 @@ function __c1132(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/github", code: 200 })),
       ).annotate({ identifier: "CreateGitHubSecretSyncRequest" });
@@ -250947,7 +251044,7 @@ function __c1132(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -251340,7 +251437,7 @@ function __c1154(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/gitlab", code: 200 })),
       ).annotate({ identifier: "CreateGitLabSecretSyncRequest" });
@@ -251369,7 +251466,7 @@ function __c1154(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -252140,9 +252237,11 @@ function __c1201(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          instanceUrl: S.String,
+          instanceUrl: S.optional(S.String),
           namespace: S.optional(S.String),
-          accessToken: S.String.pipe(T.SensitiveValue({})),
+          accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          roleId: S.optional(S.String),
+          secretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateHashicorpVaultAppConnectionRequestCredentials" });
     case 1:
@@ -252342,7 +252441,7 @@ function __c1212(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(19408, __c1213, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/hashicorp-vault", code: 200 })),
       ).annotate({ identifier: "CreateHashicorpVaultSecretSyncRequest" });
@@ -252382,7 +252481,7 @@ function __c1213(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -252855,7 +252954,7 @@ function __c1238(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(19824, __c1239, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/hasura-cloud", code: 200 })),
       ).annotate({ identifier: "CreateHasuraCloudSecretSyncRequest" });
@@ -252895,7 +252994,7 @@ function __c1239(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -253698,7 +253797,7 @@ function __c1265(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(20256, __c1266, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/heroku", code: 200 })),
       ).annotate({ identifier: "CreateHerokuSecretSyncRequest" });
@@ -253738,7 +253837,7 @@ function __c1266(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254651,7 +254750,7 @@ function __c1313(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254706,7 +254805,7 @@ function __c1314(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254761,7 +254860,7 @@ function __c1315(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254837,7 +254936,7 @@ function __c1319(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/humanitec", code: 200 })),
       ).annotate({ identifier: "CreateHumanitecSecretSyncRequest" });
@@ -254866,7 +254965,7 @@ function __c1319(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -254921,7 +255020,7 @@ function __c1320(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -255719,7 +255818,7 @@ function __c1362(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -255806,7 +255905,7 @@ function __c1365(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -255951,7 +256050,7 @@ function __c1371(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -257052,8 +257151,8 @@ function __c1418(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
-          destinationConfig: S.optional(__S(352, __c22, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
+          destinationConfig: S.optional(__S(336, __c21, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -257119,7 +257218,7 @@ function __c1421(j: number): any {
           isAutoRotationEnabled: S.optional(S.Boolean),
           rotationInterval: S.optional(S.Number),
           rotateAtUtc: S.optional(__S(40624, __c2539, 0)),
-          parameters: S.optional(__S(560, __c35, 0)),
+          parameters: S.optional(__S(544, __c34, 0)),
           secretsMapping: S.optional(__S(43344, __c2709, 0)),
         }).pipe(
           T.Http({
@@ -257203,7 +257302,7 @@ function __c1424(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(1248, __c78, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/azure-devops/{syncId}", code: 200 }),
@@ -257432,7 +257531,7 @@ function __c1431(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(22912, __c1432, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/laravel-forge", code: 200 })),
       ).annotate({ identifier: "CreateLaravelForgeSecretSyncRequest" });
@@ -257476,7 +257575,7 @@ function __c1432(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -257532,7 +257631,7 @@ function __c1435(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(3056, __c191, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/bitbucket/{syncId}", code: 200 }),
@@ -257594,7 +257693,7 @@ function __c1438(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(3488, __c218, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/camunda/{syncId}", code: 200 }),
@@ -258044,7 +258143,7 @@ function __c1456(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(6192, __c387, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/checkly/{syncId}", code: 200 }),
@@ -258154,7 +258253,7 @@ function __c1461(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(6912, __c432, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/chef/{syncId}", code: 200 })),
       ).annotate({ identifier: "UpdateChefSecretSyncRequest" });
@@ -258196,7 +258295,7 @@ function __c1463(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(7376, __c461, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/circleci/{syncId}", code: 200 }),
@@ -258240,7 +258339,7 @@ function __c1465(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(7792, __c487, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/cloud-66/{syncId}", code: 200 }),
@@ -258331,7 +258430,7 @@ function __c1469(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(8736, __c546, 0)),
         }).pipe(
           T.Http({
@@ -258565,7 +258664,7 @@ function __c1479(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(10128, __c633, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/databricks/{syncId}", code: 200 }),
@@ -258853,7 +258952,7 @@ function __c1492(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/daytona/{syncId}", code: 200 }),
@@ -258940,7 +259039,7 @@ function __c1496(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(12416, __c776, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/devin/{syncId}", code: 200 })),
       ).annotate({ identifier: "UpdateDevinSecretSyncRequest" });
@@ -259021,7 +259120,7 @@ function __c1500(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(13280, __c830, 0)),
         }).pipe(
           T.Http({
@@ -259280,7 +259379,7 @@ function __c1511(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(15216, __c951, 0)),
         }).pipe(
           T.Http({
@@ -259662,7 +259761,7 @@ function __c1529(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({
@@ -259697,7 +259796,7 @@ function __c1529(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -259828,7 +259927,7 @@ function __c1534(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/github/{syncId}", code: 200 }),
@@ -259859,7 +259958,7 @@ function __c1534(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -259917,7 +260016,7 @@ function __c1536(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/gitlab/{syncId}", code: 200 }),
@@ -259948,7 +260047,7 @@ function __c1536(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -260058,7 +260157,7 @@ function __c1541(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(19408, __c1213, 0)),
         }).pipe(
           T.Http({
@@ -260151,7 +260250,7 @@ function __c1545(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(19824, __c1239, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/hasura-cloud/{syncId}", code: 200 }),
@@ -260201,7 +260300,7 @@ function __c1547(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(20256, __c1266, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/heroku/{syncId}", code: 200 }),
@@ -260297,7 +260396,7 @@ function __c1551(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/humanitec/{syncId}", code: 200 }),
@@ -260328,7 +260427,7 @@ function __c1551(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -260769,7 +260868,7 @@ function __c1567(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(22912, __c1432, 0)),
         }).pipe(
           T.Http({
@@ -261385,7 +261484,7 @@ function __c1592(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(26528, __c1658, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/netlify/{syncId}", code: 200 }),
@@ -261554,7 +261653,7 @@ function __c1599(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(27344, __c1709, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/northflank/{syncId}", code: 200 }),
@@ -261670,7 +261769,7 @@ function __c1604(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(28192, __c1762, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/oci-vault/{syncId}", code: 200 }),
@@ -261714,7 +261813,7 @@ function __c1606(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(28481, __c1780, 1)),
         }).pipe(
           T.Http({
@@ -261918,7 +262017,7 @@ function __c1615(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(28608, __c1788, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/ona/{syncId}", code: 200 })),
       ).annotate({ identifier: "UpdateOnaSecretSyncRequest" });
@@ -261960,7 +262059,7 @@ function __c1617(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(28688, __c1793, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/1password/{syncId}", code: 200 }),
@@ -262294,7 +262393,7 @@ function __c1631(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(29072, __c1817, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/ovh/{syncId}", code: 200 })),
       ).annotate({ identifier: "UpdateOvhSecretSyncRequest" });
@@ -262833,7 +262932,7 @@ function __c1657(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(26528, __c1658, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/netlify", code: 200 })),
       ).annotate({ identifier: "CreateNetlifySecretSyncRequest" });
@@ -262876,7 +262975,7 @@ function __c1658(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -263448,7 +263547,7 @@ function __c1679(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(30368, __c1898, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/qovery/{syncId}", code: 200 }),
@@ -263492,7 +263591,7 @@ function __c1681(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(30432, __c1902, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/railway/{syncId}", code: 200 }),
@@ -263721,7 +263820,7 @@ function __c1690(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(30688, __c1918, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/rundeck/{syncId}", code: 200 }),
@@ -264039,7 +264138,7 @@ function __c1708(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(27344, __c1709, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/northflank", code: 200 })),
       ).annotate({ identifier: "CreateNorthflankSecretSyncRequest" });
@@ -264081,7 +264180,7 @@ function __c1709(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -264175,7 +264274,7 @@ function __c1714(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(31280, __c1955, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/snowflake/{syncId}", code: 200 }),
@@ -264397,11 +264496,13 @@ function __c1721(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hostname: S.String,
+          hostname: S.optional(S.String),
           port: S.optional(S.Number),
           sslRejectUnauthorized: S.optional(S.Boolean),
           sslCertificate: S.optional(S.String),
-          apiKey: S.String.pipe(T.SensitiveValue({})),
+          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          username: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateNutanixPrismCentralAppConnectionRequestCredentials" });
     case 1:
@@ -264616,7 +264717,7 @@ function __c1729(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(19824, __c1239, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/supabase/{syncId}", code: 200 }),
@@ -264660,7 +264761,7 @@ function __c1731(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(31936, __c1996, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/teamcity/{syncId}", code: 200 }),
@@ -264775,7 +264876,7 @@ function __c1736(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({
@@ -264810,7 +264911,7 @@ function __c1736(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -264919,7 +265020,7 @@ function __c1741(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(32080, __c2005, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/travis-ci/{syncId}", code: 200 }),
@@ -265264,7 +265365,7 @@ function __c1756(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/vercel/{syncId}", code: 200 }),
@@ -265295,7 +265396,7 @@ function __c1756(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -265347,7 +265448,7 @@ function __c1758(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(__S(32480, __c2030, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/windmill/{syncId}", code: 200 }),
@@ -265415,7 +265516,7 @@ function __c1761(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(28192, __c1762, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/oci-vault", code: 200 })),
       ).annotate({ identifier: "CreateOciVaultSecretSyncRequest" });
@@ -265456,7 +265557,7 @@ function __c1762(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -265730,7 +265831,7 @@ function __c1776(j: number): any {
           environment: S.optional(S.String),
           secretPath: S.optional(S.String),
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: S.optional(__S(336, __c21, 0)),
+          syncOptions: S.optional(__S(320, __c20, 0)),
           destinationConfig: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/secret-syncs/zabbix/{syncId}", code: 200 }),
@@ -265761,7 +265862,7 @@ function __c1776(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -265831,7 +265932,7 @@ function __c1779(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(28481, __c1780, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/octopus-deploy", code: 200 })),
       ).annotate({ identifier: "CreateOctopusDeploySecretSyncRequest" });
@@ -265888,7 +265989,7 @@ function __c1780(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -266001,7 +266102,7 @@ function __c1787(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(28608, __c1788, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/ona", code: 200 })),
       ).annotate({ identifier: "CreateOnaSecretSyncRequest" });
@@ -266041,7 +266142,7 @@ function __c1788(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -266103,7 +266204,7 @@ function __c1792(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(28688, __c1793, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/1password", code: 200 })),
       ).annotate({ identifier: "CreateOnePasswordSecretSyncRequest" });
@@ -266143,7 +266244,7 @@ function __c1793(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -266663,7 +266764,7 @@ function __c1816(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(29072, __c1817, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/ovh", code: 200 })),
       ).annotate({ identifier: "CreateOvhSecretSyncRequest" });
@@ -266702,7 +266803,7 @@ function __c1817(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -268578,7 +268679,7 @@ function __c1897(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(30368, __c1898, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/qovery", code: 200 })),
       ).annotate({ identifier: "CreateQoverySecretSyncRequest" });
@@ -268623,7 +268724,7 @@ function __c1898(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -268674,7 +268775,7 @@ function __c1901(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(30432, __c1902, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/railway", code: 200 })),
       ).annotate({ identifier: "CreateRailwaySecretSyncRequest" });
@@ -268718,7 +268819,7 @@ function __c1902(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -269066,7 +269167,7 @@ function __c1917(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(30688, __c1918, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/rundeck", code: 200 })),
       ).annotate({ identifier: "CreateRundeckSecretSyncRequest" });
@@ -269106,7 +269207,7 @@ function __c1918(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -269868,7 +269969,7 @@ function __c1954(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(31280, __c1955, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/snowflake", code: 200 })),
       ).annotate({ identifier: "CreateSnowflakeSecretSyncRequest" });
@@ -269908,7 +270009,7 @@ function __c1955(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -270238,10 +270339,12 @@ function __c1968(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          host: S.String,
-          port: S.Number,
-          username: S.String,
-          password: S.String.pipe(T.SensitiveValue({})),
+          host: S.optional(S.String),
+          port: S.optional(S.Number),
+          username: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          passphrase: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSshAppConnectionRequestCredentials" });
     case 1:
@@ -270734,7 +270837,7 @@ function __c1992(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(19824, __c1239, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/supabase", code: 200 })),
       ).annotate({ identifier: "CreateSupabaseSecretSyncRequest" });
@@ -270782,7 +270885,7 @@ function __c1995(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(31936, __c1996, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/teamcity", code: 200 })),
       ).annotate({ identifier: "CreateTeamcitySecretSyncRequest" });
@@ -270822,7 +270925,7 @@ function __c1996(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -270875,7 +270978,7 @@ function __c1999(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/terraform-cloud", code: 200 })),
       ).annotate({ identifier: "CreateTerraformCloudSecretSyncRequest" });
@@ -270904,7 +271007,7 @@ function __c1999(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -271035,7 +271138,7 @@ function __c2004(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(32080, __c2005, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/travis-ci", code: 200 })),
       ).annotate({ identifier: "CreateTravisCISecretSyncRequest" });
@@ -271076,7 +271179,7 @@ function __c2005(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -271451,7 +271554,7 @@ function __c2024(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/vercel", code: 200 })),
       ).annotate({ identifier: "CreateVercelSecretSyncRequest" });
@@ -271480,7 +271583,7 @@ function __c2024(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -271584,7 +271687,7 @@ function __c2029(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: __S(32480, __c2030, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/windmill", code: 200 })),
       ).annotate({ identifier: "CreateWindmillSecretSyncRequest" });
@@ -271624,7 +271727,7 @@ function __c2030(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -272079,7 +272182,7 @@ function __c2053(j: number): any {
           environment: S.String,
           secretPath: S.String,
           isAutoSyncEnabled: S.optional(S.Boolean),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           destinationConfig: S.Unknown,
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/secret-syncs/zabbix", code: 200 })),
       ).annotate({ identifier: "CreateZabbixSecretSyncRequest" });
@@ -272108,7 +272211,7 @@ function __c2053(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -274147,7 +274250,7 @@ function __c2167(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -274237,7 +274340,7 @@ function __c2170(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -274311,7 +274414,7 @@ function __c2172(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -274574,7 +274677,7 @@ function __c2186(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -277683,7 +277786,7 @@ function __c2346(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -277935,7 +278038,7 @@ function __c2360(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -278226,7 +278329,7 @@ function __c2376(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -282864,8 +282967,10 @@ function __c2616(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          roleArn: S.String,
+          roleArn: S.optional(S.String),
           stsEndpoint: S.optional(S.String),
+          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secretAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateAgentVaultAwsAppConnectionRequestCredentials" });
   }
@@ -283472,7 +283577,7 @@ function __c2646(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283528,7 +283633,7 @@ function __c2647(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283655,7 +283760,7 @@ function __c2652(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283752,7 +283857,7 @@ function __c2655(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283846,7 +283951,7 @@ function __c2658(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -283902,7 +284007,7 @@ function __c2659(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -284459,7 +284564,7 @@ function __c2690(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),
@@ -284515,7 +284620,7 @@ function __c2691(j: number): any {
           lastRemoveJobId: S.optional(S.NullOr(S.String)),
           lastRemoveMessage: S.optional(S.NullOr(S.String)),
           lastRemovedAt: S.optional(S.NullOr(S.String)),
-          syncOptions: __S(336, __c21, 0),
+          syncOptions: __S(320, __c20, 0),
           connection: __S(43424, __c2714, 0),
           environment: S.NullOr(__S(43408, __c2713, 0)),
           folder: S.NullOr(__S(43425, __c2714, 1)),

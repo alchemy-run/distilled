@@ -1203,6 +1203,33 @@ export interface CreateExtensionResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
+/** The type of identity that created the resource. */
+export type CreateGuestAgentRequestSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type CreateGuestAgentRequestSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface CreateGuestAgentRequestSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreateGuestAgentRequestSystemDataCreatedByType | (string & {});
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreateGuestAgentRequestSystemDataLastModifiedByType | (string & {});
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 /** Username / Password Credentials to connect to guest. */
 export interface GuestCredential {
   /** The username to connect with the guest. */
@@ -1222,8 +1249,37 @@ export interface GuestAgentPropertiesInput {
 export interface CreateGuestAgentRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: CreateGuestAgentRequestSystemData;
   /** Resource properties. */
   properties: GuestAgentPropertiesInput;
+}
+/** The type of identity that created the resource. */
+export type CreateGuestAgentResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type CreateGuestAgentResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface CreateGuestAgentResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreateGuestAgentResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreateGuestAgentResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
 }
 /** Defines the resource properties. */
 export interface GuestAgentProperties {
@@ -1243,8 +1299,8 @@ export interface CreateGuestAgentResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: CreateGuestAgentResponseSystemData;
   /** Resource properties. */
   properties: GuestAgentProperties;
 }
@@ -4720,6 +4776,33 @@ export interface GetGuestAgentRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
 }
+/** The type of identity that created the resource. */
+export type GetGuestAgentResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type GetGuestAgentResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GetGuestAgentResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GetGuestAgentResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GetGuestAgentResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 export interface GetGuestAgentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
@@ -4727,14 +4810,41 @@ export interface GetGuestAgentResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GetGuestAgentResponseSystemData;
   /** Resource properties. */
   properties: GuestAgentProperties;
 }
 export interface GetHybridIdentityMetadataRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
+}
+/** The type of identity that created the resource. */
+export type GetHybridIdentityMetadataResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type GetHybridIdentityMetadataResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GetHybridIdentityMetadataResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GetHybridIdentityMetadataResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GetHybridIdentityMetadataResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
 }
 /** The identity type. */
 export type HybridIdentityMetadataPropertiesIdentityType = "SystemAssigned";
@@ -4765,8 +4875,8 @@ export interface GetHybridIdentityMetadataResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GetHybridIdentityMetadataResponseSystemData;
   /** Resource properties. */
   properties: HybridIdentityMetadataProperties;
 }
@@ -6799,6 +6909,29 @@ export interface ListGuestAgentsRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
 }
+/** The type of identity that created the resource. */
+export type GuestAgentSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+/** The type of identity that last modified the resource. */
+export type GuestAgentSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GuestAgentSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GuestAgentSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GuestAgentSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 /** Defines the GuestAgent. */
 export interface GuestAgent {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -6807,8 +6940,8 @@ export interface GuestAgent {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GuestAgentSystemData;
   /** Resource properties. */
   properties: GuestAgentProperties;
 }
@@ -6825,6 +6958,33 @@ export interface ListHybridIdentityMetadataRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
 }
+/** The type of identity that created the resource. */
+export type HybridIdentityMetadataSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type HybridIdentityMetadataSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface HybridIdentityMetadataSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: HybridIdentityMetadataSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: HybridIdentityMetadataSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 /** Defines the HybridIdentityMetadata. */
 export interface HybridIdentityMetadata {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -6833,8 +6993,8 @@ export interface HybridIdentityMetadata {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: HybridIdentityMetadataSystemData;
   /** Resource properties. */
   properties: HybridIdentityMetadataProperties;
 }
@@ -12426,6 +12586,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          systemData: S.optional(__S(32, __c1, 0)),
           properties: __S(1152, __c36, 0),
         }).pipe(
           T.Http({

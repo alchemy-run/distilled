@@ -110,6 +110,46 @@ describe("OpenAPI allOf merges nested schemas across branches", () => {
     expect(membersOf(model, item)).toEqual(["price", "sku"]);
   });
 
+  test("nested fields from union variants merge as optional", () => {
+    const model = convert(
+      {},
+      {
+        allOf: [
+          {
+            type: "object",
+            properties: { data: { type: "object", additionalProperties: true } },
+            required: ["data"],
+          },
+          {
+            oneOf: [
+              {
+                type: "object",
+                properties: {
+                  data: { type: "object", properties: { a: { type: "string" } }, required: ["a"] },
+                },
+              },
+              {
+                type: "object",
+                properties: {
+                  data: { type: "object", properties: { b: { type: "string" } }, required: ["b"] },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    );
+    const out = outputId(model);
+    expect(model.shapes[out].members.data.traits).toHaveProperty(["smithy.api#required"]);
+    const data = target(model, out, "data");
+    expect(membersOf(model, data)).toEqual(["a", "b"]);
+    for (const m of ["a", "b"]) {
+      expect(model.shapes[data].members[m].traits ?? {}).not.toHaveProperty([
+        "smithy.api#required",
+      ]);
+    }
+  });
+
   test("conflicting scalar properties keep the first schema", () => {
     const model = convert(
       {},

@@ -18484,7 +18484,7 @@
           }
         },
         "data": {
-          "target": "com.workos.api#EventSchemaDataMap",
+          "target": "com.workos.api#EventSchemaData",
           "traits": {
             "smithy.api#documentation": "The event payload.",
             "smithy.api#required": {}
@@ -18498,7 +18498,7 @@
           }
         },
         "context": {
-          "target": "com.workos.api#EventSchemaContextMap",
+          "target": "com.workos.api#EventSchemaContext",
           "traits": {
             "smithy.api#documentation": "Additional context about the event."
           }
@@ -18508,7 +18508,722 @@
         "smithy.api#documentation": "An event emitted by WorkOS."
       }
     },
-    "com.workos.api#EventSchemaDataMap": {
+    "com.workos.api#EventSchemaDataConnectionRole": {
+      "type": "enum",
+      "members": {
+        "COMPATIBILITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "compatibility"
+          }
+        },
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether this is the compatibility connection visible to undeclared clients or a standard connection for plural-aware clients. Historical events may omit this field."
+      }
+    },
+    "com.workos.api#EventSchemaDataScopesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The OAuth scopes granted for this connected account."
+      }
+    },
+    "com.workos.api#EventSchemaDataAuthMethod": {
+      "type": "enum",
+      "members": {
+        "OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth"
+          }
+        },
+        "API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api_key"
+          }
+        },
+        "CLIENT_CREDENTIALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client_credentials"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the connection authenticates. Historical events may omit this field."
+      }
+    },
+    "com.workos.api#EventSchemaDataState": {
+      "type": "enum",
+      "members": {
+        "CONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connected"
+          }
+        },
+        "NEEDS_REAUTHORIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_reauthorization"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The state of the connected account."
+      }
+    },
+    "com.workos.api#EventSchemaDataResourceType": {
+      "type": "enum",
+      "members": {
+        "USERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "users"
+          }
+        },
+        "ORGANIZATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organizations"
+          }
+        },
+        "EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "events"
+          }
+        },
+        "SESSIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sessions"
+          }
+        },
+        "AUDITLOGEVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auditLogEvents"
+          }
+        },
+        "CONNECTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "connections"
+          }
+        },
+        "DIRECTORYUSERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "directoryUsers"
+          }
+        },
+        "SCIMLOGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scimLogs"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of resource being exported."
+      }
+    },
+    "com.workos.api#EventSchemaDataPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The permissions granted by the role."
+      }
+    },
+    "com.workos.api#EventSchemaDataImpersonator": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the WorkOS Dashboard user who is impersonating the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The justification the impersonator gave for impersonating the user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about the impersonator if this session was created via impersonation."
+      }
+    },
+    "com.workos.api#EventSchemaDataStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "REVOKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoked"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the session."
+      }
+    },
+    "com.workos.api#EventSchemaDataMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Object containing metadata key/value pairs associated with the user."
+      }
+    },
+    "com.workos.api#VaultByokKeyProvider": {
+      "type": "enum",
+      "members": {
+        "AWS_KMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AWS_KMS"
+          }
+        },
+        "GCP_KMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GCP_KMS"
+          }
+        },
+        "AZURE_KEY_VAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AZURE_KEY_VAULT"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The external key provider used for BYOK."
+      }
+    },
+    "com.workos.api#EventSchemaDataActorSource": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.workos.api#EventSchemaDataKeyContextMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.workos.api#EventSchemaDataKeyIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The unique identifiers of the data encryption keys."
+      }
+    },
+    "com.workos.api#EventSchemaDataAdditionalFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Additional fields submitted when the user joined the waitlist. Values are user-provided — treat them as untrusted input when rendering or exporting."
+      }
+    },
+    "com.workos.api#EventSchemaData": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The connected account object."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique ID of the connected account."
+          }
+        },
+        "connection_role": {
+          "target": "com.workos.api#EventSchemaDataConnectionRole",
+          "traits": {
+            "smithy.api#documentation": "Whether this is the compatibility connection visible to undeclared clients or a standard connection for plural-aware clients. Historical events may omit this field."
+          }
+        },
+        "account_identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A best-effort identifier for the provider account this connection points at. It is not the connection identifier or a selector. Historical events may omit this field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "account_display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A mutable, non-unique display name for the provider account connection. Historical events may omit this field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "data_integration_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique ID of the data integration."
+          }
+        },
+        "provider_slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider slug for this connected account."
+          }
+        },
+        "user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the User the connected account belongs to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Organization the connected account belongs to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scopes": {
+          "target": "com.workos.api#EventSchemaDataScopesList",
+          "traits": {
+            "smithy.api#documentation": "The OAuth scopes granted for this connected account."
+          }
+        },
+        "auth_method": {
+          "target": "com.workos.api#EventSchemaDataAuthMethod",
+          "traits": {
+            "smithy.api#documentation": "How the connection authenticates. Historical events may omit this field."
+          }
+        },
+        "api_key_last_4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last four characters of the API key, or null for other authentication methods. Historical events may omit this field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state": {
+          "target": "com.workos.api#EventSchemaDataState",
+          "traits": {
+            "smithy.api#documentation": "The state of the connected account."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An ISO 8601 timestamp."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An ISO 8601 timestamp."
+          }
+        },
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A machine-readable error code for the failure."
+          }
+        },
+        "error_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable explanation of the failure.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "provider_error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The raw error code returned by the OAuth provider.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "provider_error_description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The raw error description returned by the OAuth provider.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of the Radar challenge."
+          }
+        },
+        "radar_challenge_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Radar challenge."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the user."
+          }
+        },
+        "resource_type": {
+          "target": "com.workos.api#EventSchemaDataResourceType",
+          "traits": {
+            "smithy.api#documentation": "The type of resource being exported."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The slug identifier of the role."
+          }
+        },
+        "resource_type_slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The slug of the resource type the role applies to."
+          }
+        },
+        "permissions": {
+          "target": "com.workos.api#EventSchemaDataPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "The permissions granted by the role."
+          }
+        },
+        "impersonator": {
+          "target": "com.workos.api#EventSchemaDataImpersonator",
+          "traits": {
+            "smithy.api#documentation": "Information about the impersonator if this session was created via impersonation."
+          }
+        },
+        "ip_address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The IP address from which the session was created.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "user_agent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user agent string from the device that created the session.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.workos.api#EventSchemaDataStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the session."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when the session expires."
+          }
+        },
+        "ended_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when the session ended.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "first_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The first name of the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last name of the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's full name.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "profile_picture_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL reference to an image representing the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "email_verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the user's email has been verified."
+          }
+        },
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external ID of the user.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.workos.api#EventSchemaDataMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Object containing metadata key/value pairs associated with the user."
+          }
+        },
+        "last_sign_in_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when the user last signed in.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "locale": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's preferred locale.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "key_provider": {
+          "target": "com.workos.api#VaultByokKeyProvider"
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the BYOK key verification completed successfully."
+          }
+        },
+        "actor_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the actor."
+          }
+        },
+        "actor_source": {
+          "target": "com.workos.api#EventSchemaDataActorSource"
+        },
+        "actor_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the actor."
+          }
+        },
+        "kv_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the key-value store."
+          }
+        },
+        "key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the encryption key."
+          }
+        },
+        "key_context": {
+          "target": "com.workos.api#EventSchemaDataKeyContextMap"
+        },
+        "key_ids": {
+          "target": "com.workos.api#EventSchemaDataKeyIdsList",
+          "traits": {
+            "smithy.api#documentation": "The unique identifiers of the data encryption keys."
+          }
+        },
+        "key_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the key encryption key."
+          }
+        },
+        "approved_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when the entry was approved, or null if not yet approved.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "additional_fields": {
+          "target": "com.workos.api#EventSchemaDataAdditionalFieldsMap",
+          "traits": {
+            "smithy.api#documentation": "Additional fields submitted when the user joined the waitlist. Values are user-provided — treat them as untrusted input when rendering or exporting."
+          }
+        },
+        "waitlist_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique ID of the waitlist the entry belongs to.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The event payload."
+      }
+    },
+    "com.workos.api#EventSchemaContextGoogleAnalyticsSessionsItem": {
+      "type": "structure",
+      "members": {
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Google Analytics container ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "sessionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Google Analytics session ID."
+          }
+        },
+        "sessionNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Google Analytics session number."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.workos.api#EventSchemaContextGoogleAnalyticsSessionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.workos.api#EventSchemaContextGoogleAnalyticsSessionsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The Google Analytics sessions associated with the event."
+      }
+    },
+    "com.workos.api#EventContextActorDto": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the actor.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.workos.api#EventContextActorDtoSource",
+          "traits": {
+            "smithy.api#documentation": "The source of the actor that performed the action.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the actor.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The actor who performed the action."
+      }
+    },
+    "com.workos.api#EventContextActorDtoSource": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard"
+          }
+        },
+        "ADMIN_PORTAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin_portal"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The source of the actor that performed the action."
+      }
+    },
+    "com.workos.api#EventSchemaContextPreviousAttributesMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -18517,16 +19232,45 @@
         "target": "smithy.api#Document"
       },
       "traits": {
-        "smithy.api#documentation": "The event payload."
+        "smithy.api#documentation": "Attributes that changed from their previous values."
       }
     },
-    "com.workos.api#EventSchemaContextMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
+    "com.workos.api#EventSchemaContext": {
+      "type": "structure",
+      "members": {
+        "google_analytics_client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Google Analytics client ID."
+          }
+        },
+        "google_analytics_sessions": {
+          "target": "com.workos.api#EventSchemaContextGoogleAnalyticsSessionsList",
+          "traits": {
+            "smithy.api#documentation": "The Google Analytics sessions associated with the event."
+          }
+        },
+        "ajs_anonymous_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The anonymous ID from analytics."
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client ID associated with the event."
+          }
+        },
+        "actor": {
+          "target": "com.workos.api#EventContextActorDto"
+        },
+        "previous_attributes": {
+          "target": "com.workos.api#EventSchemaContextPreviousAttributesMap",
+          "traits": {
+            "smithy.api#documentation": "Attributes that changed from their previous values."
+          }
+        }
       },
       "traits": {
         "smithy.api#documentation": "Additional context about the event."

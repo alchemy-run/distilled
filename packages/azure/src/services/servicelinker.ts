@@ -12,6 +12,33 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** The type of identity that created the resource. */
+export type ConnectorCreateOrUpdateRequestSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type ConnectorCreateOrUpdateRequestSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface ConnectorCreateOrUpdateRequestSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: ConnectorCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: ConnectorCreateOrUpdateRequestSystemDataLastModifiedByType | (string & {});
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 /** The target service type. */
 export type TargetServiceType =
   | "AzureResource"
@@ -219,25 +246,35 @@ export interface ConnectorCreateOrUpdateRequest {
   location: string;
   /** The name of resource. */
   connectorName: string;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: ConnectorCreateOrUpdateRequestSystemData;
   /** The properties of the Linker. */
   properties: LinkerPropertiesInput;
 }
 /** The type of identity that created the resource. */
-export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type ConnectorCreateOrUpdateResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
 /** The type of identity that last modified the resource. */
-export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type ConnectorCreateOrUpdateResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
 /** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
+export interface ConnectorCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
   createdBy?: string;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: ConnectorCreateOrUpdateResponseSystemDataCreatedByType;
   /** The timestamp of resource creation (UTC). */
   createdAt?: string;
   /** The identity that last modified the resource. */
   lastModifiedBy?: string;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: ConnectorCreateOrUpdateResponseSystemDataLastModifiedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string;
 }
@@ -317,8 +354,8 @@ export interface ConnectorCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: ConnectorCreateOrUpdateResponseSystemData;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -344,6 +381,25 @@ export interface CreateConnectorDryrunRequest {
   dryrunName: string;
   /** The properties of the dryrun job. */
   properties?: DryrunPropertiesInput;
+}
+/** The type of identity that created the resource. */
+export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+/** The type of identity that last modified the resource. */
+export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: SystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: SystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
 }
 /** The type of dryrun result. */
 export type DryrunPrerequisiteResultType = "basicError" | "permissionsMissing";
@@ -552,6 +608,33 @@ export interface GetConnectorRequest {
   /** The name of resource. */
   connectorName: string;
 }
+/** The type of identity that created the resource. */
+export type GetConnectorResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type GetConnectorResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GetConnectorResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GetConnectorResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GetConnectorResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 export interface GetConnectorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
@@ -559,8 +642,8 @@ export interface GetConnectorResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GetConnectorResponseSystemData;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -592,6 +675,33 @@ export interface GetLinkerRequest {
   /** The name Linker resource. */
   linkerName: string;
 }
+/** The type of identity that created the resource. */
+export type GetLinkerResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type GetLinkerResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface GetLinkerResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: GetLinkerResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: GetLinkerResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 export interface GetLinkerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
@@ -599,8 +709,8 @@ export interface GetLinkerResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: GetLinkerResponseSystemData;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -622,13 +732,69 @@ export interface GetLinkerDryrunResponse {
   /** The properties of the dryrun job. */
   properties?: DryrunProperties;
 }
+/** The type of identity that created the resource. */
+export type LinkerCreateOrUpdateRequestSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type LinkerCreateOrUpdateRequestSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface LinkerCreateOrUpdateRequestSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: LinkerCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: LinkerCreateOrUpdateRequestSystemDataLastModifiedByType | (string & {});
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 export interface LinkerCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
   resourceUri: string;
   /** The name Linker resource. */
   linkerName: string;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: LinkerCreateOrUpdateRequestSystemData;
   /** The properties of the Linker. */
   properties: LinkerPropertiesInput;
+}
+/** The type of identity that created the resource. */
+export type LinkerCreateOrUpdateResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type LinkerCreateOrUpdateResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface LinkerCreateOrUpdateResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: LinkerCreateOrUpdateResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: LinkerCreateOrUpdateResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
 }
 export interface LinkerCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -637,8 +803,8 @@ export interface LinkerCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: LinkerCreateOrUpdateResponseSystemData;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -696,6 +862,33 @@ export interface ListConnectorRequest {
   /** The name of Azure region. */
   location: string;
 }
+/** The type of identity that created the resource. */
+export type LinkerResourceSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type LinkerResourceSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface LinkerResourceSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: LinkerResourceSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: LinkerResourceSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 /** Linker of source and target resource */
 export interface LinkerResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -704,8 +897,8 @@ export interface LinkerResource {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: LinkerResourceSystemData;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -835,6 +1028,33 @@ export interface UpdateConnectorRequest {
   /** Linker properties */
   properties?: LinkerPropertiesInput;
 }
+/** The type of identity that created the resource. */
+export type UpdateConnectorResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type UpdateConnectorResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface UpdateConnectorResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: UpdateConnectorResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: UpdateConnectorResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 export interface UpdateConnectorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
@@ -842,8 +1062,8 @@ export interface UpdateConnectorResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: UpdateConnectorResponseSystemData;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -879,6 +1099,33 @@ export interface UpdateLinkerRequest {
   /** Linker properties */
   properties?: LinkerPropertiesInput;
 }
+/** The type of identity that created the resource. */
+export type UpdateLinkerResponseSystemDataCreatedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** The type of identity that last modified the resource. */
+export type UpdateLinkerResponseSystemDataLastModifiedByType =
+  | "User"
+  | "Application"
+  | "ManagedIdentity"
+  | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface UpdateLinkerResponseSystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: UpdateLinkerResponseSystemDataCreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: UpdateLinkerResponseSystemDataLastModifiedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string;
+}
 export interface UpdateLinkerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string;
@@ -886,8 +1133,8 @@ export interface UpdateLinkerResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: UpdateLinkerResponseSystemData;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -1402,6 +1649,7 @@ function __c0(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
           connectorName: S.String.pipe(T.Label()),
+          systemData: S.optional(__S(16, __c1, 0)),
           properties: __S(33, __c2, 1),
         }).pipe(
           T.Http({
@@ -1426,7 +1674,7 @@ function __c1(j: number): any {
           lastModifiedByType: S.optional(S.String),
           lastModifiedAt: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SystemData" });
+      ).annotate({ identifier: "ConnectorCreateOrUpdateRequestSystemData" });
   }
 }
 function __c2(j: number): any {
@@ -1758,6 +2006,7 @@ function __c14(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           linkerName: S.String.pipe(T.Label()),
+          systemData: S.optional(__S(16, __c1, 0)),
           properties: __S(33, __c2, 1),
         }).pipe(
           T.Http({

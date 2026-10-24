@@ -6485,6 +6485,12 @@
         },
         "name": {
           "target": "com.paypal.checkout_orders_v2#CardVaultResponseCustomerName"
+        },
+        "merchant_customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer."
+          }
         }
       },
       "traits": {}
@@ -7263,7 +7269,10 @@
           }
         },
         "customer": {
-          "target": "com.paypal.checkout_orders_v2#PaypalWalletVaultResponseCustomer"
+          "target": "com.paypal.checkout_orders_v2#PaypalWalletVaultResponseCustomer",
+          "traits": {
+            "smithy.api#documentation": "The details about a customer in PayPal's system of record."
+          }
         },
         "links": {
           "target": "com.paypal.checkout_orders_v2#PaypalWalletVaultResponseLinksList",
@@ -7386,9 +7395,17 @@
         },
         "name": {
           "target": "com.paypal.checkout_orders_v2#PaypalWalletVaultResponseCustomerName"
+        },
+        "merchant_customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer."
+          }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "The details about a customer in PayPal's system of record."
+      }
     },
     "com.paypal.checkout_orders_v2#PaypalWalletVaultResponseLinksItemMethod": {
       "type": "enum",

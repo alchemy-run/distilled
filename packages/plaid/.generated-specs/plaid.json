@@ -40475,8 +40475,9 @@
           }
         },
         "balances": {
-          "target": "com.plaid.api#AccountBalance",
+          "target": "com.plaid.api#InvestmentAccountBalances",
           "traits": {
+            "smithy.api#documentation": "A set of fields describing the balance for an account. For real-time values, use `/accounts/balance/get` or `/signal/evaluate` (with a Balance-only ruleset), which are fetched live from the institution at request time. Values returned by other endpoints may be cached, or adjusted by Plaid to reflect transaction activity received since the last refresh.",
             "smithy.api#required": {}
           }
         },
@@ -40553,6 +40554,70 @@
       },
       "traits": {
         "smithy.api#documentation": "A single account at a financial institution, with additional investment-specific balance information.",
+        "com.distilled.openapi#additionalProperties": {}
+      }
+    },
+    "com.plaid.api#InvestmentAccountBalances": {
+      "type": "structure",
+      "members": {
+        "available": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The amount of funds available to be withdrawn from the account, as determined by the financial institution.\n\nFor `credit`-type accounts, the `available` balance typically equals the `limit` less the `current` balance, less any pending outflows plus any pending inflows.\n\nFor `depository`-type accounts, the `available` balance typically equals the `current` balance less any pending outflows plus any pending inflows. For `depository`-type accounts, the `available` balance does not include the overdraft limit.\n\nFor `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier), the `available` balance is the total cash available to withdraw as presented by the institution.\n\nNote that not all institutions calculate the `available`  balance. In the event that `available` balance is unavailable, Plaid will return an `available` balance value of `null`.\n\nAvailable balance may be cached and is not guaranteed to be up-to-date in real-time unless the value was returned by `/accounts/balance/get`, or by `/signal/evaluate` with a Balance-only ruleset.\n\nIf `current` is `null` this field is guaranteed not to be `null`, unless you have opted into enabling [limited-purpose checking accounts](https://plaid.com/docs/auth/#enabling-limited-purpose-checking-accounts-for-rent-or-mortgage), which always have `null` values for both `available` and `current` balance.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total amount of funds in or owed by the account.\n\nFor `credit`-type accounts, a positive balance indicates the amount owed; a negative amount indicates the lender owing the account holder.\n\nFor `loan`-type accounts, the current balance is the principal remaining on the loan, except in the case of student loan accounts at Sallie Mae (`ins_116944`). For Sallie Mae student loans, the account's balance includes both principal and any outstanding interest. Similar to `credit`-type accounts, a positive balance is typically expected, while a negative amount indicates the lender owing the account holder.\n\nFor `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier), the current balance is the total value of assets as presented by the institution.\n\nNote that balance information may be cached unless the value was returned by `/accounts/balance/get` or by `/signal/evaluate` with a Balance-only ruleset; if the Item is enabled for Transactions, the balance will be at least as recent as the most recent Transaction update. If you require real-time balance information, use the `available` balance as provided by `/accounts/balance/get` or `/signal/evaluate` called with a Balance-only `ruleset_key`.\n\nWhen returned by `/accounts/balance/get`, this field may be `null`. When this happens, `available` is guaranteed not to be `null`, unless you have opted into enabling [limited-purpose checking accounts](https://plaid.com/docs/auth/#enabling-limited-purpose-checking-accounts-for-rent-or-mortgage), which always have `null` values for both `available` and `current` balance.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "For `credit`-type accounts, this represents the credit limit.\n\nFor `depository`-type accounts, this represents the pre-arranged overdraft limit, which is common for current (checking) accounts in Europe.\n\nIn North America, this field is typically only available for `credit`-type accounts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "iso_currency_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO-4217 currency code of the balance. Always null if `unofficial_currency_code` is non-null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unofficial_currency_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unofficial currency code associated with the balance. Always null if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.\n\nSee the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_updated_datetime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the last time the balance was updated.\n\nThis field is returned only when the institution is `ins_128026` (Capital One).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "margin_loan_amount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The total amount of borrowed funds in the account, as determined by the financial institution.\nFor investment-type accounts, the margin balance is the total value of borrowed assets in the account, as presented by the institution.\nThis is commonly referred to as margin or a loan.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A set of fields describing the balance for an account. For real-time values, use `/accounts/balance/get` or `/signal/evaluate` (with a Balance-only ruleset), which are fetched live from the institution at request time. Values returned by other endpoints may be cached, or adjusted by Plaid to reflect transaction activity received since the last refresh.",
         "com.distilled.openapi#additionalProperties": {}
       }
     },

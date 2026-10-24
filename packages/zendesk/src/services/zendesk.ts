@@ -4263,8 +4263,35 @@ export type TicketCreateVoicemailTicketInputInputType =
   | "incident"
   | "question"
   | "task";
+/** Type of recording */
+export type TicketCreateVoicemailTicketInputInputVoiceCommentRecordingType =
+  | "call"
+  | "voicemail"
+  | "ai";
 /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
-export type TicketCreateVoicemailTicketInputInputVoiceComment = TicketObjectInputVoiceComment;
+export interface TicketCreateVoicemailTicketInputInputVoiceComment {
+  /** The agent who answered the call */
+  answered_by_id?: number | null;
+  /** Duration of the call in seconds */
+  call_duration?: number;
+  /** Incoming phone number */
+  from?: string;
+  /** Location of the caller */
+  location?: string | null;
+  /** URL of the recording */
+  recording_url?: string | null;
+  /** Dialed phone number */
+  to?: string;
+  /** Transcription of the call */
+  transcription_text?: string | null;
+  /** Whether the voice comment is public */
+  public?: boolean;
+  /** Type of recording */
+  recording_type?: TicketCreateVoicemailTicketInputInputVoiceCommentRecordingType | (string & {});
+  /** Timestamp of the call starting time */
+  started_at?: string;
+  [key: string]: unknown;
+}
 /** An array of tags to add to the ticket */
 export type TicketCreateVoicemailTicketInputInputAdditionalTagsList = Array<string>;
 /** An array of tags to remove from the ticket */
@@ -4364,7 +4391,7 @@ export interface TicketCreateVoicemailTicketInputInput {
   /** Write only. For more information, see the [Via object reference](/documentation/ticketing/reference-guides/via-object-reference/) */
   via_id?: number;
   /** Write only. A voice comment for Talk tickets. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets/) */
-  voice_comment?: TicketObjectInputVoiceComment;
+  voice_comment?: TicketCreateVoicemailTicketInputInputVoiceComment;
   /** An array of tags to add to the ticket */
   additional_tags?: TicketCreateVoicemailTicketInputInputAdditionalTagsList;
   /** An array of tags to remove from the ticket */
@@ -6283,7 +6310,6 @@ export interface GetCurrentUserRequest {
 }
 /** PUT or POST requests only. Assigns agent or agents to a brand. For more information, see [Agent brand ids](#agent-brand-ids) */
 export type CurrentUserResponseUserAgentBrandIdsList = Array<number>;
-/** The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
 export type CurrentUserResponseUserPhotoMap = { [key: string]: unknown | undefined };
 /** The separation scope. "account" means account-level access; "brand" means access limited to a specific brand. */
 export type CurrentUserResponseUserSeparationScope = "account" | "brand";
@@ -6351,7 +6377,7 @@ export interface CurrentUserResponseUser {
   /** The user's primary phone number. See [Phone Number](#phone-number) below */
   phone?: string | null;
   /** The user's profile picture represented as an [Attachment](/api-reference/ticketing/tickets/ticket-attachments/) object */
-  photo?: CurrentUserResponseUserPhotoMap | null;
+  photo?: CurrentUserResponseUserPhotoMap;
   /** A URL pointing to the user's profile picture. */
   remote_photo_url?: string;
   /** This parameter is inert and has no effect. It may be deprecated in the future. Previously, this parameter determined whether a user could access a CSV report in a legacy Guide dashboard. This dashboard has been removed. See [Announcing Guide legacy reporting upgrade to Explore](https://support.zendesk.com/hc/en-us/articles/4762263171610-Announcing-Guide-legacy-reporting-upgrade-to-Explore-) */
@@ -14243,7 +14269,7 @@ export const createTicketOrVoicemailTicket: API.OperationMethod<
   CreateTicketOrVoicemailTicketError,
   ZendeskOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1441, __c45, 1) as any as S.Schema<CreateTicketOrVoicemailTicketRequest>,
+  input: __S(1442, __c45, 2) as any as S.Schema<CreateTicketOrVoicemailTicketRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<TicketResponseOutput>,
   errors: [NotFound, UnprocessableEntity, UnknownZendeskError],
   protocol: ZendeskProtocol,
@@ -23137,7 +23163,7 @@ function __c25(j: number): any {
         S.Struct({
           include: S.optional(S.String.pipe(T.Query())),
           system_metadata: S.optional(__S(27392, __c856, 0)),
-          ticket: __S(928, __c29, 0),
+          ticket: __S(929, __c29, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/tickets", code: 200 })),
       ).annotate({ identifier: "CreateTicketRequest" });
   }
@@ -23286,7 +23312,11 @@ function __c28(j: number): any {
           wait_time: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "TicketObjectInputTpeVoiceComment" });
-    case 5:
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
@@ -23301,11 +23331,7 @@ function __c28(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "TicketObjectInputVoiceComment" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           additional_collaborators: S.optional(__S(865, __c27, 1)),
@@ -23355,7 +23381,7 @@ function __c29(j: number): any {
           updated_stamp: S.optional(S.String),
           via_followup_source_id: S.optional(S.Number),
           via_id: S.optional(S.Number),
-          voice_comment: S.optional(__S(901, __c28, 5)),
+          voice_comment: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "TicketObjectInput" });
   }
@@ -23679,6 +23705,24 @@ function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            answered_by_id: S.optional(S.NullOr(S.Number)),
+            call_duration: S.optional(S.Number),
+            from: S.optional(S.String),
+            location: S.optional(S.NullOr(S.String)),
+            recording_url: S.optional(S.NullOr(S.String)),
+            to: S.optional(S.String),
+            transcription_text: S.optional(S.NullOr(S.String)),
+            public: S.optional(S.Boolean),
+            recording_type: S.optional(S.String),
+            started_at: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "TicketCreateVoicemailTicketInputInputVoiceComment" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
           additional_collaborators: S.optional(__S(865, __c27, 1)),
           assignee_email: S.optional(S.String),
@@ -23727,16 +23771,16 @@ function __c45(j: number): any {
           updated_stamp: S.optional(S.String),
           via_followup_source_id: S.optional(S.Number),
           via_id: S.optional(S.Number),
-          voice_comment: S.optional(__S(901, __c28, 5)),
+          voice_comment: S.optional(__S(1440, __c45, 0)),
           additional_tags: S.optional(__S(19008, __c594, 0)),
           remove_tags: S.optional(__S(19008, __c594, 0)),
         }),
       ).annotate({ identifier: "TicketCreateVoicemailTicketInputInput" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           display_to_agent: S.optional(S.Number),
-          ticket: S.optional(__S(1440, __c45, 0)),
+          ticket: S.optional(__S(1441, __c45, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/channels/voice/tickets", code: 200 })),
       ).annotate({ identifier: "CreateTicketOrVoicemailTicketRequest" });
   }
@@ -27046,7 +27090,7 @@ function __c241(j: number): any {
             only_private_comments: S.optional(S.Boolean),
             organization_id: S.optional(S.NullOr(S.Number)),
             phone: S.optional(S.NullOr(S.String)),
-            photo: S.optional(S.NullOr(__S(27392, __c856, 0))),
+            photo: S.optional(__S(27392, __c856, 0)),
             remote_photo_url: S.optional(S.String),
             report_csv: S.optional(S.Boolean),
             restricted_agent: S.optional(S.Boolean),
@@ -35266,7 +35310,7 @@ function __c709(j: number): any {
 function __c710(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(929, __c29, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -36601,7 +36645,7 @@ function __c788(j: number): any {
         S.Struct({
           ticket_id: S.Number.pipe(T.Label()),
           system_metadata: S.optional(__S(27392, __c856, 0)),
-          ticket: S.optional(__S(928, __c29, 0)),
+          ticket: S.optional(__S(929, __c29, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v2/tickets/{ticket_id}", code: 200 })),
       ).annotate({ identifier: "UpdateTicketRequest" });
     case 1:
