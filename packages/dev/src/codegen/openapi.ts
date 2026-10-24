@@ -420,8 +420,7 @@ const flattenObject = (ctx: Ctx, def: any, depth = 0): FlatObject => {
     required: new Set(),
     isObject: false,
   };
-  // Revisiting a `$ref` under the same flags merges nothing new (property
-  // merge is first-wins) — dedupe so shared/cyclic allOf bases are walked
+  // Revisiting a `$ref` under the same flags merges nothing new — dedupe so shared/cyclic allOf bases are walked
   // once per flag combination instead of exponentially (MongoDB Atlas's
   // polymorphic allOf/oneOf graph never finished under the bare depth cap).
   const seen = new Set<string>();
@@ -448,7 +447,8 @@ const flattenObject = (ctx: Ctx, def: any, depth = 0): FlatObject => {
     if (r.properties && typeof r.properties === "object") {
       out.isObject = true;
       for (const [k, v] of Object.entries(r.properties)) {
-        if (!(k in out.properties)) out.properties[k] = v;
+        out.properties[k] =
+          k in out.properties ? mergePropertySchemas(ctx, out.properties[k], v) : v;
       }
     }
     if (r.type === "object") out.isObject = true;
@@ -465,6 +465,50 @@ const flattenObject = (ctx: Ctx, def: any, depth = 0): FlatObject => {
   };
   visit(def, depth, false, false);
   return out;
+};
+
+/** Whether a schema is a plain object (properties/allOf/`type: object`, no union). */
+const isMergeableObject = (r: any): boolean =>
+  !!r &&
+  typeof r === "object" &&
+  !r.oneOf &&
+  !r.anyOf &&
+  !Array.isArray(r.enum) &&
+  (typeOf(r) === "object" || !!r.properties || Array.isArray(r.allOf));
+
+/**
+ * Combine two schemas for the same property seen in different `allOf`
+ * branches. Branches commonly extend a shared nested object (`data`) or an
+ * array's item object with extra fields, so objects merge as an `allOf` of
+ * both and arrays merge their `items` recursively. Anything else (scalars,
+ * unions, conflicting types) keeps the first schema.
+ */
+const mergePropertySchemas = (ctx: Ctx, a: any, b: any): any => {
+  if (a === b) return a;
+  if (a?.$ref !== undefined && a.$ref === b?.$ref) return a;
+  const ra = deref(ctx, a);
+  const rb = deref(ctx, b);
+  if (!ra || !rb || typeof ra !== "object" || typeof rb !== "object" || ra === rb) return a;
+  // The intersection is only nullable when both sides allow null.
+  const nullable = ownNullable(ctx, ra) && ownNullable(ctx, rb) ? { nullable: true } : {};
+  const description =
+    typeof ra.description === "string"
+      ? { description: ra.description }
+      : typeof rb.description === "string"
+        ? { description: rb.description }
+        : {};
+  if (typeOf(ra) === "array" && typeOf(rb) === "array" && ra.items && rb.items) {
+    return {
+      type: "array",
+      items: mergePropertySchemas(ctx, ra.items, rb.items),
+      ...description,
+      ...nullable,
+    };
+  }
+  if (isMergeableObject(ra) && isMergeableObject(rb)) {
+    return { type: "object", allOf: [a, b], ...description, ...nullable };
+  }
+  return a;
 };
 
 /** Whether a `oneOf`/`anyOf` branch represents JSON null. */
