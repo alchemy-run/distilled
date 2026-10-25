@@ -561,6 +561,14 @@ describe("fromHttp / fromContainerMetadata", () => {
     expect(error.message).toBe("Server responded with status: 403 AccessDenied nope");
   });
 
+  test("a malformed relative URI fails as a CredentialSourceError", async () => {
+    process.env.AWS_CONTAINER_CREDENTIALS_RELATIVE_URI = "//[bad";
+    const error = await runFail(containerMetadataSource());
+    expect(error).toBeInstanceOf(CredentialSourceError);
+    expect(error.message).toBe("//[bad is not a valid container metadata service path");
+    expect(error.tryNextLink).toBe(false);
+  });
+
   test("nothing configured", async () => {
     expect((await runFail(httpSource())).message).toContain("No HTTP credential provider host");
     const container = await runFail(containerMetadataSource());
