@@ -17627,6 +17627,36 @@
         "smithy.api#documentation": "List pull requests associated with a commit\n\nLists the merged pull request that introduced the commit to the repository. If the commit is not present in the default branch, it will return merged and open pull requests associated with the commit.\n\nTo list the open or merged pull requests associated with a branch, you can set the `commit_sha` parameter to the branch name."
       }
     },
+    "com.github.repos#GetCommitRequestAccept": {
+      "type": "enum",
+      "members": {
+        "APPLICATION_VND_GITHUB_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github+json"
+          }
+        },
+        "APPLICATION_VND_GITHUB_DIFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github.diff"
+          }
+        },
+        "APPLICATION_VND_GITHUB_PATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github.patch"
+          }
+        },
+        "APPLICATION_VND_GITHUB_SHA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github.sha"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.github.repos#GetCommitRequest": {
       "type": "structure",
       "members": {
@@ -17667,10 +17697,44 @@
             "smithy.api#httpQuery": "per_page",
             "smithy.api#documentation": "The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\""
           }
+        },
+        "accept": {
+          "target": "com.github.repos#GetCommitRequestAccept",
+          "traits": {
+            "smithy.api#httpHeader": "Accept",
+            "smithy.api#documentation": "A media type that returns text instead of JSON: `application/vnd.github.diff`, `application/vnd.github.patch`, `application/vnd.github.sha`."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.github.repos#GetCommitResponseBody": {
+      "type": "union",
+      "members": {
+        "Commit": {
+          "target": "com.github.repos#Commit"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.github.repos#GetCommitResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.github.repos#GetCommitResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.github.repos#GetCommit": {
@@ -17679,7 +17743,7 @@
         "target": "com.github.repos#GetCommitRequest"
       },
       "output": {
-        "target": "com.github.repos#Commit"
+        "target": "com.github.repos#GetCommitResponse"
       },
       "errors": [
         {
@@ -18255,6 +18319,30 @@
         "smithy.api#documentation": "Get community profile metrics\n\nReturns all community profile metrics for a repository. The repository cannot be a fork.\n\nThe returned metrics include an overall health score, the repository description, the presence of documentation, the\ndetected code of conduct, the detected license, and the presence of ISSUE\\_TEMPLATE, PULL\\_REQUEST\\_TEMPLATE,\nREADME, and CONTRIBUTING files.\n\nThe `health_percentage` score is defined as a percentage of how many of\nthe recommended community health files are present. For more information, see\n\"[About community profiles for public repositories](https://docs.github.com/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories).\"\n\n`content_reports_enabled` is only returned for organization-owned repositories."
       }
     },
+    "com.github.repos#CompareCommitsRequestAccept": {
+      "type": "enum",
+      "members": {
+        "APPLICATION_VND_GITHUB_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github+json"
+          }
+        },
+        "APPLICATION_VND_GITHUB_DIFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github.diff"
+          }
+        },
+        "APPLICATION_VND_GITHUB_PATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github.patch"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.github.repos#CompareCommitsRequest": {
       "type": "structure",
       "members": {
@@ -18294,6 +18382,13 @@
           "traits": {
             "smithy.api#httpQuery": "per_page",
             "smithy.api#documentation": "The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\""
+          }
+        },
+        "accept": {
+          "target": "com.github.repos#CompareCommitsRequestAccept",
+          "traits": {
+            "smithy.api#httpHeader": "Accept",
+            "smithy.api#documentation": "A media type that returns text instead of JSON: `application/vnd.github.diff`, `application/vnd.github.patch`."
           }
         }
       },
@@ -18428,13 +18523,40 @@
       },
       "traits": {}
     },
+    "com.github.repos#CompareCommitsResponseBody": {
+      "type": "union",
+      "members": {
+        "CommitComparison": {
+          "target": "com.github.repos#CommitComparison"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.github.repos#CompareCommitsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.github.repos#CompareCommitsResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.github.repos#CompareCommits": {
       "type": "operation",
       "input": {
         "target": "com.github.repos#CompareCommitsRequest"
       },
       "output": {
-        "target": "com.github.repos#CommitComparison"
+        "target": "com.github.repos#CompareCommitsResponse"
       },
       "errors": [
         {

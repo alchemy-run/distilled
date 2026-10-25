@@ -3814,6 +3814,30 @@
         "smithy.api#documentation": "Delete a review comment for a pull request\n\nDeletes a review comment."
       }
     },
+    "com.github.pulls#GetRequestAccept": {
+      "type": "enum",
+      "members": {
+        "APPLICATION_VND_GITHUB_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github+json"
+          }
+        },
+        "APPLICATION_VND_GITHUB_DIFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github.diff"
+          }
+        },
+        "APPLICATION_VND_GITHUB_PATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "application/vnd.github.patch"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.github.pulls#GetRequest": {
       "type": "structure",
       "members": {
@@ -3840,10 +3864,44 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "The number that identifies the pull request."
           }
+        },
+        "accept": {
+          "target": "com.github.pulls#GetRequestAccept",
+          "traits": {
+            "smithy.api#httpHeader": "Accept",
+            "smithy.api#documentation": "A media type that returns text instead of JSON: `application/vnd.github.diff`, `application/vnd.github.patch`."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.github.pulls#GetResponseBody": {
+      "type": "union",
+      "members": {
+        "PullRequest": {
+          "target": "com.github.pulls#PullRequest"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.github.pulls#GetResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.github.pulls#GetResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.github.pulls#Get": {
@@ -3852,7 +3910,7 @@
         "target": "com.github.pulls#GetRequest"
       },
       "output": {
-        "target": "com.github.pulls#PullRequest"
+        "target": "com.github.pulls#GetResponse"
       },
       "errors": [
         {
@@ -8240,111 +8298,11 @@
         },
         {
           "target": "com.github.pulls#PullRequestStacksUnstack"
-        },
-        {
-          "target": "com.github.pulls#GetDiff"
         }
       ],
       "traits": {
         "smithy.api#title": "GitHub v3 REST API",
         "smithy.api#documentation": "GitHub's v3 REST API."
-      }
-    },
-    "com.github.pulls#GetDiffMediaType": {
-      "type": "enum",
-      "members": {
-        "DIFF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "application/vnd.github.diff"
-          }
-        },
-        "PATCH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "application/vnd.github.patch"
-          }
-        }
-      }
-    },
-    "com.github.pulls#GetDiffRequest": {
-      "type": "structure",
-      "members": {
-        "owner": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The account owner of the repository. The name is not case sensitive."
-          }
-        },
-        "repo": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The name of the repository without the `.git` extension. The name is not case sensitive."
-          }
-        },
-        "pull_number": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The number that identifies the pull request."
-          }
-        },
-        "accept": {
-          "target": "com.github.pulls#GetDiffMediaType",
-          "traits": {
-            "smithy.api#httpHeader": "Accept",
-            "smithy.api#required": {},
-            "smithy.api#documentation": "`application/vnd.github.diff` for the unified diff, `application/vnd.github.patch` for the commits as patches."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.github.pulls#GetDiffResponse": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#rawResponse": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
-    "com.github.pulls#GetDiff": {
-      "type": "operation",
-      "input": {
-        "target": "com.github.pulls#GetDiffRequest"
-      },
-      "output": {
-        "target": "com.github.pulls#GetDiffResponse"
-      },
-      "errors": [
-        {
-          "target": "com.github.pulls#NotFound"
-        },
-        {
-          "target": "com.github.pulls#UnprocessableEntity"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/repos/{owner}/{repo}/pulls/{pull_number}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get a pull request as a diff or patch\n\nThe text form of `pulls.get`: the unified diff (`application/vnd.github.diff`) or the commits as patches (`application/vnd.github.patch`). GitHub refuses diffs over 20,000 lines or 300 files; list them page by page with `pulls.listFiles` instead."
       }
     }
   }

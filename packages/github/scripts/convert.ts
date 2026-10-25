@@ -77,6 +77,56 @@ if (!fs.existsSync(specPath)) {
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
 
+// ---- 2. Alternate text media types ---------------------------------------------
+// Some endpoints answer with plain text when asked through `Accept`: the
+// `application/vnd.github.diff` / `.patch` / `.sha` media types return a
+// commit or pull request as a unified diff, patches or a SHA instead of JSON.
+// The spec lists them as extra response content types, which the converter
+// (JSON only) would drop. Model them the way the API works: an optional
+// `accept` header on the SAME operation, and a response that is the JSON
+// object or the text.
+//
+// `pulls/get` documents these media types only in prose
+// (https://docs.github.com/rest/pulls/pulls#get-a-pull-request), so they are
+// declared here.
+const TEXT_MEDIA_TYPES = [
+  "application/vnd.github.diff",
+  "application/vnd.github.patch",
+  "application/vnd.github.sha",
+];
+const DOCUMENTED_MEDIA_TYPES: Record<string, readonly string[]> = {
+  "pulls/get": ["application/vnd.github.diff", "application/vnd.github.patch"],
+};
+for (const pathItem of Object.values<Record<string, any>>(fullSpec.paths)) {
+  for (const method of HTTP_METHODS) {
+    const op = pathItem[method];
+    const ok = op?.responses?.["200"];
+    const content: Record<string, { schema?: unknown }> | undefined = ok?.content;
+    if (!content?.["application/json"]) continue;
+    for (const type of DOCUMENTED_MEDIA_TYPES[op.operationId] ?? []) {
+      content[type] ??= { schema: { type: "string" } };
+    }
+    const text = TEXT_MEDIA_TYPES.filter((type) => type in content);
+    if (text.length === 0) continue;
+    const json = content["application/json"];
+    for (const type of text) delete content[type];
+    content["application/json"] = {
+      ...json,
+      schema: { oneOf: [json.schema, { type: "string" }] },
+    };
+    op.parameters = [
+      ...(op.parameters ?? []),
+      {
+        name: "Accept",
+        in: "header",
+        required: false,
+        description: `A media type that returns text instead of JSON: ${text.map((type) => `\`${type}\``).join(", ")}.`,
+        schema: { type: "string", enum: ["application/vnd.github+json", ...text] },
+      },
+    ];
+  }
+}
+
 // ---- 3./4. Bucket paths by primary tag, shortening operation ids -----------
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();
 for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(fullSpec.paths)) {
@@ -112,6 +162,8 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     namespace: `com.github.${slug}`,
     serviceName: toPascal(slug),
     skipDeprecated: true,
+    // Only the `Accept` headers added above: the spec declares no others.
+    headerParams: true,
     statusToErrorClass: {
       // The converter's defaults …
       "400": "BadRequest",
