@@ -34,6 +34,7 @@ import {
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { gzipSync } from "node:zlib";
+import { blobsAt, CATEGORIES, categoryOf, emptyTotals, type Blob } from "./tree.ts";
 
 const ROOT = join(import.meta.dirname, "..", "..");
 const OUT = join(ROOT, "benches", "dashboard", "repo-size", "lab.json");
@@ -58,65 +59,7 @@ const MB = (n: number) => `${(n / 1048576).toFixed(1)} MB`;
 
 //#region categories
 
-/** One name per kind of tracked file. Order matters: first match wins. */
-const CATEGORIES: { id: string; label: string; test: (path: string, size: number) => boolean }[] = [
-  {
-    id: "generated-specs",
-    label: "Converted specs (.generated-specs/)",
-    test: (p) => /^packages\/[^/]+\/\.generated-(specs|graphql)\//.test(p),
-  },
-  {
-    id: "services",
-    label: "Generated SDK source (src/services/)",
-    // Older layouts generated into src/*.ts directly (stripe, posthog): any
-    // src file over 200 KB counts as generated.
-    test: (p, size) =>
-      /^([^/]+\/){0,2}src\/(services|unstable-services)\//.test(p) ||
-      (/^packages\/[^/]+\/src\//.test(p) && size > 200_000),
-  },
-  {
-    id: "in-tree-specs",
-    label: "Raw specs committed in the repo (before the spec mirrors)",
-    test: (p) =>
-      p.startsWith("aws-models/") ||
-      /^packages\/[^/]+\/(specs|manual-specs|models|smithy|aws-models)\//.test(p),
-  },
-  {
-    id: "patches",
-    label: "Spec patches (patches/)",
-    test: (p) => /^packages\/[^/]+\/patches\//.test(p),
-  },
-  {
-    id: "handwritten",
-    label: "Hand-written SDK code and tests",
-    test: (p) => p.startsWith("packages/"),
-  },
-  { id: "benches", label: "Benchmarks (benches/)", test: (p) => p.startsWith("benches/") },
-  {
-    id: "other",
-    label: "Everything else (website, stacks, scripts, lockfile, docs)",
-    test: () => true,
-  },
-];
-const categoryOf = (path: string, size: number) => CATEGORIES.find((c) => c.test(path, size))!.id;
-
-const emptyTotals = () =>
-  Object.fromEntries(CATEGORIES.map((c) => [c.id, { bytes: 0, files: 0 }])) as Record<
-    string,
-    { bytes: number; files: number }
-  >;
-
-type Blob = { oid: string; size: number; path: string };
-
-const headBlobs = (): Blob[] =>
-  git(["ls-tree", "-r", "-l", "--full-tree", "HEAD"])
-    .split("\n")
-    .filter(Boolean)
-    .flatMap((line) => {
-      const [meta, path] = line.split("\t");
-      const [, type, oid, size] = meta!.split(/\s+/);
-      return type === "blob" ? [{ oid: oid!, size: Number(size), path: path! }] : [];
-    });
+const headBlobs = (): Blob[] => blobsAt("HEAD", ROOT);
 
 //#endregion
 

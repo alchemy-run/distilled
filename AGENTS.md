@@ -57,6 +57,7 @@ pnpm typecheck              # tsrs -b — fast, does NOT check generated code (s
 pnpm typecheck:ci           # tsrs -b --noCheck false — what CI runs
 pnpm --filter "./stacks/*" run typecheck
 pnpm specs:check            # spec-mirror coherence; also a CI gate
+pnpm specs:converted <pkg>  # converted models from CI (the "Converted specs" workflow)
 pnpm format                 # oxfmt, not prettier
 pnpm lint                   # oxlint
 pnpm generate [<pkg>…]      # convert + generate + format; all packages if no args

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-25T17:36:56.116Z",
-  "head": "6e3febccf",
+  "generatedAt": "2026-10-25T17:53:36.702Z",
+  "head": "f2921e600",
   "categories": [
     {
       "id": "generated-specs",
@@ -32,7 +32,7 @@
     }
   ],
   "tree": {
-    "bytes": 1179797125,
+    "bytes": 1179808337,
     "files": 9977,
     "categories": {
       "generated-specs": {
@@ -56,7 +56,7 @@
         "files": 1414
       },
       "benches": {
-        "bytes": 9513134,
+        "bytes": 9524346,
         "files": 177
       },
       "other": {

@@ -9,6 +9,9 @@
  *   node benches/sdks/ci.ts image --head pr.json [--base main.json] [--history h.json] [--pr N] [--title t] --out-dir dir
  *   node benches/sdks/ci.ts history --history h.json --add main.json [--keep 40]
  *
+ * Every run also records the tracked bytes of the checkout (`repoSize`), and
+ * of the `--changed-since` base, from git objects alone.
+ *
  * `--wide` (push to main) bundles every SDK and probes every SDK under the
  * runtime size limit, so a PR that changes any of them has a main number to
  * compare with. See README.md "CI".
@@ -17,6 +20,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { cpus } from "node:os";
 import { join, resolve } from "node:path";
+import { treeSize } from "../repo-size/tree.ts";
 import { BASELINES, bundle, fixtureSource } from "./src/bundle.ts";
 import { renderImages } from "./src/ci-image.ts";
 import { report, type CiRun, type CiProgram } from "./src/ci-report.ts";
@@ -431,6 +435,11 @@ const result: CiRun = {
   sizes,
   programs,
   providers,
+  // Tracked bytes by kind of file, here and at the base: no build, git objects only.
+  repoSize: {
+    head: treeSize("HEAD", REPO),
+    ...(flag("changed-since") ? { base: treeSize(flag("changed-since")!, REPO) } : {}),
+  },
   errors,
 };
 writeFileSync(outFile, `${JSON.stringify(result, null, 2)}\n`);
