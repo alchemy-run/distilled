@@ -14,7 +14,8 @@
     "InvalidBucketState": ["ConflictError"],
     "IllegalLocationConstraintException": ["BadRequestError"],
     "PreconditionFailed": ["ConflictError"],
-    "ConditionalRequestConflict": ["ConflictError", "RetryableError"]
+    "ConditionalRequestConflict": ["ConflictError", "RetryableError"],
+    "InvalidAccessKeyId": ["AuthError"]
   },
   "structures": {
     "GetObjectTaggingOutput": {
@@ -147,7 +148,8 @@
         "SlowDown",
         "NoSuchBucket",
         "NoSuchKey",
-        "PermanentRedirect"
+        "PermanentRedirect",
+        "InvalidAccessKeyId"
       ]
     },
     "putObject": {
@@ -157,7 +159,8 @@
         "NoSuchBucket",
         "PermanentRedirect",
         "PreconditionFailed",
-        "ConditionalRequestConflict"
+        "ConditionalRequestConflict",
+        "InvalidAccessKeyId"
       ]
     },
     "deleteBucketEncryption": {
@@ -330,7 +333,8 @@
         "NoSuchBucket",
         "PermanentRedirect",
         "NoSuchVersion",
-        "MethodNotAllowed"
+        "MethodNotAllowed",
+        "InvalidAccessKeyId"
       ]
     },
     "getObjectAttributes": {
@@ -421,13 +425,25 @@
       ]
     },
     "listMultipartUploads": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "NoSuchBucket",
+        "PermanentRedirect",
+        "InvalidAccessKeyId"
+      ]
     },
     "listObjectVersions": {
       "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
     },
     "createMultipartUpload": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "NoSuchBucket",
+        "PermanentRedirect",
+        "InvalidAccessKeyId"
+      ]
     },
     "copyObject": {
       "errors": [
@@ -446,20 +462,39 @@
         "SlowDown",
         "NoSuchBucket",
         "PermanentRedirect",
-        "NoSuchUpload"
+        "NoSuchUpload",
+        "InvalidAccessKeyId"
       ]
     },
     "completeMultipartUpload": {
-      "errors": ["NoSuchUpload"]
+      "errors": ["NoSuchUpload", "InvalidAccessKeyId"]
     },
     "listParts": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "NoSuchUpload"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "NoSuchBucket",
+        "NoSuchUpload",
+        "InvalidAccessKeyId"
+      ]
     },
     "abortMultipartUpload": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "NotFound"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "NoSuchBucket",
+        "NotFound",
+        "InvalidAccessKeyId"
+      ]
     },
     "deleteObjects": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "NoSuchBucket", "PermanentRedirect"]
+      "errors": [
+        "RequestLimitExceeded",
+        "SlowDown",
+        "NoSuchBucket",
+        "PermanentRedirect",
+        "InvalidAccessKeyId"
+      ]
     },
     "restoreObject": {
       "errors": [
@@ -490,7 +525,7 @@
       "errors": ["RequestLimitExceeded", "SlowDown", "RequestError"]
     },
     "listObjectsV2": {
-      "errors": ["RequestLimitExceeded", "SlowDown", "PermanentRedirect"]
+      "errors": ["RequestLimitExceeded", "SlowDown", "PermanentRedirect", "InvalidAccessKeyId"]
     },
     "listObjects": {
       "errors": ["RequestLimitExceeded", "SlowDown", "PermanentRedirect"]

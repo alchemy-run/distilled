@@ -83,6 +83,9 @@
         },
         {
           "target": "com.amazonaws.s3#NotFound"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ],
       "traits": {
@@ -28424,6 +28427,9 @@
       "errors": [
         {
           "target": "com.amazonaws.s3#NoSuchUpload"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ]
     },
@@ -30032,6 +30038,9 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ]
     },
@@ -31731,6 +31740,9 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ]
     },
@@ -32171,6 +32183,9 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ]
     },
@@ -35119,6 +35134,9 @@
         },
         {
           "target": "aws.patched#MethodNotAllowed"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ],
       "traits": {
@@ -39570,6 +39588,9 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ]
     },
@@ -40404,6 +40425,9 @@
         },
         {
           "target": "aws.patched#PermanentRedirect"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ],
       "traits": {
@@ -40705,6 +40729,9 @@
         },
         {
           "target": "com.amazonaws.s3#NoSuchUpload"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ]
     },
@@ -44713,6 +44740,9 @@
         },
         {
           "target": "aws.patched#ConditionalRequestConflict"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ],
       "traits": {
@@ -49111,6 +49141,9 @@
         },
         {
           "target": "com.amazonaws.s3#NoSuchUpload"
+        },
+        {
+          "target": "aws.patched#InvalidAccessKeyId"
         }
       ]
     },
@@ -50259,6 +50292,11 @@
       "traits": {}
     },
     "aws.patched#NoSuchCORSConfiguration": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
+    "aws.patched#InvalidAccessKeyId": {
       "type": "structure",
       "members": {},
       "traits": {}
