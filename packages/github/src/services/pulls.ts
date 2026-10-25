@@ -770,6 +770,18 @@ export interface GetRequest {
   /** The number that identifies the pull request. */
   pull_number: number;
 }
+export type GetDiffMediaType = "application/vnd.github.diff" | "application/vnd.github.patch";
+export interface GetDiffRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the pull request. */
+  pull_number: number;
+  /** `application/vnd.github.diff` for the unified diff, `application/vnd.github.patch` for the commits as patches. */
+  accept: GetDiffMediaType | (string & {});
+}
+export type GetDiffResponse = string;
 export interface GetMergeAsyncResultRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1489,8 +1501,8 @@ export const addPullRequestStack: API.OperationMethod<
   AddPullRequestStackError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<AddPullRequestStackRequest>,
-  output: __S(644, __c40, 4) as any as S.Schema<AddPullRequestStackResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<AddPullRequestStackRequest>,
+  output: __S(660, __c41, 4) as any as S.Schema<AddPullRequestStackResponse>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1504,8 +1516,8 @@ export const checkIfMerged: API.OperationMethod<
   CheckIfMergedError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<CheckIfMergedRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<CheckIfMergedResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<CheckIfMergedRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<CheckIfMergedResponse>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1515,8 +1527,8 @@ export type CreateError = Forbidden | UnprocessableEntity | GithubOpError;
 /** Create a pull request Draft pull requests are available in public repositories with GitHub Free and GitHub Free for organizations, GitHub Pro, and legacy per-repository billing plans, and in public and private repositories with GitHub Team and GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const create: API.OperationMethod<CreateRequest, PullRequest, CreateError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(688, __c43, 0) as any as S.Schema<CreateRequest>,
-    output: __S(756, __c47, 4) as any as S.Schema<PullRequest>,
+    input: __S(704, __c44, 0) as any as S.Schema<CreateRequest>,
+    output: __S(772, __c48, 4) as any as S.Schema<PullRequest>,
     errors: [Forbidden, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -1530,8 +1542,8 @@ export const createPullRequestStack: API.OperationMethod<
   CreatePullRequestStackError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreatePullRequestStackRequest>,
-  output: __S(644, __c40, 4) as any as S.Schema<CreatePullRequestStackResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<CreatePullRequestStackRequest>,
+  output: __S(660, __c41, 4) as any as S.Schema<CreatePullRequestStackResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1545,8 +1557,8 @@ export const createReplyForReviewComment: API.OperationMethod<
   CreateReplyForReviewCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<CreateReplyForReviewCommentRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<PullRequestReviewComment>,
+  input: __S(816, __c51, 0) as any as S.Schema<CreateReplyForReviewCommentRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<PullRequestReviewComment>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1576,7 +1588,7 @@ export const createReviewComment: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateReviewCommentRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<PullRequestReviewComment>,
+  output: __S(848, __c53, 0) as any as S.Schema<PullRequestReviewComment>,
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1606,7 +1618,7 @@ export const deleteReviewComment: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<DeleteReviewCommentRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<DeleteReviewCommentResponse>,
+  output: __S(688, __c43, 0) as any as S.Schema<DeleteReviewCommentResponse>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1632,11 +1644,26 @@ export type GetError = NotFound | UnprocessableEntity | GithubOpError;
 export const get: API.OperationMethod<GetRequest, PullRequest, GetError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(96, __c6, 0) as any as S.Schema<GetRequest>,
-    output: __S(756, __c47, 4) as any as S.Schema<PullRequest>,
+    output: __S(772, __c48, 4) as any as S.Schema<PullRequest>,
     errors: [NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
   }));
+
+export type GetDiffError = NotFound | UnprocessableEntity | GithubOpError;
+/** Get a pull request as a diff or patch The text form of `pulls.get`: the unified diff (`application/vnd.github.diff`) or the commits as patches (`application/vnd.github.patch`). GitHub refuses diffs over 20,000 lines or 300 files; list them page by page with `pulls.listFiles` instead. */
+export const getDiff: API.OperationMethod<
+  GetDiffRequest,
+  GetDiffResponse,
+  GetDiffError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<GetDiffRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<GetDiffResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
 
 export type GetMergeAsyncResultError = Forbidden | NotFound | GithubOpError;
 /** Get the result of an asynchronous merge Fetches the current result of an asynchronous merge request, identified by the UUID that was returned when the merge was requested. While the request's status is `pending`, the response includes the UUID, merge method, merge action, and expected head SHA of the request. Once the asynchronous request completes, its status is one of: - `merged`: The pull request was merged into the base branch. The response includes the merge commit OID. - `enqueued`: The pull request was added to a merge queue. - `failed`: The request failed. The response includes a message describing the failure. An `enqueued` result is final for the merge queue requests and does not mean the pull request has merged. This result does not change when the merge queue later merges the pull request. To get the eventual merge status, [check if a pull request has been merged](https://docs.github.com/rest/pulls/pulls#check-if-a-pull-request-has-been-merged). The result of an asynchronous merge request is retained for 24 hours after its most recent update. After this window the request expires and this endpoint returns a `404` response for its UUID. */
@@ -1646,8 +1673,8 @@ export const getMergeAsyncResult: API.OperationMethod<
   GetMergeAsyncResultError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetMergeAsyncResultRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<PullRequestMergeAsyncResult>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetMergeAsyncResultRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<PullRequestMergeAsyncResult>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1661,8 +1688,8 @@ export const getPullRequestStack: API.OperationMethod<
   GetPullRequestStackError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetPullRequestStackRequest>,
-  output: __S(644, __c40, 4) as any as S.Schema<GetPullRequestStackResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetPullRequestStackRequest>,
+  output: __S(660, __c41, 4) as any as S.Schema<GetPullRequestStackResponse>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1676,7 +1703,7 @@ export const getReview: API.OperationMethod<
   GetReviewError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetReviewRequest>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetReviewRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<PullRequestReview>,
   errors: [NotFound],
   protocol: GithubProtocol,
@@ -1691,8 +1718,8 @@ export const getReviewComment: API.OperationMethod<
   GetReviewCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetReviewCommentRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<PullRequestReviewComment>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetReviewCommentRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<PullRequestReviewComment>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1702,8 +1729,8 @@ export type ListError = UnprocessableEntity | GithubOpError;
 /** List pull requests Lists pull requests in a specified repository. Draft pull requests are available in public repositories with GitHub Free and GitHub Free for organizations, GitHub Pro, and legacy per-repository billing plans, and in public and private repositories with GitHub Team and GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const list: API.OperationMethod<ListRequest, ListResponse, ListError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(192, __c12, 0) as any as S.Schema<ListRequest>,
-    output: __S(194, __c12, 2) as any as S.Schema<ListResponse>,
+    input: __S(208, __c13, 0) as any as S.Schema<ListRequest>,
+    output: __S(210, __c13, 2) as any as S.Schema<ListResponse>,
     errors: [UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -1717,8 +1744,8 @@ export const listCommentsForReview: API.OperationMethod<
   ListCommentsForReviewError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListCommentsForReviewRequest>,
-  output: __S(243, __c15, 3) as any as S.Schema<ListCommentsForReviewResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListCommentsForReviewRequest>,
+  output: __S(259, __c16, 3) as any as S.Schema<ListCommentsForReviewResponse>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1732,8 +1759,8 @@ export const listCommits: API.OperationMethod<
   ListCommitsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListCommitsRequest>,
-  output: __S(266, __c16, 10) as any as S.Schema<ListCommitsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListCommitsRequest>,
+  output: __S(282, __c17, 10) as any as S.Schema<ListCommitsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1747,8 +1774,8 @@ export const listFiles: API.OperationMethod<
   ListFilesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListFilesRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<ListFilesResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListFilesRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<ListFilesResponse>,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1762,8 +1789,8 @@ export const listPullRequestStacks: API.OperationMethod<
   ListPullRequestStacksError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListPullRequestStacksRequest>,
-  output: __S(309, __c19, 5) as any as S.Schema<ListPullRequestStacksResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListPullRequestStacksRequest>,
+  output: __S(325, __c20, 5) as any as S.Schema<ListPullRequestStacksResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1777,8 +1804,8 @@ export const listRequestedReviewers: API.OperationMethod<
   ListRequestedReviewersError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListRequestedReviewersRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<PullRequestReviewRequest>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListRequestedReviewersRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<PullRequestReviewRequest>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1792,8 +1819,8 @@ export const listReviewComments: API.OperationMethod<
   ListReviewCommentsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListReviewCommentsRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<ListReviewCommentsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListReviewCommentsRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<ListReviewCommentsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1807,8 +1834,8 @@ export const listReviewCommentsForRepo: API.OperationMethod<
   ListReviewCommentsForRepoError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ListReviewCommentsForRepoRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<ListReviewCommentsForRepoResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<ListReviewCommentsForRepoRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<ListReviewCommentsForRepoResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1822,8 +1849,8 @@ export const listReviews: API.OperationMethod<
   ListReviewsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListReviewsRequest>,
-  output: __S(386, __c24, 2) as any as S.Schema<ListReviewsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListReviewsRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<ListReviewsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1837,8 +1864,8 @@ export const merge: API.OperationMethod<
   MergeError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<MergeRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<PullRequestMergeResult>,
+  input: __S(416, __c26, 0) as any as S.Schema<MergeRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<PullRequestMergeResult>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1858,8 +1885,8 @@ export const mergeAsync: API.OperationMethod<
   MergeAsyncError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<MergeAsyncRequest>,
-  output: __S(128, __c8, 0) as any as S.Schema<PullRequestMergeAsyncResult>,
+  input: __S(432, __c27, 0) as any as S.Schema<MergeAsyncRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<PullRequestMergeAsyncResult>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1877,8 +1904,8 @@ export const pullRequestStacksUnstack: API.OperationMethod<
   PullRequestStacksUnstackError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<PullRequestStacksUnstackRequest>,
-  output: __S(644, __c40, 4) as any as S.Schema<PullRequestStacksUnstackResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<PullRequestStacksUnstackRequest>,
+  output: __S(660, __c41, 4) as any as S.Schema<PullRequestStacksUnstackResponse>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1892,8 +1919,8 @@ export const removeRequestedReviewers: API.OperationMethod<
   RemoveRequestedReviewersError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<RemoveRequestedReviewersRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<PullRequestSimple>,
+  input: __S(464, __c29, 0) as any as S.Schema<RemoveRequestedReviewersRequest>,
+  output: __S(243, __c15, 3) as any as S.Schema<PullRequestSimple>,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1907,8 +1934,8 @@ export const requestReviewers: API.OperationMethod<
   RequestReviewersError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<RequestReviewersRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<PullRequestSimple>,
+  input: __S(480, __c30, 0) as any as S.Schema<RequestReviewersRequest>,
+  output: __S(243, __c15, 3) as any as S.Schema<PullRequestSimple>,
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1922,8 +1949,8 @@ export const rerequestReviewers: API.OperationMethod<
   RerequestReviewersError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<RerequestReviewersRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<PullRequestSimple>,
+  input: __S(496, __c31, 0) as any as S.Schema<RerequestReviewersRequest>,
+  output: __S(243, __c15, 3) as any as S.Schema<PullRequestSimple>,
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1937,7 +1964,7 @@ export const submitReview: API.OperationMethod<
   SubmitReviewError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<SubmitReviewRequest>,
+  input: __S(512, __c32, 0) as any as S.Schema<SubmitReviewRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<PullRequestReview>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
@@ -1948,8 +1975,8 @@ export type UpdateError = Forbidden | UnprocessableEntity | GithubOpError;
 /** Update a pull request Draft pull requests are available in public repositories with GitHub Free and GitHub Free for organizations, GitHub Pro, and legacy per-repository billing plans, and in public and private repositories with GitHub Team and GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. To open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const update: API.OperationMethod<UpdateRequest, PullRequest, UpdateError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(512, __c32, 0) as any as S.Schema<UpdateRequest>,
-    output: __S(756, __c47, 4) as any as S.Schema<PullRequest>,
+    input: __S(528, __c33, 0) as any as S.Schema<UpdateRequest>,
+    output: __S(772, __c48, 4) as any as S.Schema<PullRequest>,
     errors: [Forbidden, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -1963,8 +1990,8 @@ export const updateBranch: API.OperationMethod<
   UpdateBranchError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<UpdateBranchRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<UpdateBranchResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<UpdateBranchRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<UpdateBranchResponse>,
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1978,7 +2005,7 @@ export const updateReview: API.OperationMethod<
   UpdateReviewError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<UpdateReviewRequest>,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateReviewRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<PullRequestReview>,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
@@ -1993,8 +2020,8 @@ export const updateReviewComment: API.OperationMethod<
   UpdateReviewCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UpdateReviewCommentRequest>,
-  output: __S(832, __c52, 0) as any as S.Schema<PullRequestReviewComment>,
+  input: __S(576, __c36, 0) as any as S.Schema<UpdateReviewCommentRequest>,
+  output: __S(848, __c53, 0) as any as S.Schema<PullRequestReviewComment>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2042,8 +2069,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          html: __S(768, __c48, 0),
-          pull_request: __S(768, __c48, 0),
+          html: __S(784, __c49, 0),
+          pull_request: __S(784, __c49, 0),
         }),
       ).annotate({ identifier: "PullRequestReviewLinks" });
     case 1:
@@ -2051,7 +2078,7 @@ function __c1(j: number): any {
         S.Struct({
           id: S.Number,
           node_id: S.String,
-          user: S.NullOr(__S(592, __c37, 0)),
+          user: S.NullOr(__S(608, __c38, 0)),
           body: S.String,
           state: S.String,
           html_url: S.String,
@@ -2174,6 +2201,25 @@ function __c7(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           pull_number: S.Number.pipe(T.Label()),
+          accept: S.String.pipe(T.Header("Accept")),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls/{pull_number}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetDiffRequest" });
+    case 1:
+      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetDiffResponse",
+      });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          pull_number: S.Number.pipe(T.Label()),
           uuid: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2185,7 +2231,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetMergeAsyncResultRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2196,7 +2242,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PullRequestMergeAsyncResult" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2210,7 +2256,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetPullRequestStackRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2229,7 +2275,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetReviewRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2247,7 +2293,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetReviewCommentRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2264,14 +2310,14 @@ function __c12(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/pulls", code: 200 })),
       ).annotate({ identifier: "ListRequest" });
     case 1:
-      return S.Array(__S(227, __c14, 3));
+      return S.Array(__S(243, __c15, 3));
     case 2:
-      return S.suspend(() => __S(193, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(209, __c13, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2294,7 +2340,7 @@ function __c13(j: number): any {
           privacy: S.optional(S.String),
           notification_setting: S.optional(S.String),
           permission: S.String,
-          permissions: S.optional(__S(208, __c13, 0)),
+          permissions: S.optional(__S(224, __c14, 0)),
           url: S.String,
           html_url: S.String,
           members_url: S.String,
@@ -2303,14 +2349,14 @@ function __c13(j: number): any {
           access_source: S.optional(S.String),
           organization_id: S.optional(S.Number),
           enterprise_id: S.optional(S.Number),
-          parent: S.NullOr(__S(721, __c45, 1)),
+          parent: S.NullOr(__S(737, __c46, 1)),
         }),
       ).annotate({ identifier: "Team" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(225, __c14, 1));
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2322,19 +2368,19 @@ function __c14(j: number): any {
           description: S.String,
           color: S.String,
           default: S.Boolean,
-          archived_by: S.NullOr(__S(592, __c37, 0)),
+          archived_by: S.NullOr(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "PullRequestSimpleLabelsItem" });
     case 1:
-      return S.Array(__S(224, __c14, 0));
+      return S.Array(__S(240, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           label: S.String,
           ref: S.String,
-          repo: __S(741, __c46, 5),
+          repo: __S(757, __c47, 5),
           sha: S.String,
-          user: S.NullOr(__S(592, __c37, 0)),
+          user: S.NullOr(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "PullRequestSimpleHead" });
     case 3:
@@ -2356,32 +2402,32 @@ function __c14(j: number): any {
           state: S.String,
           locked: S.Boolean,
           title: S.String,
-          user: S.NullOr(__S(592, __c37, 0)),
+          user: S.NullOr(__S(608, __c38, 0)),
           body: S.NullOr(S.String),
-          labels: __S(225, __c14, 1),
-          milestone: S.NullOr(__S(736, __c46, 0)),
+          labels: __S(241, __c15, 1),
+          milestone: S.NullOr(__S(752, __c47, 0)),
           active_lock_reason: S.optional(S.NullOr(S.String)),
           created_at: S.String,
           updated_at: S.String,
           closed_at: S.NullOr(S.String),
           merged_at: S.NullOr(S.String),
           merge_commit_sha: S.NullOr(S.String),
-          assignee: S.NullOr(__S(592, __c37, 0)),
-          assignees: S.optional(__S(720, __c45, 0)),
-          requested_reviewers: S.optional(__S(720, __c45, 0)),
-          requested_teams: S.optional(__S(210, __c13, 2)),
-          head: __S(226, __c14, 2),
-          base: __S(226, __c14, 2),
-          _links: __S(742, __c46, 6),
+          assignee: S.NullOr(__S(608, __c38, 0)),
+          assignees: S.optional(__S(736, __c46, 0)),
+          requested_reviewers: S.optional(__S(736, __c46, 0)),
+          requested_teams: S.optional(__S(226, __c14, 2)),
+          head: __S(242, __c15, 2),
+          base: __S(242, __c15, 2),
+          _links: __S(758, __c47, 6),
           author_association: S.String,
-          auto_merge: S.NullOr(__S(743, __c46, 7)),
-          stack: S.optional(S.NullOr(__S(744, __c46, 8))),
+          auto_merge: S.NullOr(__S(759, __c47, 7)),
+          stack: S.optional(S.NullOr(__S(760, __c47, 8))),
           draft: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PullRequestSimple" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2414,17 +2460,17 @@ function __c15(j: number): any {
           commit_id: S.String,
           original_commit_id: S.String,
           in_reply_to_id: S.optional(S.Number),
-          user: S.NullOr(__S(592, __c37, 0)),
+          user: S.NullOr(__S(608, __c38, 0)),
           body: S.String,
           created_at: S.String,
           updated_at: S.String,
           html_url: S.String,
           pull_request_url: S.String,
           author_association: S.String,
-          _links: __S(816, __c51, 0),
+          _links: __S(832, __c52, 0),
           body_text: S.optional(S.String),
           body_html: S.optional(S.String),
-          reactions: S.optional(__S(817, __c51, 1)),
+          reactions: S.optional(__S(833, __c52, 1)),
           side: S.optional(S.String),
           start_side: S.optional(S.NullOr(S.String)),
           line: S.optional(S.Number),
@@ -2435,14 +2481,14 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "ReviewComment" });
     case 2:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(257, __c16, 1));
     case 3:
-      return S.suspend(() => __S(242, __c15, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(258, __c16, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCommentsForReviewResponse",
       });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2489,12 +2535,12 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          author: S.NullOr(__S(257, __c16, 1)),
-          committer: S.NullOr(__S(257, __c16, 1)),
+          author: S.NullOr(__S(273, __c17, 1)),
+          committer: S.NullOr(__S(273, __c17, 1)),
           message: S.String,
           comment_count: S.Number,
-          tree: __S(258, __c16, 2),
-          verification: S.optional(__S(259, __c16, 3)),
+          tree: __S(274, __c17, 2),
+          verification: S.optional(__S(275, __c17, 3)),
         }),
       ).annotate({ identifier: "CommitCommit" });
     case 5:
@@ -2506,7 +2552,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "CommitParentsItem" });
     case 6:
-      return S.Array(__S(261, __c16, 5));
+      return S.Array(__S(277, __c17, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -2523,23 +2569,23 @@ function __c16(j: number): any {
           node_id: S.String,
           html_url: S.String,
           comments_url: S.String,
-          commit: __S(260, __c16, 4),
+          commit: __S(276, __c17, 4),
           author: S.NullOr(S.Unknown),
           committer: S.NullOr(S.Unknown),
-          parents: __S(262, __c16, 6),
-          stats: S.optional(__S(263, __c16, 7)),
-          files: S.optional(__S(273, __c17, 1)),
+          parents: __S(278, __c17, 6),
+          stats: S.optional(__S(279, __c17, 7)),
+          files: S.optional(__S(289, __c18, 1)),
         }),
       ).annotate({ identifier: "Commit" });
     case 9:
-      return S.Array(__S(264, __c16, 8));
+      return S.Array(__S(280, __c17, 8));
     case 10:
-      return S.suspend(() => __S(265, __c16, 9).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(281, __c17, 9).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCommitsResponse",
       });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2558,10 +2604,10 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "DiffEntry" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(288, __c18, 0));
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2580,12 +2626,12 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListFilesRequest" });
     case 1:
-      return S.suspend(() => __S(273, __c17, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(289, __c18, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFilesResponse",
       });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2604,11 +2650,11 @@ function __c19(j: number): any {
           state: S.String,
           draft: S.Boolean,
           merged_at: S.NullOr(S.String),
-          head: __S(704, __c44, 0),
+          head: __S(720, __c45, 0),
         }),
       ).annotate({ identifier: "PullRequestStackMinimalPullRequestsItem" });
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2616,21 +2662,21 @@ function __c19(j: number): any {
           number: S.Number,
           node_id: S.String,
           url: S.String,
-          base: __S(624, __c39, 0),
+          base: __S(640, __c40, 0),
           open: S.Boolean,
           created_at: S.String,
-          pull_requests: __S(306, __c19, 2),
+          pull_requests: __S(322, __c20, 2),
         }),
       ).annotate({ identifier: "PullRequestStackMinimal" });
     case 4:
-      return S.Array(__S(307, __c19, 3));
+      return S.Array(__S(323, __c20, 3));
     case 5:
-      return S.suspend(() => __S(308, __c19, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(324, __c20, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPullRequestStacksResponse",
       });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2649,13 +2695,13 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          users: __S(720, __c45, 0),
-          teams: __S(210, __c13, 2),
+          users: __S(736, __c46, 0),
+          teams: __S(226, __c14, 2),
         }),
       ).annotate({ identifier: "PullRequestReviewRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2678,17 +2724,17 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListReviewCommentsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(832, __c52, 0));
+      return S.Array(__S(848, __c53, 0));
     case 1:
-      return S.suspend(() => __S(352, __c22, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(368, __c23, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewCommentsResponse",
       });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2704,7 +2750,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ListReviewCommentsForRepoRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2725,12 +2771,12 @@ function __c24(j: number): any {
     case 1:
       return S.Array(__S(17, __c1, 1));
     case 2:
-      return S.suspend(() => __S(385, __c24, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(401, __c25, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListReviewsResponse",
       });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2760,7 +2806,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PullRequestMergeResult" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2784,7 +2830,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "MergeAsyncRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2802,7 +2848,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PullRequestStacksUnstackRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2810,8 +2856,8 @@ function __c28(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           pull_number: S.Number.pipe(T.Label()),
-          reviewers: __S(739, __c46, 3),
-          team_reviewers: S.optional(__S(739, __c46, 3)),
+          reviewers: __S(755, __c47, 3),
+          team_reviewers: S.optional(__S(755, __c47, 3)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2822,7 +2868,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RemoveRequestedReviewersRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2830,8 +2876,8 @@ function __c29(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           pull_number: S.Number.pipe(T.Label()),
-          reviewers: S.optional(__S(739, __c46, 3)),
-          team_reviewers: S.optional(__S(739, __c46, 3)),
+          reviewers: S.optional(__S(755, __c47, 3)),
+          team_reviewers: S.optional(__S(755, __c47, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2842,7 +2888,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "RequestReviewersRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2850,8 +2896,8 @@ function __c30(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           pull_number: S.Number.pipe(T.Label()),
-          reviewers: S.optional(__S(739, __c46, 3)),
-          team_reviewers: S.optional(__S(739, __c46, 3)),
+          reviewers: S.optional(__S(755, __c47, 3)),
+          team_reviewers: S.optional(__S(755, __c47, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2862,7 +2908,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "RerequestReviewersRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2883,7 +2929,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "SubmitReviewRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2902,7 +2948,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2921,7 +2967,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdateBranchRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2941,7 +2987,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateReviewRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2960,7 +3006,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateReviewCommentRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2968,7 +3014,7 @@ function __c36(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           stack_number: S.Number.pipe(T.Label()),
-          pull_requests: __S(608, __c38, 0),
+          pull_requests: __S(624, __c39, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2979,7 +3025,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "AddPullRequestStackRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3010,13 +3056,13 @@ function __c37(j: number): any {
       ).annotate({ identifier: "NullableSimpleUser" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3026,7 +3072,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "AddPullRequestStackResponseBase" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3041,7 +3087,7 @@ function __c40(j: number): any {
         S.Struct({
           ref: S.String,
           sha: S.String,
-          repo: __S(640, __c40, 0),
+          repo: __S(656, __c41, 0),
         }),
       ).annotate({ identifier: "PullRequestStackPullRequestHead" });
     case 2:
@@ -3050,19 +3096,19 @@ function __c40(j: number): any {
           id: S.Number,
           number: S.Number,
           url: S.String,
-          head: __S(641, __c40, 1),
-          base: __S(641, __c40, 1),
+          head: __S(657, __c41, 1),
+          base: __S(657, __c41, 1),
           node_id: S.String,
           title: S.String,
           state: S.String,
           merged_at: S.NullOr(S.String),
           draft: S.Boolean,
           html_url: S.String,
-          user: S.NullOr(__S(592, __c37, 0)),
+          user: S.NullOr(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "PullRequestStackPullRequest" });
     case 3:
-      return S.Array(__S(642, __c40, 2));
+      return S.Array(__S(658, __c41, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -3070,15 +3116,15 @@ function __c40(j: number): any {
           number: S.Number,
           node_id: S.String,
           url: S.String,
-          base: __S(624, __c39, 0),
+          base: __S(640, __c40, 0),
           open: S.Boolean,
           created_at: S.String,
-          pull_requests: __S(643, __c40, 3),
+          pull_requests: __S(659, __c41, 3),
         }),
       ).annotate({ identifier: "AddPullRequestStackResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3096,13 +3142,13 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CheckIfMergedRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CheckIfMergedResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3121,7 +3167,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3132,10 +3178,10 @@ function __c44(j: number): any {
       ).annotate({ identifier: "PullRequestStackBase" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(608, __c38, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3159,7 +3205,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "TeamSimple" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3173,7 +3219,7 @@ function __c46(j: number): any {
           state: S.String,
           title: S.String,
           description: S.NullOr(S.String),
-          creator: S.NullOr(__S(592, __c37, 0)),
+          creator: S.NullOr(__S(608, __c38, 0)),
           open_issues: S.Number,
           closed_issues: S.Number,
           created_at: S.String,
@@ -3219,10 +3265,10 @@ function __c46(j: number): any {
           node_id: S.String,
           name: S.String,
           full_name: S.String,
-          license: S.NullOr(__S(737, __c46, 1)),
+          license: S.NullOr(__S(753, __c47, 1)),
           forks: S.Number,
-          permissions: S.optional(__S(738, __c46, 2)),
-          owner: __S(592, __c37, 0),
+          permissions: S.optional(__S(754, __c47, 2)),
+          owner: __S(608, __c38, 0),
           private: S.Boolean,
           html_url: S.String,
           description: S.NullOr(S.String),
@@ -3278,7 +3324,7 @@ function __c46(j: number): any {
           default_branch: S.String,
           open_issues_count: S.Number,
           is_template: S.optional(S.Boolean),
-          topics: S.optional(__S(739, __c46, 3)),
+          topics: S.optional(__S(755, __c47, 3)),
           has_issues: S.Boolean,
           has_projects: S.Boolean,
           has_wiki: S.Boolean,
@@ -3312,26 +3358,26 @@ function __c46(j: number): any {
           master_branch: S.optional(S.String),
           starred_at: S.optional(S.String),
           anonymous_access_enabled: S.optional(S.Boolean),
-          code_search_index_status: S.optional(__S(740, __c46, 4)),
+          code_search_index_status: S.optional(__S(756, __c47, 4)),
         }),
       ).annotate({ identifier: "Repository" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          comments: __S(768, __c48, 0),
-          commits: __S(768, __c48, 0),
-          statuses: __S(768, __c48, 0),
-          html: __S(768, __c48, 0),
-          issue: __S(768, __c48, 0),
-          review_comments: __S(768, __c48, 0),
-          review_comment: __S(768, __c48, 0),
-          self: __S(768, __c48, 0),
+          comments: __S(784, __c49, 0),
+          commits: __S(784, __c49, 0),
+          statuses: __S(784, __c49, 0),
+          html: __S(784, __c49, 0),
+          issue: __S(784, __c49, 0),
+          review_comments: __S(784, __c49, 0),
+          review_comment: __S(784, __c49, 0),
+          self: __S(784, __c49, 0),
         }),
       ).annotate({ identifier: "PullRequestLinks" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          enabled_by: __S(592, __c37, 0),
+          enabled_by: __S(608, __c38, 0),
           merge_method: S.String,
           commit_title: S.String,
           commit_message: S.String,
@@ -3340,7 +3386,7 @@ function __c46(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          base: __S(704, __c44, 0),
+          base: __S(720, __c45, 0),
           size: S.optional(S.Number),
           position: S.optional(S.Number),
           id: S.optional(S.Number),
@@ -3349,7 +3395,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "PullRequestStack" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3361,21 +3407,21 @@ function __c47(j: number): any {
           description: S.NullOr(S.String),
           color: S.String,
           default: S.Boolean,
-          archived_by: S.NullOr(__S(592, __c37, 0)),
+          archived_by: S.NullOr(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "PullRequestLabelsItem" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(768, __c48, 0));
     case 2:
-      return S.Array(__S(721, __c45, 1));
+      return S.Array(__S(737, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           label: S.String,
           ref: S.String,
-          repo: __S(741, __c46, 5),
+          repo: __S(757, __c47, 5),
           sha: S.String,
-          user: __S(592, __c37, 0),
+          user: __S(608, __c38, 0),
         }),
       ).annotate({ identifier: "PullRequestHead" });
     case 4:
@@ -3397,32 +3443,32 @@ function __c47(j: number): any {
           state: S.String,
           locked: S.Boolean,
           title: S.String,
-          user: __S(592, __c37, 0),
+          user: __S(608, __c38, 0),
           body: S.NullOr(S.String),
-          labels: __S(753, __c47, 1),
-          milestone: S.NullOr(__S(736, __c46, 0)),
+          labels: __S(769, __c48, 1),
+          milestone: S.NullOr(__S(752, __c47, 0)),
           active_lock_reason: S.optional(S.NullOr(S.String)),
           created_at: S.String,
           updated_at: S.String,
           closed_at: S.NullOr(S.String),
           merged_at: S.NullOr(S.String),
           merge_commit_sha: S.NullOr(S.String),
-          assignee: S.NullOr(__S(592, __c37, 0)),
-          assignees: S.optional(__S(720, __c45, 0)),
-          requested_reviewers: S.optional(__S(720, __c45, 0)),
-          requested_teams: S.optional(__S(754, __c47, 2)),
-          head: __S(755, __c47, 3),
-          base: __S(755, __c47, 3),
-          _links: __S(742, __c46, 6),
+          assignee: S.NullOr(__S(608, __c38, 0)),
+          assignees: S.optional(__S(736, __c46, 0)),
+          requested_reviewers: S.optional(__S(736, __c46, 0)),
+          requested_teams: S.optional(__S(770, __c48, 2)),
+          head: __S(771, __c48, 3),
+          base: __S(771, __c48, 3),
+          _links: __S(758, __c47, 6),
           author_association: S.String,
-          auto_merge: S.NullOr(__S(743, __c46, 7)),
-          stack: S.optional(S.NullOr(__S(744, __c46, 8))),
+          auto_merge: S.NullOr(__S(759, __c47, 7)),
+          stack: S.optional(S.NullOr(__S(760, __c47, 8))),
           draft: S.optional(S.Boolean),
           merged: S.Boolean,
           mergeable: S.NullOr(S.Boolean),
           rebaseable: S.optional(S.NullOr(S.Boolean)),
           mergeable_state: S.String,
-          merged_by: S.NullOr(__S(592, __c37, 0)),
+          merged_by: S.NullOr(__S(608, __c38, 0)),
           comments: S.Number,
           review_comments: S.Number,
           maintainer_can_modify: S.Boolean,
@@ -3434,7 +3480,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "PullRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3444,19 +3490,19 @@ function __c48(j: number): any {
       ).annotate({ identifier: "Link" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          pull_requests: __S(608, __c38, 0),
+          pull_requests: __S(624, __c39, 0),
         }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/stacks", code: 200 })),
       ).annotate({ identifier: "CreatePullRequestStackRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3476,14 +3522,14 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreateReplyForReviewCommentRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: __S(768, __c48, 0),
-          html: __S(768, __c48, 0),
-          pull_request: __S(768, __c48, 0),
+          self: __S(784, __c49, 0),
+          html: __S(784, __c49, 0),
+          pull_request: __S(784, __c49, 0),
         }),
       ).annotate({ identifier: "PullRequestReviewCommentLinks" });
     case 1:
@@ -3503,7 +3549,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ReactionRollup" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3519,14 +3565,14 @@ function __c52(j: number): any {
           commit_id: S.String,
           original_commit_id: S.String,
           in_reply_to_id: S.optional(S.Number),
-          user: S.NullOr(__S(592, __c37, 0)),
+          user: S.NullOr(__S(608, __c38, 0)),
           body: S.String,
           created_at: S.String,
           updated_at: S.String,
           html_url: S.String,
           pull_request_url: S.String,
           author_association: S.String,
-          _links: __S(816, __c51, 0),
+          _links: __S(832, __c52, 0),
           start_line: S.optional(S.NullOr(S.Number)),
           original_start_line: S.optional(S.NullOr(S.Number)),
           start_side: S.optional(S.NullOr(S.String)),
@@ -3534,7 +3580,7 @@ function __c52(j: number): any {
           original_line: S.optional(S.Number),
           side: S.optional(S.String),
           subject_type: S.optional(S.String),
-          reactions: S.optional(__S(817, __c51, 1)),
+          reactions: S.optional(__S(833, __c52, 1)),
           body_html: S.optional(S.String),
           body_text: S.optional(S.String),
         }),
