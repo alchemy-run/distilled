@@ -12,7 +12,7 @@
  * `runGeneratorCli` call.
  */
 import { NodeRuntime, NodeServices } from "@effect/platform-node";
-import { Console, Effect } from "effect";
+import { Console, Effect, Option } from "effect";
 import { Flag } from "effect/cli";
 import { Command } from "effect/cli";
 import * as FileSystem from "effect/FileSystem";
@@ -29,6 +29,14 @@ import { privatizeSchemas, typeOnlyNamespaceImports } from "./privatize.ts";
 import { annotateNestedCalls } from "./pure.ts";
 import { tableSchemas } from "./table.ts";
 
+/** One directory of converted models, compiled into one output directory. */
+export interface GeneratorTarget {
+  /** The directory convert writes the models to, relative to root. */
+  readonly smithyDir: string;
+  /** Output directory for the service modules, relative to root. */
+  readonly outDir: string;
+}
+
 export interface GeneratorCliOptions {
   /** Command description shown in --help. */
   readonly description: string;
@@ -43,11 +51,22 @@ export interface GeneratorCliOptions {
   readonly convert: (ctx: { readonly resource: string }) => unknown;
   /**
    * The directory convert writes the models to compile, relative to root.
-   * Default `.generated-specs`.
+   * Default `.generated-specs`. Ignored when `targets` is set.
    */
   readonly smithyDir?: string;
-  /** Output directory default (relative to root). Default `src/services`. */
+  /**
+   * Output directory (relative to root). Default `src/services`. Ignored
+   * when `targets` is set.
+   */
   readonly outDir?: string;
+  /**
+   * Several model directories, each compiled into its own output directory,
+   * from ONE convert — instead of `smithyDir`/`outDir`. GCP compiles
+   * `.generated-specs/stable` into `src/services` and
+   * `.generated-specs/unstable` into `src/unstable-services`. `--smithy` or
+   * `--out` on the command line selects a single target instead.
+   */
+  readonly targets?: ReadonlyArray<GeneratorTarget>;
   /** Model files to skip (e.g. a shared protocols model). */
   readonly excludeModel?: (file: string) => boolean;
   /**
@@ -98,16 +117,24 @@ export interface GeneratorCliOptions {
 
 /** Run the generator CLI (NodeRuntime main — call at module top level). */
 export const runGeneratorCli = (options: GeneratorCliOptions): void => {
+  const defaultTarget: GeneratorTarget = options.targets?.[0] ?? {
+    smithyDir: options.smithyDir ?? ".generated-specs",
+    outDir: options.outDir ?? "src/services",
+  };
   const command = Command.make(
     "generate",
     {
       smithy: Flag.String("smithy").pipe(
-        Flag.withDefault(options.smithyDir ?? ".generated-specs"),
-        Flag.withDescription("Directory convert writes the models to compile to"),
+        Flag.optional,
+        Flag.withDescription(
+          `Directory convert writes the models to compile to (default: ${defaultTarget.smithyDir})`,
+        ),
       ),
       out: Flag.String("out").pipe(
-        Flag.withDefault(options.outDir ?? "src/services"),
-        Flag.withDescription("Output directory for generated service modules"),
+        Flag.optional,
+        Flag.withDescription(
+          `Output directory for generated service modules (default: ${defaultTarget.outDir})`,
+        ),
       ),
       resource: Flag.String("resource").pipe(
         Flag.withDefault(""),
@@ -119,169 +146,196 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
         const fs = yield* FileSystem.FileSystem;
         const path = yield* Path.Path;
         const root = options.root;
-        const smithyDir = path.resolve(root, config.smithy);
-        const outDir = path.resolve(root, config.out);
+        // `--smithy`/`--out` select one target; otherwise every target.
+        const targets =
+          Option.isSome(config.smithy) || Option.isSome(config.out)
+            ? [
+                {
+                  smithyDir: Option.getOrElse(config.smithy, () => defaultTarget.smithyDir),
+                  outDir: Option.getOrElse(config.out, () => defaultTarget.outDir),
+                },
+              ]
+            : (options.targets ?? [defaultTarget]);
 
         yield* Console.log("⚙️  generate");
-        yield* Console.log(`   Smithy: ${smithyDir}`);
-        yield* Console.log(`   Output: ${outDir}`);
-
-        yield* options.prepare?.({ root, outDir }) ?? Effect.void;
-
-        // Convert in-process: the models stay in memory. Then the optional
-        // manual-specs (hand-authored models for APIs the provider's spec
-        // source doesn't cover). A manual model must not shadow a generated
-        // one.
-        const converted = yield* Effect.promise(() =>
-          collectModels(() => options.convert({ resource: config.resource })),
-        );
-        const modelText = new Map<string, string>();
-        const generated: { file: string; dir: string }[] = [];
-        for (const [file, text] of converted) {
-          if (path.dirname(file) !== smithyDir) continue;
-          const name = path.basename(file);
-          if (options.excludeModel?.(name) ?? false) continue;
-          generated.push({ file: name, dir: smithyDir });
-          modelText.set(file, text);
+        for (const target of targets) {
+          yield* Console.log(`   Smithy: ${path.resolve(root, target.smithyDir)}`);
+          yield* Console.log(`   Output: ${path.resolve(root, target.outDir)}`);
         }
-        const manualDir = options.manualSpecsDir
-          ? path.resolve(root, options.manualSpecsDir)
-          : undefined;
-        const manual =
-          manualDir && (yield* fs.exists(manualDir))
-            ? (yield* fs.readDirectory(manualDir))
-                .filter((f) => f.endsWith(".json"))
-                .map((f) => ({ file: f, dir: manualDir }))
-            : [];
-        for (const m of manual) {
-          if (generated.some((g) => g.file === m.file)) {
+
+        for (const target of targets) {
+          yield* (
+            options.prepare?.({ root, outDir: path.resolve(root, target.outDir) }) ?? Effect.void
+          );
+        }
+
+        // Convert in-process, once for every target: the models stay in
+        // memory. Each model's text is dropped once it is parsed, and models
+        // outside every target right away, so the heap does not keep every
+        // model's text for the whole run (GCP's is ~180 MB).
+        const converted = new Map(
+          yield* Effect.promise(() =>
+            collectModels(() => options.convert({ resource: config.resource })),
+          ),
+        );
+        const targetDirs = new Set(targets.map((t) => path.resolve(root, t.smithyDir)));
+        for (const file of converted.keys()) {
+          if (!targetDirs.has(path.dirname(file))) converted.delete(file);
+        }
+
+        const failedModels: string[] = [];
+        for (const target of targets) {
+          const smithyDir = path.resolve(root, target.smithyDir);
+          const outDir = path.resolve(root, target.outDir);
+
+          // This target's models, then the optional manual-specs (hand-authored
+          // models for APIs the provider's spec source doesn't cover). A manual
+          // model must not shadow a generated one.
+          const generated: { file: string; dir: string }[] = [];
+          for (const file of converted.keys()) {
+            if (path.dirname(file) !== smithyDir) continue;
+            const name = path.basename(file);
+            if (options.excludeModel?.(name) ?? false) continue;
+            generated.push({ file: name, dir: smithyDir });
+          }
+          const manualDir = options.manualSpecsDir
+            ? path.resolve(root, options.manualSpecsDir)
+            : undefined;
+          const manual =
+            manualDir && (yield* fs.exists(manualDir))
+              ? (yield* fs.readDirectory(manualDir))
+                  .filter((f) => f.endsWith(".json"))
+                  .map((f) => ({ file: f, dir: manualDir }))
+              : [];
+          for (const m of manual) {
+            if (generated.some((g) => g.file === m.file)) {
+              return yield* Effect.die(
+                new Error(
+                  `${options.manualSpecsDir}/${m.file} shadows a generated model — rename or delete it`,
+                ),
+              );
+            }
+          }
+          const entries = [...generated, ...manual].sort((a, b) => a.file.localeCompare(b.file));
+          if (entries.length === 0) {
             return yield* Effect.die(
-              new Error(
-                `${options.manualSpecsDir}/${m.file} shadows a generated model — rename or delete it`,
-              ),
+              new Error(`convert wrote no models to ${path.relative(root, smithyDir)}`),
             );
           }
-        }
-        const entries = [...generated, ...manual].sort((a, b) => a.file.localeCompare(b.file));
-        if (entries.length === 0) {
-          return yield* Effect.die(
-            new Error(`convert wrote no models to ${path.relative(root, smithyDir)}`),
-          );
-        }
 
-        yield* fs.makeDirectory(outDir, { recursive: true });
+          yield* fs.makeDirectory(outDir, { recursive: true });
 
-        const written: string[] = [];
-        const failedModels: string[] = [];
-        let totalOps = 0;
+          const written: string[] = [];
+          let totalOps = 0;
 
-        for (const { file, dir } of entries) {
-          const modelPath = path.join(dir, file);
-          const model = JSON.parse(
-            modelText.get(modelPath) ?? (yield* fs.readFileString(modelPath)),
-          );
-          // The module's name — the model's filename unless the provider
-          // derives it from the model itself (AWS: the service's sdkId).
-          const resource = options.resourceName?.({ model, file }) ?? file.replace(/\.json$/, "");
-          if (config.resource && resource !== config.resource) continue;
+          for (const { file, dir } of entries) {
+            const modelPath = path.join(dir, file);
+            const text = converted.get(modelPath) ?? (yield* fs.readFileString(modelPath));
+            converted.delete(modelPath);
+            const model = JSON.parse(text);
+            // The module's name — the model's filename unless the provider
+            // derives it from the model itself (AWS: the service's sdkId).
+            const resource = options.resourceName?.({ model, file }) ?? file.replace(/\.json$/, "");
+            if (config.resource && resource !== config.resource) continue;
 
-          if (options.transformModel) {
-            const note = options.transformModel(model, resource);
-            if (note) yield* Console.log(`   ${note}`);
-          }
+            if (options.transformModel) {
+              const note = options.transformModel(model, resource);
+              if (note) yield* Console.log(`   ${note}`);
+            }
 
-          // `generateService` and the provider spec are synchronous and
-          // throw; with continueOnModelError the throw is recorded and the
-          // run moves on, so one broken model doesn't hide the state of
-          // every model after it. The run still fails at the end.
-          let generated;
-          try {
-            generated = generateService(model, options.spec(model));
-          } catch (e) {
-            if (!options.continueOnModelError) throw e;
-            failedModels.push(`${resource}: ${e instanceof Error ? e.message : String(e)}`);
-            yield* Console.error(`❌ ${resource}`);
-            continue;
-          }
-          const { operations } = generated;
-          if (operations === 0) continue;
-          // Every nested call in a top-level initializer gets a PURE marker,
-          // so one unused schema cannot pin others in a consumer's bundle.
-          // Latin-1-only source halves the heap V8 keeps for the module text.
-          // Structurally identical schemas become aliases of one schema, and
-          // schema consts become module-private (types stay exported).
-          const resourceFile = `${resource}.ts`;
-          const marked = annotateNestedCalls(generated.code, resourceFile);
-          const code = toLatin1(
-            typeOnlyNamespaceImports(
-              tableSchemas(
-                chunkSchemas(
-                  privatizeSchemas(dedupeSchemas(marked, resourceFile).code, resourceFile).code,
+            // `generateService` and the provider spec are synchronous and
+            // throw; with continueOnModelError the throw is recorded and the
+            // run moves on, so one broken model doesn't hide the state of
+            // every model after it. The run still fails at the end.
+            let generated;
+            try {
+              generated = generateService(model, options.spec(model));
+            } catch (e) {
+              if (!options.continueOnModelError) throw e;
+              failedModels.push(`${resource}: ${e instanceof Error ? e.message : String(e)}`);
+              yield* Console.error(`❌ ${resource}`);
+              continue;
+            }
+            const { operations } = generated;
+            if (operations === 0) continue;
+            // Every nested call in a top-level initializer gets a PURE marker,
+            // so one unused schema cannot pin others in a consumer's bundle.
+            // Latin-1-only source halves the heap V8 keeps for the module text.
+            // Structurally identical schemas become aliases of one schema, and
+            // schema consts become module-private (types stay exported).
+            const resourceFile = `${resource}.ts`;
+            const marked = annotateNestedCalls(generated.code, resourceFile);
+            const code = toLatin1(
+              typeOnlyNamespaceImports(
+                tableSchemas(
+                  chunkSchemas(
+                    privatizeSchemas(dedupeSchemas(marked, resourceFile).code, resourceFile).code,
+                    resourceFile,
+                  ).code,
                   resourceFile,
                 ).code,
                 resourceFile,
-              ).code,
+              ),
               resourceFile,
+            );
+
+            yield* fs.writeFileString(path.join(outDir, `${resource}.ts`), code);
+            written.push(resource);
+            totalOps += operations;
+          }
+
+          // Barrel — namespace per resource to avoid op-name collisions.
+          //
+          // A FULL run is authoritative: the barrel is exactly what was
+          // generated, so a resource whose model went away drops out of it.
+          //
+          // A `--resource` run only knows about the resource it generated, so
+          // rewriting the barrel from that would delete every other export —
+          // which is how #397 shipped a cloudflare barrel exporting `workers`
+          // and nothing else, silently dropping 119 services. Merge into the
+          // existing barrel instead, so `--resource` can still ADD a brand-new
+          // resource without removing anything.
+          const barrelPath = path.join(outDir, "index.ts");
+          const filtered = config.resource !== "";
+          // Sorted, not in generation order: a provider that discovers models
+          // in some other order (AWS walks Amazon's directory tree) would
+          // otherwise reshuffle the barrel on every run.
+          let resources = [...written].sort((a, b) => `${a}.json`.localeCompare(`${b}.json`));
+          if (filtered && (yield* fs.exists(barrelPath))) {
+            // Recover the RESOURCE from each export line's path, not its name:
+            // the two differ when barrelExportName renames (AWS exports
+            // `S3` from `./s3.ts`).
+            const existing = (yield* fs.readFileString(barrelPath))
+              .split("\n")
+              .map((line) => /^export \* as \S+ from "\.\/(.+)\.ts";/.exec(line)?.[1])
+              .filter((name): name is string => name !== undefined);
+            // Ordered exactly as a full run orders it: by MODEL FILENAME, so
+            // the `.json` takes part in the collation (`ai_gateway.json` sorts
+            // before `ai.json`, where the bare names sort the other way).
+            // Otherwise a filtered run reshuffles the barrel into diff noise.
+            resources = [...new Set([...existing, ...written])].sort((a, b) =>
+              `${a}.json`.localeCompare(`${b}.json`),
+            );
+          }
+
+          yield* fs.writeFileString(
+            barrelPath,
+            barrel(
+              `// AUTO-GENERATED by scripts/generate.ts. Do not edit.\n`,
+              resources.map((r) => ({
+                name: options.barrelExportName?.(r) ?? r,
+                path: `./${r}.ts`,
+              })),
             ),
-            resourceFile,
           );
 
-          yield* fs.writeFileString(path.join(outDir, `${resource}.ts`), code);
-          written.push(resource);
-          totalOps += operations;
-        }
+          yield* (options.finalize ?? formatGenerated)(outDir);
 
-        // Barrel — namespace per resource to avoid op-name collisions.
-        //
-        // A FULL run is authoritative: the barrel is exactly what was
-        // generated, so a resource whose model went away drops out of it.
-        //
-        // A `--resource` run only knows about the resource it generated, so
-        // rewriting the barrel from that would delete every other export —
-        // which is how #397 shipped a cloudflare barrel exporting `workers`
-        // and nothing else, silently dropping 119 services. Merge into the
-        // existing barrel instead, so `--resource` can still ADD a brand-new
-        // resource without removing anything.
-        const barrelPath = path.join(outDir, "index.ts");
-        const filtered = config.resource !== "";
-        // Sorted, not in generation order: a provider that discovers models
-        // in some other order (AWS walks Amazon's directory tree) would
-        // otherwise reshuffle the barrel on every run.
-        let resources = [...written].sort((a, b) => `${a}.json`.localeCompare(`${b}.json`));
-        if (filtered && (yield* fs.exists(barrelPath))) {
-          // Recover the RESOURCE from each export line's path, not its name:
-          // the two differ when barrelExportName renames (AWS exports
-          // `S3` from `./s3.ts`).
-          const existing = (yield* fs.readFileString(barrelPath))
-            .split("\n")
-            .map((line) => /^export \* as \S+ from "\.\/(.+)\.ts";/.exec(line)?.[1])
-            .filter((name): name is string => name !== undefined);
-          // Ordered exactly as a full run orders it: by MODEL FILENAME, so
-          // the `.json` takes part in the collation (`ai_gateway.json` sorts
-          // before `ai.json`, where the bare names sort the other way).
-          // Otherwise a filtered run reshuffles the barrel into diff noise.
-          resources = [...new Set([...existing, ...written])].sort((a, b) =>
-            `${a}.json`.localeCompare(`${b}.json`),
+          yield* Console.log(
+            `\n✅ Generated ${totalOps} operations across ${written.length} resource modules.`,
           );
+          yield* Console.log(`   ${path.join(outDir, "index.ts")}`);
         }
-
-        yield* fs.writeFileString(
-          barrelPath,
-          barrel(
-            `// AUTO-GENERATED by scripts/generate.ts. Do not edit.\n`,
-            resources.map((r) => ({
-              name: options.barrelExportName?.(r) ?? r,
-              path: `./${r}.ts`,
-            })),
-          ),
-        );
-
-        yield* (options.finalize ?? formatGenerated)(outDir);
-
-        yield* Console.log(
-          `\n✅ Generated ${totalOps} operations across ${written.length} resource modules.`,
-        );
-        yield* Console.log(`   ${path.join(outDir, "index.ts")}`);
 
         // Models that failed under continueOnModelError. Reported together,
         // at the end, and the run FAILS — a generate that couldn't produce
