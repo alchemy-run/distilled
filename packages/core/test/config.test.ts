@@ -1,4 +1,5 @@
 import * as ConfigProvider from "effect/ConfigProvider";
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -33,5 +34,18 @@ describe("core/config", () => {
   test("falls back to process.env without a provider", async () => {
     process.env.DISTILLED_CONFIG_TEST = "yes";
     expect(await Effect.runPromise(Config.String("DISTILLED_CONFIG_TEST"))).toBe("yes");
+  });
+
+  test("option, withDefault and orElse handle only a missing value", async () => {
+    class Boom extends Data.TaggedError("Boom")<{}> {}
+    const boom = Effect.fail(new Boom());
+    const failures = await Promise.all(
+      [
+        Config.option(boom),
+        boom.pipe(Config.withDefault("default")),
+        boom.pipe(Config.orElse(() => Effect.succeed("fallback"))),
+      ].map((effect) => Effect.runPromise(Effect.flip(effect as Effect.Effect<unknown, Boom>))),
+    );
+    for (const failure of failures) expect(failure).toBeInstanceOf(Boom);
   });
 });

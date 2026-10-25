@@ -123,12 +123,28 @@ export const String = (name: string): Effect.Effect<string, ConfigMissing> => re
 export const Redacted = (name: string): Effect.Effect<Redact.Redacted<string>, ConfigMissing> =>
   map((value: string) => Redact.make(value))(required(name));
 
+/**
+ * The failure of a missing value: {@link ConfigMissing}, matched by its tag
+ * (like Effect's `ConfigError`). `option`, `withDefault` and `orElse` handle
+ * only this failure; any other failure of `self` propagates.
+ */
+type Missed = { readonly _tag: "ConfigError" };
+
+const isMissed = (error: unknown): boolean =>
+  typeof error === "object" && error !== null && (error as Missed)._tag === "ConfigError";
+
+const catchMissed = <A, E, R, A2, E2, R2>(
+  self: Effect.Effect<A, E, R>,
+  f: () => Effect.Effect<A2, E2, R2>,
+): Effect.Effect<A | A2, Exclude<E, Missed> | E2, R | R2> =>
+  Effect.catchIf(self, isMissed, f) as Effect.Effect<A | A2, Exclude<E, Missed> | E2, R | R2>;
+
 /** The value as an `Option`: `None` when missing. */
 export const option = <A, E, R>(
   self: Effect.Effect<A, E, R>,
-): Effect.Effect<Option.Option<A>, never, R> => {
+): Effect.Effect<Option.Option<A>, Exclude<E, Missed>, R> => {
   const viaEffect = () =>
-    Effect.catch(Effect.map(self, Option.some), () => Effect.succeed(Option.none<A>()));
+    catchMissed(Effect.map(self, Option.some), () => Effect.succeed(Option.none<A>()));
   const reader = readerOf(self);
   if (!reader) return viaEffect();
   return fromReader({
@@ -138,14 +154,14 @@ export const option = <A, E, R>(
       return value instanceof Missing ? Option.none<A>() : Option.some(value);
     },
     viaEffect,
-  }) as Effect.Effect<Option.Option<A>, never, R>;
+  }) as Effect.Effect<Option.Option<A>, Exclude<E, Missed>, R>;
 };
 
 /** Use `value` when missing. */
 export const withDefault =
   <B>(value: B) =>
-  <A, E, R>(self: Effect.Effect<A, E, R>): Effect.Effect<A | B, never, R> => {
-    const viaEffect = () => Effect.catch(self, () => Effect.succeed(value));
+  <A, E, R>(self: Effect.Effect<A, E, R>): Effect.Effect<A | B, Exclude<E, Missed>, R> => {
+    const viaEffect = () => catchMissed(self, () => Effect.succeed(value));
     const reader = readerOf(self);
     if (!reader) return viaEffect();
     return fromReader<A | B>({
@@ -154,14 +170,16 @@ export const withDefault =
         return v instanceof Missing ? value : v;
       },
       viaEffect,
-    }) as Effect.Effect<A | B, never, R>;
+    }) as Effect.Effect<A | B, Exclude<E, Missed>, R>;
   };
 
 /** Try `that` when missing. */
 export const orElse =
   <A2, E2, R2>(that: () => Effect.Effect<A2, E2, R2>) =>
-  <A, E, R>(self: Effect.Effect<A, E, R>): Effect.Effect<A | A2, E2, R | R2> => {
-    const viaEffect = () => Effect.catch(self, () => that());
+  <A, E, R>(
+    self: Effect.Effect<A, E, R>,
+  ): Effect.Effect<A | A2, Exclude<E, Missed> | E2, R | R2> => {
+    const viaEffect = () => catchMissed(self, that);
     const reader = readerOf(self);
     if (!reader) return viaEffect();
     return fromReader<A | A2>({
@@ -172,7 +190,7 @@ export const orElse =
         return fallback ? fallback.read() : DEFER;
       },
       viaEffect,
-    }) as Effect.Effect<A | A2, E2, R | R2>;
+    }) as Effect.Effect<A | A2, Exclude<E, Missed> | E2, R | R2>;
   };
 
 export const map =
