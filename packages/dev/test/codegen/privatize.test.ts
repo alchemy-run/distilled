@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { privatizeSchemas } from "../../src/codegen/privatize.ts";
+import { docCommentStart, privatizeSchemas } from "../../src/codegen/privatize.ts";
 
 const run = (code: string) => privatizeSchemas(code).code;
 
@@ -63,6 +63,42 @@ describe("privatizeSchemas", () => {
         `export const listObjects = listBucketObjects;`,
       ].join("\n"),
     );
+  });
+
+  test("removes adjacent dead schemas, each with its own doc comment and trailing newlines", () => {
+    const code = [
+      `/** Kept. */`,
+      `export const Used = S.String;`,
+      `/** First. */`,
+      `export const DeadA = S.Struct({});`,
+      ``,
+      `/**`,
+      ` * Second.`,
+      ` */`,
+      `export const DeadB = S.Struct({ a: DeadA });`,
+      `export const DeadC = S.Struct({});`,
+      `export const op = API.make(() => ({ input: Used, output: Used }));`,
+    ].join("\n");
+    expect(run(code)).toBe(
+      [
+        `/** Kept. */`,
+        `const Used = S.String;`,
+        `export const op = API.make(() => ({ input: Used, output: Used }));`,
+      ].join("\n"),
+    );
+  });
+
+  test("finds the same doc comment as the whole-prefix regex", () => {
+    const regex = (code: string) => /\/\*\*(?:(?!\*\/)[\s\S])*\*\/\s*$/.exec(code)?.index;
+    // Strings over the characters that matter: openers, closers, overlaps (`/**/`), whitespace.
+    const alphabet = ["/", "*", " ", "\n", "a"];
+    let seed = 1;
+    const next = () => (seed = (seed * 48271) % 2147483647);
+    for (let n = 0; n < 20000; n++) {
+      let code = "";
+      for (let i = next() % 16; i > 0; i--) code += alphabet[next() % alphabet.length];
+      expect(docCommentStart(code, code.length), JSON.stringify(code)).toBe(regex(code));
+    }
   });
 
   test("type-only references do not keep a schema alive", () => {

@@ -14,7 +14,7 @@
  * a template literal can never be cut.
  *
  * Generated service modules (`lib/services/*.js`) are then rewritten into
- * data operations (`packages/core/src/codegen/datafy.ts`): each operation
+ * data operations (`packages/dev/src/codegen/datafy.ts`): each operation
  * and its schemas become a description evaluated on first call, so
  * importing a service builds no schema code. `src/` keeps the code form,
  * which bundlers resolving the `bun` condition read and tree-shake. The
@@ -25,7 +25,7 @@
 import { existsSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, sep } from "node:path";
 import { parseAst } from "rolldown/parseAst";
-import { datafyOperations } from "../packages/core/src/codegen/datafy.ts";
+import { datafyOperations } from "../packages/dev/src/codegen/datafy.ts";
 
 const ROOT = join(import.meta.dirname, "..");
 const DOC = /^[ \t]*\/\*\*(?![ \t]*[@#]__PURE__)[\s\S]*?\*\/[ \t]*$/gm;

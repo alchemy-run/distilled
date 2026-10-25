@@ -72,6 +72,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:",
     "yaml": "catalog:"
   },
@@ -79,7 +80,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-20",
+    "generatedAt": "2026-10-25",
     "specUpdatedAt": "2026-10-03"
   }
 }

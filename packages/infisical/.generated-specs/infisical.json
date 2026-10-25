@@ -86308,15 +86308,24 @@
       "type": "structure",
       "members": {
         "roleArn": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "stsEndpoint": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "An optional custom endpoint URL for the AWS STS API to use when connecting with AWS."
+          }
+        },
+        "accessKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secretAccessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -173310,7 +173319,9 @@
           "target": "com.infisical.api#ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList"
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.infisical.api#ListPkiSyncCertificatesResponseCertificatesItem": {
       "type": "structure",
@@ -226252,7 +226263,9 @@
           "target": "com.infisical.api#ListPkiSyncCertificatesResponseCertificatesItemSyncMetadataFilesList2"
         }
       },
-      "traits": {}
+      "traits": {
+        "com.distilled.openapi#additionalProperties": {}
+      }
     },
     "com.infisical.api#ListPkiSyncCertificatesResponseCertificatesItem2": {
       "type": "structure",
@@ -302673,15 +302686,24 @@
       "type": "structure",
       "members": {
         "roleArn": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "stsEndpoint": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "An optional custom endpoint URL for the AWS STS API to use when connecting with AWS."
+          }
+        },
+        "accessKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "secretAccessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -320041,13 +320063,35 @@
       "type": "structure",
       "members": {
         "code": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "tenantId": {
           "target": "smithy.api#String"
+        },
+        "clientId": {
+          "target": "smithy.api#String"
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "clientSecretKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "certificateBody": {
+          "target": "smithy.api#String"
+        },
+        "privateKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
         }
       },
       "traits": {
@@ -326186,13 +326230,26 @@
       "type": "structure",
       "members": {
         "code": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "tenantId": {
           "target": "smithy.api#String"
+        },
+        "clientId": {
+          "target": "smithy.api#String"
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "clientSecretKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked.",
+            "smithy.api#sensitive": {}
+          }
         }
       },
       "traits": {
@@ -331077,15 +331134,46 @@
         "code": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The OAuth code to use to connect with Azure Client Secrets.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The OAuth code to use to connect with Azure Client Secrets."
           }
         },
         "tenantId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Tenant ID to use to connect with Azure Client Secrets.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The Tenant ID to use to connect with Azure Client Secrets."
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Client ID to use to connect with Azure Client Secrets."
+          }
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Client Secret to use to connect with Azure Client Secrets.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "clientSecretKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "certificateBody": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificate body in PEM format to use to connect with Azure Client Secrets."
+          }
+        },
+        "privateKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The private key to use to connect with Azure Client Secrets. This is never transmitted to Azure and is only used to sign the Azure client assertion with.",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -337631,22 +337719,45 @@
         "code": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The OAuth code to use to connect with Azure DevOps.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The OAuth code to use to connect with Azure DevOps."
           }
         },
         "tenantId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Tenant ID to use to connect with Azure DevOps.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The Tenant ID to use to connect with Azure DevOps."
           }
         },
         "orgName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Organization name to use to connect with Azure DevOps.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The Organization name to use to connect with Azure DevOps."
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Client ID to use to connect with Azure Client Secrets."
+          }
+        },
+        "clientSecret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Client Secret to use to connect with Azure Client Secrets.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "clientSecretKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Key ID of the client secret in Azure AD. Required when enabling credential rotation so the original secret can be revoked.",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -382338,8 +382449,7 @@
         "instanceUrl": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Hashicrop Vault instance URL to connect with.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The Hashicrop Vault instance URL to connect with."
           }
         },
         "namespace": {
@@ -382352,8 +382462,19 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The access token used to connect with Hashicorp Vault.",
-            "smithy.api#required": {},
             "smithy.api#sensitive": {}
+          }
+        },
+        "roleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Role ID used to connect with Hashicorp Vault."
+          }
+        },
+        "secretId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Secret ID used to connect with Hashicorp Vault."
           }
         }
       },
@@ -461127,30 +461248,39 @@
         "host": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The hostname or IP address of the SSH server.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The hostname or IP address of the SSH server."
           }
         },
         "port": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The port number of the SSH server (default: 22).",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The port number of the SSH server (default: 22)."
           }
         },
         "username": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The username for SSH authentication.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The username for SSH authentication."
           }
         },
         "password": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The password for SSH authentication (required when authMethod is 'password').",
-            "smithy.api#required": {},
             "smithy.api#sensitive": {}
+          }
+        },
+        "privateKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The private key in PEM format for SSH authentication (required when authMethod is 'ssh-key').",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "passphrase": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The passphrase for the private key, if encrypted (optional, only for 'ssh-key' authMethod)."
           }
         }
       },
@@ -530440,15 +530570,26 @@
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Datadog site URL to connect to (e.g., 'https://api.datadoghq.com').",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The Datadog site URL to connect to (e.g., 'https://api.datadoghq.com')."
           }
         },
         "token": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The Datadog Service Access Token used to authenticate.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The Datadog Service Access Token used to authenticate."
+          }
+        },
+        "apiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Datadog API key used to authenticate.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "applicationKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Datadog Application key used to authenticate."
           }
         }
       },
@@ -553570,10 +553711,7 @@
       "type": "structure",
       "members": {
         "hostname": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "port": {
           "target": "smithy.api#Integer"
@@ -553587,7 +553725,15 @@
         "apiKey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String"
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
             "smithy.api#sensitive": {}
           }
         }

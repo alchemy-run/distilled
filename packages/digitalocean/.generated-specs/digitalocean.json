@@ -9537,6 +9537,34 @@
         "smithy.api#documentation": "Settings for scaling the component based on CPU utilization."
       }
     },
+    "com.digitalocean.api#AppAutoscalingSpecServiceMetricsRequestsPerSecond": {
+      "type": "structure",
+      "members": {
+        "per_instance": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The target number of requests per second per instance for the component."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Settings for scaling the component based on requests per second."
+      }
+    },
+    "com.digitalocean.api#AppAutoscalingSpecServiceMetricsRequestDuration": {
+      "type": "structure",
+      "members": {
+        "p95_milliseconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The p95 target request duration in milliseconds for the component."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Settings for scaling the component based on request duration."
+      }
+    },
     "com.digitalocean.api#AppAutoscalingSpecServiceMetrics": {
       "type": "structure",
       "members": {
@@ -9544,6 +9572,18 @@
           "target": "com.digitalocean.api#AppAutoscalingSpecServiceMetricsCpu",
           "traits": {
             "smithy.api#documentation": "Settings for scaling the component based on CPU utilization."
+          }
+        },
+        "requests_per_second": {
+          "target": "com.digitalocean.api#AppAutoscalingSpecServiceMetricsRequestsPerSecond",
+          "traits": {
+            "smithy.api#documentation": "Settings for scaling the component based on requests per second."
+          }
+        },
+        "request_duration": {
+          "target": "com.digitalocean.api#AppAutoscalingSpecServiceMetricsRequestDuration",
+          "traits": {
+            "smithy.api#documentation": "Settings for scaling the component based on request duration."
           }
         }
       },
@@ -44096,6 +44136,90 @@
         "smithy.api#documentation": "List Alert Rules\n\nTo list alert rules for your account, send a GET request to\n`/v2/insights/alert-rules`. Results are paginated with `page` and `per_page`\n(default `20`, maximum `200`). Optionally filter by `resource_urn`."
       }
     },
+    "com.digitalocean.api#CreateInsightAlertRuleRequestSpecNotificationChannelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#NotificationChannelBinding"
+      },
+      "traits": {
+        "smithy.api#documentation": "Notification channels to notify when the rule fires."
+      }
+    },
+    "com.digitalocean.api#CreateInsightAlertRuleRequestSpecReAlertDuration": {
+      "type": "enum",
+      "members": {
+        "RE_ALERT_DURATION_30M": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RE_ALERT_DURATION_30M"
+          }
+        },
+        "RE_ALERT_DURATION_1H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RE_ALERT_DURATION_1H"
+          }
+        },
+        "RE_ALERT_DURATION_4H": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RE_ALERT_DURATION_4H"
+          }
+        },
+        "RE_ALERT_DURATION_NEVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RE_ALERT_DURATION_NEVER"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum wait before re-notifying a still-firing alert. Defaults to\n`RE_ALERT_DURATION_4H` on create when omitted. Allowed values:\n\n- `RE_ALERT_DURATION_30M` = `30m`\n- `RE_ALERT_DURATION_1H` = `1h`\n- `RE_ALERT_DURATION_4H` = `4h`\n- `RE_ALERT_DURATION_NEVER` = never\n"
+      }
+    },
+    "com.digitalocean.api#CreateInsightAlertRuleRequestSpec": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable name for the alert rule.",
+            "smithy.api#required": {}
+          }
+        },
+        "query": {
+          "target": "com.digitalocean.api#MetricsQuery",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "condition": {
+          "target": "com.digitalocean.api#AlertCondition"
+        },
+        "thresholds": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "notification_channels": {
+          "target": "com.digitalocean.api#CreateInsightAlertRuleRequestSpecNotificationChannelsList",
+          "traits": {
+            "smithy.api#documentation": "Notification channels to notify when the rule fires.",
+            "smithy.api#required": {}
+          }
+        },
+        "re_alert_duration": {
+          "target": "com.digitalocean.api#CreateInsightAlertRuleRequestSpecReAlertDuration",
+          "traits": {
+            "smithy.api#documentation": "Minimum wait before re-notifying a still-firing alert. Defaults to\n`RE_ALERT_DURATION_4H` on create when omitted. Allowed values:\n\n- `RE_ALERT_DURATION_30M` = `30m`\n- `RE_ALERT_DURATION_1H` = `1h`\n- `RE_ALERT_DURATION_4H` = `4h`\n- `RE_ALERT_DURATION_NEVER` = never\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Spec for an Insights alert rule. On create, `name`, `query`, `thresholds`,\nand at least one `notification_channels` binding are required. On update,\nomit `notification_channels` to keep existing bindings; an explicit empty\nlist is rejected.\n"
+      }
+    },
     "com.digitalocean.api#CreateInsightAlertRuleRequestStatus": {
       "type": "enum",
       "members": {
@@ -44120,8 +44244,9 @@
       "type": "structure",
       "members": {
         "spec": {
-          "target": "com.digitalocean.api#AlertRuleSpec",
+          "target": "com.digitalocean.api#CreateInsightAlertRuleRequestSpec",
           "traits": {
+            "smithy.api#documentation": "Spec for an Insights alert rule. On create, `name`, `query`, `thresholds`,\nand at least one `notification_channels` binding are required. On update,\nomit `notification_channels` to keep existing bindings; an explicit empty\nlist is rejected.\n",
             "smithy.api#required": {}
           }
         },

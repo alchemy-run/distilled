@@ -9,8 +9,8 @@
  *
  * Each namespace is also importable on its own subpath
  * (`@distilled.cloud/core/response-validation`, ...); generated SDKs use the
- * subpaths. Code generation (`codegen/*`) and test helpers (`testing`) stay
- * subpath-only.
+ * subpaths. The code generator and test helpers live in the unpublished
+ * `@distilled.cloud/dev` package.
  */
 export * as API from "./api.ts";
 export * as Category from "./category.ts";

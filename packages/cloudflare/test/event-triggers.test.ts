@@ -1,4 +1,4 @@
-import { runValidationModes } from "@distilled.cloud/core/testing";
+import { runValidationModes } from "@distilled.cloud/dev/testing";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
