@@ -168,6 +168,11 @@ describe("REST behaviour", () => {
     });
   });
 
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const { layer } = fakeSupabase(200, "null");
+    expect(await run(createProject, layer)).toBeNull();
+  });
+
   test("retryable statuses carry Retry-After", async () => {
     const { layer } = fakeSupabase(429, JSON.stringify({ message: "rate limited" }), {
       "retry-after": "2",

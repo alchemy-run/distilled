@@ -520,6 +520,11 @@ describe("Success decoding", () => {
     expect(await strict.result).toBeInstanceOf(StripeParseError);
   });
 
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const { result } = run(CreateCustomer({}), () => json(null));
+    expect(await result).toBeNull();
+  });
+
   test("a body cut off mid-secret fails in both modes without exposing it", async () => {
     for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
       const { result } = run(

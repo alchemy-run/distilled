@@ -245,6 +245,11 @@ describe("success decoding", () => {
     }
   });
 
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const { layer } = fakeGoogle(200, "null");
+    expect(await run(deleteTasks({ tasklist: "l", task: "t" }), layer)).toBeNull();
+  });
+
   test("strict validation fails a mismatched payload with GoogleWorkspaceParseError", async () => {
     const { layer } = fakeGoogle(200, JSON.stringify({ id: 42 }));
     const error = await Effect.runPromise(

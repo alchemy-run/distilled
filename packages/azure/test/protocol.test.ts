@@ -352,6 +352,11 @@ describe("success decoding", () => {
     }
   });
 
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const { layer } = fakeArm(200, "null");
+    expect(await run(DeleteResourceGroup(rg), layer)).toBeNull();
+  });
+
   test("sensitive output members are delivered as Redacted", async () => {
     const { layer } = fakeArm(
       200,

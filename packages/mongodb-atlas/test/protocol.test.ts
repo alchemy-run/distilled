@@ -259,6 +259,11 @@ describe("success decoding", () => {
     }
   });
 
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const { layer } = fakeAtlas(200, "null");
+    expect(await run(deleteGroupCluster({ groupId, clusterName: "c0" }), layer)).toBeNull();
+  });
+
   test("strict validation fails a mismatched payload with MongodbAtlasParseError", async () => {
     const { layer } = fakeAtlas(200, JSON.stringify({ name: 42 }));
     const error = await Effect.runPromise(
