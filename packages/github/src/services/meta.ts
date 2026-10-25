@@ -100,6 +100,24 @@ export interface GetOctocatRequest {
 export interface GetOctocatResponse {}
 export interface GetZenRequest {}
 export interface GetZenResponse {}
+export interface GraphqlRequest {
+  /** The GraphQL document: a query or mutation. */
+  query: string;
+  /** Values for the document's variables. */
+  variables?: unknown;
+}
+export interface GraphqlResponseError {
+  message: string;
+  type?: string;
+  path?: unknown;
+}
+export type GraphqlResponseErrorList = Array<GraphqlResponseError>;
+export interface GraphqlResponse {
+  /** The result, shaped like the document's selection. */
+  data?: unknown;
+  /** Errors GitHub reports with a 200 response: a GraphQL request can fail while the HTTP request succeeds. */
+  errors?: GraphqlResponseErrorList;
+}
 export interface Root2Request {}
 export interface Root {
   current_user_url: string;
@@ -192,12 +210,27 @@ export const getZen: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GraphqlError = GithubOpError;
+/** Run a GraphQL query or mutation GitHub's GraphQL API, for the operations REST does not offer. Check `errors`: GitHub reports GraphQL failures with a 200 response. */
+export const graphql: API.OperationMethod<
+  GraphqlRequest,
+  GraphqlResponse,
+  GraphqlError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c6, 0) as any as S.Schema<GraphqlRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<GraphqlResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
 export type Root2Error = GithubOpError;
 /** GitHub API Root Get Hypermedia links to resources accessible in GitHub's REST API */
 export const root2: API.OperationMethod<Root2Request, Root, Root2Error, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(48, __c6, 0) as any as S.Schema<Root2Request>,
-    output: __S(49, __c6, 1) as any as S.Schema<Root>,
+    input: __S(56, __c7, 0) as any as S.Schema<Root2Request>,
+    output: __S(57, __c7, 1) as any as S.Schema<Root>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -314,6 +347,34 @@ function __c5(j: number): any {
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.String,
+          variables: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "POST", uri: "/graphql", code: 200 })),
+      ).annotate({ identifier: "GraphqlRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          type: S.optional(S.String),
+          path: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "GraphqlResponseError" });
+    case 2:
+      return S.Array(__S(49, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.Unknown),
+          errors: S.optional(__S(50, __c6, 2)),
+        }),
+      ).annotate({ identifier: "GraphqlResponse" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

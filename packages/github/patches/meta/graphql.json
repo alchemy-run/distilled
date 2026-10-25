@@ -1,0 +1,83 @@
+{
+  "description": "Add meta.graphql: POST /graphql, GitHub's GraphQL endpoint. A few operations exist only there (e.g. converting a pull request to a draft). The REST spec does not describe it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.github.meta#GraphqlRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "query": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The GraphQL document: a query or mutation."
+            }
+          },
+          "variables": {
+            "target": "smithy.api#Document",
+            "traits": { "smithy.api#documentation": "Values for the document's variables." }
+          }
+        },
+        "traits": { "smithy.api#input": {} }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.github.meta#GraphqlResponseError",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": { "target": "smithy.api#String", "traits": { "smithy.api#required": {} } },
+          "type": { "target": "smithy.api#String" },
+          "path": { "target": "smithy.api#Document" }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.github.meta#GraphqlResponseErrorList",
+      "value": { "type": "list", "member": { "target": "com.github.meta#GraphqlResponseError" } }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.github.meta#GraphqlResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "data": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "smithy.api#documentation": "The result, shaped like the document's selection."
+            }
+          },
+          "errors": {
+            "target": "com.github.meta#GraphqlResponseErrorList",
+            "traits": {
+              "smithy.api#documentation": "Errors GitHub reports with a 200 response: a GraphQL request can fail while the HTTP request succeeds."
+            }
+          }
+        },
+        "traits": { "smithy.api#output": {} }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.github.meta#Graphql",
+      "value": {
+        "type": "operation",
+        "input": { "target": "com.github.meta#GraphqlRequest" },
+        "output": { "target": "com.github.meta#GraphqlResponse" },
+        "traits": {
+          "smithy.api#http": { "method": "POST", "uri": "/graphql", "code": 200 },
+          "smithy.api#documentation": "Run a GraphQL query or mutation\n\nGitHub's GraphQL API, for the operations REST does not offer. Check `errors`: GitHub reports GraphQL failures with a 200 response."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.github.meta#Meta/operations/-",
+      "value": { "target": "com.github.meta#Graphql" }
+    }
+  ]
+}

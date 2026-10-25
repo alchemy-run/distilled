@@ -65,7 +65,11 @@ export const GithubProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   // process); the Credentials service holds an effect so rotating tokens
   // (GitHub App installation tokens expire hourly) Just Work.
   credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
+  // GraphQL is not under the REST root on GitHub Enterprise Server: REST is
+  // `<host>/api/v3`, GraphQL `<host>/api/graphql`. github.com and data
+  // residency hosts serve both from the same root.
+  baseUrl: (creds, { uri }) =>
+    uri === "/graphql" ? creds.apiBaseUrl.replace(/\/v3\/?$/, "") : creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
     Accept: "application/vnd.github+json",
