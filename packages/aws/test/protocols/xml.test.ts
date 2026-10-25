@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as S from "@distilled.cloud/core/schema-lite";
+import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -488,6 +490,102 @@ describe("AwsProtocol S3 path-style addressing", () => {
       capture(S3.getObject({ ...dotted, Key: "a.txt" }), undefined, region),
     );
     assert.equal(new URL(request.url).pathname, "/my.dotted.bucket/a.txt");
+  });
+});
+
+// The URL parser resolves dot segments, so these keys would address the
+// bucket (`DELETE /examplebucket/` is DeleteBucket) or another object, and an
+// invalid host label would move the request to another host.
+describe("AwsProtocol REST-XML labels that would leave their target", () => {
+  const sent = <A, E>(
+    operation: Effect.Effect<A, E, Credentials.Credentials | HttpClient.HttpClient>,
+    endpoint: Layer.Layer<never>,
+  ) =>
+    Effect.gen(function* () {
+      const requests: HttpClientRequest.HttpClientRequest[] = [];
+      const client = HttpClient.make((request) =>
+        Effect.sync(() => {
+          requests.push(request);
+          return HttpClientResponse.fromWeb(request, new Response(""));
+        }),
+      );
+      const exit = yield* Effect.exit(
+        operation.pipe(
+          Effect.provide(
+            Layer.mergeAll(
+              Layer.succeed(HttpClient.HttpClient, client),
+              Layer.succeed(Credentials.Credentials, Effect.succeed(credentials)),
+              endpoint,
+            ),
+          ),
+        ),
+      );
+      return { exit, requests };
+    });
+
+  const pathStyle = Endpoint.of("http://localhost:9000");
+  const region = Region.of("us-east-1");
+
+  const refused = async (
+    operation: Effect.Effect<unknown, unknown, Credentials.Credentials | HttpClient.HttpClient>,
+    label: string,
+    endpoint: Layer.Layer<never> = pathStyle,
+  ) => {
+    const { exit, requests } = await Effect.runPromise(sent(operation, endpoint));
+    assert.equal(requests.length, 0);
+    assert.ok(Exit.isFailure(exit) && Cause.hasDies(exit.cause));
+    assert.match(String(Cause.squash(exit.cause)), new RegExp(`${label}$`));
+  };
+
+  for (const Key of ["", ".", "..", "../other/k", "a/./b"]) {
+    it(`DeleteObject refuses the key ${JSON.stringify(Key)} and sends nothing`, () =>
+      refused(S3.deleteObject({ ...bucket, Key }), "HTTP label: Key"));
+  }
+
+  for (const Bucket of ["", ".", ".."]) {
+    it(`DeleteBucket refuses the bucket ${JSON.stringify(Bucket)} and sends nothing`, () =>
+      refused(S3.deleteBucket({ Bucket }), "HTTP label: Bucket"));
+  }
+
+  it("DeleteObject refuses an empty key on a dotted bucket via AWS and sends nothing", () =>
+    refused(S3.deleteObject({ Bucket: "my.bucket", Key: "" }), "HTTP label: Key", region));
+
+  for (const [Key, path] of [
+    ["...", "/..."],
+    ["%2E%2E", "/%252E%252E"],
+  ] as const) {
+    it(`DeleteObject sends the key ${JSON.stringify(Key)} as written`, async () => {
+      const { exit, requests } = await Effect.runPromise(
+        sent(S3.deleteObject({ ...bucket, Key }), pathStyle),
+      );
+      assert.ok(Exit.isSuccess(exit));
+      assert.equal(requests.length, 1);
+      assert.equal(new URL(requests[0]!.url).pathname, `/examplebucket${path}`);
+    });
+  }
+
+  for (const RequestRoute of ["attacker.invalid/", "attacker.invalid#", "a@attacker.invalid", ""]) {
+    it(`WriteGetObjectResponse refuses the route ${JSON.stringify(RequestRoute)} and sends nothing`, () =>
+      refused(
+        S3.writeGetObjectResponse({ RequestRoute, RequestToken: "token" }),
+        "host label: RequestRoute",
+        region,
+      ));
+  }
+
+  it("WriteGetObjectResponse puts a valid route in front of the host", async () => {
+    const { exit, requests } = await Effect.runPromise(
+      sent(
+        S3.writeGetObjectResponse({ RequestRoute: "io-a1c1d5c3", RequestToken: "token" }),
+        region,
+      ),
+    );
+    assert.ok(Exit.isSuccess(exit));
+    assert.equal(requests.length, 1);
+    assert.equal(
+      new URL(requests[0]!.url).host,
+      "io-a1c1d5c3.s3-object-lambda.us-east-1.amazonaws.com",
+    );
   });
 });
 

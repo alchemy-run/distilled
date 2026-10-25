@@ -2,6 +2,7 @@ import { createHash, createHmac } from "node:crypto";
 import * as Signer from "@distilled.cloud/aws4signer";
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import * as Cache from "effect/Cache";
+import * as Cause from "effect/Cause";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -438,6 +439,60 @@ describe("Presign", () => {
     expect(parsed.searchParams.get("X-Amz-Signature")).toBe(
       new URL(expected.url).searchParams.get("X-Amz-Signature"),
     );
+  });
+
+  const presignDefect = async (
+    options: Presign.PresignS3UrlOptions,
+    endpoint: Layer.Layer<never>,
+  ): Promise<string> => {
+    const exit = await Effect.runPromiseExit(
+      Presign.presignS3Url(options).pipe(Effect.provide(layer), Effect.provide(endpoint)),
+    );
+    expect(Exit.isFailure(exit) && Cause.hasDies(exit.cause)).toBe(true);
+    return String(Exit.isFailure(exit) && Cause.squash(exit.cause));
+  };
+
+  test("presignS3Url refuses an empty, `.` or `..` key or bucket", async () => {
+    const options = { bucket: "examplebucket", key: "k", datetime };
+    for (const [change, label] of [
+      ...["", ".", "..", "../other/k", "a/../b", "a/./b"].map((key) => [{ key }, "key"] as const),
+      ...["", ".", ".."].map((bucket) => [{ bucket }, "bucket"] as const),
+    ]) {
+      for (const endpoint of [Layer.empty, Endpoint.of("http://localhost:4566/s3/")]) {
+        expect(await presignDefect({ ...options, ...change }, endpoint)).toMatch(
+          new RegExp(`HTTP label: ${label}$`),
+        );
+      }
+    }
+  });
+
+  test("presignS3Url refuses a virtual-hosted bucket that would leave the hostname", async () => {
+    for (const bucket of [
+      "attacker.invalid/x",
+      "attacker.invalid#",
+      "a@attacker.invalid",
+      "my-bucket/../other",
+    ]) {
+      expect(await presignDefect({ bucket, key: "k", datetime }, Layer.empty)).toMatch(
+        /host label: bucket$/,
+      );
+    }
+  });
+
+  test("presignS3Url keeps a custom-endpoint bucket in one path segment", async () => {
+    for (const [bucket, path] of [
+      ["my-bucket/../other", "/s3/my-bucket%2F..%2Fother/k"],
+      ["%2e%2E", "/s3/%252e%252E/k"],
+      ["my-bucket/#", "/s3/my-bucket%2F%23/k"],
+    ]) {
+      const signed = await Effect.runPromise(
+        Presign.presignS3Url({ bucket, key: "k", datetime }).pipe(
+          Effect.provide(layer),
+          Effect.provide(Endpoint.of("http://localhost:4566/s3/")),
+        ),
+      );
+      expect(new URL(signed).pathname).toBe(path);
+    }
   });
 
   test("presignS3Url signs versions under a custom path-style endpoint", async () => {
