@@ -3,8 +3,12 @@ import * as API from "@distilled.cloud/core/api";
 import { debugHttp } from "@distilled.cloud/core/debug";
 import { type ConfigError, HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import {
+  hasSensitiveMember,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
+import { validateResponse, withholdActual } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
  * CoinbaseProtocol -- hand-written.
@@ -370,11 +374,13 @@ const decode = ({
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
     }
     let json: unknown;
+    let nonJson = false;
     if (text.trim().length > 0) {
       try {
         json = JSON.parse(text);
       } catch {
         json = text;
+        nonJson = true;
       }
     }
     const status = response.status;
@@ -390,12 +396,25 @@ const decode = ({
     // No envelope: the response body IS the payload, mapped onto the output
     // schema (wire names -> TS names), with members marked T.SensitiveValue
     // delivered as Redacted. Strict mode (core/response-validation) checks
-    // the mapped body against the output schema first.
+    // the mapped body against the output schema first. For an output with
+    // sensitive members, a non-JSON body fails in every mode and parse errors
+    // withhold the body.
+    const sensitive = hasSensitiveMember(outputAst);
+    if (nonJson && sensitive) {
+      return yield* fail(
+        new CoinbaseParseError({ body: "[REDACTED]", cause: "Invalid JSON response" }),
+      );
+    }
     const body = json === undefined ? {} : json;
     const mapped = yield* validateResponse(
       outputAst,
       mapKeys(outputAst, body, "decode"),
-      (cause) => new CoinbaseParseError({ body: json ?? text, cause }),
+      (cause) =>
+        new CoinbaseParseError(
+          sensitive
+            ? { body: "[REDACTED]", cause: withholdActual(cause) }
+            : { body: json ?? text, cause },
+        ),
     ).pipe(Effect.catch(fail));
     return wrapSensitive(outputAst, mapped);
   });

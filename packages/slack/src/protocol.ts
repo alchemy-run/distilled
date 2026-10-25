@@ -16,8 +16,12 @@ import {
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import {
+  hasSensitiveMember,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
+import { validateResponse, withholdActual } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
 import { httpSymbol, querySymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
@@ -183,6 +187,7 @@ const decode = ({
     }
 
     let json: Record<string, unknown> | undefined;
+    let nonJson = false;
     if (text.trim().length > 0) {
       try {
         const parsed = JSON.parse(text);
@@ -191,6 +196,7 @@ const decode = ({
         }
       } catch {
         // non-JSON -- a binary success payload or an HTML error page
+        nonJson = true;
       }
     }
     const status = response.status;
@@ -280,12 +286,25 @@ const decode = ({
 
     // Successful non-JSON body: raw bytes (the analytics file download --
     // modeled as a Document output, so the bytes pass through verbatim).
-    // Strict mode fails them for every other (struct) output.
+    // Strict mode fails them for every other (struct) output. For an output
+    // with sensitive members, a body that is not JSON at all fails in every
+    // mode, and parse errors withhold the body.
+    const sensitive = hasSensitiveMember(outputAst);
     if (json === undefined) {
+      if (nonJson && sensitive) {
+        return yield* fail(
+          new SlackParseError({ body: "[REDACTED]", cause: "Invalid JSON response" }),
+        );
+      }
       return yield* validateResponse(
         outputAst,
         bytes,
-        (cause) => new SlackParseError({ body: text, cause }),
+        (cause) =>
+          new SlackParseError(
+            sensitive
+              ? { body: "[REDACTED]", cause: withholdActual(cause) }
+              : { body: text, cause },
+          ),
       ).pipe(Effect.catch(fail));
     }
 
@@ -296,7 +315,10 @@ const decode = ({
     const mapped = yield* validateResponse(
       outputAst,
       mapKeys(outputAst, json, "decode"),
-      (cause) => new SlackParseError({ body: json, cause }),
+      (cause) =>
+        new SlackParseError(
+          sensitive ? { body: "[REDACTED]", cause: withholdActual(cause) } : { body: json, cause },
+        ),
     ).pipe(Effect.catch(fail));
     return wrapSensitive(outputAst, mapped);
   });

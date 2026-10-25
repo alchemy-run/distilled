@@ -12,8 +12,12 @@ import {
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import {
+  hasSensitiveMember,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
+import { validateResponse, withholdActual } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
@@ -200,12 +204,24 @@ const decode = ({
     // Wire->TS key mapping is schema-driven; `RawResponseRoot` responses are
     // the body verbatim (mapKeys handles arrays/scalars structurally).
     // Strict mode (core/response-validation) checks the mapped body against
-    // the output schema.
+    // the output schema. For an output with sensitive members, a non-JSON
+    // body fails in every mode and parse errors withhold the body.
+    const sensitive = hasSensitiveMember(outputAst);
+    if (nonJson && sensitive) {
+      return yield* fail(
+        new MongodbAtlasParseError({ body: "[REDACTED]", cause: "Invalid JSON response" }),
+      );
+    }
     const body: unknown = nonJson ? text : (json ?? {});
     const mapped = yield* validateResponse(
       outputAst,
       mapKeys(outputAst, body, "decode"),
-      (cause) => new MongodbAtlasParseError({ body: nonJson ? text : json, cause }),
+      (cause) =>
+        new MongodbAtlasParseError(
+          sensitive
+            ? { body: "[REDACTED]", cause: withholdActual(cause) }
+            : { body: nonJson ? text : json, cause },
+        ),
     ).pipe(Effect.catch(fail));
     return wrapSensitive(outputAst, mapped);
   });

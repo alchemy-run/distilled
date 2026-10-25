@@ -12,11 +12,12 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
+  hasSensitiveMember,
   unwrapRedactedDeep,
   wrapSensitive,
   type RestErrorEnvelope,
 } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { validateResponse, withholdActual } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
@@ -215,12 +216,25 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
           );
         }
 
-        // Strict mode checks the mapped body against the output schema.
+        // Strict mode checks the mapped body against the output schema. For
+        // an output with sensitive members, a non-JSON body fails in every
+        // mode and parse errors withhold the body.
+        const sensitive = hasSensitiveMember(outputAst);
+        if (nonJson && sensitive) {
+          return yield* fail(
+            new StackitParseError({ body: "[REDACTED]", cause: "Invalid JSON response" }),
+          );
+        }
         const body: unknown = nonJson ? text : (json ?? {});
         const mapped = yield* validateResponse(
           outputAst,
           mapKeys(outputAst, body, "decode"),
-          (cause) => new StackitParseError({ body: nonJson ? text : json, cause }),
+          (cause) =>
+            new StackitParseError(
+              sensitive
+                ? { body: "[REDACTED]", cause: withholdActual(cause) }
+                : { body: nonJson ? text : json, cause },
+            ),
         ).pipe(Effect.catch(fail));
         return wrapSensitive(outputAst, mapped);
       }),
