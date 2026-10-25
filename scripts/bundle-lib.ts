@@ -40,6 +40,8 @@
  *
  *   node scripts/bundle-lib.ts [packages/<pkg> ...]   (core is always rebuilt)
  */
+// Before rolldown loads: its allocator reads its settings at load.
+import "./bundle-lib-memory.ts";
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -639,6 +641,7 @@ const buildPackage = async (
   const groupNames = [...plan.groups.keys()].filter((g) => plan.groups.get(g)!.length > 0);
   const fileOf = (g: string) => `_bundle/${g}`;
 
+  const datafied = new Map<string, string>();
   const bundlePlugin = {
     name: "distilled-bundle",
     resolveId(source: string) {
@@ -676,7 +679,13 @@ const buildPackage = async (
       // this is the same rewrite strip-lib-docs applies to tsc's output, done
       // here on the source because the bundled, minified output no longer
       // has the shape datafy reads.
-      if (isService(plan, m)) code = datafyOperations(code, id, { aliases: false }).code;
+      // Each `generate()` rebuilds the graph; datafy a service once per build.
+      if (isService(plan, m)) {
+        let d = datafied.get(id);
+        if (d === undefined)
+          datafied.set(id, (d = datafyOperations(code, id, { aliases: false }).code));
+        code = d;
+      }
       const own = groupOf.get(m);
       const deps = graph.get(m);
       // Services are not in the parsed graph (too big to parse twice); they import the SDK group.
@@ -832,6 +841,7 @@ const buildPackage = async (
       : undefined;
     const generated = (await bundle.generate({ ...outputOptions, minify })).output;
     await bundle.close();
+    if (service) datafied.delete(join(src, `${service}.ts`));
     const chunks = generated.filter((c: any) => c.type === "chunk");
     if (service) {
       const stray = chunks

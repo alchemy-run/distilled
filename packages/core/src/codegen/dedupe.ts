@@ -25,6 +25,7 @@
 const IDENTIFIER_ON_WIRE =
   /^const proto = (?:\/\*[@#]__PURE__\*\/ )?T\.AwsProtocols(?:RestXml|AwsQuery|Ec2Query)\(/m;
 import { parseAst } from "rolldown/parseAst";
+import { applyEdits, type Edit } from "./edits.ts";
 
 type Node = { readonly type: string; readonly start: number; readonly end: number } & Record<
   string,
@@ -151,17 +152,17 @@ export const dedupeSchemas = (
     if (!changed) break;
   }
 
-  // Rewrite duplicates as aliases (back to front so offsets stay valid).
-  const aliases = candidates
-    .filter((c) => cls.get(c.name) !== c.name)
-    .sort((a, b) => b.start - a.start);
-  let out = code;
-  for (const c of aliases) {
-    // Follow the class to a const that is still a real schema.
-    let target = cls.get(c.name)!;
-    while (cls.get(target) !== target) target = cls.get(target)!;
-    out = `${out.slice(0, c.start)}${target} as any as S.Schema<${c.name}>${out.slice(c.end)}`;
-  }
+  // Rewrite duplicates as aliases.
+  const aliases = candidates.filter((c) => cls.get(c.name) !== c.name);
+  let out = applyEdits(
+    code,
+    aliases.map((c): Edit => {
+      // Follow the class to a const that is still a real schema.
+      let target = cls.get(c.name)!;
+      while (cls.get(target) !== target) target = cls.get(target)!;
+      return [c.start, c.end, `${target} as any as S.Schema<${c.name}>`];
+    }),
+  );
   // `X as any as S.Schema<X>` with a leftover trailing cast: `A as any as S.Schema<B> as any as S.Schema<B>`.
   out = out.replace(
     / as any as S\.Schema<(\w+)> as any as S\.Schema<\1>/g,
