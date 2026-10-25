@@ -24,7 +24,6 @@ import {
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
 import {
-  hasSensitive,
   hasSensitiveMember,
   unwrapRedactedDeep,
   wrapSensitive,
@@ -624,8 +623,8 @@ const decodeResponse = (
       // Strict mode checks the mapped body against the output schema first.
       // For an output with sensitive members, a non-JSON body fails in every
       // mode and parse errors withhold the body.
-      const withholdBody = hasSensitiveMember(outputAst);
-      if (nonJson && withholdBody) {
+      const sensitive = hasSensitiveMember(outputAst);
+      if (nonJson && sensitive) {
         return fail(new StripeParseError({ body: "[REDACTED]", cause: "Invalid JSON response" }));
       }
       const body: unknown = nonJson ? text : (json ?? {});
@@ -634,12 +633,12 @@ const decodeResponse = (
       if (cause !== undefined) {
         return fail(
           new StripeParseError({
-            body: withholdBody ? "[REDACTED]" : nonJson ? text : json,
-            cause: withholdBody ? withholdActual(cause) : cause,
+            body: sensitive ? "[REDACTED]" : nonJson ? text : json,
+            cause: sensitive ? withholdActual(cause) : cause,
           }),
         );
       }
-      return Effect.succeed(hasSensitive(outputAst) ? wrapSensitive(outputAst, mapped) : mapped);
+      return Effect.succeed(sensitive ? wrapSensitive(outputAst, mapped) : mapped);
     },
   });
 

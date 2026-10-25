@@ -40,7 +40,6 @@ import { isOpaqueValue, unwrapRedactedDeep } from "./plain-values.ts";
 import {
   buildRequest,
   getAnn,
-  getPropAnn,
   getProps,
   mapKeys,
   mapsVerbatim,
@@ -62,8 +61,8 @@ export const sensitiveValueSymbol = /*@__PURE__*/ Symbol.for(
   "@distilled.cloud/core/sensitive-value",
 );
 /**
- * Marks a string member as sensitive (mirrors `smithy.api#sensitive`).
- * The REST protocol wraps decoded values in `Redacted` on the way out and
+ * Marks a member, map value or list element as sensitive (mirrors
+ * `smithy.api#sensitive`). The REST protocol wraps decoded values in `Redacted` on the way out and
  * accepts `string | Redacted<string>` on the way in (unwrapped before
  * serialization). Takes an ignored argument so generators can inline the
  * smithy trait value (`T.SensitiveValue({})`).
@@ -101,42 +100,72 @@ export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
 
 export { unwrapRedactedDeep };
 
+const isSecretValue = (v: unknown): boolean =>
+  typeof v === "string" || (typeof v === "object" && v !== null);
+
 /**
- * Walk a decoded (TS-named) value alongside its schema AST, wrapping members
- * marked {@link SensitiveValue} in `Redacted`. Keys the schema doesn't model
- * pass through verbatim.
+ * Walk a decoded (TS-named) value alongside its schema AST, wrapping string or
+ * object values marked {@link SensitiveValue} (members, map values, list
+ * elements) in `Redacted`. Keys the schema doesn't model pass through. A union
+ * applies every arm in turn; a map arm skips keys a sibling arm names.
  */
-export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
-  if (value === null || typeof value !== "object" || isOpaqueValue(value)) {
+export const wrapSensitive = (
+  ast: AST.AST,
+  value: unknown,
+  siblingNames?: ReadonlySet<string>,
+): unknown => {
+  if (
+    value === null ||
+    typeof value !== "object" ||
+    isOpaqueValue(value) ||
+    Redacted.isRedacted(value)
+  ) {
     return value;
   }
   const node = resolveNode(ast);
   if (node._tag === "Union") {
     // Redact every possible sensitive member, including in partial responses.
-    return node.types.reduce<unknown>((redacted, arm) => wrapSensitive(arm, redacted), value);
+    const named = new Set(
+      node.types.flatMap((arm) => {
+        const armNode = resolveNode(arm);
+        return armNode._tag === "Objects" ? getProps(armNode).map((p) => String(p.name)) : [];
+      }),
+    );
+    return node.types.reduce<unknown>(
+      (redacted, arm) => wrapSensitive(arm, redacted, named),
+      value,
+    );
   }
   if (node._tag === "Arrays") {
     if (!Array.isArray(value)) return value;
     const elem = (node as any).rest?.[0] as AST.AST | undefined;
-    return elem ? value.map((v) => wrapSensitive(elem, v)) : value;
+    if (!elem) return value;
+    const sensitive = getAnn(elem, sensitiveValueSymbol) !== undefined;
+    return value.map((v) =>
+      sensitive && isSecretValue(v) && !Redacted.isRedacted(v)
+        ? Redacted.make(v)
+        : wrapSensitive(elem, v),
+    );
   }
   if (node._tag === "Objects" && !Array.isArray(value)) {
     const props = getProps(node);
-    if (props.length === 0) return value;
+    const mapValue = node.indexSignatures[0]?.type;
+    if (props.length === 0 && mapValue === undefined) return value;
     const byName = new Map(props.map((p) => [String(p.name), p]));
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-      if (v === undefined) continue;
-      const prop = byName.get(k);
-      if (!prop) {
-        out[k] = v;
-      } else if (getPropAnn(prop, sensitiveValueSymbol) !== undefined && typeof v === "string") {
-        out[k] = Redacted.make(v);
-      } else {
-        out[k] = wrapSensitive(prop.type, v);
-      }
-    }
-    return out;
+    // fromEntries keeps a `__proto__` key an entry instead of the prototype.
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).flatMap<[string, unknown]>(([k, v]) => {
+        if (v === undefined) return [];
+        const prop = byName.get(k);
+        const type = prop?.type ?? (siblingNames?.has(k) ? undefined : mapValue);
+        if (type === undefined) return [[k, v]];
+        // Union arms run over each other's output: keep a value one already wrapped.
+        if (getAnn(type, sensitiveValueSymbol) !== undefined && isSecretValue(v)) {
+          return [[k, Redacted.isRedacted(v) ? v : Redacted.make(v)]];
+        }
+        return [[k, wrapSensitive(type, v)]];
+      }),
+    );
   }
   return value;
 };
@@ -144,8 +173,9 @@ export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
 const sensitiveOutputs = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
 
 /**
- * Whether any member reachable from `ast` is marked {@link SensitiveValue}.
- * Parse errors for such an output withhold the response body (see
+ * Whether any member, map value or list element reachable from `ast` is
+ * marked {@link SensitiveValue}. Such an output is decoded through
+ * {@link wrapSensitive}, and its parse errors withhold the response body (see
  * {@link RestParseErrorInfo}); hand-written protocols use this to do the same.
  */
 export const hasSensitiveMember = (ast: AST.AST): boolean => {
@@ -278,45 +308,15 @@ const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 // here; the generated operation annotations reintroduce it for callers.
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
-/** Whether {@link wrapSensitive} can change any value of `root`. Cached per schema. */
-export const hasSensitive = (root: AST.AST): boolean => {
-  let result = sensitiveCache.get(root);
-  if (result !== undefined) return result;
-  result = false;
-  const seen = new Set<AST.AST>();
-  const stack: AST.AST[] = [root];
-  walk: while (stack.length > 0) {
-    const ast = stack.pop()!;
-    if (seen.has(ast)) continue;
-    seen.add(ast);
-    const node = resolveNode(ast);
-    if (node._tag === "Union") {
-      for (const t of (node as AST.Union).types) stack.push(t);
-    } else if (node._tag === "Arrays") {
-      const elem = (node as any).rest?.[0] as AST.AST | undefined;
-      if (elem) stack.push(elem);
-    } else if (node._tag === "Objects") {
-      for (const p of getProps(node)) {
-        if (getPropAnn(p, sensitiveValueSymbol) !== undefined) {
-          result = true;
-          break walk;
-        }
-        stack.push(p.type);
-      }
-    }
-  }
-  sensitiveCache.set(root, result);
-  return result;
-};
-const sensitiveCache = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
-
 /** Per-operation decode facts, read from the output schema once. */
 interface DecodePlan {
   readonly binary: boolean;
   readonly verbatim: boolean;
+  /**
+   * The output has sensitive members (see {@link hasSensitiveMember}): decoded
+   * values are wrapped in `Redacted` and parse errors withhold the body.
+   */
   readonly sensitive: boolean;
-  /** Parse errors withhold the body (see {@link hasSensitiveMember}). */
-  readonly withholdBody: boolean;
   /** Members read from response headers (`T.Header`). */
   readonly headers: ReadonlyArray<ResponseHeaderMember>;
 }
@@ -328,8 +328,7 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
     plan = {
       binary: getAnn(outputAst, binaryResponseSymbol) !== undefined,
       verbatim: mapsVerbatim(outputAst, "decode"),
-      sensitive: hasSensitive(outputAst),
-      withholdBody: hasSensitiveMember(outputAst),
+      sensitive: hasSensitiveMember(outputAst),
       headers: responseHeaderMembers(outputAst),
     };
     decodePlans.set(outputAst, plan);
@@ -486,7 +485,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     // with sensitive members, a non-JSON body fails in every mode and parse
     // errors withhold the body.
     const plan = decodePlanFor(outputAst);
-    if (nonJson && plan.withholdBody) {
+    if (nonJson && plan.sensitive) {
       return {
         ok: false,
         error: options.parseError({ body: "[REDACTED]", cause: "Invalid JSON response" }),
@@ -504,8 +503,8 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       return {
         ok: false,
         error: options.parseError({
-          body: plan.withholdBody ? "[REDACTED]" : nonJson ? text : json,
-          cause: plan.withholdBody ? withholdActual(invalid) : invalid,
+          body: plan.sensitive ? "[REDACTED]" : nonJson ? text : json,
+          cause: plan.sensitive ? withholdActual(invalid) : invalid,
         }),
       };
     }

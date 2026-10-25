@@ -3397,7 +3397,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#sensitive": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Sensitive HTTP headers (tokens, keys) that should be masked in logs"
