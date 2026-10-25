@@ -6148,7 +6148,7 @@ export interface UpdateBranchProtectionRequestRequiredStatusChecks {
   /** Require branches to be up to date before merging. */
   strict: boolean;
   /** **Closing down notice**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control. */
-  contexts: UpdateBranchProtectionRequestRequiredStatusChecksContextsList;
+  contexts?: UpdateBranchProtectionRequestRequiredStatusChecksContextsList;
   /** The list of status checks to require in order to merge into this branch. */
   checks?: UpdateBranchProtectionRequestRequiredStatusChecksChecksList;
 }
@@ -12352,7 +12352,7 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           strict: S.Boolean,
-          contexts: __S(3360, __c210, 0),
+          contexts: S.optional(__S(3360, __c210, 0)),
           checks: S.optional(__S(1985, __c124, 1)),
         }),
       ).annotate({ identifier: "UpdateBranchProtectionRequestRequiredStatusChecks" });
