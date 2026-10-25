@@ -107,6 +107,43 @@ const spec: SdkSpec = {
   },
 };
 
+const WEBHOOK_EVENT_TRAIT = "com.distilled.github#webhookEvent";
+
+/**
+ * The webhooks model (see convert.ts) has no operations: its payload shapes,
+ * tagged with their `X-GitHub-Event` name and action, are the roots. The
+ * module closes with a `WebhookEvents` map from event name to the union of
+ * its payloads — what a webhook receiver narrows a delivery with.
+ */
+const webhooksSpec = (model: any): SdkSpec => {
+  const events = new Map<string, string[]>();
+  const roots: string[] = [];
+  for (const [id, shape] of Object.entries<any>(model.shapes)) {
+    const meta = shape.traits?.[WEBHOOK_EVENT_TRAIT];
+    if (!meta) continue;
+    roots.push(id);
+    const name = id.slice(id.indexOf("#") + 1);
+    events.set(meta.event, [...(events.get(meta.event) ?? []), name]);
+  }
+  const entries = [...events.entries()].sort(([a], [b]) => a.localeCompare(b));
+  const map = [
+    "",
+    "/** Every webhook payload GitHub delivers, keyed by the `X-GitHub-Event` header. */",
+    "export interface WebhookEvents {",
+    ...entries.map(([event, names]) => `  ${JSON.stringify(event)}: ${names.sort().join(" | ")};`),
+    "}",
+    "",
+    "/** A webhook event name (the `X-GitHub-Event` header). */",
+    "export type WebhookEventName = keyof WebhookEvents;",
+    "",
+  ].join("\n");
+  return {
+    ...spec,
+    extraRoots: () => roots,
+    postProcess: (code) => spec.postProcess!(code) + map,
+  };
+};
+
 runGeneratorCli({
   description: "Generate the GitHub Effect SDK from the Smithy models",
   root: `${import.meta.dirname}/..`,
@@ -114,5 +151,8 @@ runGeneratorCli({
   // scripts/convert.ts — never to the Smithy models.
   patchesDir: false,
   barrelExportName: camel,
-  spec: () => spec,
+  spec: (model) =>
+    Object.values<any>(model.shapes).some((shape) => shape.traits?.[WEBHOOK_EVENT_TRAIT])
+      ? webhooksSpec(model)
+      : spec,
 });

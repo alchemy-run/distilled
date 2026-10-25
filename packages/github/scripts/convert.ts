@@ -133,6 +133,73 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   totalOps += opCount;
 }
 
+// ---- 6. Webhook payloads ---------------------------------------------------
+// `x-webhooks` describes every delivery GitHub POSTs to a webhook: one entry
+// per event and action (`issues/opened`), each with the payload as its
+// request body. Converting them as synthetic POST operations reuses the
+// converter's schema handling (the body flattens into the input structure,
+// which IS the payload); the operations are then dropped, leaving a
+// types-only `webhooks` model. Each payload is renamed `<Event><Action>Event`
+// and tagged with its `X-GitHub-Event` name and action, which roots it for
+// generate.ts and feeds the `WebhookEvents` map.
+const WEBHOOK_EVENT_TRAIT = "com.distilled.github#webhookEvent";
+const webhookPaths: Record<string, unknown> = {};
+const webhookMeta = new Map<string, { event: string; action: string | undefined }>();
+for (const [name, item] of Object.entries<Record<string, any>>(fullSpec["x-webhooks"] ?? {})) {
+  const op = item.post;
+  const body = op?.requestBody?.content?.["application/json"];
+  const event = op?.parameters?.find((p: any) => p.name === "X-Github-Event")?.example;
+  if (!body || typeof event !== "string" || typeof op.operationId !== "string") continue;
+  const [, action] = op.operationId.split("/");
+  webhookPaths[`/webhooks/${name}`] = {
+    post: {
+      operationId: op.operationId,
+      requestBody: { content: { "application/json": body } },
+      responses: { "200": { description: "Delivered" } },
+    },
+  };
+  webhookMeta.set(op.operationId, { event, action });
+}
+if (webhookMeta.size > 0) {
+  const ns = "com.github.webhooks";
+  const model = convertOpenApiToSmithy(
+    { ...fullSpec, paths: webhookPaths },
+    { namespace: ns, serviceName: "Webhooks", skipDeprecated: false },
+  );
+  // operation shape id → its payload (input) shape id
+  const payloads = new Map<string, string>();
+  for (const [id, shape] of Object.entries<any>(model.shapes)) {
+    if (shape.type === "operation") payloads.set(id, shape.input.target);
+  }
+  let json = JSON.stringify(model);
+  for (const [opId, input] of payloads) {
+    // `IssuesOpenedRequest…` → `IssuesOpenedEvent…` (the payload and its nested shapes)
+    json = json.replace(
+      new RegExp(`#${input.slice(ns.length + 1)}(?=["A-Z])`, "g"),
+      `#${opId.slice(ns.length + 1)}Event`,
+    );
+  }
+  const renamed = JSON.parse(json);
+  const shapes: Record<string, any> = {};
+  for (const [id, shape] of Object.entries<any>(renamed.shapes)) {
+    if (shape.type === "operation" || shape.type === "service") continue;
+    shapes[id] = shape;
+  }
+  for (const [opId, shape] of Object.entries<any>(model.shapes)) {
+    if (shape.type !== "operation") continue;
+    const rawId = (shape.traits?.["smithy.api#http"]?.uri as string).slice("/webhooks/".length);
+    const operationId = fullSpec["x-webhooks"][rawId].post.operationId as string;
+    const payload = `${ns}#${opId.slice(ns.length + 1)}Event`;
+    const { "smithy.api#input": _, ...traits } = shapes[payload].traits ?? {};
+    shapes[payload].traits = { ...traits, [WEBHOOK_EVENT_TRAIT]: webhookMeta.get(operationId) };
+  }
+  fs.writeFileSync(
+    path.join(outDir, "webhooks.json"),
+    JSON.stringify({ ...renamed, shapes }, null, 2) + "\n",
+  );
+  console.log(`✅ webhooks model (${webhookMeta.size} payloads) → ${outDir}`);
+}
+
 console.log(`✅ ${written} Smithy models (${totalOps} operations) → ${outDir}`);
 
 await finalizeConvert({ root: rootDir });

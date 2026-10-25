@@ -191,7 +191,7 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
             continue;
           }
           const { operations } = generated;
-          if (operations === 0) continue;
+          if (generated.code === "") continue;
           // Every nested call in a top-level initializer gets a PURE marker,
           // so one unused schema cannot pin others in a consumer's bundle.
           // Latin-1-only source halves the heap V8 keeps for the module text.
