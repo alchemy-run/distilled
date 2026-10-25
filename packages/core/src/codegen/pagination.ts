@@ -21,6 +21,7 @@ export const mergePaginated = (
   const merged = {
     mode: op.mode ?? service?.mode,
     inputToken: op.inputToken ?? service?.inputToken,
+    inputTokens: op.inputTokens ?? service?.inputTokens,
     outputToken: op.outputToken ?? service?.outputToken,
     items: op.items ?? service?.items,
     pageSize: op.pageSize ?? service?.pageSize,
@@ -58,7 +59,9 @@ export const validatePaginated = (o: ValidatePaginatedOptions): ValidatedPaginat
   const itemsRoot = String(o.trait.items ?? o.itemsFallback ?? "").split(".")[0];
   const tokenOk =
     o.trait.mode === "single" ||
-    (typeof o.trait.inputToken === "string" && o.inputNames.has(o.trait.inputToken));
+    (typeof o.trait.inputToken === "string" &&
+      o.inputNames.has(o.trait.inputToken) &&
+      (o.trait.inputTokens?.every((name) => o.inputNames.has(name)) ?? true));
   const itemsOk = o.outputNames.has(itemsRoot) || (o.syntheticOutputs?.has(itemsRoot) ?? false);
   return { ok: tokenOk && itemsOk, itemsRoot };
 };

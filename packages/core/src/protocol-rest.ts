@@ -36,6 +36,7 @@ import type * as AST from "effect/SchemaAST";
 import * as API from "./api.ts";
 import { debugHttp } from "./debug.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
+import { recordLinkHeader } from "./pagination.ts";
 import { isOpaqueValue, unwrapRedactedDeep } from "./plain-values.ts";
 import {
   buildRequest,
@@ -531,7 +532,9 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
               outputAst,
               errorClasses,
             );
-            return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
+            if (!decoded.ok) return fail(decoded.error);
+            recordLinkHeader(decoded.value, response.headers.link);
+            return Effect.succeed(decoded.value);
           },
         });
 

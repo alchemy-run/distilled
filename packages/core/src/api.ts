@@ -392,7 +392,10 @@ const runWith = (
   return Effect.flatMap(HttpClient.HttpClient, (client) =>
     Effect.flatMap(protocol.encode({ input, inputAst, config: cfg }), (request) =>
       Effect.flatMap(client.execute(request), (response) =>
-        protocol.decode({ response, outputAst, errors, config: cfg }),
+        Effect.map(protocol.decode({ response, outputAst, errors, config: cfg }), (decoded) => {
+          Pagination.recordLinkHeader(decoded, response.headers.link);
+          return decoded;
+        }),
       ),
     ),
   );

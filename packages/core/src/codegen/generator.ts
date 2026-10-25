@@ -697,6 +697,24 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     opIoShapes.add(op.def.__output);
   }
 
+  // A bare-list output's item shape: the output is a list, or its sole
+  // member is a list bound as the raw response root.
+  const bareListItem = (outputId: string): string | undefined => {
+    const output = shapes[outputId];
+    if (output?.type === "list") return output.member.target;
+    const members = memberInfos(output ?? {});
+    if (members.length !== 1) return undefined;
+    const member = members[0]!;
+    if (
+      !(spec.extraBindings ?? []).some(
+        (binding) => binding.rootPipe && binding.trait in member.traits,
+      )
+    )
+      return undefined;
+    const list = shapes[member.target];
+    return list?.type === "list" ? list.member.target : undefined;
+  };
+
   // 3. Validate pagination traits: a paginated op must actually carry its
   //    token on the input and its items member on the output, else it
   //    degrades to a plain operation.
@@ -723,6 +741,8 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       if (!profile) continue;
       const inNames = new Set(memberInfos(shapes[op.def.__input] ?? {}).map((m) => m.tsName));
       const outNames = new Set(memberInfos(shapes[op.def.__output] ?? {}).map((m) => m.tsName));
+      // `"$"` is the response itself, so a bare-list output always has it.
+      if (bareListItem(op.def.__output) !== undefined) outNames.add("$");
       const { ok, itemsRoot } = validatePaginated({
         trait: pg,
         inputNames: inNames,
@@ -824,7 +844,8 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       // that member's value; emit its type + a root marker for the protocol.
       const memberEntriesAll = Object.entries(d.members ?? {});
       const soleMemberRoot =
-        !paginatedOutputs.has(id) && memberEntriesAll.length === 1
+        (!paginatedOutputs.has(id) || paginatedItemsRoot.get(id) === "$") &&
+        memberEntriesAll.length === 1
           ? (spec.extraBindings ?? []).find(
               (b) =>
                 b.rootPipe !== undefined &&
@@ -1039,6 +1060,10 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     // No items path: `.items()` is a page passthrough at runtime, so an
     // item IS a whole response.
     if (!itemsPath) return tsRef(outputId);
+    if (itemsPath === "$") {
+      const item = bareListItem(outputId);
+      return item === undefined ? undefined : tsRef(item);
+    }
     let id: string = outputId;
     // Whether the path crossed a list on the way down (`"edges.node"` on a
     // Relay connection). When it did, the path itself is what fans out, so
