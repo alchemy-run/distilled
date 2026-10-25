@@ -355,13 +355,19 @@ await phase("runtime", async () => {
     const min = (f: (r: any) => number) => Math.min(...ok.map(f));
     const mid = (f: (r: any) => number) => median(ok.map(f));
     const counted = await probe({ ...req, objects: true });
+    // Added latency is a difference, so take the fastest run of each side:
+    // the min of the differences would keep the run whose roundtrip was hit
+    // hardest by runner noise, and read low or even negative.
+    const pairedP50Us = min((r) => r.pairedLatency.p50Us);
+    const roundtripP50Us = min((r) => r.baselineLatency.p50Us);
     entry(p).runtime = {
       importMs: min((r) => r.importMs),
       importHeap: mid((r) => r.importHeap.heapUsed),
       importObjects: counted.importObjects,
       firstCallMs: min((r) => r.firstCallMs),
       firstCallHeap: mid((r) => r.firstCallHeap.heapUsed),
-      addedP50Us: min((r) => r.addedP50Us),
+      addedP50Us: pairedP50Us - roundtripP50Us,
+      roundtripP50Us,
       p50Us: min((r) => r.latency.p50Us),
       gcPer1k: min((r) => r.gcPer1k),
       maxRss: mid((r) => r.maxRss),

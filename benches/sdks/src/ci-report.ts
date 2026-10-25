@@ -25,6 +25,8 @@ export interface CiProgram {
     readonly firstCallMs: number;
     readonly firstCallHeap: number;
     readonly addedP50Us: number;
+    /** Bare mock roundtrip timed alongside the call; absent in older runs. */
+    readonly roundtripP50Us?: number;
     readonly p50Us: number;
     readonly gcPer1k: number;
     readonly maxRss: number;
