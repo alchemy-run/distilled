@@ -13,7 +13,10 @@ import * as Redacted from "effect/Redacted";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import * as Auth from "../../src/auth.ts";
 import { chain, CredentialSourceError } from "../../src/credential-providers/credential-source.ts";
-import { cognitoIdentityPoolSource } from "../../src/credential-providers/from-cognito-identity-pool.ts";
+import {
+  cognitoIdentityPoolSource,
+  defaultIdentityIdCache,
+} from "../../src/credential-providers/from-cognito-identity-pool.ts";
 import { cognitoIdentitySource } from "../../src/credential-providers/from-cognito-identity.ts";
 import { containerMetadataSource } from "../../src/credential-providers/from-container-metadata.ts";
 import { envSource } from "../../src/credential-providers/from-env.ts";
@@ -1030,6 +1033,27 @@ describe("fromCognitoIdentityPool", () => {
     );
     expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-pool");
     expect(resolved.region).toBe("eu-west-1");
+  });
+
+  test("a localStorage that throws counts as no storage", async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, "localStorage");
+    const refuse = () => {
+      throw new DOMException("storage disabled", "SecurityError");
+    };
+    Object.defineProperty(globalThis, "localStorage", {
+      configurable: true,
+      value: { getItem: refuse, setItem: refuse, removeItem: refuse },
+    });
+    try {
+      const key = "aws:cognito-identity-ids:throwing-storage";
+      await run(defaultIdentityIdCache.set(key, "eu-west-1:kept"));
+      expect(await run(defaultIdentityIdCache.get(key))).toBe("eu-west-1:kept");
+      await run(defaultIdentityIdCache.remove(key));
+      expect(await run(defaultIdentityIdCache.get(key))).toBeUndefined();
+    } finally {
+      if (original) Object.defineProperty(globalThis, "localStorage", original);
+      else delete (globalThis as { localStorage?: unknown }).localStorage;
+    }
   });
 });
 
