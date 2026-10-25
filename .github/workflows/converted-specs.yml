@@ -23,7 +23,8 @@ on:
       - "packages/*/patches/**"
       - "packages/*/manual-specs/**"
       - "packages/*/scripts/**"
-      - "packages/core/src/codegen/**"
+      - "packages/dev/src/codegen/**"
+      - "packages/dev/src/json-patch.ts"
       - "scripts/converted-specs.ts"
       - ".github/workflows/converted-specs.yml"
   workflow_dispatch:
