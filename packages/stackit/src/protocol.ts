@@ -144,7 +144,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
       readonly errors: ReadonlyArray<unknown>;
     }) =>
       Effect.gen(function* () {
-        const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
+        const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
         if (debugHttp()) {
           console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
         }

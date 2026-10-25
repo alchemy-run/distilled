@@ -587,7 +587,7 @@ const decodeResponse = (
   errorClasses: ReadonlyArray<unknown>,
 ): Effect.Effect<unknown> =>
   Effect.matchEffect(response.text, {
-    onFailure: Effect.die,
+    onFailure: fail,
     onSuccess: (read): Effect.Effect<unknown> => {
       // Read as text and parse tolerantly -- error pages can be non-JSON.
       const text = read ?? "";

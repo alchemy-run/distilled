@@ -176,7 +176,7 @@ const decode = ({
     // Read as BYTES first: the analytics export answers a successful call
     // with a gzipped file, which a text read would corrupt. Everything else
     // decodes from the same buffer.
-    const bytes = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.orDie));
+    const bytes = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.catch(fail)));
     const text = new TextDecoder().decode(bytes);
     if (debugHttp()) {
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
