@@ -32,6 +32,7 @@ import * as API from "@distilled.cloud/core/api";
  * rules) is keyed off the operation config's identity, which `API.make`
  * memoizes -- so it runs once per operation per process.
  */
+import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -45,8 +46,13 @@ import * as LogLevel from "effect/LogLevel";
 import * as Redacted from "effect/Redacted";
 import * as References from "effect/References";
 import * as Stream from "effect/Stream";
+import {
+  fillIdempotencyTokens,
+  findIdempotencyTokenProps,
+} from "./client/generate-idempotency-tokens.ts";
 import type { Operation } from "./client/operation.ts";
 import { loadHandler, type LazyHandler, type ProtocolHandler } from "./client/protocol.ts";
+import { redactInput } from "./client/redact-input.ts";
 import { makeRequestBuilder } from "./client/request-builder.ts";
 import type { Request } from "./client/request.ts";
 import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/response-parser.ts";
@@ -85,6 +91,10 @@ interface Prepared {
   readonly handler: ProtocolHandler | LazyHandler | undefined;
   readonly hostPrefix: string | undefined;
   readonly operationName: string | undefined;
+  /** Fills idempotency tokens, so the sent and the logged request agree. */
+  readonly fillInput: (input: unknown) => unknown;
+  /** Copies input with secret values replaced by placeholders, for logging. */
+  readonly redactInput: (input: unknown) => unknown;
   readonly parseResponse: (response: {
     status: number;
     statusText: string;
@@ -131,11 +141,14 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
   const factory = getProtocol(inputAst);
   const handler = factory?.(op);
   const protocol = handler && (() => handler);
+  const idempotencyTokenProps = findIdempotencyTokenProps(op.input);
   const prepared: Prepared = {
     op,
     handler,
     hostPrefix: config.endpointHostPrefix,
     operationName,
+    fillInput: (input) => fillIdempotencyTokens(input, idempotencyTokenProps),
+    redactInput: (input) => redactInput(inputAst, input),
     parseResponse: makeResponseParser(op, {
       protocol,
       service: serviceSdkId,
@@ -517,28 +530,68 @@ const encodeWith = <A>(
   input: unknown,
   f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
 ): Effect.Effect<A, any, any> => {
-  const debug = debugEnabled(fiber.context as Context.Context<any>);
   const sendSigned = (request: Request) =>
     withAwsContext(fiber.context as Context.Context<any>, (credentials, region, custom) =>
       thenSend(toHttpRequest(prepared, input, request, credentials, region, custom, fiber), f),
     );
-  const send = debug
-    ? (request: Request) =>
-        logDebugThen(
-          true,
-          "Payload",
-          input,
-          logDebugThen(true, "Built Request", request, sendSigned(request)),
-        )
-    : sendSigned;
+  if (debugEnabled(fiber.context as Context.Context<any>)) {
+    return encodeLogged(prepared, plan, input, sendSigned);
+  }
   // Serialize the input (protocol serializer + annotation middleware)
+  return thenBuild(plan, input, sendSigned);
+};
+
+/** `f` on the request `plan` builds for `input`. */
+const thenBuild = <A>(
+  plan: Plan,
+  input: unknown,
+  f: (request: Request) => Effect.Effect<A, any, any>,
+): Effect.Effect<A, any, any> => {
   let request: Request | Effect.Effect<Request, ParseError>;
   try {
     request = plan.build(input);
   } catch (e) {
     return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
   }
-  return Effect.isEffect(request) ? Effect.flatMap(request, send) : send(request);
+  return Effect.isEffect(request) ? Effect.flatMap(request, f) : f(request);
+};
+
+/**
+ * {@link encodeWith} with the `Payload` and `Built Request` debug logs.
+ *
+ * Debug logs never carry secrets: the serializers unwrap `Redacted` values
+ * and write sensitive members verbatim into the body, so both logs show a
+ * masked copy of the input -- and the request built from it -- instead of
+ * the input and the request that is sent. Idempotency tokens are filled
+ * once so the logged request carries the tokens that are sent.
+ */
+const encodeLogged = <A>(
+  prepared: Prepared,
+  plan: Plan,
+  input: unknown,
+  sendSigned: (request: Request) => Effect.Effect<A, any, any>,
+): Effect.Effect<A, any, any> => {
+  const filled = prepared.fillInput(input);
+  const masked = prepared.redactInput(filled);
+  // A failure or defect in the masked build only loses its log line;
+  // interruption still propagates.
+  const logBuilt = thenBuild(plan, masked, (request) =>
+    Effect.logDebug("Built Request", request),
+  ).pipe(
+    Effect.catchCauseIf(
+      (cause) => !Cause.hasInterrupts(cause),
+      () =>
+        Effect.logDebug("Built Request", "(unavailable: the redacted copy failed to serialize)"),
+    ),
+  );
+  // `Payload` is logged before serialization, so it appears even when
+  // serialization fails.
+  return logDebugThen(
+    true,
+    "Payload",
+    masked,
+    thenBuild(plan, filled, (request) => Effect.flatMap(logBuilt, () => sendSigned(request))),
+  );
 };
 
 /**
