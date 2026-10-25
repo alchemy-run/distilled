@@ -2,6 +2,7 @@ import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
@@ -10,6 +11,7 @@ import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
+import * as Category from "../src/category.ts";
 import {
   BadRequest,
   InternalServerError,
@@ -570,6 +572,45 @@ describe("makeRestProtocol success decoding", () => {
     );
     expect(out).toBeInstanceOf(Uint8Array);
     expect(Array.from(out)).toEqual(Array.from(bytes));
+  });
+});
+
+const droppedMidBody = (status: number) => {
+  const cause = new Error("The socket connection was closed unexpectedly.");
+  const body = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode('{"id":"t'));
+      controller.error(cause);
+    },
+  });
+  return { cause, response: () => new Response(body, { status }) };
+};
+
+describe("makeRestProtocol connection dropped while reading the body", () => {
+  test.each([200, 500])(
+    "a %i body cut off mid-read fails with a retryable transport error",
+    async (status) => {
+      const { cause, response } = droppedMidBody(status);
+      const error = await failOn(response);
+      expect(HttpClientError.isHttpClientError(error)).toBe(true);
+      expect(error.reason._tag).toBe("TransportError");
+      expect(error.reason.cause).toBe(cause);
+      expect(error.reason.request.url).toBe("https://api.test/things/t1");
+      expect(Category.isTransientError(error)).toBe(true);
+    },
+  );
+
+  test("a BinaryResponse body cut off mid-read fails the same way", async () => {
+    const { cause, response } = droppedMidBody(200);
+    const binaryOp = API.make(() => ({
+      input: ThingInput,
+      output: S.Unknown.pipe(BinaryResponse()),
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const error = await failOn(response, binaryOp);
+    expect(error.reason._tag).toBe("TransportError");
+    expect(error.reason.cause).toBe(cause);
+    expect(Category.isTransientError(error)).toBe(true);
   });
 });
 
