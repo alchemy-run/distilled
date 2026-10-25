@@ -41,13 +41,13 @@ import {
   API_VERSION_TRAIT,
   convertOpenApiToSmithy,
   type SmithyModel,
-} from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+} from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import {
   RENAME_METADATA_KEY,
   renameShapes,
-} from "@distilled.cloud/core/codegen/rewrite-operation-ids";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+} from "@distilled.cloud/dev/codegen/rewrite-operation-ids";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specsRoot = resolveSpecPath(rootDir, "specs/spec-mirror-azure/specs/specification");

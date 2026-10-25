@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * GrowthBook Effect SDK.
@@ -8,14 +8,14 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/growthbook.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is GrowthBook's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is GrowthBook's provider spec.
  * GrowthBook keeps the wire's camelCase member names on the TS surface, so
  * no member renaming or wire dictionaries appear here. List operations that
  * take `offset`/`limit` and return `nextOffset` (plus an items array) are
  * stamped `smithy.api#paginated` below — the shared OpenAPI converter does
  * not detect that offset/limit shape.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";

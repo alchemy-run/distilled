@@ -42,9 +42,9 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specsDir = resolveSpecPath(rootDir, "specs/spec-mirror-slack/specs");

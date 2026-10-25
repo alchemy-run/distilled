@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Stripe
  * Effect SDK.
@@ -8,7 +8,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/stripe.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Stripe's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Stripe's provider spec.
  *
  * v0 parity notes:
  *   • Operation exports keep their PascalCase names (`GetChargesSearch`) —
@@ -24,7 +24,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  *     Stripe's regular starting_after/ending_before list endpoints are
  *     deliberately NOT wrapped — mirroring v0.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";

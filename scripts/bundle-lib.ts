@@ -64,7 +64,7 @@ import {
   RUNTIME_MODULE_ID,
 } from "rolldown";
 import { parseAst } from "rolldown/parseAst";
-import { datafyOperations } from "../packages/core/src/codegen/datafy.ts";
+import { datafyOperations } from "../packages/dev/src/codegen/datafy.ts";
 import { lazyExports, lazyServices, stubTargets } from "./lazy-services.ts";
 
 const ROOT = join(import.meta.dirname, "..");
@@ -158,7 +158,7 @@ const corePlan = (): Plan => {
   const src = join(dir, "src");
   const all = walk(src)
     .map((p) => rel(src, p))
-    .filter((p) => isSource(p) && !p.startsWith("codegen/") && !p.startsWith("fixtures/"))
+    .filter((p) => isSource(p) && !p.startsWith("fixtures/"))
     .map(noExt);
   const grouped = new Set(Object.values(CORE_GROUPS).flat());
   for (const m of grouped)
@@ -170,8 +170,7 @@ const corePlan = (): Plan => {
     direct: all.filter((m) => !grouped.has(m)),
     deep: [],
     serviceDirs: [],
-    // codegen runs from src (bun condition); its tsc output is left alone.
-    keep: (p) => p.startsWith("codegen/") || p.startsWith("fixtures/"),
+    keep: (p) => p.startsWith("fixtures/"),
   };
 };
 
@@ -305,7 +304,7 @@ const graphOf = (plan: Plan): Map<string, Imports> => {
   const graph = new Map<string, Imports>();
   for (const file of walk(src)) {
     const r = rel(src, file);
-    if (!isSource(r) || isService(plan, r) || r.startsWith("codegen/")) continue;
+    if (!isSource(r) || isService(plan, r)) continue;
     const m = noExt(r);
     const i = importsOf(file);
     const local = (s: string) => noExt(rel(src, join(dirname(file), s)));
@@ -675,7 +674,7 @@ const buildPackage = async (
     transform(code: string, id: string) {
       if (!inside(src, id) || !id.endsWith(".ts")) return;
       const m = noExt(rel(src, id));
-      // Service modules ship as data operations (see core/codegen/datafy.ts);
+      // Service modules ship as data operations (see dev/codegen/datafy.ts);
       // this is the same rewrite strip-lib-docs applies to tsc's output, done
       // here on the source because the bundled, minified output no longer
       // has the shape datafy reads.
@@ -997,7 +996,14 @@ const dirs = (
   args.length
     ? args.map((p) => join(ROOT, p))
     : readdirSync(join(ROOT, "packages")).map((p) => join(ROOT, "packages", p))
-).filter((d) => !d.endsWith(join("packages", "core")) && existsSync(join(d, "lib")));
+)
+  // core has its own plan; dev (the unpublished generator) ships no lib to bundle.
+  .filter(
+    (d) =>
+      !d.endsWith(join("packages", "core")) &&
+      !d.endsWith(join("packages", "dev")) &&
+      existsSync(join(d, "lib")),
+  );
 
 /** Packages whose package.json `exports` do not match their lazy service layout. */
 const staleExports: string[] = [];

@@ -9,7 +9,7 @@
  *         GraphQL endpoint at https://api.expo.dev/graphql)
  *
  * The GraphQL→Smithy converter itself lives in
- * `@distilled.cloud/core/codegen/graphql`; this script is EAS's provider
+ * `@distilled.cloud/dev/codegen/graphql`; this script is EAS's provider
  * config: the trait vocabulary (`com.expo.graphql#*`), the endpoint, the
  * custom scalar map, and the namespace-expansion settings.
  *
@@ -26,9 +26,9 @@ import {
   convertGraphQLToSmithy,
   PRELUDE,
   readIntrospection,
-} from "@distilled.cloud/core/codegen/graphql";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+} from "@distilled.cloud/dev/codegen/graphql";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const SCHEMA_PATH = resolveSpecPath(ROOT, "specs/spec-mirror-expo-eas/specs/graphql.schema.json");

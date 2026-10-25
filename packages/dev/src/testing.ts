@@ -11,13 +11,13 @@
  * expect(strict).toMatchObject({ _tag: "Failure" });
  * ```
  */
+import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import type * as Result from "effect/Result";
-import * as ResponseValidation from "./response-validation.ts";
 
 export interface MockResponse {
   /** Default 200. */
