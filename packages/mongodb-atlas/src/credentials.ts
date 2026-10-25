@@ -16,6 +16,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
@@ -62,7 +63,7 @@ const exchangeToken = (
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${btoa(`${config.clientId}:${Redacted.value(config.clientSecret)}`)}`,
+          Authorization: `Basic ${Base64.encode(`${config.clientId}:${Redacted.value(config.clientSecret)}`)}`,
         },
         body: "grant_type=client_credentials",
       }),
