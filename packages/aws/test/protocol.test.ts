@@ -261,3 +261,37 @@ describe("AwsProtocol.call", () => {
     }
   }
 });
+
+describe("S3 InvalidAccessKeyId", () => {
+  // What S3 answers when the request is signed with an access key it does not know.
+  const invalidKey: Canned = {
+    status: 403,
+    body: "<Error><Code>InvalidAccessKeyId</Code><Message>The AWS Access Key Id you provided does not exist in our records.</Message><AWSAccessKeyId>AKIDEXAMPLE</AWSAccessKeyId><RequestId>r</RequestId></Error>",
+  };
+  const object = { Bucket: "my-bucket", Key: "k" };
+  const upload = { ...object, UploadId: "u" };
+  for (const [name, call] of [
+    ["getObject", () => S3.getObject(object)],
+    ["putObject", () => S3.putObject(object)],
+    ["deleteObject", () => S3.deleteObject(object)],
+    [
+      "deleteObjects",
+      () => S3.deleteObjects({ Bucket: "my-bucket", Delete: { Objects: [{ Key: "k" }] } }),
+    ],
+    ["listObjectsV2", () => S3.listObjectsV2({ Bucket: "my-bucket" })],
+    ["createMultipartUpload", () => S3.createMultipartUpload(object)],
+    ["uploadPart", () => S3.uploadPart({ ...upload, PartNumber: 1 })],
+    ["completeMultipartUpload", () => S3.completeMultipartUpload(upload)],
+    ["listParts", () => S3.listParts(upload)],
+    ["abortMultipartUpload", () => S3.abortMultipartUpload(upload)],
+    ["listMultipartUploads", () => S3.listMultipartUploads({ Bucket: "my-bucket" })],
+  ] as const) {
+    test(`${name} fails with the typed InvalidAccessKeyId error`, async () => {
+      const { exit } = await run(
+        () => Effect.flip(call() as Effect.Effect<unknown, any, any>),
+        invalidKey,
+      );
+      expect((exit as { value: { _tag: string } }).value._tag).toBe("InvalidAccessKeyId");
+    });
+  }
+});
