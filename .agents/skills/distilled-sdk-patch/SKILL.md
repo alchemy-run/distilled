@@ -8,7 +8,7 @@ description: Add or change a patch in packages/<pkg>/patches/ to correct a disti
 A patch is a claim that the upstream description is wrong about the wire.
 It lives in `packages/<pkg>/patches/` and is committed together with the
 `.generated-specs/` and `src/services/` it produces. Every package runs the
-same pipeline (engine: `packages/core/src/codegen/patches.ts`):
+same pipeline (engine: `packages/dev/src/codegen/patches.ts`):
 
 1. convert the spec to a Smithy model, shapes named the way the spec names
    them;
@@ -132,7 +132,7 @@ operation's `errors`:
   numeric code or an error type — before free text.
 - The error's category (`BadRequestError`, `ServerError`, `RetryableError`,
   …) comes from `smithy.api#httpError` and `smithy.api#retryable`
-  (`errorCategories` in `packages/core/src/codegen/generator.ts`), and
+  (`errorCategories` in `packages/dev/src/codegen/generator.ts`), and
   retry policies act on those categories. Set them deliberately: a client
   error that arrives as a 5xx should not be retried as a server error.
 - `add` at an array index inserts (RFC 6902), so `…/errors/0` puts a class
@@ -157,7 +157,7 @@ Say which fields changed in the description.
 …/members/<name>/traits/smithy.api#sensitive` with `{}`. Convert already
 marks names matching its default patterns (`password`, `api_token`,
 `plain_text`, …; `isSensitiveProperty` in
-`packages/core/src/codegen/openapi.ts`), so check the generated type is not
+`packages/dev/src/codegen/openapi.ts`), so check the generated type is not
 already `Redacted` before adding one.
 
 **Object is open, or should not be.** OpenAPI convert marks a structure

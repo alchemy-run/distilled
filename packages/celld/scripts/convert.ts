@@ -1,8 +1,8 @@
 #!/usr/bin/env -S node --conditions=bun
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const root = path.resolve(import.meta.dirname, "..");
 const source = resolveSpecPath(root, "specs/spec-mirror-celld/specs");

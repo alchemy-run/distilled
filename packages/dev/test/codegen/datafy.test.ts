@@ -1,10 +1,10 @@
 import { stripTypeScriptTypes } from "node:module";
+import * as API from "@distilled.cloud/core/api";
+import * as C from "@distilled.cloud/core/category";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as T from "@distilled.cloud/core/trait";
 import { describe, expect, test } from "vitest";
-import * as API from "../../src/api.ts";
-import * as C from "../../src/category.ts";
 import { datafyOperations } from "../../src/codegen/datafy.ts";
-import * as S from "../../src/schema-lite.ts";
-import * as T from "../../src/trait.ts";
 
 const header = [
   `import * as API from "@distilled.cloud/core/api";`,

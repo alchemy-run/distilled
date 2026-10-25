@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * PlanetScale Effect SDK.
@@ -8,13 +8,13 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/planetscale.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is PlanetScale's provider
+ * `@distilled.cloud/dev/codegen`; this script is PlanetScale's provider
  * spec. PlanetScale keeps the wire's snake_case member names on the TS
  * surface (v0 parity — the distilled v0 PlanetScale SDK and its alchemy
  * consumers use snake_case fields), so no member renaming or wire
  * dictionaries appear here.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";

@@ -785,6 +785,7 @@ export interface UpdateLoadBalancerServiceRequestHealthCheckHttp {
   /** Use HTTPS for health check. */
   tls?: boolean;
 }
+/** Service health check. */
 export interface UpdateLoadBalancerServiceRequestHealthCheck {
   /** Type of the health check. */
   protocol: UpdateLoadBalancerServiceRequestHealthCheckProtocol | (string & {});
@@ -827,6 +828,7 @@ export interface UpdateLoadBalancerServiceRequest {
   destination_port?: number;
   /** Is Proxyprotocol enabled or not. */
   proxyprotocol?: boolean;
+  /** Service health check. */
   health_check?: UpdateLoadBalancerServiceRequestHealthCheck;
   /** Configuration option for protocols http and https. */
   http?: UpdateLoadBalancerServiceRequestHttp;

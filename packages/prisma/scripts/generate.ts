@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
  *
@@ -7,7 +7,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/management.ts  +  services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Prisma's provider
+ * `@distilled.cloud/dev/codegen`; this script is Prisma's provider
  * spec. The Management API is plain bearer-REST: camelCase wire names
  * (identity member naming), no response envelope, typed per-op error classes
  * matched by HTTP status (v0's includeOperationErrors: true), sensitive
@@ -16,7 +16,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * variants: the cursor-paginated list ops are emitted as plain operations
  * and callers loop manually.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";

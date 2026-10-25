@@ -6,7 +6,7 @@
  * against the operation's actual members (degrading to a plain op when it
  * can't work). Both behaviors live here.
  */
-import type { PaginatedTrait } from "../pagination.ts";
+import type { PaginatedTrait } from "@distilled.cloud/core/pagination";
 
 /**
  * Merge an operation-level paginated trait over service-level defaults

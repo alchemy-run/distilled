@@ -12,7 +12,7 @@
  *   1. Read the full spec.
  *   2. Patches are Smithy ops on the converted models, under the names the
  *      spec gives; the finalizeConvert at the end applies them, then the
- *      deferred verbNoun names (see `@distilled.cloud/core/codegen/patches`).
+ *      deferred verbNoun names (see `@distilled.cloud/dev/codegen/patches`).
  *   3. Bucket operations by PRIMARY (first) tag — a single path can
  *      contribute different methods to different service buckets. The handful
  *      of operations the spec leaves untagged are routed by {@link UNTAGGED}.
@@ -29,9 +29,9 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-vercel/specs/openapi.json");

@@ -591,6 +591,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@effect/platform-node": "catalog:",
     "@types/node": "catalog:"
   },
