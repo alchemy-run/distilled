@@ -347,7 +347,7 @@ export interface DeleteAiGatewayRuleRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
 }
-export type DeleteAiGatewayRuleResponse = unknown;
+export type DeleteAiGatewayRuleResponse = unknown | null;
 export interface DeleteAiGatewayVirtualModelConfigRequest {
   ownerId?: string;
   virtualModelSlug: string;
@@ -359,7 +359,7 @@ export interface DeleteAiGatewayVirtualModelConfigRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
 }
-export type DeleteAiGatewayVirtualModelConfigResponse = unknown;
+export type DeleteAiGatewayVirtualModelConfigResponse = unknown | null;
 export interface DeleteAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
   ownerId?: string;
@@ -371,7 +371,7 @@ export interface DeleteAiGatewayVirtualModelConfigBySlugRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
 }
-export type DeleteAiGatewayVirtualModelConfigBySlugResponse = unknown;
+export type DeleteAiGatewayVirtualModelConfigBySlugResponse = unknown | null;
 export interface GetAiGatewayVirtualModelConfigRequest {
   ownerId?: string;
   virtualModelSlug?: string;
@@ -1276,7 +1276,7 @@ function __c22(j: number): any {
 function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
         identifier: "DeleteAiGatewayRuleResponse",
       });
   }

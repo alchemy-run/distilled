@@ -15047,7 +15047,7 @@ export type GetProjectsResponseBody =
   | GetProjectsResponseBodyCase0List
   | GetProjectsResponseBodyCase1
   | GetProjectsResponseBodyCase2;
-export type GetProjectsResponse = GetProjectsResponseBody;
+export type GetProjectsResponse = GetProjectsResponseBody | null;
 export interface GetProjectTokenRequest {
   /** The project ID or name */
   idOrName: string;
@@ -27186,7 +27186,7 @@ function __c13(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v10/projects", code: 200 })),
       ).annotate({ identifier: "GetProjectsRequest" });
     case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetProjectsResponse",
       });
   }

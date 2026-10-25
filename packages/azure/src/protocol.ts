@@ -294,7 +294,7 @@ const decode = ({
     // way). Strict mode (core/response-validation) checks the mapped body
     // against the output schema. Sensitive members are delivered as
     // `Redacted`.
-    const body: unknown = nonJson ? text : (json ?? {});
+    const body: unknown = nonJson ? text : json === undefined ? {} : json;
     const mapped = yield* validateResponse(
       outputAst,
       withResponseHeaders(

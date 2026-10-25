@@ -196,7 +196,7 @@ export interface DeletePrivateLinkEndpointRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
 }
-export type DeletePrivateLinkEndpointResponse = unknown;
+export type DeletePrivateLinkEndpointResponse = unknown | null;
 export interface ListNetworksRequest {
   /** Whether to include Hosted Zones in the response */
   includeHostedZones?: boolean;
@@ -754,7 +754,7 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "DeletePrivateLinkEndpointRequest" });
     case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
         identifier: "DeletePrivateLinkEndpointResponse",
       });
   }

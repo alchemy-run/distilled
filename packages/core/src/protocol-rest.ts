@@ -492,7 +492,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
         error: options.parseError({ body: "[REDACTED]", cause: "Invalid JSON response" }),
       };
     }
-    let body: unknown = nonJson ? text : (json ?? {});
+    let body: unknown = nonJson ? text : json === undefined ? {} : json;
     if (options.transformResponse) body = options.transformResponse(body);
     const mapped = withResponseHeaders(
       plan.headers,

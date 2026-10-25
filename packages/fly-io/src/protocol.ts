@@ -573,7 +573,8 @@ const decodeSpritesResponse = ({
         }),
       );
     }
-    const body: unknown = execFrames ?? parseMaybeNdjson(nonJson ? text : (json ?? {}));
+    const body: unknown =
+      execFrames ?? parseMaybeNdjson(nonJson ? text : json === undefined ? {} : json);
     const mapped = yield* validateResponse(
       outputAst,
       mapKeys(outputAst, body, "decode"),

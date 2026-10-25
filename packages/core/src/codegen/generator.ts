@@ -843,7 +843,8 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             ? [`T.KeyDictionary(KEY_DICTIONARY)`]
             : []),
         ];
-        out.push(`export type ${name} = ${tsRef(m.target)};`);
+        const nullable = spec.nullableTrait !== undefined && spec.nullableTrait in (m.traits ?? {});
+        out.push(`export type ${name} = ${tsRef(m.target)}${nullable ? " | null" : ""};`);
         out.push(
           suspendConst({
             name,
@@ -851,7 +852,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             multiline: true,
             annotateIdentifier: true,
             castTo: `S.${spec.schemaType ?? "Schema"}<${name}>`,
-            expr: `${ref(m.target, i)}.pipe(${rootPipes.join(", ")})`,
+            expr: `${nullable ? `S.NullOr(${ref(m.target, i)})` : ref(m.target, i)}.pipe(${rootPipes.join(", ")})`,
           }),
         );
         return;
