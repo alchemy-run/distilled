@@ -511,6 +511,28 @@ describe("Presign", () => {
     expect(parsed.searchParams.get("X-Amz-Expires")).toBe("60");
     expect(parsed.searchParams.get("X-Amz-Signature")).toMatch(/^[0-9a-f]{64}$/);
   });
+
+  test("presignUrl fails a malformed URL with InvalidSigningUrl", async () => {
+    const error = await Effect.runPromise(
+      Presign.presignUrl({ url: "not a url", service: "s3", datetime }).pipe(
+        Effect.provide(layer),
+        Effect.flip,
+      ),
+    );
+    expect(error).toBeInstanceOf(SigV4.InvalidSigningUrl);
+    expect(error).toMatchObject({ url: "not a url" });
+  });
+
+  test("presignS3Url fails a bucket that is not a valid host with InvalidSigningUrl", async () => {
+    const error = await Effect.runPromise(
+      Presign.presignS3Url({ bucket: "my bucket", key: "a.txt", datetime }).pipe(
+        Effect.provide(layer),
+        Effect.flip,
+      ),
+    );
+    expect(error).toBeInstanceOf(SigV4.InvalidSigningUrl);
+    expect(error).toMatchObject({ url: "https://my bucket.s3.us-east-1.amazonaws.com/a.txt" });
+  });
 });
 
 describe("SigV4.sign crypto implementations", () => {
