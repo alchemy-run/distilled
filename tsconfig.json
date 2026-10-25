@@ -38,6 +38,7 @@
     {
       "path": "./packages/axiom/tsconfig.json"
     },
+    { "path": "./packages/axiom/tsconfig.test.json" },
     {
       "path": "./packages/axiom/tsconfig.scripts.json"
     },
