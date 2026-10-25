@@ -97,6 +97,73 @@ describe("URI label encoding", () => {
   });
 });
 
+describe("query parameter styles", () => {
+  const Search = S.Struct({
+    q: S.optional(S.String),
+    queryBy: S.optional(S.String.pipe(T.Body("query_by"))),
+    page: S.optional(S.Number),
+  });
+  const Filter = S.Struct({
+    status: S.optional(S.Array(S.String)),
+    createdAt: S.optional(S.Struct({ period: S.optional(S.String) })),
+  });
+  const input = (style?: T.QueryStyleTrait) => {
+    const styled = <A extends S.Top>(schema: A) =>
+      style === undefined ? schema : schema.pipe(T.QueryStyle(style));
+    return S.Struct({
+      search: S.optional(styled(Search.pipe(T.Query("searchParameters")))),
+      filter: S.optional(styled(Filter.pipe(T.Query("filter")))),
+      metadata: S.optional(styled(S.Record(S.String, S.String).pipe(T.Query("metadata")))),
+      limit: S.optional(S.Number.pipe(T.Query("limit"))),
+    }).pipe(T.Http({ method: "GET", uri: "/things" }));
+  };
+  const queryOf = (value: unknown, style?: T.QueryStyleTrait) =>
+    decodeURIComponent(
+      new URL(
+        buildRequest({ input: value, inputAst: input(style).ast, baseUrl: "https://example.test" })
+          .url,
+      ).search,
+    );
+
+  test("without a style, objects keep the dotted form", () => {
+    expect(
+      queryOf({
+        search: { q: "harry", queryBy: "title" },
+        filter: { status: ["QUEUED", "EXECUTING"] },
+        limit: 5,
+      }),
+    ).toBe(
+      "?searchParameters.q=harry&searchParameters.queryBy=title&filter.status=QUEUED&filter.status=EXECUTING&limit=5",
+    );
+  });
+
+  test("form spreads the object's keys as top-level params under their wire names", () => {
+    expect(queryOf({ search: { q: "harry", queryBy: "title", page: 2 }, limit: 5 }, "form")).toBe(
+      "?q=harry&query_by=title&page=2&limit=5",
+    );
+    expect(queryOf({ metadata: { plan: "pro" } }, "form")).toBe("?plan=pro");
+  });
+
+  test("deepObject nests keys in brackets, deeper objects too", () => {
+    expect(
+      queryOf(
+        { filter: { status: ["QUEUED", "EXECUTING"], createdAt: { period: "1d" } }, limit: 5 },
+        "deepObject",
+      ),
+    ).toBe("?filter[status]=QUEUED&filter[status]=EXECUTING&filter[createdAt][period]=1d&limit=5");
+    expect(queryOf({ metadata: { plan: "pro", seats: "3" } }, "deepObject")).toBe(
+      "?metadata[plan]=pro&metadata[seats]=3",
+    );
+  });
+
+  test("skips undefined entries in either style", () => {
+    expect(queryOf({ search: { q: "harry", queryBy: undefined } }, "form")).toBe("?q=harry");
+    expect(queryOf({ metadata: { plan: undefined, seats: "3" } }, "deepObject")).toBe(
+      "?metadata[seats]=3",
+    );
+  });
+});
+
 describe("greedy labels", () => {
   const ScopedInput = S.Struct({
     scope: S.String.pipe(T.Label()),

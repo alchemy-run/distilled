@@ -135,3 +135,51 @@ describe("primitive union generation", () => {
     expect(code).not.toContain("S.Union([Mode, S.Boolean])");
   });
 });
+
+describe("query param styles", () => {
+  test("a query member with an OpenAPI style emits T.QueryStyle", () => {
+    const { code } = generateService(
+      {
+        smithy: "2.0",
+        shapes: {
+          "com.example.query#Example": {
+            type: "service",
+            version: "2024-01-01",
+            operations: [{ target: "com.example.query#ListThings" }],
+          },
+          "com.example.query#ListThings": {
+            type: "operation",
+            input: { target: "com.example.query#Request" },
+            output: { target: "com.example.query#Response" },
+            traits: { "smithy.api#http": { method: "GET", uri: "/things" } },
+          },
+          "com.example.query#Request": {
+            type: "structure",
+            traits: { "smithy.api#input": {} },
+            members: {
+              page: {
+                target: "com.example.query#Page",
+                traits: {
+                  "smithy.api#httpQuery": "page",
+                  "com.distilled.openapi#queryStyle": "deepObject",
+                },
+              },
+              filter: {
+                target: "com.example.query#Page",
+                traits: { "smithy.api#httpQuery": "filter" },
+              },
+            },
+          },
+          "com.example.query#Page": {
+            type: "structure",
+            members: { size: { target: "smithy.api#Integer" } },
+          },
+          "com.example.query#Response": { type: "structure", members: {} },
+        },
+      },
+      spec,
+    );
+    expect(code).toContain('"page": S.optional(Page.pipe(T.Query(), T.QueryStyle("deepObject"))),');
+    expect(code).toContain('"filter": S.optional(Page.pipe(T.Query())),');
+  });
+});
