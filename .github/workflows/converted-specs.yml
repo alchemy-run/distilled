@@ -60,16 +60,20 @@ jobs:
       - name: Convert
         run: |
           set +e
-          pnpm -r --no-bail --workspace-concurrency=4 --if-present run convert > convert.log 2>&1
-          status=$?
-          tail -n 40 convert.log
+          pnpm -r --no-bail --report-summary --workspace-concurrency=4 --if-present run convert > convert.log 2>&1
+          failed=$(node -e 'const s = require("./pnpm-exec-summary.json").executionStatus; console.log(Object.entries(s).filter(([, r]) => r.status === "failure").map(([p]) => p.split("/").pop()).join(" "))')
+          for pkg in $failed; do
+            echo "::group::$pkg convert log"
+            grep "^packages/$pkg convert" convert.log | tail -n 30
+            echo "::endgroup::"
+            echo "::warning::packages/$pkg failed to convert; the artifact has no fresh models for it."
+          done
           {
             echo "### Converted specs"
             echo
             echo "$(ls -d packages/*/.generated-specs packages/*/.generated-graphql 2>/dev/null | wc -l) packages have converted models."
-            [ "$status" -ne 0 ] && echo "Some packages failed to convert (exit $status); see the job log."
+            [ -n "$failed" ] && echo "Failed to convert: $failed."
           } >> "$GITHUB_STEP_SUMMARY"
-          [ "$status" -ne 0 ] && echo "::warning::Some packages failed to convert; see the Convert step log."
           exit 0
 
       - name: Upload converted specs
