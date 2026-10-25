@@ -2104,7 +2104,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The set of permissions for the GitHub app"
+        "smithy.api#documentation": "The set of permissions for the GitHub app",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.github.issues#NullableIntegrationEventsList": {
@@ -8382,7 +8383,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "The set of permissions for the GitHub app"
+        "smithy.api#documentation": "The set of permissions for the GitHub app",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.github.issues#IntegrationEventsList": {
@@ -15244,7 +15246,8 @@
         "due_on": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`."
+            "smithy.api#documentation": "The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
