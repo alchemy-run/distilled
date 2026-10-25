@@ -15,6 +15,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
@@ -44,7 +45,7 @@ const basicToken = (
   email: string,
   apiToken: Redacted.Redacted<string>,
 ): Redacted.Redacted<string> =>
-  Redacted.make(`Basic ${btoa(`${email}/token:${Redacted.value(apiToken)}`)}`);
+  Redacted.make(`Basic ${Base64.encode(`${email}/token:${Redacted.value(apiToken)}`)}`);
 
 const bearerToken = (accessToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
   Redacted.make(`Bearer ${Redacted.value(accessToken)}`);
