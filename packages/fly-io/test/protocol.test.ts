@@ -329,6 +329,38 @@ describe("GraphQL success decoding", () => {
       expect(result.addOn.name).toBe("decoder-test");
       expect(inspect(result, { depth: Infinity })).not.toContain(SECRET);
     });
+
+    // A Tigris add-on's `environment` carries its S3 key pair.
+    test(`createAddOn returns the environment redacted whole in ${name} mode`, async () => {
+      const environment = {
+        AWS_ACCESS_KEY_ID: "tid_decoder_test",
+        AWS_SECRET_ACCESS_KEY: SECRET,
+        BUCKET_NAME: "decoder-test",
+      };
+      const result = await Effect.runPromise(
+        createAddOn({ input: { type: "tigris", name: "decoder-test" } }).pipe(
+          Retry.none,
+          Effect.provide(
+            respondWith(
+              200,
+              JSON.stringify({
+                data: {
+                  createAddOn: {
+                    addOn: { ...addOnFields, password: null, publicUrl: null, environment },
+                    clientMutationId: null,
+                  },
+                },
+              }),
+            ),
+          ),
+          Effect.provide(mode),
+        ),
+      );
+      const env = result.addOn.environment;
+      expect(env !== null && Redacted.isRedacted(env)).toBe(true);
+      expect(Redacted.value(env!)).toEqual(environment);
+      expect(inspect(result, { depth: Infinity })).not.toContain(SECRET);
+    });
   }
 });
 
