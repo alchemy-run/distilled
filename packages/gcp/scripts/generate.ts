@@ -6,7 +6,7 @@
  * Output: src/services/<service>.ts + services/index.ts (default; see --out)
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is GCP's provider spec: the
+ * `@distilled.cloud/dev/codegen`; this script is GCP's provider spec: the
  * per-service base URL baked into each op's `T.Http` trait, the GCP error
  * envelope fields on the standard 4xx error classes, simple-shape aliases
  * (discovery primitive/any schemas), the token pagination profile, and the
@@ -17,10 +17,10 @@
  *   node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services
  */
 
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
-import { PURE } from "@distilled.cloud/core/codegen/emit";
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { lowerFirst } from "@distilled.cloud/core/codegen/naming";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
+import { PURE } from "@distilled.cloud/dev/codegen/emit";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { lowerFirst } from "@distilled.cloud/dev/codegen/naming";
 
 const ERROR_MATCHERS_TRAIT = "com.gcp.protocols#errorMatchers";
 

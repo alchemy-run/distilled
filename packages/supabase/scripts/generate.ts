@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect
  * SDK.
@@ -8,12 +8,12 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/supabase.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Supabase's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is Supabase's provider spec:
  * the `com.distilled.openapi` trait vocabulary (nullable / raw-response /
  * sensitive / error matchers) and the protocol/retry names. Supabase's wire
  * is plain JSON with no envelope and no pagination, so the spec stays small.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -74,7 +74,7 @@ runGeneratorCli({
   spec: (model) => {
     // The converter records non-JSON request encodings as an operation
     // trait but only merges `multipart` into `smithy.api#http` (see
-    // core/codegen/openapi CONTENT_TYPE_TRAIT docs) — form-urlencoded is a
+    // dev/codegen/openapi CONTENT_TYPE_TRAIT docs) — form-urlencoded is a
     // provider concern. Stamp it into the http trait here so the emitted
     // `T.Http({...})` carries it (v0 parity: v1ExchangeOauthToken) and the
     // protocol can re-encode the body (see src/protocol.ts).

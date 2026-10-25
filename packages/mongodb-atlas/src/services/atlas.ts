@@ -30568,7 +30568,7 @@ export type UpgradeGroupClusterTenantUpgradeRequestEncryptionAtRestProvider =
 /** Collection of key-value pairs between 1 to 255 characters in length that tag and categorize the cluster. The MongoDB Cloud console doesn't display your labels. Cluster labels are deprecated and will be removed in a future release. We strongly recommend that you use Resource Tags instead. */
 export type UpgradeGroupClusterTenantUpgradeRequestLabelsList = Array<ComponentLabel>;
 /** Maximum instance size to which your cluster can automatically scale. */
-export type AzureComputeAutoScalingRulesMaxInstanceSize =
+export type AWSCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize =
   | "M10"
   | "M20"
   | "M30"
@@ -30592,7 +30592,7 @@ export type AzureComputeAutoScalingRulesMaxInstanceSize =
   | "M400_NVME"
   | "M600_NVME";
 /** Minimum instance size to which your cluster can automatically scale. */
-export type AzureComputeAutoScalingRulesMinInstanceSize =
+export type AWSCloudProviderSettingsInputAutoScalingComputeMinInstanceSize =
   | "M10"
   | "M20"
   | "M30"
@@ -30616,15 +30616,16 @@ export type AzureComputeAutoScalingRulesMinInstanceSize =
   | "M400_NVME"
   | "M600_NVME";
 /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
-export interface AzureComputeAutoScalingRules {
+export interface AWSCloudProviderSettingsInputAutoScalingCompute {
   /** Maximum instance size to which your cluster can automatically scale. */
-  maxInstanceSize?: AzureComputeAutoScalingRulesMaxInstanceSize | (string & {});
+  maxInstanceSize?: AWSCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize | (string & {});
   /** Minimum instance size to which your cluster can automatically scale. */
-  minInstanceSize?: AzureComputeAutoScalingRulesMinInstanceSize | (string & {});
+  minInstanceSize?: AWSCloudProviderSettingsInputAutoScalingComputeMinInstanceSize | (string & {});
 }
 /** Range of instance sizes to which your cluster can scale. */
-export interface CloudProviderAzureAutoScaling {
-  compute?: AzureComputeAutoScalingRules;
+export interface AWSCloudProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: AWSCloudProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type AWSCloudProviderSettingsInputDiskTypeName =
@@ -30728,7 +30729,8 @@ export type AWSCloudProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface AWSCloudProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: AWSCloudProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: AWSCloudProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -30744,6 +30746,70 @@ export interface AWSCloudProviderSettingsInput {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: AWSCloudProviderSettingsInputVolumeType | (string & {});
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type AzureCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type AzureCloudProviderSettingsInputAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface AzureCloudProviderSettingsInputAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?:
+    | AzureCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize
+    | (string & {});
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?:
+    | AzureCloudProviderSettingsInputAutoScalingComputeMinInstanceSize
+    | (string & {});
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface AzureCloudProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: AzureCloudProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type AzureCloudProviderSettingsInputDiskTypeName =
@@ -30847,7 +30913,8 @@ export type AzureCloudProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface AzureCloudProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: AzureCloudProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: AzureCloudProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -30863,6 +30930,66 @@ export interface AzureCloudProviderSettingsInput {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: AzureCloudProviderSettingsInputVolumeType | (string & {});
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type CloudGCPProviderSettingsInputAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type CloudGCPProviderSettingsInputAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface CloudGCPProviderSettingsInputAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: CloudGCPProviderSettingsInputAutoScalingComputeMaxInstanceSize | (string & {});
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: CloudGCPProviderSettingsInputAutoScalingComputeMinInstanceSize | (string & {});
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface CloudGCPProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: CloudGCPProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type CloudGCPProviderSettingsInputDiskTypeName =
@@ -30966,7 +31093,8 @@ export type CloudGCPProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface CloudGCPProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: CloudGCPProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: CloudGCPProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -30982,6 +31110,70 @@ export interface CloudGCPProviderSettingsInput {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: CloudGCPProviderSettingsInputVolumeType | (string & {});
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type ClusterFreeProviderSettingsInputAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type ClusterFreeProviderSettingsInputAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface ClusterFreeProviderSettingsInputAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?:
+    | ClusterFreeProviderSettingsInputAutoScalingComputeMaxInstanceSize
+    | (string & {});
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?:
+    | ClusterFreeProviderSettingsInputAutoScalingComputeMinInstanceSize
+    | (string & {});
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface ClusterFreeProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: ClusterFreeProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type ClusterFreeProviderSettingsInputDiskTypeName =
@@ -31085,7 +31277,8 @@ export type ClusterFreeProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface ClusterFreeProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: ClusterFreeProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: ClusterFreeProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31101,6 +31294,70 @@ export interface ClusterFreeProviderSettingsInput {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: ClusterFreeProviderSettingsInputVolumeType | (string & {});
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type ClusterFlexProviderSettingsInputAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type ClusterFlexProviderSettingsInputAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface ClusterFlexProviderSettingsInputAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?:
+    | ClusterFlexProviderSettingsInputAutoScalingComputeMaxInstanceSize
+    | (string & {});
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?:
+    | ClusterFlexProviderSettingsInputAutoScalingComputeMinInstanceSize
+    | (string & {});
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface ClusterFlexProviderSettingsInputAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: ClusterFlexProviderSettingsInputAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type ClusterFlexProviderSettingsInputDiskTypeName =
@@ -31204,7 +31461,8 @@ export type ClusterFlexProviderSettingsInputVolumeType =
   | "PROVISIONED"
   | "HIGH_PERFORMANCE";
 export interface ClusterFlexProviderSettingsInput {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: ClusterFlexProviderSettingsInputAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: ClusterFlexProviderSettingsInputDiskTypeName | (string & {});
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31362,6 +31620,66 @@ export type LegacyAtlasClusterEncryptionAtRestProvider = "NONE" | "AWS" | "AZURE
 export type LegacyAtlasClusterLabelsList = Array<ComponentLabel>;
 /** List of one or more Uniform Resource Locators (URLs) that point to API sub-resources, related API resources, or both. RFC 5988 outlines these relationships. */
 export type LegacyAtlasClusterLinksList = Array<Link>;
+/** Maximum instance size to which your cluster can automatically scale. */
+export type AWSCloudProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type AWSCloudProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface AWSCloudProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: AWSCloudProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: AWSCloudProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface AWSCloudProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: AWSCloudProviderSettingsAutoScalingCompute;
+}
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type AWSCloudProviderSettingsDiskTypeName =
   | "P2"
@@ -31463,7 +31781,8 @@ export type AWSCloudProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2" | 
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type AWSCloudProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface AWSCloudProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: AWSCloudProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: AWSCloudProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31481,6 +31800,66 @@ export interface AWSCloudProviderSettings {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: AWSCloudProviderSettingsVolumeType;
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type AzureCloudProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type AzureCloudProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface AzureCloudProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: AzureCloudProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: AzureCloudProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface AzureCloudProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: AzureCloudProviderSettingsAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type AzureCloudProviderSettingsDiskTypeName =
@@ -31583,7 +31962,8 @@ export type AzureCloudProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2" 
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type AzureCloudProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface AzureCloudProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: AzureCloudProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: AzureCloudProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31601,6 +31981,66 @@ export interface AzureCloudProviderSettings {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: AzureCloudProviderSettingsVolumeType;
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type CloudGCPProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type CloudGCPProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface CloudGCPProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: CloudGCPProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: CloudGCPProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface CloudGCPProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: CloudGCPProviderSettingsAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type CloudGCPProviderSettingsDiskTypeName =
@@ -31703,7 +32143,8 @@ export type CloudGCPProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2" | 
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type CloudGCPProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface CloudGCPProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: CloudGCPProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: CloudGCPProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31721,6 +32162,66 @@ export interface CloudGCPProviderSettings {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: CloudGCPProviderSettingsVolumeType;
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type ClusterFreeProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type ClusterFreeProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface ClusterFreeProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: ClusterFreeProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: ClusterFreeProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface ClusterFreeProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: ClusterFreeProviderSettingsAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type ClusterFreeProviderSettingsDiskTypeName =
@@ -31823,7 +32324,8 @@ export type ClusterFreeProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2"
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type ClusterFreeProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface ClusterFreeProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: ClusterFreeProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: ClusterFreeProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */
@@ -31841,6 +32343,66 @@ export interface ClusterFreeProviderSettings {
   encryptEBSVolume?: boolean;
   /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
   volumeType?: ClusterFreeProviderSettingsVolumeType;
+}
+/** Maximum instance size to which your cluster can automatically scale. */
+export type ClusterFlexProviderSettingsAutoScalingComputeMaxInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Minimum instance size to which your cluster can automatically scale. */
+export type ClusterFlexProviderSettingsAutoScalingComputeMinInstanceSize =
+  | "M10"
+  | "M20"
+  | "M30"
+  | "M40"
+  | "M50"
+  | "M60"
+  | "M80"
+  | "M90"
+  | "M200"
+  | "R40"
+  | "R50"
+  | "R60"
+  | "R80"
+  | "R200"
+  | "R300"
+  | "R400"
+  | "M60_NVME"
+  | "M80_NVME"
+  | "M200_NVME"
+  | "M300_NVME"
+  | "M400_NVME"
+  | "M600_NVME";
+/** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+export interface ClusterFlexProviderSettingsAutoScalingCompute {
+  /** Maximum instance size to which your cluster can automatically scale. */
+  maxInstanceSize?: ClusterFlexProviderSettingsAutoScalingComputeMaxInstanceSize;
+  /** Minimum instance size to which your cluster can automatically scale. */
+  minInstanceSize?: ClusterFlexProviderSettingsAutoScalingComputeMinInstanceSize;
+}
+/** Range of instance sizes to which your cluster can scale. */
+export interface ClusterFlexProviderSettingsAutoScaling {
+  /** Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes. */
+  compute?: ClusterFlexProviderSettingsAutoScalingCompute;
 }
 /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
 export type ClusterFlexProviderSettingsDiskTypeName =
@@ -31943,7 +32505,8 @@ export type ClusterFlexProviderSettingsEffectiveInstanceSizeName = "FLEX" | "M2"
 /** Disk Input/Output Operations per Second (IOPS) setting for Amazon Web Services (AWS) storage that you configure only for AWS. Specify whether Disk Input/Output Operations per Second (IOPS) must not exceed the default Input/Output Operations per Second (IOPS) rate for the selected volume size (`STANDARD`), or must fall within the allowable Input/Output Operations per Second (IOPS) range for the selected volume size (`PROVISIONED` or `HIGH_PERFORMANCE`). NVMe clusters require either `PROVISIONED` or `HIGH_PERFORMANCE`. */
 export type ClusterFlexProviderSettingsVolumeType = "STANDARD" | "PROVISIONED" | "HIGH_PERFORMANCE";
 export interface ClusterFlexProviderSettings {
-  autoScaling?: CloudProviderAzureAutoScaling;
+  /** Range of instance sizes to which your cluster can scale. */
+  autoScaling?: ClusterFlexProviderSettingsAutoScaling;
   /** Disk type that corresponds to the host's root volume for Azure instances. If omitted, the default disk type for the selected `providerSettings.instanceSizeName` applies. */
   diskTypeName?: ClusterFlexProviderSettingsDiskTypeName;
   /** Cluster tier, with a default storage and memory capacity, that applies to all the data-bearing hosts in your cluster. */

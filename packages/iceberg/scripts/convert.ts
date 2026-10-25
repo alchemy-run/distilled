@@ -48,12 +48,9 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import {
-  convertOpenApiToSmithy,
-  ERROR_MATCHERS_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { convertOpenApiToSmithy, ERROR_MATCHERS_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { parse as parseYaml } from "yaml";
 
 const root = path.resolve(import.meta.dirname, "..");

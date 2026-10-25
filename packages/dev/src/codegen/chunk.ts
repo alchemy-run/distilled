@@ -13,6 +13,7 @@
  * after the module has finished evaluating.
  */
 import { parseAst } from "rolldown/parseAst";
+import { applyEdits, type Edit } from "./edits.ts";
 import { valueRefs } from "./privatize.ts";
 
 type Node = { readonly type: string; readonly start: number; readonly end: number } & Record<
@@ -120,14 +121,15 @@ export const chunkSchemas = (
     (cases[c] ??= [])[j] = `case ${j}: return ${it.text};`;
   }
 
-  let out = code;
-  for (let i = items.length - 1; i >= 0; i--) {
-    const it = items[i]!;
+  const edits: Edit[] = items.map((it) => {
     // The PURE marker in front of the old initializer, if any, now marks the `at` call.
-    const marked = /\/\*[@#]__PURE__\*\/\s*$/.test(out.slice(Math.max(0, it.start - 20), it.start));
+    const marked = /\/\*[@#]__PURE__\*\/\s*$/.test(
+      code.slice(Math.max(0, it.start - 20), it.start),
+    );
     const [c, j] = slot.get(it)!;
-    out = `${out.slice(0, it.start)}${marked ? "" : "/*@__PURE__*/ "}__L.at(__c${c}, ${j})${out.slice(it.end)}`;
-  }
+    return [it.start, it.end, `${marked ? "" : "/*@__PURE__*/ "}__L.at(__c${c}, ${j})`];
+  });
+  let out = applyEdits(code, edits);
   const lastImport = [...body].reverse().find((s) => s.type === "ImportDeclaration");
   const at = lastImport ? lastImport.end : 0;
   // Modules on lite schemas take `at` from schema-lite (lazy lite nodes).

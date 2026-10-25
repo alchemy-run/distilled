@@ -77,6 +77,12 @@ same condition. Tests use vitest: `pnpm vitest run
 
 ## Things that will surprise you
 
+- **The generator is its own package.** `packages/dev`
+  (`@distilled.cloud/dev`, private, never published) holds the codegen
+  (`src/codegen/`) and the SDK test helpers (`src/testing.ts`). Packages list
+  it in `devDependencies`; no SDK imports it at runtime. `@distilled.cloud/core`
+  is the runtime only.
+
 - **`tsconfig.base.json` sets `noCheck: true`.** Day-to-day `tsrs -b` emits the
   generated SDKs without checking them, because checking 20 generated SDKs
   costs minutes and gigabytes. If you changed a generator, run
