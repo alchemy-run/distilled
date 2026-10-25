@@ -37,6 +37,17 @@ export const encodeLabel = (value: string): string =>
 export const encodeGreedyLabel = (value: string): string =>
   value.split("/").map(encodeLabel).join("/");
 
+/**
+ * Throw on a label value the URL parser would resolve to another resource: an
+ * empty value, or a `.` or `..` value or (greedy) segment. Empty greedy
+ * segments are legal (S3 key `a//b`).
+ */
+export const validateLabel = (name: string, value: string, greedy: boolean): void => {
+  if (value === "" || (greedy ? value.split("/") : [value]).some((s) => s === "." || s === "..")) {
+    throw new Error(`invalid value for input HTTP label: ${name}`);
+  }
+};
+
 /** The @http trait of each input schema, read once. */
 const httpTraits = /*@__PURE__*/ new WeakMap<AST.AST, { trait: ReturnType<typeof getHttpTrait> }>();
 
@@ -100,7 +111,8 @@ const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
  *
  * This processes each input member and:
  * - Adds @httpHeader values to request.headers
- * - Substitutes @httpLabel values in request.path
+ * - Substitutes @httpLabel values in request.path, throwing (a defect, before
+ *   anything is signed or sent) on a value {@link validateLabel} refuses
  * - Adds @httpQuery values to request.query
  * - Adds @httpPrefixHeaders values to request.headers
  * - Collects @httpPayload for body serialization
@@ -121,9 +133,11 @@ export function bindInputToRequest(ast: AST.AST, input: Record<string, unknown>,
       // Value should already be encoded (dates as formatted strings, etc.)
       request.headers[member.header] = String(value);
     } else if (member.label !== undefined) {
-      request.path = request.path.replace(member.label, (_, greedy: string) =>
-        greedy ? encodeGreedyLabel(String(value)) : encodeLabel(String(value)),
-      );
+      const text = String(value);
+      request.path = request.path.replace(member.label, (_, greedy: string) => {
+        validateLabel(name, text, greedy !== "");
+        return greedy ? encodeGreedyLabel(text) : encodeLabel(text);
+      });
     } else if (member.queryParam !== undefined) {
       // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
       if (Array.isArray(value)) {

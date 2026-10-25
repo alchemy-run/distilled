@@ -56,6 +56,7 @@ import * as Endpoint from "./endpoint.ts";
 import { ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
+import { isValidHostLabel } from "./rules-engine/standard-functions.ts";
 import * as SigV4 from "./sigv4.ts";
 import {
   type AwsAuthSigv2Trait,
@@ -258,11 +259,19 @@ const toHttpRequest = (
   // Apply the Smithy `smithy.api#endpoint` hostPrefix (e.g. "sync-" for
   // Step Functions StartSyncExecution -> sync-states.{region}). Skipped for
   // custom endpoints, matching official AWS SDK behavior. Labels of the
-  // form {memberName} are substituted from the operation input.
+  // form {memberName} are substituted from the operation input; each value
+  // must be a valid host label (dots allowed), else a value such as
+  // "attacker.invalid/" would send the request to another host.
   if (prepared.hostPrefix !== undefined && !customEndpoint) {
-    const resolvedPrefix = prepared.hostPrefix.replace(/\{(\w+)\}/g, (_, member: string) =>
-      String((input as Record<string, unknown>)?.[member] ?? ""),
-    );
+    let invalidLabel: string | undefined;
+    const resolvedPrefix = prepared.hostPrefix.replace(/\{(\w+)\}/g, (_, member: string) => {
+      const value = String((input as Record<string, unknown>)?.[member] ?? "");
+      if (invalidLabel === undefined && !isValidHostLabel(value, true)) invalidLabel = member;
+      return value;
+    });
+    if (invalidLabel !== undefined) {
+      return Effect.die(new Error(`invalid value for input host label: ${invalidLabel}`));
+    }
     // The endpoint rules engine may already have baked the same label into
     // the host (e.g. S3 Control resolves `{AccountId}.s3-control.{region}`
     // from the AccountId context param, and the operations ALSO carry the

@@ -5,7 +5,7 @@ import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import * as SigV4 from "./sigv4.ts";
-import { encodeGreedyLabel } from "./util/serialize-input.ts";
+import { encodeGreedyLabel, encodeLabel, validateLabel } from "./util/serialize-input.ts";
 
 /** Errors returned when resolving credentials or signing a URL. */
 export type PresignError = Credentials.CredentialsError | SigV4.SigningError;
@@ -154,6 +154,10 @@ export interface PresignS3UrlOptions {
  * Pure client-side computation -- no AWS API call is made. The URL inherits
  * the IAM permissions of the identity resolved from the
  * {@link Credentials.Credentials} service.
+ *
+ * An empty bucket or key, a `.` or `..` bucket or key segment, or (without a
+ * custom endpoint) a bucket that cannot sit in a hostname would move the URL
+ * to another resource, so it is refused as a defect before anything is signed.
  */
 export const presignS3Url: (
   options: PresignS3UrlOptions,
@@ -164,10 +168,16 @@ export const presignS3Url: (
       Effect.map(Option.getOrElse(() => Effect.undefined)),
     );
 
+    validateLabel("bucket", options.bucket, false);
+    validateLabel("key", options.key, true);
+    // Virtual-hosted, a bucket that needs percent-encoding would move the host.
+    if (!customEndpoint && encodeLabel(options.bucket) !== options.bucket) {
+      throw new Error("invalid value for input host label: bucket");
+    }
     const encodedKey = encodeGreedyLabel(options.key);
     const url = new URL(
       customEndpoint
-        ? `${customEndpoint.replace(/\/+$/, "")}/${options.bucket}/${encodedKey}`
+        ? `${customEndpoint.replace(/\/+$/, "")}/${encodeLabel(options.bucket)}/${encodedKey}`
         : `https://${options.bucket}.s3.${region}.amazonaws.com/${encodedKey}`,
     );
     if (options.versionId !== undefined) {
