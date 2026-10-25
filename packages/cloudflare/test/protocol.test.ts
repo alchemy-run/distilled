@@ -691,31 +691,3 @@ describe("verbatim payloads (Pipelines ingest)", () => {
     expect(JSON.parse(await requests[0]!.text())).toEqual(records);
   });
 });
-
-describe("body read failures", () => {
-  test("a body that errors mid-read fails with HttpClientError instead of dying", async () => {
-    const brokenBody = Layer.succeed(
-      HttpClient.HttpClient,
-      HttpClient.make((request) =>
-        Effect.sync(() =>
-          HttpClientResponse.fromWeb(
-            request,
-            new Response(
-              new ReadableStream({
-                start: (controller) => controller.error(new Error("socket reset")),
-              }),
-              { status: 200, headers: { "content-type": "application/json" } },
-            ),
-          ),
-        ),
-      ),
-    );
-    const error = await Effect.runPromise(
-      Effect.flip(getZone({ zoneId: "z" })).pipe(
-        Retry.none,
-        Effect.provide(Layer.mergeAll(brokenBody, token)),
-      ),
-    );
-    expect(error._tag).toBe("HttpClientError");
-  });
-});

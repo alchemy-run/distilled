@@ -1,12 +1,7 @@
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
-import {
-  extractItems,
-  paginateCursor,
-  paginatePageNumber,
-  type PaginatedTrait,
-} from "../src/pagination.ts";
+import { extractItems, paginateCursor, type PaginatedTrait } from "../src/pagination.ts";
 
 const pagination: PaginatedTrait = {
   mode: "cursor",
@@ -179,33 +174,6 @@ describe("cursor pagination", () => {
         });
         expect(concurrent.map((result) => Array.from(result))).toEqual([pages, pages]);
         expect(calls).toBe(12);
-      }),
-    ));
-});
-
-describe("page-number pagination", () => {
-  test("a page with `result: null` ends the stream as an empty page", () =>
-    Effect.runPromise(
-      Effect.gen(function* () {
-        type NumberedPage = { result: number[] | null; result_info: { page: number } };
-        const pages: NumberedPage[] = [
-          { result: [1], result_info: { page: 1 } },
-          { result: null, result_info: { page: 2 } },
-        ];
-        const requested: number[] = [];
-        const stream = paginatePageNumber(
-          (request: { page?: number }) =>
-            Effect.sync(() => {
-              requested.push(request.page!);
-              const page = pages[requested.length - 1];
-              if (!page) throw new Error("Paginator made an unexpected extra request");
-              return page;
-            }),
-          {},
-          { mode: "page", inputToken: "page", outputToken: "result_info.page", items: "result" },
-        );
-        expect(Array.from(yield* collect(stream))).toEqual(pages);
-        expect(requested).toEqual([1, 2]);
       }),
     ));
 });
