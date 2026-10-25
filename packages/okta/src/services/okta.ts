@@ -3670,7 +3670,6 @@ export interface DevicePostureCheck {
   variableName?: string;
   _links?: LinksSelf;
 }
-export type CreateEmailCustomizationRequestLinksSelf = HrefObjectSelfLinkInput;
 export interface CreateEmailCustomizationRequestLinks {
   self?: HrefObjectSelfLinkInput;
   template?: HrefObjectSelfLinkInput;
@@ -3691,7 +3690,6 @@ export interface CreateEmailCustomizationRequest {
   language: string;
   _links?: CreateEmailCustomizationRequestLinks;
 }
-export type CreateEmailCustomizationResponseLinksSelf = HrefObjectSelfLink;
 export interface CreateEmailCustomizationResponseLinks {
   self?: HrefObjectSelfLink;
   template?: HrefObjectSelfLink;
@@ -5140,8 +5138,6 @@ export type UserOutputTransitioningToStatus = "ACTIVE" | "DEPROVISIONED" | "PROV
 export type UserOutputType = CreateUserRequestType;
 /** Embedded resources related to the user using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export type UserOutputEmbeddedMap = { [key: string]: unknown | undefined };
-/** URL to the individual user */
-export type UserOutputLinksSelf = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://datatracker.ietf.org/doc/html/rfc8288) available for the current status of a user. The links object is used for dynamic discovery of related resources, lifecycle operations, and credential operations. The links object is read-only. For an individual user result, the links object contains a full set of link relations available for that user as determined by your policies. For a collection of users, the links object contains only the `self` link. Operations that return a collection of users include [List all users](https://developer.okta.com/docs/api/openapi/okta-management/management/user/listusers) and [List all group member users](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Group/#tag/Group/operation/listGroupUsers). */
 export interface UserOutputLinks {
   /** URL to the individual user */
@@ -7017,7 +7013,6 @@ export interface GetAllWellKnownURIsRequest {
   /** Specifies additional metadata to include in the response */
   expand?: GetAllWellKnownURIsRequestExpandList;
 }
-export type WellKnownURIObjectResponseLinksSelf = HrefObjectSelfLink;
 export type WellKnownURIObjectResponseLinks = LinksSelf;
 export interface WellKnownURIObjectResponse {
   /** The well-known URI content in JSON format */
@@ -7030,7 +7025,6 @@ export interface WellKnownURIsRootEmbeddedAppleAppSiteAssociation {
 }
 /** The well-known URI content in a JSON array of objects format */
 export type WellKnownURIArrayResponseRepresentationList = Array<unknown>;
-export type WellKnownURIArrayResponseLinksSelf = HrefObjectSelfLink;
 export type WellKnownURIArrayResponseLinks = LinksSelf;
 export interface WellKnownURIArrayResponse {
   /** The well-known URI content in a JSON array of objects format */
@@ -8432,7 +8426,6 @@ export interface GetEmailCustomizationRequest {
   /** The ID of the email customization */
   customizationId: string;
 }
-export type GetEmailCustomizationResponseLinksSelf = HrefObjectSelfLink;
 export type GetEmailCustomizationResponseLinks = CreateEmailCustomizationResponseLinks;
 export interface GetEmailCustomizationResponse {
   /** The HTML body of the email. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` body is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
@@ -8509,7 +8502,6 @@ export interface GetEmailSettingsRequest {
   templateName: string;
 }
 export type EmailSettingsResponseRecipients = "ALL_USERS" | "ADMINS_ONLY" | "NO_USERS";
-export type EmailSettingsResponseLinksSelf = HrefObjectSelfLink;
 export interface EmailSettingsResponseLinks {
   self?: HrefObjectSelfLink;
   template?: HrefObjectSelfLink;
@@ -9872,8 +9864,6 @@ export interface GetUserResponseEmbedded {
   blocks?: GetUserResponseEmbeddedBlocksList;
   [key: string]: unknown;
 }
-/** URL to the individual user */
-export type GetUserResponseLinksSelf = HrefObjectSelfLink;
 /** Specifies link relations (see [Web Linking](https://datatracker.ietf.org/doc/html/rfc8288) available for the current status of a user. The links object is used for dynamic discovery of related resources, lifecycle operations, and credential operations. The links object is read-only. For an individual user result, the links object contains a full set of link relations available for that user as determined by your policies. For a collection of users, the links object contains only the `self` link. Operations that return a collection of users include [List all users](https://developer.okta.com/docs/api/openapi/okta-management/management/user/listusers) and [List all group member users](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Group/#tag/Group/operation/listGroupUsers). */
 export type GetUserResponseLinks = UserOutputLinks;
 export interface GetUserResponse {
@@ -10760,7 +10750,6 @@ export interface ListEmailCustomizationsRequest {
   /** A limit on the number of objects to return */
   limit?: number;
 }
-export type EmailCustomizationLinksSelf = HrefObjectSelfLink;
 export type EmailCustomizationLinks = CreateEmailCustomizationResponseLinks;
 export interface EmailCustomization {
   /** The HTML body of the email. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` body is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */
@@ -12584,7 +12573,6 @@ export interface ReplaceDevicePostureCheckRequest {
   /** Unique name of the device posture check */
   variableName?: string;
 }
-export type ReplaceEmailCustomizationRequestLinksSelf = HrefObjectSelfLinkInput;
 export type ReplaceEmailCustomizationRequestLinks = CreateEmailCustomizationRequestLinks;
 export interface ReplaceEmailCustomizationRequest {
   /** The ID of the brand */
@@ -12602,7 +12590,6 @@ export interface ReplaceEmailCustomizationRequest {
   language: string;
   _links?: CreateEmailCustomizationRequestLinks;
 }
-export type ReplaceEmailCustomizationResponseLinksSelf = HrefObjectSelfLink;
 export type ReplaceEmailCustomizationResponseLinks = CreateEmailCustomizationResponseLinks;
 export interface ReplaceEmailCustomizationResponse {
   /** The HTML body of the email. May contain [variable references](https://velocity.apache.org/engine/1.7/user-guide.html#references). <x-lifecycle class="ea"></x-lifecycle> Not required if Custom languages for Okta Email Templates is enabled. A `null` body is replaced with a default value from one of the following in priority order: 1. An existing default email customization, if one exists 2. Okta-provided translated content for the specified language, if one exists 3. Okta-provided translated content for the brand locale, if it's set 4. Okta-provided content in English */

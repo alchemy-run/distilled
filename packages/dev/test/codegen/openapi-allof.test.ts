@@ -162,4 +162,117 @@ describe("OpenAPI allOf merges nested schemas across branches", () => {
     );
     expect(target(model, outputId(model), "id")).toBe("smithy.api#String");
   });
+
+  // Azure: the base resource declares `systemData: { $ref, readOnly }`, the
+  // resource re-declares it. It must stay out of request bodies.
+  test("a readOnly declaration stays readOnly after merging", () => {
+    const model = convertOpenApiToSmithy(
+      {
+        openapi: "3.0.3",
+        info: { title: "AllOf", version: "1" },
+        components: {
+          schemas: {
+            Meta: { type: "object", properties: { createdBy: { type: "string" } } },
+            Resource: {
+              type: "object",
+              properties: {
+                name: { type: "string" },
+                meta: { $ref: "#/components/schemas/Meta", readOnly: true },
+              },
+            },
+          },
+        },
+        paths: {
+          "/things": {
+            post: {
+              operationId: "createThing",
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      allOf: [
+                        { $ref: "#/components/schemas/Resource" },
+                        {
+                          type: "object",
+                          properties: {
+                            meta: { type: "object", properties: { extra: { type: "string" } } },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+              responses: { "200": { description: "ok" } },
+            },
+          },
+        },
+      },
+      { namespace: NS, serviceName: "AllOf" },
+    );
+    expect(membersOf(model, `${NS}#CreateThingRequest`)).toEqual(["name"]);
+  });
+
+  test("an inline copy of a $ref'd schema keeps the named shape", () => {
+    const meta = { type: "object", properties: { createdBy: { type: "string" } } };
+    const model = convert(
+      { Meta: meta },
+      {
+        allOf: [
+          { type: "object", properties: { meta: { $ref: "#/components/schemas/Meta" } } },
+          { type: "object", properties: { meta: { ...meta, description: "Copy." } } },
+        ],
+      },
+    );
+    expect(target(model, outputId(model), "meta")).toBe(`${NS}#Meta`);
+  });
+
+  // Okta: `HrefObjectSelfLink` is `allOf: [HrefObject]`.
+  test("a declaration that covers the other keeps its named shape", () => {
+    const model = convert(
+      {
+        Link: { type: "object", properties: { href: { type: "string" } }, required: ["href"] },
+        SelfLink: { allOf: [{ $ref: "#/components/schemas/Link" }] },
+      },
+      {
+        allOf: [
+          { type: "object", properties: { self: { $ref: "#/components/schemas/SelfLink" } } },
+          { type: "object", properties: { self: { $ref: "#/components/schemas/Link" } } },
+        ],
+      },
+    );
+    // SelfLink is a one-entry allOf, an alias of Link.
+    expect(target(model, outputId(model), "self")).toBe(`${NS}#Link`);
+    expect(model.shapes[`${NS}#GetOrderResponseSelf`]).toBeUndefined();
+  });
+
+  // WorkOS declares `EventSchema.context` 129 times; nesting one allOf level
+  // per declaration passed the depth limit and dropped fields.
+  test("many branches extending one property keep every field", () => {
+    const branches = Array.from({ length: 50 }, (_, i) => ({
+      type: "object",
+      properties: { data: { type: "object", properties: { [`f${i}`]: { type: "string" } } } },
+    }));
+    const model = convert({}, { allOf: branches });
+    const data = target(model, outputId(model), "data");
+    expect(membersOf(model, data)).toHaveLength(50);
+  });
+
+  test("arrays with the same items keep the named list", () => {
+    const model = convert(
+      { Warnings: { type: "array", items: { type: "string" } } },
+      {
+        allOf: [
+          { type: "object", properties: { warnings: { $ref: "#/components/schemas/Warnings" } } },
+          {
+            type: "object",
+            properties: {
+              warnings: { type: "array", items: { type: "string" }, description: "x" },
+            },
+          },
+        ],
+      },
+    );
+    expect(target(model, outputId(model), "warnings")).toBe(`${NS}#Warnings`);
+  });
 });

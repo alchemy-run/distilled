@@ -32564,9 +32564,9 @@
           }
         },
         "systemData": {
-          "target": "com.azure.azurestackhci#GuestAgentSystemData",
+          "target": "com.azure.azurestackhci#SystemData",
           "traits": {
-            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
         },
         "properties": {
@@ -32658,114 +32658,6 @@
       },
       "traits": {
         "smithy.api#documentation": "Username / Password Credentials to connect to guest."
-      }
-    },
-    "com.azure.azurestackhci#GuestAgentSystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.azurestackhci#GuestAgentSystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.azurestackhci#GuestAgentSystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.azurestackhci#GuestAgentSystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.azurestackhci#GuestAgentSystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
     "com.azure.azurestackhci#ListGuestAgentsRequest": {
@@ -32874,9 +32766,9 @@
           }
         },
         "systemData": {
-          "target": "com.azure.azurestackhci#CreateGuestAgentResponseSystemData",
+          "target": "com.azure.azurestackhci#SystemData",
           "traits": {
-            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
         },
         "properties": {
@@ -32891,114 +32783,6 @@
         "smithy.api#output": {}
       }
     },
-    "com.azure.azurestackhci#CreateGuestAgentResponseSystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.azurestackhci#CreateGuestAgentResponseSystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.azurestackhci#CreateGuestAgentResponseSystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.azurestackhci#CreateGuestAgentResponseSystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.azurestackhci#CreateGuestAgentResponseSystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
-      }
-    },
     "com.azure.azurestackhci#CreateGuestAgentRequest": {
       "type": "structure",
       "members": {
@@ -33008,12 +32792,6 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended."
-          }
-        },
-        "systemData": {
-          "target": "com.azure.azurestackhci#CreateGuestAgentRequestSystemData",
-          "traits": {
-            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
           }
         },
         "properties": {
@@ -33046,114 +32824,6 @@
       },
       "traits": {
         "smithy.api#documentation": "Defines the resource properties."
-      }
-    },
-    "com.azure.azurestackhci#CreateGuestAgentRequestSystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.azurestackhci#CreateGuestAgentRequestSystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.azurestackhci#CreateGuestAgentRequestSystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.azurestackhci#CreateGuestAgentRequestSystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.azurestackhci#CreateGuestAgentRequestSystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
     "com.azure.azurestackhci#GetGuestAgent": {
@@ -33197,9 +32867,9 @@
           }
         },
         "systemData": {
-          "target": "com.azure.azurestackhci#GetGuestAgentResponseSystemData",
+          "target": "com.azure.azurestackhci#SystemData",
           "traits": {
-            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
         },
         "properties": {
@@ -33212,114 +32882,6 @@
       },
       "traits": {
         "smithy.api#output": {}
-      }
-    },
-    "com.azure.azurestackhci#GetGuestAgentResponseSystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.azurestackhci#GetGuestAgentResponseSystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.azurestackhci#GetGuestAgentResponseSystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.azurestackhci#GetGuestAgentResponseSystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.azurestackhci#GetGuestAgentResponseSystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
     "com.azure.azurestackhci#GetGuestAgentRequest": {
@@ -33409,9 +32971,9 @@
           }
         },
         "systemData": {
-          "target": "com.azure.azurestackhci#HybridIdentityMetadataSystemData",
+          "target": "com.azure.azurestackhci#SystemData",
           "traits": {
-            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
         },
         "properties": {
@@ -33498,114 +33060,6 @@
         "smithy.api#documentation": "The identity type."
       }
     },
-    "com.azure.azurestackhci#HybridIdentityMetadataSystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.azurestackhci#HybridIdentityMetadataSystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.azurestackhci#HybridIdentityMetadataSystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.azurestackhci#HybridIdentityMetadataSystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.azurestackhci#HybridIdentityMetadataSystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
-      }
-    },
     "com.azure.azurestackhci#ListHybridIdentityMetadataRequest": {
       "type": "structure",
       "members": {
@@ -33663,9 +33117,9 @@
           }
         },
         "systemData": {
-          "target": "com.azure.azurestackhci#GetHybridIdentityMetadataResponseSystemData",
+          "target": "com.azure.azurestackhci#SystemData",
           "traits": {
-            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+            "smithy.api#documentation": "Azure Resource Manager metadata containing createdBy and modifiedBy information."
           }
         },
         "properties": {
@@ -33678,114 +33132,6 @@
       },
       "traits": {
         "smithy.api#output": {}
-      }
-    },
-    "com.azure.azurestackhci#GetHybridIdentityMetadataResponseSystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.azurestackhci#GetHybridIdentityMetadataResponseSystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.azurestackhci#GetHybridIdentityMetadataResponseSystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.azurestackhci#GetHybridIdentityMetadataResponseSystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.azurestackhci#GetHybridIdentityMetadataResponseSystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
     "com.azure.azurestackhci#GetHybridIdentityMetadataRequest": {

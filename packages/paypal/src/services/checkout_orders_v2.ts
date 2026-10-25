@@ -977,20 +977,6 @@ export interface AuthenticationResponse {
 }
 /** The vault status. */
 export type CardVaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
-export type CardVaultResponseCustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export interface CardVaultResponseCustomerPhone {
-  phone_type?: PhoneType;
-  phone_number: CardCustomerPhonePhoneNumber;
-}
-export type CardVaultResponseCustomerName = CardCustomerName;
-export interface CardVaultResponseCustomer {
-  id?: string;
-  email_address?: unknown;
-  phone?: CardVaultResponseCustomerPhone;
-  name?: CardCustomerName;
-  /** Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer. */
-  merchant_customer_id?: string;
-}
 /** The HTTP method required to make the related call. */
 export type CardVaultResponseLinksItemMethod =
   | "GET"
@@ -1110,7 +1096,7 @@ export interface CardVaultResponse {
   id?: string;
   /** The vault status. */
   status?: CardVaultResponseStatus;
-  customer?: CardVaultResponseCustomer;
+  customer?: CardCustomer;
   /** An array of request-related HATEOAS links. */
   links?: CardVaultResponseLinksList;
 }
@@ -1170,11 +1156,6 @@ export type PaypalWalletResponseAddressAddressDetails =
 export type PaypalWalletResponseAddress = CardRequestInputBillingAddress;
 /** The vault status. */
 export type PaypalWalletVaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
-export type PaypalWalletVaultResponseCustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export type PaypalWalletVaultResponseCustomerPhone = CardVaultResponseCustomerPhone;
-export type PaypalWalletVaultResponseCustomerName = CardCustomerName;
-/** The details about a customer in PayPal's system of record. */
-export type PaypalWalletVaultResponseCustomer = CardVaultResponseCustomer;
 /** The HTTP method required to make the related call. */
 export type PaypalWalletVaultResponseLinksItemMethod =
   | "GET"
@@ -1290,8 +1271,7 @@ export interface PaypalWalletVaultResponse {
   id?: string;
   /** The vault status. */
   status?: PaypalWalletVaultResponseStatus;
-  /** The details about a customer in PayPal's system of record. */
-  customer?: CardVaultResponseCustomer;
+  customer?: CardCustomer;
   /** An array of request-related HATEOAS links. */
   links?: PaypalWalletVaultResponseLinksList;
 }
@@ -1441,12 +1421,15 @@ export interface ApplePayCard {
 /** The vault status. */
 export type VaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
 export type VaultResponseCustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export type VaultResponseCustomerPhone = CardVaultResponseCustomerPhone;
+export interface VaultResponseCustomerPhone {
+  phone_type?: PhoneType;
+  phone_number: CardCustomerPhonePhoneNumber;
+}
 export type VaultResponseCustomerName = CardCustomerName;
 export interface VaultResponseCustomer {
   id?: string;
   email_address?: unknown;
-  phone?: CardVaultResponseCustomerPhone;
+  phone?: VaultResponseCustomerPhone;
   name?: CardCustomerName;
 }
 /** The HTTP method required to make the related call. */
@@ -1615,7 +1598,7 @@ export type VenmoWalletResponseReturnFlow = "AUTO" | "MANUAL";
 /** The vault status. */
 export type VenmoVaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
 export type VenmoVaultResponseCustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export type VenmoVaultResponseCustomerPhone = CardVaultResponseCustomerPhone;
+export type VenmoVaultResponseCustomerPhone = VaultResponseCustomerPhone;
 export type VenmoVaultResponseCustomerName = CardCustomerName;
 export type VenmoVaultResponseCustomer = VaultResponseCustomer;
 /** The HTTP method required to make the related call. */
@@ -1795,7 +1778,7 @@ export interface AuthorizeOrderResponsePaymentSource {
 export type CheckoutPaymentIntent = "CAPTURE" | "AUTHORIZE";
 export type PayerName = CardCustomerName;
 export type PayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export type PayerPhone = CardVaultResponseCustomerPhone;
+export type PayerPhone = VaultResponseCustomerPhone;
 /** The customer's tax ID type. */
 export type PayerTaxInfoTaxIdType = "BR_CPF" | "BR_CNPJ";
 export interface PayerTaxInfo {
@@ -1812,7 +1795,7 @@ export interface Payer {
   email_address?: unknown;
   payer_id?: unknown;
   name?: CardCustomerName;
-  phone?: CardVaultResponseCustomerPhone;
+  phone?: VaultResponseCustomerPhone;
   birth_date?: unknown;
   tax_info?: PayerTaxInfo;
   address?: CardRequestInputBillingAddress;
@@ -3957,7 +3940,7 @@ export interface CaptureOrderRequest {
 export type PaymentSourceResponse = AuthorizeOrderResponsePaymentSource;
 export type CaptureOrderResponsePayerName = CardCustomerName;
 export type CaptureOrderResponsePayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export type CaptureOrderResponsePayerPhone = CardVaultResponseCustomerPhone;
+export type CaptureOrderResponsePayerPhone = VaultResponseCustomerPhone;
 /** The customer's tax ID type. */
 export type CaptureOrderResponsePayerTaxInfoTaxIdType = "BR_CPF" | "BR_CNPJ";
 export interface CaptureOrderResponsePayerTaxInfo {
@@ -3974,7 +3957,7 @@ export interface CaptureOrderResponsePayer {
   email_address?: unknown;
   payer_id?: unknown;
   name?: CardCustomerName;
-  phone?: CardVaultResponseCustomerPhone;
+  phone?: VaultResponseCustomerPhone;
   birth_date?: unknown;
   tax_info?: CaptureOrderResponsePayerTaxInfo;
   address?: CardRequestInputBillingAddress;
@@ -5761,7 +5744,7 @@ export interface ConfirmOrderRequest {
 }
 export type ConfirmOrderResponsePayerName = CardCustomerName;
 export type ConfirmOrderResponsePayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export type ConfirmOrderResponsePayerPhone = CardVaultResponseCustomerPhone;
+export type ConfirmOrderResponsePayerPhone = VaultResponseCustomerPhone;
 /** The customer's tax ID type. */
 export type ConfirmOrderResponsePayerTaxInfoTaxIdType = "BR_CPF" | "BR_CNPJ";
 export interface ConfirmOrderResponsePayerTaxInfo {
@@ -5778,7 +5761,7 @@ export interface ConfirmOrderResponsePayer {
   email_address?: unknown;
   payer_id?: unknown;
   name?: CardCustomerName;
-  phone?: CardVaultResponseCustomerPhone;
+  phone?: VaultResponseCustomerPhone;
   birth_date?: unknown;
   tax_info?: ConfirmOrderResponsePayerTaxInfo;
   address?: CardRequestInputBillingAddress;
@@ -7274,7 +7257,7 @@ export interface CreateOrderRequest {
 }
 export type CreateOrderResponsePayerName = CardCustomerName;
 export type CreateOrderResponsePayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export type CreateOrderResponsePayerPhone = CardVaultResponseCustomerPhone;
+export type CreateOrderResponsePayerPhone = VaultResponseCustomerPhone;
 /** The customer's tax ID type. */
 export type CreateOrderResponsePayerTaxInfoTaxIdType = "BR_CPF" | "BR_CNPJ";
 export interface CreateOrderResponsePayerTaxInfo {
@@ -7291,7 +7274,7 @@ export interface CreateOrderResponsePayer {
   email_address?: unknown;
   payer_id?: unknown;
   name?: CardCustomerName;
-  phone?: CardVaultResponseCustomerPhone;
+  phone?: VaultResponseCustomerPhone;
   birth_date?: unknown;
   tax_info?: CreateOrderResponsePayerTaxInfo;
   address?: CardRequestInputBillingAddress;
@@ -10058,7 +10041,7 @@ export interface CreateOrdersTrackRequest {
 }
 export type CreateOrdersTrackResponsePayerName = CardCustomerName;
 export type CreateOrdersTrackResponsePayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export type CreateOrdersTrackResponsePayerPhone = CardVaultResponseCustomerPhone;
+export type CreateOrdersTrackResponsePayerPhone = VaultResponseCustomerPhone;
 /** The customer's tax ID type. */
 export type CreateOrdersTrackResponsePayerTaxInfoTaxIdType = "BR_CPF" | "BR_CNPJ";
 export interface CreateOrdersTrackResponsePayerTaxInfo {
@@ -10075,7 +10058,7 @@ export interface CreateOrdersTrackResponsePayer {
   email_address?: unknown;
   payer_id?: unknown;
   name?: CardCustomerName;
-  phone?: CardVaultResponseCustomerPhone;
+  phone?: VaultResponseCustomerPhone;
   birth_date?: unknown;
   tax_info?: CreateOrdersTrackResponsePayerTaxInfo;
   address?: CardRequestInputBillingAddress;
@@ -11393,7 +11376,7 @@ export interface GetOrderRequest {
 }
 export type GetOrderResponsePayerName = CardCustomerName;
 export type GetOrderResponsePayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
-export type GetOrderResponsePayerPhone = CardVaultResponseCustomerPhone;
+export type GetOrderResponsePayerPhone = VaultResponseCustomerPhone;
 /** The customer's tax ID type. */
 export type GetOrderResponsePayerTaxInfoTaxIdType = "BR_CPF" | "BR_CNPJ";
 export interface GetOrderResponsePayerTaxInfo {
@@ -11410,7 +11393,7 @@ export interface GetOrderResponsePayer {
   email_address?: unknown;
   payer_id?: unknown;
   name?: CardCustomerName;
-  phone?: CardVaultResponseCustomerPhone;
+  phone?: VaultResponseCustomerPhone;
   birth_date?: unknown;
   tax_info?: GetOrderResponsePayerTaxInfo;
   address?: CardRequestInputBillingAddress;

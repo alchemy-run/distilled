@@ -12,33 +12,6 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
-/** The type of identity that created the resource. */
-export type AccountsCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type AccountsCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface AccountsCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: AccountsCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AccountsCreateOrUpdateRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The storage services details */
@@ -120,8 +93,6 @@ export interface AccountsCreateOrUpdateRequest {
   resourceGroupName: string;
   /** The name of the Azure Video Indexer account. */
   accountName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AccountsCreateOrUpdateRequestSystemData;
   /** Resource tags. */
   tags?: AccountsCreateOrUpdateRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -131,37 +102,6 @@ export interface AccountsCreateOrUpdateRequest {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: AccountsCreateOrUpdateRequestIdentity;
 }
-/** The type of identity that created the resource. */
-export type AccountsCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type AccountsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface AccountsCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: AccountsCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AccountsCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
-/** Resource tags. */
-export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
-/** Whether or not public network access is allowed for the account. */
-export type AccountPropertiesForPutRequestPublicNetworkAccess = "Enabled" | "Disabled";
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 /** The type of identity that last modified the resource. */
@@ -181,6 +121,10 @@ export interface SystemData {
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string;
 }
+/** Resource tags. */
+export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
+/** Whether or not public network access is allowed for the account. */
+export type AccountPropertiesForPutRequestPublicNetworkAccess = "Enabled" | "Disabled";
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
@@ -277,8 +221,8 @@ export interface AccountsCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AccountsCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: AccountsCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -426,33 +370,6 @@ export interface GetAccountRequest {
   /** The name of the Azure Video Indexer account. */
   accountName: string;
 }
-/** The type of identity that created the resource. */
-export type GetAccountResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetAccountResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetAccountResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetAccountResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetAccountResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -464,8 +381,8 @@ export interface GetAccountResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetAccountResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: GetAccountResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -538,29 +455,6 @@ export interface ListAccountByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
 }
-/** The type of identity that created the resource. */
-export type AccountSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type AccountSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface AccountSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: AccountSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AccountSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type AccountTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -573,8 +467,8 @@ export interface Account {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AccountSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: AccountTagsMap;
   /** The geo-location where the resource lives */
@@ -748,33 +642,6 @@ export interface UpdateAccountRequest {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: AccountsCreateOrUpdateRequestIdentity;
 }
-/** The type of identity that created the resource. */
-export type UpdateAccountResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateAccountResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateAccountResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateAccountResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateAccountResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -786,8 +653,8 @@ export interface UpdateAccountResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateAccountResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: UpdateAccountResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -1086,7 +953,6 @@ function __c0(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(48, __c6, 0)),
           tags: S.optional(__S(40, __c5, 0)),
           location: S.String,
           properties: S.optional(__S(0, __c0, 0)),
@@ -1219,7 +1085,7 @@ function __c6(j: number): any {
           lastModifiedByType: S.optional(S.String),
           lastModifiedAt: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AccountsCreateOrUpdateRequestSystemData" });
+      ).annotate({ identifier: "SystemData" });
     case 1:
       return S.Array(S.String);
   }

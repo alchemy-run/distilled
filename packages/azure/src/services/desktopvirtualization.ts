@@ -164,35 +164,6 @@ export interface AppAttachPackageCreateOrUpdateResponse {
   /** Detailed properties for App Attach Package */
   properties: AppAttachPackageProperties;
 }
-/** The type of identity that created the resource. */
-export type ApplicationGroupsCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ApplicationGroupsCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ApplicationGroupsCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ApplicationGroupsCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?:
-    | ApplicationGroupsCreateOrUpdateRequestSystemDataLastModifiedByType
-    | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type ApplicationGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Type of managed service identity (either system assigned, or none). */
@@ -250,8 +221,6 @@ export interface ApplicationGroupsCreateOrUpdateRequest {
   resourceGroupName: string;
   /** The name of the application group */
   applicationGroupName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationGroupsCreateOrUpdateRequestSystemData;
   /** Resource tags. */
   tags?: ApplicationGroupsCreateOrUpdateRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -268,33 +237,6 @@ export interface ApplicationGroupsCreateOrUpdateRequest {
   plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupPropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type ApplicationGroupsCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ApplicationGroupsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ApplicationGroupsCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ApplicationGroupsCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationGroupsCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type ApplicationGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -349,8 +291,8 @@ export interface ApplicationGroupsCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationGroupsCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: ApplicationGroupsCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -369,35 +311,6 @@ export interface ApplicationGroupsCreateOrUpdateResponse {
   plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupProperties;
-}
-/** The type of identity that created the resource. */
-export type ApplicationsCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ApplicationsCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ApplicationsCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ApplicationsCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?:
-    | ApplicationsCreateOrUpdateRequestSystemDataLastModifiedByType
-    | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource Type of Application. */
 export type ApplicationPropertiesInputApplicationType = "InBuilt" | "MsixApplication";
@@ -437,37 +350,8 @@ export interface ApplicationsCreateOrUpdateRequest {
   applicationGroupName: string;
   /** The name of the application within the specified application group */
   applicationName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationsCreateOrUpdateRequestSystemData;
   /** Detailed properties for Application */
   properties: ApplicationPropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type ApplicationsCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ApplicationsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ApplicationsCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ApplicationsCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationsCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource Type of Application. */
 export type ApplicationPropertiesApplicationType = "InBuilt" | "MsixApplication";
@@ -511,37 +395,10 @@ export interface ApplicationsCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationsCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for Application */
   properties: ApplicationProperties;
-}
-/** The type of identity that created the resource. */
-export type CreateScalingPlanRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type CreateScalingPlanRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface CreateScalingPlanRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreateScalingPlanRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateScalingPlanRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type CreateScalingPlanRequestTagsMap = { [key: string]: string | undefined };
@@ -654,8 +511,6 @@ export interface CreateScalingPlanRequest {
   resourceGroupName: string;
   /** The name of the scaling plan. */
   scalingPlanName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateScalingPlanRequestSystemData;
   /** Resource tags. */
   tags?: CreateScalingPlanRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -672,33 +527,6 @@ export interface CreateScalingPlanRequest {
   plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanPropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type CreateScalingPlanResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type CreateScalingPlanResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface CreateScalingPlanResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreateScalingPlanResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateScalingPlanResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type CreateScalingPlanResponseTagsMap = { [key: string]: string | undefined };
@@ -740,8 +568,8 @@ export interface CreateScalingPlanResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateScalingPlanResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: CreateScalingPlanResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -760,35 +588,6 @@ export interface CreateScalingPlanResponse {
   plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanProperties;
-}
-/** The type of identity that created the resource. */
-export type CreateScalingPlanPersonalScheduleRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type CreateScalingPlanPersonalScheduleRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface CreateScalingPlanPersonalScheduleRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreateScalingPlanPersonalScheduleRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?:
-    | CreateScalingPlanPersonalScheduleRequestSystemDataLastModifiedByType
-    | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export type ScalingPlanPersonalSchedulePropertiesDaysOfWeekItem =
   | "Monday"
@@ -922,37 +721,8 @@ export interface CreateScalingPlanPersonalScheduleRequest {
   scalingPlanName: string;
   /** The name of the ScalingPlanSchedule */
   scalingPlanScheduleName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateScalingPlanPersonalScheduleRequestSystemData;
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
-}
-/** The type of identity that created the resource. */
-export type CreateScalingPlanPersonalScheduleResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type CreateScalingPlanPersonalScheduleResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface CreateScalingPlanPersonalScheduleResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreateScalingPlanPersonalScheduleResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateScalingPlanPersonalScheduleResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface CreateScalingPlanPersonalScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -961,39 +731,10 @@ export interface CreateScalingPlanPersonalScheduleResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateScalingPlanPersonalScheduleResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
-}
-/** The type of identity that created the resource. */
-export type CreateScalingPlanPooledScheduleRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type CreateScalingPlanPooledScheduleRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface CreateScalingPlanPooledScheduleRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreateScalingPlanPooledScheduleRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?:
-    | CreateScalingPlanPooledScheduleRequestSystemDataLastModifiedByType
-    | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export type ScalingPlanPooledSchedulePropertiesDaysOfWeekItem =
   | "Monday"
@@ -1081,37 +822,8 @@ export interface CreateScalingPlanPooledScheduleRequest {
   scalingPlanName: string;
   /** The name of the ScalingPlanSchedule */
   scalingPlanScheduleName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateScalingPlanPooledScheduleRequestSystemData;
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
-}
-/** The type of identity that created the resource. */
-export type CreateScalingPlanPooledScheduleResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type CreateScalingPlanPooledScheduleResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface CreateScalingPlanPooledScheduleResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreateScalingPlanPooledScheduleResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateScalingPlanPooledScheduleResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface CreateScalingPlanPooledScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1120,8 +832,8 @@ export interface CreateScalingPlanPooledScheduleResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateScalingPlanPooledScheduleResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
 }
@@ -1315,33 +1027,6 @@ export interface GetApplicationRequest {
   /** The name of the application within the specified application group */
   applicationName: string;
 }
-/** The type of identity that created the resource. */
-export type GetApplicationResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetApplicationResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetApplicationResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetApplicationResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApplicationResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface GetApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -1349,8 +1034,8 @@ export interface GetApplicationResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApplicationResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for Application */
   properties: ApplicationProperties;
 }
@@ -1361,33 +1046,6 @@ export interface GetApplicationGroupRequest {
   resourceGroupName: string;
   /** The name of the application group */
   applicationGroupName: string;
-}
-/** The type of identity that created the resource. */
-export type GetApplicationGroupResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetApplicationGroupResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetApplicationGroupResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetApplicationGroupResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApplicationGroupResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type GetApplicationGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -1404,8 +1062,8 @@ export interface GetApplicationGroupResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApplicationGroupResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: GetApplicationGroupResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -1435,33 +1093,6 @@ export interface GetDesktopRequest {
   /** The name of the desktop within the specified desktop group */
   desktopName: string;
 }
-/** The type of identity that created the resource. */
-export type GetDesktopResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetDesktopResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetDesktopResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetDesktopResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetDesktopResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Schema for Desktop properties. */
 export interface DesktopProperties {
   /** ObjectId of Desktop. (internal use) */
@@ -1482,8 +1113,8 @@ export interface GetDesktopResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetDesktopResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for Desktop */
   properties?: DesktopProperties;
 }
@@ -1494,33 +1125,6 @@ export interface GetHostPoolRequest {
   resourceGroupName: string;
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
-}
-/** The type of identity that created the resource. */
-export type GetHostPoolResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetHostPoolResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetHostPoolResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetHostPoolResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetHostPoolResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type GetHostPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -1709,8 +1313,8 @@ export interface GetHostPoolResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetHostPoolResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: GetHostPoolResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -1748,33 +1352,6 @@ export interface GetMSIXPackageRequest {
   /** The version specific package full name of the MSIX package within specified hostpool */
   msixPackageFullName: string;
 }
-/** The type of identity that created the resource. */
-export type GetMSIXPackageResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetMSIXPackageResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetMSIXPackageResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetMSIXPackageResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetMSIXPackageResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** List of package dependencies. */
 export type MSIXPackagePropertiesPackageDependenciesList = Array<MsixPackageDependencies>;
 /** List of package applications. */
@@ -1811,8 +1388,8 @@ export interface GetMSIXPackageResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetMSIXPackageResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
 }
@@ -1894,33 +1471,6 @@ export interface GetScalingPlanRequest {
   /** The name of the scaling plan. */
   scalingPlanName: string;
 }
-/** The type of identity that created the resource. */
-export type GetScalingPlanResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetScalingPlanResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetScalingPlanResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetScalingPlanResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetScalingPlanResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type GetScalingPlanResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -1936,8 +1486,8 @@ export interface GetScalingPlanResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetScalingPlanResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: GetScalingPlanResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -1967,33 +1517,6 @@ export interface GetScalingPlanPersonalScheduleRequest {
   /** The name of the ScalingPlanSchedule */
   scalingPlanScheduleName: string;
 }
-/** The type of identity that created the resource. */
-export type GetScalingPlanPersonalScheduleResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetScalingPlanPersonalScheduleResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetScalingPlanPersonalScheduleResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetScalingPlanPersonalScheduleResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetScalingPlanPersonalScheduleResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface GetScalingPlanPersonalScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -2001,8 +1524,8 @@ export interface GetScalingPlanPersonalScheduleResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetScalingPlanPersonalScheduleResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
@@ -2016,33 +1539,6 @@ export interface GetScalingPlanPooledScheduleRequest {
   /** The name of the ScalingPlanSchedule */
   scalingPlanScheduleName: string;
 }
-/** The type of identity that created the resource. */
-export type GetScalingPlanPooledScheduleResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetScalingPlanPooledScheduleResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetScalingPlanPooledScheduleResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetScalingPlanPooledScheduleResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetScalingPlanPooledScheduleResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface GetScalingPlanPooledScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -2050,8 +1546,8 @@ export interface GetScalingPlanPooledScheduleResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetScalingPlanPooledScheduleResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
 }
@@ -2064,33 +1560,6 @@ export interface GetSessionHostRequest {
   hostPoolName: string;
   /** The name of the session host within the specified host pool */
   sessionHostName: string;
-}
-/** The type of identity that created the resource. */
-export type GetSessionHostResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetSessionHostResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetSessionHostResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetSessionHostResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetSessionHostResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Status for a SessionHost. */
 export type SessionHostPropertiesStatus =
@@ -2197,8 +1666,8 @@ export interface GetSessionHostResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetSessionHostResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for SessionHost */
   properties?: SessionHostProperties;
 }
@@ -2213,33 +1682,6 @@ export interface GetUserSessionRequest {
   sessionHostName: string;
   /** The name of the user session within the specified session host */
   userSessionId: string;
-}
-/** The type of identity that created the resource. */
-export type GetUserSessionResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetUserSessionResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetUserSessionResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetUserSessionResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetUserSessionResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Application type of application. */
 export type UserSessionPropertiesApplicationType = "RemoteApp" | "Desktop";
@@ -2273,8 +1715,8 @@ export interface GetUserSessionResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetUserSessionResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for UserSession */
   properties?: UserSessionProperties;
 }
@@ -2285,33 +1727,6 @@ export interface GetWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the workspace */
   workspaceName: string;
-}
-/** The type of identity that created the resource. */
-export type GetWorkspaceResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetWorkspaceResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetWorkspaceResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetWorkspaceResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetWorkspaceResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -2355,8 +1770,8 @@ export interface GetWorkspaceResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetWorkspaceResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: GetWorkspaceResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -2375,33 +1790,6 @@ export interface GetWorkspaceResponse {
   plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
   /** Detailed properties for Workspace */
   properties?: WorkspaceProperties;
-}
-/** The type of identity that created the resource. */
-export type HostPoolsCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type HostPoolsCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface HostPoolsCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: HostPoolsCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: HostPoolsCreateOrUpdateRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type HostPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2486,8 +1874,6 @@ export interface HostPoolsCreateOrUpdateRequest {
   resourceGroupName: string;
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: HostPoolsCreateOrUpdateRequestSystemData;
   /** Resource tags. */
   tags?: HostPoolsCreateOrUpdateRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -2505,33 +1891,6 @@ export interface HostPoolsCreateOrUpdateRequest {
   /** Detailed properties for HostPool */
   properties: HostPoolPropertiesInput;
 }
-/** The type of identity that created the resource. */
-export type HostPoolsCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type HostPoolsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface HostPoolsCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: HostPoolsCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: HostPoolsCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type HostPoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -2548,8 +1907,8 @@ export interface HostPoolsCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: HostPoolsCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: HostPoolsCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -2646,33 +2005,6 @@ export interface ListApplicationGroupByResourceGroupRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type ApplicationGroupSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ApplicationGroupSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ApplicationGroupSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ApplicationGroupSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationGroupSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type ApplicationGroupTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -2689,8 +2021,8 @@ export interface ApplicationGroup {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationGroupSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: ApplicationGroupTagsMap;
   /** The geo-location where the resource lives */
@@ -2739,29 +2071,6 @@ export interface ListApplicationsRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type ApplicationSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type ApplicationSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ApplicationSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ApplicationSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Schema for Application properties. */
 export interface Application {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2770,8 +2079,8 @@ export interface Application {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for Application */
   properties: ApplicationProperties;
 }
@@ -2798,29 +2107,6 @@ export interface ListDesktopsRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type DesktopSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type DesktopSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface DesktopSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: DesktopSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DesktopSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Schema for Desktop properties. */
 export interface Desktop {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2829,8 +2115,8 @@ export interface Desktop {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DesktopSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for Desktop */
   properties?: DesktopProperties;
 }
@@ -2855,29 +2141,6 @@ export interface ListHostPoolByResourceGroupRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type HostPoolSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type HostPoolSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface HostPoolSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: HostPoolSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: HostPoolSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type HostPoolTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -2894,8 +2157,8 @@ export interface HostPool {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: HostPoolSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: HostPoolTagsMap;
   /** The geo-location where the resource lives */
@@ -2972,29 +2235,6 @@ export interface ListMSIXPackagesRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type MSIXPackageSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type MSIXPackageSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface MSIXPackageSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: MSIXPackageSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MSIXPackageSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Schema for MSIX Package properties. */
 export interface MSIXPackage {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3003,8 +2243,8 @@ export interface MSIXPackage {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MSIXPackageSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
 }
@@ -3203,29 +2443,6 @@ export interface ListScalingPlanByHostPoolRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type ScalingPlanSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type ScalingPlanSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ScalingPlanSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ScalingPlanSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ScalingPlanSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type ScalingPlanTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -3242,8 +2459,8 @@ export interface ScalingPlan {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ScalingPlanSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: ScalingPlanTagsMap;
   /** The geo-location where the resource lives */
@@ -3308,33 +2525,6 @@ export interface ListScalingPlanPersonalSchedulesRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type ScalingPlanPersonalScheduleSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ScalingPlanPersonalScheduleSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ScalingPlanPersonalScheduleSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ScalingPlanPersonalScheduleSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ScalingPlanPersonalScheduleSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Represents a ScalingPlanPersonalSchedule definition. */
 export interface ScalingPlanPersonalSchedule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3343,8 +2533,8 @@ export interface ScalingPlanPersonalSchedule {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ScalingPlanPersonalScheduleSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
@@ -3371,33 +2561,6 @@ export interface ListScalingPlanPooledSchedulesRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type ScalingPlanPooledScheduleSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ScalingPlanPooledScheduleSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ScalingPlanPooledScheduleSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ScalingPlanPooledScheduleSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ScalingPlanPooledScheduleSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Represents a ScalingPlanPooledSchedule definition. */
 export interface ScalingPlanPooledSchedule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3406,8 +2569,8 @@ export interface ScalingPlanPooledSchedule {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ScalingPlanPooledScheduleSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
 }
@@ -3434,29 +2597,6 @@ export interface ListSessionHostsRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type SessionHostSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type SessionHostSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SessionHostSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: SessionHostSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SessionHostSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Represents a SessionHost definition. */
 export interface SessionHost {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3465,8 +2605,8 @@ export interface SessionHost {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SessionHostSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for SessionHost */
   properties?: SessionHostProperties;
 }
@@ -3544,29 +2684,6 @@ export interface ListUserSessionByHostPoolRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type UserSessionSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type UserSessionSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UserSessionSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UserSessionSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UserSessionSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Represents a UserSession definition. */
 export interface UserSession {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3575,8 +2692,8 @@ export interface UserSession {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UserSessionSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for UserSession */
   properties?: UserSessionProperties;
 }
@@ -3617,29 +2734,6 @@ export interface ListWorkspaceByResourceGroupRequest {
   /** Initial number of items to skip. */
   initialSkip?: number;
 }
-/** The type of identity that created the resource. */
-export type WorkspaceSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type WorkspaceSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface WorkspaceSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: WorkspaceSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: WorkspaceSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type WorkspaceTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -3656,8 +2750,8 @@ export interface Workspace {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: WorkspaceSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: WorkspaceTagsMap;
   /** The geo-location where the resource lives */
@@ -3759,35 +2853,6 @@ export interface ExpandMsixImageList {
   /** Link to the next page of results. */
   nextLink?: string;
 }
-/** The type of identity that created the resource. */
-export type MSIXPackagesCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type MSIXPackagesCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface MSIXPackagesCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: MSIXPackagesCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?:
-    | MSIXPackagesCreateOrUpdateRequestSystemDataLastModifiedByType
-    | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface MSIXPackagesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -3797,37 +2862,8 @@ export interface MSIXPackagesCreateOrUpdateRequest {
   hostPoolName: string;
   /** The version specific package full name of the MSIX package within specified hostpool */
   msixPackageFullName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MSIXPackagesCreateOrUpdateRequestSystemData;
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
-}
-/** The type of identity that created the resource. */
-export type MSIXPackagesCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type MSIXPackagesCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface MSIXPackagesCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: MSIXPackagesCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MSIXPackagesCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface MSIXPackagesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3836,8 +2872,8 @@ export interface MSIXPackagesCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MSIXPackagesCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
 }
@@ -3940,33 +2976,6 @@ export interface UpdateApplicationRequest {
   /** Detailed properties for Application */
   properties?: ApplicationPatchProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateApplicationResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateApplicationResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateApplicationResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateApplicationResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateApplicationResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface UpdateApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -3974,8 +2983,8 @@ export interface UpdateApplicationResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateApplicationResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for Application */
   properties: ApplicationProperties;
 }
@@ -4002,33 +3011,6 @@ export interface UpdateApplicationGroupRequest {
   /** ApplicationGroup properties that can be patched. */
   properties?: ApplicationGroupPatchProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateApplicationGroupResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateApplicationGroupResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateApplicationGroupResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateApplicationGroupResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateApplicationGroupResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type UpdateApplicationGroupResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -4045,8 +3027,8 @@ export interface UpdateApplicationGroupResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateApplicationGroupResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: UpdateApplicationGroupResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -4085,33 +3067,6 @@ export interface UpdateDesktopRequest {
   /** Detailed properties for Desktop */
   properties?: DesktopPatchProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateDesktopResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateDesktopResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateDesktopResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateDesktopResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateDesktopResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface UpdateDesktopResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -4119,8 +3074,8 @@ export interface UpdateDesktopResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateDesktopResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for Desktop */
   properties?: DesktopProperties;
 }
@@ -4247,33 +3202,6 @@ export interface UpdateHostPoolRequest {
   /** Managed service identity (either system assigned, or none) */
   identity?: ApplicationGroupsCreateOrUpdateRequestIdentity;
 }
-/** The type of identity that created the resource. */
-export type UpdateHostPoolResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateHostPoolResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateHostPoolResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateHostPoolResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateHostPoolResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type UpdateHostPoolResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -4289,8 +3217,8 @@ export interface UpdateHostPoolResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateHostPoolResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: UpdateHostPoolResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -4331,33 +3259,6 @@ export interface UpdateMSIXPackageRequest {
   /** Detailed properties for MSIX Package */
   properties?: MSIXPackagePatchProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateMSIXPackageResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateMSIXPackageResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateMSIXPackageResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateMSIXPackageResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateMSIXPackageResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface UpdateMSIXPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -4365,8 +3266,8 @@ export interface UpdateMSIXPackageResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateMSIXPackageResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
 }
@@ -4490,33 +3391,6 @@ export interface UpdateScalingPlanRequest {
   /** Detailed properties for scaling plan */
   properties?: ScalingPlanPatchProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateScalingPlanResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateScalingPlanResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateScalingPlanResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateScalingPlanResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateScalingPlanResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type UpdateScalingPlanResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -4532,8 +3406,8 @@ export interface UpdateScalingPlanResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateScalingPlanResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: UpdateScalingPlanResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -4565,33 +3439,6 @@ export interface UpdateScalingPlanPersonalScheduleRequest {
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties?: ScalingPlanPersonalScheduleProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateScalingPlanPersonalScheduleResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateScalingPlanPersonalScheduleResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateScalingPlanPersonalScheduleResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateScalingPlanPersonalScheduleResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateScalingPlanPersonalScheduleResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface UpdateScalingPlanPersonalScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -4599,8 +3446,8 @@ export interface UpdateScalingPlanPersonalScheduleResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateScalingPlanPersonalScheduleResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
@@ -4616,33 +3463,6 @@ export interface UpdateScalingPlanPooledScheduleRequest {
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties?: ScalingPlanPooledScheduleProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateScalingPlanPooledScheduleResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateScalingPlanPooledScheduleResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateScalingPlanPooledScheduleResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateScalingPlanPooledScheduleResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateScalingPlanPooledScheduleResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface UpdateScalingPlanPooledScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -4650,8 +3470,8 @@ export interface UpdateScalingPlanPooledScheduleResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateScalingPlanPooledScheduleResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
 }
@@ -4678,33 +3498,6 @@ export interface UpdateSessionHostRequest {
   /** Detailed properties for SessionHost */
   properties?: SessionHostPatchProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateSessionHostResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateSessionHostResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateSessionHostResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateSessionHostResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateSessionHostResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface UpdateSessionHostResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -4712,8 +3505,8 @@ export interface UpdateSessionHostResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateSessionHostResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Detailed properties for SessionHost */
   properties?: SessionHostProperties;
 }
@@ -4746,33 +3539,6 @@ export interface UpdateWorkspaceRequest {
   /** Detailed properties for Workspace */
   properties?: WorkspacePatchProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateWorkspaceResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateWorkspaceResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateWorkspaceResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateWorkspaceResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateWorkspaceResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -4788,8 +3554,8 @@ export interface UpdateWorkspaceResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateWorkspaceResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: UpdateWorkspaceResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -4808,33 +3574,6 @@ export interface UpdateWorkspaceResponse {
   plan?: ApplicationGroupsCreateOrUpdateRequestPlan;
   /** Detailed properties for Workspace */
   properties?: WorkspaceProperties;
-}
-/** The type of identity that created the resource. */
-export type WorkspacesCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type WorkspacesCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface WorkspacesCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: WorkspacesCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: WorkspacesCreateOrUpdateRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4867,8 +3606,6 @@ export interface WorkspacesCreateOrUpdateRequest {
   resourceGroupName: string;
   /** The name of the workspace */
   workspaceName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: WorkspacesCreateOrUpdateRequestSystemData;
   /** Resource tags. */
   tags?: WorkspacesCreateOrUpdateRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -4886,33 +3623,6 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** Detailed properties for Workspace */
   properties?: WorkspacePropertiesInput;
 }
-/** The type of identity that created the resource. */
-export type WorkspacesCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type WorkspacesCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface WorkspacesCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: WorkspacesCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: WorkspacesCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
@@ -4929,8 +3639,8 @@ export interface WorkspacesCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: WorkspacesCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: WorkspacesCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -6310,7 +5020,6 @@ function __c7(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           applicationGroupName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(16, __c1, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
           managedBy: S.optional(S.String),
@@ -6634,7 +5343,6 @@ function __c21(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           applicationGroupName: S.String.pipe(T.Label()),
           applicationName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(16, __c1, 0)),
           properties: __S(336, __c21, 0),
         }).pipe(
           T.Http({
@@ -7073,7 +5781,6 @@ function __c39(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           scalingPlanName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(16, __c1, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
           managedBy: S.optional(S.String),
@@ -7420,7 +6127,6 @@ function __c50(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           hostPoolName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(16, __c1, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
           managedBy: S.optional(S.String),
@@ -7555,7 +6261,6 @@ function __c57(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           scalingPlanName: S.String.pipe(T.Label()),
           scalingPlanScheduleName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(16, __c1, 0)),
           properties: __S(928, __c58, 0),
         }).pipe(
           T.Http({
@@ -7938,7 +6643,6 @@ function __c71(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           scalingPlanName: S.String.pipe(T.Label()),
           scalingPlanScheduleName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(16, __c1, 0)),
           properties: __S(1152, __c72, 0),
         }).pipe(
           T.Http({
@@ -8487,7 +7191,6 @@ function __c93(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           hostPoolName: S.String.pipe(T.Label()),
           msixPackageFullName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(16, __c1, 0)),
           properties: __S(560, __c35, 0),
         }).pipe(
           T.Http({
@@ -8937,7 +7640,6 @@ function __c111(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(16, __c1, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
           managedBy: S.optional(S.String),

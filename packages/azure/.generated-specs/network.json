@@ -154391,12 +154391,6 @@
             "smithy.api#documentation": "Reachability Analysis Run name."
           }
         },
-        "systemData": {
-          "target": "com.azure.network#CreateReachabilityAnalysisRunRequestSystemData",
-          "traits": {
-            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-          }
-        },
         "properties": {
           "target": "com.azure.network#ReachabilityAnalysisRunPropertiesInput",
           "traits": {
@@ -154475,114 +154469,6 @@
       },
       "traits": {
         "smithy.api#documentation": "Provisioning states of a resource."
-      }
-    },
-    "com.azure.network#CreateReachabilityAnalysisRunRequestSystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.network#CreateReachabilityAnalysisRunRequestSystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.network#CreateReachabilityAnalysisRunRequestSystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.network#CreateReachabilityAnalysisRunRequestSystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.network#CreateReachabilityAnalysisRunRequestSystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
     "com.azure.network#GetReachabilityAnalysisRun": {
@@ -155428,12 +155314,6 @@
             "smithy.api#documentation": "Reachability Analysis Intent name."
           }
         },
-        "systemData": {
-          "target": "com.azure.network#CreateReachabilityAnalysisIntentRequestSystemData",
-          "traits": {
-            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-          }
-        },
         "properties": {
           "target": "com.azure.network#ReachabilityAnalysisIntentProperties",
           "traits": {
@@ -155444,114 +155324,6 @@
       },
       "traits": {
         "smithy.api#input": {}
-      }
-    },
-    "com.azure.network#CreateReachabilityAnalysisIntentRequestSystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.network#CreateReachabilityAnalysisIntentRequestSystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.network#CreateReachabilityAnalysisIntentRequestSystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.network#CreateReachabilityAnalysisIntentRequestSystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.network#CreateReachabilityAnalysisIntentRequestSystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
     "com.azure.network#GetReachabilityAnalysisIntent": {
@@ -156683,12 +156455,6 @@
             "smithy.api#documentation": "The name of the resource"
           }
         },
-        "systemData": {
-          "target": "com.azure.network#CreateVerifierWorkspaceRequestSystemData",
-          "traits": {
-            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-          }
-        },
         "tags": {
           "target": "com.azure.network#CreateVerifierWorkspaceRequestTagsMap",
           "traits": {
@@ -156723,114 +156489,6 @@
       },
       "traits": {
         "smithy.api#documentation": "Resource tags."
-      }
-    },
-    "com.azure.network#CreateVerifierWorkspaceRequestSystemData": {
-      "type": "structure",
-      "members": {
-        "createdBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that created the resource."
-          }
-        },
-        "createdByType": {
-          "target": "com.azure.network#CreateVerifierWorkspaceRequestSystemDataCreatedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that created the resource."
-          }
-        },
-        "createdAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource creation (UTC)."
-          }
-        },
-        "lastModifiedBy": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The identity that last modified the resource."
-          }
-        },
-        "lastModifiedByType": {
-          "target": "com.azure.network#CreateVerifierWorkspaceRequestSystemDataLastModifiedByType",
-          "traits": {
-            "smithy.api#documentation": "The type of identity that last modified the resource."
-          }
-        },
-        "lastModifiedAt": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The timestamp of resource last modification (UTC)"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
-      }
-    },
-    "com.azure.network#CreateVerifierWorkspaceRequestSystemDataLastModifiedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that last modified the resource."
-      }
-    },
-    "com.azure.network#CreateVerifierWorkspaceRequestSystemDataCreatedByType": {
-      "type": "enum",
-      "members": {
-        "USER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "User"
-          }
-        },
-        "APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Application"
-          }
-        },
-        "MANAGEDIDENTITY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ManagedIdentity"
-          }
-        },
-        "KEY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "Key"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The type of identity that created the resource."
       }
     },
     "com.azure.network#GetVerifierWorkspace": {

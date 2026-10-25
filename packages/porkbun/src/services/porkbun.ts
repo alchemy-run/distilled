@@ -576,12 +576,9 @@ export interface DnsCreateDnssecRecordRequest {
   /** Key data public key in base64 (optional) */
   keyDataPubKey?: string;
 }
-/** Advisory, and present only when there is something to say. It never means the call failed. The one to handle: a DNS write is accepted and stored even when the domain is NOT delegated to our nameservers -- we keep the zone ready in case the delegation comes back -- so the write changed nothing that resolves, and this field says so. Show these to the user as written. */
-export type DnsCreateDnssecRecordResponseWarningsList = Array<string>;
 export type DnsCreateDnssecRecordResponseStatus = "SUCCESS" | "ERROR";
 export interface DnsCreateDnssecRecordResponse {
-  /** Advisory, and present only when there is something to say. It never means the call failed. The one to handle: a DNS write is accepted and stored even when the domain is NOT delegated to our nameservers -- we keep the zone ready in case the delegation comes back -- so the write changed nothing that resolves, and this field says so. Show these to the user as written. */
-  warnings?: DnsCreateDnssecRecordResponseWarningsList;
+  warnings?: DnsWriteWarnings;
   status: DnsCreateDnssecRecordResponseStatus;
   /** Human-readable message. Present on ERROR, sometimes on SUCCESS. */
   message?: string;

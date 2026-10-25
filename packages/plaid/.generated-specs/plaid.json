@@ -40475,9 +40475,8 @@
           }
         },
         "balances": {
-          "target": "com.plaid.api#InvestmentAccountBalances",
+          "target": "com.plaid.api#InvestmentAccountBalance",
           "traits": {
-            "smithy.api#documentation": "A set of fields describing the balance for an account. For real-time values, use `/accounts/balance/get` or `/signal/evaluate` (with a Balance-only ruleset), which are fetched live from the institution at request time. Values returned by other endpoints may be cached, or adjusted by Plaid to reflect transaction activity received since the last refresh.",
             "smithy.api#required": {}
           }
         },
@@ -40557,7 +40556,7 @@
         "com.distilled.openapi#additionalProperties": {}
       }
     },
-    "com.plaid.api#InvestmentAccountBalances": {
+    "com.plaid.api#InvestmentAccountBalance": {
       "type": "structure",
       "members": {
         "available": {
@@ -40617,7 +40616,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "A set of fields describing the balance for an account. For real-time values, use `/accounts/balance/get` or `/signal/evaluate` (with a Balance-only ruleset), which are fetched live from the institution at request time. Values returned by other endpoints may be cached, or adjusted by Plaid to reflect transaction activity received since the last refresh.",
+        "smithy.api#documentation": "A set of fields describing the balance for an account, including margin loan information for investment accounts.",
         "com.distilled.openapi#additionalProperties": {}
       }
     },

@@ -59,29 +59,21 @@ export interface CancelServiceTaskRequest {
   taskName: string;
 }
 /** The type of identity that created the resource. */
-export type CancelServiceTaskResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
+export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 /** The type of identity that last modified the resource. */
-export type CancelServiceTaskResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
+export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 /** Metadata pertaining to creation and last modification of the resource. */
-export interface CancelServiceTaskResponseSystemData {
+export interface SystemData {
   /** The identity that created the resource. */
   createdBy?: string;
   /** The type of identity that created the resource. */
-  createdByType?: CancelServiceTaskResponseSystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType;
   /** The timestamp of resource creation (UTC). */
   createdAt?: string;
   /** The identity that last modified the resource. */
   lastModifiedBy?: string;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CancelServiceTaskResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string;
 }
@@ -220,8 +212,8 @@ export interface CancelServiceTaskResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CancelServiceTaskResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
@@ -239,33 +231,6 @@ export interface CancelTaskRequest {
   /** Name of the Task */
   taskName: string;
 }
-/** The type of identity that created the resource. */
-export type CancelTaskResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type CancelTaskResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface CancelTaskResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CancelTaskResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CancelTaskResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface CancelTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -273,8 +238,8 @@ export interface CancelTaskResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CancelTaskResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
@@ -406,25 +371,6 @@ export interface CreateDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
   /** Name of the migration. */
   migrationName: string;
   properties?: DatabaseMigrationPropertiesCosmosDbMongoInput;
-}
-/** The type of identity that created the resource. */
-export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export type DatabaseMigrationPropertiesCosmosDbMongoKind =
   | "SqlMi"
@@ -1313,33 +1259,6 @@ export interface DeleteTaskRequest {
   deleteRunningTasks?: boolean;
 }
 export interface DeleteTaskResponse {}
-/** The type of identity that created the resource. */
-export type FilesCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type FilesCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface FilesCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: FilesCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: FilesCreateOrUpdateRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Base class for file properties. */
 export interface ProjectFilePropertiesInput {
   /** Optional File extension. If submitted it should not have a leading period and must match the extension from filePath. */
@@ -1360,39 +1279,10 @@ export interface FilesCreateOrUpdateRequest {
   projectName: string;
   /** Name of the File */
   fileName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: FilesCreateOrUpdateRequestSystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom file properties */
   properties?: ProjectFilePropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type FilesCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type FilesCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface FilesCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: FilesCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: FilesCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Base class for file properties. */
 export interface ProjectFileProperties {
@@ -1414,8 +1304,8 @@ export interface FilesCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: FilesCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom file properties */
@@ -1582,33 +1472,6 @@ export interface GetFileRequest {
   /** Name of the File */
   fileName: string;
 }
-/** The type of identity that created the resource. */
-export type GetFileResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetFileResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetFileResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetFileResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetFileResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface GetFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -1616,8 +1479,8 @@ export interface GetFileResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetFileResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom file properties */
@@ -1671,33 +1534,6 @@ export interface GetProjectRequest {
   serviceName: string;
   /** Name of the project */
   projectName: string;
-}
-/** The type of identity that created the resource. */
-export type GetProjectResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetProjectResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetProjectResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetProjectResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetProjectResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type GetProjectResponseTagsMap = { [key: string]: string | undefined };
@@ -1768,8 +1604,8 @@ export interface GetProjectResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetProjectResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: GetProjectResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -1786,33 +1622,6 @@ export interface GetServiceRequest {
   groupName: string;
   /** Name of the service */
   serviceName: string;
-}
-/** The type of identity that created the resource. */
-export type GetServiceResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetServiceResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetServiceResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetServiceResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetServiceResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type GetServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -1863,8 +1672,8 @@ export interface GetServiceResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetServiceResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: GetServiceResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -1890,33 +1699,6 @@ export interface GetServiceTaskRequest {
   /** Expand the response */
   _expand?: string;
 }
-/** The type of identity that created the resource. */
-export type GetServiceTaskResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetServiceTaskResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetServiceTaskResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetServiceTaskResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetServiceTaskResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface GetServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -1924,8 +1706,8 @@ export interface GetServiceTaskResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetServiceTaskResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
@@ -1977,33 +1759,6 @@ export interface GetTaskRequest {
   /** Expand the response */
   _expand?: string;
 }
-/** The type of identity that created the resource. */
-export type GetTaskResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetTaskResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetTaskResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetTaskResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetTaskResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface GetTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string;
@@ -2011,8 +1766,8 @@ export interface GetTaskResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetTaskResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
@@ -2028,29 +1783,6 @@ export interface ListFilesRequest {
   /** Name of the project */
   projectName: string;
 }
-/** The type of identity that created the resource. */
-export type ProjectFileSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type ProjectFileSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ProjectFileSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ProjectFileSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ProjectFileSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** A file resource */
 export interface ProjectFile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2059,8 +1791,8 @@ export interface ProjectFile {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ProjectFileSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom file properties */
@@ -2199,29 +1931,6 @@ export interface ListProjectsRequest {
   /** Name of the service */
   serviceName: string;
 }
-/** The type of identity that created the resource. */
-export type ProjectSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type ProjectSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ProjectSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ProjectSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ProjectSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type ProjectTagsMap = { [key: string]: string | undefined };
 /** A project resource */
@@ -2232,8 +1941,8 @@ export interface Project {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ProjectSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: ProjectTagsMap;
   /** The geo-location where the resource lives */
@@ -2350,33 +2059,6 @@ export interface ListServiceByResourceGroupRequest {
   /** Name of the resource group */
   groupName: string;
 }
-/** The type of identity that created the resource. */
-export type DataMigrationServiceSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type DataMigrationServiceSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface DataMigrationServiceSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: DataMigrationServiceSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DataMigrationServiceSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type DataMigrationServiceTagsMap = { [key: string]: string | undefined };
 /** An Azure Database Migration Service (classic) resource */
@@ -2387,8 +2069,8 @@ export interface DataMigrationService {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DataMigrationServiceSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: DataMigrationServiceTagsMap;
   /** The geo-location where the resource lives */
@@ -2481,29 +2163,6 @@ export interface ListServiceTasksRequest {
   /** Filter tasks by task type */
   taskType?: string;
 }
-/** The type of identity that created the resource. */
-export type ProjectTaskSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type ProjectTaskSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ProjectTaskSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ProjectTaskSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ProjectTaskSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** A task resource */
 export interface ProjectTask {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2512,8 +2171,8 @@ export interface ProjectTask {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ProjectTaskSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
@@ -2767,33 +2426,6 @@ export interface MigrationServicesCreateOrUpdateResponse {
   location: string;
   properties?: MigrationServiceProperties;
 }
-/** The type of identity that created the resource. */
-export type ProjectsCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ProjectsCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ProjectsCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ProjectsCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ProjectsCreateOrUpdateRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type ProjectsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Azure Active Directory Application */
@@ -2829,8 +2461,6 @@ export interface ProjectsCreateOrUpdateRequest {
   serviceName: string;
   /** Name of the project */
   projectName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ProjectsCreateOrUpdateRequestSystemData;
   /** Resource tags. */
   tags?: ProjectsCreateOrUpdateRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -2839,33 +2469,6 @@ export interface ProjectsCreateOrUpdateRequest {
   properties?: ProjectPropertiesInput;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
-}
-/** The type of identity that created the resource. */
-export type ProjectsCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ProjectsCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ProjectsCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ProjectsCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ProjectsCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type ProjectsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -2876,8 +2479,8 @@ export interface ProjectsCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ProjectsCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: ProjectsCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -2958,33 +2561,6 @@ export interface RetryDatabaseMigrationsSqlDbRequest {
   migrationOperationId?: string;
 }
 export interface RetryDatabaseMigrationsSqlDbResponse {}
-/** The type of identity that created the resource. */
-export type ServicesCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ServicesCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ServicesCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ServicesCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ServicesCreateOrUpdateRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of the Azure Database Migration Service (classic) instance */
@@ -3007,8 +2583,6 @@ export interface ServicesCreateOrUpdateRequest {
   groupName: string;
   /** Name of the service */
   serviceName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ServicesCreateOrUpdateRequestSystemData;
   /** Resource tags. */
   tags?: ServicesCreateOrUpdateRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -3022,33 +2596,6 @@ export interface ServicesCreateOrUpdateRequest {
   /** Service SKU */
   sku?: ServiceSku;
 }
-/** The type of identity that created the resource. */
-export type ServicesCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ServicesCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ServicesCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ServicesCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ServicesCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ServicesCreateOrUpdateResponse {
@@ -3058,8 +2605,8 @@ export interface ServicesCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ServicesCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: ServicesCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -3072,35 +2619,6 @@ export interface ServicesCreateOrUpdateResponse {
   properties?: DataMigrationServiceProperties;
   /** Service SKU */
   sku?: ServiceSku;
-}
-/** The type of identity that created the resource. */
-export type ServiceTasksCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ServiceTasksCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ServiceTasksCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ServiceTasksCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?:
-    | ServiceTasksCreateOrUpdateRequestSystemDataLastModifiedByType
-    | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Task type. */
 export type ProjectTaskPropertiesInputTaskType =
@@ -3160,39 +2678,10 @@ export interface ServiceTasksCreateOrUpdateRequest {
   serviceName: string;
   /** Name of the Task */
   taskName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ServiceTasksCreateOrUpdateRequestSystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
   properties?: ProjectTaskPropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type ServiceTasksCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type ServiceTasksCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface ServiceTasksCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: ServiceTasksCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ServiceTasksCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface ServiceTasksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3201,8 +2690,8 @@ export interface ServiceTasksCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ServiceTasksCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
@@ -3315,33 +2804,6 @@ export interface TasksCommandResponse {
   /** The state of the command. This is ignored if submitted. */
   state?: TasksCommandResponseState;
 }
-/** The type of identity that created the resource. */
-export type TasksCreateOrUpdateRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type TasksCreateOrUpdateRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface TasksCreateOrUpdateRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: TasksCreateOrUpdateRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TasksCreateOrUpdateRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface TasksCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
   subscriptionId: string;
@@ -3353,39 +2815,10 @@ export interface TasksCreateOrUpdateRequest {
   projectName: string;
   /** Name of the Task */
   taskName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TasksCreateOrUpdateRequestSystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
   properties?: ProjectTaskPropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type TasksCreateOrUpdateResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type TasksCreateOrUpdateResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface TasksCreateOrUpdateResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: TasksCreateOrUpdateResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TasksCreateOrUpdateResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface TasksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3394,39 +2827,12 @@ export interface TasksCreateOrUpdateResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TasksCreateOrUpdateResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
   properties?: ProjectTaskProperties;
-}
-/** The type of identity that created the resource. */
-export type UpdateFileRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateFileRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateFileRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateFileRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateFileRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface UpdateFileRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3439,39 +2845,10 @@ export interface UpdateFileRequest {
   projectName: string;
   /** Name of the File */
   fileName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateFileRequestSystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom file properties */
   properties?: ProjectFilePropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type UpdateFileResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateFileResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateFileResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateFileResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateFileResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface UpdateFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3480,8 +2857,8 @@ export interface UpdateFileResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateFileResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom file properties */
@@ -3515,33 +2892,6 @@ export interface UpdateMigrationServiceResponse {
   properties?: MigrationServiceProperties;
   locationHeader?: string;
 }
-/** The type of identity that created the resource. */
-export type UpdateProjectRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateProjectRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateProjectRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateProjectRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateProjectRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type UpdateProjectRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateProjectRequest {
@@ -3553,8 +2903,6 @@ export interface UpdateProjectRequest {
   serviceName: string;
   /** Name of the project */
   projectName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateProjectRequestSystemData;
   /** Resource tags. */
   tags?: UpdateProjectRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -3563,33 +2911,6 @@ export interface UpdateProjectRequest {
   properties?: ProjectPropertiesInput;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
-}
-/** The type of identity that created the resource. */
-export type UpdateProjectResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateProjectResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateProjectResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateProjectResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateProjectResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined };
@@ -3600,8 +2921,8 @@ export interface UpdateProjectResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateProjectResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: UpdateProjectResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -3610,33 +2931,6 @@ export interface UpdateProjectResponse {
   properties?: ProjectProperties;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
-}
-/** The type of identity that created the resource. */
-export type UpdateServiceRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateServiceRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateServiceRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateServiceRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateServiceRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 /** Resource tags. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -3647,8 +2941,6 @@ export interface UpdateServiceRequest {
   groupName: string;
   /** Name of the service */
   serviceName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateServiceRequestSystemData;
   /** Resource tags. */
   tags?: UpdateServiceRequestTagsMap;
   /** The geo-location where the resource lives */
@@ -3662,33 +2954,6 @@ export interface UpdateServiceRequest {
   /** Service SKU */
   sku?: ServiceSku;
 }
-/** The type of identity that created the resource. */
-export type UpdateServiceResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateServiceResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateServiceResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateServiceResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateServiceResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Resource tags. */
 export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceResponse {
@@ -3698,8 +2963,8 @@ export interface UpdateServiceResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateServiceResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource tags. */
   tags?: UpdateServiceResponseTagsMap;
   /** The geo-location where the resource lives */
@@ -3713,33 +2978,6 @@ export interface UpdateServiceResponse {
   /** Service SKU */
   sku?: ServiceSku;
 }
-/** The type of identity that created the resource. */
-export type UpdateServiceTaskRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateServiceTaskRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateServiceTaskRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateServiceTaskRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateServiceTaskRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface UpdateServiceTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
   subscriptionId: string;
@@ -3749,39 +2987,10 @@ export interface UpdateServiceTaskRequest {
   serviceName: string;
   /** Name of the Task */
   taskName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateServiceTaskRequestSystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
   properties?: ProjectTaskPropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type UpdateServiceTaskResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateServiceTaskResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateServiceTaskResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateServiceTaskResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateServiceTaskResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface UpdateServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3790,8 +2999,8 @@ export interface UpdateServiceTaskResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateServiceTaskResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
@@ -3824,33 +3033,6 @@ export interface UpdateSqlMigrationServiceResponse {
   location: string;
   properties?: SqlMigrationServiceProperties;
 }
-/** The type of identity that created the resource. */
-export type UpdateTaskRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateTaskRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateTaskRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateTaskRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateTaskRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 export interface UpdateTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
   subscriptionId: string;
@@ -3862,39 +3044,10 @@ export interface UpdateTaskRequest {
   projectName: string;
   /** Name of the Task */
   taskName: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateTaskRequestSystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
   properties?: ProjectTaskPropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type UpdateTaskResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type UpdateTaskResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface UpdateTaskResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: UpdateTaskResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateTaskResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface UpdateTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3903,8 +3056,8 @@ export interface UpdateTaskResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateTaskResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** HTTP strong entity tag value. This is ignored if submitted. */
   etag?: string;
   /** Custom task properties */
@@ -5953,7 +5106,6 @@ function __c27(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           fileName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           etag: S.optional(S.String),
           properties: S.optional(__S(464, __c29, 0)),
         }).pipe(
@@ -6123,7 +5275,7 @@ function __c35(j: number): any {
           lastModifiedByType: S.optional(S.String),
           lastModifiedAt: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CancelServiceTaskResponseSystemData" });
+      ).annotate({ identifier: "SystemData" });
   }
 }
 function __c36(j: number): any {
@@ -7310,7 +6462,6 @@ function __c84(j: number): any {
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           tags: S.optional(__S(512, __c32, 0)),
           location: S.String,
           properties: S.optional(__S(1360, __c85, 0)),
@@ -7453,7 +6604,6 @@ function __c91(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           tags: S.optional(__S(512, __c32, 0)),
           location: S.String,
           etag: S.optional(S.String),
@@ -7494,7 +6644,6 @@ function __c93(j: number): any {
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           etag: S.optional(S.String),
           properties: S.optional(__S(1504, __c94, 0)),
         }).pipe(
@@ -7646,7 +6795,6 @@ function __c101(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           etag: S.optional(S.String),
           properties: S.optional(__S(1504, __c94, 0)),
         }).pipe(
@@ -7670,7 +6818,6 @@ function __c102(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           fileName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           etag: S.optional(S.String),
           properties: S.optional(__S(464, __c29, 0)),
         }).pipe(
@@ -7726,7 +6873,6 @@ function __c104(j: number): any {
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           tags: S.optional(__S(512, __c32, 0)),
           location: S.String,
           properties: S.optional(__S(1360, __c85, 0)),
@@ -7750,7 +6896,6 @@ function __c105(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           tags: S.optional(__S(512, __c32, 0)),
           location: S.String,
           etag: S.optional(S.String),
@@ -7777,7 +6922,6 @@ function __c106(j: number): any {
           groupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           etag: S.optional(S.String),
           properties: S.optional(__S(1504, __c94, 0)),
         }).pipe(
@@ -7946,7 +7090,6 @@ function __c112(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(560, __c35, 0)),
           etag: S.optional(S.String),
           properties: S.optional(__S(1504, __c94, 0)),
         }).pipe(

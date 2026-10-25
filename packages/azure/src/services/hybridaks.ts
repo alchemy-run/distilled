@@ -246,33 +246,6 @@ export interface GetHybridIdentityMetadataRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
 }
-/** The type of identity that created the resource. */
-export type GetHybridIdentityMetadataResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type GetHybridIdentityMetadataResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface GetHybridIdentityMetadataResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: GetHybridIdentityMetadataResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetHybridIdentityMetadataResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Defines the resource properties for the hybrid identity metadata. */
 export interface HybridIdentityMetadataProperties {
   /** Unique id of the parent provisioned cluster resource. */
@@ -288,8 +261,8 @@ export interface GetHybridIdentityMetadataResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetHybridIdentityMetadataResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource properties. */
   properties: HybridIdentityMetadataProperties;
 }
@@ -816,33 +789,6 @@ export interface ListHybridIdentityMetadataByClusterRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
 }
-/** The type of identity that created the resource. */
-export type HybridIdentityMetadataSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type HybridIdentityMetadataSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface HybridIdentityMetadataSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: HybridIdentityMetadataSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: HybridIdentityMetadataSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Defines the hybridIdentityMetadata. */
 export interface HybridIdentityMetadata {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -851,8 +797,8 @@ export interface HybridIdentityMetadata {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: HybridIdentityMetadataSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource properties. */
   properties: HybridIdentityMetadataProperties;
 }
@@ -1182,33 +1128,6 @@ export interface ProvisionedClusterInstancesCreateOrUpdateResponse {
   properties?: ProvisionedClusterProperties;
   extendedLocation?: ExtendedLocation;
 }
-/** The type of identity that created the resource. */
-export type PutHybridIdentityMetadataRequestSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type PutHybridIdentityMetadataRequestSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface PutHybridIdentityMetadataRequestSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: PutHybridIdentityMetadataRequestSystemDataCreatedByType | (string & {});
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PutHybridIdentityMetadataRequestSystemDataLastModifiedByType | (string & {});
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
-}
 /** Defines the resource properties for the hybrid identity metadata. */
 export interface HybridIdentityMetadataPropertiesInput {
   /** Unique id of the parent provisioned cluster resource. */
@@ -1219,37 +1138,8 @@ export interface HybridIdentityMetadataPropertiesInput {
 export interface PutHybridIdentityMetadataRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PutHybridIdentityMetadataRequestSystemData;
   /** Resource properties. */
   properties: HybridIdentityMetadataPropertiesInput;
-}
-/** The type of identity that created the resource. */
-export type PutHybridIdentityMetadataResponseSystemDataCreatedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** The type of identity that last modified the resource. */
-export type PutHybridIdentityMetadataResponseSystemDataLastModifiedByType =
-  | "User"
-  | "Application"
-  | "ManagedIdentity"
-  | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface PutHybridIdentityMetadataResponseSystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: PutHybridIdentityMetadataResponseSystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PutHybridIdentityMetadataResponseSystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
 }
 export interface PutHybridIdentityMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1258,8 +1148,8 @@ export interface PutHybridIdentityMetadataResponse {
   name?: string;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
   type?: string;
-  /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PutHybridIdentityMetadataResponseSystemData;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData;
   /** Resource properties. */
   properties: HybridIdentityMetadataProperties;
 }
@@ -2848,7 +2738,6 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           connectedClusterResourceUri: S.String.pipe(T.Label()),
-          systemData: S.optional(__S(96, __c3, 0)),
           properties: __S(992, __c31, 0),
         }).pipe(
           T.Http({

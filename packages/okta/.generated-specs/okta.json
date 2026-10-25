@@ -24118,47 +24118,11 @@
       },
       "traits": {}
     },
-    "com.okta.management#EmailSettingsResponseLinksSelf": {
-      "type": "structure",
-      "members": {
-        "hints": {
-          "target": "com.okta.management#HrefHints"
-        },
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link name"
-          }
-        },
-        "templated": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the link object's `href` property is a URI template."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The media type of the link. If omitted, it is implicitly `application/json`."
-          }
-        }
-      },
-      "traits": {
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#EmailSettingsResponseLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#EmailSettingsResponseLinksSelf"
+          "target": "com.okta.management#HrefObjectSelfLink"
         },
         "template": {
           "target": "com.okta.management#HrefObject"
@@ -24418,47 +24382,11 @@
       },
       "traits": {}
     },
-    "com.okta.management#EmailCustomizationLinksSelf": {
-      "type": "structure",
-      "members": {
-        "hints": {
-          "target": "com.okta.management#HrefHints"
-        },
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link name"
-          }
-        },
-        "templated": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the link object's `href` property is a URI template."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The media type of the link. If omitted, it is implicitly `application/json`."
-          }
-        }
-      },
-      "traits": {
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#EmailCustomizationLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#EmailCustomizationLinksSelf"
+          "target": "com.okta.management#HrefObjectSelfLink"
         },
         "template": {
           "target": "com.okta.management#HrefObject"
@@ -24519,26 +24447,11 @@
         "smithy.api#documentation": "List all email customizations\n\nLists all customizations of an email template\n\n<x-lifecycle class=\"ea\"></x-lifecycle> If Custom languages for Okta Email Templates is enabled, all existing customizations are retrieved, including customizations for additional languages. If disabled, only customizations for Okta-supported languages are returned."
       }
     },
-    "com.okta.management#CreateEmailCustomizationRequestLinksSelf": {
-      "type": "structure",
-      "members": {
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#CreateEmailCustomizationRequestLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#CreateEmailCustomizationRequestLinksSelf"
+          "target": "com.okta.management#HrefObjectSelfLinkInput"
         },
         "template": {
           "target": "com.okta.management#HrefObjectInput"
@@ -24605,47 +24518,11 @@
         "smithy.api#input": {}
       }
     },
-    "com.okta.management#CreateEmailCustomizationResponseLinksSelf": {
-      "type": "structure",
-      "members": {
-        "hints": {
-          "target": "com.okta.management#HrefHints"
-        },
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link name"
-          }
-        },
-        "templated": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the link object's `href` property is a URI template."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The media type of the link. If omitted, it is implicitly `application/json`."
-          }
-        }
-      },
-      "traits": {
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#CreateEmailCustomizationResponseLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#CreateEmailCustomizationResponseLinksSelf"
+          "target": "com.okta.management#HrefObjectSelfLink"
         },
         "template": {
           "target": "com.okta.management#HrefObject"
@@ -24826,47 +24703,11 @@
         "smithy.api#input": {}
       }
     },
-    "com.okta.management#GetEmailCustomizationResponseLinksSelf": {
-      "type": "structure",
-      "members": {
-        "hints": {
-          "target": "com.okta.management#HrefHints"
-        },
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link name"
-          }
-        },
-        "templated": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the link object's `href` property is a URI template."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The media type of the link. If omitted, it is implicitly `application/json`."
-          }
-        }
-      },
-      "traits": {
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#GetEmailCustomizationResponseLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#GetEmailCustomizationResponseLinksSelf"
+          "target": "com.okta.management#HrefObjectSelfLink"
         },
         "template": {
           "target": "com.okta.management#HrefObject"
@@ -24960,26 +24801,11 @@
         "smithy.api#documentation": "Retrieve an email customization\n\nRetrieves an email customization by its unique identifier\n\n<x-lifecycle class=\"ea\"></x-lifecycle> If Custom languages for Okta Email Templates is disabled, requests to retrieve an additional language customization by ID result in a `404 Not Found` error response."
       }
     },
-    "com.okta.management#ReplaceEmailCustomizationRequestLinksSelf": {
-      "type": "structure",
-      "members": {
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#ReplaceEmailCustomizationRequestLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#ReplaceEmailCustomizationRequestLinksSelf"
+          "target": "com.okta.management#HrefObjectSelfLinkInput"
         },
         "template": {
           "target": "com.okta.management#HrefObjectInput"
@@ -25054,47 +24880,11 @@
         "smithy.api#input": {}
       }
     },
-    "com.okta.management#ReplaceEmailCustomizationResponseLinksSelf": {
-      "type": "structure",
-      "members": {
-        "hints": {
-          "target": "com.okta.management#HrefHints"
-        },
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link name"
-          }
-        },
-        "templated": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the link object's `href` property is a URI template."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The media type of the link. If omitted, it is implicitly `application/json`."
-          }
-        }
-      },
-      "traits": {
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#ReplaceEmailCustomizationResponseLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#ReplaceEmailCustomizationResponseLinksSelf"
+          "target": "com.okta.management#HrefObjectSelfLink"
         },
         "template": {
           "target": "com.okta.management#HrefObject"
@@ -26377,47 +26167,11 @@
       },
       "traits": {}
     },
-    "com.okta.management#WellKnownURIObjectResponseLinksSelf": {
-      "type": "structure",
-      "members": {
-        "hints": {
-          "target": "com.okta.management#HrefHints"
-        },
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link name"
-          }
-        },
-        "templated": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the link object's `href` property is a URI template."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The media type of the link. If omitted, it is implicitly `application/json`."
-          }
-        }
-      },
-      "traits": {
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#WellKnownURIObjectResponseLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#WellKnownURIObjectResponseLinksSelf"
+          "target": "com.okta.management#HrefObjectSelfLink"
         }
       },
       "traits": {}
@@ -26457,47 +26211,11 @@
         "smithy.api#documentation": "The well-known URI content in a JSON array of objects format"
       }
     },
-    "com.okta.management#WellKnownURIArrayResponseLinksSelf": {
-      "type": "structure",
-      "members": {
-        "hints": {
-          "target": "com.okta.management#HrefHints"
-        },
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link name"
-          }
-        },
-        "templated": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the link object's `href` property is a URI template."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The media type of the link. If omitted, it is implicitly `application/json`."
-          }
-        }
-      },
-      "traits": {
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#WellKnownURIArrayResponseLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#WellKnownURIArrayResponseLinksSelf"
+          "target": "com.okta.management#HrefObjectSelfLink"
         }
       },
       "traits": {}
@@ -29729,48 +29447,11 @@
         "smithy.api#documentation": "Embedded resources related to the user using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification"
       }
     },
-    "com.okta.management#UserOutputLinksSelf": {
-      "type": "structure",
-      "members": {
-        "hints": {
-          "target": "com.okta.management#HrefHints"
-        },
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link name"
-          }
-        },
-        "templated": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the link object's `href` property is a URI template."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The media type of the link. If omitted, it is implicitly `application/json`."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "URL to the individual user",
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#UserOutputLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#UserOutputLinksSelf",
+          "target": "com.okta.management#HrefObjectSelfLink",
           "traits": {
             "smithy.api#documentation": "URL to the individual user"
           }
@@ -68984,48 +68665,11 @@
         "com.distilled.openapi#additionalProperties": {}
       }
     },
-    "com.okta.management#GetUserResponseLinksSelf": {
-      "type": "structure",
-      "members": {
-        "hints": {
-          "target": "com.okta.management#HrefHints"
-        },
-        "href": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link URI",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Link name"
-          }
-        },
-        "templated": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates whether the link object's `href` property is a URI template."
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The media type of the link. If omitted, it is implicitly `application/json`."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "URL to the individual user",
-        "com.distilled.openapi#additionalProperties": {}
-      }
-    },
     "com.okta.management#GetUserResponseLinks": {
       "type": "structure",
       "members": {
         "self": {
-          "target": "com.okta.management#GetUserResponseLinksSelf",
+          "target": "com.okta.management#HrefObjectSelfLink",
           "traits": {
             "smithy.api#documentation": "URL to the individual user"
           }

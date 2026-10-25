@@ -412,9 +412,10 @@ interface FlatObject {
  * `oneOf`/`anyOf` encountered INSIDE an `allOf` merges its branches'
  * properties as OPTIONAL members — the loosest satisfiable reading of the
  * intersection — rather than dropping them; a top-level union is left to
- * the union conversion path.
+ * the union conversion path. A property declared by several branches gets
+ * their merge (`mergePropertySchemas`); `merge: false` keeps the first.
  */
-const flattenObject = (ctx: Ctx, def: any, depth = 0): FlatObject => {
+const flattenObject = (ctx: Ctx, def: any, depth = 0, merge = true): FlatObject => {
   const out: FlatObject = {
     properties: {},
     required: new Set(),
@@ -455,6 +456,7 @@ const flattenObject = (ctx: Ctx, def: any, depth = 0): FlatObject => {
           if (inUnion) fromUnion.add(k);
           continue;
         }
+        if (!merge) continue;
         // A union branch only contributes optional members, nested ones
         // included — one variant's required fields must not bind the others.
         out.properties[k] = mergePropertySchemas(
@@ -492,9 +494,37 @@ const isMergeableObject = (r: any): boolean =>
   !Array.isArray(r.enum) &&
   (typeOf(r) === "object" || !!r.properties || Array.isArray(r.allOf));
 
-/** Whether two property schemas are the same node or `$ref` the same schema. */
-const sameSchema = (ctx: Ctx, a: any, b: any): boolean =>
-  a === b || (a?.$ref !== undefined && a.$ref === b?.$ref) || deref(ctx, a) === deref(ctx, b);
+/**
+ * Whether two property schemas are the same: one node, `$ref`s to one
+ * schema, or equal schemas apart from their description (Azure specs
+ * re-declare an inline copy of `systemData` next to the base resource's
+ * `$ref`).
+ */
+const sameSchema = (ctx: Ctx, a: any, b: any): boolean => {
+  if (a === b || (a?.$ref !== undefined && a.$ref === b?.$ref)) return true;
+  const ra = deref(ctx, a);
+  const rb = deref(ctx, b);
+  if (ra === rb) return true;
+  if (!ra || !rb || typeof ra !== "object" || typeof rb !== "object") return false;
+  const { description: _da, ...restA } = ra;
+  const { description: _db, ...restB } = rb;
+  return JSON.stringify(restA) === JSON.stringify(restB);
+};
+
+/**
+ * Whether object schema `a` already declares every property and
+ * requirement of `b`, so merging them adds nothing (Okta's
+ * `HrefObjectSelfLink` is `allOf: [HrefObject]`).
+ */
+const coversObject = (ctx: Ctx, a: any, b: any): boolean => {
+  const fa = flattenObject(ctx, a, 0, false);
+  const fb = flattenObject(ctx, b, 0, false);
+  for (const [k, v] of Object.entries(fb.properties)) {
+    if (!(k in fa.properties) || !sameSchema(ctx, fa.properties[k], v)) return false;
+  }
+  for (const k of fb.required) if (!fa.required.has(k)) return false;
+  return fb.additionalProperties === undefined || fa.additionalProperties !== undefined;
+};
 
 /**
  * Combine two schemas for the same property seen in different `allOf`
@@ -518,23 +548,62 @@ const mergePropertySchemas = (ctx: Ctx, a: any, b: any, aLoose = false, bLoose =
       : typeof rb.description === "string"
         ? { description: rb.description }
         : {};
+  // dirExcluded reads these off the member node, so the merged node keeps
+  // the first declaration's (Azure's base `systemData` is `readOnly`).
+  const access = {
+    ...(a?.readOnly === true || ra.readOnly === true ? { readOnly: true } : {}),
+    ...(a?.writeOnly === true || ra.writeOnly === true ? { writeOnly: true } : {}),
+  };
   if (typeOf(ra) === "array" && typeOf(rb) === "array" && ra.items && rb.items) {
-    return {
-      type: "array",
-      items: mergePropertySchemas(ctx, ra.items, rb.items, aLoose, bLoose),
-      ...description,
-      ...nullable,
-    };
+    const items = mergePropertySchemas(ctx, ra.items, rb.items, aLoose, bLoose);
+    // Same items: keep the declared (possibly named) list.
+    if (items === ra.items) return keepWith(ctx, a, {}, description);
+    if (items === rb.items && !bLoose) return keepWith(ctx, b, access, description);
+    return { type: "array", items, ...description, ...nullable, ...access };
   }
   if (isMergeableObject(ra) && isMergeableObject(rb)) {
-    return {
+    // One side already has everything: keep it, and its named shape. A
+    // union-branch side never covers, since its `required` must not bind.
+    if (!aLoose && coversObject(ctx, a, b)) return keepWith(ctx, a, {}, description);
+    if (!bLoose && coversObject(ctx, b, a)) return keepWith(ctx, b, access, description);
+    // Extend an earlier merge in place: nesting one `allOf` level per
+    // declaration would pass MAX_SCHEMA_DEPTH, and flattenObject would drop
+    // the deepest declarations (WorkOS declares `EventSchema.context` 129 times).
+    const left = mergedNodes.has(a) && !aLoose ? a.allOf : [aLoose ? optionalize(ctx, a) : a];
+    const node = {
       type: "object",
-      allOf: [aLoose ? optionalize(ctx, a) : a, bLoose ? optionalize(ctx, b) : b],
+      allOf: [...left, bLoose ? optionalize(ctx, b) : b],
       ...description,
       ...nullable,
+      ...access,
     };
+    mergedNodes.add(node);
+    return node;
   }
   return a;
+};
+
+/** Object nodes mergePropertySchemas built (as opposed to spec nodes). */
+const mergedNodes = new WeakSet<object>();
+
+/**
+ * `def` kept in place of a merge, with the merge's `readOnly`/`writeOnly`
+ * and, when it has none, description added as siblings (a `$ref` keeps its
+ * named shape).
+ */
+const keepWith = (
+  ctx: Ctx,
+  def: any,
+  access: { readOnly?: boolean; writeOnly?: boolean },
+  description: { description?: string },
+): any => {
+  const r = deref(ctx, def);
+  const needsDoc =
+    description.description !== undefined &&
+    typeof def?.description !== "string" &&
+    typeof r?.description !== "string";
+  if (Object.keys(access).length === 0 && !needsDoc) return def;
+  return { ...def, ...access, ...(needsDoc ? description : {}) };
 };
 
 /**
