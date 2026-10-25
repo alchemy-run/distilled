@@ -458,6 +458,23 @@ credential_process = echo nope
       "could not be found",
     );
   });
+
+  test("credential_process output that is JSON but not an object fails typed", async () => {
+    writeConfig(`
+[profile null]
+credential_process = echo null
+
+[profile number]
+credential_process = echo 42
+`);
+    for (const profile of ["null", "number"]) {
+      const error = await runFail(processSource({ profile }));
+      expect(error).toBeInstanceOf(CredentialSourceError);
+      expect(error.message).toBe(
+        `Profile ${profile} credential_process did not return a JSON object.`,
+      );
+    }
+  });
 });
 
 describe("fromTokenFile", () => {
