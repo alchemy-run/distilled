@@ -71,7 +71,7 @@ export const valueRefs = (
 };
 
 const isOperation = (init: Node, code: string) =>
-  /\bAPI\.make(Paginated)?\(/.test(code.slice(init.start, init.end));
+  /\bAPI\.make(Paginated|Stream)?\(/.test(code.slice(init.start, init.end));
 
 export const privatizeSchemas = (
   code: string,

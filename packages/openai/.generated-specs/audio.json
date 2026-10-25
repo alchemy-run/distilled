@@ -1,0 +1,2520 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.audio#CreateSpeechRequestModelCase1": {
+      "type": "enum",
+      "members": {
+        "TTS_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tts-1"
+          }
+        },
+        "TTS_1_HD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tts-1-hd"
+          }
+        },
+        "GPT_4O_MINI_TTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpt-4o-mini-tts"
+          }
+        },
+        "GPT_4O_MINI_TTS_2025_12_15": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpt-4o-mini-tts-2025-12-15"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateSpeechRequestModel": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.audio#CreateSpeechRequestModelCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One of the available [TTS models](https://developers.openai.com/api/docs/guides/text-to-speech): `tts-1`, `tts-1-hd`, `gpt-4o-mini-tts`, or `gpt-4o-mini-tts-2025-12-15`.\n"
+      }
+    },
+    "com.openai.audio#VoiceIdsShared": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.audio#VoiceIdsSharedCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#VoiceIdsSharedCase1": {
+      "type": "enum",
+      "members": {
+        "ALLOY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "alloy"
+          }
+        },
+        "ASH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ash"
+          }
+        },
+        "BALLAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ballad"
+          }
+        },
+        "CORAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "coral"
+          }
+        },
+        "ECHO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "echo"
+          }
+        },
+        "SAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sage"
+          }
+        },
+        "SHIMMER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shimmer"
+          }
+        },
+        "VERSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verse"
+          }
+        },
+        "MARIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "marin"
+          }
+        },
+        "CEDAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cedar"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateSpeechRequestVoiceCase0Case1": {
+      "type": "enum",
+      "members": {
+        "FABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fable"
+          }
+        },
+        "ONYX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "onyx"
+          }
+        },
+        "NOVA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nova"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateSpeechRequestVoiceCase0": {
+      "type": "union",
+      "members": {
+        "VoiceIdsShared": {
+          "target": "com.openai.audio#VoiceIdsShared"
+        },
+        "Case1": {
+          "target": "com.openai.audio#CreateSpeechRequestVoiceCase0Case1"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateSpeechRequestVoiceCase1": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The custom voice ID, e.g. `voice_1234`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom voice reference."
+      }
+    },
+    "com.openai.audio#CreateSpeechRequestVoice": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.audio#CreateSpeechRequestVoiceCase0"
+        },
+        "Case1": {
+          "target": "com.openai.audio#CreateSpeechRequestVoiceCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The voice to use when generating the audio. Supported built-in voices are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `onyx`, `nova`, `sage`, `shimmer`, `verse`, `marin`, and `cedar`. You may also provide a custom voice object with an `id`, for example `{ \"id\": \"voice_1234\" }`. Previews of the voices are available in the [Text to speech guide](https://developers.openai.com/api/docs/guides/text-to-speech#voice-options). Custom voices must be created from audio samples. Voices created from text prompts are supported only in Live."
+      }
+    },
+    "com.openai.audio#CreateSpeechRequestResponseFormat": {
+      "type": "enum",
+      "members": {
+        "MP3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mp3"
+          }
+        },
+        "OPUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "opus"
+          }
+        },
+        "AAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aac"
+          }
+        },
+        "FLAC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flac"
+          }
+        },
+        "WAV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wav"
+          }
+        },
+        "PCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pcm"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."
+      }
+    },
+    "com.openai.audio#CreateSpeechRequestStreamFormat": {
+      "type": "enum",
+      "members": {
+        "SSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sse"
+          }
+        },
+        "AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The format to stream the audio in. Supported formats are `sse` and `audio`. `sse` is not supported for `tts-1` or `tts-1-hd`."
+      }
+    },
+    "com.openai.audio#CreateSpeechRequest": {
+      "type": "structure",
+      "members": {
+        "model": {
+          "target": "com.openai.audio#CreateSpeechRequestModel",
+          "traits": {
+            "smithy.api#documentation": "One of the available [TTS models](https://developers.openai.com/api/docs/guides/text-to-speech): `tts-1`, `tts-1-hd`, `gpt-4o-mini-tts`, or `gpt-4o-mini-tts-2025-12-15`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text to generate audio for. The maximum length is 4096 characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "instructions": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Control the voice of your generated audio with additional instructions. Does not work with `tts-1` or `tts-1-hd`."
+          }
+        },
+        "voice": {
+          "target": "com.openai.audio#CreateSpeechRequestVoice",
+          "traits": {
+            "smithy.api#documentation": "The voice to use when generating the audio. Supported built-in voices are `alloy`, `ash`, `ballad`, `coral`, `echo`, `fable`, `onyx`, `nova`, `sage`, `shimmer`, `verse`, `marin`, and `cedar`. You may also provide a custom voice object with an `id`, for example `{ \"id\": \"voice_1234\" }`. Previews of the voices are available in the [Text to speech guide](https://developers.openai.com/api/docs/guides/text-to-speech#voice-options). Custom voices must be created from audio samples. Voices created from text prompts are supported only in Live.",
+            "smithy.api#required": {}
+          }
+        },
+        "response_format": {
+          "target": "com.openai.audio#CreateSpeechRequestResponseFormat",
+          "traits": {
+            "smithy.api#documentation": "The format to audio in. Supported formats are `mp3`, `opus`, `aac`, `flac`, `wav`, and `pcm`."
+          }
+        },
+        "speed": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The speed of the generated audio. Select a value from `0.25` to `4.0`. `1.0` is the default."
+          }
+        },
+        "stream_format": {
+          "target": "com.openai.audio#CreateSpeechRequestStreamFormat",
+          "traits": {
+            "smithy.api#documentation": "The format to stream the audio in. Supported formats are `sse` and `audio`. `sse` is not supported for `tts-1` or `tts-1-hd`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audio#CreateSpeechResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.openai.audio#CreateSpeech": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#CreateSpeechRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#CreateSpeechResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/audio/speech",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create speech\n\nGenerates audio from the input text.\n\nReturns the audio file content, or a stream of audio events."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionRequestModelCase1": {
+      "type": "enum",
+      "members": {
+        "WHISPER_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whisper-1"
+          }
+        },
+        "GPT_TRANSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpt-transcribe"
+          }
+        },
+        "GPT_4O_TRANSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpt-4o-transcribe"
+          }
+        },
+        "GPT_4O_MINI_TRANSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpt-4o-mini-transcribe"
+          }
+        },
+        "GPT_4O_MINI_TRANSCRIBE_2025_12_15": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpt-4o-mini-transcribe-2025-12-15"
+          }
+        },
+        "GPT_4O_TRANSCRIBE_DIARIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpt-4o-transcribe-diarize"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranscriptionRequestModel": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.audio#CreateTranscriptionRequestModelCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ID of the model to use. The options are `gpt-transcribe`, `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-mini-transcribe-2025-12-15`, `whisper-1` (which is powered by our open source Whisper V2 model), and `gpt-4o-transcribe-diarize`.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionRequestLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Possible languages of the input audio, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format. Supported by `gpt-transcribe`.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionRequestKeywordsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Words or phrases to guide transcription of the input audio. Supported by `gpt-transcribe`.\n"
+      }
+    },
+    "com.openai.audio#AudioResponseFormat": {
+      "type": "enum",
+      "members": {
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        },
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        },
+        "SRT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "srt"
+          }
+        },
+        "VERBOSE_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verbose_json"
+          }
+        },
+        "VTT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vtt"
+          }
+        },
+        "DIARIZED_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "diarized_json"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, `vtt`, or `diarized_json`. For `gpt-4o-transcribe` and `gpt-4o-mini-transcribe`, the only supported format is `json`. For `gpt-4o-transcribe-diarize`, the supported formats are `json`, `text`, and `diarized_json`, with `diarized_json` required to receive speaker annotations.\n"
+      }
+    },
+    "com.openai.audio#TranscriptionInclude": {
+      "type": "enum",
+      "members": {
+        "LOGPROBS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "logprobs"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranscriptionRequestIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#TranscriptionInclude"
+      },
+      "traits": {
+        "smithy.api#documentation": "Additional information to include in the transcription response.\n`logprobs` will return the log probabilities of the tokens in the\nresponse to understand the model's confidence in the transcription.\n`logprobs` only works with response_format set to `json` and only with\nthe models `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `gpt-4o-mini-transcribe-2025-12-15`. This field is not supported when using `gpt-4o-transcribe-diarize`.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionRequestTimestampGranularitiesItem": {
+      "type": "enum",
+      "members": {
+        "WORD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "word"
+          }
+        },
+        "SEGMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "segment"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranscriptionRequestTimestampGranularitiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#CreateTranscriptionRequestTimestampGranularitiesItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.\nThis option is not available for `gpt-4o-transcribe-diarize`.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionRequestChunkingStrategyCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Automatically set chunking parameters based on the audio. Must be set to `\"auto\"`.\n"
+      }
+    },
+    "com.openai.audio#VadConfig": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audio#VadConfigType",
+          "traits": {
+            "smithy.api#documentation": "Must be set to `server_vad` to enable manual chunking using server side VAD.",
+            "smithy.api#required": {}
+          }
+        },
+        "prefix_padding_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Amount of audio to include before the VAD detected speech (in \nmilliseconds).\n"
+          }
+        },
+        "silence_duration_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Duration of silence to detect speech stop (in milliseconds).\nWith shorter values the model will respond more quickly, \nbut may jump in on short pauses from the user.\n"
+          }
+        },
+        "threshold": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sensitivity threshold (0.0 to 1.0) for voice activity detection. A \nhigher threshold will require louder audio to activate the model, and \nthus might perform better in noisy environments.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#VadConfigType": {
+      "type": "enum",
+      "members": {
+        "SERVER_VAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "server_vad"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Must be set to `server_vad` to enable manual chunking using server side VAD."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionRequestChunkingStrategy": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.audio#CreateTranscriptionRequestChunkingStrategyCase0"
+        },
+        "VadConfig": {
+          "target": "com.openai.audio#VadConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls how the audio is cut into chunks. When set to `\"auto\"`, the server first normalizes loudness and then uses voice activity detection (VAD) to choose boundaries. `server_vad` object can be provided to tweak VAD detection parameters manually. If unset, the audio is transcribed as a single block. Required when using `gpt-4o-transcribe-diarize` for inputs longer than 30 seconds. "
+      }
+    },
+    "com.openai.audio#CreateTranscriptionRequestKnownSpeakerNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional list of speaker names that correspond to the audio samples provided in `known_speaker_references[]`. Each entry should be a short identifier (for example `customer` or `agent`). Up to 4 speakers are supported.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionRequestKnownSpeakerReferencesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional list of audio samples (as [data URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)) that contain known speaker references matching `known_speaker_names[]`. Each sample must be between 2 and 10 seconds, and can use any of the same input audio formats supported by `file`.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionRequest": {
+      "type": "structure",
+      "members": {
+        "file": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.\nThe request must include enough format metadata for the file to be identified. We recommend an extension-bearing filename and an appropriate content type.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "com.openai.audio#CreateTranscriptionRequestModel",
+          "traits": {
+            "smithy.api#documentation": "ID of the model to use. The options are `gpt-transcribe`, `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-mini-transcribe-2025-12-15`, `whisper-1` (which is powered by our open source Whisper V2 model), and `gpt-4o-transcribe-diarize`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency.\n"
+          }
+        },
+        "languages": {
+          "target": "com.openai.audio#CreateTranscriptionRequestLanguagesList",
+          "traits": {
+            "smithy.api#documentation": "Possible languages of the input audio, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format. Supported by `gpt-transcribe`.\n"
+          }
+        },
+        "keywords": {
+          "target": "com.openai.audio#CreateTranscriptionRequestKeywordsList",
+          "traits": {
+            "smithy.api#documentation": "Words or phrases to guide transcription of the input audio. Supported by `gpt-transcribe`.\n"
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://developers.openai.com/api/docs/guides/speech-to-text#prompting) should match the audio language. This field is not supported when using `gpt-4o-transcribe-diarize`.\n"
+          }
+        },
+        "response_format": {
+          "target": "com.openai.audio#AudioResponseFormat"
+        },
+        "temperature": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.\n"
+          }
+        },
+        "include": {
+          "target": "com.openai.audio#CreateTranscriptionRequestIncludeList",
+          "traits": {
+            "smithy.api#documentation": "Additional information to include in the transcription response.\n`logprobs` will return the log probabilities of the tokens in the\nresponse to understand the model's confidence in the transcription.\n`logprobs` only works with response_format set to `json` and only with\nthe models `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, and `gpt-4o-mini-transcribe-2025-12-15`. This field is not supported when using `gpt-4o-transcribe-diarize`.\n"
+          }
+        },
+        "timestamp_granularities": {
+          "target": "com.openai.audio#CreateTranscriptionRequestTimestampGranularitiesList",
+          "traits": {
+            "smithy.api#documentation": "The timestamp granularities to populate for this transcription. `response_format` must be set `verbose_json` to use timestamp granularities. Either or both of these options are supported: `word`, or `segment`. Note: There is no additional latency for segment timestamps, but generating word timestamps incurs additional latency.\nThis option is not available for `gpt-4o-transcribe-diarize`.\n"
+          }
+        },
+        "stream": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "chunking_strategy": {
+          "target": "com.openai.audio#CreateTranscriptionRequestChunkingStrategy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "known_speaker_names": {
+          "target": "com.openai.audio#CreateTranscriptionRequestKnownSpeakerNamesList",
+          "traits": {
+            "smithy.api#documentation": "Optional list of speaker names that correspond to the audio samples provided in `known_speaker_references[]`. Each entry should be a short identifier (for example `customer` or `agent`). Up to 4 speakers are supported.\n"
+          }
+        },
+        "known_speaker_references": {
+          "target": "com.openai.audio#CreateTranscriptionRequestKnownSpeakerReferencesList",
+          "traits": {
+            "smithy.api#documentation": "Optional list of audio samples (as [data URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)) that contain known speaker references matching `known_speaker_names[]`. Each sample must be between 2 and 10 seconds, and can use any of the same input audio formats supported by `file`.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseJson": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The transcribed text.",
+            "smithy.api#required": {}
+          }
+        },
+        "languages": {
+          "target": "com.openai.audio#CreateTranscriptionResponseJsonLanguagesList",
+          "traits": {
+            "smithy.api#documentation": "The languages detected in the audio. Returned by `gpt-transcribe`. An empty array indicates that no language could be reliably detected.\n"
+          }
+        },
+        "logprobs": {
+          "target": "com.openai.audio#CreateTranscriptionResponseJsonLogprobsList",
+          "traits": {
+            "smithy.api#documentation": "The log probabilities of the tokens in the transcription. Only returned with the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` if `logprobs` is added to the `include` array.\n"
+          }
+        },
+        "usage": {
+          "target": "com.openai.audio#CreateTranscriptionResponseJsonUsage",
+          "traits": {
+            "smithy.api#documentation": "Token usage statistics for the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a transcription response returned by model, based on the provided input."
+      }
+    },
+    "com.openai.audio#TranscriptionLanguage": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The code of a language detected in the audio.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A language detected in transcribed audio."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseJsonLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#TranscriptionLanguage"
+      },
+      "traits": {
+        "smithy.api#documentation": "The languages detected in the audio. Returned by `gpt-transcribe`. An empty array indicates that no language could be reliably detected.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseJsonLogprobsItemBytesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "The bytes of the token."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseJsonLogprobsItem": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token in the transcription."
+          }
+        },
+        "logprob": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The log probability of the token."
+          }
+        },
+        "bytes": {
+          "target": "com.openai.audio#CreateTranscriptionResponseJsonLogprobsItemBytesList",
+          "traits": {
+            "smithy.api#documentation": "The bytes of the token."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranscriptionResponseJsonLogprobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#CreateTranscriptionResponseJsonLogprobsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The log probabilities of the tokens in the transcription. Only returned with the models `gpt-4o-transcribe` and `gpt-4o-mini-transcribe` if `logprobs` is added to the `include` array.\n"
+      }
+    },
+    "com.openai.audio#TranscriptTextUsageTokens": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audio#TranscriptTextUsageTokensType",
+          "traits": {
+            "smithy.api#documentation": "The type of the usage object. Always `tokens` for this variant.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of input tokens billed for this request.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_token_details": {
+          "target": "com.openai.audio#TranscriptTextUsageTokensInputTokenDetails",
+          "traits": {
+            "smithy.api#documentation": "Details about the input tokens billed for this request."
+          }
+        },
+        "output_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of output tokens generated.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of tokens used (input + output).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Usage statistics for models billed by token usage."
+      }
+    },
+    "com.openai.audio#TranscriptTextUsageTokensType": {
+      "type": "enum",
+      "members": {
+        "TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tokens"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the usage object. Always `tokens` for this variant."
+      }
+    },
+    "com.openai.audio#TranscriptTextUsageTokensInputTokenDetails": {
+      "type": "structure",
+      "members": {
+        "text_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of text tokens billed for this request."
+          }
+        },
+        "audio_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of audio tokens billed for this request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details about the input tokens billed for this request."
+      }
+    },
+    "com.openai.audio#TranscriptTextUsageDuration": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audio#TranscriptTextUsageDurationType",
+          "traits": {
+            "smithy.api#documentation": "The type of the usage object. Always `duration` for this variant.",
+            "smithy.api#required": {}
+          }
+        },
+        "seconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Duration of the input audio in seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Usage statistics for models billed by audio input duration."
+      }
+    },
+    "com.openai.audio#TranscriptTextUsageDurationType": {
+      "type": "enum",
+      "members": {
+        "DURATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duration"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the usage object. Always `duration` for this variant."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseJsonUsage": {
+      "type": "union",
+      "members": {
+        "TranscriptTextUsageTokens": {
+          "target": "com.openai.audio#TranscriptTextUsageTokens"
+        },
+        "TranscriptTextUsageDuration": {
+          "target": "com.openai.audio#TranscriptTextUsageDuration"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Token usage statistics for the request."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseDiarizedJson": {
+      "type": "structure",
+      "members": {
+        "task": {
+          "target": "com.openai.audio#CreateTranscriptionResponseDiarizedJsonTask",
+          "traits": {
+            "smithy.api#documentation": "The type of task that was run. Always `transcribe`.",
+            "smithy.api#required": {}
+          }
+        },
+        "duration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Duration of the input audio in seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The concatenated transcript text for the entire audio input.",
+            "smithy.api#required": {}
+          }
+        },
+        "segments": {
+          "target": "com.openai.audio#CreateTranscriptionResponseDiarizedJsonSegmentsList",
+          "traits": {
+            "smithy.api#documentation": "Segments of the transcript annotated with timestamps and speaker labels.",
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "com.openai.audio#CreateTranscriptionResponseDiarizedJsonUsage",
+          "traits": {
+            "smithy.api#documentation": "Token or duration usage statistics for the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a diarized transcription response returned by the model, including the combined transcript and speaker-segment annotations.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseDiarizedJsonTask": {
+      "type": "enum",
+      "members": {
+        "TRANSCRIBE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcribe"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of task that was run. Always `transcribe`."
+      }
+    },
+    "com.openai.audio#TranscriptionDiarizedSegment": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audio#TranscriptionDiarizedSegmentType",
+          "traits": {
+            "smithy.api#documentation": "The type of the segment. Always `transcript.text.segment`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the segment.",
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Start timestamp of the segment in seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "End timestamp of the segment in seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transcript text for this segment.",
+            "smithy.api#required": {}
+          }
+        },
+        "speaker": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Speaker label for this segment. When known speakers are provided, the label matches `known_speaker_names[]`. Otherwise speakers are labeled sequentially using capital letters (`A`, `B`, ...).\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A segment of diarized transcript text with speaker metadata."
+      }
+    },
+    "com.openai.audio#TranscriptionDiarizedSegmentType": {
+      "type": "enum",
+      "members": {
+        "TRANSCRIPT_TEXT_SEGMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcript.text.segment"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the segment. Always `transcript.text.segment`.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseDiarizedJsonSegmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#TranscriptionDiarizedSegment"
+      },
+      "traits": {
+        "smithy.api#documentation": "Segments of the transcript annotated with timestamps and speaker labels."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseDiarizedJsonUsage": {
+      "type": "union",
+      "members": {
+        "TranscriptTextUsageTokens": {
+          "target": "com.openai.audio#TranscriptTextUsageTokens"
+        },
+        "TranscriptTextUsageDuration": {
+          "target": "com.openai.audio#TranscriptTextUsageDuration"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Token or duration usage statistics for the request."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseVerboseJson": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The language of the input audio.",
+            "smithy.api#required": {}
+          }
+        },
+        "duration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The duration of the input audio.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The transcribed text.",
+            "smithy.api#required": {}
+          }
+        },
+        "words": {
+          "target": "com.openai.audio#CreateTranscriptionResponseVerboseJsonWordsList",
+          "traits": {
+            "smithy.api#documentation": "Extracted words and their corresponding timestamps."
+          }
+        },
+        "segments": {
+          "target": "com.openai.audio#CreateTranscriptionResponseVerboseJsonSegmentsList",
+          "traits": {
+            "smithy.api#documentation": "Segments of the transcribed text and their corresponding details."
+          }
+        },
+        "usage": {
+          "target": "com.openai.audio#TranscriptTextUsageDuration"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a verbose json transcription response returned by model, based on the provided input."
+      }
+    },
+    "com.openai.audio#TranscriptionWord": {
+      "type": "structure",
+      "members": {
+        "word": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text content of the word.",
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Start time of the word in seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "End time of the word in seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranscriptionResponseVerboseJsonWordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#TranscriptionWord"
+      },
+      "traits": {
+        "smithy.api#documentation": "Extracted words and their corresponding timestamps."
+      }
+    },
+    "com.openai.audio#TranscriptionSegment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier of the segment.",
+            "smithy.api#required": {}
+          }
+        },
+        "seek": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seek offset of the segment.",
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Start time of the segment in seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "End time of the segment in seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text content of the segment.",
+            "smithy.api#required": {}
+          }
+        },
+        "tokens": {
+          "target": "com.openai.audio#TranscriptionSegmentTokensList",
+          "traits": {
+            "smithy.api#documentation": "Array of token IDs for the text content.",
+            "smithy.api#required": {}
+          }
+        },
+        "temperature": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Temperature parameter used for generating the segment.",
+            "smithy.api#required": {}
+          }
+        },
+        "avg_logprob": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Average logprob of the segment. If the value is lower than -1, consider the logprobs failed.",
+            "smithy.api#required": {}
+          }
+        },
+        "compression_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Compression ratio of the segment. If the value is greater than 2.4, consider the compression failed.",
+            "smithy.api#required": {}
+          }
+        },
+        "no_speech_prob": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#TranscriptionSegmentTokensList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of token IDs for the text content."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseVerboseJsonSegmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#TranscriptionSegment"
+      },
+      "traits": {
+        "smithy.api#documentation": "Segments of the transcribed text and their corresponding details."
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseBody": {
+      "type": "union",
+      "members": {
+        "CreateTranscriptionResponseJson": {
+          "target": "com.openai.audio#CreateTranscriptionResponseJson"
+        },
+        "CreateTranscriptionResponseDiarizedJson": {
+          "target": "com.openai.audio#CreateTranscriptionResponseDiarizedJson"
+        },
+        "CreateTranscriptionResponseVerboseJson": {
+          "target": "com.openai.audio#CreateTranscriptionResponseVerboseJson"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.openai.audio#CreateTranscriptionResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.openai.audio#CreateTranscription": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#CreateTranscriptionRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#CreateTranscriptionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#Forbidden"
+        },
+        {
+          "target": "com.openai.audio#PayloadTooLarge"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/audio/transcriptions",
+          "code": 200,
+          "contentType": "multipart"
+        },
+        "smithy.api#documentation": "Create transcription\n\nTranscribes audio into the input language.\n\nReturns a transcription object in `json`, `diarized_json`, or `verbose_json`\nformat, plain text in `text`, `srt`, or `vtt` format, or a stream of\ntranscript events. Supported formats depend on the model.",
+        "com.distilled.openapi#contentType": "multipart"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionResponseStreamEvent": {
+      "type": "union",
+      "members": {
+        "TranscriptTextSegmentEvent": {
+          "target": "com.openai.audio#TranscriptTextSegmentEvent"
+        },
+        "TranscriptTextDeltaEvent": {
+          "target": "com.openai.audio#TranscriptTextDeltaEvent"
+        },
+        "TranscriptTextDoneEvent": {
+          "target": "com.openai.audio#TranscriptTextDoneEvent"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#TranscriptTextSegmentEvent": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audio#TranscriptTextSegmentEventType",
+          "traits": {
+            "smithy.api#documentation": "The type of the event. Always `transcript.text.segment`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the segment.",
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Start timestamp of the segment in seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "End timestamp of the segment in seconds.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Transcript text for this segment.",
+            "smithy.api#required": {}
+          }
+        },
+        "speaker": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Speaker label for this segment.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Emitted when a diarized transcription returns a completed segment with speaker information. Only emitted when you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with `stream` set to `true` and `response_format` set to `diarized_json`.\n"
+      }
+    },
+    "com.openai.audio#TranscriptTextSegmentEventType": {
+      "type": "enum",
+      "members": {
+        "TRANSCRIPT_TEXT_SEGMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcript.text.segment"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the event. Always `transcript.text.segment`."
+      }
+    },
+    "com.openai.audio#TranscriptTextDeltaEvent": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audio#TranscriptTextDeltaEventType",
+          "traits": {
+            "smithy.api#documentation": "The type of the event. Always `transcript.text.delta`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "delta": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text delta that was additionally transcribed.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "logprobs": {
+          "target": "com.openai.audio#TranscriptTextDeltaEventLogprobsList",
+          "traits": {
+            "smithy.api#documentation": "The log probabilities of the delta. Only included if you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `include[]` parameter set to `logprobs`.\n"
+          }
+        },
+        "segment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the diarized segment that this delta belongs to. Only present when using `gpt-4o-transcribe-diarize`.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Emitted when there is an additional text delta. This is also the first event emitted when the transcription starts. Only emitted when you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `Stream` parameter set to `true`."
+      }
+    },
+    "com.openai.audio#TranscriptTextDeltaEventType": {
+      "type": "enum",
+      "members": {
+        "TRANSCRIPT_TEXT_DELTA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcript.text.delta"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the event. Always `transcript.text.delta`.\n"
+      }
+    },
+    "com.openai.audio#TranscriptTextDeltaEventLogprobsItemBytesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The bytes that were used to generate the log probability.\n"
+      }
+    },
+    "com.openai.audio#TranscriptTextDeltaEventLogprobsItem": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token that was used to generate the log probability.\n"
+          }
+        },
+        "logprob": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The log probability of the token.\n"
+          }
+        },
+        "bytes": {
+          "target": "com.openai.audio#TranscriptTextDeltaEventLogprobsItemBytesList",
+          "traits": {
+            "smithy.api#documentation": "The bytes that were used to generate the log probability.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#TranscriptTextDeltaEventLogprobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#TranscriptTextDeltaEventLogprobsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The log probabilities of the delta. Only included if you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `include[]` parameter set to `logprobs`.\n"
+      }
+    },
+    "com.openai.audio#TranscriptTextDoneEvent": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audio#TranscriptTextDoneEventType",
+          "traits": {
+            "smithy.api#documentation": "The type of the event. Always `transcript.text.done`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text that was transcribed.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "languages": {
+          "target": "com.openai.audio#TranscriptTextDoneEventLanguagesList",
+          "traits": {
+            "smithy.api#documentation": "The languages detected in the audio. Returned by `gpt-transcribe`. An empty array indicates that no language could be reliably detected.\n"
+          }
+        },
+        "logprobs": {
+          "target": "com.openai.audio#TranscriptTextDoneEventLogprobsList",
+          "traits": {
+            "smithy.api#documentation": "The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `include[]` parameter set to `logprobs`.\n"
+          }
+        },
+        "usage": {
+          "target": "com.openai.audio#TranscriptTextUsageTokens"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Emitted when the transcription is complete. Contains the complete transcription text. Only emitted when you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `Stream` parameter set to `true`."
+      }
+    },
+    "com.openai.audio#TranscriptTextDoneEventType": {
+      "type": "enum",
+      "members": {
+        "TRANSCRIPT_TEXT_DONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transcript.text.done"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the event. Always `transcript.text.done`.\n"
+      }
+    },
+    "com.openai.audio#TranscriptTextDoneEventLanguagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#TranscriptionLanguage"
+      },
+      "traits": {
+        "smithy.api#documentation": "The languages detected in the audio. Returned by `gpt-transcribe`. An empty array indicates that no language could be reliably detected.\n"
+      }
+    },
+    "com.openai.audio#TranscriptTextDoneEventLogprobsItemBytesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "The bytes that were used to generate the log probability.\n"
+      }
+    },
+    "com.openai.audio#TranscriptTextDoneEventLogprobsItem": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token that was used to generate the log probability.\n"
+          }
+        },
+        "logprob": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The log probability of the token.\n"
+          }
+        },
+        "bytes": {
+          "target": "com.openai.audio#TranscriptTextDoneEventLogprobsItemBytesList",
+          "traits": {
+            "smithy.api#documentation": "The bytes that were used to generate the log probability.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#TranscriptTextDoneEventLogprobsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#TranscriptTextDoneEventLogprobsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `include[]` parameter set to `logprobs`.\n"
+      }
+    },
+    "com.openai.audio#CreateTranscriptionStreamResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.openai.audio#CreateTranscriptionResponseStreamEvent",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.openai.audio#CreateTranscriptionStream": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#CreateTranscriptionRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#CreateTranscriptionStreamResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#Forbidden"
+        },
+        {
+          "target": "com.openai.audio#PayloadTooLarge"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/audio/transcriptions",
+          "code": 200,
+          "contentType": "multipart"
+        },
+        "smithy.api#documentation": "Create transcription\n\nTranscribes audio into the input language.\n\nReturns a transcription object in `json`, `diarized_json`, or `verbose_json`\nformat, plain text in `text`, `srt`, or `vtt` format, or a stream of\ntranscript events. Supported formats depend on the model.",
+        "com.distilled.openapi#contentType": "multipart",
+        "com.distilled#eventStream": {
+          "requestFlag": "stream"
+        }
+      }
+    },
+    "com.openai.audio#CreateTranslationRequestModelCase1": {
+      "type": "enum",
+      "members": {
+        "WHISPER_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "whisper-1"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranslationRequestModel": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.audio#CreateTranslationRequestModelCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ID of the model to use. Only `whisper-1` (which is powered by our open source Whisper V2 model) is currently available.\n"
+      }
+    },
+    "com.openai.audio#CreateTranslationRequestResponseFormat": {
+      "type": "enum",
+      "members": {
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        },
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        },
+        "SRT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "srt"
+          }
+        },
+        "VERBOSE_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "verbose_json"
+          }
+        },
+        "VTT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vtt"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"
+      }
+    },
+    "com.openai.audio#CreateTranslationRequest": {
+      "type": "structure",
+      "members": {
+        "file": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm. The request must include enough format metadata for the file to be identified. We recommend an extension-bearing filename and an appropriate content type.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "com.openai.audio#CreateTranslationRequestModel",
+          "traits": {
+            "smithy.api#documentation": "ID of the model to use. Only `whisper-1` (which is powered by our open source Whisper V2 model) is currently available.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://developers.openai.com/api/docs/guides/speech-to-text#prompting) should be in English.\n"
+          }
+        },
+        "response_format": {
+          "target": "com.openai.audio#CreateTranslationRequestResponseFormat",
+          "traits": {
+            "smithy.api#documentation": "The format of the output, in one of these options: `json`, `text`, `srt`, `verbose_json`, or `vtt`.\n"
+          }
+        },
+        "temperature": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audio#CreateTranslationResponseJson": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranslationResponseVerboseJson": {
+      "type": "structure",
+      "members": {
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The language of the output translation (always `english`).",
+            "smithy.api#required": {}
+          }
+        },
+        "duration": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The duration of the input audio.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The translated text.",
+            "smithy.api#required": {}
+          }
+        },
+        "segments": {
+          "target": "com.openai.audio#CreateTranslationResponseVerboseJsonSegmentsList",
+          "traits": {
+            "smithy.api#documentation": "Segments of the translated text and their corresponding details."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranslationResponseVerboseJsonSegmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#TranscriptionSegment"
+      },
+      "traits": {
+        "smithy.api#documentation": "Segments of the translated text and their corresponding details."
+      }
+    },
+    "com.openai.audio#CreateTranslationResponseBody": {
+      "type": "union",
+      "members": {
+        "CreateTranslationResponseJson": {
+          "target": "com.openai.audio#CreateTranslationResponseJson"
+        },
+        "CreateTranslationResponseVerboseJson": {
+          "target": "com.openai.audio#CreateTranslationResponseVerboseJson"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateTranslationResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.openai.audio#CreateTranslationResponseBody",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.openai.audio#CreateTranslation": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#CreateTranslationRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#CreateTranslationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#Forbidden"
+        },
+        {
+          "target": "com.openai.audio#PayloadTooLarge"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/audio/translations",
+          "code": 200,
+          "contentType": "multipart"
+        },
+        "smithy.api#documentation": "Create translation\n\nTranslates audio into English.",
+        "com.distilled.openapi#contentType": "multipart"
+      }
+    },
+    "com.openai.audio#ListVoiceConsentsRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audio#VoiceConsentListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.audio#VoiceConsentListResourceObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.audio#VoiceConsentListResourceDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#VoiceConsentListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#VoiceConsentResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.audio#VoiceConsentResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `audio.voice_consent`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The consent recording identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The label provided when the consent recording was uploaded.",
+            "smithy.api#required": {}
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The BCP 47 language tag for the consent phrase (for example, `en-US`).",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the consent recording was created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A consent recording used to authorize creation of a custom voice."
+      }
+    },
+    "com.openai.audio#VoiceConsentResourceObject": {
+      "type": "enum",
+      "members": {
+        "AUDIO_VOICE_CONSENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio.voice_consent"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `audio.voice_consent`."
+      }
+    },
+    "com.openai.audio#VoiceConsentListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.audio#VoiceConsentResource"
+      },
+      "traits": {}
+    },
+    "com.openai.audio#ListVoiceConsents": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#ListVoiceConsentsRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#VoiceConsentListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/audio/voice_consents",
+          "code": 200
+        },
+        "smithy.api#documentation": "List voice consents\n\nReturns a list of voice consent recordings.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.audio#CreateVoiceConsentRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The label to use for this consent recording.",
+            "smithy.api#required": {}
+          }
+        },
+        "recording": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "The consent audio recording file. Maximum size is 10 MiB.\n\nSupported MIME types:\n`audio/mpeg`, `audio/wav`, `audio/x-wav`, `audio/ogg`, `audio/aac`, `audio/flac`, `audio/webm`, `audio/mp4`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The BCP 47 language tag for the consent phrase (for example, `en-US`).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audio#CreateVoiceConsent": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#CreateVoiceConsentRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#VoiceConsentResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/audio/voice_consents",
+          "code": 200,
+          "contentType": "multipart"
+        },
+        "smithy.api#documentation": "Create voice consent\n\nUpload a voice consent recording.",
+        "com.distilled.openapi#contentType": "multipart"
+      }
+    },
+    "com.openai.audio#GetVoiceConsentRequest": {
+      "type": "structure",
+      "members": {
+        "consent_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the consent recording to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audio#GetVoiceConsent": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#GetVoiceConsentRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#VoiceConsentResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/audio/voice_consents/{consent_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve voice consent\n\nRetrieves a voice consent recording."
+      }
+    },
+    "com.openai.audio#UpdateVoiceConsentRequest": {
+      "type": "structure",
+      "members": {
+        "consent_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the consent recording to update."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated label for this consent recording.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audio#UpdateVoiceConsent": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#UpdateVoiceConsentRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#VoiceConsentResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/audio/voice_consents/{consent_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update voice consent\n\nUpdates a voice consent recording (metadata only)."
+      }
+    },
+    "com.openai.audio#DeleteVoiceConsentRequest": {
+      "type": "structure",
+      "members": {
+        "consent_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the consent recording to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audio#VoiceConsentDeletedResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The consent recording identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.audio#VoiceConsentDeletedResourceObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#VoiceConsentDeletedResourceObject": {
+      "type": "enum",
+      "members": {
+        "AUDIO_VOICE_CONSENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio.voice_consent"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#DeleteVoiceConsent": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#DeleteVoiceConsentRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#VoiceConsentDeletedResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/audio/voice_consents/{consent_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete voice consent\n\nDeletes a voice consent recording."
+      }
+    },
+    "com.openai.audio#CreateVoiceRequestType": {
+      "type": "enum",
+      "members": {
+        "PROMPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "prompt"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set to `prompt` to create a voice from a text description."
+      }
+    },
+    "com.openai.audio#CreateVoiceRequestModelCase1": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "_2026_10_01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-10-01"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.audio#CreateVoiceRequestModel": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.audio#CreateVoiceRequestModelCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The voice creation model to use. Defaults to `auto`."
+      }
+    },
+    "com.openai.audio#CreateVoiceRequest": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.audio#CreateVoiceRequestType",
+          "traits": {
+            "smithy.api#documentation": "Set to `prompt` to create a voice from a text description.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the new voice.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A description of the desired voice. Must not contain only whitespace.",
+            "smithy.api#required": {}
+          }
+        },
+        "script_hint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional text for the voice to speak during creation. If omitted, a script is generated from the prompt. Must not be blank after trimming whitespace; scripts that are too short are rejected."
+          }
+        },
+        "model": {
+          "target": "com.openai.audio#CreateVoiceRequestModel",
+          "traits": {
+            "smithy.api#documentation": "The voice creation model to use. Defaults to `auto`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.audio#VoiceResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.audio#VoiceResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `audio.voice`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The voice identifier, which can be referenced in API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.audio#VoiceResourceType",
+          "traits": {
+            "smithy.api#documentation": "How the voice was created. Voices created from text prompts are supported only in Live.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the voice.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the voice was created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A custom voice that can be used for audio output. Voices created from text prompts are supported only in Live."
+      }
+    },
+    "com.openai.audio#VoiceResourceObject": {
+      "type": "enum",
+      "members": {
+        "AUDIO_VOICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio.voice"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `audio.voice`."
+      }
+    },
+    "com.openai.audio#VoiceResourceType": {
+      "type": "enum",
+      "members": {
+        "AUDIO_SAMPLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio_sample"
+          }
+        },
+        "PROMPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "prompt"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the voice was created. Voices created from text prompts are supported only in Live."
+      }
+    },
+    "com.openai.audio#CreateVoice": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.audio#CreateVoiceRequest"
+      },
+      "output": {
+        "target": "com.openai.audio#VoiceResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.audio#BadRequest"
+        },
+        {
+          "target": "com.openai.audio#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/audio/voices",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create voice\n\nCreates a voice from a text prompt or from a consent recording and an audio sample.\n\nFor prompt-based creation, send `type: \"prompt\"` with a `name` and `prompt` as JSON or multipart form data. For creation from an audio sample, send `type: \"audio_sample\"` with a `name`, `audio_sample`, and `consent` recording ID as multipart form data. The type defaults to `audio_sample` when omitted.\n\nReturns the saved voice's metadata. Voices created from text prompts are supported only in Live, not in Realtime or the speech endpoint. The response does not include preview audio."
+      }
+    },
+    "com.openai.audio#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.audio#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.audio#PayloadTooLarge": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 413,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 413
+          }
+        ]
+      }
+    },
+    "com.openai.audio#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.audio#Audio": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.audio#CreateSpeech"
+        },
+        {
+          "target": "com.openai.audio#CreateTranscription"
+        },
+        {
+          "target": "com.openai.audio#CreateTranscriptionStream"
+        },
+        {
+          "target": "com.openai.audio#CreateTranslation"
+        },
+        {
+          "target": "com.openai.audio#ListVoiceConsents"
+        },
+        {
+          "target": "com.openai.audio#CreateVoiceConsent"
+        },
+        {
+          "target": "com.openai.audio#GetVoiceConsent"
+        },
+        {
+          "target": "com.openai.audio#UpdateVoiceConsent"
+        },
+        {
+          "target": "com.openai.audio#DeleteVoiceConsent"
+        },
+        {
+          "target": "com.openai.audio#CreateVoice"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

@@ -69,7 +69,7 @@ export const dedupeSchemas = (
       const id = d.id as Node;
       if (id.type !== "Identifier" || !isNode(d.init)) continue;
       const text = code.slice(d.init.start, d.init.end);
-      if (/\bAPI\.make(Paginated)?\(/.test(text)) {
+      if (/\bAPI\.make(Paginated|Stream)?\(/.test(text)) {
         for (const m of text.matchAll(/\binput: (\w+)\b/g)) operationSchemas.add(m[1]!);
         continue;
       }

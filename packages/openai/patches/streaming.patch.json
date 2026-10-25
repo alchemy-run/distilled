@@ -1,0 +1,14 @@
+{
+  "description": "Streaming surfaces the spec gets wrong. (1) POST /completions streams with `stream: true` — its own `stream` member documents data-only server-sent events terminated by `data: [DONE]`, and the legacy Completions API has always streamed that way — but the 200 response lists only application/json, so no createCompletionStream is generated. Declare the text/event-stream content (each event is a CreateCompletionResponse chunk, as in the OpenAI reference). (2) POST /audio/speech lists text/event-stream next to the audio formats, but it streams SSE only when `stream_format: \"sse\"` is sent; there is no boolean `stream` flag to select it, so the generated event-stream sibling would request audio bytes and parse them as events. Drop the SSE content so createSpeech returns the audio bytes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1completions/post/responses/200/content/text~1event-stream",
+      "value": { "schema": { "$ref": "#/components/schemas/CreateCompletionResponse" } }
+    },
+    {
+      "op": "remove",
+      "path": "/paths/~1audio~1speech/post/responses/200/content/text~1event-stream"
+    }
+  ]
+}

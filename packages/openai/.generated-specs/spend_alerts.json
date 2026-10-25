@@ -1,0 +1,1332 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.spend_alerts#ListProjectSpendAlertsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.spend_alerts#ListProjectSpendAlertsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to inspect."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of spend alerts to return. Defaults to 20."
+          }
+        },
+        "order": {
+          "target": "com.openai.spend_alerts#ListProjectSpendAlertsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order for the returned spend alerts."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor for pagination. Provide the ID of the last spend alert from the previous response to fetch the next page."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor for pagination. Provide the ID of the first spend alert from the previous response to fetch the previous page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#ProjectSpendAlertListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.spend_alerts#ProjectSpendAlertListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.spend_alerts#ProjectSpendAlertListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "Spend alerts returned in the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the first spend alert in this page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the last spend alert in this page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether more spend alerts are available when paginating.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated list of project spend alerts."
+      }
+    },
+    "com.openai.spend_alerts#ProjectSpendAlertListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `list`."
+      }
+    },
+    "com.openai.spend_alerts#ProjectSpendAlert": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.spend_alerts#ProjectSpendAlertObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `project.spend_alert`.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The alert threshold amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_alerts#ProjectSpendAlertCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_alerts#ProjectSpendAlertInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "notification_channel": {
+          "target": "com.openai.spend_alerts#SpendAlertNotificationChannel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a spend alert configured at the project level."
+      }
+    },
+    "com.openai.spend_alerts#ProjectSpendAlertObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_SPEND_ALERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.spend_alert"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `project.spend_alert`."
+      }
+    },
+    "com.openai.spend_alerts#ProjectSpendAlertCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The currency for the threshold amount."
+      }
+    },
+    "com.openai.spend_alerts#ProjectSpendAlertInterval": {
+      "type": "enum",
+      "members": {
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The time interval for evaluating spend against the threshold."
+      }
+    },
+    "com.openai.spend_alerts#SpendAlertNotificationChannel": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.spend_alerts#SpendAlertNotificationChannelType",
+          "traits": {
+            "smithy.api#documentation": "The notification channel type. Currently only `email` is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "recipients": {
+          "target": "com.openai.spend_alerts#SpendAlertNotificationChannelRecipientsList",
+          "traits": {
+            "smithy.api#documentation": "Email addresses that receive the spend alert notification.",
+            "smithy.api#required": {}
+          }
+        },
+        "subject_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional subject prefix for alert emails.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Email notification settings for a spend alert."
+      }
+    },
+    "com.openai.spend_alerts#SpendAlertNotificationChannelType": {
+      "type": "enum",
+      "members": {
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The notification channel type. Currently only `email` is supported."
+      }
+    },
+    "com.openai.spend_alerts#SpendAlertNotificationChannelRecipientsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email addresses that receive the spend alert notification."
+      }
+    },
+    "com.openai.spend_alerts#ProjectSpendAlertListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.spend_alerts#ProjectSpendAlert"
+      },
+      "traits": {
+        "smithy.api#documentation": "Spend alerts returned in the current page."
+      }
+    },
+    "com.openai.spend_alerts#ListProjectSpendAlerts": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#ListProjectSpendAlertsRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#ProjectSpendAlertListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/spend_alerts",
+          "code": 200
+        },
+        "smithy.api#documentation": "List project spend alerts\n\nLists project spend alerts.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.spend_alerts#CreateProjectSpendAlertRequestCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The currency for the threshold amount."
+      }
+    },
+    "com.openai.spend_alerts#CreateProjectSpendAlertRequestInterval": {
+      "type": "enum",
+      "members": {
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The time interval for evaluating spend against the threshold."
+      }
+    },
+    "com.openai.spend_alerts#CreateProjectSpendAlertRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The alert threshold amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_alerts#CreateProjectSpendAlertRequestCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_alerts#CreateProjectSpendAlertRequestInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "notification_channel": {
+          "target": "com.openai.spend_alerts#SpendAlertNotificationChannel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#CreateProjectSpendAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#CreateProjectSpendAlertRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#ProjectSpendAlert"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/spend_alerts",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create project spend alert\n\nCreates a project spend alert.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_alerts#GetProjectSpendAlertRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "alert_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the spend alert to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#GetProjectSpendAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#GetProjectSpendAlertRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#ProjectSpendAlert"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/spend_alerts/{alert_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project spend alert\n\nRetrieves a project spend alert.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_alerts#UpdateProjectSpendAlertRequestCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The currency for the threshold amount."
+      }
+    },
+    "com.openai.spend_alerts#UpdateProjectSpendAlertRequestInterval": {
+      "type": "enum",
+      "members": {
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The time interval for evaluating spend against the threshold."
+      }
+    },
+    "com.openai.spend_alerts#UpdateProjectSpendAlertRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "alert_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the spend alert to update."
+          }
+        },
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The alert threshold amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_alerts#UpdateProjectSpendAlertRequestCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_alerts#UpdateProjectSpendAlertRequestInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "notification_channel": {
+          "target": "com.openai.spend_alerts#SpendAlertNotificationChannel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#UpdateProjectSpendAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#UpdateProjectSpendAlertRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#ProjectSpendAlert"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/spend_alerts/{alert_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update project spend alert\n\nUpdates a project spend alert.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_alerts#DeleteProjectSpendAlertRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "alert_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the spend alert to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#ProjectSpendAlertDeletedResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deleted spend alert ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.spend_alerts#ProjectSpendAlertDeletedResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `project.spend_alert.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the spend alert was deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after deleting a project spend alert."
+      }
+    },
+    "com.openai.spend_alerts#ProjectSpendAlertDeletedResourceObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_SPEND_ALERT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.spend_alert.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `project.spend_alert.deleted`."
+      }
+    },
+    "com.openai.spend_alerts#DeleteProjectSpendAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#DeleteProjectSpendAlertRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#ProjectSpendAlertDeletedResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/projects/{project_id}/spend_alerts/{alert_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete project spend alert\n\nDeletes a project spend alert.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_alerts#ListOrganizationSpendAlertsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.spend_alerts#ListOrganizationSpendAlertsRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of spend alerts to return. Defaults to 20."
+          }
+        },
+        "order": {
+          "target": "com.openai.spend_alerts#ListOrganizationSpendAlertsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order for the returned spend alerts."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Cursor for pagination. Provide the ID of the last spend alert from the previous response to fetch the next page."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "Cursor for pagination. Provide the ID of the first spend alert from the previous response to fetch the previous page."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#OrganizationSpendAlertListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.spend_alerts#OrganizationSpendAlertListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.spend_alerts#OrganizationSpendAlertListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "Spend alerts returned in the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the first spend alert in this page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the last spend alert in this page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether more spend alerts are available when paginating.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paginated list of organization spend alerts."
+      }
+    },
+    "com.openai.spend_alerts#OrganizationSpendAlertListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `list`."
+      }
+    },
+    "com.openai.spend_alerts#OrganizationSpendAlert": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.spend_alerts#OrganizationSpendAlertObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.spend_alert`.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The alert threshold amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_alerts#OrganizationSpendAlertCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_alerts#OrganizationSpendAlertInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "notification_channel": {
+          "target": "com.openai.spend_alerts#SpendAlertNotificationChannel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a spend alert configured at the organization level."
+      }
+    },
+    "com.openai.spend_alerts#OrganizationSpendAlertObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_SPEND_ALERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.spend_alert"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.spend_alert`."
+      }
+    },
+    "com.openai.spend_alerts#OrganizationSpendAlertCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The currency for the threshold amount."
+      }
+    },
+    "com.openai.spend_alerts#OrganizationSpendAlertInterval": {
+      "type": "enum",
+      "members": {
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The time interval for evaluating spend against the threshold."
+      }
+    },
+    "com.openai.spend_alerts#OrganizationSpendAlertListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.spend_alerts#OrganizationSpendAlert"
+      },
+      "traits": {
+        "smithy.api#documentation": "Spend alerts returned in the current page."
+      }
+    },
+    "com.openai.spend_alerts#ListOrganizationSpendAlerts": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#ListOrganizationSpendAlertsRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#OrganizationSpendAlertListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/spend_alerts",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organization spend alerts\n\nLists organization spend alerts.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.spend_alerts#CreateOrganizationSpendAlertRequestCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The currency for the threshold amount."
+      }
+    },
+    "com.openai.spend_alerts#CreateOrganizationSpendAlertRequestInterval": {
+      "type": "enum",
+      "members": {
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The time interval for evaluating spend against the threshold."
+      }
+    },
+    "com.openai.spend_alerts#CreateOrganizationSpendAlertRequest": {
+      "type": "structure",
+      "members": {
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The alert threshold amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_alerts#CreateOrganizationSpendAlertRequestCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_alerts#CreateOrganizationSpendAlertRequestInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "notification_channel": {
+          "target": "com.openai.spend_alerts#SpendAlertNotificationChannel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#CreateOrganizationSpendAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#CreateOrganizationSpendAlertRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#OrganizationSpendAlert"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/spend_alerts",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create organization spend alert\n\nCreates an organization spend alert.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_alerts#GetOrganizationSpendAlertRequest": {
+      "type": "structure",
+      "members": {
+        "alert_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the spend alert to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#GetOrganizationSpendAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#GetOrganizationSpendAlertRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#OrganizationSpendAlert"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/spend_alerts/{alert_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve organization spend alert\n\nRetrieves an organization spend alert.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_alerts#UpdateOrganizationSpendAlertRequestCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The currency for the threshold amount."
+      }
+    },
+    "com.openai.spend_alerts#UpdateOrganizationSpendAlertRequestInterval": {
+      "type": "enum",
+      "members": {
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The time interval for evaluating spend against the threshold."
+      }
+    },
+    "com.openai.spend_alerts#UpdateOrganizationSpendAlertRequest": {
+      "type": "structure",
+      "members": {
+        "alert_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the spend alert to update."
+          }
+        },
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The alert threshold amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_alerts#UpdateOrganizationSpendAlertRequestCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_alerts#UpdateOrganizationSpendAlertRequestInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold.",
+            "smithy.api#required": {}
+          }
+        },
+        "notification_channel": {
+          "target": "com.openai.spend_alerts#SpendAlertNotificationChannel",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#UpdateOrganizationSpendAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#UpdateOrganizationSpendAlertRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#OrganizationSpendAlert"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/spend_alerts/{alert_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update organization spend alert\n\nUpdates an organization spend alert.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_alerts#DeleteOrganizationSpendAlertRequest": {
+      "type": "structure",
+      "members": {
+        "alert_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the spend alert to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_alerts#OrganizationSpendAlertDeletedResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deleted spend alert ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.spend_alerts#OrganizationSpendAlertDeletedResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Always `organization.spend_alert.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the spend alert was deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after deleting an organization spend alert."
+      }
+    },
+    "com.openai.spend_alerts#OrganizationSpendAlertDeletedResourceObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_SPEND_ALERT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.spend_alert.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Always `organization.spend_alert.deleted`."
+      }
+    },
+    "com.openai.spend_alerts#DeleteOrganizationSpendAlert": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_alerts#DeleteOrganizationSpendAlertRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_alerts#OrganizationSpendAlertDeletedResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_alerts#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_alerts#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/spend_alerts/{alert_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete organization spend alert\n\nDeletes an organization spend alert.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_alerts#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.spend_alerts#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.spend_alerts#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.spend_alerts#SpendAlerts": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.spend_alerts#ListProjectSpendAlerts"
+        },
+        {
+          "target": "com.openai.spend_alerts#CreateProjectSpendAlert"
+        },
+        {
+          "target": "com.openai.spend_alerts#GetProjectSpendAlert"
+        },
+        {
+          "target": "com.openai.spend_alerts#UpdateProjectSpendAlert"
+        },
+        {
+          "target": "com.openai.spend_alerts#DeleteProjectSpendAlert"
+        },
+        {
+          "target": "com.openai.spend_alerts#ListOrganizationSpendAlerts"
+        },
+        {
+          "target": "com.openai.spend_alerts#CreateOrganizationSpendAlert"
+        },
+        {
+          "target": "com.openai.spend_alerts#GetOrganizationSpendAlert"
+        },
+        {
+          "target": "com.openai.spend_alerts#UpdateOrganizationSpendAlert"
+        },
+        {
+          "target": "com.openai.spend_alerts#DeleteOrganizationSpendAlert"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

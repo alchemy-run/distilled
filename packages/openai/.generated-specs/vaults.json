@@ -1,0 +1,2206 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.vaults#ListOrderParam": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The order in which paginated resources are returned."
+      }
+    },
+    "com.openai.vaults#VaultStatusFilterParam": {
+      "type": "union",
+      "members": {
+        "VaultStatusParam": {
+          "target": "com.openai.vaults#VaultStatusParam"
+        },
+        "Case1": {
+          "target": "com.openai.vaults#VaultStatusFilterParamCase1List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One or more lifecycle statuses to include when listing vaults or credentials."
+      }
+    },
+    "com.openai.vaults#VaultStatusParam": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "archived"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Whether a vault or credential is active or archived."
+      }
+    },
+    "com.openai.vaults#VaultStatusFilterParamCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vaults#VaultStatusParam"
+      },
+      "traits": {}
+    },
+    "com.openai.vaults#ListVaultsRequest": {
+      "type": "structure",
+      "members": {
+        "order": {
+          "target": "com.openai.vaults#ListOrderParam",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order by the `created_at` timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `desc`."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of resources to return. Defaults to 20. Values are clamped between 1 and 100."
+          }
+        },
+        "status": {
+          "target": "com.openai.vaults#VaultStatusFilterParam",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by one status or a list, such as `status=active` or `status[]=active&status[]=archived`. Both statuses are included by default."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Return resources after this resource ID in the selected order."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vaults#VaultListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.vaults#VaultListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.vaults#VaultListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "The resources returned in this page, in the requested sort order.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the first resource in `data`, or `null` if the page is empty.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether there are more resources to retrieve after this page.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A page of Agents API resources, with IDs for retrieving additional pages."
+      }
+    },
+    "com.openai.vaults#VaultListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `list`."
+      }
+    },
+    "com.openai.vaults#VaultResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the vault.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.vaults#VaultResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type. Always `vault`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The human-readable name of the vault, if set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.openai.vaults#VaultResourceMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Key-value pairs associated with the vault, such as an application or team identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp, in seconds, when the vault was created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A collection of credentials for MCP servers and OpenAI-hosted environments."
+      }
+    },
+    "com.openai.vaults#VaultResourceObject": {
+      "type": "enum",
+      "members": {
+        "VAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vault"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type. Always `vault`."
+      }
+    },
+    "com.openai.vaults#VaultResourceMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value pairs associated with the vault, such as an application or team identifier."
+      }
+    },
+    "com.openai.vaults#VaultListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vaults#VaultResource"
+      },
+      "traits": {
+        "smithy.api#documentation": "The resources returned in this page, in the requested sort order."
+      }
+    },
+    "com.openai.vaults#ListVaults": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vaults#ListVaultsRequest"
+      },
+      "output": {
+        "target": "com.openai.vaults#VaultListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vaults#BadRequest"
+        },
+        {
+          "target": "com.openai.vaults#Forbidden"
+        },
+        {
+          "target": "com.openai.vaults#NotFound"
+        },
+        {
+          "target": "com.openai.vaults#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vaults",
+          "code": 200
+        },
+        "smithy.api#documentation": "List vaults\n\nLists vaults using ID-based pagination. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults).",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.vaults#CreateVaultRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value pairs to associate with the vault, such as an application or team identifier."
+      }
+    },
+    "com.openai.vaults#CreateVaultRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name is trimmed before storage. It must contain 1 to 256 UTF-8 bytes after trimming."
+          }
+        },
+        "metadata": {
+          "target": "com.openai.vaults#CreateVaultRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Key-value pairs to associate with the vault, such as an application or team identifier.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vaults#CreateVault": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vaults#CreateVaultRequest"
+      },
+      "output": {
+        "target": "com.openai.vaults#VaultResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vaults#BadRequest"
+        },
+        {
+          "target": "com.openai.vaults#Forbidden"
+        },
+        {
+          "target": "com.openai.vaults#NotFound"
+        },
+        {
+          "target": "com.openai.vaults#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vaults",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a vault\n\nCreates a vault for the current project. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults)."
+      }
+    },
+    "com.openai.vaults#GetVaultRequest": {
+      "type": "structure",
+      "members": {
+        "vault_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vaults#GetVault": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vaults#GetVaultRequest"
+      },
+      "output": {
+        "target": "com.openai.vaults#VaultResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vaults#BadRequest"
+        },
+        {
+          "target": "com.openai.vaults#Forbidden"
+        },
+        {
+          "target": "com.openai.vaults#NotFound"
+        },
+        {
+          "target": "com.openai.vaults#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vaults/{vault_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a vault\n\nRetrieves a vault by its ID. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults)."
+      }
+    },
+    "com.openai.vaults#DeleteVaultRequest": {
+      "type": "structure",
+      "members": {
+        "vault_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vaults#DeletedVaultResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the deleted vault.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.vaults#DeletedVaultResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type. Always `vault.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the resource was deleted. Always `true`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation that a vault was deleted."
+      }
+    },
+    "com.openai.vaults#DeletedVaultResourceObject": {
+      "type": "enum",
+      "members": {
+        "VAULT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vault.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type. Always `vault.deleted`."
+      }
+    },
+    "com.openai.vaults#DeleteVault": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vaults#DeleteVaultRequest"
+      },
+      "output": {
+        "target": "com.openai.vaults#DeletedVaultResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vaults#BadRequest"
+        },
+        {
+          "target": "com.openai.vaults#Forbidden"
+        },
+        {
+          "target": "com.openai.vaults#NotFound"
+        },
+        {
+          "target": "com.openai.vaults#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/vaults/{vault_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a vault\n\nDeletes a vault and all its credentials. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults)."
+      }
+    },
+    "com.openai.vaults#ListVaultCredentialsRequest": {
+      "type": "structure",
+      "members": {
+        "vault_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault."
+          }
+        },
+        "order": {
+          "target": "com.openai.vaults#ListOrderParam",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order by the `created_at` timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `desc`."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "The maximum number of resources to return. Defaults to 20. Values are clamped between 1 and 100."
+          }
+        },
+        "status": {
+          "target": "com.openai.vaults#VaultStatusFilterParam",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by one status or a list, such as `status=active` or `status[]=active&status[]=archived`. Both statuses are included by default."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Return resources after this resource ID in the selected order."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vaults#VaultCredentialListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.vaults#VaultCredentialListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.vaults#VaultCredentialListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "The resources returned in this page, in the requested sort order.",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the first resource in `data`, or `null` if the page is empty.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether there are more resources to retrieve after this page.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A page of Agents API resources, with IDs for retrieving additional pages."
+      }
+    },
+    "com.openai.vaults#VaultCredentialListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `list`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.vaults#VaultCredentialResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type. Always `vault.credential`.",
+            "smithy.api#required": {}
+          }
+        },
+        "vault_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the vault containing this credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The human-readable name of the credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "auth": {
+          "target": "com.openai.vaults#VaultCredentialAuthResource",
+          "traits": {
+            "smithy.api#documentation": "The authentication method and non-secret configuration of the credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.openai.vaults#VaultCredentialResourceMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Application-defined key-value pairs associated with this credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp, in seconds, when the credential was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp, in seconds, when the credential was last updated.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata for a stored credential. Secret values are never returned."
+      }
+    },
+    "com.openai.vaults#VaultCredentialResourceObject": {
+      "type": "enum",
+      "members": {
+        "VAULT_CREDENTIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vault.credential"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type. Always `vault.credential`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialAuthResource": {
+      "type": "union",
+      "members": {
+        "VaultCredentialAuthResourceMcpOauth": {
+          "target": "com.openai.vaults#VaultCredentialAuthResourceMcpOauth"
+        },
+        "VaultCredentialAuthResourceStaticBearer": {
+          "target": "com.openai.vaults#VaultCredentialAuthResourceStaticBearer"
+        },
+        "VaultCredentialAuthResourceEnvironmentVariable": {
+          "target": "com.openai.vaults#VaultCredentialAuthResourceEnvironmentVariable"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The authentication configuration of a vault credential, excluding secrets."
+      }
+    },
+    "com.openai.vaults#VaultCredentialAuthResourceMcpOauth": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#VaultCredentialAuthResourceMcpOauthType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `mcp_oauth`.",
+            "smithy.api#required": {}
+          }
+        },
+        "mcp_server_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTPS MCP server URL authorized by this credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the OAuth access token expires, as an RFC 3339 timestamp, if known.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refresh": {
+          "target": "com.openai.vaults#McpOauthRefreshResource",
+          "traits": {
+            "smithy.api#documentation": "Public refresh metadata without refresh tokens or OAuth client secrets.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Public metadata for an OAuth credential; tokens and client secrets are never returned."
+      }
+    },
+    "com.openai.vaults#VaultCredentialAuthResourceMcpOauthType": {
+      "type": "enum",
+      "members": {
+        "MCP_OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp_oauth"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `mcp_oauth`."
+      }
+    },
+    "com.openai.vaults#McpOauthRefreshResource": {
+      "type": "structure",
+      "members": {
+        "token_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTPS OAuth token endpoint used for refresh.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OAuth client ID used when requesting a new access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource URI sent to the OAuth token endpoint during refresh, if configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Space-separated OAuth scopes requested during refresh, if configured.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "token_endpoint_auth": {
+          "target": "com.openai.vaults#McpOauthTokenEndpointAuthResource",
+          "traits": {
+            "smithy.api#documentation": "How the OAuth client authenticates to the token endpoint, excluding its client secret.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration used to refresh an MCP OAuth access token, excluding secret values."
+      }
+    },
+    "com.openai.vaults#McpOauthTokenEndpointAuthResource": {
+      "type": "union",
+      "members": {
+        "McpOauthTokenEndpointAuthResourceNone": {
+          "target": "com.openai.vaults#McpOauthTokenEndpointAuthResourceNone"
+        },
+        "McpOauthTokenEndpointAuthResourceClientSecretBasic": {
+          "target": "com.openai.vaults#McpOauthTokenEndpointAuthResourceClientSecretBasic"
+        },
+        "McpOauthTokenEndpointAuthResourceClientSecretPost": {
+          "target": "com.openai.vaults#McpOauthTokenEndpointAuthResourceClientSecretPost"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The client authentication method used for OAuth token refresh."
+      }
+    },
+    "com.openai.vaults#McpOauthTokenEndpointAuthResourceNone": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#McpOauthTokenEndpointAuthResourceNoneType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `none`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sends the client ID without a client secret."
+      }
+    },
+    "com.openai.vaults#McpOauthTokenEndpointAuthResourceNoneType": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `none`."
+      }
+    },
+    "com.openai.vaults#McpOauthTokenEndpointAuthResourceClientSecretBasic": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#McpOauthTokenEndpointAuthResourceClientSecretBasicType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `client_secret_basic`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sends the client ID and secret using HTTP Basic authentication."
+      }
+    },
+    "com.openai.vaults#McpOauthTokenEndpointAuthResourceClientSecretBasicType": {
+      "type": "enum",
+      "members": {
+        "CLIENT_SECRET_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client_secret_basic"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `client_secret_basic`."
+      }
+    },
+    "com.openai.vaults#McpOauthTokenEndpointAuthResourceClientSecretPost": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#McpOauthTokenEndpointAuthResourceClientSecretPostType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `client_secret_post`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sends the client ID and secret in the token request body."
+      }
+    },
+    "com.openai.vaults#McpOauthTokenEndpointAuthResourceClientSecretPostType": {
+      "type": "enum",
+      "members": {
+        "CLIENT_SECRET_POST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client_secret_post"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `client_secret_post`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialAuthResourceStaticBearer": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#VaultCredentialAuthResourceStaticBearerType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `static_bearer`.",
+            "smithy.api#required": {}
+          }
+        },
+        "mcp_server_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTPS MCP server URL authorized by this credential.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata for a bearer-token credential, without automatic OAuth refresh."
+      }
+    },
+    "com.openai.vaults#VaultCredentialAuthResourceStaticBearerType": {
+      "type": "enum",
+      "members": {
+        "STATIC_BEARER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "static_bearer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `static_bearer`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialAuthResourceEnvironmentVariable": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#VaultCredentialAuthResourceEnvironmentVariableType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `environment_variable`.",
+            "smithy.api#required": {}
+          }
+        },
+        "secret_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The environment variable name that receives the placeholder in the sandbox.",
+            "smithy.api#required": {}
+          }
+        },
+        "networking": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingResource",
+          "traits": {
+            "smithy.api#documentation": "The destinations where the proxy can substitute the secret, subject to the environment network policy.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata for an HTTP credential used only in OpenAI-hosted environments. Sandbox code receives a placeholder. The proxy substitutes the secret for allowed HTTPS destinations on ports 443 and 8443. The real secret is not available to sandbox code for local computation and is never returned in this resource."
+      }
+    },
+    "com.openai.vaults#VaultCredentialAuthResourceEnvironmentVariableType": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_VARIABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "environment_variable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `environment_variable`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingResource": {
+      "type": "union",
+      "members": {
+        "VaultCredentialNetworkingResourceUnrestricted": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingResourceUnrestricted"
+        },
+        "VaultCredentialNetworkingResourceLimited": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingResourceLimited"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Destination permissions for an environment-variable credential. These do not grant network access to the environment."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingResourceUnrestricted": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingResourceUnrestrictedType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `unrestricted`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingResourceUnrestrictedType": {
+      "type": "enum",
+      "members": {
+        "UNRESTRICTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unrestricted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `unrestricted`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingResourceLimited": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingResourceLimitedType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `limited`.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_hosts": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingResourceLimitedAllowedHostsList",
+          "traits": {
+            "smithy.api#documentation": "The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Allows substitution only for the listed hosts. The environment network policy must also allow these hosts."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingResourceLimitedType": {
+      "type": "enum",
+      "members": {
+        "LIMITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `limited`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingResourceLimitedAllowedHostsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported."
+      }
+    },
+    "com.openai.vaults#VaultCredentialResourceMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Application-defined key-value pairs associated with this credential."
+      }
+    },
+    "com.openai.vaults#VaultCredentialListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.vaults#VaultCredentialResource"
+      },
+      "traits": {
+        "smithy.api#documentation": "The resources returned in this page, in the requested sort order."
+      }
+    },
+    "com.openai.vaults#ListVaultCredentials": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vaults#ListVaultCredentialsRequest"
+      },
+      "output": {
+        "target": "com.openai.vaults#VaultCredentialListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vaults#BadRequest"
+        },
+        {
+          "target": "com.openai.vaults#Forbidden"
+        },
+        {
+          "target": "com.openai.vaults#NotFound"
+        },
+        {
+          "target": "com.openai.vaults#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vaults/{vault_id}/credentials",
+          "code": 200
+        },
+        "smithy.api#documentation": "List vault credentials\n\nLists a vault's credentials using ID-based pagination without returning secret values. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults).",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.vaults#CreateVaultCredentialAuthParam": {
+      "type": "union",
+      "members": {
+        "CreateVaultCredentialAuthParamMcpOauth": {
+          "target": "com.openai.vaults#CreateVaultCredentialAuthParamMcpOauth"
+        },
+        "CreateVaultCredentialAuthParamStaticBearer": {
+          "target": "com.openai.vaults#CreateVaultCredentialAuthParamStaticBearer"
+        },
+        "CreateVaultCredentialAuthParamEnvironmentVariable": {
+          "target": "com.openai.vaults#CreateVaultCredentialAuthParamEnvironmentVariable"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Authentication credentials for an MCP server or an OpenAI-hosted environment."
+      }
+    },
+    "com.openai.vaults#CreateVaultCredentialAuthParamMcpOauth": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#CreateVaultCredentialAuthParamMcpOauthType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `mcp_oauth`.",
+            "smithy.api#required": {}
+          }
+        },
+        "mcp_server_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTPS MCP server URL authorized by this credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "access_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A write-only OAuth access token; never returned by credential resources.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the OAuth access token expires, as an RFC 3339 timestamp, if known.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refresh": {
+          "target": "com.openai.vaults#CreateMcpOauthRefreshParam",
+          "traits": {
+            "smithy.api#documentation": "Optional refresh configuration for an HTTPS OAuth token endpoint.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An OAuth credential for an HTTPS MCP destination."
+      }
+    },
+    "com.openai.vaults#CreateVaultCredentialAuthParamMcpOauthType": {
+      "type": "enum",
+      "members": {
+        "MCP_OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp_oauth"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `mcp_oauth`."
+      }
+    },
+    "com.openai.vaults#CreateMcpOauthRefreshParam": {
+      "type": "structure",
+      "members": {
+        "token_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTPS OAuth token endpoint used to exchange the refresh token for a new access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OAuth client ID used when requesting a new access token.",
+            "smithy.api#required": {}
+          }
+        },
+        "resource": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource URI to send to the OAuth token endpoint during refresh, if required.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Space-separated OAuth scopes to request during refresh, if required.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refresh_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The refresh token to store. This secret is never returned in credential resources.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "token_endpoint_auth": {
+          "target": "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParam",
+          "traits": {
+            "smithy.api#documentation": "How the OAuth client authenticates to the token endpoint.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for refreshing the access token of an MCP OAuth credential."
+      }
+    },
+    "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParam": {
+      "type": "union",
+      "members": {
+        "CreateMcpOauthTokenEndpointAuthParamNone": {
+          "target": "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamNone"
+        },
+        "CreateMcpOauthTokenEndpointAuthParamClientSecretBasic": {
+          "target": "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamClientSecretBasic"
+        },
+        "CreateMcpOauthTokenEndpointAuthParamClientSecretPost": {
+          "target": "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamClientSecretPost"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Client authentication credentials for OAuth token refresh."
+      }
+    },
+    "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamNone": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamNoneType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `none`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sends the client ID without a client secret."
+      }
+    },
+    "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamNoneType": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `none`."
+      }
+    },
+    "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamClientSecretBasic": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamClientSecretBasicType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `client_secret_basic`.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OAuth client secret to store. Never returned in credential resources.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sends the client ID and secret using HTTP Basic authentication."
+      }
+    },
+    "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamClientSecretBasicType": {
+      "type": "enum",
+      "members": {
+        "CLIENT_SECRET_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client_secret_basic"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `client_secret_basic`."
+      }
+    },
+    "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamClientSecretPost": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamClientSecretPostType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `client_secret_post`.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The OAuth client secret to store. Never returned in credential resources.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sends the client ID and secret in the token request body."
+      }
+    },
+    "com.openai.vaults#CreateMcpOauthTokenEndpointAuthParamClientSecretPostType": {
+      "type": "enum",
+      "members": {
+        "CLIENT_SECRET_POST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client_secret_post"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `client_secret_post`."
+      }
+    },
+    "com.openai.vaults#CreateVaultCredentialAuthParamStaticBearer": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#CreateVaultCredentialAuthParamStaticBearerType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `static_bearer`.",
+            "smithy.api#required": {}
+          }
+        },
+        "mcp_server_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTPS MCP server URL authorized by this credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bearer token to store. This secret is never returned in credential resources.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A bearer token for an MCP server, without automatic OAuth refresh."
+      }
+    },
+    "com.openai.vaults#CreateVaultCredentialAuthParamStaticBearerType": {
+      "type": "enum",
+      "members": {
+        "STATIC_BEARER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "static_bearer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `static_bearer`."
+      }
+    },
+    "com.openai.vaults#CreateVaultCredentialAuthParamEnvironmentVariable": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#CreateVaultCredentialAuthParamEnvironmentVariableType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `environment_variable`.",
+            "smithy.api#required": {}
+          }
+        },
+        "secret_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The environment variable name that receives the placeholder, such as `SERVICE_API_KEY`. Use ASCII letters, digits, and underscores, starting with a letter or underscore. Names starting with `CODEX_` and managed proxy or certificate variable names are reserved.",
+            "smithy.api#required": {}
+          }
+        },
+        "secret_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The write-only secret to store. Never returned in credential resources or supplied directly to sandbox code. Must be nonempty and must not contain carriage returns, newlines, or NUL bytes.",
+            "smithy.api#required": {}
+          }
+        },
+        "networking": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingParam",
+          "traits": {
+            "smithy.api#documentation": "The destinations where the proxy can substitute this secret. The environment network policy must also allow them.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An HTTP credential for OpenAI-hosted environments only. The sandbox receives an environment variable containing a placeholder, not the secret. Use the placeholder unchanged in outgoing requests. The egress proxy replaces the placeholder with the secret for allowed HTTPS destinations on ports 443 and 8443. Sandbox code cannot read the real secret or use it for local computation, such as signing a request."
+      }
+    },
+    "com.openai.vaults#CreateVaultCredentialAuthParamEnvironmentVariableType": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_VARIABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "environment_variable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `environment_variable`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingParam": {
+      "type": "union",
+      "members": {
+        "VaultCredentialNetworkingParamUnrestricted": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingParamUnrestricted"
+        },
+        "VaultCredentialNetworkingParamLimited": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingParamLimited"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Destination permissions for an environment-variable credential. These do not grant network access to the environment."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingParamUnrestricted": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingParamUnrestrictedType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `unrestricted`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingParamUnrestrictedType": {
+      "type": "enum",
+      "members": {
+        "UNRESTRICTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unrestricted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `unrestricted`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingParamLimited": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingParamLimitedType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `limited`.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_hosts": {
+          "target": "com.openai.vaults#VaultCredentialNetworkingParamLimitedAllowedHostsList",
+          "traits": {
+            "smithy.api#documentation": "The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Allows substitution only for the listed hosts. The environment network policy must also allow these hosts."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingParamLimitedType": {
+      "type": "enum",
+      "members": {
+        "LIMITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `limited`."
+      }
+    },
+    "com.openai.vaults#VaultCredentialNetworkingParamLimitedAllowedHostsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported."
+      }
+    },
+    "com.openai.vaults#CreateVaultCredentialRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 16 string key-value pairs, with keys up to 64 and values up to 512 characters. Defaults to an empty map."
+      }
+    },
+    "com.openai.vaults#CreateVaultCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "vault_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name is trimmed before storage. It must contain 1 to 256 UTF-8 bytes after trimming.",
+            "smithy.api#required": {}
+          }
+        },
+        "auth": {
+          "target": "com.openai.vaults#CreateVaultCredentialAuthParam",
+          "traits": {
+            "smithy.api#documentation": "The authentication method and write-only secret values to store.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.openai.vaults#CreateVaultCredentialRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Up to 16 string key-value pairs, with keys up to 64 and values up to 512 characters. Defaults to an empty map."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vaults#CreateVaultCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vaults#CreateVaultCredentialRequest"
+      },
+      "output": {
+        "target": "com.openai.vaults#VaultCredentialResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vaults#BadRequest"
+        },
+        {
+          "target": "com.openai.vaults#Forbidden"
+        },
+        {
+          "target": "com.openai.vaults#NotFound"
+        },
+        {
+          "target": "com.openai.vaults#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vaults/{vault_id}/credentials",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a vault credential\n\nCreates a vault credential. Secret values are write-only and are never returned. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults)."
+      }
+    },
+    "com.openai.vaults#GetVaultCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "vault_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault."
+          }
+        },
+        "credential_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault credential."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vaults#GetVaultCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vaults#GetVaultCredentialRequest"
+      },
+      "output": {
+        "target": "com.openai.vaults#VaultCredentialResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vaults#BadRequest"
+        },
+        {
+          "target": "com.openai.vaults#Forbidden"
+        },
+        {
+          "target": "com.openai.vaults#NotFound"
+        },
+        {
+          "target": "com.openai.vaults#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/vaults/{vault_id}/credentials/{credential_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a vault credential\n\nRetrieves vault credential metadata without returning secret values. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults)."
+      }
+    },
+    "com.openai.vaults#RotateVaultCredentialAuthParam": {
+      "type": "union",
+      "members": {
+        "RotateVaultCredentialAuthParamMcpOauth": {
+          "target": "com.openai.vaults#RotateVaultCredentialAuthParamMcpOauth"
+        },
+        "RotateVaultCredentialAuthParamStaticBearer": {
+          "target": "com.openai.vaults#RotateVaultCredentialAuthParamStaticBearer"
+        },
+        "RotateVaultCredentialAuthParamEnvironmentVariable": {
+          "target": "com.openai.vaults#RotateVaultCredentialAuthParamEnvironmentVariable"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Updates to a vault credential without changing its authentication method or destination configuration."
+      }
+    },
+    "com.openai.vaults#RotateVaultCredentialAuthParamMcpOauth": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#RotateVaultCredentialAuthParamMcpOauthType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `mcp_oauth`.",
+            "smithy.api#required": {}
+          }
+        },
+        "access_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A write-only replacement OAuth access token.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The replacement expiry as an RFC 3339 timestamp, or `null` to clear it. Omitting this field preserves the expiry unless a new access token is supplied, in which case the expiry is cleared.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "refresh": {
+          "target": "com.openai.vaults#RotateMcpOauthRefreshParam",
+          "traits": {
+            "smithy.api#documentation": "Optional write-only refresh-token and client-secret updates.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Rotate an OAuth credential for an HTTPS MCP destination."
+      }
+    },
+    "com.openai.vaults#RotateVaultCredentialAuthParamMcpOauthType": {
+      "type": "enum",
+      "members": {
+        "MCP_OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp_oauth"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `mcp_oauth`."
+      }
+    },
+    "com.openai.vaults#RotateMcpOauthRefreshParam": {
+      "type": "structure",
+      "members": {
+        "refresh_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The replacement refresh token. Omit or pass `null` to keep the stored token. This secret is never returned in resources.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement space-separated OAuth scopes for refresh requests. Omit to keep the scopes, or pass `null` to stop sending a scope parameter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "token_endpoint_auth": {
+          "target": "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParam",
+          "traits": {
+            "smithy.api#documentation": "Client-secret updates for the existing token endpoint authentication method.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Updates to an MCP credential's existing OAuth refresh configuration."
+      }
+    },
+    "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParam": {
+      "type": "union",
+      "members": {
+        "RotateMcpOauthTokenEndpointAuthParamClientSecretBasic": {
+          "target": "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParamClientSecretBasic"
+        },
+        "RotateMcpOauthTokenEndpointAuthParamClientSecretPost": {
+          "target": "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParamClientSecretPost"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Client-secret updates that preserve the credential's OAuth authentication method."
+      }
+    },
+    "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParamClientSecretBasic": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParamClientSecretBasicType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `client_secret_basic`.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The replacement OAuth client secret. Omit or pass `null` to keep the stored secret. This secret is never returned in resources.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Updates credentials sent using HTTP Basic authentication."
+      }
+    },
+    "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParamClientSecretBasicType": {
+      "type": "enum",
+      "members": {
+        "CLIENT_SECRET_BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client_secret_basic"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `client_secret_basic`."
+      }
+    },
+    "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParamClientSecretPost": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParamClientSecretPostType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `client_secret_post`.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The replacement OAuth client secret. Omit or pass `null` to keep the stored secret. This secret is never returned in resources.",
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Updates credentials sent in the token request body."
+      }
+    },
+    "com.openai.vaults#RotateMcpOauthTokenEndpointAuthParamClientSecretPostType": {
+      "type": "enum",
+      "members": {
+        "CLIENT_SECRET_POST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client_secret_post"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `client_secret_post`."
+      }
+    },
+    "com.openai.vaults#RotateVaultCredentialAuthParamStaticBearer": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#RotateVaultCredentialAuthParamStaticBearerType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `static_bearer`.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The replacement bearer token. This secret is never returned in credential resources.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Replace the bearer token for the credential's MCP server."
+      }
+    },
+    "com.openai.vaults#RotateVaultCredentialAuthParamStaticBearerType": {
+      "type": "enum",
+      "members": {
+        "STATIC_BEARER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "static_bearer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `static_bearer`."
+      }
+    },
+    "com.openai.vaults#RotateVaultCredentialAuthParamEnvironmentVariable": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.vaults#RotateVaultCredentialAuthParamEnvironmentVariableType",
+          "traits": {
+            "smithy.api#documentation": "The type of the object. Always `environment_variable`.",
+            "smithy.api#required": {}
+          }
+        },
+        "secret_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The write-only replacement secret. Never returned in credential resources or supplied directly to sandbox code. Must be nonempty and must not contain carriage returns, newlines, or NUL bytes.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Replace the secret for an OpenAI-hosted environment credential. The environment variable name and networking configuration remain unchanged."
+      }
+    },
+    "com.openai.vaults#RotateVaultCredentialAuthParamEnvironmentVariableType": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_VARIABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "environment_variable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the object. Always `environment_variable`."
+      }
+    },
+    "com.openai.vaults#RotateVaultCredentialRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Replaces all metadata. Omit to preserve it, or pass {} to clear it. Up to 16 string key-value pairs, with keys up to 64 and values up to 512 characters."
+      }
+    },
+    "com.openai.vaults#RotateVaultCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "vault_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault."
+          }
+        },
+        "credential_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault credential."
+          }
+        },
+        "auth": {
+          "target": "com.openai.vaults#RotateVaultCredentialAuthParam",
+          "traits": {
+            "smithy.api#documentation": "Replacement values for the credential's existing authentication method."
+          }
+        },
+        "metadata": {
+          "target": "com.openai.vaults#RotateVaultCredentialRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Replaces all metadata. Omit to preserve it, or pass {} to clear it. Up to 16 string key-value pairs, with keys up to 64 and values up to 512 characters."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vaults#RotateVaultCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vaults#RotateVaultCredentialRequest"
+      },
+      "output": {
+        "target": "com.openai.vaults#VaultCredentialResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vaults#BadRequest"
+        },
+        {
+          "target": "com.openai.vaults#Forbidden"
+        },
+        {
+          "target": "com.openai.vaults#NotFound"
+        },
+        {
+          "target": "com.openai.vaults#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/vaults/{vault_id}/credentials/{credential_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update a vault credential\n\nUpdates credential metadata or rotates its write-only secret. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults)."
+      }
+    },
+    "com.openai.vaults#DeleteVaultCredentialRequest": {
+      "type": "structure",
+      "members": {
+        "vault_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault."
+          }
+        },
+        "credential_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the vault credential."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.vaults#DeletedVaultCredentialResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the deleted credential.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.vaults#DeletedVaultCredentialResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type. Always `vault.credential.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the resource was deleted. Always `true`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation that a vault credential was deleted."
+      }
+    },
+    "com.openai.vaults#DeletedVaultCredentialResourceObject": {
+      "type": "enum",
+      "members": {
+        "VAULT_CREDENTIAL_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vault.credential.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type. Always `vault.credential.deleted`."
+      }
+    },
+    "com.openai.vaults#DeleteVaultCredential": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.vaults#DeleteVaultCredentialRequest"
+      },
+      "output": {
+        "target": "com.openai.vaults#DeletedVaultCredentialResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.vaults#BadRequest"
+        },
+        {
+          "target": "com.openai.vaults#Forbidden"
+        },
+        {
+          "target": "com.openai.vaults#NotFound"
+        },
+        {
+          "target": "com.openai.vaults#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/vaults/{vault_id}/credentials/{credential_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a vault credential\n\nDeletes a vault credential. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults)."
+      }
+    },
+    "com.openai.vaults#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.vaults#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.vaults#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.vaults#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.openai.vaults#Vaults": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.vaults#ListVaults"
+        },
+        {
+          "target": "com.openai.vaults#CreateVault"
+        },
+        {
+          "target": "com.openai.vaults#GetVault"
+        },
+        {
+          "target": "com.openai.vaults#DeleteVault"
+        },
+        {
+          "target": "com.openai.vaults#ListVaultCredentials"
+        },
+        {
+          "target": "com.openai.vaults#CreateVaultCredential"
+        },
+        {
+          "target": "com.openai.vaults#GetVaultCredential"
+        },
+        {
+          "target": "com.openai.vaults#RotateVaultCredential"
+        },
+        {
+          "target": "com.openai.vaults#DeleteVaultCredential"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

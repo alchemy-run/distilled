@@ -535,6 +535,32 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
           },
         });
 
+  // One server-sent event's `data` gets the same treatment as a 2xx JSON
+  // body: provider transform, wire->TS key mapping, strict-mode validation,
+  // sensitive wrapping.
+  const decodeEvent = ({
+    data,
+    outputAst,
+  }: {
+    readonly data: unknown;
+    readonly outputAst: AST.AST;
+  }) =>
+    Effect.withFiber((fiber) => {
+      const plan = decodePlanFor(outputAst);
+      const body = options.transformResponse ? options.transformResponse(data) : data;
+      const mapped = plan.verbatim ? body : mapKeys(outputAst, body, "decode");
+      const invalid = checkResponse(fiber.context as Context.Context<any>, outputAst, mapped);
+      if (invalid !== undefined) {
+        return fail(
+          options.parseError({
+            body: plan.withholdBody ? "[REDACTED]" : data,
+            cause: plan.withholdBody ? withholdActual(invalid) : invalid,
+          }),
+        );
+      }
+      return Effect.succeed(plan.sensitive ? wrapSensitive(outputAst, mapped) : mapped);
+    }) as Effect.Effect<unknown>;
+
   const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
@@ -564,6 +590,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
         Effect.withFiber((fiber) =>
           decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
         ),
+      decodeEvent,
       call,
     }),
   );

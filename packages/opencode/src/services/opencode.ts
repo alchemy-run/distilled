@@ -1382,8 +1382,6 @@ export interface VcsInfo {
 }
 export interface GlobalDisposeRequest {}
 export type GlobalDisposeResponse = boolean;
-export interface GlobalEventRequest {}
-export interface GlobalEventResponse {}
 export interface GlobalHealthRequest {}
 export interface GlobalHealthResponse {
   healthy: boolean;
@@ -2145,14 +2143,14 @@ export interface PtyShellsResponseBodyItem {
 /** List of shells */
 export type PtyShellsResponseBodyList = Array<PtyShellsResponseBodyItem>;
 export type PtyShellsResponse = PtyShellsResponseBodyList;
-export type EventTuiPromptAppendType = "tui.prompt.append";
-export type EventTuiPromptAppendProperties = FindTextResponseBodyItemPath;
-export interface EventTuiPromptAppend {
-  type: EventTuiPromptAppendType;
+export type EventTuiPromptAppendType2 = "tui.prompt.append";
+export type EventTuiPromptAppendProperties2 = FindTextResponseBodyItemPath;
+export interface EventTuiPromptAppend2 {
+  type: EventTuiPromptAppendType2;
   properties: FindTextResponseBodyItemPath;
 }
-export type EventTuiCommandExecuteType = "tui.command.execute";
-export type EventTuiCommandExecutePropertiesCommandCase0 =
+export type EventTuiCommandExecuteType2 = "tui.command.execute";
+export type EventTuiCommandExecutePropertiesCommandCase02 =
   | "session.list"
   | "session.new"
   | "session.share"
@@ -2169,42 +2167,42 @@ export type EventTuiCommandExecutePropertiesCommandCase0 =
   | "prompt.clear"
   | "prompt.submit"
   | "agent.cycle";
-export type EventTuiCommandExecutePropertiesCommand =
-  | EventTuiCommandExecutePropertiesCommandCase0
+export type EventTuiCommandExecutePropertiesCommand2 =
+  | EventTuiCommandExecutePropertiesCommandCase02
   | string;
-export interface EventTuiCommandExecuteProperties {
-  command: EventTuiCommandExecutePropertiesCommand;
+export interface EventTuiCommandExecuteProperties2 {
+  command: EventTuiCommandExecutePropertiesCommand2;
 }
-export interface EventTuiCommandExecute {
-  type: EventTuiCommandExecuteType;
-  properties: EventTuiCommandExecuteProperties;
+export interface EventTuiCommandExecute2 {
+  type: EventTuiCommandExecuteType2;
+  properties: EventTuiCommandExecuteProperties2;
 }
-export type EventTuiToastShowType = "tui.toast.show";
-export type EventTuiToastShowPropertiesVariant = "info" | "success" | "warning" | "error";
-export interface EventTuiToastShowProperties {
+export type EventTuiToastShowType2 = "tui.toast.show";
+export type EventTuiToastShowPropertiesVariant2 = "info" | "success" | "warning" | "error";
+export interface EventTuiToastShowProperties2 {
   title?: string;
   message: string;
-  variant: EventTuiToastShowPropertiesVariant | (string & {});
+  variant: EventTuiToastShowPropertiesVariant2 | (string & {});
   duration?: number;
 }
-export interface EventTuiToastShow {
-  type: EventTuiToastShowType;
-  properties: EventTuiToastShowProperties;
+export interface EventTuiToastShow2 {
+  type: EventTuiToastShowType2;
+  properties: EventTuiToastShowProperties2;
 }
-export type EventTuiSessionSelectType = "tui.session.select";
-export interface EventTuiSessionSelectProperties {
+export type EventTuiSessionSelectType2 = "tui.session.select";
+export interface EventTuiSessionSelectProperties2 {
   /** Session ID to navigate to */
   sessionID: string;
 }
-export interface EventTuiSessionSelect {
-  type: EventTuiSessionSelectType;
-  properties: EventTuiSessionSelectProperties;
+export interface EventTuiSessionSelect2 {
+  type: EventTuiSessionSelectType2;
+  properties: EventTuiSessionSelectProperties2;
 }
 export type PublishTuiRequestBody =
-  | EventTuiPromptAppend
-  | EventTuiCommandExecute
-  | EventTuiToastShow
-  | EventTuiSessionSelect;
+  | EventTuiPromptAppend2
+  | EventTuiCommandExecute2
+  | EventTuiToastShow2
+  | EventTuiSessionSelect2;
 export interface PublishTuiRequest {
   directory?: string;
   workspace?: string;
@@ -3033,9 +3031,3916 @@ export interface SubscribeEventRequest {
   directory?: string;
   workspace?: string;
 }
-export interface SubscribeEventResponse {}
+export type EventModelsDevRefreshedType = "models-dev.refreshed";
+export interface EventModelsDevRefreshed {
+  id: string;
+  type: EventModelsDevRefreshedType;
+  properties: unknown;
+}
+export type EventIntegrationUpdatedType = "integration.updated";
+export interface EventIntegrationUpdated {
+  id: string;
+  type: EventIntegrationUpdatedType;
+  properties: unknown;
+}
+export type EventIntegrationConnectionUpdatedType = "integration.connection.updated";
+export interface EventIntegrationConnectionUpdatedProperties {
+  integrationID: string;
+}
+export interface EventIntegrationConnectionUpdated {
+  id: string;
+  type: EventIntegrationConnectionUpdatedType;
+  properties: EventIntegrationConnectionUpdatedProperties;
+}
+export type EventCatalogUpdatedType = "catalog.updated";
+export interface EventCatalogUpdated {
+  id: string;
+  type: EventCatalogUpdatedType;
+  properties: unknown;
+}
+export type EventSessionCreatedType = "session.created";
+export interface EventSessionCreatedProperties {
+  sessionID: string;
+  info: Session;
+}
+export interface EventSessionCreated {
+  id: string;
+  type: EventSessionCreatedType;
+  properties: EventSessionCreatedProperties;
+}
+export type EventSessionUpdatedType = "session.updated";
+export type EventSessionUpdatedProperties = EventSessionCreatedProperties;
+export interface EventSessionUpdated {
+  id: string;
+  type: EventSessionUpdatedType;
+  properties: EventSessionCreatedProperties;
+}
+export type EventSessionDeletedType = "session.deleted";
+export type EventSessionDeletedProperties = EventSessionCreatedProperties;
+export interface EventSessionDeleted {
+  id: string;
+  type: EventSessionDeletedType;
+  properties: EventSessionCreatedProperties;
+}
+export type EventMessageUpdatedType = "message.updated";
+export interface EventMessageUpdatedProperties {
+  sessionID: string;
+  info: Message;
+}
+export interface EventMessageUpdated {
+  id: string;
+  type: EventMessageUpdatedType;
+  properties: EventMessageUpdatedProperties;
+}
+export type EventMessageRemovedType = "message.removed";
+export interface EventMessageRemovedProperties {
+  sessionID: string;
+  messageID: string;
+}
+export interface EventMessageRemoved {
+  id: string;
+  type: EventMessageRemovedType;
+  properties: EventMessageRemovedProperties;
+}
+export type EventMessagePartUpdatedType = "message.part.updated";
+export interface EventMessagePartUpdatedProperties {
+  sessionID: string;
+  part: Part;
+  time: number;
+}
+export interface EventMessagePartUpdated {
+  id: string;
+  type: EventMessagePartUpdatedType;
+  properties: EventMessagePartUpdatedProperties;
+}
+export type EventMessagePartRemovedType = "message.part.removed";
+export interface EventMessagePartRemovedProperties {
+  sessionID: string;
+  messageID: string;
+  partID: string;
+}
+export interface EventMessagePartRemoved {
+  id: string;
+  type: EventMessagePartRemovedType;
+  properties: EventMessagePartRemovedProperties;
+}
+export type EventSessionNextAgentSwitchedType = "session.next.agent.switched";
+export interface EventSessionNextAgentSwitchedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  agent: string;
+}
+export interface EventSessionNextAgentSwitched {
+  id: string;
+  type: EventSessionNextAgentSwitchedType;
+  properties: EventSessionNextAgentSwitchedProperties;
+}
+export type EventSessionNextModelSwitchedType = "session.next.model.switched";
+export interface EventSessionNextModelSwitchedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  model: CreateSessionRequestModel;
+}
+export interface EventSessionNextModelSwitched {
+  id: string;
+  type: EventSessionNextModelSwitchedType;
+  properties: EventSessionNextModelSwitchedProperties;
+}
+export type EventSessionNextMovedType = "session.next.moved";
+export interface EventSessionNextMovedProperties {
+  timestamp: number;
+  sessionID: string;
+  location: LocationRef;
+  subdirectory?: string;
+}
+export interface EventSessionNextMoved {
+  id: string;
+  type: EventSessionNextMovedType;
+  properties: EventSessionNextMovedProperties;
+}
+export type EventSessionNextPromptedType = "session.next.prompted";
+export interface PromptSource {
+  start: number;
+  end: number;
+  text: string;
+}
+export interface PromptFileAttachment {
+  uri: string;
+  mime: string;
+  name?: string;
+  description?: string;
+  source?: PromptSource;
+}
+export type PromptFilesList = Array<PromptFileAttachment>;
+export interface PromptAgentAttachment {
+  name: string;
+  source?: PromptSource;
+}
+export type PromptAgentsList = Array<PromptAgentAttachment>;
+export interface Prompt {
+  text: string;
+  files?: PromptFilesList;
+  agents?: PromptAgentsList;
+}
+export type EventSessionNextPromptedPropertiesDelivery = "steer" | "queue";
+export interface EventSessionNextPromptedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: EventSessionNextPromptedPropertiesDelivery;
+}
+export interface EventSessionNextPrompted {
+  id: string;
+  type: EventSessionNextPromptedType;
+  properties: EventSessionNextPromptedProperties;
+}
+export type EventSessionNextPromptAdmittedType = "session.next.prompt.admitted";
+export type EventSessionNextPromptAdmittedPropertiesDelivery = "steer" | "queue";
+export interface EventSessionNextPromptAdmittedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: EventSessionNextPromptAdmittedPropertiesDelivery;
+}
+export interface EventSessionNextPromptAdmitted {
+  id: string;
+  type: EventSessionNextPromptAdmittedType;
+  properties: EventSessionNextPromptAdmittedProperties;
+}
+export type EventSessionNextContextUpdatedType = "session.next.context.updated";
+export interface EventSessionNextContextUpdatedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  text: string;
+}
+export interface EventSessionNextContextUpdated {
+  id: string;
+  type: EventSessionNextContextUpdatedType;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export type EventSessionNextSyntheticType = "session.next.synthetic";
+export type EventSessionNextSyntheticProperties = EventSessionNextContextUpdatedProperties;
+export interface EventSessionNextSynthetic {
+  id: string;
+  type: EventSessionNextSyntheticType;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export type EventSessionNextShellStartedType = "session.next.shell.started";
+export interface EventSessionNextShellStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  callID: string;
+  command: string;
+}
+export interface EventSessionNextShellStarted {
+  id: string;
+  type: EventSessionNextShellStartedType;
+  properties: EventSessionNextShellStartedProperties;
+}
+export type EventSessionNextShellEndedType = "session.next.shell.ended";
+export interface EventSessionNextShellEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  callID: string;
+  output: string;
+}
+export interface EventSessionNextShellEnded {
+  id: string;
+  type: EventSessionNextShellEndedType;
+  properties: EventSessionNextShellEndedProperties;
+}
+export type EventSessionNextStepStartedType = "session.next.step.started";
+export interface EventSessionNextStepStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  agent: string;
+  model: CreateSessionRequestModel;
+  snapshot?: string;
+}
+export interface EventSessionNextStepStarted {
+  id: string;
+  type: EventSessionNextStepStartedType;
+  properties: EventSessionNextStepStartedProperties;
+}
+export type EventSessionNextStepEndedType = "session.next.step.ended";
+export type EventSessionNextStepEndedPropertiesTokensCache = ModelCostCache;
+export type EventSessionNextStepEndedPropertiesTokens = SessionTokens;
+export type EventSessionNextStepEndedPropertiesFilesList = Array<string>;
+export interface EventSessionNextStepEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  finish: string;
+  cost: number;
+  tokens: SessionTokens;
+  snapshot?: string;
+  files?: EventSessionNextStepEndedPropertiesFilesList;
+}
+export interface EventSessionNextStepEnded {
+  id: string;
+  type: EventSessionNextStepEndedType;
+  properties: EventSessionNextStepEndedProperties;
+}
+export type EventSessionNextStepFailedType = "session.next.step.failed";
+export type SessionErrorUnknownType = "unknown";
+export interface SessionErrorUnknown {
+  type: SessionErrorUnknownType;
+  message: string;
+}
+export interface EventSessionNextStepFailedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  error: SessionErrorUnknown;
+}
+export interface EventSessionNextStepFailed {
+  id: string;
+  type: EventSessionNextStepFailedType;
+  properties: EventSessionNextStepFailedProperties;
+}
+export type EventSessionNextTextStartedType = "session.next.text.started";
+export interface EventSessionNextTextStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  textID: string;
+}
+export interface EventSessionNextTextStarted {
+  id: string;
+  type: EventSessionNextTextStartedType;
+  properties: EventSessionNextTextStartedProperties;
+}
+export type EventSessionNextTextDeltaType = "session.next.text.delta";
+export interface EventSessionNextTextDeltaProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  textID: string;
+  delta: string;
+}
+export interface EventSessionNextTextDelta {
+  id: string;
+  type: EventSessionNextTextDeltaType;
+  properties: EventSessionNextTextDeltaProperties;
+}
+export type EventSessionNextTextEndedType = "session.next.text.ended";
+export interface EventSessionNextTextEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  textID: string;
+  text: string;
+}
+export interface EventSessionNextTextEnded {
+  id: string;
+  type: EventSessionNextTextEndedType;
+  properties: EventSessionNextTextEndedProperties;
+}
+export type EventSessionNextReasoningStartedType = "session.next.reasoning.started";
+export type LLMProviderMetadata = { [key: string]: unknown | undefined };
+export interface EventSessionNextReasoningStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  reasoningID: string;
+  providerMetadata?: LLMProviderMetadata;
+}
+export interface EventSessionNextReasoningStarted {
+  id: string;
+  type: EventSessionNextReasoningStartedType;
+  properties: EventSessionNextReasoningStartedProperties;
+}
+export type EventSessionNextReasoningDeltaType = "session.next.reasoning.delta";
+export interface EventSessionNextReasoningDeltaProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  reasoningID: string;
+  delta: string;
+}
+export interface EventSessionNextReasoningDelta {
+  id: string;
+  type: EventSessionNextReasoningDeltaType;
+  properties: EventSessionNextReasoningDeltaProperties;
+}
+export type EventSessionNextReasoningEndedType = "session.next.reasoning.ended";
+export interface EventSessionNextReasoningEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  reasoningID: string;
+  text: string;
+  providerMetadata?: LLMProviderMetadata;
+}
+export interface EventSessionNextReasoningEnded {
+  id: string;
+  type: EventSessionNextReasoningEndedType;
+  properties: EventSessionNextReasoningEndedProperties;
+}
+export type EventSessionNextToolInputStartedType = "session.next.tool.input.started";
+export interface EventSessionNextToolInputStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  name: string;
+}
+export interface EventSessionNextToolInputStarted {
+  id: string;
+  type: EventSessionNextToolInputStartedType;
+  properties: EventSessionNextToolInputStartedProperties;
+}
+export type EventSessionNextToolInputDeltaType = "session.next.tool.input.delta";
+export interface EventSessionNextToolInputDeltaProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  delta: string;
+}
+export interface EventSessionNextToolInputDelta {
+  id: string;
+  type: EventSessionNextToolInputDeltaType;
+  properties: EventSessionNextToolInputDeltaProperties;
+}
+export type EventSessionNextToolInputEndedType = "session.next.tool.input.ended";
+export interface EventSessionNextToolInputEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  text: string;
+}
+export interface EventSessionNextToolInputEnded {
+  id: string;
+  type: EventSessionNextToolInputEndedType;
+  properties: EventSessionNextToolInputEndedProperties;
+}
+export type EventSessionNextToolCalledType = "session.next.tool.called";
+export interface EventSessionNextToolCalledPropertiesProvider {
+  executed: boolean;
+  metadata?: LLMProviderMetadata;
+}
+export interface EventSessionNextToolCalledProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  tool: string;
+  input: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export interface EventSessionNextToolCalled {
+  id: string;
+  type: EventSessionNextToolCalledType;
+  properties: EventSessionNextToolCalledProperties;
+}
+export type EventSessionNextToolProgressType = "session.next.tool.progress";
+export type ToolTextContentType = "text";
+export interface ToolTextContent {
+  type: ToolTextContentType;
+  text: string;
+}
+export type ToolFileContentType = "file";
+export interface ToolFileContent {
+  type: ToolFileContentType;
+  uri: string;
+  mime: string;
+  name?: string;
+}
+export type LLMToolContent = ToolTextContent | ToolFileContent;
+export type EventSessionNextToolProgressPropertiesContentList = Array<LLMToolContent>;
+export interface EventSessionNextToolProgressProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: EventSessionNextToolProgressPropertiesContentList;
+}
+export interface EventSessionNextToolProgress {
+  id: string;
+  type: EventSessionNextToolProgressType;
+  properties: EventSessionNextToolProgressProperties;
+}
+export type EventSessionNextToolSuccessType = "session.next.tool.success";
+export type EventSessionNextToolSuccessPropertiesContentList = Array<LLMToolContent>;
+export type EventSessionNextToolSuccessPropertiesOutputPathsList = Array<string>;
+export type EventSessionNextToolSuccessPropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export interface EventSessionNextToolSuccessProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: EventSessionNextToolSuccessPropertiesContentList;
+  outputPaths?: EventSessionNextToolSuccessPropertiesOutputPathsList;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export interface EventSessionNextToolSuccess {
+  id: string;
+  type: EventSessionNextToolSuccessType;
+  properties: EventSessionNextToolSuccessProperties;
+}
+export type EventSessionNextToolFailedType = "session.next.tool.failed";
+export type EventSessionNextToolFailedPropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export interface EventSessionNextToolFailedProperties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  error: SessionErrorUnknown;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export interface EventSessionNextToolFailed {
+  id: string;
+  type: EventSessionNextToolFailedType;
+  properties: EventSessionNextToolFailedProperties;
+}
+export type EventSessionNextRetriedType = "session.next.retried";
+export type SessionNextRetryErrorResponseHeadersMap = { [key: string]: string | undefined };
+export type SessionNextRetryErrorMetadataMap = { [key: string]: string | undefined };
+export interface SessionNextRetryError {
+  message: string;
+  statusCode?: number;
+  isRetryable: boolean;
+  responseHeaders?: SessionNextRetryErrorResponseHeadersMap;
+  responseBody?: string;
+  metadata?: SessionNextRetryErrorMetadataMap;
+}
+export interface EventSessionNextRetriedProperties {
+  timestamp: number;
+  sessionID: string;
+  attempt: number;
+  error: SessionNextRetryError;
+}
+export interface EventSessionNextRetried {
+  id: string;
+  type: EventSessionNextRetriedType;
+  properties: EventSessionNextRetriedProperties;
+}
+export type EventSessionNextCompactionStartedType = "session.next.compaction.started";
+export type EventSessionNextCompactionStartedPropertiesReason = "auto" | "manual";
+export interface EventSessionNextCompactionStartedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: EventSessionNextCompactionStartedPropertiesReason;
+}
+export interface EventSessionNextCompactionStarted {
+  id: string;
+  type: EventSessionNextCompactionStartedType;
+  properties: EventSessionNextCompactionStartedProperties;
+}
+export type EventSessionNextCompactionDeltaType = "session.next.compaction.delta";
+export type EventSessionNextCompactionDeltaProperties = EventSessionNextContextUpdatedProperties;
+export interface EventSessionNextCompactionDelta {
+  id: string;
+  type: EventSessionNextCompactionDeltaType;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export type EventSessionNextCompactionEndedType = "session.next.compaction.ended";
+export type EventSessionNextCompactionEndedPropertiesReason = "auto" | "manual";
+export interface EventSessionNextCompactionEndedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: EventSessionNextCompactionEndedPropertiesReason;
+  text: string;
+  recent: string;
+}
+export interface EventSessionNextCompactionEnded {
+  id: string;
+  type: EventSessionNextCompactionEndedType;
+  properties: EventSessionNextCompactionEndedProperties;
+}
+export type EventSessionNextRevertStagedType = "session.next.revert.staged";
+export interface EventSessionNextRevertStagedProperties {
+  timestamp: number;
+  sessionID: string;
+  revert: RevertState;
+}
+export interface EventSessionNextRevertStaged {
+  id: string;
+  type: EventSessionNextRevertStagedType;
+  properties: EventSessionNextRevertStagedProperties;
+}
+export type EventSessionNextRevertClearedType = "session.next.revert.cleared";
+export interface EventSessionNextRevertClearedProperties {
+  timestamp: number;
+  sessionID: string;
+}
+export interface EventSessionNextRevertCleared {
+  id: string;
+  type: EventSessionNextRevertClearedType;
+  properties: EventSessionNextRevertClearedProperties;
+}
+export type EventSessionNextRevertCommittedType = "session.next.revert.committed";
+export interface EventSessionNextRevertCommittedProperties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+}
+export interface EventSessionNextRevertCommitted {
+  id: string;
+  type: EventSessionNextRevertCommittedType;
+  properties: EventSessionNextRevertCommittedProperties;
+}
+export type EventMessagePartDeltaType = "message.part.delta";
+export interface EventMessagePartDeltaProperties {
+  sessionID: string;
+  messageID: string;
+  partID: string;
+  field: string;
+  delta: string;
+}
+export interface EventMessagePartDelta {
+  id: string;
+  type: EventMessagePartDeltaType;
+  properties: EventMessagePartDeltaProperties;
+}
+export type EventSessionDiffType = "session.diff";
+export type EventSessionDiffPropertiesDiffList = Array<SnapshotFileDiff>;
+export interface EventSessionDiffProperties {
+  sessionID: string;
+  diff: EventSessionDiffPropertiesDiffList;
+}
+export interface EventSessionDiff {
+  id: string;
+  type: EventSessionDiffType;
+  properties: EventSessionDiffProperties;
+}
+export type EventSessionErrorType = "session.error";
+export type EventSessionErrorPropertiesError =
+  | ProviderAuthError
+  | UnknownError
+  | MessageOutputLengthError
+  | MessageAbortedError
+  | StructuredOutputError
+  | ContextOverflowError
+  | ContentFilterError
+  | APIError;
+export interface EventSessionErrorProperties {
+  sessionID?: string;
+  error?: EventSessionErrorPropertiesError;
+}
+export interface EventSessionError {
+  id: string;
+  type: EventSessionErrorType;
+  properties: EventSessionErrorProperties;
+}
+export type EventInstallationUpdatedType = "installation.updated";
+export interface EventInstallationUpdatedProperties {
+  version: string;
+}
+export interface EventInstallationUpdated {
+  id: string;
+  type: EventInstallationUpdatedType;
+  properties: EventInstallationUpdatedProperties;
+}
+export type EventInstallationUpdateAvailableType = "installation.update-available";
+export type EventInstallationUpdateAvailableProperties = EventInstallationUpdatedProperties;
+export interface EventInstallationUpdateAvailable {
+  id: string;
+  type: EventInstallationUpdateAvailableType;
+  properties: EventInstallationUpdatedProperties;
+}
+export type EventFileEditedType = "file.edited";
+export interface EventFileEditedProperties {
+  file: string;
+}
+export interface EventFileEdited {
+  id: string;
+  type: EventFileEditedType;
+  properties: EventFileEditedProperties;
+}
+export type EventReferenceUpdatedType = "reference.updated";
+export interface EventReferenceUpdated {
+  id: string;
+  type: EventReferenceUpdatedType;
+  properties: unknown;
+}
+export type EventPermissionV2AskedType = "permission.v2.asked";
+export type EventPermissionV2AskedPropertiesResourcesList = Array<string>;
+export type EventPermissionV2AskedPropertiesSaveList = Array<string>;
+export interface EventPermissionV2AskedProperties {
+  id: string;
+  sessionID: string;
+  action: string;
+  resources: EventPermissionV2AskedPropertiesResourcesList;
+  save?: EventPermissionV2AskedPropertiesSaveList;
+  metadata?: unknown;
+  source?: PermissionV2Source;
+}
+export interface EventPermissionV2Asked {
+  id: string;
+  type: EventPermissionV2AskedType;
+  properties: EventPermissionV2AskedProperties;
+}
+export type EventPermissionV2RepliedType = "permission.v2.replied";
+export interface EventPermissionV2RepliedProperties {
+  sessionID: string;
+  requestID: string;
+  reply: PermissionV2Reply;
+}
+export interface EventPermissionV2Replied {
+  id: string;
+  type: EventPermissionV2RepliedType;
+  properties: EventPermissionV2RepliedProperties;
+}
+export type EventPluginAddedType = "plugin.added";
+export interface EventPluginAddedProperties {
+  id: string;
+}
+export interface EventPluginAdded {
+  id: string;
+  type: EventPluginAddedType;
+  properties: EventPluginAddedProperties;
+}
+export type EventProjectDirectoriesUpdatedType = "project.directories.updated";
+export interface EventProjectDirectoriesUpdatedProperties {
+  projectID: string;
+}
+export interface EventProjectDirectoriesUpdated {
+  id: string;
+  type: EventProjectDirectoriesUpdatedType;
+  properties: EventProjectDirectoriesUpdatedProperties;
+}
+export type EventFileWatcherUpdatedType = "file.watcher.updated";
+export type EventFileWatcherUpdatedPropertiesEvent = "add" | "change" | "unlink";
+export interface EventFileWatcherUpdatedProperties {
+  file: string;
+  event: EventFileWatcherUpdatedPropertiesEvent;
+}
+export interface EventFileWatcherUpdated {
+  id: string;
+  type: EventFileWatcherUpdatedType;
+  properties: EventFileWatcherUpdatedProperties;
+}
+export type EventPtyCreatedType = "pty.created";
+export interface EventPtyCreatedProperties {
+  info: Pty;
+}
+export interface EventPtyCreated {
+  id: string;
+  type: EventPtyCreatedType;
+  properties: EventPtyCreatedProperties;
+}
+export type EventPtyUpdatedType = "pty.updated";
+export type EventPtyUpdatedProperties = EventPtyCreatedProperties;
+export interface EventPtyUpdated {
+  id: string;
+  type: EventPtyUpdatedType;
+  properties: EventPtyCreatedProperties;
+}
+export type EventPtyExitedType = "pty.exited";
+export interface EventPtyExitedProperties {
+  id: string;
+  exitCode: number;
+}
+export interface EventPtyExited {
+  id: string;
+  type: EventPtyExitedType;
+  properties: EventPtyExitedProperties;
+}
+export type EventPtyDeletedType = "pty.deleted";
+export type EventPtyDeletedProperties = EventPluginAddedProperties;
+export interface EventPtyDeleted {
+  id: string;
+  type: EventPtyDeletedType;
+  properties: EventPluginAddedProperties;
+}
+export type EventQuestionV2AskedType = "question.v2.asked";
+/** Questions to ask */
+export type EventQuestionV2AskedPropertiesQuestionsList = Array<QuestionV2Info>;
+export interface EventQuestionV2AskedProperties {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: EventQuestionV2AskedPropertiesQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export interface EventQuestionV2Asked {
+  id: string;
+  type: EventQuestionV2AskedType;
+  properties: EventQuestionV2AskedProperties;
+}
+export type EventQuestionV2RepliedType = "question.v2.replied";
+export type EventQuestionV2RepliedPropertiesAnswersList = Array<QuestionV2Answer>;
+export interface EventQuestionV2RepliedProperties {
+  sessionID: string;
+  requestID: string;
+  answers: EventQuestionV2RepliedPropertiesAnswersList;
+}
+export interface EventQuestionV2Replied {
+  id: string;
+  type: EventQuestionV2RepliedType;
+  properties: EventQuestionV2RepliedProperties;
+}
+export type EventQuestionV2RejectedType = "question.v2.rejected";
+export interface EventQuestionV2RejectedProperties {
+  sessionID: string;
+  requestID: string;
+}
+export interface EventQuestionV2Rejected {
+  id: string;
+  type: EventQuestionV2RejectedType;
+  properties: EventQuestionV2RejectedProperties;
+}
+export type EventTodoUpdatedType = "todo.updated";
+export type EventTodoUpdatedPropertiesTodosList = Array<Todo>;
+export interface EventTodoUpdatedProperties {
+  sessionID: string;
+  todos: EventTodoUpdatedPropertiesTodosList;
+}
+export interface EventTodoUpdated {
+  id: string;
+  type: EventTodoUpdatedType;
+  properties: EventTodoUpdatedProperties;
+}
+export type EventLspUpdatedType = "lsp.updated";
+export interface EventLspUpdated {
+  id: string;
+  type: EventLspUpdatedType;
+  properties: unknown;
+}
+export type EventPermissionAskedType = "permission.asked";
+export type EventPermissionAskedPropertiesPatternsList = Array<string>;
+export type EventPermissionAskedPropertiesAlwaysList = Array<string>;
+export type EventPermissionAskedPropertiesTool = PermissionRequestTool;
+export interface EventPermissionAskedProperties {
+  id: string;
+  sessionID: string;
+  permission: string;
+  patterns: EventPermissionAskedPropertiesPatternsList;
+  metadata: unknown;
+  always: EventPermissionAskedPropertiesAlwaysList;
+  tool?: PermissionRequestTool;
+}
+export interface EventPermissionAsked {
+  id: string;
+  type: EventPermissionAskedType;
+  properties: EventPermissionAskedProperties;
+}
+export type EventPermissionRepliedType = "permission.replied";
+export type EventPermissionRepliedPropertiesReply = "once" | "always" | "reject";
+export interface EventPermissionRepliedProperties {
+  sessionID: string;
+  requestID: string;
+  reply: EventPermissionRepliedPropertiesReply;
+}
+export interface EventPermissionReplied {
+  id: string;
+  type: EventPermissionRepliedType;
+  properties: EventPermissionRepliedProperties;
+}
+export type EventTuiPromptAppendType = "tui.prompt.append";
+export type EventTuiPromptAppendProperties = FindTextResponseBodyItemPath;
+export interface EventTuiPromptAppend {
+  id: string;
+  type: EventTuiPromptAppendType;
+  properties: FindTextResponseBodyItemPath;
+}
+export type EventTuiCommandExecuteType = "tui.command.execute";
+export type EventTuiCommandExecutePropertiesCommandCase0 =
+  | "session.list"
+  | "session.new"
+  | "session.share"
+  | "session.interrupt"
+  | "session.compact"
+  | "session.page.up"
+  | "session.page.down"
+  | "session.line.up"
+  | "session.line.down"
+  | "session.half.page.up"
+  | "session.half.page.down"
+  | "session.first"
+  | "session.last"
+  | "prompt.clear"
+  | "prompt.submit"
+  | "agent.cycle";
+export type EventTuiCommandExecutePropertiesCommand =
+  | EventTuiCommandExecutePropertiesCommandCase0
+  | string;
+export interface EventTuiCommandExecuteProperties {
+  command: EventTuiCommandExecutePropertiesCommand;
+}
+export interface EventTuiCommandExecute {
+  id: string;
+  type: EventTuiCommandExecuteType;
+  properties: EventTuiCommandExecuteProperties;
+}
+export type EventTuiToastShowType = "tui.toast.show";
+export type EventTuiToastShowPropertiesVariant = "info" | "success" | "warning" | "error";
+export interface EventTuiToastShowProperties {
+  title?: string;
+  message: string;
+  variant: EventTuiToastShowPropertiesVariant;
+  duration?: number;
+}
+export interface EventTuiToastShow {
+  id: string;
+  type: EventTuiToastShowType;
+  properties: EventTuiToastShowProperties;
+}
+export type EventTuiSessionSelectType = "tui.session.select";
+export type EventTuiSessionSelectProperties = EventTuiSessionSelectProperties2;
+export interface EventTuiSessionSelect {
+  id: string;
+  type: EventTuiSessionSelectType;
+  properties: EventTuiSessionSelectProperties2;
+}
+export type EventMcpToolsChangedType = "mcp.tools.changed";
+export interface EventMcpToolsChangedProperties {
+  server: string;
+}
+export interface EventMcpToolsChanged {
+  id: string;
+  type: EventMcpToolsChangedType;
+  properties: EventMcpToolsChangedProperties;
+}
+export type EventMcpBrowserOpenFailedType = "mcp.browser.open.failed";
+export interface EventMcpBrowserOpenFailedProperties {
+  mcpName: string;
+  url: string;
+}
+export interface EventMcpBrowserOpenFailed {
+  id: string;
+  type: EventMcpBrowserOpenFailedType;
+  properties: EventMcpBrowserOpenFailedProperties;
+}
+export type EventCommandExecutedType = "command.executed";
+export interface EventCommandExecutedProperties {
+  name: string;
+  sessionID: string;
+  arguments: string;
+  messageID: string;
+}
+export interface EventCommandExecuted {
+  id: string;
+  type: EventCommandExecutedType;
+  properties: EventCommandExecutedProperties;
+}
+export type EventProjectUpdatedType = "project.updated";
+export type EventProjectUpdatedPropertiesSandboxesList = Array<string>;
+export interface EventProjectUpdatedProperties {
+  id: string;
+  worktree: string;
+  vcs?: ProjectVcs;
+  name?: string;
+  icon?: ProjectIcon;
+  commands?: ProjectCommands;
+  time: ProjectTime;
+  sandboxes: EventProjectUpdatedPropertiesSandboxesList;
+}
+export interface EventProjectUpdated {
+  id: string;
+  type: EventProjectUpdatedType;
+  properties: EventProjectUpdatedProperties;
+}
+export type EventSessionStatusType = "session.status";
+export interface EventSessionStatusProperties {
+  sessionID: string;
+  status: SessionStatus;
+}
+export interface EventSessionStatus {
+  id: string;
+  type: EventSessionStatusType;
+  properties: EventSessionStatusProperties;
+}
+export type EventSessionIdleType = "session.idle";
+export interface EventSessionIdleProperties {
+  sessionID: string;
+}
+export interface EventSessionIdle {
+  id: string;
+  type: EventSessionIdleType;
+  properties: EventSessionIdleProperties;
+}
+export type EventQuestionAskedType = "question.asked";
+/** Questions to ask */
+export type EventQuestionAskedPropertiesQuestionsList = Array<QuestionInfo>;
+export interface EventQuestionAskedProperties {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: EventQuestionAskedPropertiesQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export interface EventQuestionAsked {
+  id: string;
+  type: EventQuestionAskedType;
+  properties: EventQuestionAskedProperties;
+}
+export type EventQuestionRepliedType = "question.replied";
+export type EventQuestionRepliedPropertiesAnswersList = Array<QuestionAnswer>;
+export interface EventQuestionRepliedProperties {
+  sessionID: string;
+  requestID: string;
+  answers: EventQuestionRepliedPropertiesAnswersList;
+}
+export interface EventQuestionReplied {
+  id: string;
+  type: EventQuestionRepliedType;
+  properties: EventQuestionRepliedProperties;
+}
+export type EventQuestionRejectedType = "question.rejected";
+export type EventQuestionRejectedProperties = EventQuestionV2RejectedProperties;
+export interface EventQuestionRejected {
+  id: string;
+  type: EventQuestionRejectedType;
+  properties: EventQuestionV2RejectedProperties;
+}
+export type EventSessionCompactedType = "session.compacted";
+export type EventSessionCompactedProperties = EventSessionIdleProperties;
+export interface EventSessionCompacted {
+  id: string;
+  type: EventSessionCompactedType;
+  properties: EventSessionIdleProperties;
+}
+export type EventVcsBranchUpdatedType = "vcs.branch.updated";
+export interface EventVcsBranchUpdatedProperties {
+  branch?: string;
+}
+export interface EventVcsBranchUpdated {
+  id: string;
+  type: EventVcsBranchUpdatedType;
+  properties: EventVcsBranchUpdatedProperties;
+}
+export type EventWorkspaceReadyType = "workspace.ready";
+export interface EventWorkspaceReadyProperties {
+  name: string;
+}
+export interface EventWorkspaceReady {
+  id: string;
+  type: EventWorkspaceReadyType;
+  properties: EventWorkspaceReadyProperties;
+}
+export type EventWorkspaceFailedType = "workspace.failed";
+export type EventWorkspaceFailedProperties = MessageAbortedErrorData;
+export interface EventWorkspaceFailed {
+  id: string;
+  type: EventWorkspaceFailedType;
+  properties: MessageAbortedErrorData;
+}
+export type EventWorkspaceStatusType = "workspace.status";
+export type EventWorkspaceStatusPropertiesStatus =
+  | "connected"
+  | "connecting"
+  | "disconnected"
+  | "error";
+export interface EventWorkspaceStatusProperties {
+  workspaceID: string;
+  status: EventWorkspaceStatusPropertiesStatus;
+}
+export interface EventWorkspaceStatus {
+  id: string;
+  type: EventWorkspaceStatusType;
+  properties: EventWorkspaceStatusProperties;
+}
+export type EventWorktreeReadyType = "worktree.ready";
+export interface EventWorktreeReadyProperties {
+  name: string;
+  branch?: string;
+}
+export interface EventWorktreeReady {
+  id: string;
+  type: EventWorktreeReadyType;
+  properties: EventWorktreeReadyProperties;
+}
+export type EventWorktreeFailedType = "worktree.failed";
+export type EventWorktreeFailedProperties = MessageAbortedErrorData;
+export interface EventWorktreeFailed {
+  id: string;
+  type: EventWorktreeFailedType;
+  properties: MessageAbortedErrorData;
+}
+export type EventServerConnectedType = "server.connected";
+export interface EventServerConnected {
+  id: string;
+  type: EventServerConnectedType;
+  properties: unknown;
+}
+export type EventGlobalDisposedType = "global.disposed";
+export interface EventGlobalDisposed {
+  id: string;
+  type: EventGlobalDisposedType;
+  properties: unknown;
+}
+export type EventServerInstanceDisposedType = "server.instance.disposed";
+export type EventServerInstanceDisposedProperties = MoveSessionDestination;
+export interface EventServerInstanceDisposed {
+  id: string;
+  type: EventServerInstanceDisposedType;
+  properties: MoveSessionDestination;
+}
+export type Event =
+  | EventModelsDevRefreshed
+  | EventIntegrationUpdated
+  | EventIntegrationConnectionUpdated
+  | EventCatalogUpdated
+  | EventSessionCreated
+  | EventSessionUpdated
+  | EventSessionDeleted
+  | EventMessageUpdated
+  | EventMessageRemoved
+  | EventMessagePartUpdated
+  | EventMessagePartRemoved
+  | EventSessionNextAgentSwitched
+  | EventSessionNextModelSwitched
+  | EventSessionNextMoved
+  | EventSessionNextPrompted
+  | EventSessionNextPromptAdmitted
+  | EventSessionNextContextUpdated
+  | EventSessionNextSynthetic
+  | EventSessionNextShellStarted
+  | EventSessionNextShellEnded
+  | EventSessionNextStepStarted
+  | EventSessionNextStepEnded
+  | EventSessionNextStepFailed
+  | EventSessionNextTextStarted
+  | EventSessionNextTextDelta
+  | EventSessionNextTextEnded
+  | EventSessionNextReasoningStarted
+  | EventSessionNextReasoningDelta
+  | EventSessionNextReasoningEnded
+  | EventSessionNextToolInputStarted
+  | EventSessionNextToolInputDelta
+  | EventSessionNextToolInputEnded
+  | EventSessionNextToolCalled
+  | EventSessionNextToolProgress
+  | EventSessionNextToolSuccess
+  | EventSessionNextToolFailed
+  | EventSessionNextRetried
+  | EventSessionNextCompactionStarted
+  | EventSessionNextCompactionDelta
+  | EventSessionNextCompactionEnded
+  | EventSessionNextRevertStaged
+  | EventSessionNextRevertCleared
+  | EventSessionNextRevertCommitted
+  | EventMessagePartDelta
+  | EventSessionDiff
+  | EventSessionError
+  | EventInstallationUpdated
+  | EventInstallationUpdateAvailable
+  | EventFileEdited
+  | EventReferenceUpdated
+  | EventPermissionV2Asked
+  | EventPermissionV2Replied
+  | EventPluginAdded
+  | EventProjectDirectoriesUpdated
+  | EventFileWatcherUpdated
+  | EventPtyCreated
+  | EventPtyUpdated
+  | EventPtyExited
+  | EventPtyDeleted
+  | EventQuestionV2Asked
+  | EventQuestionV2Replied
+  | EventQuestionV2Rejected
+  | EventTodoUpdated
+  | EventLspUpdated
+  | EventPermissionAsked
+  | EventPermissionReplied
+  | EventTuiPromptAppend
+  | EventTuiCommandExecute
+  | EventTuiToastShow
+  | EventTuiSessionSelect
+  | EventMcpToolsChanged
+  | EventMcpBrowserOpenFailed
+  | EventCommandExecuted
+  | EventProjectUpdated
+  | EventSessionStatus
+  | EventSessionIdle
+  | EventQuestionAsked
+  | EventQuestionReplied
+  | EventQuestionRejected
+  | EventSessionCompacted
+  | EventVcsBranchUpdated
+  | EventWorkspaceReady
+  | EventWorkspaceFailed
+  | EventWorkspaceStatus
+  | EventWorktreeReady
+  | EventWorktreeFailed
+  | EventServerConnected
+  | EventGlobalDisposed
+  | EventServerInstanceDisposed;
+export type SubscribeEventResponse = Event;
+export interface SubscribeGlobalEventRequest {}
+export type GlobalEventPayloadCase0Type = "models-dev.refreshed";
+export interface GlobalEventPayloadCase0 {
+  id: string;
+  type: GlobalEventPayloadCase0Type;
+  properties: unknown;
+}
+export type GlobalEventPayloadCase1Type = "integration.updated";
+export interface GlobalEventPayloadCase1 {
+  id: string;
+  type: GlobalEventPayloadCase1Type;
+  properties: unknown;
+}
+export type GlobalEventPayloadCase2Type = "integration.connection.updated";
+export type GlobalEventPayloadCase2Properties = EventIntegrationConnectionUpdatedProperties;
+export interface GlobalEventPayloadCase2 {
+  id: string;
+  type: GlobalEventPayloadCase2Type;
+  properties: EventIntegrationConnectionUpdatedProperties;
+}
+export type GlobalEventPayloadCase3Type = "catalog.updated";
+export interface GlobalEventPayloadCase3 {
+  id: string;
+  type: GlobalEventPayloadCase3Type;
+  properties: unknown;
+}
+export type GlobalEventPayloadCase4Type = "session.created";
+export type GlobalEventPayloadCase4Properties = EventSessionCreatedProperties;
+export interface GlobalEventPayloadCase4 {
+  id: string;
+  type: GlobalEventPayloadCase4Type;
+  properties: EventSessionCreatedProperties;
+}
+export type GlobalEventPayloadCase5Type = "session.updated";
+export type GlobalEventPayloadCase5Properties = EventSessionCreatedProperties;
+export interface GlobalEventPayloadCase5 {
+  id: string;
+  type: GlobalEventPayloadCase5Type;
+  properties: EventSessionCreatedProperties;
+}
+export type GlobalEventPayloadCase6Type = "session.deleted";
+export type GlobalEventPayloadCase6Properties = EventSessionCreatedProperties;
+export interface GlobalEventPayloadCase6 {
+  id: string;
+  type: GlobalEventPayloadCase6Type;
+  properties: EventSessionCreatedProperties;
+}
+export type GlobalEventPayloadCase7Type = "message.updated";
+export type GlobalEventPayloadCase7Properties = EventMessageUpdatedProperties;
+export interface GlobalEventPayloadCase7 {
+  id: string;
+  type: GlobalEventPayloadCase7Type;
+  properties: EventMessageUpdatedProperties;
+}
+export type GlobalEventPayloadCase8Type = "message.removed";
+export type GlobalEventPayloadCase8Properties = EventMessageRemovedProperties;
+export interface GlobalEventPayloadCase8 {
+  id: string;
+  type: GlobalEventPayloadCase8Type;
+  properties: EventMessageRemovedProperties;
+}
+export type GlobalEventPayloadCase9Type = "message.part.updated";
+export type GlobalEventPayloadCase9Properties = EventMessagePartUpdatedProperties;
+export interface GlobalEventPayloadCase9 {
+  id: string;
+  type: GlobalEventPayloadCase9Type;
+  properties: EventMessagePartUpdatedProperties;
+}
+export type GlobalEventPayloadCase10Type = "message.part.removed";
+export type GlobalEventPayloadCase10Properties = EventMessagePartRemovedProperties;
+export interface GlobalEventPayloadCase10 {
+  id: string;
+  type: GlobalEventPayloadCase10Type;
+  properties: EventMessagePartRemovedProperties;
+}
+export type GlobalEventPayloadCase11Type = "session.next.agent.switched";
+export type GlobalEventPayloadCase11Properties = EventSessionNextAgentSwitchedProperties;
+export interface GlobalEventPayloadCase11 {
+  id: string;
+  type: GlobalEventPayloadCase11Type;
+  properties: EventSessionNextAgentSwitchedProperties;
+}
+export type GlobalEventPayloadCase12Type = "session.next.model.switched";
+export type GlobalEventPayloadCase12Properties = EventSessionNextModelSwitchedProperties;
+export interface GlobalEventPayloadCase12 {
+  id: string;
+  type: GlobalEventPayloadCase12Type;
+  properties: EventSessionNextModelSwitchedProperties;
+}
+export type GlobalEventPayloadCase13Type = "session.next.moved";
+export type GlobalEventPayloadCase13Properties = EventSessionNextMovedProperties;
+export interface GlobalEventPayloadCase13 {
+  id: string;
+  type: GlobalEventPayloadCase13Type;
+  properties: EventSessionNextMovedProperties;
+}
+export type GlobalEventPayloadCase14Type = "session.next.prompted";
+export type GlobalEventPayloadCase14PropertiesDelivery = "steer" | "queue";
+export interface GlobalEventPayloadCase14Properties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: GlobalEventPayloadCase14PropertiesDelivery;
+}
+export interface GlobalEventPayloadCase14 {
+  id: string;
+  type: GlobalEventPayloadCase14Type;
+  properties: GlobalEventPayloadCase14Properties;
+}
+export type GlobalEventPayloadCase15Type = "session.next.prompt.admitted";
+export type GlobalEventPayloadCase15PropertiesDelivery = "steer" | "queue";
+export interface GlobalEventPayloadCase15Properties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: GlobalEventPayloadCase15PropertiesDelivery;
+}
+export interface GlobalEventPayloadCase15 {
+  id: string;
+  type: GlobalEventPayloadCase15Type;
+  properties: GlobalEventPayloadCase15Properties;
+}
+export type GlobalEventPayloadCase16Type = "session.next.context.updated";
+export type GlobalEventPayloadCase16Properties = EventSessionNextContextUpdatedProperties;
+export interface GlobalEventPayloadCase16 {
+  id: string;
+  type: GlobalEventPayloadCase16Type;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export type GlobalEventPayloadCase17Type = "session.next.synthetic";
+export type GlobalEventPayloadCase17Properties = EventSessionNextContextUpdatedProperties;
+export interface GlobalEventPayloadCase17 {
+  id: string;
+  type: GlobalEventPayloadCase17Type;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export type GlobalEventPayloadCase18Type = "session.next.shell.started";
+export type GlobalEventPayloadCase18Properties = EventSessionNextShellStartedProperties;
+export interface GlobalEventPayloadCase18 {
+  id: string;
+  type: GlobalEventPayloadCase18Type;
+  properties: EventSessionNextShellStartedProperties;
+}
+export type GlobalEventPayloadCase19Type = "session.next.shell.ended";
+export type GlobalEventPayloadCase19Properties = EventSessionNextShellEndedProperties;
+export interface GlobalEventPayloadCase19 {
+  id: string;
+  type: GlobalEventPayloadCase19Type;
+  properties: EventSessionNextShellEndedProperties;
+}
+export type GlobalEventPayloadCase20Type = "session.next.step.started";
+export type GlobalEventPayloadCase20Properties = EventSessionNextStepStartedProperties;
+export interface GlobalEventPayloadCase20 {
+  id: string;
+  type: GlobalEventPayloadCase20Type;
+  properties: EventSessionNextStepStartedProperties;
+}
+export type GlobalEventPayloadCase21Type = "session.next.step.ended";
+export type GlobalEventPayloadCase21PropertiesTokensCache = ModelCostCache;
+export type GlobalEventPayloadCase21PropertiesTokens = SessionTokens;
+export type GlobalEventPayloadCase21PropertiesFilesList = Array<string>;
+export interface GlobalEventPayloadCase21Properties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  finish: string;
+  cost: number;
+  tokens: SessionTokens;
+  snapshot?: string;
+  files?: GlobalEventPayloadCase21PropertiesFilesList;
+}
+export interface GlobalEventPayloadCase21 {
+  id: string;
+  type: GlobalEventPayloadCase21Type;
+  properties: GlobalEventPayloadCase21Properties;
+}
+export type GlobalEventPayloadCase22Type = "session.next.step.failed";
+export type GlobalEventPayloadCase22Properties = EventSessionNextStepFailedProperties;
+export interface GlobalEventPayloadCase22 {
+  id: string;
+  type: GlobalEventPayloadCase22Type;
+  properties: EventSessionNextStepFailedProperties;
+}
+export type GlobalEventPayloadCase23Type = "session.next.text.started";
+export type GlobalEventPayloadCase23Properties = EventSessionNextTextStartedProperties;
+export interface GlobalEventPayloadCase23 {
+  id: string;
+  type: GlobalEventPayloadCase23Type;
+  properties: EventSessionNextTextStartedProperties;
+}
+export type GlobalEventPayloadCase24Type = "session.next.text.delta";
+export type GlobalEventPayloadCase24Properties = EventSessionNextTextDeltaProperties;
+export interface GlobalEventPayloadCase24 {
+  id: string;
+  type: GlobalEventPayloadCase24Type;
+  properties: EventSessionNextTextDeltaProperties;
+}
+export type GlobalEventPayloadCase25Type = "session.next.text.ended";
+export type GlobalEventPayloadCase25Properties = EventSessionNextTextEndedProperties;
+export interface GlobalEventPayloadCase25 {
+  id: string;
+  type: GlobalEventPayloadCase25Type;
+  properties: EventSessionNextTextEndedProperties;
+}
+export type GlobalEventPayloadCase26Type = "session.next.reasoning.started";
+export type GlobalEventPayloadCase26Properties = EventSessionNextReasoningStartedProperties;
+export interface GlobalEventPayloadCase26 {
+  id: string;
+  type: GlobalEventPayloadCase26Type;
+  properties: EventSessionNextReasoningStartedProperties;
+}
+export type GlobalEventPayloadCase27Type = "session.next.reasoning.delta";
+export type GlobalEventPayloadCase27Properties = EventSessionNextReasoningDeltaProperties;
+export interface GlobalEventPayloadCase27 {
+  id: string;
+  type: GlobalEventPayloadCase27Type;
+  properties: EventSessionNextReasoningDeltaProperties;
+}
+export type GlobalEventPayloadCase28Type = "session.next.reasoning.ended";
+export type GlobalEventPayloadCase28Properties = EventSessionNextReasoningEndedProperties;
+export interface GlobalEventPayloadCase28 {
+  id: string;
+  type: GlobalEventPayloadCase28Type;
+  properties: EventSessionNextReasoningEndedProperties;
+}
+export type GlobalEventPayloadCase29Type = "session.next.tool.input.started";
+export type GlobalEventPayloadCase29Properties = EventSessionNextToolInputStartedProperties;
+export interface GlobalEventPayloadCase29 {
+  id: string;
+  type: GlobalEventPayloadCase29Type;
+  properties: EventSessionNextToolInputStartedProperties;
+}
+export type GlobalEventPayloadCase30Type = "session.next.tool.input.delta";
+export type GlobalEventPayloadCase30Properties = EventSessionNextToolInputDeltaProperties;
+export interface GlobalEventPayloadCase30 {
+  id: string;
+  type: GlobalEventPayloadCase30Type;
+  properties: EventSessionNextToolInputDeltaProperties;
+}
+export type GlobalEventPayloadCase31Type = "session.next.tool.input.ended";
+export type GlobalEventPayloadCase31Properties = EventSessionNextToolInputEndedProperties;
+export interface GlobalEventPayloadCase31 {
+  id: string;
+  type: GlobalEventPayloadCase31Type;
+  properties: EventSessionNextToolInputEndedProperties;
+}
+export type GlobalEventPayloadCase32Type = "session.next.tool.called";
+export type GlobalEventPayloadCase32PropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export type GlobalEventPayloadCase32Properties = EventSessionNextToolCalledProperties;
+export interface GlobalEventPayloadCase32 {
+  id: string;
+  type: GlobalEventPayloadCase32Type;
+  properties: EventSessionNextToolCalledProperties;
+}
+export type GlobalEventPayloadCase33Type = "session.next.tool.progress";
+export type GlobalEventPayloadCase33PropertiesContentList = Array<LLMToolContent>;
+export interface GlobalEventPayloadCase33Properties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: GlobalEventPayloadCase33PropertiesContentList;
+}
+export interface GlobalEventPayloadCase33 {
+  id: string;
+  type: GlobalEventPayloadCase33Type;
+  properties: GlobalEventPayloadCase33Properties;
+}
+export type GlobalEventPayloadCase34Type = "session.next.tool.success";
+export type GlobalEventPayloadCase34PropertiesContentList = Array<LLMToolContent>;
+export type GlobalEventPayloadCase34PropertiesOutputPathsList = Array<string>;
+export type GlobalEventPayloadCase34PropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export interface GlobalEventPayloadCase34Properties {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: GlobalEventPayloadCase34PropertiesContentList;
+  outputPaths?: GlobalEventPayloadCase34PropertiesOutputPathsList;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export interface GlobalEventPayloadCase34 {
+  id: string;
+  type: GlobalEventPayloadCase34Type;
+  properties: GlobalEventPayloadCase34Properties;
+}
+export type GlobalEventPayloadCase35Type = "session.next.tool.failed";
+export type GlobalEventPayloadCase35PropertiesProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export type GlobalEventPayloadCase35Properties = EventSessionNextToolFailedProperties;
+export interface GlobalEventPayloadCase35 {
+  id: string;
+  type: GlobalEventPayloadCase35Type;
+  properties: EventSessionNextToolFailedProperties;
+}
+export type GlobalEventPayloadCase36Type = "session.next.retried";
+export type GlobalEventPayloadCase36Properties = EventSessionNextRetriedProperties;
+export interface GlobalEventPayloadCase36 {
+  id: string;
+  type: GlobalEventPayloadCase36Type;
+  properties: EventSessionNextRetriedProperties;
+}
+export type GlobalEventPayloadCase37Type = "session.next.compaction.started";
+export type GlobalEventPayloadCase37PropertiesReason = "auto" | "manual";
+export interface GlobalEventPayloadCase37Properties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: GlobalEventPayloadCase37PropertiesReason;
+}
+export interface GlobalEventPayloadCase37 {
+  id: string;
+  type: GlobalEventPayloadCase37Type;
+  properties: GlobalEventPayloadCase37Properties;
+}
+export type GlobalEventPayloadCase38Type = "session.next.compaction.delta";
+export type GlobalEventPayloadCase38Properties = EventSessionNextContextUpdatedProperties;
+export interface GlobalEventPayloadCase38 {
+  id: string;
+  type: GlobalEventPayloadCase38Type;
+  properties: EventSessionNextContextUpdatedProperties;
+}
+export type GlobalEventPayloadCase39Type = "session.next.compaction.ended";
+export type GlobalEventPayloadCase39PropertiesReason = "auto" | "manual";
+export interface GlobalEventPayloadCase39Properties {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: GlobalEventPayloadCase39PropertiesReason;
+  text: string;
+  recent: string;
+}
+export interface GlobalEventPayloadCase39 {
+  id: string;
+  type: GlobalEventPayloadCase39Type;
+  properties: GlobalEventPayloadCase39Properties;
+}
+export type GlobalEventPayloadCase40Type = "session.next.revert.staged";
+export type GlobalEventPayloadCase40Properties = EventSessionNextRevertStagedProperties;
+export interface GlobalEventPayloadCase40 {
+  id: string;
+  type: GlobalEventPayloadCase40Type;
+  properties: EventSessionNextRevertStagedProperties;
+}
+export type GlobalEventPayloadCase41Type = "session.next.revert.cleared";
+export type GlobalEventPayloadCase41Properties = EventSessionNextRevertClearedProperties;
+export interface GlobalEventPayloadCase41 {
+  id: string;
+  type: GlobalEventPayloadCase41Type;
+  properties: EventSessionNextRevertClearedProperties;
+}
+export type GlobalEventPayloadCase42Type = "session.next.revert.committed";
+export type GlobalEventPayloadCase42Properties = EventSessionNextRevertCommittedProperties;
+export interface GlobalEventPayloadCase42 {
+  id: string;
+  type: GlobalEventPayloadCase42Type;
+  properties: EventSessionNextRevertCommittedProperties;
+}
+export type GlobalEventPayloadCase43Type = "message.part.delta";
+export type GlobalEventPayloadCase43Properties = EventMessagePartDeltaProperties;
+export interface GlobalEventPayloadCase43 {
+  id: string;
+  type: GlobalEventPayloadCase43Type;
+  properties: EventMessagePartDeltaProperties;
+}
+export type GlobalEventPayloadCase44Type = "session.diff";
+export type GlobalEventPayloadCase44PropertiesDiffList = Array<SnapshotFileDiff>;
+export interface GlobalEventPayloadCase44Properties {
+  sessionID: string;
+  diff: GlobalEventPayloadCase44PropertiesDiffList;
+}
+export interface GlobalEventPayloadCase44 {
+  id: string;
+  type: GlobalEventPayloadCase44Type;
+  properties: GlobalEventPayloadCase44Properties;
+}
+export type GlobalEventPayloadCase45Type = "session.error";
+export type GlobalEventPayloadCase45PropertiesError =
+  | ProviderAuthError
+  | UnknownError
+  | MessageOutputLengthError
+  | MessageAbortedError
+  | StructuredOutputError
+  | ContextOverflowError
+  | ContentFilterError
+  | APIError;
+export interface GlobalEventPayloadCase45Properties {
+  sessionID?: string;
+  error?: GlobalEventPayloadCase45PropertiesError;
+}
+export interface GlobalEventPayloadCase45 {
+  id: string;
+  type: GlobalEventPayloadCase45Type;
+  properties: GlobalEventPayloadCase45Properties;
+}
+export type GlobalEventPayloadCase46Type = "installation.updated";
+export type GlobalEventPayloadCase46Properties = EventInstallationUpdatedProperties;
+export interface GlobalEventPayloadCase46 {
+  id: string;
+  type: GlobalEventPayloadCase46Type;
+  properties: EventInstallationUpdatedProperties;
+}
+export type GlobalEventPayloadCase47Type = "installation.update-available";
+export type GlobalEventPayloadCase47Properties = EventInstallationUpdatedProperties;
+export interface GlobalEventPayloadCase47 {
+  id: string;
+  type: GlobalEventPayloadCase47Type;
+  properties: EventInstallationUpdatedProperties;
+}
+export type GlobalEventPayloadCase48Type = "file.edited";
+export type GlobalEventPayloadCase48Properties = EventFileEditedProperties;
+export interface GlobalEventPayloadCase48 {
+  id: string;
+  type: GlobalEventPayloadCase48Type;
+  properties: EventFileEditedProperties;
+}
+export type GlobalEventPayloadCase49Type = "reference.updated";
+export interface GlobalEventPayloadCase49 {
+  id: string;
+  type: GlobalEventPayloadCase49Type;
+  properties: unknown;
+}
+export type GlobalEventPayloadCase50Type = "permission.v2.asked";
+export type GlobalEventPayloadCase50PropertiesResourcesList = Array<string>;
+export type GlobalEventPayloadCase50PropertiesSaveList = Array<string>;
+export interface GlobalEventPayloadCase50Properties {
+  id: string;
+  sessionID: string;
+  action: string;
+  resources: GlobalEventPayloadCase50PropertiesResourcesList;
+  save?: GlobalEventPayloadCase50PropertiesSaveList;
+  metadata?: unknown;
+  source?: PermissionV2Source;
+}
+export interface GlobalEventPayloadCase50 {
+  id: string;
+  type: GlobalEventPayloadCase50Type;
+  properties: GlobalEventPayloadCase50Properties;
+}
+export type GlobalEventPayloadCase51Type = "permission.v2.replied";
+export type GlobalEventPayloadCase51Properties = EventPermissionV2RepliedProperties;
+export interface GlobalEventPayloadCase51 {
+  id: string;
+  type: GlobalEventPayloadCase51Type;
+  properties: EventPermissionV2RepliedProperties;
+}
+export type GlobalEventPayloadCase52Type = "plugin.added";
+export type GlobalEventPayloadCase52Properties = EventPluginAddedProperties;
+export interface GlobalEventPayloadCase52 {
+  id: string;
+  type: GlobalEventPayloadCase52Type;
+  properties: EventPluginAddedProperties;
+}
+export type GlobalEventPayloadCase53Type = "project.directories.updated";
+export type GlobalEventPayloadCase53Properties = EventProjectDirectoriesUpdatedProperties;
+export interface GlobalEventPayloadCase53 {
+  id: string;
+  type: GlobalEventPayloadCase53Type;
+  properties: EventProjectDirectoriesUpdatedProperties;
+}
+export type GlobalEventPayloadCase54Type = "file.watcher.updated";
+export type GlobalEventPayloadCase54PropertiesEvent = "add" | "change" | "unlink";
+export interface GlobalEventPayloadCase54Properties {
+  file: string;
+  event: GlobalEventPayloadCase54PropertiesEvent;
+}
+export interface GlobalEventPayloadCase54 {
+  id: string;
+  type: GlobalEventPayloadCase54Type;
+  properties: GlobalEventPayloadCase54Properties;
+}
+export type GlobalEventPayloadCase55Type = "pty.created";
+export type GlobalEventPayloadCase55Properties = EventPtyCreatedProperties;
+export interface GlobalEventPayloadCase55 {
+  id: string;
+  type: GlobalEventPayloadCase55Type;
+  properties: EventPtyCreatedProperties;
+}
+export type GlobalEventPayloadCase56Type = "pty.updated";
+export type GlobalEventPayloadCase56Properties = EventPtyCreatedProperties;
+export interface GlobalEventPayloadCase56 {
+  id: string;
+  type: GlobalEventPayloadCase56Type;
+  properties: EventPtyCreatedProperties;
+}
+export type GlobalEventPayloadCase57Type = "pty.exited";
+export type GlobalEventPayloadCase57Properties = EventPtyExitedProperties;
+export interface GlobalEventPayloadCase57 {
+  id: string;
+  type: GlobalEventPayloadCase57Type;
+  properties: EventPtyExitedProperties;
+}
+export type GlobalEventPayloadCase58Type = "pty.deleted";
+export type GlobalEventPayloadCase58Properties = EventPluginAddedProperties;
+export interface GlobalEventPayloadCase58 {
+  id: string;
+  type: GlobalEventPayloadCase58Type;
+  properties: EventPluginAddedProperties;
+}
+export type GlobalEventPayloadCase59Type = "question.v2.asked";
+/** Questions to ask */
+export type GlobalEventPayloadCase59PropertiesQuestionsList = Array<QuestionV2Info>;
+export interface GlobalEventPayloadCase59Properties {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: GlobalEventPayloadCase59PropertiesQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export interface GlobalEventPayloadCase59 {
+  id: string;
+  type: GlobalEventPayloadCase59Type;
+  properties: GlobalEventPayloadCase59Properties;
+}
+export type GlobalEventPayloadCase60Type = "question.v2.replied";
+export type GlobalEventPayloadCase60PropertiesAnswersList = Array<QuestionV2Answer>;
+export interface GlobalEventPayloadCase60Properties {
+  sessionID: string;
+  requestID: string;
+  answers: GlobalEventPayloadCase60PropertiesAnswersList;
+}
+export interface GlobalEventPayloadCase60 {
+  id: string;
+  type: GlobalEventPayloadCase60Type;
+  properties: GlobalEventPayloadCase60Properties;
+}
+export type GlobalEventPayloadCase61Type = "question.v2.rejected";
+export type GlobalEventPayloadCase61Properties = EventQuestionV2RejectedProperties;
+export interface GlobalEventPayloadCase61 {
+  id: string;
+  type: GlobalEventPayloadCase61Type;
+  properties: EventQuestionV2RejectedProperties;
+}
+export type GlobalEventPayloadCase62Type = "todo.updated";
+export type GlobalEventPayloadCase62PropertiesTodosList = Array<Todo>;
+export interface GlobalEventPayloadCase62Properties {
+  sessionID: string;
+  todos: GlobalEventPayloadCase62PropertiesTodosList;
+}
+export interface GlobalEventPayloadCase62 {
+  id: string;
+  type: GlobalEventPayloadCase62Type;
+  properties: GlobalEventPayloadCase62Properties;
+}
+export type GlobalEventPayloadCase63Type = "lsp.updated";
+export interface GlobalEventPayloadCase63 {
+  id: string;
+  type: GlobalEventPayloadCase63Type;
+  properties: unknown;
+}
+export type GlobalEventPayloadCase64Type = "permission.asked";
+export type GlobalEventPayloadCase64PropertiesPatternsList = Array<string>;
+export type GlobalEventPayloadCase64PropertiesAlwaysList = Array<string>;
+export type GlobalEventPayloadCase64PropertiesTool = PermissionRequestTool;
+export interface GlobalEventPayloadCase64Properties {
+  id: string;
+  sessionID: string;
+  permission: string;
+  patterns: GlobalEventPayloadCase64PropertiesPatternsList;
+  metadata: unknown;
+  always: GlobalEventPayloadCase64PropertiesAlwaysList;
+  tool?: PermissionRequestTool;
+}
+export interface GlobalEventPayloadCase64 {
+  id: string;
+  type: GlobalEventPayloadCase64Type;
+  properties: GlobalEventPayloadCase64Properties;
+}
+export type GlobalEventPayloadCase65Type = "permission.replied";
+export type GlobalEventPayloadCase65PropertiesReply = "once" | "always" | "reject";
+export interface GlobalEventPayloadCase65Properties {
+  sessionID: string;
+  requestID: string;
+  reply: GlobalEventPayloadCase65PropertiesReply;
+}
+export interface GlobalEventPayloadCase65 {
+  id: string;
+  type: GlobalEventPayloadCase65Type;
+  properties: GlobalEventPayloadCase65Properties;
+}
+export type GlobalEventPayloadCase66Type = "tui.prompt.append";
+export type GlobalEventPayloadCase66Properties = FindTextResponseBodyItemPath;
+export interface GlobalEventPayloadCase66 {
+  id: string;
+  type: GlobalEventPayloadCase66Type;
+  properties: FindTextResponseBodyItemPath;
+}
+export type GlobalEventPayloadCase67Type = "tui.command.execute";
+export type GlobalEventPayloadCase67PropertiesCommandCase0 =
+  | "session.list"
+  | "session.new"
+  | "session.share"
+  | "session.interrupt"
+  | "session.compact"
+  | "session.page.up"
+  | "session.page.down"
+  | "session.line.up"
+  | "session.line.down"
+  | "session.half.page.up"
+  | "session.half.page.down"
+  | "session.first"
+  | "session.last"
+  | "prompt.clear"
+  | "prompt.submit"
+  | "agent.cycle";
+export type GlobalEventPayloadCase67PropertiesCommand =
+  | GlobalEventPayloadCase67PropertiesCommandCase0
+  | string;
+export interface GlobalEventPayloadCase67Properties {
+  command: GlobalEventPayloadCase67PropertiesCommand;
+}
+export interface GlobalEventPayloadCase67 {
+  id: string;
+  type: GlobalEventPayloadCase67Type;
+  properties: GlobalEventPayloadCase67Properties;
+}
+export type GlobalEventPayloadCase68Type = "tui.toast.show";
+export type GlobalEventPayloadCase68PropertiesVariant = "info" | "success" | "warning" | "error";
+export interface GlobalEventPayloadCase68Properties {
+  title?: string;
+  message: string;
+  variant: GlobalEventPayloadCase68PropertiesVariant;
+  duration?: number;
+}
+export interface GlobalEventPayloadCase68 {
+  id: string;
+  type: GlobalEventPayloadCase68Type;
+  properties: GlobalEventPayloadCase68Properties;
+}
+export type GlobalEventPayloadCase69Type = "tui.session.select";
+export type GlobalEventPayloadCase69Properties = EventTuiSessionSelectProperties2;
+export interface GlobalEventPayloadCase69 {
+  id: string;
+  type: GlobalEventPayloadCase69Type;
+  properties: EventTuiSessionSelectProperties2;
+}
+export type GlobalEventPayloadCase70Type = "mcp.tools.changed";
+export type GlobalEventPayloadCase70Properties = EventMcpToolsChangedProperties;
+export interface GlobalEventPayloadCase70 {
+  id: string;
+  type: GlobalEventPayloadCase70Type;
+  properties: EventMcpToolsChangedProperties;
+}
+export type GlobalEventPayloadCase71Type = "mcp.browser.open.failed";
+export type GlobalEventPayloadCase71Properties = EventMcpBrowserOpenFailedProperties;
+export interface GlobalEventPayloadCase71 {
+  id: string;
+  type: GlobalEventPayloadCase71Type;
+  properties: EventMcpBrowserOpenFailedProperties;
+}
+export type GlobalEventPayloadCase72Type = "command.executed";
+export type GlobalEventPayloadCase72Properties = EventCommandExecutedProperties;
+export interface GlobalEventPayloadCase72 {
+  id: string;
+  type: GlobalEventPayloadCase72Type;
+  properties: EventCommandExecutedProperties;
+}
+export type GlobalEventPayloadCase73Type = "project.updated";
+export type GlobalEventPayloadCase73PropertiesSandboxesList = Array<string>;
+export interface GlobalEventPayloadCase73Properties {
+  id: string;
+  worktree: string;
+  vcs?: ProjectVcs;
+  name?: string;
+  icon?: ProjectIcon;
+  commands?: ProjectCommands;
+  time: ProjectTime;
+  sandboxes: GlobalEventPayloadCase73PropertiesSandboxesList;
+}
+export interface GlobalEventPayloadCase73 {
+  id: string;
+  type: GlobalEventPayloadCase73Type;
+  properties: GlobalEventPayloadCase73Properties;
+}
+export type GlobalEventPayloadCase74Type = "session.status";
+export type GlobalEventPayloadCase74Properties = EventSessionStatusProperties;
+export interface GlobalEventPayloadCase74 {
+  id: string;
+  type: GlobalEventPayloadCase74Type;
+  properties: EventSessionStatusProperties;
+}
+export type GlobalEventPayloadCase75Type = "session.idle";
+export type GlobalEventPayloadCase75Properties = EventSessionIdleProperties;
+export interface GlobalEventPayloadCase75 {
+  id: string;
+  type: GlobalEventPayloadCase75Type;
+  properties: EventSessionIdleProperties;
+}
+export type GlobalEventPayloadCase76Type = "question.asked";
+/** Questions to ask */
+export type GlobalEventPayloadCase76PropertiesQuestionsList = Array<QuestionInfo>;
+export interface GlobalEventPayloadCase76Properties {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: GlobalEventPayloadCase76PropertiesQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export interface GlobalEventPayloadCase76 {
+  id: string;
+  type: GlobalEventPayloadCase76Type;
+  properties: GlobalEventPayloadCase76Properties;
+}
+export type GlobalEventPayloadCase77Type = "question.replied";
+export type GlobalEventPayloadCase77PropertiesAnswersList = Array<QuestionAnswer>;
+export interface GlobalEventPayloadCase77Properties {
+  sessionID: string;
+  requestID: string;
+  answers: GlobalEventPayloadCase77PropertiesAnswersList;
+}
+export interface GlobalEventPayloadCase77 {
+  id: string;
+  type: GlobalEventPayloadCase77Type;
+  properties: GlobalEventPayloadCase77Properties;
+}
+export type GlobalEventPayloadCase78Type = "question.rejected";
+export type GlobalEventPayloadCase78Properties = EventQuestionV2RejectedProperties;
+export interface GlobalEventPayloadCase78 {
+  id: string;
+  type: GlobalEventPayloadCase78Type;
+  properties: EventQuestionV2RejectedProperties;
+}
+export type GlobalEventPayloadCase79Type = "session.compacted";
+export type GlobalEventPayloadCase79Properties = EventSessionIdleProperties;
+export interface GlobalEventPayloadCase79 {
+  id: string;
+  type: GlobalEventPayloadCase79Type;
+  properties: EventSessionIdleProperties;
+}
+export type GlobalEventPayloadCase80Type = "vcs.branch.updated";
+export type GlobalEventPayloadCase80Properties = EventVcsBranchUpdatedProperties;
+export interface GlobalEventPayloadCase80 {
+  id: string;
+  type: GlobalEventPayloadCase80Type;
+  properties: EventVcsBranchUpdatedProperties;
+}
+export type GlobalEventPayloadCase81Type = "workspace.ready";
+export type GlobalEventPayloadCase81Properties = EventWorkspaceReadyProperties;
+export interface GlobalEventPayloadCase81 {
+  id: string;
+  type: GlobalEventPayloadCase81Type;
+  properties: EventWorkspaceReadyProperties;
+}
+export type GlobalEventPayloadCase82Type = "workspace.failed";
+export type GlobalEventPayloadCase82Properties = MessageAbortedErrorData;
+export interface GlobalEventPayloadCase82 {
+  id: string;
+  type: GlobalEventPayloadCase82Type;
+  properties: MessageAbortedErrorData;
+}
+export type GlobalEventPayloadCase83Type = "workspace.status";
+export type GlobalEventPayloadCase83PropertiesStatus =
+  | "connected"
+  | "connecting"
+  | "disconnected"
+  | "error";
+export interface GlobalEventPayloadCase83Properties {
+  workspaceID: string;
+  status: GlobalEventPayloadCase83PropertiesStatus;
+}
+export interface GlobalEventPayloadCase83 {
+  id: string;
+  type: GlobalEventPayloadCase83Type;
+  properties: GlobalEventPayloadCase83Properties;
+}
+export type GlobalEventPayloadCase84Type = "worktree.ready";
+export type GlobalEventPayloadCase84Properties = EventWorktreeReadyProperties;
+export interface GlobalEventPayloadCase84 {
+  id: string;
+  type: GlobalEventPayloadCase84Type;
+  properties: EventWorktreeReadyProperties;
+}
+export type GlobalEventPayloadCase85Type = "worktree.failed";
+export type GlobalEventPayloadCase85Properties = MessageAbortedErrorData;
+export interface GlobalEventPayloadCase85 {
+  id: string;
+  type: GlobalEventPayloadCase85Type;
+  properties: MessageAbortedErrorData;
+}
+export type GlobalEventPayloadCase86Type = "server.connected";
+export interface GlobalEventPayloadCase86 {
+  id: string;
+  type: GlobalEventPayloadCase86Type;
+  properties: unknown;
+}
+export type GlobalEventPayloadCase87Type = "global.disposed";
+export interface GlobalEventPayloadCase87 {
+  id: string;
+  type: GlobalEventPayloadCase87Type;
+  properties: unknown;
+}
+export type SyncEventSessionCreatedType = "sync";
+export type SyncEventSessionCreatedSyncEventType = "session.created.1";
+export type SyncEventSessionCreatedSyncEventData = EventSessionCreatedProperties;
+export interface SyncEventSessionCreatedSyncEvent {
+  type: SyncEventSessionCreatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionCreatedProperties;
+}
+export interface SyncEventSessionCreated {
+  type: SyncEventSessionCreatedType;
+  id: string;
+  syncEvent: SyncEventSessionCreatedSyncEvent;
+}
+export type SyncEventSessionUpdatedType = "sync";
+export type SyncEventSessionUpdatedSyncEventType = "session.updated.1";
+export type SyncEventSessionUpdatedSyncEventData = EventSessionCreatedProperties;
+export interface SyncEventSessionUpdatedSyncEvent {
+  type: SyncEventSessionUpdatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionCreatedProperties;
+}
+export interface SyncEventSessionUpdated {
+  type: SyncEventSessionUpdatedType;
+  id: string;
+  syncEvent: SyncEventSessionUpdatedSyncEvent;
+}
+export type SyncEventSessionDeletedType = "sync";
+export type SyncEventSessionDeletedSyncEventType = "session.deleted.1";
+export type SyncEventSessionDeletedSyncEventData = EventSessionCreatedProperties;
+export interface SyncEventSessionDeletedSyncEvent {
+  type: SyncEventSessionDeletedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionCreatedProperties;
+}
+export interface SyncEventSessionDeleted {
+  type: SyncEventSessionDeletedType;
+  id: string;
+  syncEvent: SyncEventSessionDeletedSyncEvent;
+}
+export type SyncEventMessageUpdatedType = "sync";
+export type SyncEventMessageUpdatedSyncEventType = "message.updated.1";
+export type SyncEventMessageUpdatedSyncEventData = EventMessageUpdatedProperties;
+export interface SyncEventMessageUpdatedSyncEvent {
+  type: SyncEventMessageUpdatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventMessageUpdatedProperties;
+}
+export interface SyncEventMessageUpdated {
+  type: SyncEventMessageUpdatedType;
+  id: string;
+  syncEvent: SyncEventMessageUpdatedSyncEvent;
+}
+export type SyncEventMessageRemovedType = "sync";
+export type SyncEventMessageRemovedSyncEventType = "message.removed.1";
+export type SyncEventMessageRemovedSyncEventData = EventMessageRemovedProperties;
+export interface SyncEventMessageRemovedSyncEvent {
+  type: SyncEventMessageRemovedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventMessageRemovedProperties;
+}
+export interface SyncEventMessageRemoved {
+  type: SyncEventMessageRemovedType;
+  id: string;
+  syncEvent: SyncEventMessageRemovedSyncEvent;
+}
+export type SyncEventMessagePartUpdatedType = "sync";
+export type SyncEventMessagePartUpdatedSyncEventType = "message.part.updated.1";
+export type SyncEventMessagePartUpdatedSyncEventData = EventMessagePartUpdatedProperties;
+export interface SyncEventMessagePartUpdatedSyncEvent {
+  type: SyncEventMessagePartUpdatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventMessagePartUpdatedProperties;
+}
+export interface SyncEventMessagePartUpdated {
+  type: SyncEventMessagePartUpdatedType;
+  id: string;
+  syncEvent: SyncEventMessagePartUpdatedSyncEvent;
+}
+export type SyncEventMessagePartRemovedType = "sync";
+export type SyncEventMessagePartRemovedSyncEventType = "message.part.removed.1";
+export type SyncEventMessagePartRemovedSyncEventData = EventMessagePartRemovedProperties;
+export interface SyncEventMessagePartRemovedSyncEvent {
+  type: SyncEventMessagePartRemovedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventMessagePartRemovedProperties;
+}
+export interface SyncEventMessagePartRemoved {
+  type: SyncEventMessagePartRemovedType;
+  id: string;
+  syncEvent: SyncEventMessagePartRemovedSyncEvent;
+}
+export type SyncEventSessionNextAgentSwitchedType = "sync";
+export type SyncEventSessionNextAgentSwitchedSyncEventType = "session.next.agent.switched.1";
+export type SyncEventSessionNextAgentSwitchedSyncEventData =
+  EventSessionNextAgentSwitchedProperties;
+export interface SyncEventSessionNextAgentSwitchedSyncEvent {
+  type: SyncEventSessionNextAgentSwitchedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextAgentSwitchedProperties;
+}
+export interface SyncEventSessionNextAgentSwitched {
+  type: SyncEventSessionNextAgentSwitchedType;
+  id: string;
+  syncEvent: SyncEventSessionNextAgentSwitchedSyncEvent;
+}
+export type SyncEventSessionNextModelSwitchedType = "sync";
+export type SyncEventSessionNextModelSwitchedSyncEventType = "session.next.model.switched.1";
+export type SyncEventSessionNextModelSwitchedSyncEventData =
+  EventSessionNextModelSwitchedProperties;
+export interface SyncEventSessionNextModelSwitchedSyncEvent {
+  type: SyncEventSessionNextModelSwitchedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextModelSwitchedProperties;
+}
+export interface SyncEventSessionNextModelSwitched {
+  type: SyncEventSessionNextModelSwitchedType;
+  id: string;
+  syncEvent: SyncEventSessionNextModelSwitchedSyncEvent;
+}
+export type SyncEventSessionNextMovedType = "sync";
+export type SyncEventSessionNextMovedSyncEventType = "session.next.moved.1";
+export type SyncEventSessionNextMovedSyncEventData = EventSessionNextMovedProperties;
+export interface SyncEventSessionNextMovedSyncEvent {
+  type: SyncEventSessionNextMovedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextMovedProperties;
+}
+export interface SyncEventSessionNextMoved {
+  type: SyncEventSessionNextMovedType;
+  id: string;
+  syncEvent: SyncEventSessionNextMovedSyncEvent;
+}
+export type SyncEventSessionNextPromptedType = "sync";
+export type SyncEventSessionNextPromptedSyncEventType = "session.next.prompted.1";
+export type SyncEventSessionNextPromptedSyncEventDataDelivery = "steer" | "queue";
+export interface SyncEventSessionNextPromptedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: SyncEventSessionNextPromptedSyncEventDataDelivery;
+}
+export interface SyncEventSessionNextPromptedSyncEvent {
+  type: SyncEventSessionNextPromptedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextPromptedSyncEventData;
+}
+export interface SyncEventSessionNextPrompted {
+  type: SyncEventSessionNextPromptedType;
+  id: string;
+  syncEvent: SyncEventSessionNextPromptedSyncEvent;
+}
+export type SyncEventSessionNextPromptAdmittedType = "sync";
+export type SyncEventSessionNextPromptAdmittedSyncEventType = "session.next.prompt.admitted.1";
+export type SyncEventSessionNextPromptAdmittedSyncEventDataDelivery = "steer" | "queue";
+export interface SyncEventSessionNextPromptAdmittedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: SyncEventSessionNextPromptAdmittedSyncEventDataDelivery;
+}
+export interface SyncEventSessionNextPromptAdmittedSyncEvent {
+  type: SyncEventSessionNextPromptAdmittedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextPromptAdmittedSyncEventData;
+}
+export interface SyncEventSessionNextPromptAdmitted {
+  type: SyncEventSessionNextPromptAdmittedType;
+  id: string;
+  syncEvent: SyncEventSessionNextPromptAdmittedSyncEvent;
+}
+export type SyncEventSessionNextContextUpdatedType = "sync";
+export type SyncEventSessionNextContextUpdatedSyncEventType = "session.next.context.updated.1";
+export type SyncEventSessionNextContextUpdatedSyncEventData =
+  EventSessionNextContextUpdatedProperties;
+export interface SyncEventSessionNextContextUpdatedSyncEvent {
+  type: SyncEventSessionNextContextUpdatedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export interface SyncEventSessionNextContextUpdated {
+  type: SyncEventSessionNextContextUpdatedType;
+  id: string;
+  syncEvent: SyncEventSessionNextContextUpdatedSyncEvent;
+}
+export type SyncEventSessionNextSyntheticType = "sync";
+export type SyncEventSessionNextSyntheticSyncEventType = "session.next.synthetic.1";
+export type SyncEventSessionNextSyntheticSyncEventData = EventSessionNextContextUpdatedProperties;
+export interface SyncEventSessionNextSyntheticSyncEvent {
+  type: SyncEventSessionNextSyntheticSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export interface SyncEventSessionNextSynthetic {
+  type: SyncEventSessionNextSyntheticType;
+  id: string;
+  syncEvent: SyncEventSessionNextSyntheticSyncEvent;
+}
+export type SyncEventSessionNextShellStartedType = "sync";
+export type SyncEventSessionNextShellStartedSyncEventType = "session.next.shell.started.1";
+export type SyncEventSessionNextShellStartedSyncEventData = EventSessionNextShellStartedProperties;
+export interface SyncEventSessionNextShellStartedSyncEvent {
+  type: SyncEventSessionNextShellStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextShellStartedProperties;
+}
+export interface SyncEventSessionNextShellStarted {
+  type: SyncEventSessionNextShellStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextShellStartedSyncEvent;
+}
+export type SyncEventSessionNextShellEndedType = "sync";
+export type SyncEventSessionNextShellEndedSyncEventType = "session.next.shell.ended.1";
+export type SyncEventSessionNextShellEndedSyncEventData = EventSessionNextShellEndedProperties;
+export interface SyncEventSessionNextShellEndedSyncEvent {
+  type: SyncEventSessionNextShellEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextShellEndedProperties;
+}
+export interface SyncEventSessionNextShellEnded {
+  type: SyncEventSessionNextShellEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextShellEndedSyncEvent;
+}
+export type SyncEventSessionNextStepStartedType = "sync";
+export type SyncEventSessionNextStepStartedSyncEventType = "session.next.step.started.1";
+export type SyncEventSessionNextStepStartedSyncEventData = EventSessionNextStepStartedProperties;
+export interface SyncEventSessionNextStepStartedSyncEvent {
+  type: SyncEventSessionNextStepStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextStepStartedProperties;
+}
+export interface SyncEventSessionNextStepStarted {
+  type: SyncEventSessionNextStepStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextStepStartedSyncEvent;
+}
+export type SyncEventSessionNextStepEndedType = "sync";
+export type SyncEventSessionNextStepEndedSyncEventType = "session.next.step.ended.2";
+export type SyncEventSessionNextStepEndedSyncEventDataTokensCache = ModelCostCache;
+export type SyncEventSessionNextStepEndedSyncEventDataTokens = SessionTokens;
+export type SyncEventSessionNextStepEndedSyncEventDataFilesList = Array<string>;
+export interface SyncEventSessionNextStepEndedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  finish: string;
+  cost: number;
+  tokens: SessionTokens;
+  snapshot?: string;
+  files?: SyncEventSessionNextStepEndedSyncEventDataFilesList;
+}
+export interface SyncEventSessionNextStepEndedSyncEvent {
+  type: SyncEventSessionNextStepEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextStepEndedSyncEventData;
+}
+export interface SyncEventSessionNextStepEnded {
+  type: SyncEventSessionNextStepEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextStepEndedSyncEvent;
+}
+export type SyncEventSessionNextStepFailedType = "sync";
+export type SyncEventSessionNextStepFailedSyncEventType = "session.next.step.failed.2";
+export type SyncEventSessionNextStepFailedSyncEventData = EventSessionNextStepFailedProperties;
+export interface SyncEventSessionNextStepFailedSyncEvent {
+  type: SyncEventSessionNextStepFailedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextStepFailedProperties;
+}
+export interface SyncEventSessionNextStepFailed {
+  type: SyncEventSessionNextStepFailedType;
+  id: string;
+  syncEvent: SyncEventSessionNextStepFailedSyncEvent;
+}
+export type SyncEventSessionNextTextStartedType = "sync";
+export type SyncEventSessionNextTextStartedSyncEventType = "session.next.text.started.1";
+export type SyncEventSessionNextTextStartedSyncEventData = EventSessionNextTextStartedProperties;
+export interface SyncEventSessionNextTextStartedSyncEvent {
+  type: SyncEventSessionNextTextStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextTextStartedProperties;
+}
+export interface SyncEventSessionNextTextStarted {
+  type: SyncEventSessionNextTextStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextTextStartedSyncEvent;
+}
+export type SyncEventSessionNextTextEndedType = "sync";
+export type SyncEventSessionNextTextEndedSyncEventType = "session.next.text.ended.1";
+export type SyncEventSessionNextTextEndedSyncEventData = EventSessionNextTextEndedProperties;
+export interface SyncEventSessionNextTextEndedSyncEvent {
+  type: SyncEventSessionNextTextEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextTextEndedProperties;
+}
+export interface SyncEventSessionNextTextEnded {
+  type: SyncEventSessionNextTextEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextTextEndedSyncEvent;
+}
+export type SyncEventSessionNextReasoningStartedType = "sync";
+export type SyncEventSessionNextReasoningStartedSyncEventType = "session.next.reasoning.started.1";
+export type SyncEventSessionNextReasoningStartedSyncEventData =
+  EventSessionNextReasoningStartedProperties;
+export interface SyncEventSessionNextReasoningStartedSyncEvent {
+  type: SyncEventSessionNextReasoningStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextReasoningStartedProperties;
+}
+export interface SyncEventSessionNextReasoningStarted {
+  type: SyncEventSessionNextReasoningStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextReasoningStartedSyncEvent;
+}
+export type SyncEventSessionNextReasoningEndedType = "sync";
+export type SyncEventSessionNextReasoningEndedSyncEventType = "session.next.reasoning.ended.1";
+export type SyncEventSessionNextReasoningEndedSyncEventData =
+  EventSessionNextReasoningEndedProperties;
+export interface SyncEventSessionNextReasoningEndedSyncEvent {
+  type: SyncEventSessionNextReasoningEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextReasoningEndedProperties;
+}
+export interface SyncEventSessionNextReasoningEnded {
+  type: SyncEventSessionNextReasoningEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextReasoningEndedSyncEvent;
+}
+export type SyncEventSessionNextToolInputStartedType = "sync";
+export type SyncEventSessionNextToolInputStartedSyncEventType = "session.next.tool.input.started.1";
+export type SyncEventSessionNextToolInputStartedSyncEventData =
+  EventSessionNextToolInputStartedProperties;
+export interface SyncEventSessionNextToolInputStartedSyncEvent {
+  type: SyncEventSessionNextToolInputStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextToolInputStartedProperties;
+}
+export interface SyncEventSessionNextToolInputStarted {
+  type: SyncEventSessionNextToolInputStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolInputStartedSyncEvent;
+}
+export type SyncEventSessionNextToolInputEndedType = "sync";
+export type SyncEventSessionNextToolInputEndedSyncEventType = "session.next.tool.input.ended.1";
+export type SyncEventSessionNextToolInputEndedSyncEventData =
+  EventSessionNextToolInputEndedProperties;
+export interface SyncEventSessionNextToolInputEndedSyncEvent {
+  type: SyncEventSessionNextToolInputEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextToolInputEndedProperties;
+}
+export interface SyncEventSessionNextToolInputEnded {
+  type: SyncEventSessionNextToolInputEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolInputEndedSyncEvent;
+}
+export type SyncEventSessionNextToolCalledType = "sync";
+export type SyncEventSessionNextToolCalledSyncEventType = "session.next.tool.called.1";
+export type SyncEventSessionNextToolCalledSyncEventDataProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export type SyncEventSessionNextToolCalledSyncEventData = EventSessionNextToolCalledProperties;
+export interface SyncEventSessionNextToolCalledSyncEvent {
+  type: SyncEventSessionNextToolCalledSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextToolCalledProperties;
+}
+export interface SyncEventSessionNextToolCalled {
+  type: SyncEventSessionNextToolCalledType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolCalledSyncEvent;
+}
+export type SyncEventSessionNextToolProgressType = "sync";
+export type SyncEventSessionNextToolProgressSyncEventType = "session.next.tool.progress.1";
+export type SyncEventSessionNextToolProgressSyncEventDataContentList = Array<LLMToolContent>;
+export interface SyncEventSessionNextToolProgressSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: SyncEventSessionNextToolProgressSyncEventDataContentList;
+}
+export interface SyncEventSessionNextToolProgressSyncEvent {
+  type: SyncEventSessionNextToolProgressSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextToolProgressSyncEventData;
+}
+export interface SyncEventSessionNextToolProgress {
+  type: SyncEventSessionNextToolProgressType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolProgressSyncEvent;
+}
+export type SyncEventSessionNextToolSuccessType = "sync";
+export type SyncEventSessionNextToolSuccessSyncEventType = "session.next.tool.success.1";
+export type SyncEventSessionNextToolSuccessSyncEventDataContentList = Array<LLMToolContent>;
+export type SyncEventSessionNextToolSuccessSyncEventDataOutputPathsList = Array<string>;
+export type SyncEventSessionNextToolSuccessSyncEventDataProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export interface SyncEventSessionNextToolSuccessSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: SyncEventSessionNextToolSuccessSyncEventDataContentList;
+  outputPaths?: SyncEventSessionNextToolSuccessSyncEventDataOutputPathsList;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export interface SyncEventSessionNextToolSuccessSyncEvent {
+  type: SyncEventSessionNextToolSuccessSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextToolSuccessSyncEventData;
+}
+export interface SyncEventSessionNextToolSuccess {
+  type: SyncEventSessionNextToolSuccessType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolSuccessSyncEvent;
+}
+export type SyncEventSessionNextToolFailedType = "sync";
+export type SyncEventSessionNextToolFailedSyncEventType = "session.next.tool.failed.1";
+export type SyncEventSessionNextToolFailedSyncEventDataProvider =
+  EventSessionNextToolCalledPropertiesProvider;
+export type SyncEventSessionNextToolFailedSyncEventData = EventSessionNextToolFailedProperties;
+export interface SyncEventSessionNextToolFailedSyncEvent {
+  type: SyncEventSessionNextToolFailedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextToolFailedProperties;
+}
+export interface SyncEventSessionNextToolFailed {
+  type: SyncEventSessionNextToolFailedType;
+  id: string;
+  syncEvent: SyncEventSessionNextToolFailedSyncEvent;
+}
+export type SyncEventSessionNextRetriedType = "sync";
+export type SyncEventSessionNextRetriedSyncEventType = "session.next.retried.1";
+export type SyncEventSessionNextRetriedSyncEventData = EventSessionNextRetriedProperties;
+export interface SyncEventSessionNextRetriedSyncEvent {
+  type: SyncEventSessionNextRetriedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextRetriedProperties;
+}
+export interface SyncEventSessionNextRetried {
+  type: SyncEventSessionNextRetriedType;
+  id: string;
+  syncEvent: SyncEventSessionNextRetriedSyncEvent;
+}
+export type SyncEventSessionNextCompactionStartedType = "sync";
+export type SyncEventSessionNextCompactionStartedSyncEventType =
+  "session.next.compaction.started.1";
+export type SyncEventSessionNextCompactionStartedSyncEventDataReason = "auto" | "manual";
+export interface SyncEventSessionNextCompactionStartedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: SyncEventSessionNextCompactionStartedSyncEventDataReason;
+}
+export interface SyncEventSessionNextCompactionStartedSyncEvent {
+  type: SyncEventSessionNextCompactionStartedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextCompactionStartedSyncEventData;
+}
+export interface SyncEventSessionNextCompactionStarted {
+  type: SyncEventSessionNextCompactionStartedType;
+  id: string;
+  syncEvent: SyncEventSessionNextCompactionStartedSyncEvent;
+}
+export type SyncEventSessionNextCompactionEndedType = "sync";
+export type SyncEventSessionNextCompactionEndedSyncEventType = "session.next.compaction.ended.1";
+export type SyncEventSessionNextCompactionEndedSyncEventDataReason = "auto" | "manual";
+export interface SyncEventSessionNextCompactionEndedSyncEventData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: SyncEventSessionNextCompactionEndedSyncEventDataReason;
+  text: string;
+  recent: string;
+}
+export interface SyncEventSessionNextCompactionEndedSyncEvent {
+  type: SyncEventSessionNextCompactionEndedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: SyncEventSessionNextCompactionEndedSyncEventData;
+}
+export interface SyncEventSessionNextCompactionEnded {
+  type: SyncEventSessionNextCompactionEndedType;
+  id: string;
+  syncEvent: SyncEventSessionNextCompactionEndedSyncEvent;
+}
+export type SyncEventSessionNextRevertStagedType = "sync";
+export type SyncEventSessionNextRevertStagedSyncEventType = "session.next.revert.staged.1";
+export type SyncEventSessionNextRevertStagedSyncEventData = EventSessionNextRevertStagedProperties;
+export interface SyncEventSessionNextRevertStagedSyncEvent {
+  type: SyncEventSessionNextRevertStagedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextRevertStagedProperties;
+}
+export interface SyncEventSessionNextRevertStaged {
+  type: SyncEventSessionNextRevertStagedType;
+  id: string;
+  syncEvent: SyncEventSessionNextRevertStagedSyncEvent;
+}
+export type SyncEventSessionNextRevertClearedType = "sync";
+export type SyncEventSessionNextRevertClearedSyncEventType = "session.next.revert.cleared.1";
+export type SyncEventSessionNextRevertClearedSyncEventData =
+  EventSessionNextRevertClearedProperties;
+export interface SyncEventSessionNextRevertClearedSyncEvent {
+  type: SyncEventSessionNextRevertClearedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextRevertClearedProperties;
+}
+export interface SyncEventSessionNextRevertCleared {
+  type: SyncEventSessionNextRevertClearedType;
+  id: string;
+  syncEvent: SyncEventSessionNextRevertClearedSyncEvent;
+}
+export type SyncEventSessionNextRevertCommittedType = "sync";
+export type SyncEventSessionNextRevertCommittedSyncEventType = "session.next.revert.committed.1";
+export type SyncEventSessionNextRevertCommittedSyncEventData =
+  EventSessionNextRevertCommittedProperties;
+export interface SyncEventSessionNextRevertCommittedSyncEvent {
+  type: SyncEventSessionNextRevertCommittedSyncEventType;
+  id: string;
+  seq: number;
+  aggregateID: string;
+  data: EventSessionNextRevertCommittedProperties;
+}
+export interface SyncEventSessionNextRevertCommitted {
+  type: SyncEventSessionNextRevertCommittedType;
+  id: string;
+  syncEvent: SyncEventSessionNextRevertCommittedSyncEvent;
+}
+export type GlobalEventPayload =
+  | GlobalEventPayloadCase0
+  | GlobalEventPayloadCase1
+  | GlobalEventPayloadCase2
+  | GlobalEventPayloadCase3
+  | GlobalEventPayloadCase4
+  | GlobalEventPayloadCase5
+  | GlobalEventPayloadCase6
+  | GlobalEventPayloadCase7
+  | GlobalEventPayloadCase8
+  | GlobalEventPayloadCase9
+  | GlobalEventPayloadCase10
+  | GlobalEventPayloadCase11
+  | GlobalEventPayloadCase12
+  | GlobalEventPayloadCase13
+  | GlobalEventPayloadCase14
+  | GlobalEventPayloadCase15
+  | GlobalEventPayloadCase16
+  | GlobalEventPayloadCase17
+  | GlobalEventPayloadCase18
+  | GlobalEventPayloadCase19
+  | GlobalEventPayloadCase20
+  | GlobalEventPayloadCase21
+  | GlobalEventPayloadCase22
+  | GlobalEventPayloadCase23
+  | GlobalEventPayloadCase24
+  | GlobalEventPayloadCase25
+  | GlobalEventPayloadCase26
+  | GlobalEventPayloadCase27
+  | GlobalEventPayloadCase28
+  | GlobalEventPayloadCase29
+  | GlobalEventPayloadCase30
+  | GlobalEventPayloadCase31
+  | GlobalEventPayloadCase32
+  | GlobalEventPayloadCase33
+  | GlobalEventPayloadCase34
+  | GlobalEventPayloadCase35
+  | GlobalEventPayloadCase36
+  | GlobalEventPayloadCase37
+  | GlobalEventPayloadCase38
+  | GlobalEventPayloadCase39
+  | GlobalEventPayloadCase40
+  | GlobalEventPayloadCase41
+  | GlobalEventPayloadCase42
+  | GlobalEventPayloadCase43
+  | GlobalEventPayloadCase44
+  | GlobalEventPayloadCase45
+  | GlobalEventPayloadCase46
+  | GlobalEventPayloadCase47
+  | GlobalEventPayloadCase48
+  | GlobalEventPayloadCase49
+  | GlobalEventPayloadCase50
+  | GlobalEventPayloadCase51
+  | GlobalEventPayloadCase52
+  | GlobalEventPayloadCase53
+  | GlobalEventPayloadCase54
+  | GlobalEventPayloadCase55
+  | GlobalEventPayloadCase56
+  | GlobalEventPayloadCase57
+  | GlobalEventPayloadCase58
+  | GlobalEventPayloadCase59
+  | GlobalEventPayloadCase60
+  | GlobalEventPayloadCase61
+  | GlobalEventPayloadCase62
+  | GlobalEventPayloadCase63
+  | GlobalEventPayloadCase64
+  | GlobalEventPayloadCase65
+  | GlobalEventPayloadCase66
+  | GlobalEventPayloadCase67
+  | GlobalEventPayloadCase68
+  | GlobalEventPayloadCase69
+  | GlobalEventPayloadCase70
+  | GlobalEventPayloadCase71
+  | GlobalEventPayloadCase72
+  | GlobalEventPayloadCase73
+  | GlobalEventPayloadCase74
+  | GlobalEventPayloadCase75
+  | GlobalEventPayloadCase76
+  | GlobalEventPayloadCase77
+  | GlobalEventPayloadCase78
+  | GlobalEventPayloadCase79
+  | GlobalEventPayloadCase80
+  | GlobalEventPayloadCase81
+  | GlobalEventPayloadCase82
+  | GlobalEventPayloadCase83
+  | GlobalEventPayloadCase84
+  | GlobalEventPayloadCase85
+  | GlobalEventPayloadCase86
+  | GlobalEventPayloadCase87
+  | EventServerInstanceDisposed
+  | SyncEventSessionCreated
+  | SyncEventSessionUpdated
+  | SyncEventSessionDeleted
+  | SyncEventMessageUpdated
+  | SyncEventMessageRemoved
+  | SyncEventMessagePartUpdated
+  | SyncEventMessagePartRemoved
+  | SyncEventSessionNextAgentSwitched
+  | SyncEventSessionNextModelSwitched
+  | SyncEventSessionNextMoved
+  | SyncEventSessionNextPrompted
+  | SyncEventSessionNextPromptAdmitted
+  | SyncEventSessionNextContextUpdated
+  | SyncEventSessionNextSynthetic
+  | SyncEventSessionNextShellStarted
+  | SyncEventSessionNextShellEnded
+  | SyncEventSessionNextStepStarted
+  | SyncEventSessionNextStepEnded
+  | SyncEventSessionNextStepFailed
+  | SyncEventSessionNextTextStarted
+  | SyncEventSessionNextTextEnded
+  | SyncEventSessionNextReasoningStarted
+  | SyncEventSessionNextReasoningEnded
+  | SyncEventSessionNextToolInputStarted
+  | SyncEventSessionNextToolInputEnded
+  | SyncEventSessionNextToolCalled
+  | SyncEventSessionNextToolProgress
+  | SyncEventSessionNextToolSuccess
+  | SyncEventSessionNextToolFailed
+  | SyncEventSessionNextRetried
+  | SyncEventSessionNextCompactionStarted
+  | SyncEventSessionNextCompactionEnded
+  | SyncEventSessionNextRevertStaged
+  | SyncEventSessionNextRevertCleared
+  | SyncEventSessionNextRevertCommitted;
+export interface GlobalEvent {
+  directory: string;
+  project?: string;
+  workspace?: string;
+  payload: GlobalEventPayload;
+}
 export interface SubscribeV2EventRequest {}
-export interface SubscribeV2EventResponse {}
+export type ModelsDevRefreshedType = "models-dev.refreshed";
+export interface ModelsDevRefreshedDurable {
+  aggregateID: string;
+  seq: number;
+  version: number;
+}
+export interface ModelsDevRefreshed {
+  id: string;
+  metadata?: unknown;
+  type: ModelsDevRefreshedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export type IntegrationUpdatedType = "integration.updated";
+export type IntegrationUpdatedDurable = ModelsDevRefreshedDurable;
+export interface IntegrationUpdated {
+  id: string;
+  metadata?: unknown;
+  type: IntegrationUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export type IntegrationConnectionUpdatedType = "integration.connection.updated";
+export type IntegrationConnectionUpdatedDurable = ModelsDevRefreshedDurable;
+export type IntegrationConnectionUpdatedData = EventIntegrationConnectionUpdatedProperties;
+export interface IntegrationConnectionUpdated {
+  id: string;
+  metadata?: unknown;
+  type: IntegrationConnectionUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventIntegrationConnectionUpdatedProperties;
+}
+export type CatalogUpdatedType = "catalog.updated";
+export type CatalogUpdatedDurable = ModelsDevRefreshedDurable;
+export interface CatalogUpdated {
+  id: string;
+  metadata?: unknown;
+  type: CatalogUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export type SessionCreatedType = "session.created";
+export type SessionCreatedDurable = ModelsDevRefreshedDurable;
+export type SessionCreatedData = EventSessionCreatedProperties;
+export interface SessionCreated {
+  id: string;
+  metadata?: unknown;
+  type: SessionCreatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionCreatedProperties;
+}
+export type SessionUpdatedType = "session.updated";
+export type SessionUpdatedDurable = ModelsDevRefreshedDurable;
+export type SessionUpdatedData = EventSessionCreatedProperties;
+export interface SessionUpdated {
+  id: string;
+  metadata?: unknown;
+  type: SessionUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionCreatedProperties;
+}
+export type SessionDeletedType = "session.deleted";
+export type SessionDeletedDurable = ModelsDevRefreshedDurable;
+export type SessionDeletedData = EventSessionCreatedProperties;
+export interface SessionDeleted {
+  id: string;
+  metadata?: unknown;
+  type: SessionDeletedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionCreatedProperties;
+}
+export type MessageUpdatedType = "message.updated";
+export type MessageUpdatedDurable = ModelsDevRefreshedDurable;
+export type MessageUpdatedData = EventMessageUpdatedProperties;
+export interface MessageUpdated {
+  id: string;
+  metadata?: unknown;
+  type: MessageUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessageUpdatedProperties;
+}
+export type MessageRemovedType = "message.removed";
+export type MessageRemovedDurable = ModelsDevRefreshedDurable;
+export type MessageRemovedData = EventMessageRemovedProperties;
+export interface MessageRemoved {
+  id: string;
+  metadata?: unknown;
+  type: MessageRemovedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessageRemovedProperties;
+}
+export type MessagePartUpdatedType = "message.part.updated";
+export type MessagePartUpdatedDurable = ModelsDevRefreshedDurable;
+export type MessagePartUpdatedData = EventMessagePartUpdatedProperties;
+export interface MessagePartUpdated {
+  id: string;
+  metadata?: unknown;
+  type: MessagePartUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessagePartUpdatedProperties;
+}
+export type MessagePartRemovedType = "message.part.removed";
+export type MessagePartRemovedDurable = ModelsDevRefreshedDurable;
+export type MessagePartRemovedData = EventMessagePartRemovedProperties;
+export interface MessagePartRemoved {
+  id: string;
+  metadata?: unknown;
+  type: MessagePartRemovedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessagePartRemovedProperties;
+}
+export type SessionNextAgentSwitchedType = "session.next.agent.switched";
+export type SessionNextAgentSwitchedDurable = ModelsDevRefreshedDurable;
+export type SessionNextAgentSwitchedData = EventSessionNextAgentSwitchedProperties;
+export interface SessionNextAgentSwitched {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextAgentSwitchedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextAgentSwitchedProperties;
+}
+export type SessionNextModelSwitchedType = "session.next.model.switched";
+export type SessionNextModelSwitchedDurable = ModelsDevRefreshedDurable;
+export type SessionNextModelSwitchedData = EventSessionNextModelSwitchedProperties;
+export interface SessionNextModelSwitched {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextModelSwitchedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextModelSwitchedProperties;
+}
+export type SessionNextMovedType = "session.next.moved";
+export type SessionNextMovedDurable = ModelsDevRefreshedDurable;
+export type SessionNextMovedData = EventSessionNextMovedProperties;
+export interface SessionNextMoved {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextMovedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextMovedProperties;
+}
+export type SessionNextPromptedType = "session.next.prompted";
+export type SessionNextPromptedDurable = ModelsDevRefreshedDurable;
+export type SessionNextPromptedDataDelivery = "steer" | "queue";
+export interface SessionNextPromptedData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: SessionNextPromptedDataDelivery;
+}
+export interface SessionNextPrompted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextPromptedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextPromptedData;
+}
+export type SessionNextPromptAdmittedType = "session.next.prompt.admitted";
+export type SessionNextPromptAdmittedDurable = ModelsDevRefreshedDurable;
+export type SessionNextPromptAdmittedDataDelivery = "steer" | "queue";
+export interface SessionNextPromptAdmittedData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  prompt: Prompt;
+  delivery: SessionNextPromptAdmittedDataDelivery;
+}
+export interface SessionNextPromptAdmitted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextPromptAdmittedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextPromptAdmittedData;
+}
+export type SessionNextContextUpdatedType = "session.next.context.updated";
+export type SessionNextContextUpdatedDurable = ModelsDevRefreshedDurable;
+export type SessionNextContextUpdatedData = EventSessionNextContextUpdatedProperties;
+export interface SessionNextContextUpdated {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextContextUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export type SessionNextSyntheticType = "session.next.synthetic";
+export type SessionNextSyntheticDurable = ModelsDevRefreshedDurable;
+export type SessionNextSyntheticData = EventSessionNextContextUpdatedProperties;
+export interface SessionNextSynthetic {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextSyntheticType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export type SessionNextShellStartedType = "session.next.shell.started";
+export type SessionNextShellStartedDurable = ModelsDevRefreshedDurable;
+export type SessionNextShellStartedData = EventSessionNextShellStartedProperties;
+export interface SessionNextShellStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextShellStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextShellStartedProperties;
+}
+export type SessionNextShellEndedType = "session.next.shell.ended";
+export type SessionNextShellEndedDurable = ModelsDevRefreshedDurable;
+export type SessionNextShellEndedData = EventSessionNextShellEndedProperties;
+export interface SessionNextShellEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextShellEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextShellEndedProperties;
+}
+export type SessionNextStepStartedType = "session.next.step.started";
+export type SessionNextStepStartedDurable = ModelsDevRefreshedDurable;
+export type SessionNextStepStartedData = EventSessionNextStepStartedProperties;
+export interface SessionNextStepStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextStepStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextStepStartedProperties;
+}
+export type SessionNextStepEndedType = "session.next.step.ended";
+export type SessionNextStepEndedDurable = ModelsDevRefreshedDurable;
+export type SessionNextStepEndedDataTokensCache = ModelCostCache;
+export type SessionNextStepEndedDataTokens = SessionTokens;
+export type SessionNextStepEndedDataFilesList = Array<string>;
+export interface SessionNextStepEndedData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  finish: string;
+  cost: number;
+  tokens: SessionTokens;
+  snapshot?: string;
+  files?: SessionNextStepEndedDataFilesList;
+}
+export interface SessionNextStepEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextStepEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextStepEndedData;
+}
+export type SessionNextStepFailedType = "session.next.step.failed";
+export type SessionNextStepFailedDurable = ModelsDevRefreshedDurable;
+export type SessionNextStepFailedData = EventSessionNextStepFailedProperties;
+export interface SessionNextStepFailed {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextStepFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextStepFailedProperties;
+}
+export type SessionNextTextStartedType = "session.next.text.started";
+export type SessionNextTextStartedDurable = ModelsDevRefreshedDurable;
+export type SessionNextTextStartedData = EventSessionNextTextStartedProperties;
+export interface SessionNextTextStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextTextStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextTextStartedProperties;
+}
+export type SessionNextTextDeltaType = "session.next.text.delta";
+export type SessionNextTextDeltaDurable = ModelsDevRefreshedDurable;
+export type SessionNextTextDeltaData = EventSessionNextTextDeltaProperties;
+export interface SessionNextTextDelta {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextTextDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextTextDeltaProperties;
+}
+export type SessionNextTextEndedType = "session.next.text.ended";
+export type SessionNextTextEndedDurable = ModelsDevRefreshedDurable;
+export type SessionNextTextEndedData = EventSessionNextTextEndedProperties;
+export interface SessionNextTextEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextTextEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextTextEndedProperties;
+}
+export type SessionNextReasoningStartedType = "session.next.reasoning.started";
+export type SessionNextReasoningStartedDurable = ModelsDevRefreshedDurable;
+export type SessionNextReasoningStartedData = EventSessionNextReasoningStartedProperties;
+export interface SessionNextReasoningStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextReasoningStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextReasoningStartedProperties;
+}
+export type SessionNextReasoningDeltaType = "session.next.reasoning.delta";
+export type SessionNextReasoningDeltaDurable = ModelsDevRefreshedDurable;
+export type SessionNextReasoningDeltaData = EventSessionNextReasoningDeltaProperties;
+export interface SessionNextReasoningDelta {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextReasoningDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextReasoningDeltaProperties;
+}
+export type SessionNextReasoningEndedType = "session.next.reasoning.ended";
+export type SessionNextReasoningEndedDurable = ModelsDevRefreshedDurable;
+export type SessionNextReasoningEndedData = EventSessionNextReasoningEndedProperties;
+export interface SessionNextReasoningEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextReasoningEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextReasoningEndedProperties;
+}
+export type SessionNextToolInputStartedType = "session.next.tool.input.started";
+export type SessionNextToolInputStartedDurable = ModelsDevRefreshedDurable;
+export type SessionNextToolInputStartedData = EventSessionNextToolInputStartedProperties;
+export interface SessionNextToolInputStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolInputStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolInputStartedProperties;
+}
+export type SessionNextToolInputDeltaType = "session.next.tool.input.delta";
+export type SessionNextToolInputDeltaDurable = ModelsDevRefreshedDurable;
+export type SessionNextToolInputDeltaData = EventSessionNextToolInputDeltaProperties;
+export interface SessionNextToolInputDelta {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolInputDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolInputDeltaProperties;
+}
+export type SessionNextToolInputEndedType = "session.next.tool.input.ended";
+export type SessionNextToolInputEndedDurable = ModelsDevRefreshedDurable;
+export type SessionNextToolInputEndedData = EventSessionNextToolInputEndedProperties;
+export interface SessionNextToolInputEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolInputEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolInputEndedProperties;
+}
+export type SessionNextToolCalledType = "session.next.tool.called";
+export type SessionNextToolCalledDurable = ModelsDevRefreshedDurable;
+export type SessionNextToolCalledDataProvider = EventSessionNextToolCalledPropertiesProvider;
+export type SessionNextToolCalledData = EventSessionNextToolCalledProperties;
+export interface SessionNextToolCalled {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolCalledType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolCalledProperties;
+}
+export type SessionNextToolProgressType = "session.next.tool.progress";
+export type SessionNextToolProgressDurable = ModelsDevRefreshedDurable;
+export type SessionNextToolProgressDataContentList = Array<LLMToolContent>;
+export interface SessionNextToolProgressData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: SessionNextToolProgressDataContentList;
+}
+export interface SessionNextToolProgress {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolProgressType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextToolProgressData;
+}
+export type SessionNextToolSuccessType = "session.next.tool.success";
+export type SessionNextToolSuccessDurable = ModelsDevRefreshedDurable;
+export type SessionNextToolSuccessDataContentList = Array<LLMToolContent>;
+export type SessionNextToolSuccessDataOutputPathsList = Array<string>;
+export type SessionNextToolSuccessDataProvider = EventSessionNextToolCalledPropertiesProvider;
+export interface SessionNextToolSuccessData {
+  timestamp: number;
+  sessionID: string;
+  assistantMessageID: string;
+  callID: string;
+  structured: unknown;
+  content: SessionNextToolSuccessDataContentList;
+  outputPaths?: SessionNextToolSuccessDataOutputPathsList;
+  result?: unknown;
+  provider: EventSessionNextToolCalledPropertiesProvider;
+}
+export interface SessionNextToolSuccess {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolSuccessType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextToolSuccessData;
+}
+export type SessionNextToolFailedType = "session.next.tool.failed";
+export type SessionNextToolFailedDurable = ModelsDevRefreshedDurable;
+export type SessionNextToolFailedDataProvider = EventSessionNextToolCalledPropertiesProvider;
+export type SessionNextToolFailedData = EventSessionNextToolFailedProperties;
+export interface SessionNextToolFailed {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextToolFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextToolFailedProperties;
+}
+export type SessionNextRetriedType = "session.next.retried";
+export type SessionNextRetriedDurable = ModelsDevRefreshedDurable;
+export type SessionNextRetriedData = EventSessionNextRetriedProperties;
+export interface SessionNextRetried {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextRetriedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextRetriedProperties;
+}
+export type SessionNextCompactionStartedType = "session.next.compaction.started";
+export type SessionNextCompactionStartedDurable = ModelsDevRefreshedDurable;
+export type SessionNextCompactionStartedDataReason = "auto" | "manual";
+export interface SessionNextCompactionStartedData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: SessionNextCompactionStartedDataReason;
+}
+export interface SessionNextCompactionStarted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextCompactionStartedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextCompactionStartedData;
+}
+export type SessionNextCompactionDeltaType = "session.next.compaction.delta";
+export type SessionNextCompactionDeltaDurable = ModelsDevRefreshedDurable;
+export type SessionNextCompactionDeltaData = EventSessionNextContextUpdatedProperties;
+export interface SessionNextCompactionDelta {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextCompactionDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextContextUpdatedProperties;
+}
+export type SessionNextCompactionEndedType = "session.next.compaction.ended";
+export type SessionNextCompactionEndedDurable = ModelsDevRefreshedDurable;
+export type SessionNextCompactionEndedDataReason = "auto" | "manual";
+export interface SessionNextCompactionEndedData {
+  timestamp: number;
+  sessionID: string;
+  messageID: string;
+  reason: SessionNextCompactionEndedDataReason;
+  text: string;
+  recent: string;
+}
+export interface SessionNextCompactionEnded {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextCompactionEndedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionNextCompactionEndedData;
+}
+export type SessionNextRevertStagedType = "session.next.revert.staged";
+export type SessionNextRevertStagedDurable = ModelsDevRefreshedDurable;
+export type SessionNextRevertStagedData = EventSessionNextRevertStagedProperties;
+export interface SessionNextRevertStaged {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextRevertStagedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextRevertStagedProperties;
+}
+export type SessionNextRevertClearedType = "session.next.revert.cleared";
+export type SessionNextRevertClearedDurable = ModelsDevRefreshedDurable;
+export type SessionNextRevertClearedData = EventSessionNextRevertClearedProperties;
+export interface SessionNextRevertCleared {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextRevertClearedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextRevertClearedProperties;
+}
+export type SessionNextRevertCommittedType = "session.next.revert.committed";
+export type SessionNextRevertCommittedDurable = ModelsDevRefreshedDurable;
+export type SessionNextRevertCommittedData = EventSessionNextRevertCommittedProperties;
+export interface SessionNextRevertCommitted {
+  id: string;
+  metadata?: unknown;
+  type: SessionNextRevertCommittedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionNextRevertCommittedProperties;
+}
+export type MessagePartDeltaType = "message.part.delta";
+export type MessagePartDeltaDurable = ModelsDevRefreshedDurable;
+export type MessagePartDeltaData = EventMessagePartDeltaProperties;
+export interface MessagePartDelta {
+  id: string;
+  metadata?: unknown;
+  type: MessagePartDeltaType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMessagePartDeltaProperties;
+}
+export type SessionDiffType = "session.diff";
+export type SessionDiffDurable = ModelsDevRefreshedDurable;
+export type SessionDiffDataDiffList = Array<SnapshotFileDiff>;
+export interface SessionDiffData {
+  sessionID: string;
+  diff: SessionDiffDataDiffList;
+}
+export interface SessionDiff2 {
+  id: string;
+  metadata?: unknown;
+  type: SessionDiffType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionDiffData;
+}
+export type SessionErrorType = "session.error";
+export type SessionErrorDurable = ModelsDevRefreshedDurable;
+export type SessionErrorDataError =
+  | ProviderAuthError
+  | UnknownError
+  | MessageOutputLengthError
+  | MessageAbortedError
+  | StructuredOutputError
+  | ContextOverflowError
+  | ContentFilterError
+  | APIError;
+export interface SessionErrorData {
+  sessionID?: string;
+  error?: SessionErrorDataError;
+}
+export interface SessionError {
+  id: string;
+  metadata?: unknown;
+  type: SessionErrorType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: SessionErrorData;
+}
+export type InstallationUpdatedType = "installation.updated";
+export type InstallationUpdatedDurable = ModelsDevRefreshedDurable;
+export type InstallationUpdatedData = EventInstallationUpdatedProperties;
+export interface InstallationUpdated {
+  id: string;
+  metadata?: unknown;
+  type: InstallationUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventInstallationUpdatedProperties;
+}
+export type InstallationUpdateAvailableType = "installation.update-available";
+export type InstallationUpdateAvailableDurable = ModelsDevRefreshedDurable;
+export type InstallationUpdateAvailableData = EventInstallationUpdatedProperties;
+export interface InstallationUpdateAvailable {
+  id: string;
+  metadata?: unknown;
+  type: InstallationUpdateAvailableType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventInstallationUpdatedProperties;
+}
+export type FileEditedType = "file.edited";
+export type FileEditedDurable = ModelsDevRefreshedDurable;
+export type FileEditedData = EventFileEditedProperties;
+export interface FileEdited {
+  id: string;
+  metadata?: unknown;
+  type: FileEditedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventFileEditedProperties;
+}
+export type ReferenceUpdatedType = "reference.updated";
+export type ReferenceUpdatedDurable = ModelsDevRefreshedDurable;
+export interface ReferenceUpdated {
+  id: string;
+  metadata?: unknown;
+  type: ReferenceUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export type PermissionV2AskedType = "permission.v2.asked";
+export type PermissionV2AskedDurable = ModelsDevRefreshedDurable;
+export type PermissionV2AskedDataResourcesList = Array<string>;
+export type PermissionV2AskedDataSaveList = Array<string>;
+export interface PermissionV2AskedData {
+  id: string;
+  sessionID: string;
+  action: string;
+  resources: PermissionV2AskedDataResourcesList;
+  save?: PermissionV2AskedDataSaveList;
+  metadata?: unknown;
+  source?: PermissionV2Source;
+}
+export interface PermissionV2Asked {
+  id: string;
+  metadata?: unknown;
+  type: PermissionV2AskedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: PermissionV2AskedData;
+}
+export type PermissionV2RepliedType = "permission.v2.replied";
+export type PermissionV2RepliedDurable = ModelsDevRefreshedDurable;
+export type PermissionV2RepliedData = EventPermissionV2RepliedProperties;
+export interface PermissionV2Replied {
+  id: string;
+  metadata?: unknown;
+  type: PermissionV2RepliedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPermissionV2RepliedProperties;
+}
+export type PluginAddedType = "plugin.added";
+export type PluginAddedDurable = ModelsDevRefreshedDurable;
+export type PluginAddedData = EventPluginAddedProperties;
+export interface PluginAdded {
+  id: string;
+  metadata?: unknown;
+  type: PluginAddedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPluginAddedProperties;
+}
+export type ProjectDirectoriesUpdatedType = "project.directories.updated";
+export type ProjectDirectoriesUpdatedDurable = ModelsDevRefreshedDurable;
+export type ProjectDirectoriesUpdatedData = EventProjectDirectoriesUpdatedProperties;
+export interface ProjectDirectoriesUpdated {
+  id: string;
+  metadata?: unknown;
+  type: ProjectDirectoriesUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventProjectDirectoriesUpdatedProperties;
+}
+export type FileWatcherUpdatedType = "file.watcher.updated";
+export type FileWatcherUpdatedDurable = ModelsDevRefreshedDurable;
+export type FileWatcherUpdatedDataEvent = "add" | "change" | "unlink";
+export interface FileWatcherUpdatedData {
+  file: string;
+  event: FileWatcherUpdatedDataEvent;
+}
+export interface FileWatcherUpdated {
+  id: string;
+  metadata?: unknown;
+  type: FileWatcherUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: FileWatcherUpdatedData;
+}
+export type PtyCreatedType = "pty.created";
+export type PtyCreatedDurable = ModelsDevRefreshedDurable;
+export type PtyCreatedData = EventPtyCreatedProperties;
+export interface PtyCreated {
+  id: string;
+  metadata?: unknown;
+  type: PtyCreatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPtyCreatedProperties;
+}
+export type PtyUpdatedType = "pty.updated";
+export type PtyUpdatedDurable = ModelsDevRefreshedDurable;
+export type PtyUpdatedData = EventPtyCreatedProperties;
+export interface PtyUpdated {
+  id: string;
+  metadata?: unknown;
+  type: PtyUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPtyCreatedProperties;
+}
+export type PtyExitedType = "pty.exited";
+export type PtyExitedDurable = ModelsDevRefreshedDurable;
+export type PtyExitedData = EventPtyExitedProperties;
+export interface PtyExited {
+  id: string;
+  metadata?: unknown;
+  type: PtyExitedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPtyExitedProperties;
+}
+export type PtyDeletedType = "pty.deleted";
+export type PtyDeletedDurable = ModelsDevRefreshedDurable;
+export type PtyDeletedData = EventPluginAddedProperties;
+export interface PtyDeleted {
+  id: string;
+  metadata?: unknown;
+  type: PtyDeletedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventPluginAddedProperties;
+}
+export type QuestionV2AskedType = "question.v2.asked";
+export type QuestionV2AskedDurable = ModelsDevRefreshedDurable;
+/** Questions to ask */
+export type QuestionV2AskedDataQuestionsList = Array<QuestionV2Info>;
+export interface QuestionV2AskedData {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: QuestionV2AskedDataQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export interface QuestionV2Asked {
+  id: string;
+  metadata?: unknown;
+  type: QuestionV2AskedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: QuestionV2AskedData;
+}
+export type QuestionV2RepliedType = "question.v2.replied";
+export type QuestionV2RepliedDurable = ModelsDevRefreshedDurable;
+export type QuestionV2RepliedDataAnswersList = Array<QuestionV2Answer>;
+export interface QuestionV2RepliedData {
+  sessionID: string;
+  requestID: string;
+  answers: QuestionV2RepliedDataAnswersList;
+}
+export interface QuestionV2Replied {
+  id: string;
+  metadata?: unknown;
+  type: QuestionV2RepliedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: QuestionV2RepliedData;
+}
+export type QuestionV2RejectedType = "question.v2.rejected";
+export type QuestionV2RejectedDurable = ModelsDevRefreshedDurable;
+export type QuestionV2RejectedData = EventQuestionV2RejectedProperties;
+export interface QuestionV2Rejected {
+  id: string;
+  metadata?: unknown;
+  type: QuestionV2RejectedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventQuestionV2RejectedProperties;
+}
+export type TodoUpdatedType = "todo.updated";
+export type TodoUpdatedDurable = ModelsDevRefreshedDurable;
+export type TodoUpdatedDataTodosList = Array<Todo>;
+export interface TodoUpdatedData {
+  sessionID: string;
+  todos: TodoUpdatedDataTodosList;
+}
+export interface TodoUpdated {
+  id: string;
+  metadata?: unknown;
+  type: TodoUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: TodoUpdatedData;
+}
+export type LspUpdatedType = "lsp.updated";
+export type LspUpdatedDurable = ModelsDevRefreshedDurable;
+export interface LspUpdated {
+  id: string;
+  metadata?: unknown;
+  type: LspUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export type PermissionAskedType = "permission.asked";
+export type PermissionAskedDurable = ModelsDevRefreshedDurable;
+export type PermissionAskedDataPatternsList = Array<string>;
+export type PermissionAskedDataAlwaysList = Array<string>;
+export type PermissionAskedDataTool = PermissionRequestTool;
+export interface PermissionAskedData {
+  id: string;
+  sessionID: string;
+  permission: string;
+  patterns: PermissionAskedDataPatternsList;
+  metadata: unknown;
+  always: PermissionAskedDataAlwaysList;
+  tool?: PermissionRequestTool;
+}
+export interface PermissionAsked {
+  id: string;
+  metadata?: unknown;
+  type: PermissionAskedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: PermissionAskedData;
+}
+export type PermissionRepliedType = "permission.replied";
+export type PermissionRepliedDurable = ModelsDevRefreshedDurable;
+export type PermissionRepliedDataReply = "once" | "always" | "reject";
+export interface PermissionRepliedData {
+  sessionID: string;
+  requestID: string;
+  reply: PermissionRepliedDataReply;
+}
+export interface PermissionReplied {
+  id: string;
+  metadata?: unknown;
+  type: PermissionRepliedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: PermissionRepliedData;
+}
+export type TuiPromptAppendType = "tui.prompt.append";
+export type TuiPromptAppendDurable = ModelsDevRefreshedDurable;
+export type TuiPromptAppendData = FindTextResponseBodyItemPath;
+export interface TuiPromptAppend {
+  id: string;
+  metadata?: unknown;
+  type: TuiPromptAppendType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: FindTextResponseBodyItemPath;
+}
+export type TuiCommandExecuteType = "tui.command.execute";
+export type TuiCommandExecuteDurable = ModelsDevRefreshedDurable;
+export type TuiCommandExecuteDataCommandCase0 =
+  | "session.list"
+  | "session.new"
+  | "session.share"
+  | "session.interrupt"
+  | "session.compact"
+  | "session.page.up"
+  | "session.page.down"
+  | "session.line.up"
+  | "session.line.down"
+  | "session.half.page.up"
+  | "session.half.page.down"
+  | "session.first"
+  | "session.last"
+  | "prompt.clear"
+  | "prompt.submit"
+  | "agent.cycle";
+export type TuiCommandExecuteDataCommand = TuiCommandExecuteDataCommandCase0 | string;
+export interface TuiCommandExecuteData {
+  command: TuiCommandExecuteDataCommand;
+}
+export interface TuiCommandExecute {
+  id: string;
+  metadata?: unknown;
+  type: TuiCommandExecuteType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: TuiCommandExecuteData;
+}
+export type TuiToastShowType = "tui.toast.show";
+export type TuiToastShowDurable = ModelsDevRefreshedDurable;
+export type TuiToastShowDataVariant = "info" | "success" | "warning" | "error";
+export interface TuiToastShowData {
+  title?: string;
+  message: string;
+  variant: TuiToastShowDataVariant;
+  duration?: number;
+}
+export interface TuiToastShow {
+  id: string;
+  metadata?: unknown;
+  type: TuiToastShowType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: TuiToastShowData;
+}
+export type TuiSessionSelectType = "tui.session.select";
+export type TuiSessionSelectDurable = ModelsDevRefreshedDurable;
+export type TuiSessionSelectData = EventTuiSessionSelectProperties2;
+export interface TuiSessionSelect {
+  id: string;
+  metadata?: unknown;
+  type: TuiSessionSelectType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventTuiSessionSelectProperties2;
+}
+export type McpToolsChangedType = "mcp.tools.changed";
+export type McpToolsChangedDurable = ModelsDevRefreshedDurable;
+export type McpToolsChangedData = EventMcpToolsChangedProperties;
+export interface McpToolsChanged {
+  id: string;
+  metadata?: unknown;
+  type: McpToolsChangedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMcpToolsChangedProperties;
+}
+export type McpBrowserOpenFailedType = "mcp.browser.open.failed";
+export type McpBrowserOpenFailedDurable = ModelsDevRefreshedDurable;
+export type McpBrowserOpenFailedData = EventMcpBrowserOpenFailedProperties;
+export interface McpBrowserOpenFailed {
+  id: string;
+  metadata?: unknown;
+  type: McpBrowserOpenFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventMcpBrowserOpenFailedProperties;
+}
+export type CommandExecutedType = "command.executed";
+export type CommandExecutedDurable = ModelsDevRefreshedDurable;
+export type CommandExecutedData = EventCommandExecutedProperties;
+export interface CommandExecuted {
+  id: string;
+  metadata?: unknown;
+  type: CommandExecutedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventCommandExecutedProperties;
+}
+export type ProjectUpdatedType = "project.updated";
+export type ProjectUpdatedDurable = ModelsDevRefreshedDurable;
+export type ProjectUpdatedDataSandboxesList = Array<string>;
+export interface ProjectUpdatedData {
+  id: string;
+  worktree: string;
+  vcs?: ProjectVcs;
+  name?: string;
+  icon?: ProjectIcon;
+  commands?: ProjectCommands;
+  time: ProjectTime;
+  sandboxes: ProjectUpdatedDataSandboxesList;
+}
+export interface ProjectUpdated {
+  id: string;
+  metadata?: unknown;
+  type: ProjectUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: ProjectUpdatedData;
+}
+export type SessionStatusType = "session.status";
+export type SessionStatusDurable = ModelsDevRefreshedDurable;
+export type SessionStatusData = EventSessionStatusProperties;
+export interface SessionStatus3 {
+  id: string;
+  metadata?: unknown;
+  type: SessionStatusType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionStatusProperties;
+}
+export type SessionIdleType = "session.idle";
+export type SessionIdleDurable = ModelsDevRefreshedDurable;
+export type SessionIdleData = EventSessionIdleProperties;
+export interface SessionIdle {
+  id: string;
+  metadata?: unknown;
+  type: SessionIdleType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionIdleProperties;
+}
+export type QuestionAskedType = "question.asked";
+export type QuestionAskedDurable = ModelsDevRefreshedDurable;
+/** Questions to ask */
+export type QuestionAskedDataQuestionsList = Array<QuestionInfo>;
+export interface QuestionAskedData {
+  id: string;
+  sessionID: string;
+  /** Questions to ask */
+  questions: QuestionAskedDataQuestionsList;
+  tool?: PermissionRequestTool;
+}
+export interface QuestionAsked {
+  id: string;
+  metadata?: unknown;
+  type: QuestionAskedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: QuestionAskedData;
+}
+export type QuestionRepliedType = "question.replied";
+export type QuestionRepliedDurable = ModelsDevRefreshedDurable;
+export type QuestionRepliedDataAnswersList = Array<QuestionAnswer>;
+export interface QuestionRepliedData {
+  sessionID: string;
+  requestID: string;
+  answers: QuestionRepliedDataAnswersList;
+}
+export interface QuestionReplied {
+  id: string;
+  metadata?: unknown;
+  type: QuestionRepliedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: QuestionRepliedData;
+}
+export type QuestionRejectedType = "question.rejected";
+export type QuestionRejectedDurable = ModelsDevRefreshedDurable;
+export type QuestionRejectedData = EventQuestionV2RejectedProperties;
+export interface QuestionRejected {
+  id: string;
+  metadata?: unknown;
+  type: QuestionRejectedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventQuestionV2RejectedProperties;
+}
+export type SessionCompactedType = "session.compacted";
+export type SessionCompactedDurable = ModelsDevRefreshedDurable;
+export type SessionCompactedData = EventSessionIdleProperties;
+export interface SessionCompacted {
+  id: string;
+  metadata?: unknown;
+  type: SessionCompactedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventSessionIdleProperties;
+}
+export type VcsBranchUpdatedType = "vcs.branch.updated";
+export type VcsBranchUpdatedDurable = ModelsDevRefreshedDurable;
+export type VcsBranchUpdatedData = EventVcsBranchUpdatedProperties;
+export interface VcsBranchUpdated {
+  id: string;
+  metadata?: unknown;
+  type: VcsBranchUpdatedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventVcsBranchUpdatedProperties;
+}
+export type WorkspaceReadyType = "workspace.ready";
+export type WorkspaceReadyDurable = ModelsDevRefreshedDurable;
+export type WorkspaceReadyData = EventWorkspaceReadyProperties;
+export interface WorkspaceReady {
+  id: string;
+  metadata?: unknown;
+  type: WorkspaceReadyType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventWorkspaceReadyProperties;
+}
+export type WorkspaceFailedType = "workspace.failed";
+export type WorkspaceFailedDurable = ModelsDevRefreshedDurable;
+export type WorkspaceFailedData = MessageAbortedErrorData;
+export interface WorkspaceFailed {
+  id: string;
+  metadata?: unknown;
+  type: WorkspaceFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: MessageAbortedErrorData;
+}
+export type WorkspaceStatusType = "workspace.status";
+export type WorkspaceStatusDurable = ModelsDevRefreshedDurable;
+export type WorkspaceStatusDataStatus = "connected" | "connecting" | "disconnected" | "error";
+export interface WorkspaceStatusData {
+  workspaceID: string;
+  status: WorkspaceStatusDataStatus;
+}
+export interface WorkspaceStatus {
+  id: string;
+  metadata?: unknown;
+  type: WorkspaceStatusType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: WorkspaceStatusData;
+}
+export type WorktreeReadyType = "worktree.ready";
+export type WorktreeReadyDurable = ModelsDevRefreshedDurable;
+export type WorktreeReadyData = EventWorktreeReadyProperties;
+export interface WorktreeReady {
+  id: string;
+  metadata?: unknown;
+  type: WorktreeReadyType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: EventWorktreeReadyProperties;
+}
+export type WorktreeFailedType = "worktree.failed";
+export type WorktreeFailedDurable = ModelsDevRefreshedDurable;
+export type WorktreeFailedData = MessageAbortedErrorData;
+export interface WorktreeFailed {
+  id: string;
+  metadata?: unknown;
+  type: WorktreeFailedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: MessageAbortedErrorData;
+}
+export type ServerConnectedType = "server.connected";
+export type ServerConnectedDurable = ModelsDevRefreshedDurable;
+export interface ServerConnected {
+  id: string;
+  metadata?: unknown;
+  type: ServerConnectedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export type GlobalDisposedType = "global.disposed";
+export type GlobalDisposedDurable = ModelsDevRefreshedDurable;
+export interface GlobalDisposed {
+  id: string;
+  metadata?: unknown;
+  type: GlobalDisposedType;
+  durable?: ModelsDevRefreshedDurable;
+  location?: LocationRef;
+  data: unknown;
+}
+export type V2Event =
+  | ModelsDevRefreshed
+  | IntegrationUpdated
+  | IntegrationConnectionUpdated
+  | CatalogUpdated
+  | SessionCreated
+  | SessionUpdated
+  | SessionDeleted
+  | MessageUpdated
+  | MessageRemoved
+  | MessagePartUpdated
+  | MessagePartRemoved
+  | SessionNextAgentSwitched
+  | SessionNextModelSwitched
+  | SessionNextMoved
+  | SessionNextPrompted
+  | SessionNextPromptAdmitted
+  | SessionNextContextUpdated
+  | SessionNextSynthetic
+  | SessionNextShellStarted
+  | SessionNextShellEnded
+  | SessionNextStepStarted
+  | SessionNextStepEnded
+  | SessionNextStepFailed
+  | SessionNextTextStarted
+  | SessionNextTextDelta
+  | SessionNextTextEnded
+  | SessionNextReasoningStarted
+  | SessionNextReasoningDelta
+  | SessionNextReasoningEnded
+  | SessionNextToolInputStarted
+  | SessionNextToolInputDelta
+  | SessionNextToolInputEnded
+  | SessionNextToolCalled
+  | SessionNextToolProgress
+  | SessionNextToolSuccess
+  | SessionNextToolFailed
+  | SessionNextRetried
+  | SessionNextCompactionStarted
+  | SessionNextCompactionDelta
+  | SessionNextCompactionEnded
+  | SessionNextRevertStaged
+  | SessionNextRevertCleared
+  | SessionNextRevertCommitted
+  | MessagePartDelta
+  | SessionDiff2
+  | SessionError
+  | InstallationUpdated
+  | InstallationUpdateAvailable
+  | FileEdited
+  | ReferenceUpdated
+  | PermissionV2Asked
+  | PermissionV2Replied
+  | PluginAdded
+  | ProjectDirectoriesUpdated
+  | FileWatcherUpdated
+  | PtyCreated
+  | PtyUpdated
+  | PtyExited
+  | PtyDeleted
+  | QuestionV2Asked
+  | QuestionV2Replied
+  | QuestionV2Rejected
+  | TodoUpdated
+  | LspUpdated
+  | PermissionAsked
+  | PermissionReplied
+  | TuiPromptAppend
+  | TuiCommandExecute
+  | TuiToastShow
+  | TuiSessionSelect
+  | McpToolsChanged
+  | McpBrowserOpenFailed
+  | CommandExecuted
+  | ProjectUpdated
+  | SessionStatus3
+  | SessionIdle
+  | QuestionAsked
+  | QuestionReplied
+  | QuestionRejected
+  | SessionCompacted
+  | VcsBranchUpdated
+  | WorkspaceReady
+  | WorkspaceFailed
+  | WorkspaceStatus
+  | WorktreeReady
+  | WorktreeFailed
+  | ServerConnected
+  | GlobalDisposed;
+export type SubscribeV2EventResponse = V2Event;
 export interface SyncReplayRequestEventsItem {
   id: string;
   aggregateID: string;
@@ -3740,23 +7645,7 @@ export interface SessionMessageModelSwitched {
   model: CreateSessionRequestModel;
 }
 export type SessionMessageUserTime = RetryPartTime;
-export interface PromptSource {
-  start: number;
-  end: number;
-  text: string;
-}
-export interface PromptFileAttachment {
-  uri: string;
-  mime: string;
-  name?: string;
-  description?: string;
-  source?: PromptSource;
-}
 export type SessionMessageUserFilesList = Array<PromptFileAttachment>;
-export interface PromptAgentAttachment {
-  name: string;
-  source?: PromptSource;
-}
 export type SessionMessageUserAgentsList = Array<PromptAgentAttachment>;
 export type SessionMessageUserType = "user";
 export interface SessionMessageUser {
@@ -3807,7 +7696,6 @@ export interface SessionMessageAssistantText {
   text: string;
 }
 export type SessionMessageAssistantReasoningType = "reasoning";
-export type LLMProviderMetadata = { [key: string]: unknown | undefined };
 export type SessionMessageAssistantReasoningTime = AssistantMessageTime;
 export interface SessionMessageAssistantReasoning {
   type: SessionMessageAssistantReasoningType;
@@ -3828,19 +7716,6 @@ export interface SessionMessageToolStatePending {
   input: string;
 }
 export type SessionMessageToolStateRunningStatus = "running";
-export type ToolTextContentType = "text";
-export interface ToolTextContent {
-  type: ToolTextContentType;
-  text: string;
-}
-export type ToolFileContentType = "file";
-export interface ToolFileContent {
-  type: ToolFileContentType;
-  uri: string;
-  mime: string;
-  name?: string;
-}
-export type LLMToolContent = ToolTextContent | ToolFileContent;
 export type SessionMessageToolStateRunningContentList = Array<LLMToolContent>;
 export interface SessionMessageToolStateRunning {
   status: SessionMessageToolStateRunningStatus;
@@ -3863,11 +7738,6 @@ export interface SessionMessageToolStateCompleted {
 }
 export type SessionMessageToolStateErrorStatus = "error";
 export type SessionMessageToolStateErrorContentList = Array<LLMToolContent>;
-export type SessionErrorUnknownType = "unknown";
-export interface SessionErrorUnknown {
-  type: SessionErrorUnknownType;
-  message: string;
-}
 export interface SessionMessageToolStateError {
   status: SessionMessageToolStateErrorStatus;
   input: unknown;
@@ -3951,517 +7821,15 @@ export interface V2SessionEventsRequest {
   sessionID: string;
   after?: string;
 }
-export interface V2SessionEventsResponse {}
+export interface V2SessionEventsResponse {
+  id: string;
+  event: string;
+  data: string;
+}
 export interface V2SessionHistoryRequest {
   sessionID: string;
   limit?: string;
   after?: string;
-}
-export type SessionNextAgentSwitchedType = "session.next.agent.switched";
-export interface SessionNextAgentSwitchedDurable {
-  aggregateID: string;
-  seq: number;
-  version: number;
-}
-export interface SessionNextAgentSwitchedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  agent: string;
-}
-export interface SessionNextAgentSwitched {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextAgentSwitchedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextAgentSwitchedData;
-}
-export type SessionNextModelSwitchedType = "session.next.model.switched";
-export type SessionNextModelSwitchedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextModelSwitchedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  model: CreateSessionRequestModel;
-}
-export interface SessionNextModelSwitched {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextModelSwitchedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextModelSwitchedData;
-}
-export type SessionNextMovedType = "session.next.moved";
-export type SessionNextMovedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextMovedData {
-  timestamp: number;
-  sessionID: string;
-  location: LocationRef;
-  subdirectory?: string;
-}
-export interface SessionNextMoved {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextMovedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextMovedData;
-}
-export type SessionNextPromptedType = "session.next.prompted";
-export type SessionNextPromptedDurable = SessionNextAgentSwitchedDurable;
-export type PromptFilesList = Array<PromptFileAttachment>;
-export type PromptAgentsList = Array<PromptAgentAttachment>;
-export interface Prompt {
-  text: string;
-  files?: PromptFilesList;
-  agents?: PromptAgentsList;
-}
-export type SessionNextPromptedDataDelivery = "steer" | "queue";
-export interface SessionNextPromptedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  prompt: Prompt;
-  delivery: SessionNextPromptedDataDelivery;
-}
-export interface SessionNextPrompted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextPromptedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextPromptedData;
-}
-export type SessionNextPromptAdmittedType = "session.next.prompt.admitted";
-export type SessionNextPromptAdmittedDurable = SessionNextAgentSwitchedDurable;
-export type SessionNextPromptAdmittedDataDelivery = "steer" | "queue";
-export interface SessionNextPromptAdmittedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  prompt: Prompt;
-  delivery: SessionNextPromptAdmittedDataDelivery;
-}
-export interface SessionNextPromptAdmitted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextPromptAdmittedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextPromptAdmittedData;
-}
-export type SessionNextContextUpdatedType = "session.next.context.updated";
-export type SessionNextContextUpdatedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextContextUpdatedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  text: string;
-}
-export interface SessionNextContextUpdated {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextContextUpdatedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextContextUpdatedData;
-}
-export type SessionNextSyntheticType = "session.next.synthetic";
-export type SessionNextSyntheticDurable = SessionNextAgentSwitchedDurable;
-export type SessionNextSyntheticData = SessionNextContextUpdatedData;
-export interface SessionNextSynthetic {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextSyntheticType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextContextUpdatedData;
-}
-export type SessionNextShellStartedType = "session.next.shell.started";
-export type SessionNextShellStartedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextShellStartedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  callID: string;
-  command: string;
-}
-export interface SessionNextShellStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextShellStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextShellStartedData;
-}
-export type SessionNextShellEndedType = "session.next.shell.ended";
-export type SessionNextShellEndedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextShellEndedData {
-  timestamp: number;
-  sessionID: string;
-  callID: string;
-  output: string;
-}
-export interface SessionNextShellEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextShellEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextShellEndedData;
-}
-export type SessionNextStepStartedType = "session.next.step.started";
-export type SessionNextStepStartedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextStepStartedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  agent: string;
-  model: CreateSessionRequestModel;
-  snapshot?: string;
-}
-export interface SessionNextStepStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextStepStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextStepStartedData;
-}
-export type SessionNextStepEndedType = "session.next.step.ended";
-export type SessionNextStepEndedDurable = SessionNextAgentSwitchedDurable;
-export type SessionNextStepEndedDataTokensCache = ModelCostCache;
-export type SessionNextStepEndedDataTokens = SessionTokens;
-export type SessionNextStepEndedDataFilesList = Array<string>;
-export interface SessionNextStepEndedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  finish: string;
-  cost: number;
-  tokens: SessionTokens;
-  snapshot?: string;
-  files?: SessionNextStepEndedDataFilesList;
-}
-export interface SessionNextStepEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextStepEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextStepEndedData;
-}
-export type SessionNextStepFailedType = "session.next.step.failed";
-export type SessionNextStepFailedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextStepFailedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  error: SessionErrorUnknown;
-}
-export interface SessionNextStepFailed {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextStepFailedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextStepFailedData;
-}
-export type SessionNextTextStartedType = "session.next.text.started";
-export type SessionNextTextStartedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextTextStartedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  textID: string;
-}
-export interface SessionNextTextStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextTextStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextTextStartedData;
-}
-export type SessionNextTextEndedType = "session.next.text.ended";
-export type SessionNextTextEndedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextTextEndedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  textID: string;
-  text: string;
-}
-export interface SessionNextTextEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextTextEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextTextEndedData;
-}
-export type SessionNextToolInputStartedType = "session.next.tool.input.started";
-export type SessionNextToolInputStartedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextToolInputStartedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  name: string;
-}
-export interface SessionNextToolInputStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolInputStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolInputStartedData;
-}
-export type SessionNextToolInputEndedType = "session.next.tool.input.ended";
-export type SessionNextToolInputEndedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextToolInputEndedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  text: string;
-}
-export interface SessionNextToolInputEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolInputEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolInputEndedData;
-}
-export type SessionNextToolCalledType = "session.next.tool.called";
-export type SessionNextToolCalledDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextToolCalledDataProvider {
-  executed: boolean;
-  metadata?: LLMProviderMetadata;
-}
-export interface SessionNextToolCalledData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  tool: string;
-  input: unknown;
-  provider: SessionNextToolCalledDataProvider;
-}
-export interface SessionNextToolCalled {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolCalledType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolCalledData;
-}
-export type SessionNextToolProgressType = "session.next.tool.progress";
-export type SessionNextToolProgressDurable = SessionNextAgentSwitchedDurable;
-export type SessionNextToolProgressDataContentList = Array<LLMToolContent>;
-export interface SessionNextToolProgressData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  structured: unknown;
-  content: SessionNextToolProgressDataContentList;
-}
-export interface SessionNextToolProgress {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolProgressType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolProgressData;
-}
-export type SessionNextToolSuccessType = "session.next.tool.success";
-export type SessionNextToolSuccessDurable = SessionNextAgentSwitchedDurable;
-export type SessionNextToolSuccessDataContentList = Array<LLMToolContent>;
-export type SessionNextToolSuccessDataOutputPathsList = Array<string>;
-export type SessionNextToolSuccessDataProvider = SessionNextToolCalledDataProvider;
-export interface SessionNextToolSuccessData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  structured: unknown;
-  content: SessionNextToolSuccessDataContentList;
-  outputPaths?: SessionNextToolSuccessDataOutputPathsList;
-  result?: unknown;
-  provider: SessionNextToolCalledDataProvider;
-}
-export interface SessionNextToolSuccess {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolSuccessType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolSuccessData;
-}
-export type SessionNextToolFailedType = "session.next.tool.failed";
-export type SessionNextToolFailedDurable = SessionNextAgentSwitchedDurable;
-export type SessionNextToolFailedDataProvider = SessionNextToolCalledDataProvider;
-export interface SessionNextToolFailedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  callID: string;
-  error: SessionErrorUnknown;
-  result?: unknown;
-  provider: SessionNextToolCalledDataProvider;
-}
-export interface SessionNextToolFailed {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextToolFailedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextToolFailedData;
-}
-export type SessionNextReasoningStartedType = "session.next.reasoning.started";
-export type SessionNextReasoningStartedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextReasoningStartedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  reasoningID: string;
-  providerMetadata?: LLMProviderMetadata;
-}
-export interface SessionNextReasoningStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextReasoningStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextReasoningStartedData;
-}
-export type SessionNextReasoningEndedType = "session.next.reasoning.ended";
-export type SessionNextReasoningEndedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextReasoningEndedData {
-  timestamp: number;
-  sessionID: string;
-  assistantMessageID: string;
-  reasoningID: string;
-  text: string;
-  providerMetadata?: LLMProviderMetadata;
-}
-export interface SessionNextReasoningEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextReasoningEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextReasoningEndedData;
-}
-export type SessionNextRetriedType = "session.next.retried";
-export type SessionNextRetriedDurable = SessionNextAgentSwitchedDurable;
-export type SessionNextRetryErrorResponseHeadersMap = { [key: string]: string | undefined };
-export type SessionNextRetryErrorMetadataMap = { [key: string]: string | undefined };
-export interface SessionNextRetryError {
-  message: string;
-  statusCode?: number;
-  isRetryable: boolean;
-  responseHeaders?: SessionNextRetryErrorResponseHeadersMap;
-  responseBody?: string;
-  metadata?: SessionNextRetryErrorMetadataMap;
-}
-export interface SessionNextRetriedData {
-  timestamp: number;
-  sessionID: string;
-  attempt: number;
-  error: SessionNextRetryError;
-}
-export interface SessionNextRetried {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextRetriedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextRetriedData;
-}
-export type SessionNextCompactionStartedType = "session.next.compaction.started";
-export type SessionNextCompactionStartedDurable = SessionNextAgentSwitchedDurable;
-export type SessionNextCompactionStartedDataReason = "auto" | "manual";
-export interface SessionNextCompactionStartedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  reason: SessionNextCompactionStartedDataReason;
-}
-export interface SessionNextCompactionStarted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextCompactionStartedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextCompactionStartedData;
-}
-export type SessionNextCompactionEndedType = "session.next.compaction.ended";
-export type SessionNextCompactionEndedDurable = SessionNextAgentSwitchedDurable;
-export type SessionNextCompactionEndedDataReason = "auto" | "manual";
-export interface SessionNextCompactionEndedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-  reason: SessionNextCompactionEndedDataReason;
-  text: string;
-  recent: string;
-}
-export interface SessionNextCompactionEnded {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextCompactionEndedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextCompactionEndedData;
-}
-export type SessionNextRevertStagedType = "session.next.revert.staged";
-export type SessionNextRevertStagedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextRevertStagedData {
-  timestamp: number;
-  sessionID: string;
-  revert: RevertState;
-}
-export interface SessionNextRevertStaged {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextRevertStagedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextRevertStagedData;
-}
-export type SessionNextRevertClearedType = "session.next.revert.cleared";
-export type SessionNextRevertClearedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextRevertClearedData {
-  timestamp: number;
-  sessionID: string;
-}
-export interface SessionNextRevertCleared {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextRevertClearedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextRevertClearedData;
-}
-export type SessionNextRevertCommittedType = "session.next.revert.committed";
-export type SessionNextRevertCommittedDurable = SessionNextAgentSwitchedDurable;
-export interface SessionNextRevertCommittedData {
-  timestamp: number;
-  sessionID: string;
-  messageID: string;
-}
-export interface SessionNextRevertCommitted {
-  id: string;
-  metadata?: unknown;
-  type: SessionNextRevertCommittedType;
-  durable?: SessionNextAgentSwitchedDurable;
-  location?: LocationRef;
-  data: SessionNextRevertCommittedData;
 }
 export type SessionDurableEvent =
   | SessionNextAgentSwitched
@@ -4757,7 +8125,7 @@ export const clearV2SessionRevert: API.OperationMethod<
   ClearV2SessionRevertError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<ClearV2SessionRevertRequest>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ClearV2SessionRevertRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<ClearV2SessionRevertResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -5442,21 +8810,6 @@ export const globalDispose: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GlobalEventError = BadRequest | OpencodeOpError;
-/** Get global events Subscribe to global events from the OpenCode system using server-sent events. */
-export const globalEvent: API.OperationMethod<
-  GlobalEventRequest,
-  GlobalEventResponse,
-  GlobalEventError,
-  OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GlobalEventRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<GlobalEventResponse>,
-  errors: [BadRequest, UnknownOpencodeError],
-  protocol: OpencodeProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GlobalHealthError = BadRequest | OpencodeOpError;
 /** Get health Get health information about the OpenCode server. */
 export const globalHealth: API.OperationMethod<
@@ -5465,8 +8818,8 @@ export const globalHealth: API.OperationMethod<
   GlobalHealthError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GlobalHealthRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<GlobalHealthResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<GlobalHealthRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<GlobalHealthResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5480,8 +8833,8 @@ export const globalUpgrade: API.OperationMethod<
   GlobalUpgradeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GlobalUpgradeRequest>,
-  output: __S(6049, __c189, 1) as any as S.Schema<GlobalUpgradeResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GlobalUpgradeRequest>,
+  output: __S(6017, __c188, 1) as any as S.Schema<GlobalUpgradeResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5495,7 +8848,7 @@ export const instanceDispose: API.OperationMethod<
   InstanceDisposeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<InstanceDisposeRequest>,
+  input: __S(6048, __c189, 0) as any as S.Schema<InstanceDisposeRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<InstanceDisposeResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -5510,8 +8863,8 @@ export const listCommand: API.OperationMethod<
   ListCommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<ListCommandRequest>,
-  output: __S(6115, __c191, 3) as any as S.Schema<ListCommandResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<ListCommandRequest>,
+  output: __S(6083, __c190, 3) as any as S.Schema<ListCommandResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5525,8 +8878,8 @@ export const listExperimentalResource: API.OperationMethod<
   ListExperimentalResourceError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<ListExperimentalResourceRequest>,
-  output: __S(6147, __c192, 3) as any as S.Schema<ListExperimentalResourceResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<ListExperimentalResourceRequest>,
+  output: __S(6115, __c191, 3) as any as S.Schema<ListExperimentalResourceResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5540,8 +8893,8 @@ export const listExperimentalSession: API.OperationMethod<
   ListExperimentalSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<ListExperimentalSessionRequest>,
-  output: __S(6180, __c193, 4) as any as S.Schema<ListExperimentalSessionResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<ListExperimentalSessionRequest>,
+  output: __S(6148, __c192, 4) as any as S.Schema<ListExperimentalSessionResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5555,8 +8908,8 @@ export const listExperimentalWorkspace: API.OperationMethod<
   ListExperimentalWorkspaceError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<ListExperimentalWorkspaceRequest>,
-  output: __S(6210, __c194, 2) as any as S.Schema<ListExperimentalWorkspaceResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<ListExperimentalWorkspaceRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<ListExperimentalWorkspaceResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5570,8 +8923,8 @@ export const listExperimentalWorkspaceAdapter: API.OperationMethod<
   ListExperimentalWorkspaceAdapterError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<ListExperimentalWorkspaceAdapterRequest>,
-  output: __S(6243, __c195, 3) as any as S.Schema<ListExperimentalWorkspaceAdapterResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<ListExperimentalWorkspaceAdapterRequest>,
+  output: __S(6211, __c194, 3) as any as S.Schema<ListExperimentalWorkspaceAdapterResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5585,7 +8938,7 @@ export const listExperimentalWorkspaceSync: API.OperationMethod<
   ListExperimentalWorkspaceSyncError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<ListExperimentalWorkspaceSyncRequest>,
+  input: __S(6240, __c195, 0) as any as S.Schema<ListExperimentalWorkspaceSyncRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<ListExperimentalWorkspaceSyncResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -5600,8 +8953,8 @@ export const listFile: API.OperationMethod<
   ListFileError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<ListFileRequest>,
-  output: __S(6339, __c198, 3) as any as S.Schema<ListFileResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<ListFileRequest>,
+  output: __S(6275, __c196, 3) as any as S.Schema<ListFileResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5615,8 +8968,8 @@ export const listPermission: API.OperationMethod<
   ListPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<ListPermissionRequest>,
-  output: __S(6371, __c199, 3) as any as S.Schema<ListPermissionResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<ListPermissionRequest>,
+  output: __S(6339, __c198, 3) as any as S.Schema<ListPermissionResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5630,8 +8983,8 @@ export const listProject: API.OperationMethod<
   ListProjectError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<ListProjectRequest>,
-  output: __S(6434, __c201, 2) as any as S.Schema<ListProjectResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<ListProjectRequest>,
+  output: __S(6402, __c200, 2) as any as S.Schema<ListProjectResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5645,8 +8998,8 @@ export const listProvider: API.OperationMethod<
   ListProviderError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<ListProviderRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<ListProviderResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<ListProviderRequest>,
+  output: __S(6465, __c202, 1) as any as S.Schema<ListProviderResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5660,8 +9013,8 @@ export const listProviderAuthMethods: API.OperationMethod<
   ListProviderAuthMethodsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<ListProviderAuthMethodsRequest>,
-  output: __S(6533, __c204, 5) as any as S.Schema<ListProviderAuthMethodsResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<ListProviderAuthMethodsRequest>,
+  output: __S(6501, __c203, 5) as any as S.Schema<ListProviderAuthMethodsResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5675,8 +9028,8 @@ export const listPty: API.OperationMethod<
   ListPtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<ListPtyRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<ListPtyResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<ListPtyRequest>,
+  output: __S(6529, __c204, 1) as any as S.Schema<ListPtyResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5690,8 +9043,8 @@ export const listQuestion: API.OperationMethod<
   ListQuestionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<ListQuestionRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<ListQuestionResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<ListQuestionRequest>,
+  output: __S(6593, __c206, 1) as any as S.Schema<ListQuestionResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5705,8 +9058,8 @@ export const listSession: API.OperationMethod<
   ListSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<ListSessionRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<ListSessionResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<ListSessionRequest>,
+  output: __S(6689, __c209, 1) as any as S.Schema<ListSessionResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5720,8 +9073,8 @@ export const listSyncHistory: API.OperationMethod<
   ListSyncHistoryError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6753, __c211, 1) as any as S.Schema<ListSyncHistoryRequest>,
-  output: __S(6756, __c211, 4) as any as S.Schema<ListSyncHistoryResponse>,
+  input: __S(6721, __c210, 1) as any as S.Schema<ListSyncHistoryRequest>,
+  output: __S(6724, __c210, 4) as any as S.Schema<ListSyncHistoryResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5735,8 +9088,8 @@ export const listTool: API.OperationMethod<
   ListToolError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<ListToolRequest>,
-  output: __S(6787, __c212, 3) as any as S.Schema<ListToolResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<ListToolRequest>,
+  output: __S(6755, __c211, 3) as any as S.Schema<ListToolResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5750,8 +9103,8 @@ export const listV2Agent: API.OperationMethod<
   ListV2AgentError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<ListV2AgentRequest>,
-  output: __S(6853, __c214, 5) as any as S.Schema<ListV2AgentResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<ListV2AgentRequest>,
+  output: __S(6789, __c212, 5) as any as S.Schema<ListV2AgentResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5765,8 +9118,8 @@ export const listV2Command: API.OperationMethod<
   ListV2CommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<ListV2CommandRequest>,
-  output: __S(6883, __c215, 3) as any as S.Schema<ListV2CommandResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<ListV2CommandRequest>,
+  output: __S(6851, __c214, 3) as any as S.Schema<ListV2CommandResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5780,8 +9133,8 @@ export const listV2Fs: API.OperationMethod<
   ListV2FsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<ListV2FsRequest>,
-  output: __S(6946, __c217, 2) as any as S.Schema<ListV2FsResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<ListV2FsRequest>,
+  output: __S(6914, __c216, 2) as any as S.Schema<ListV2FsResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5795,8 +9148,8 @@ export const listV2Integration: API.OperationMethod<
   ListV2IntegrationError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<ListV2IntegrationRequest>,
-  output: __S(6978, __c218, 2) as any as S.Schema<ListV2IntegrationResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<ListV2IntegrationRequest>,
+  output: __S(6946, __c217, 2) as any as S.Schema<ListV2IntegrationResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5810,8 +9163,8 @@ export const listV2Model: API.OperationMethod<
   ListV2ModelError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<ListV2ModelRequest>,
-  output: __S(7018, __c219, 10) as any as S.Schema<ListV2ModelResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<ListV2ModelRequest>,
+  output: __S(6986, __c218, 10) as any as S.Schema<ListV2ModelResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5825,8 +9178,8 @@ export const listV2PermissionRequest: API.OperationMethod<
   ListV2PermissionRequestError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<ListV2PermissionRequestRequest>,
-  output: __S(7041, __c220, 1) as any as S.Schema<ListV2PermissionRequestResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<ListV2PermissionRequestRequest>,
+  output: __S(7009, __c219, 1) as any as S.Schema<ListV2PermissionRequestResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5840,8 +9193,8 @@ export const listV2PermissionSaved: API.OperationMethod<
   ListV2PermissionSavedError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<ListV2PermissionSavedRequest>,
-  output: __S(7107, __c222, 3) as any as S.Schema<ListV2PermissionSavedResponse>,
+  input: __S(7072, __c221, 0) as any as S.Schema<ListV2PermissionSavedRequest>,
+  output: __S(7075, __c221, 3) as any as S.Schema<ListV2PermissionSavedResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5855,8 +9208,8 @@ export const listV2Provider: API.OperationMethod<
   ListV2ProviderError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<ListV2ProviderRequest>,
-  output: __S(7138, __c223, 2) as any as S.Schema<ListV2ProviderResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<ListV2ProviderRequest>,
+  output: __S(7106, __c222, 2) as any as S.Schema<ListV2ProviderResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5870,8 +9223,8 @@ export const listV2Pty: API.OperationMethod<
   ListV2PtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<ListV2PtyRequest>,
-  output: __S(7169, __c224, 1) as any as S.Schema<ListV2PtyResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<ListV2PtyRequest>,
+  output: __S(7137, __c223, 1) as any as S.Schema<ListV2PtyResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5885,8 +9238,8 @@ export const listV2QuestionRequest: API.OperationMethod<
   ListV2QuestionRequestError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<ListV2QuestionRequestRequest>,
-  output: __S(7201, __c225, 1) as any as S.Schema<ListV2QuestionRequestResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<ListV2QuestionRequestRequest>,
+  output: __S(7169, __c224, 1) as any as S.Schema<ListV2QuestionRequestResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5900,8 +9253,8 @@ export const listV2Reference: API.OperationMethod<
   ListV2ReferenceError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<ListV2ReferenceRequest>,
-  output: __S(7267, __c227, 3) as any as S.Schema<ListV2ReferenceResponse>,
+  input: __S(7200, __c225, 0) as any as S.Schema<ListV2ReferenceRequest>,
+  output: __S(7203, __c225, 3) as any as S.Schema<ListV2ReferenceResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5915,8 +9268,8 @@ export const listV2Session: API.OperationMethod<
   ListV2SessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<ListV2SessionRequest>,
-  output: __S(7298, __c228, 2) as any as S.Schema<SessionsResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<ListV2SessionRequest>,
+  output: __S(7266, __c227, 2) as any as S.Schema<SessionsResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5930,8 +9283,8 @@ export const listV2SessionPermission: API.OperationMethod<
   ListV2SessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<ListV2SessionPermissionRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<ListV2SessionPermissionResponse>,
+  input: __S(7328, __c229, 0) as any as S.Schema<ListV2SessionPermissionRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<ListV2SessionPermissionResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5945,8 +9298,8 @@ export const listV2SessionQuestion: API.OperationMethod<
   ListV2SessionQuestionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<ListV2SessionQuestionRequest>,
-  output: __S(7393, __c231, 1) as any as S.Schema<ListV2SessionQuestionResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<ListV2SessionQuestionRequest>,
+  output: __S(7361, __c230, 1) as any as S.Schema<ListV2SessionQuestionResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5960,8 +9313,8 @@ export const listV2Skill: API.OperationMethod<
   ListV2SkillError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<ListV2SkillRequest>,
-  output: __S(7427, __c232, 3) as any as S.Schema<ListV2SkillResponse>,
+  input: __S(7392, __c231, 0) as any as S.Schema<ListV2SkillRequest>,
+  output: __S(7395, __c231, 3) as any as S.Schema<ListV2SkillResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -5975,7 +9328,7 @@ export const listWorktree: API.OperationMethod<
   ListWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<ListWorktreeRequest>,
+  input: __S(7424, __c232, 0) as any as S.Schema<ListWorktreeRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<ListWorktreeResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -5990,8 +9343,8 @@ export const lspStatus: API.OperationMethod<
   LspStatusError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<LspStatusRequest>,
-  output: __S(7491, __c234, 3) as any as S.Schema<LspStatusResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<LspStatusRequest>,
+  output: __S(7459, __c233, 3) as any as S.Schema<LspStatusResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6005,7 +9358,7 @@ export const mcpAuthCallback: API.OperationMethod<
   McpAuthCallbackError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<McpAuthCallbackRequest>,
+  input: __S(7488, __c234, 0) as any as S.Schema<McpAuthCallbackRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<McpAuthCallbackResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6020,7 +9373,7 @@ export const mcpStatus: API.OperationMethod<
   McpStatusError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<McpStatusRequest>,
+  input: __S(7520, __c235, 0) as any as S.Schema<McpStatusRequest>,
   output: __S(5441, __c170, 1) as any as S.Schema<McpStatusResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6035,8 +9388,8 @@ export const projectCurrent: API.OperationMethod<
   ProjectCurrentError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<ProjectCurrentRequest>,
-  output: __S(6467, __c202, 3) as any as S.Schema<Project>,
+  input: __S(7552, __c236, 0) as any as S.Schema<ProjectCurrentRequest>,
+  output: __S(6435, __c201, 3) as any as S.Schema<Project>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6050,8 +9403,8 @@ export const projectDirectories2: API.OperationMethod<
   ProjectDirectories2Error,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<ProjectDirectoriesRequest>,
-  output: __S(67, __c2, 3) as any as S.Schema<ProjectDirectoriesResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<ProjectDirectoriesRequest>,
+  output: __S(7587, __c237, 3) as any as S.Schema<ProjectDirectoriesResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6065,8 +9418,8 @@ export const projectInitGit: API.OperationMethod<
   ProjectInitGitError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<ProjectInitGitRequest>,
-  output: __S(6467, __c202, 3) as any as S.Schema<Project>,
+  input: __S(64, __c2, 0) as any as S.Schema<ProjectInitGitRequest>,
+  output: __S(6435, __c201, 3) as any as S.Schema<Project>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6080,7 +9433,7 @@ export const providerOauthCallback: API.OperationMethod<
   ProviderOauthCallbackError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<ProviderOauthCallbackRequest>,
+  input: __S(96, __c3, 0) as any as S.Schema<ProviderOauthCallbackRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<ProviderOauthCallbackResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6095,8 +9448,8 @@ export const ptyConnectToken: API.OperationMethod<
   PtyConnectTokenError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<PtyConnectTokenRequest>,
-  output: __S(192, __c6, 0) as any as S.Schema<PtyTicketConnectToken>,
+  input: __S(128, __c4, 0) as any as S.Schema<PtyConnectTokenRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<PtyTicketConnectToken>,
   errors: [BadRequest, Forbidden, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6110,8 +9463,8 @@ export const ptyShells: API.OperationMethod<
   PtyShellsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<PtyShellsRequest>,
-  output: __S(227, __c7, 3) as any as S.Schema<PtyShellsResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<PtyShellsRequest>,
+  output: __S(195, __c6, 3) as any as S.Schema<PtyShellsResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6125,7 +9478,7 @@ export const publishTui: API.OperationMethod<
   PublishTuiError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<PublishTuiRequest>,
+  input: __S(224, __c7, 0) as any as S.Schema<PublishTuiRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<PublishTuiResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6140,8 +9493,8 @@ export const readFile: API.OperationMethod<
   ReadFileError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ReadFileRequest>,
-  output: __S(292, __c9, 4) as any as S.Schema<FileContent>,
+  input: __S(256, __c8, 0) as any as S.Schema<ReadFileRequest>,
+  output: __S(260, __c8, 4) as any as S.Schema<FileContent>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6155,7 +9508,7 @@ export const readV2Fs: API.OperationMethod<
   ReadV2FsError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ReadV2FsRequest>,
+  input: __S(288, __c9, 0) as any as S.Schema<ReadV2FsRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<ReadV2FsResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6170,7 +9523,7 @@ export const rejectQuestion: API.OperationMethod<
   RejectQuestionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<RejectQuestionRequest>,
+  input: __S(320, __c10, 0) as any as S.Schema<RejectQuestionRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<RejectQuestionResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6185,7 +9538,7 @@ export const rejectV2SessionQuestion: API.OperationMethod<
   RejectV2SessionQuestionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<RejectV2SessionQuestionRequest>,
+  input: __S(352, __c11, 0) as any as S.Schema<RejectV2SessionQuestionRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<RejectV2SessionQuestionResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6200,7 +9553,7 @@ export const removeAuth: API.OperationMethod<
   RemoveAuthError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<RemoveAuthRequest>,
+  input: __S(384, __c12, 0) as any as S.Schema<RemoveAuthRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<RemoveAuthResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6215,7 +9568,7 @@ export const removeExperimentalWorkspace: API.OperationMethod<
   RemoveExperimentalWorkspaceError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<RemoveExperimentalWorkspaceRequest>,
+  input: __S(480, __c15, 0) as any as S.Schema<RemoveExperimentalWorkspaceRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<Workspace>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6230,8 +9583,8 @@ export const removeMcpAuth: API.OperationMethod<
   RemoveMcpAuthError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<RemoveMcpAuthRequest>,
-  output: __S(545, __c17, 1) as any as S.Schema<RemoveMcpAuthResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<RemoveMcpAuthRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<RemoveMcpAuthResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6245,7 +9598,7 @@ export const removePty: API.OperationMethod<
   RemovePtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<RemovePtyRequest>,
+  input: __S(544, __c17, 0) as any as S.Schema<RemovePtyRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<RemovePtyResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6260,7 +9613,7 @@ export const removeV2Credential: API.OperationMethod<
   RemoveV2CredentialError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<RemoveV2CredentialRequest>,
+  input: __S(576, __c18, 0) as any as S.Schema<RemoveV2CredentialRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<RemoveV2CredentialResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6275,7 +9628,7 @@ export const removeV2PermissionSaved: API.OperationMethod<
   RemoveV2PermissionSavedError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<RemoveV2PermissionSavedRequest>,
+  input: __S(608, __c19, 0) as any as S.Schema<RemoveV2PermissionSavedRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<RemoveV2PermissionSavedResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6290,7 +9643,7 @@ export const removeV2Pty: API.OperationMethod<
   RemoveV2PtyError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<RemoveV2PtyRequest>,
+  input: __S(640, __c20, 0) as any as S.Schema<RemoveV2PtyRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<RemoveV2PtyResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6305,7 +9658,7 @@ export const removeWorktree: API.OperationMethod<
   RemoveWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<RemoveWorktreeRequest>,
+  input: __S(672, __c21, 0) as any as S.Schema<RemoveWorktreeRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<RemoveWorktreeResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6320,7 +9673,7 @@ export const replyPermission: API.OperationMethod<
   ReplyPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ReplyPermissionRequest>,
+  input: __S(704, __c22, 0) as any as S.Schema<ReplyPermissionRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<ReplyPermissionResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6335,7 +9688,7 @@ export const replyQuestion: API.OperationMethod<
   ReplyQuestionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ReplyQuestionRequest>,
+  input: __S(736, __c23, 0) as any as S.Schema<ReplyQuestionRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<ReplyQuestionResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6350,7 +9703,7 @@ export const replyV2SessionPermission: API.OperationMethod<
   ReplyV2SessionPermissionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ReplyV2SessionPermissionRequest>,
+  input: __S(800, __c25, 0) as any as S.Schema<ReplyV2SessionPermissionRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<ReplyV2SessionPermissionResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6365,7 +9718,7 @@ export const replyV2SessionQuestion: API.OperationMethod<
   ReplyV2SessionQuestionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ReplyV2SessionQuestionRequest>,
+  input: __S(928, __c29, 0) as any as S.Schema<ReplyV2SessionQuestionRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<ReplyV2SessionQuestionResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6380,7 +9733,7 @@ export const resetWorktree: API.OperationMethod<
   ResetWorktreeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ResetWorktreeRequest>,
+  input: __S(960, __c30, 0) as any as S.Schema<ResetWorktreeRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<ResetWorktreeResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6395,8 +9748,8 @@ export const sessionChildren: API.OperationMethod<
   SessionChildrenError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<SessionChildrenRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<SessionChildrenResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<SessionChildrenRequest>,
+  output: __S(6689, __c209, 1) as any as S.Schema<SessionChildrenResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6410,8 +9763,8 @@ export const sessionCommand: API.OperationMethod<
   SessionCommandError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1058, __c33, 2) as any as S.Schema<SessionCommandRequest>,
-  output: __S(1124, __c35, 4) as any as S.Schema<SessionCommandResponse>,
+  input: __S(1026, __c32, 2) as any as S.Schema<SessionCommandRequest>,
+  output: __S(1092, __c34, 4) as any as S.Schema<SessionCommandResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6425,7 +9778,7 @@ export const sessionDeleteMessage: API.OperationMethod<
   SessionDeleteMessageError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<SessionDeleteMessageRequest>,
+  input: __S(1120, __c35, 0) as any as S.Schema<SessionDeleteMessageRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<SessionDeleteMessageResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6440,8 +9793,8 @@ export const sessionDiff: API.OperationMethod<
   SessionDiffError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<SessionDiffRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<SessionDiffResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<SessionDiffRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<SessionDiffResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6455,7 +9808,7 @@ export const sessionInit: API.OperationMethod<
   SessionInitError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<SessionInitRequest>,
+  input: __S(1184, __c37, 0) as any as S.Schema<SessionInitRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<SessionInitResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6470,8 +9823,8 @@ export const sessionMessage: API.OperationMethod<
   SessionMessageError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<SessionMessageRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<SessionMessageResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<SessionMessageRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<SessionMessageResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6485,8 +9838,8 @@ export const sessionMessages: API.OperationMethod<
   SessionMessagesError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<SessionMessagesRequest>,
-  output: __S(1314, __c41, 2) as any as S.Schema<SessionMessagesResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<SessionMessagesRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<SessionMessagesResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6500,8 +9853,8 @@ export const sessionPrompt: API.OperationMethod<
   SessionPromptError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1377, __c43, 1) as any as S.Schema<SessionPromptRequest>,
-  output: __S(1124, __c35, 4) as any as S.Schema<SessionPromptResponse>,
+  input: __S(1313, __c41, 1) as any as S.Schema<SessionPromptRequest>,
+  output: __S(1092, __c34, 4) as any as S.Schema<SessionPromptResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6515,7 +9868,7 @@ export const sessionPromptAsync: API.OperationMethod<
   SessionPromptAsyncError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1441, __c45, 1) as any as S.Schema<SessionPromptAsyncRequest>,
+  input: __S(1409, __c44, 1) as any as S.Schema<SessionPromptAsyncRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<SessionPromptAsyncResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6530,7 +9883,7 @@ export const sessionRevert2: API.OperationMethod<
   SessionRevert2Error,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<SessionRevertRequest>,
+  input: __S(1440, __c45, 0) as any as S.Schema<SessionRevertRequest>,
   output: __S(4128, __c129, 0) as any as S.Schema<Session>,
   errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6545,8 +9898,8 @@ export const sessionShell: API.OperationMethod<
   SessionShellError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<SessionShellRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<SessionShellResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<SessionShellRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<SessionShellResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6560,8 +9913,8 @@ export const sessionStatus2: API.OperationMethod<
   SessionStatus2Error,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<SessionStatusRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<SessionStatusResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<SessionStatusRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<SessionStatusResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6575,7 +9928,7 @@ export const sessionSummarize: API.OperationMethod<
   SessionSummarizeError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<SessionSummarizeRequest>,
+  input: __S(1536, __c48, 0) as any as S.Schema<SessionSummarizeRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<SessionSummarizeResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6590,8 +9943,8 @@ export const sessionTodo: API.OperationMethod<
   SessionTodoError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<SessionTodoRequest>,
-  output: __S(1603, __c50, 3) as any as S.Schema<SessionTodoResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<SessionTodoRequest>,
+  output: __S(1571, __c49, 3) as any as S.Schema<SessionTodoResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6605,7 +9958,7 @@ export const sessionUnrevert: API.OperationMethod<
   SessionUnrevertError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<SessionUnrevertRequest>,
+  input: __S(1600, __c50, 0) as any as S.Schema<SessionUnrevertRequest>,
   output: __S(4128, __c129, 0) as any as S.Schema<Session>,
   errors: [BadRequest, NotFound, Conflict, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6620,7 +9973,7 @@ export const setAuth: API.OperationMethod<
   SetAuthError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<SetAuthRequest>,
+  input: __S(1632, __c51, 0) as any as S.Schema<SetAuthRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<SetAuthResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6635,7 +9988,7 @@ export const shareSession: API.OperationMethod<
   ShareSessionError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ShareSessionRequest>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ShareSessionRequest>,
   output: __S(4128, __c129, 0) as any as S.Schema<Session>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6650,8 +10003,8 @@ export const startMcpAuth: API.OperationMethod<
   StartMcpAuthError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<StartMcpAuthRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<StartMcpAuthResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<StartMcpAuthRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<StartMcpAuthResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -6665,7 +10018,7 @@ export const startSync: API.OperationMethod<
   StartSyncError,
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<StartSyncRequest>,
+  input: __S(1760, __c55, 0) as any as S.Schema<StartSyncRequest>,
   output: __S(4960, __c155, 0) as any as S.Schema<StartSyncResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
@@ -6674,32 +10027,50 @@ export const startSync: API.OperationMethod<
 
 export type SubscribeEventError = OpencodeOpError;
 /** Subscribe to events Get events */
-export const subscribeEvent: API.OperationMethod<
+export const subscribeEvent: API.StreamOperationMethod<
   SubscribeEventRequest,
   SubscribeEventResponse,
   SubscribeEventError,
   OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<SubscribeEventRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<SubscribeEventResponse>,
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: __S(1792, __c56, 0) as any as S.Schema<SubscribeEventRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<SubscribeEventResponse>,
   errors: [UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  eventStream: {},
+}));
+
+export type SubscribeGlobalEventError = BadRequest | OpencodeOpError;
+/** Get global events Subscribe to global events from the OpenCode system using server-sent events. */
+export const subscribeGlobalEvent: API.StreamOperationMethod<
+  SubscribeGlobalEventRequest,
+  GlobalEvent,
+  SubscribeGlobalEventError,
+  OpencodeOpContext
+> = /*@__PURE__*/ API.makeStream(() => ({
+  input: __S(1824, __c57, 0) as any as S.Schema<SubscribeGlobalEventRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<GlobalEvent>,
+  errors: [BadRequest, UnknownOpencodeError],
+  protocol: OpencodeProtocol,
+  retry: Retry.Retry,
+  eventStream: {},
 }));
 
 export type SubscribeV2EventError = BadRequest | OpencodeOpError;
 /** Subscribe to events Subscribe to native event payloads for the server. */
-export const subscribeV2Event: API.OperationMethod<
+export const subscribeV2Event: API.StreamOperationMethod<
   SubscribeV2EventRequest,
   SubscribeV2EventResponse,
   SubscribeV2EventError,
   OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStream(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<SubscribeV2EventRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<SubscribeV2EventResponse>,
+  output: __S(1857, __c58, 1) as any as S.Schema<SubscribeV2EventResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  eventStream: {},
 }));
 
 export type SyncReplayError = BadRequest | OpencodeOpError;
@@ -6996,7 +10367,7 @@ export const updateProject: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(6467, __c202, 3) as any as S.Schema<Project>,
+  output: __S(6435, __c201, 3) as any as S.Schema<Project>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -7071,7 +10442,7 @@ export const v2FsFind: API.OperationMethod<
   OpencodeOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<V2FsFindRequest>,
-  output: __S(6946, __c217, 2) as any as S.Schema<V2FsFindResponse>,
+  output: __S(6914, __c216, 2) as any as S.Schema<V2FsFindResponse>,
   errors: [BadRequest, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
@@ -7211,17 +10582,18 @@ export const v2SessionContext: API.OperationMethod<
 
 export type V2SessionEventsError = BadRequest | NotFound | OpencodeOpError;
 /** Subscribe to session events Replay durable events after an aggregate sequence, then continue with new durable events. */
-export const v2SessionEvents: API.OperationMethod<
+export const v2SessionEvents: API.StreamOperationMethod<
   V2SessionEventsRequest,
   V2SessionEventsResponse,
   V2SessionEventsError,
   OpencodeOpContext
-> = /*@__PURE__*/ API.make(() => ({
+> = /*@__PURE__*/ API.makeStream(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<V2SessionEventsRequest>,
-  output: __S(864, __c27, 0) as any as S.Schema<V2SessionEventsResponse>,
+  output: __S(3329, __c104, 1) as any as S.Schema<V2SessionEventsResponse>,
   errors: [BadRequest, NotFound, UnknownOpencodeError],
   protocol: OpencodeProtocol,
   retry: Retry.Retry,
+  eventStream: {},
 }));
 
 export type V2SessionHistoryError = BadRequest | NotFound | OpencodeOpError;
@@ -7430,38 +10802,13 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectID: S.String.pipe(T.Label()),
-          directory: S.optional(S.String.pipe(T.Query())),
-          workspace: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/project/{projectID}/directories", code: 200 })),
-      ).annotate({ identifier: "ProjectDirectoriesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          directory: S.String,
-          strategy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProjectDirectoriesItem" });
-    case 2:
-      return S.Array(__S(65, __c2, 1));
-    case 3:
-      return S.suspend(() => __S(66, __c2, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ProjectDirectoriesResponse",
-      });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/project/git/init", code: 200 })),
       ).annotate({ identifier: "ProjectInitGitRequest" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7477,7 +10824,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ProviderOauthCallbackRequest" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7489,7 +10836,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "PtyConnectTokenRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7500,7 +10847,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "PtyTicketConnectToken" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7518,14 +10865,14 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "PtyShellsResponseBodyItem" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
-      return S.suspend(() => __S(226, __c7, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(194, __c6, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "PtyShellsResponse",
       });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7537,7 +10884,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PublishTuiRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7558,7 +10905,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "FileContentPatchHunksItem" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(257, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7566,7 +10913,7 @@ function __c9(j: number): any {
           newFileName: S.String,
           oldHeader: S.optional(S.String),
           newHeader: S.optional(S.String),
-          hunks: __S(290, __c9, 2),
+          hunks: __S(258, __c8, 2),
           index: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileContentPatch" });
@@ -7576,14 +10923,14 @@ function __c9(j: number): any {
           type: S.String,
           content: S.String,
           diff: S.optional(S.String),
-          patch: S.optional(__S(291, __c9, 3)),
+          patch: S.optional(__S(259, __c8, 3)),
           encoding: S.optional(S.String),
           mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileContent" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7593,7 +10940,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ReadV2FsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7605,7 +10952,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "RejectQuestionRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7620,6 +10967,16 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RejectV2SessionQuestionRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          providerID: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/auth/{providerID}", code: 200 })),
+      ).annotate({ identifier: "RemoveAuthRequest" });
   }
 }
 function __c13(j: number): any {
@@ -7657,16 +11014,6 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          providerID: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/auth/{providerID}", code: 200 })),
-      ).annotate({ identifier: "RemoveAuthRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           id: S.String.pipe(T.Label()),
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
@@ -7674,7 +11021,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "RemoveExperimentalWorkspaceRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7692,7 +11039,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RemoveMcpAuthResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7704,7 +11051,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "RemovePtyRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7715,7 +11062,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RemoveV2CredentialRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7725,7 +11072,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RemoveV2PermissionSavedRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7736,7 +11083,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "RemoveV2PtyRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7747,7 +11094,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "RemoveWorktreeRequest" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7761,7 +11108,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ReplyPermissionRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7769,15 +11116,34 @@ function __c24(j: number): any {
           requestID: S.String.pipe(T.Label()),
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
-          answers: __S(800, __c25, 0),
+          answers: __S(768, __c24, 0),
         }).pipe(T.Http({ method: "POST", uri: "/question/{requestID}/reply", code: 200 })),
       ).annotate({ identifier: "ReplyQuestionRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2880, __c90, 0));
   }
 }
 function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2880, __c90, 0));
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          requestID: S.String.pipe(T.Label()),
+          reply: S.String,
+          message: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/session/{sessionID}/permission/{requestID}/reply",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplyV2SessionPermissionRequest" });
   }
 }
 function __c26(j: number): any {
@@ -7819,26 +11185,7 @@ function __c29(j: number): any {
         S.Struct({
           sessionID: S.String.pipe(T.Label()),
           requestID: S.String.pipe(T.Label()),
-          reply: S.String,
-          message: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/session/{sessionID}/permission/{requestID}/reply",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplyV2SessionPermissionRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          requestID: S.String.pipe(T.Label()),
-          answers: __S(800, __c25, 0),
+          answers: __S(768, __c24, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7849,7 +11196,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ReplyV2SessionQuestionRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7860,7 +11207,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ResetWorktreeRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7872,7 +11219,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SessionChildrenRequest" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7886,7 +11233,7 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "SessionCommandRequestPartsItem" });
     case 1:
-      return S.Array(__S(1056, __c33, 0));
+      return S.Array(__S(1024, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7899,18 +11246,18 @@ function __c33(j: number): any {
           arguments: S.String,
           command: S.String,
           variant: S.optional(S.String),
-          parts: S.optional(__S(1057, __c33, 1)),
+          parts: S.optional(__S(1025, __c32, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/command", code: 200 })),
       ).annotate({ identifier: "SessionCommandRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7942,17 +11289,17 @@ function __c35(j: number): any {
           id: S.String,
           sessionID: S.String,
           role: S.String,
-          time: __S(1120, __c35, 0),
+          time: __S(1088, __c34, 0),
           error: S.optional(S.Unknown),
           parentID: S.String,
           modelID: S.String,
           providerID: S.String,
           mode: S.String,
           agent: S.String,
-          path: __S(1121, __c35, 1),
+          path: __S(1089, __c34, 1),
           summary: S.optional(S.Boolean),
           cost: S.Number,
-          tokens: __S(1122, __c35, 2),
+          tokens: __S(1090, __c34, 2),
           structured: S.optional(S.Unknown),
           variant: S.optional(S.String),
           finish: S.optional(S.String),
@@ -7961,13 +11308,13 @@ function __c35(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          info: __S(1123, __c35, 3),
-          parts: __S(1088, __c34, 0),
+          info: __S(1091, __c34, 3),
+          parts: __S(1056, __c33, 0),
         }),
       ).annotate({ identifier: "SessionCommandResponse" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7982,7 +11329,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "SessionDeleteMessageRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7999,7 +11346,7 @@ function __c37(j: number): any {
       });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8014,7 +11361,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "SessionInitRequest" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8029,18 +11376,18 @@ function __c39(j: number): any {
       ).annotate({ identifier: "SessionMessageRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           info: S.Unknown,
-          parts: __S(1088, __c34, 0),
+          parts: __S(1056, __c33, 0),
         }),
       ).annotate({ identifier: "SessionMessageResponse" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8053,14 +11400,48 @@ function __c41(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/session/{sessionID}/message", code: 200 })),
       ).annotate({ identifier: "SessionMessagesRequest" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
-      return S.suspend(() => __S(1313, __c41, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1281, __c40, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SessionMessagesResponse",
       });
   }
 }
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sessionID: S.String.pipe(T.Label()),
+          directory: S.optional(S.String.pipe(T.Query())),
+          workspace: S.optional(S.String.pipe(T.Query())),
+          messageID: S.optional(S.String),
+          model: S.optional(__S(1344, __c42, 0)),
+          agent: S.optional(S.String),
+          noReply: S.optional(S.Boolean),
+          tools: S.optional(__S(5152, __c161, 0)),
+          format: S.optional(S.Unknown),
+          system: S.optional(S.String),
+          variant: S.optional(S.String),
+          parts: __S(1312, __c41, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/message", code: 200 })),
+      ).annotate({ identifier: "SessionPromptRequest" });
+  }
+}
 function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          providerID: S.String,
+          modelID: S.String,
+        }),
+      ).annotate({ identifier: "SubtaskPartModel" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8072,43 +11453,9 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ClearV2SessionRevertRequest" });
   }
 }
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sessionID: S.String.pipe(T.Label()),
-          directory: S.optional(S.String.pipe(T.Query())),
-          workspace: S.optional(S.String.pipe(T.Query())),
-          messageID: S.optional(S.String),
-          model: S.optional(__S(1408, __c44, 0)),
-          agent: S.optional(S.String),
-          noReply: S.optional(S.Boolean),
-          tools: S.optional(__S(5152, __c161, 0)),
-          format: S.optional(S.Unknown),
-          system: S.optional(S.String),
-          variant: S.optional(S.String),
-          parts: __S(1376, __c43, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/message", code: 200 })),
-      ).annotate({ identifier: "SessionPromptRequest" });
-  }
-}
 function __c44(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          providerID: S.String,
-          modelID: S.String,
-        }),
-      ).annotate({ identifier: "SubtaskPartModel" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
@@ -8117,19 +11464,19 @@ function __c45(j: number): any {
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
           messageID: S.optional(S.String),
-          model: S.optional(__S(1408, __c44, 0)),
+          model: S.optional(__S(1344, __c42, 0)),
           agent: S.optional(S.String),
           noReply: S.optional(S.Boolean),
           tools: S.optional(__S(5152, __c161, 0)),
           format: S.optional(S.Unknown),
           system: S.optional(S.String),
           variant: S.optional(S.String),
-          parts: __S(1440, __c45, 0),
+          parts: __S(1408, __c44, 0),
         }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/prompt_async", code: 200 })),
       ).annotate({ identifier: "SessionPromptAsyncRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8143,7 +11490,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "SessionRevertRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8153,13 +11500,13 @@ function __c47(j: number): any {
           workspace: S.optional(S.String.pipe(T.Query())),
           messageID: S.optional(S.String),
           agent: S.String,
-          model: S.optional(__S(1408, __c44, 0)),
+          model: S.optional(__S(1344, __c42, 0)),
           command: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/shell", code: 200 })),
       ).annotate({ identifier: "SessionShellRequest" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8171,12 +11518,12 @@ function __c48(j: number): any {
     case 1:
       return S.Record(S.String, S.Unknown);
     case 2:
-      return S.suspend(() => __S(1537, __c48, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1505, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SessionStatusResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8191,7 +11538,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SessionSummarizeRequest" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8210,14 +11557,14 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "Todo" });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1569, __c49, 1));
     case 3:
-      return S.suspend(() => __S(1602, __c50, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1570, __c49, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SessionTodoResponse",
       });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8229,7 +11576,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "SessionUnrevertRequest" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8240,7 +11587,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "SetAuthRequest" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8250,6 +11597,25 @@ function __c53(j: number): any {
           workspace: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "POST", uri: "/session/{sessionID}/share", code: 200 })),
       ).annotate({ identifier: "ShareSessionRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          directory: S.optional(S.String.pipe(T.Query())),
+          workspace: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/mcp/{name}/auth", code: 200 })),
+      ).annotate({ identifier: "StartMcpAuthRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          authorizationUrl: S.String,
+          oauthState: S.String,
+        }),
+      ).annotate({ identifier: "StartMcpAuthResponse" });
   }
 }
 function __c54(j: number): any {
@@ -8269,18 +11635,10 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/mcp/{name}/auth", code: 200 })),
-      ).annotate({ identifier: "StartMcpAuthRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          authorizationUrl: S.String,
-          oauthState: S.String,
-        }),
-      ).annotate({ identifier: "StartMcpAuthResponse" });
+        }).pipe(T.Http({ method: "POST", uri: "/sync/start", code: 200 })),
+      ).annotate({ identifier: "StartSyncRequest" });
   }
 }
 function __c56(j: number): any {
@@ -8290,19 +11648,29 @@ function __c56(j: number): any {
         S.Struct({
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/sync/start", code: 200 })),
-      ).annotate({ identifier: "StartSyncRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/event", code: 200 })),
+      ).annotate({ identifier: "SubscribeEventRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "SubscribeEventResponse",
+      });
   }
 }
 function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/global/event", code: 200 })),
+      ).annotate({ identifier: "SubscribeGlobalEventRequest" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
-          directory: S.optional(S.String.pipe(T.Query())),
-          workspace: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/event", code: 200 })),
-      ).annotate({ identifier: "SubscribeEventRequest" });
+          directory: S.String,
+          project: S.optional(S.String),
+          workspace: S.optional(S.String),
+          payload: S.Unknown,
+        }),
+      ).annotate({ identifier: "GlobalEvent" });
   }
 }
 function __c58(j: number): any {
@@ -8311,6 +11679,10 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/event", code: 200 })),
       ).annotate({ identifier: "SubscribeV2EventRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "SubscribeV2EventResponse",
+      });
   }
 }
 function __c59(j: number): any {
@@ -8344,7 +11716,7 @@ function __c60(j: number): any {
         S.Struct({
           sessionID: S.String,
         }),
-      ).annotate({ identifier: "EventTuiSessionSelectProperties" });
+      ).annotate({ identifier: "EventTuiSessionSelectProperties2" });
   }
 }
 function __c61(j: number): any {
@@ -8698,8 +12070,8 @@ function __c81(j: number): any {
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String),
-          icon: S.optional(__S(6464, __c202, 0)),
-          commands: S.optional(__S(6465, __c202, 1)),
+          icon: S.optional(__S(6432, __c201, 0)),
+          commands: S.optional(__S(6433, __c201, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/project/{projectID}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
@@ -9088,7 +12460,7 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(192, __c6, 0),
+          data: __S(160, __c5, 0),
         }),
       ).annotate({ identifier: "V2PtyConnectTokenResponse" });
   }
@@ -9138,6 +12510,14 @@ function __c104(j: number): any {
           after: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/session/{sessionID}/event", code: 200 })),
       ).annotate({ identifier: "V2SessionEventsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          event: S.String,
+          data: S.String,
+        }),
+      ).annotate({ identifier: "V2SessionEventsResponse" });
   }
 }
 function __c105(j: number): any {
@@ -9217,7 +12597,7 @@ function __c109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           data: __S(3296, __c103, 0),
-          cursor: __S(7328, __c229, 0),
+          cursor: __S(7296, __c228, 0),
         }),
       ).annotate({ identifier: "SessionMessagesResponse2" });
   }
@@ -10895,14 +14275,6 @@ function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/global/event", code: 200 })),
-      ).annotate({ identifier: "GlobalEventRequest" });
-  }
-}
-function __c188(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/global/health", code: 200 })),
       ).annotate({ identifier: "GlobalHealthRequest" });
     case 1:
@@ -10914,7 +14286,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GlobalHealthResponse" });
   }
 }
-function __c189(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10928,7 +14300,7 @@ function __c189(j: number): any {
       });
   }
 }
-function __c190(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10939,7 +14311,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "InstanceDisposeRequest" });
   }
 }
-function __c191(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10962,14 +14334,14 @@ function __c191(j: number): any {
         }),
       ).annotate({ identifier: "Command" });
     case 2:
-      return S.Array(__S(6113, __c191, 1));
+      return S.Array(__S(6081, __c190, 1));
     case 3:
-      return S.suspend(() => __S(6114, __c191, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6082, __c190, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCommandResponse",
       });
   }
 }
-function __c192(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10989,14 +14361,14 @@ function __c192(j: number): any {
         }),
       ).annotate({ identifier: "McpResource" });
     case 2:
-      return S.Record(S.String, __S(6145, __c192, 1));
+      return S.Record(S.String, __S(6113, __c191, 1));
     case 3:
-      return S.suspend(() => __S(6146, __c192, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6114, __c191, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListExperimentalResourceResponse",
       });
   }
 }
-function __c193(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11041,18 +14413,18 @@ function __c193(j: number): any {
           time: __S(4098, __c128, 2),
           permission: S.optional(__S(5953, __c186, 1)),
           revert: S.optional(__S(4099, __c128, 3)),
-          project: S.NullOr(__S(6177, __c193, 1)),
+          project: S.NullOr(__S(6145, __c192, 1)),
         }),
       ).annotate({ identifier: "GlobalSession" });
     case 3:
-      return S.Array(__S(6178, __c193, 2));
+      return S.Array(__S(6146, __c192, 2));
     case 4:
-      return S.suspend(() => __S(6179, __c193, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6147, __c192, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListExperimentalSessionResponse",
       });
   }
 }
-function __c194(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11064,12 +14436,12 @@ function __c194(j: number): any {
     case 1:
       return S.Array(__S(3872, __c121, 0));
     case 2:
-      return S.suspend(() => __S(6209, __c194, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6177, __c193, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListExperimentalWorkspaceResponse",
       });
   }
 }
-function __c195(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11087,11 +14459,22 @@ function __c195(j: number): any {
         }),
       ).annotate({ identifier: "ListExperimentalWorkspaceAdapterResponseBodyItem" });
     case 2:
-      return S.Array(__S(6241, __c195, 1));
+      return S.Array(__S(6209, __c194, 1));
     case 3:
-      return S.suspend(() => __S(6242, __c195, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6210, __c194, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListExperimentalWorkspaceAdapterResponse",
       });
+  }
+}
+function __c195(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          directory: S.optional(S.String.pipe(T.Query())),
+          workspace: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/experimental/workspace/sync-list", code: 200 })),
+      ).annotate({ identifier: "ListExperimentalWorkspaceSyncRequest" });
   }
 }
 function __c196(j: number): any {
@@ -11101,8 +14484,25 @@ function __c196(j: number): any {
         S.Struct({
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/experimental/workspace/sync-list", code: 200 })),
-      ).annotate({ identifier: "ListExperimentalWorkspaceSyncRequest" });
+          path: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/file", code: 200 })),
+      ).annotate({ identifier: "ListFileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          path: S.String,
+          absolute: S.String,
+          type: S.String,
+          ignored: S.Boolean,
+        }),
+      ).annotate({ identifier: "FileNode" });
+    case 2:
+      return S.Array(__S(6273, __c196, 1));
+    case 3:
+      return S.suspend(() => __S(6274, __c196, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListFileResponse",
+      });
   }
 }
 function __c197(j: number): any {
@@ -11127,34 +14527,6 @@ function __c198(j: number): any {
         S.Struct({
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
-          path: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/file", code: 200 })),
-      ).annotate({ identifier: "ListFileRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          path: S.String,
-          absolute: S.String,
-          type: S.String,
-          ignored: S.Boolean,
-        }),
-      ).annotate({ identifier: "FileNode" });
-    case 2:
-      return S.Array(__S(6337, __c198, 1));
-    case 3:
-      return S.suspend(() => __S(6338, __c198, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListFileResponse",
-      });
-  }
-}
-function __c199(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          directory: S.optional(S.String.pipe(T.Query())),
-          workspace: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/permission", code: 200 })),
       ).annotate({ identifier: "ListPermissionRequest" });
     case 1:
@@ -11166,18 +14538,18 @@ function __c199(j: number): any {
           patterns: __S(2880, __c90, 0),
           metadata: S.Unknown,
           always: __S(2880, __c90, 0),
-          tool: S.optional(__S(6400, __c200, 0)),
+          tool: S.optional(__S(6368, __c199, 0)),
         }),
       ).annotate({ identifier: "PermissionRequest" });
     case 2:
-      return S.Array(__S(6369, __c199, 1));
+      return S.Array(__S(6337, __c198, 1));
     case 3:
-      return S.suspend(() => __S(6370, __c199, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6338, __c198, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPermissionResponse",
       });
   }
 }
-function __c200(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11188,7 +14560,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "PermissionRequestTool" });
   }
 }
-function __c201(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11198,14 +14570,14 @@ function __c201(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/project", code: 200 })),
       ).annotate({ identifier: "ListProjectRequest" });
     case 1:
-      return S.Array(__S(6467, __c202, 3));
+      return S.Array(__S(6435, __c201, 3));
     case 2:
-      return S.suspend(() => __S(6433, __c201, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6401, __c200, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListProjectResponse",
       });
   }
 }
-function __c202(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11236,15 +14608,15 @@ function __c202(j: number): any {
           worktree: S.String,
           vcs: S.optional(S.String),
           name: S.optional(S.String),
-          icon: S.optional(__S(6464, __c202, 0)),
-          commands: S.optional(__S(6465, __c202, 1)),
-          time: __S(6466, __c202, 2),
+          icon: S.optional(__S(6432, __c201, 0)),
+          commands: S.optional(__S(6433, __c201, 1)),
+          time: __S(6434, __c201, 2),
           sandboxes: __S(2880, __c90, 0),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c203(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11263,7 +14635,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "ListProviderResponse" });
   }
 }
-function __c204(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11279,20 +14651,20 @@ function __c204(j: number): any {
         S.Struct({
           type: S.String,
           label: S.String,
-          prompts: S.optional(__S(6529, __c204, 1)),
+          prompts: S.optional(__S(6497, __c203, 1)),
         }),
       ).annotate({ identifier: "ProviderAuthMethod" });
     case 3:
-      return S.Array(__S(6530, __c204, 2));
+      return S.Array(__S(6498, __c203, 2));
     case 4:
-      return S.Record(S.String, __S(6531, __c204, 3));
+      return S.Record(S.String, __S(6499, __c203, 3));
     case 5:
-      return S.suspend(() => __S(6532, __c204, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6500, __c203, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListProviderAuthMethodsResponse",
       });
   }
 }
-function __c205(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11302,18 +14674,18 @@ function __c205(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/pty", code: 200 })),
       ).annotate({ identifier: "ListPtyRequest" });
     case 1:
-      return S.suspend(() => __S(6592, __c206, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6560, __c205, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPtyResponse",
       });
   }
 }
-function __c206(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(3936, __c123, 0));
   }
 }
-function __c207(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11323,12 +14695,12 @@ function __c207(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/question", code: 200 })),
       ).annotate({ identifier: "ListQuestionRequest" });
     case 1:
-      return S.suspend(() => __S(6661, __c208, 5).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6629, __c207, 5).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListQuestionResponse",
       });
   }
 }
-function __c208(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11338,33 +14710,33 @@ function __c208(j: number): any {
         }),
       ).annotate({ identifier: "QuestionOption" });
     case 1:
-      return S.Array(__S(6656, __c208, 0));
+      return S.Array(__S(6624, __c207, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           question: S.String,
           header: S.String,
-          options: __S(6657, __c208, 1),
+          options: __S(6625, __c207, 1),
           multiple: S.optional(S.Boolean),
           custom: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "QuestionInfo" });
     case 3:
-      return S.Array(__S(6658, __c208, 2));
+      return S.Array(__S(6626, __c207, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           sessionID: S.String,
-          questions: __S(6659, __c208, 3),
-          tool: S.optional(__S(6400, __c200, 0)),
+          questions: __S(6627, __c207, 3),
+          tool: S.optional(__S(6368, __c199, 0)),
         }),
       ).annotate({ identifier: "QuestionRequest" });
     case 5:
-      return S.Array(__S(6660, __c208, 4));
+      return S.Array(__S(6628, __c207, 4));
   }
 }
-function __c209(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11381,17 +14753,17 @@ function __c209(j: number): any {
       ).annotate({ identifier: "ListSessionRequest" });
   }
 }
-function __c210(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(4128, __c129, 0));
     case 1:
-      return S.suspend(() => __S(6720, __c210, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6688, __c209, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSessionResponse",
       });
   }
 }
-function __c211(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -11400,7 +14772,7 @@ function __c211(j: number): any {
         S.Struct({
           directory: S.optional(S.String.pipe(T.Query())),
           workspace: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(6752, __c211, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(6720, __c210, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/sync/history", code: 200 })),
       ).annotate({ identifier: "ListSyncHistoryRequest" });
     case 2:
@@ -11414,14 +14786,14 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "ListSyncHistoryResponseBodyItem" });
     case 3:
-      return S.Array(__S(6754, __c211, 2));
+      return S.Array(__S(6722, __c210, 2));
     case 4:
-      return S.suspend(() => __S(6755, __c211, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6723, __c210, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSyncHistoryResponse",
       });
   }
 }
-function __c212(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11441,11 +14813,55 @@ function __c212(j: number): any {
         }),
       ).annotate({ identifier: "ToolListItem" });
     case 2:
-      return S.Array(__S(6785, __c212, 1));
+      return S.Array(__S(6753, __c211, 1));
     case 3:
-      return S.suspend(() => __S(6786, __c212, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6754, __c211, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListToolResponse",
       });
+  }
+}
+function __c212(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/agent", code: 200 })),
+      ).annotate({ identifier: "ListV2AgentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          resource: S.String,
+          effect: S.String,
+        }),
+      ).annotate({ identifier: "PermissionV2Rule" });
+    case 2:
+      return S.Array(__S(6785, __c212, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          model: S.optional(__S(4000, __c125, 0)),
+          request: __S(5664, __c177, 0),
+          system: S.optional(S.String),
+          description: S.optional(S.String),
+          mode: S.String,
+          hidden: S.Boolean,
+          color: S.optional(S.Unknown),
+          steps: S.optional(S.Number),
+          permissions: __S(6786, __c212, 2),
+        }),
+      ).annotate({ identifier: "AgentV2Info" });
+    case 4:
+      return S.Array(__S(6787, __c212, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(4193, __c131, 1),
+          data: __S(6788, __c212, 4),
+        }),
+      ).annotate({ identifier: "ListV2AgentResponse" });
   }
 }
 function __c213(j: number): any {
@@ -11472,50 +14888,6 @@ function __c214(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/agent", code: 200 })),
-      ).annotate({ identifier: "ListV2AgentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          resource: S.String,
-          effect: S.String,
-        }),
-      ).annotate({ identifier: "PermissionV2Rule" });
-    case 2:
-      return S.Array(__S(6849, __c214, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          model: S.optional(__S(4000, __c125, 0)),
-          request: __S(5664, __c177, 0),
-          system: S.optional(S.String),
-          description: S.optional(S.String),
-          mode: S.String,
-          hidden: S.Boolean,
-          color: S.optional(S.Unknown),
-          steps: S.optional(S.Number),
-          permissions: __S(6850, __c214, 2),
-        }),
-      ).annotate({ identifier: "AgentV2Info" });
-    case 4:
-      return S.Array(__S(6851, __c214, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(4193, __c131, 1),
-          data: __S(6852, __c214, 4),
-        }),
-      ).annotate({ identifier: "ListV2AgentResponse" });
-  }
-}
-function __c215(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/command", code: 200 })),
       ).annotate({ identifier: "ListV2CommandRequest" });
     case 1:
@@ -11530,17 +14902,17 @@ function __c215(j: number): any {
         }),
       ).annotate({ identifier: "CommandV2Info" });
     case 2:
-      return S.Array(__S(6881, __c215, 1));
+      return S.Array(__S(6849, __c214, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(6882, __c215, 2),
+          data: __S(6850, __c214, 2),
         }),
       ).annotate({ identifier: "ListV2CommandResponse" });
   }
 }
-function __c216(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11551,7 +14923,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "ListV2FsRequest" });
   }
 }
-function __c217(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11561,17 +14933,17 @@ function __c217(j: number): any {
         }),
       ).annotate({ identifier: "FileSystemEntry" });
     case 1:
-      return S.Array(__S(6944, __c217, 0));
+      return S.Array(__S(6912, __c216, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(6945, __c217, 1),
+          data: __S(6913, __c216, 1),
         }),
       ).annotate({ identifier: "ListV2FsResponse" });
   }
 }
-function __c218(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11585,12 +14957,12 @@ function __c218(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(6977, __c218, 1),
+          data: __S(6945, __c217, 1),
         }),
       ).annotate({ identifier: "ListV2IntegrationResponse" });
   }
 }
-function __c219(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11623,7 +14995,7 @@ function __c219(j: number): any {
         }),
       ).annotate({ identifier: "ModelV2InfoVariantsItem" });
     case 4:
-      return S.Array(__S(7011, __c219, 3));
+      return S.Array(__S(6979, __c218, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -11640,7 +15012,7 @@ function __c219(j: number): any {
         }),
       ).annotate({ identifier: "ModelCost2" });
     case 7:
-      return S.Array(__S(7014, __c219, 6));
+      return S.Array(__S(6982, __c218, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -11649,28 +15021,28 @@ function __c219(j: number): any {
           family: S.optional(S.String),
           name: S.String,
           api: S.Unknown,
-          capabilities: __S(7009, __c219, 1),
-          request: __S(7010, __c219, 2),
-          variants: __S(7012, __c219, 4),
-          time: __S(7013, __c219, 5),
-          cost: __S(7015, __c219, 7),
+          capabilities: __S(6977, __c218, 1),
+          request: __S(6978, __c218, 2),
+          variants: __S(6980, __c218, 4),
+          time: __S(6981, __c218, 5),
+          cost: __S(6983, __c218, 7),
           status: S.String,
           enabled: S.Boolean,
           limit: __S(2944, __c92, 0),
         }),
       ).annotate({ identifier: "ModelV2Info" });
     case 9:
-      return S.Array(__S(7016, __c219, 8));
+      return S.Array(__S(6984, __c218, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(7017, __c219, 9),
+          data: __S(6985, __c218, 9),
         }),
       ).annotate({ identifier: "ListV2ModelResponse" });
   }
 }
-function __c220(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11682,18 +15054,18 @@ function __c220(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(7072, __c221, 0),
+          data: __S(7040, __c220, 0),
         }),
       ).annotate({ identifier: "ListV2PermissionRequestResponse" });
   }
 }
-function __c221(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(5824, __c182, 0));
   }
 }
-function __c222(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11711,16 +15083,16 @@ function __c222(j: number): any {
         }),
       ).annotate({ identifier: "PermissionSavedInfo" });
     case 2:
-      return S.Array(__S(7105, __c222, 1));
+      return S.Array(__S(7073, __c221, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(7106, __c222, 2),
+          data: __S(7074, __c221, 2),
         }),
       ).annotate({ identifier: "ListV2PermissionSavedResponse" });
   }
 }
-function __c223(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11734,12 +15106,12 @@ function __c223(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(7137, __c223, 1),
+          data: __S(7105, __c222, 1),
         }),
       ).annotate({ identifier: "ListV2ProviderResponse" });
   }
 }
-function __c224(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11751,12 +15123,12 @@ function __c224(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(6592, __c206, 0),
+          data: __S(6560, __c205, 0),
         }),
       ).annotate({ identifier: "ListV2PtyResponse" });
   }
 }
-function __c225(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11768,9 +15140,38 @@ function __c225(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(6661, __c208, 5),
+          data: __S(6629, __c207, 5),
         }),
       ).annotate({ identifier: "ListV2QuestionRequestResponse" });
+  }
+}
+function __c225(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/reference", code: 200 })),
+      ).annotate({ identifier: "ListV2ReferenceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          path: S.String,
+          description: S.optional(S.String),
+          hidden: S.optional(S.Boolean),
+          source: S.Unknown,
+        }),
+      ).annotate({ identifier: "ReferenceInfo" });
+    case 2:
+      return S.Array(__S(7201, __c225, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          location: __S(4193, __c131, 1),
+          data: __S(7202, __c225, 2),
+        }),
+      ).annotate({ identifier: "ListV2ReferenceResponse" });
   }
 }
 function __c226(j: number): any {
@@ -11804,35 +15205,6 @@ function __c227(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/reference", code: 200 })),
-      ).annotate({ identifier: "ListV2ReferenceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          path: S.String,
-          description: S.optional(S.String),
-          hidden: S.optional(S.Boolean),
-          source: S.Unknown,
-        }),
-      ).annotate({ identifier: "ReferenceInfo" });
-    case 2:
-      return S.Array(__S(7265, __c227, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          location: __S(4193, __c131, 1),
-          data: __S(7266, __c227, 2),
-        }),
-      ).annotate({ identifier: "ListV2ReferenceResponse" });
-  }
-}
-function __c228(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           workspace: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
@@ -11848,13 +15220,13 @@ function __c228(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(7297, __c228, 1),
-          cursor: __S(7328, __c229, 0),
+          data: __S(7265, __c227, 1),
+          cursor: __S(7296, __c228, 0),
         }),
       ).annotate({ identifier: "SessionsResponse" });
   }
 }
-function __c229(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11865,7 +15237,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "SessionsResponseCursor" });
   }
 }
-function __c230(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11876,12 +15248,12 @@ function __c230(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(7072, __c221, 0),
+          data: __S(7040, __c220, 0),
         }),
       ).annotate({ identifier: "ListV2SessionPermissionResponse" });
   }
 }
-function __c231(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11892,12 +15264,12 @@ function __c231(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(6661, __c208, 5),
+          data: __S(6629, __c207, 5),
         }),
       ).annotate({ identifier: "ListV2SessionQuestionResponse" });
   }
 }
-function __c232(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11916,17 +15288,17 @@ function __c232(j: number): any {
         }),
       ).annotate({ identifier: "SkillV2Info" });
     case 2:
-      return S.Array(__S(7425, __c232, 1));
+      return S.Array(__S(7393, __c231, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           location: __S(4193, __c131, 1),
-          data: __S(7426, __c232, 2),
+          data: __S(7394, __c231, 2),
         }),
       ).annotate({ identifier: "ListV2SkillResponse" });
   }
 }
-function __c233(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11937,7 +15309,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "ListWorktreeRequest" });
   }
 }
-function __c234(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11956,14 +15328,14 @@ function __c234(j: number): any {
         }),
       ).annotate({ identifier: "LSPStatus" });
     case 2:
-      return S.Array(__S(7489, __c234, 1));
+      return S.Array(__S(7457, __c233, 1));
     case 3:
-      return S.suspend(() => __S(7490, __c234, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(7458, __c233, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "LspStatusResponse",
       });
   }
 }
-function __c235(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11976,7 +15348,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "McpAuthCallbackRequest" });
   }
 }
-function __c236(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11987,7 +15359,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "McpStatusRequest" });
   }
 }
-function __c237(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11996,6 +15368,31 @@ function __c237(j: number): any {
           workspace: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/project/current", code: 200 })),
       ).annotate({ identifier: "ProjectCurrentRequest" });
+  }
+}
+function __c237(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectID: S.String.pipe(T.Label()),
+          directory: S.optional(S.String.pipe(T.Query())),
+          workspace: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/project/{projectID}/directories", code: 200 })),
+      ).annotate({ identifier: "ProjectDirectoriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          directory: S.String,
+          strategy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProjectDirectoriesItem" });
+    case 2:
+      return S.Array(__S(7585, __c237, 1));
+    case 3:
+      return S.suspend(() => __S(7586, __c237, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ProjectDirectoriesResponse",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -18,7 +18,6 @@
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
-      "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
     "./Credentials": {
@@ -61,7 +60,6 @@
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
-      "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
     }
   },
@@ -83,7 +81,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-09",
+    "generatedAt": "2026-10-24",
     "specUpdatedAt": "2026-09-10"
   }
 }

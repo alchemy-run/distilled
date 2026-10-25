@@ -1,0 +1,2354 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.chatkit#CancelChatSessionRequest": {
+      "type": "structure",
+      "members": {
+        "session_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for the ChatKit session to cancel."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.chatkit#ChatSessionResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the ChatKit session.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.chatkit#ChatSessionResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.session`.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) for when the session expires.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Ephemeral client secret that authenticates session requests.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "workflow": {
+          "target": "com.openai.chatkit#ChatkitWorkflow",
+          "traits": {
+            "smithy.api#documentation": "Workflow metadata for the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User identifier associated with the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "rate_limits": {
+          "target": "com.openai.chatkit#ChatSessionRateLimits",
+          "traits": {
+            "smithy.api#documentation": "Resolved rate limit values.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_requests_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Convenience copy of the per-minute request limit.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.chatkit#ChatSessionStatus",
+          "traits": {
+            "smithy.api#documentation": "Current lifecycle state of the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "chatkit_configuration": {
+          "target": "com.openai.chatkit#ChatSessionChatkitConfiguration",
+          "traits": {
+            "smithy.api#documentation": "Resolved ChatKit feature configuration for the session.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a ChatKit session and its resolved configuration."
+      }
+    },
+    "com.openai.chatkit#ChatSessionResourceObject": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_SESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.session"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.session`."
+      }
+    },
+    "com.openai.chatkit#ChatkitWorkflow": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the workflow backing the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "state_variables": {
+          "target": "com.openai.chatkit#ChatkitWorkflowStateVariablesMap",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tracing": {
+          "target": "com.openai.chatkit#ChatkitWorkflowTracing",
+          "traits": {
+            "smithy.api#documentation": "Tracing settings applied to the workflow.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Workflow metadata and state returned for the session."
+      }
+    },
+    "com.openai.chatkit#ChatkitWorkflowStateVariablesValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        },
+        "Case3": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.chatkit#ChatkitWorkflowStateVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.openai.chatkit#ChatkitWorkflowStateVariablesValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "State variable key-value pairs applied when invoking the workflow. Defaults to null when no overrides were provided."
+      }
+    },
+    "com.openai.chatkit#ChatkitWorkflowTracing": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether tracing is enabled.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls diagnostic tracing during the session."
+      }
+    },
+    "com.openai.chatkit#ChatSessionRateLimits": {
+      "type": "structure",
+      "members": {
+        "max_requests_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum allowed requests per one-minute window.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Active per-minute request limit for the session."
+      }
+    },
+    "com.openai.chatkit#ChatSessionStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.chatkit#ChatSessionChatkitConfiguration": {
+      "type": "structure",
+      "members": {
+        "automatic_thread_titling": {
+          "target": "com.openai.chatkit#ChatSessionAutomaticThreadTitling",
+          "traits": {
+            "smithy.api#documentation": "Automatic thread titling preferences.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_upload": {
+          "target": "com.openai.chatkit#ChatSessionFileUpload",
+          "traits": {
+            "smithy.api#documentation": "Upload settings for the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "history": {
+          "target": "com.openai.chatkit#ChatSessionHistory",
+          "traits": {
+            "smithy.api#documentation": "History retention configuration.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ChatKit configuration for the session."
+      }
+    },
+    "com.openai.chatkit#ChatSessionAutomaticThreadTitling": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether automatic thread titling is enabled.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Automatic thread title preferences for the session."
+      }
+    },
+    "com.openai.chatkit#ChatSessionFileUpload": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if uploads are enabled for the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_file_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_files": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Upload permissions and limits applied to the session."
+      }
+    },
+    "com.openai.chatkit#ChatSessionHistory": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if chat history is persisted for the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "recent_threads": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "History retention preferences returned for the session."
+      }
+    },
+    "com.openai.chatkit#CancelChatSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.chatkit#CancelChatSessionRequest"
+      },
+      "output": {
+        "target": "com.openai.chatkit#ChatSessionResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.chatkit#BadRequest"
+        },
+        {
+          "target": "com.openai.chatkit#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/chatkit/sessions/{session_id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel a ChatKit session\n\nCancel an active ChatKit session and return its most recent metadata.\n\nCancelling prevents new requests from using the issued client secret."
+      }
+    },
+    "com.openai.chatkit#WorkflowParam": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the workflow invoked by the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specific workflow version to run. Defaults to the latest deployed version."
+          }
+        },
+        "state_variables": {
+          "target": "com.openai.chatkit#WorkflowParamStateVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "State variables forwarded to the workflow. Keys may be up to 64 characters, values must be primitive types, and the map defaults to an empty object."
+          }
+        },
+        "tracing": {
+          "target": "com.openai.chatkit#WorkflowTracingParam",
+          "traits": {
+            "smithy.api#documentation": "Optional tracing overrides for the workflow invocation. When omitted, tracing is enabled by default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Workflow reference and overrides applied to the chat session."
+      }
+    },
+    "com.openai.chatkit#WorkflowParamStateVariablesValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        },
+        "Case2": {
+          "target": "smithy.api#Boolean"
+        },
+        "Case3": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.chatkit#WorkflowParamStateVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.openai.chatkit#WorkflowParamStateVariablesValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "State variables forwarded to the workflow. Keys may be up to 64 characters, values must be primitive types, and the map defaults to an empty object."
+      }
+    },
+    "com.openai.chatkit#WorkflowTracingParam": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether tracing is enabled during the session. Defaults to true."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls diagnostic tracing during the session."
+      }
+    },
+    "com.openai.chatkit#ExpiresAfterParam": {
+      "type": "structure",
+      "members": {
+        "anchor": {
+          "target": "com.openai.chatkit#ExpiresAfterParamAnchor",
+          "traits": {
+            "smithy.api#documentation": "Base timestamp used to calculate expiration. Currently fixed to `created_at`.",
+            "smithy.api#required": {}
+          }
+        },
+        "seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of seconds after the anchor when the session expires.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls when the session expires relative to an anchor timestamp."
+      }
+    },
+    "com.openai.chatkit#ExpiresAfterParamAnchor": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Base timestamp used to calculate expiration. Currently fixed to `created_at`."
+      }
+    },
+    "com.openai.chatkit#RateLimitsParam": {
+      "type": "structure",
+      "members": {
+        "max_requests_per_1_minute": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of requests allowed per minute for the session. Defaults to 10."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls request rate limits for the session."
+      }
+    },
+    "com.openai.chatkit#ChatkitConfigurationParam": {
+      "type": "structure",
+      "members": {
+        "automatic_thread_titling": {
+          "target": "com.openai.chatkit#AutomaticThreadTitlingParam",
+          "traits": {
+            "smithy.api#documentation": "Configuration for automatic thread titling. When omitted, automatic thread titling is enabled by default."
+          }
+        },
+        "file_upload": {
+          "target": "com.openai.chatkit#FileUploadParam",
+          "traits": {
+            "smithy.api#documentation": "Configuration for upload enablement and limits. When omitted, uploads are disabled by default (max_files 10, max_file_size 512 MB)."
+          }
+        },
+        "history": {
+          "target": "com.openai.chatkit#HistoryParam",
+          "traits": {
+            "smithy.api#documentation": "Configuration for chat history retention. When omitted, history is enabled by default with no limit on recent_threads (null)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional per-session configuration settings for ChatKit behavior."
+      }
+    },
+    "com.openai.chatkit#AutomaticThreadTitlingParam": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable automatic thread title generation. Defaults to true."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls whether ChatKit automatically generates thread titles."
+      }
+    },
+    "com.openai.chatkit#FileUploadParam": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable uploads for this session. Defaults to false."
+          }
+        },
+        "max_file_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum size in megabytes for each uploaded file. Defaults to 512 MB, which is the maximum allowable size."
+          }
+        },
+        "max_files": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of files that can be uploaded to the session. Defaults to 10."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls whether users can upload files."
+      }
+    },
+    "com.openai.chatkit#HistoryParam": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables chat users to access previous ChatKit threads. Defaults to true."
+          }
+        },
+        "recent_threads": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of recent ChatKit threads users have access to. Defaults to unlimited when unset."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls how much historical context is retained for the session."
+      }
+    },
+    "com.openai.chatkit#CreateChatSessionRequest": {
+      "type": "structure",
+      "members": {
+        "workflow": {
+          "target": "com.openai.chatkit#WorkflowParam",
+          "traits": {
+            "smithy.api#documentation": "Workflow that powers the session.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A free-form string that identifies your end user; ensures this Session can access other objects that have the same `user` scope.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_after": {
+          "target": "com.openai.chatkit#ExpiresAfterParam",
+          "traits": {
+            "smithy.api#documentation": "Optional override for session expiration timing in seconds from creation. Defaults to 10 minutes."
+          }
+        },
+        "rate_limits": {
+          "target": "com.openai.chatkit#RateLimitsParam",
+          "traits": {
+            "smithy.api#documentation": "Optional override for per-minute request limits. When omitted, defaults to 10."
+          }
+        },
+        "chatkit_configuration": {
+          "target": "com.openai.chatkit#ChatkitConfigurationParam",
+          "traits": {
+            "smithy.api#documentation": "Optional overrides for ChatKit runtime configuration features"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.chatkit#CreateChatSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.chatkit#CreateChatSessionRequest"
+      },
+      "output": {
+        "target": "com.openai.chatkit#ChatSessionResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.chatkit#BadRequest"
+        },
+        {
+          "target": "com.openai.chatkit#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/chatkit/sessions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a ChatKit session\n\nCreate a ChatKit session."
+      }
+    },
+    "com.openai.chatkit#OrderEnum": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.chatkit#ListThreadItemsRequest": {
+      "type": "structure",
+      "members": {
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identifier of the ChatKit thread whose items are requested."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of thread items to return. Defaults to 20."
+          }
+        },
+        "order": {
+          "target": "com.openai.chatkit#OrderEnum",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order for results by creation time. Defaults to `desc`."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "List items created after this thread item ID. Defaults to null for the first page."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "List items created before this thread item ID. Defaults to null for the newest results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.chatkit#ThreadItemListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.chatkit#ThreadItemListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The type of object returned, must be `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.chatkit#ThreadItemListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of items",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether there are more items available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A paginated list of thread items rendered for the ChatKit API."
+      }
+    },
+    "com.openai.chatkit#ThreadItemListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of object returned, must be `list`."
+      }
+    },
+    "com.openai.chatkit#ThreadItem": {
+      "type": "union",
+      "members": {
+        "UserMessageItem": {
+          "target": "com.openai.chatkit#UserMessageItem"
+        },
+        "AssistantMessageItem": {
+          "target": "com.openai.chatkit#AssistantMessageItem"
+        },
+        "WidgetMessageItem": {
+          "target": "com.openai.chatkit#WidgetMessageItem"
+        },
+        "ClientToolCallItem": {
+          "target": "com.openai.chatkit#ClientToolCallItem"
+        },
+        "TaskItem": {
+          "target": "com.openai.chatkit#TaskItem"
+        },
+        "TaskGroupItem": {
+          "target": "com.openai.chatkit#TaskGroupItem"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.chatkit#UserMessageItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the thread item.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.chatkit#UserMessageItemObject",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) for when the item was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the parent thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.chatkit#UserMessageItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "com.openai.chatkit#UserMessageItemContentList",
+          "traits": {
+            "smithy.api#documentation": "Ordered content elements supplied by the user.",
+            "smithy.api#required": {}
+          }
+        },
+        "attachments": {
+          "target": "com.openai.chatkit#UserMessageItemAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "Attachments associated with the user message. Defaults to an empty list.",
+            "smithy.api#required": {}
+          }
+        },
+        "inference_options": {
+          "target": "com.openai.chatkit#InferenceOptions",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "User-authored messages within a thread."
+      }
+    },
+    "com.openai.chatkit#UserMessageItemObject": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_THREAD_ITEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.thread_item"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`."
+      }
+    },
+    "com.openai.chatkit#UserMessageItemType": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_USER_MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.user_message"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.chatkit#UserMessageInputText": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#UserMessageInputTextType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `input_text`.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plain-text content supplied by the user.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Text block that a user contributed to the thread."
+      }
+    },
+    "com.openai.chatkit#UserMessageInputTextType": {
+      "type": "enum",
+      "members": {
+        "INPUT_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `input_text`."
+      }
+    },
+    "com.openai.chatkit#UserMessageQuotedText": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#UserMessageQuotedTextType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `quoted_text`.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Quoted text content.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Quoted snippet that the user referenced in their message."
+      }
+    },
+    "com.openai.chatkit#UserMessageQuotedTextType": {
+      "type": "enum",
+      "members": {
+        "QUOTED_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quoted_text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `quoted_text`."
+      }
+    },
+    "com.openai.chatkit#UserMessageItemContentItem": {
+      "type": "union",
+      "members": {
+        "UserMessageInputText": {
+          "target": "com.openai.chatkit#UserMessageInputText"
+        },
+        "UserMessageQuotedText": {
+          "target": "com.openai.chatkit#UserMessageQuotedText"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Content blocks that comprise a user message."
+      }
+    },
+    "com.openai.chatkit#UserMessageItemContentList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.chatkit#UserMessageItemContentItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered content elements supplied by the user."
+      }
+    },
+    "com.openai.chatkit#Attachment": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#AttachmentType",
+          "traits": {
+            "smithy.api#documentation": "Attachment discriminator.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the attachment.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Original display name for the attachment.",
+            "smithy.api#required": {}
+          }
+        },
+        "mime_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "MIME type of the attachment.",
+            "smithy.api#required": {}
+          }
+        },
+        "preview_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Attachment metadata included on thread items."
+      }
+    },
+    "com.openai.chatkit#AttachmentType": {
+      "type": "enum",
+      "members": {
+        "IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image"
+          }
+        },
+        "FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "file"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.chatkit#UserMessageItemAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.chatkit#Attachment"
+      },
+      "traits": {
+        "smithy.api#documentation": "Attachments associated with the user message. Defaults to an empty list."
+      }
+    },
+    "com.openai.chatkit#InferenceOptions": {
+      "type": "structure",
+      "members": {
+        "tool_choice": {
+          "target": "com.openai.chatkit#ToolChoice",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Model and tool overrides applied when generating the assistant response."
+      }
+    },
+    "com.openai.chatkit#ToolChoice": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the requested tool.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Tool selection that the assistant should honor when executing the item."
+      }
+    },
+    "com.openai.chatkit#AssistantMessageItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the thread item.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.chatkit#AssistantMessageItemObject",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) for when the item was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the parent thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.chatkit#AssistantMessageItemType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.assistant_message`.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "com.openai.chatkit#AssistantMessageItemContentList",
+          "traits": {
+            "smithy.api#documentation": "Ordered assistant response segments.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Assistant-authored message within a thread."
+      }
+    },
+    "com.openai.chatkit#AssistantMessageItemObject": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_THREAD_ITEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.thread_item"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`."
+      }
+    },
+    "com.openai.chatkit#AssistantMessageItemType": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_ASSISTANT_MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.assistant_message"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.assistant_message`."
+      }
+    },
+    "com.openai.chatkit#ResponseOutputText": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#ResponseOutputTextType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `output_text`.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Assistant generated text.",
+            "smithy.api#required": {}
+          }
+        },
+        "annotations": {
+          "target": "com.openai.chatkit#ResponseOutputTextAnnotationsList",
+          "traits": {
+            "smithy.api#documentation": "Ordered list of annotations attached to the response text.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Assistant response text accompanied by optional annotations."
+      }
+    },
+    "com.openai.chatkit#ResponseOutputTextType": {
+      "type": "enum",
+      "members": {
+        "OUTPUT_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "output_text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `output_text`."
+      }
+    },
+    "com.openai.chatkit#FileAnnotation": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#FileAnnotationType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `file` for this annotation.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.openai.chatkit#FileAnnotationSource",
+          "traits": {
+            "smithy.api#documentation": "File attachment referenced by the annotation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Annotation that references an uploaded file."
+      }
+    },
+    "com.openai.chatkit#FileAnnotationType": {
+      "type": "enum",
+      "members": {
+        "FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `file` for this annotation."
+      }
+    },
+    "com.openai.chatkit#FileAnnotationSource": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#FileAnnotationSourceType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `file`.",
+            "smithy.api#required": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filename referenced by the annotation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Attachment source referenced by an annotation."
+      }
+    },
+    "com.openai.chatkit#FileAnnotationSourceType": {
+      "type": "enum",
+      "members": {
+        "FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `file`."
+      }
+    },
+    "com.openai.chatkit#UrlAnnotation": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#UrlAnnotationType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `url` for this annotation.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.openai.chatkit#UrlAnnotationSource",
+          "traits": {
+            "smithy.api#documentation": "URL referenced by the annotation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Annotation that references a URL."
+      }
+    },
+    "com.openai.chatkit#UrlAnnotationType": {
+      "type": "enum",
+      "members": {
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `url` for this annotation."
+      }
+    },
+    "com.openai.chatkit#UrlAnnotationSource": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#UrlAnnotationSourceType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `url`.",
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL referenced by the annotation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "URL backing an annotation entry."
+      }
+    },
+    "com.openai.chatkit#UrlAnnotationSourceType": {
+      "type": "enum",
+      "members": {
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `url`."
+      }
+    },
+    "com.openai.chatkit#ResponseOutputTextAnnotationsItem": {
+      "type": "union",
+      "members": {
+        "FileAnnotation": {
+          "target": "com.openai.chatkit#FileAnnotation"
+        },
+        "UrlAnnotation": {
+          "target": "com.openai.chatkit#UrlAnnotation"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Annotation object describing a cited source."
+      }
+    },
+    "com.openai.chatkit#ResponseOutputTextAnnotationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.chatkit#ResponseOutputTextAnnotationsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered list of annotations attached to the response text."
+      }
+    },
+    "com.openai.chatkit#AssistantMessageItemContentList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.chatkit#ResponseOutputText"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered assistant response segments."
+      }
+    },
+    "com.openai.chatkit#WidgetMessageItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the thread item.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.chatkit#WidgetMessageItemObject",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) for when the item was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the parent thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.chatkit#WidgetMessageItemType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.widget`.",
+            "smithy.api#required": {}
+          }
+        },
+        "widget": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Serialized widget payload rendered in the UI.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Thread item that renders a widget payload."
+      }
+    },
+    "com.openai.chatkit#WidgetMessageItemObject": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_THREAD_ITEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.thread_item"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`."
+      }
+    },
+    "com.openai.chatkit#WidgetMessageItemType": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_WIDGET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.widget"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.widget`."
+      }
+    },
+    "com.openai.chatkit#ClientToolCallItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the thread item.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.chatkit#ClientToolCallItemObject",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) for when the item was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the parent thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.chatkit#ClientToolCallItemType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.client_tool_call`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.chatkit#ClientToolCallStatus",
+          "traits": {
+            "smithy.api#documentation": "Execution status for the tool call.",
+            "smithy.api#required": {}
+          }
+        },
+        "call_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the client tool call.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tool name that was invoked.",
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded arguments that were sent to the tool.",
+            "smithy.api#required": {}
+          }
+        },
+        "output": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Record of a client side tool invocation initiated by the assistant."
+      }
+    },
+    "com.openai.chatkit#ClientToolCallItemObject": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_THREAD_ITEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.thread_item"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`."
+      }
+    },
+    "com.openai.chatkit#ClientToolCallItemType": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_CLIENT_TOOL_CALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.client_tool_call"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.client_tool_call`."
+      }
+    },
+    "com.openai.chatkit#ClientToolCallStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.chatkit#TaskItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the thread item.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.chatkit#TaskItemObject",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) for when the item was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the parent thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.chatkit#TaskItemType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.task`.",
+            "smithy.api#required": {}
+          }
+        },
+        "task_type": {
+          "target": "com.openai.chatkit#TaskType",
+          "traits": {
+            "smithy.api#documentation": "Subtype for the task.",
+            "smithy.api#required": {}
+          }
+        },
+        "heading": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Task emitted by the workflow to show progress and status updates."
+      }
+    },
+    "com.openai.chatkit#TaskItemObject": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_THREAD_ITEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.thread_item"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`."
+      }
+    },
+    "com.openai.chatkit#TaskItemType": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.task"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.task`."
+      }
+    },
+    "com.openai.chatkit#TaskType": {
+      "type": "enum",
+      "members": {
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        },
+        "THOUGHT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "thought"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.chatkit#TaskGroupItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the thread item.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.chatkit#TaskGroupItemObject",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) for when the item was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the parent thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.chatkit#TaskGroupItemType",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.task_group`.",
+            "smithy.api#required": {}
+          }
+        },
+        "tasks": {
+          "target": "com.openai.chatkit#TaskGroupItemTasksList",
+          "traits": {
+            "smithy.api#documentation": "Tasks included in the group.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of workflow tasks grouped together in the thread."
+      }
+    },
+    "com.openai.chatkit#TaskGroupItemObject": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_THREAD_ITEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.thread_item"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.thread_item`."
+      }
+    },
+    "com.openai.chatkit#TaskGroupItemType": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_TASK_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.task_group"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.task_group`."
+      }
+    },
+    "com.openai.chatkit#TaskGroupTask": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#TaskType",
+          "traits": {
+            "smithy.api#documentation": "Subtype for the grouped task.",
+            "smithy.api#required": {}
+          }
+        },
+        "heading": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Task entry that appears within a TaskGroup."
+      }
+    },
+    "com.openai.chatkit#TaskGroupItemTasksList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.chatkit#TaskGroupTask"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tasks included in the group."
+      }
+    },
+    "com.openai.chatkit#ThreadItemListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.chatkit#ThreadItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of items"
+      }
+    },
+    "com.openai.chatkit#ListThreadItems": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.chatkit#ListThreadItemsRequest"
+      },
+      "output": {
+        "target": "com.openai.chatkit#ThreadItemListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.chatkit#BadRequest"
+        },
+        {
+          "target": "com.openai.chatkit#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/chatkit/threads/{thread_id}/items",
+          "code": 200
+        },
+        "smithy.api#documentation": "List ChatKit thread items\n\nList items that belong to a ChatKit thread.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.chatkit#GetThreadRequest": {
+      "type": "structure",
+      "members": {
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identifier of the ChatKit thread to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.chatkit#ThreadResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.chatkit#ThreadResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.thread`.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Unix timestamp (in seconds) for when the thread was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.chatkit#ThreadResourceStatus",
+          "traits": {
+            "smithy.api#documentation": "Current status for the thread. Defaults to `active` for newly created threads.",
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Free-form string that identifies your end user who owns the thread.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a ChatKit thread and its current status."
+      }
+    },
+    "com.openai.chatkit#ThreadResourceObject": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_THREAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.thread"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.thread`."
+      }
+    },
+    "com.openai.chatkit#ActiveStatus": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#ActiveStatusType",
+          "traits": {
+            "smithy.api#documentation": "Status discriminator that is always `active`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Indicates that a thread is active."
+      }
+    },
+    "com.openai.chatkit#ActiveStatusType": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status discriminator that is always `active`."
+      }
+    },
+    "com.openai.chatkit#LockedStatus": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#LockedStatusType",
+          "traits": {
+            "smithy.api#documentation": "Status discriminator that is always `locked`.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Indicates that a thread is locked and cannot accept new input."
+      }
+    },
+    "com.openai.chatkit#LockedStatusType": {
+      "type": "enum",
+      "members": {
+        "LOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "locked"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status discriminator that is always `locked`."
+      }
+    },
+    "com.openai.chatkit#ClosedStatus": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.chatkit#ClosedStatusType",
+          "traits": {
+            "smithy.api#documentation": "Status discriminator that is always `closed`.",
+            "smithy.api#required": {}
+          }
+        },
+        "reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Indicates that a thread has been closed."
+      }
+    },
+    "com.openai.chatkit#ClosedStatusType": {
+      "type": "enum",
+      "members": {
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status discriminator that is always `closed`."
+      }
+    },
+    "com.openai.chatkit#ThreadResourceStatus": {
+      "type": "union",
+      "members": {
+        "ActiveStatus": {
+          "target": "com.openai.chatkit#ActiveStatus"
+        },
+        "LockedStatus": {
+          "target": "com.openai.chatkit#LockedStatus"
+        },
+        "ClosedStatus": {
+          "target": "com.openai.chatkit#ClosedStatus"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Current status for the thread. Defaults to `active` for newly created threads."
+      }
+    },
+    "com.openai.chatkit#GetThread": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.chatkit#GetThreadRequest"
+      },
+      "output": {
+        "target": "com.openai.chatkit#ThreadResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.chatkit#BadRequest"
+        },
+        {
+          "target": "com.openai.chatkit#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/chatkit/threads/{thread_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve a ChatKit thread\n\nRetrieve a ChatKit thread by its identifier."
+      }
+    },
+    "com.openai.chatkit#DeleteThreadRequest": {
+      "type": "structure",
+      "members": {
+        "thread_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Identifier of the ChatKit thread to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.chatkit#DeletedThreadResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the deleted thread.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.chatkit#DeletedThreadResourceObject",
+          "traits": {
+            "smithy.api#documentation": "Type discriminator that is always `chatkit.thread.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates that the thread has been deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after deleting a thread."
+      }
+    },
+    "com.openai.chatkit#DeletedThreadResourceObject": {
+      "type": "enum",
+      "members": {
+        "CHATKIT_THREAD_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "chatkit.thread.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Type discriminator that is always `chatkit.thread.deleted`."
+      }
+    },
+    "com.openai.chatkit#DeleteThread": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.chatkit#DeleteThreadRequest"
+      },
+      "output": {
+        "target": "com.openai.chatkit#DeletedThreadResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.chatkit#BadRequest"
+        },
+        {
+          "target": "com.openai.chatkit#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/chatkit/threads/{thread_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a ChatKit thread\n\nDelete a ChatKit thread along with its items and stored attachments."
+      }
+    },
+    "com.openai.chatkit#ListThreadsRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of thread items to return. Defaults to 20."
+          }
+        },
+        "order": {
+          "target": "com.openai.chatkit#OrderEnum",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order for results by creation time. Defaults to `desc`."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "List items created after this thread item ID. Defaults to null for the first page."
+          }
+        },
+        "before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "before",
+            "smithy.api#documentation": "List items created before this thread item ID. Defaults to null for the newest results."
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "user",
+            "smithy.api#documentation": "Filter threads that belong to this user identifier. Defaults to null to return all users."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.chatkit#ThreadListResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.chatkit#ThreadListResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The type of object returned, must be `list`.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.chatkit#ThreadListResourceDataList",
+          "traits": {
+            "smithy.api#documentation": "A list of items",
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether there are more items available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A paginated list of ChatKit threads."
+      }
+    },
+    "com.openai.chatkit#ThreadListResourceObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of object returned, must be `list`."
+      }
+    },
+    "com.openai.chatkit#ThreadListResourceDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.chatkit#ThreadResource"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of items"
+      }
+    },
+    "com.openai.chatkit#ListThreads": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.chatkit#ListThreadsRequest"
+      },
+      "output": {
+        "target": "com.openai.chatkit#ThreadListResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.chatkit#BadRequest"
+        },
+        {
+          "target": "com.openai.chatkit#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/chatkit/threads",
+          "code": 200
+        },
+        "smithy.api#documentation": "List ChatKit threads\n\nList ChatKit threads with optional pagination and user filters.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.chatkit#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.chatkit#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.chatkit#Chatkit": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.chatkit#CancelChatSession"
+        },
+        {
+          "target": "com.openai.chatkit#CreateChatSession"
+        },
+        {
+          "target": "com.openai.chatkit#ListThreadItems"
+        },
+        {
+          "target": "com.openai.chatkit#GetThread"
+        },
+        {
+          "target": "com.openai.chatkit#DeleteThread"
+        },
+        {
+          "target": "com.openai.chatkit#ListThreads"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

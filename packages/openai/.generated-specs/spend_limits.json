@@ -1,0 +1,687 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.spend_limits#OrganizationSpendLimitResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.spend_limits#OrganizationSpendLimitResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.spend_limit`.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The hard spend limit amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_limits#SpendLimitCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount. Currently, only `USD` is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_limits#SpendLimitInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold. Currently, only `month` is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "enforcement": {
+          "target": "com.openai.spend_limits#SpendLimitEnforcement",
+          "traits": {
+            "smithy.api#documentation": "The current enforcement state of the hard spend limit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a hard spend limit configured at the organization level."
+      }
+    },
+    "com.openai.spend_limits#OrganizationSpendLimitResourceObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.spend_limit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.spend_limit`."
+      }
+    },
+    "com.openai.spend_limits#SpendLimitCurrency": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.spend_limits#SpendLimitCurrencyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.spend_limits#SpendLimitCurrencyCase1": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.spend_limits#SpendLimitInterval": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.spend_limits#SpendLimitIntervalCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.spend_limits#SpendLimitIntervalCase1": {
+      "type": "enum",
+      "members": {
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.spend_limits#SpendLimitEnforcement": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.openai.spend_limits#SpendLimitEnforcementStatus",
+          "traits": {
+            "smithy.api#documentation": "Whether the hard spend limit is currently enforcing.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current enforcement state of a hard spend limit."
+      }
+    },
+    "com.openai.spend_limits#SpendLimitEnforcementStatus": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.spend_limits#SpendLimitEnforcementStatusCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.spend_limits#SpendLimitEnforcementStatusCase1": {
+      "type": "enum",
+      "members": {
+        "INACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inactive"
+          }
+        },
+        "ENFORCING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enforcing"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.spend_limits#GetOrganizationSpendLimit": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.openai.spend_limits#OrganizationSpendLimitResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_limits#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_limits#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/spend_limit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get organization spend limit\n\nGet the organization's hard spend limit.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_limits#UpdateOrganizationSpendLimitRequestCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The currency for the threshold amount. Currently, only `USD` is supported."
+      }
+    },
+    "com.openai.spend_limits#UpdateOrganizationSpendLimitRequestInterval": {
+      "type": "enum",
+      "members": {
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The time interval for evaluating spend against the threshold. Currently, only `month` is supported."
+      }
+    },
+    "com.openai.spend_limits#UpdateOrganizationSpendLimitRequest": {
+      "type": "structure",
+      "members": {
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The hard spend limit amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_limits#UpdateOrganizationSpendLimitRequestCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount. Currently, only `USD` is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_limits#UpdateOrganizationSpendLimitRequestInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold. Currently, only `month` is supported.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_limits#UpdateOrganizationSpendLimit": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_limits#UpdateOrganizationSpendLimitRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_limits#OrganizationSpendLimitResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_limits#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_limits#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/spend_limit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update organization spend limit\n\nCreate or replace the organization's hard spend limit.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_limits#OrganizationSpendLimitDeletedResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.spend_limits#OrganizationSpendLimitDeletedResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.spend_limit.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the hard spend limit was deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after deleting an organization hard spend limit."
+      }
+    },
+    "com.openai.spend_limits#OrganizationSpendLimitDeletedResourceObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_SPEND_LIMIT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.spend_limit.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.spend_limit.deleted`."
+      }
+    },
+    "com.openai.spend_limits#DeleteOrganizationSpendLimit": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.openai.spend_limits#OrganizationSpendLimitDeletedResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_limits#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_limits#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/spend_limit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete organization spend limit\n\nDelete the organization's hard spend limit.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_limits#GetProjectSpendLimitRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project whose hard spend limit is being managed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_limits#ProjectSpendLimitResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.spend_limits#ProjectSpendLimitResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `project.spend_limit`.",
+            "smithy.api#required": {}
+          }
+        },
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The hard spend limit amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_limits#SpendLimitCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount. Currently, only `USD` is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_limits#SpendLimitInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold. Currently, only `month` is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "enforcement": {
+          "target": "com.openai.spend_limits#SpendLimitEnforcement",
+          "traits": {
+            "smithy.api#documentation": "The current enforcement state of the hard spend limit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a hard spend limit configured at the project level."
+      }
+    },
+    "com.openai.spend_limits#ProjectSpendLimitResourceObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_SPEND_LIMIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.spend_limit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `project.spend_limit`."
+      }
+    },
+    "com.openai.spend_limits#GetProjectSpendLimit": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_limits#GetProjectSpendLimitRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_limits#ProjectSpendLimitResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_limits#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_limits#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_limits#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/spend_limit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get project spend limit\n\nGet a project's hard spend limit.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_limits#UpdateProjectSpendLimitRequestCurrency": {
+      "type": "enum",
+      "members": {
+        "USD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USD"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The currency for the threshold amount. Currently, only `USD` is supported."
+      }
+    },
+    "com.openai.spend_limits#UpdateProjectSpendLimitRequestInterval": {
+      "type": "enum",
+      "members": {
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The time interval for evaluating spend against the threshold. Currently, only `month` is supported."
+      }
+    },
+    "com.openai.spend_limits#UpdateProjectSpendLimitRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project whose hard spend limit is being managed."
+          }
+        },
+        "threshold_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The hard spend limit amount, in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.openai.spend_limits#UpdateProjectSpendLimitRequestCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency for the threshold amount. Currently, only `USD` is supported.",
+            "smithy.api#required": {}
+          }
+        },
+        "interval": {
+          "target": "com.openai.spend_limits#UpdateProjectSpendLimitRequestInterval",
+          "traits": {
+            "smithy.api#documentation": "The time interval for evaluating spend against the threshold. Currently, only `month` is supported.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_limits#UpdateProjectSpendLimit": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_limits#UpdateProjectSpendLimitRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_limits#ProjectSpendLimitResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_limits#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_limits#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_limits#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/spend_limit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update project spend limit\n\nCreate or replace a project's hard spend limit.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_limits#DeleteProjectSpendLimitRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project whose hard spend limit is being managed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.spend_limits#ProjectSpendLimitDeletedResource": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.spend_limits#ProjectSpendLimitDeletedResourceObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `project.spend_limit.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the hard spend limit was deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Confirmation payload returned after deleting a project hard spend limit."
+      }
+    },
+    "com.openai.spend_limits#ProjectSpendLimitDeletedResourceObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_SPEND_LIMIT_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.spend_limit.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `project.spend_limit.deleted`."
+      }
+    },
+    "com.openai.spend_limits#DeleteProjectSpendLimit": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.spend_limits#DeleteProjectSpendLimitRequest"
+      },
+      "output": {
+        "target": "com.openai.spend_limits#ProjectSpendLimitDeletedResource"
+      },
+      "errors": [
+        {
+          "target": "com.openai.spend_limits#BadRequest"
+        },
+        {
+          "target": "com.openai.spend_limits#Forbidden"
+        },
+        {
+          "target": "com.openai.spend_limits#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/projects/{project_id}/spend_limit",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete project spend limit\n\nDelete a project's hard spend limit.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.spend_limits#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.spend_limits#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.spend_limits#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.spend_limits#SpendLimits": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.spend_limits#GetOrganizationSpendLimit"
+        },
+        {
+          "target": "com.openai.spend_limits#UpdateOrganizationSpendLimit"
+        },
+        {
+          "target": "com.openai.spend_limits#DeleteOrganizationSpendLimit"
+        },
+        {
+          "target": "com.openai.spend_limits#GetProjectSpendLimit"
+        },
+        {
+          "target": "com.openai.spend_limits#UpdateProjectSpendLimit"
+        },
+        {
+          "target": "com.openai.spend_limits#DeleteProjectSpendLimit"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

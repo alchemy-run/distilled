@@ -1,5 +1,5 @@
 {
-  "description": "Docs gap: bulk-delete objects (DELETE /r2/buckets/{bucket_name}/objects with a JSON array of keys as the body) is absent from the API docs. Route/shape transcribed from the distilled SDK.",
+  "description": "Docs gap: bulk-delete objects (a missing key fails the whole batch with code 10007, NoSuchKey; probed 2026-10-21) (DELETE /r2/buckets/{bucket_name}/objects with a JSON array of keys as the body) is absent from the API docs. Route/shape transcribed from the distilled SDK.",
   "patches": [
     {
       "op": "add",
@@ -107,6 +107,9 @@
         },
         {
           "target": "com.cloudflare.r2#NoRoute"
+        },
+        {
+          "target": "com.cloudflare.r2#NoSuchKey"
         }
       ]
     }

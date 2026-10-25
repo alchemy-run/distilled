@@ -1,0 +1,3864 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.fine_tuning#GraderStringCheck": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#GraderStringCheckType",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `string_check`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the grader.",
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The input text. This may include template strings.",
+            "smithy.api#required": {}
+          }
+        },
+        "reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reference text. This may include template strings.",
+            "smithy.api#required": {}
+          }
+        },
+        "operation": {
+          "target": "com.openai.fine_tuning#GraderStringCheckOperation",
+          "traits": {
+            "smithy.api#documentation": "The string check operation to perform. One of `eq`, `ne`, `like`, or `ilike`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A StringCheckGrader object that performs a string comparison between input and reference using a specified operation.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderStringCheckType": {
+      "type": "enum",
+      "members": {
+        "STRING_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string_check"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `string_check`."
+      }
+    },
+    "com.openai.fine_tuning#GraderStringCheckOperation": {
+      "type": "enum",
+      "members": {
+        "EQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eq"
+          }
+        },
+        "NE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ne"
+          }
+        },
+        "LIKE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "like"
+          }
+        },
+        "ILIKE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ilike"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The string check operation to perform. One of `eq`, `ne`, `like`, or `ilike`."
+      }
+    },
+    "com.openai.fine_tuning#GraderTextSimilarity": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#GraderTextSimilarityType",
+          "traits": {
+            "smithy.api#documentation": "The type of grader.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the grader.",
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text being graded.",
+            "smithy.api#required": {}
+          }
+        },
+        "reference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text being graded against.",
+            "smithy.api#required": {}
+          }
+        },
+        "evaluation_metric": {
+          "target": "com.openai.fine_tuning#GraderTextSimilarityEvaluationMetric",
+          "traits": {
+            "smithy.api#documentation": "The evaluation metric to use. One of `cosine`, `fuzzy_match`, `bleu`, \n`gleu`, `meteor`, `rouge_1`, `rouge_2`, `rouge_3`, `rouge_4`, `rouge_5`, \nor `rouge_l`.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A TextSimilarityGrader object which grades text based on similarity metrics.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderTextSimilarityType": {
+      "type": "enum",
+      "members": {
+        "TEXT_SIMILARITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text_similarity"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of grader."
+      }
+    },
+    "com.openai.fine_tuning#GraderTextSimilarityEvaluationMetric": {
+      "type": "enum",
+      "members": {
+        "COSINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cosine"
+          }
+        },
+        "FUZZY_MATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fuzzy_match"
+          }
+        },
+        "BLEU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bleu"
+          }
+        },
+        "GLEU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gleu"
+          }
+        },
+        "METEOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "meteor"
+          }
+        },
+        "ROUGE_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rouge_1"
+          }
+        },
+        "ROUGE_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rouge_2"
+          }
+        },
+        "ROUGE_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rouge_3"
+          }
+        },
+        "ROUGE_4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rouge_4"
+          }
+        },
+        "ROUGE_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rouge_5"
+          }
+        },
+        "ROUGE_L": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rouge_l"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The evaluation metric to use. One of `cosine`, `fuzzy_match`, `bleu`, \n`gleu`, `meteor`, `rouge_1`, `rouge_2`, `rouge_3`, `rouge_4`, `rouge_5`, \nor `rouge_l`.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderPython": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#GraderPythonType",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `python`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the grader.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source code of the python script.",
+            "smithy.api#required": {}
+          }
+        },
+        "image_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The image tag to use for the python script."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A PythonGrader object that runs a python script on the input.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderPythonType": {
+      "type": "enum",
+      "members": {
+        "PYTHON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "python"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `python`."
+      }
+    },
+    "com.openai.fine_tuning#GraderScoreModel": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#GraderScoreModelType",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `score_model`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the grader.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The model to use for the evaluation.",
+            "smithy.api#required": {}
+          }
+        },
+        "sampling_params": {
+          "target": "com.openai.fine_tuning#GraderScoreModelSamplingParams",
+          "traits": {
+            "smithy.api#documentation": "The sampling parameters for the model."
+          }
+        },
+        "input": {
+          "target": "com.openai.fine_tuning#GraderScoreModelInputList",
+          "traits": {
+            "smithy.api#documentation": "The input messages evaluated by the grader. Supports text, output text, input image, and input audio content blocks, and may include template strings.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "range": {
+          "target": "com.openai.fine_tuning#GraderScoreModelRangeList",
+          "traits": {
+            "smithy.api#documentation": "The service requires two numbers for the score range. Defaults to `[0, 1]`.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A ScoreModelGrader object that uses a model to assign a score to the input.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderScoreModelType": {
+      "type": "enum",
+      "members": {
+        "SCORE_MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "score_model"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `score_model`."
+      }
+    },
+    "com.openai.fine_tuning#ReasoningEffort": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "MINIMAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minimal"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "XHIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xhigh"
+          }
+        },
+        "MAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Constrains effort on reasoning for reasoning models. Currently supported\nvalues are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.\nReducing reasoning effort can result in faster responses and fewer tokens\nused on reasoning in a response. Not all reasoning models support every\nvalue. See the\n[reasoning guide](https://developers.openai.com/api/docs/guides/reasoning)\nfor model-specific support.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderScoreModelSamplingParams": {
+      "type": "structure",
+      "members": {
+        "seed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "top_p": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "temperature": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_completions_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reasoning_effort": {
+          "target": "com.openai.fine_tuning#ReasoningEffort",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The sampling parameters for the model."
+      }
+    },
+    "com.openai.fine_tuning#EvalItem": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "com.openai.fine_tuning#EvalItemRole",
+          "traits": {
+            "smithy.api#documentation": "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "com.openai.fine_tuning#EvalItemContent",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.fine_tuning#EvalItemType",
+          "traits": {
+            "smithy.api#documentation": "The type of the message input. Always `message`.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A message input to the model with a role indicating instruction following\nhierarchy. Instructions given with the `developer` or `system` role take\nprecedence over instructions given with the `user` role. Messages with the\n`assistant` role are presumed to have been generated by the model in previous\ninteractions.\n"
+      }
+    },
+    "com.openai.fine_tuning#EvalItemRole": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ASSISTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assistant"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "DEVELOPER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "developer"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The role of the message input. One of `user`, `assistant`, `system`, or\n`developer`.\n"
+      }
+    },
+    "com.openai.fine_tuning#EvalItemContent": {
+      "type": "union",
+      "members": {
+        "EvalItemContentItem": {
+          "target": "com.openai.fine_tuning#EvalItemContentItem"
+        },
+        "EvalItemContentArray": {
+          "target": "com.openai.fine_tuning#EvalItemContentArray"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Inputs to the model - can contain template strings. Supports text, output text, input images, and input audio, either as a single item or an array of items.\n"
+      }
+    },
+    "com.openai.fine_tuning#EvalItemContentItem": {
+      "type": "union",
+      "members": {
+        "EvalItemContentText": {
+          "target": "smithy.api#String"
+        },
+        "InputTextContent": {
+          "target": "com.openai.fine_tuning#InputTextContent"
+        },
+        "EvalItemContentOutputText": {
+          "target": "com.openai.fine_tuning#EvalItemContentOutputText"
+        },
+        "EvalItemInputImage": {
+          "target": "com.openai.fine_tuning#EvalItemInputImage"
+        },
+        "InputAudio": {
+          "target": "com.openai.fine_tuning#InputAudio"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A single content item: input text, output text, input image, or input audio.\n"
+      }
+    },
+    "com.openai.fine_tuning#InputTextContent": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#InputTextContentType",
+          "traits": {
+            "smithy.api#documentation": "The type of the input item. Always `input_text`.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text input to the model.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt_cache_breakpoint": {
+          "target": "com.openai.fine_tuning#PromptCacheBreakpointConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A text input to the model."
+      }
+    },
+    "com.openai.fine_tuning#InputTextContentType": {
+      "type": "enum",
+      "members": {
+        "INPUT_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the input item. Always `input_text`."
+      }
+    },
+    "com.openai.fine_tuning#PromptCacheBreakpointConfig": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.openai.fine_tuning#PromptCacheBreakpointConfigMode",
+          "traits": {
+            "smithy.api#documentation": "The breakpoint mode. Always `explicit`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block."
+      }
+    },
+    "com.openai.fine_tuning#PromptCacheBreakpointConfigMode": {
+      "type": "enum",
+      "members": {
+        "EXPLICIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "explicit"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The breakpoint mode. Always `explicit`."
+      }
+    },
+    "com.openai.fine_tuning#EvalItemContentOutputText": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#EvalItemContentOutputTextType",
+          "traits": {
+            "smithy.api#documentation": "The type of the output text. Always `output_text`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text output from the model.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A text output from the model.\n"
+      }
+    },
+    "com.openai.fine_tuning#EvalItemContentOutputTextType": {
+      "type": "enum",
+      "members": {
+        "OUTPUT_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "output_text"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the output text. Always `output_text`.\n"
+      }
+    },
+    "com.openai.fine_tuning#EvalItemInputImage": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#EvalItemInputImageType",
+          "traits": {
+            "smithy.api#documentation": "The type of the image input. Always `input_image`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "image_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL of the image input.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An image input block used within EvalItem content arrays."
+      }
+    },
+    "com.openai.fine_tuning#EvalItemInputImageType": {
+      "type": "enum",
+      "members": {
+        "INPUT_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_image"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the image input. Always `input_image`.\n"
+      }
+    },
+    "com.openai.fine_tuning#InputAudio": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#InputAudioType",
+          "traits": {
+            "smithy.api#documentation": "The type of the input item. Always `input_audio`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "input_audio": {
+          "target": "com.openai.fine_tuning#InputAudioInputAudio",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An audio input to the model.\n"
+      }
+    },
+    "com.openai.fine_tuning#InputAudioType": {
+      "type": "enum",
+      "members": {
+        "INPUT_AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "input_audio"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the input item. Always `input_audio`.\n"
+      }
+    },
+    "com.openai.fine_tuning#InputAudioInputAudioFormat": {
+      "type": "enum",
+      "members": {
+        "MP3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mp3"
+          }
+        },
+        "WAV": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wav"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The format of the audio data. Currently supported formats are `mp3` and\n`wav`.\n"
+      }
+    },
+    "com.openai.fine_tuning#InputAudioInputAudio": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Base64-encoded audio data.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "format": {
+          "target": "com.openai.fine_tuning#InputAudioInputAudioFormat",
+          "traits": {
+            "smithy.api#documentation": "The format of the audio data. Currently supported formats are `mp3` and\n`wav`.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#EvalItemContentArray": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.fine_tuning#EvalItemContentItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of inputs, each of which may be either an input text, output text, input\nimage, or input audio object.\n"
+      }
+    },
+    "com.openai.fine_tuning#EvalItemType": {
+      "type": "enum",
+      "members": {
+        "MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "message"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the message input. Always `message`.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderScoreModelInputList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.fine_tuning#EvalItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "The input messages evaluated by the grader. Supports text, output text, input image, and input audio content blocks, and may include template strings.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderScoreModelRangeList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "The service requires two numbers for the score range. Defaults to `[0, 1]`.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderMulti": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#GraderMultiType",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `multi`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the grader.",
+            "smithy.api#required": {}
+          }
+        },
+        "graders": {
+          "target": "com.openai.fine_tuning#GraderMultiGradersMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "calculate_output": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A formula to calculate the output based on grader results.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A MultiGrader object combines the output of multiple graders to produce a single score."
+      }
+    },
+    "com.openai.fine_tuning#GraderMultiType": {
+      "type": "enum",
+      "members": {
+        "MULTI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multi"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `multi`."
+      }
+    },
+    "com.openai.fine_tuning#GraderLabelModel": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#GraderLabelModelType",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `label_model`.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the grader.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The model to use for the evaluation. Must support structured outputs.",
+            "smithy.api#required": {}
+          }
+        },
+        "input": {
+          "target": "com.openai.fine_tuning#GraderLabelModelInputList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "labels": {
+          "target": "com.openai.fine_tuning#GraderLabelModelLabelsList",
+          "traits": {
+            "smithy.api#documentation": "The labels to assign to each item in the evaluation.",
+            "smithy.api#required": {}
+          }
+        },
+        "passing_labels": {
+          "target": "com.openai.fine_tuning#GraderLabelModelPassingLabelsList",
+          "traits": {
+            "smithy.api#documentation": "The labels that indicate a passing result. Must be a subset of labels.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A LabelModelGrader object which uses a model to assign labels to each item\nin the evaluation.\n"
+      }
+    },
+    "com.openai.fine_tuning#GraderLabelModelType": {
+      "type": "enum",
+      "members": {
+        "LABEL_MODEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "label_model"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `label_model`."
+      }
+    },
+    "com.openai.fine_tuning#GraderLabelModelInputList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.fine_tuning#EvalItem"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#GraderLabelModelLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The labels to assign to each item in the evaluation."
+      }
+    },
+    "com.openai.fine_tuning#GraderLabelModelPassingLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The labels that indicate a passing result. Must be a subset of labels."
+      }
+    },
+    "com.openai.fine_tuning#GraderMultiGradersValue": {
+      "type": "union",
+      "members": {
+        "GraderStringCheck": {
+          "target": "com.openai.fine_tuning#GraderStringCheck"
+        },
+        "GraderTextSimilarity": {
+          "target": "com.openai.fine_tuning#GraderTextSimilarity"
+        },
+        "GraderPython": {
+          "target": "com.openai.fine_tuning#GraderPython"
+        },
+        "GraderScoreModel": {
+          "target": "com.openai.fine_tuning#GraderScoreModel"
+        },
+        "GraderLabelModel": {
+          "target": "com.openai.fine_tuning#GraderLabelModel"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#GraderMultiGradersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.openai.fine_tuning#GraderMultiGradersValue"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#RunGraderRequestGrader": {
+      "type": "union",
+      "members": {
+        "GraderStringCheck": {
+          "target": "com.openai.fine_tuning#GraderStringCheck"
+        },
+        "GraderTextSimilarity": {
+          "target": "com.openai.fine_tuning#GraderTextSimilarity"
+        },
+        "GraderPython": {
+          "target": "com.openai.fine_tuning#GraderPython"
+        },
+        "GraderScoreModel": {
+          "target": "com.openai.fine_tuning#GraderScoreModel"
+        },
+        "GraderMulti": {
+          "target": "com.openai.fine_tuning#GraderMulti"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The grader used for the fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#RunGraderRequest": {
+      "type": "structure",
+      "members": {
+        "grader": {
+          "target": "com.openai.fine_tuning#RunGraderRequestGrader",
+          "traits": {
+            "smithy.api#documentation": "The grader used for the fine-tuning job.",
+            "smithy.api#required": {}
+          }
+        },
+        "item": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The dataset item provided to the grader. This will be used to populate\nthe `item` namespace. See [the guide](https://developers.openai.com/api/docs/guides/graders) for more details.\n"
+          }
+        },
+        "model_sample": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The model sample to be evaluated. This value will be used to populate\nthe `sample` namespace. See [the guide](https://developers.openai.com/api/docs/guides/graders) for more details.\nThe `output_json` variable will be populated if the model sample is a\nvalid JSON string.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#RunGraderResponse": {
+      "type": "structure",
+      "members": {
+        "reward": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.openai.fine_tuning#RunGraderResponseMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sub_rewards": {
+          "target": "com.openai.fine_tuning#RunGraderResponseSubRewardsMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "model_grader_token_usage_per_model": {
+          "target": "com.openai.fine_tuning#RunGraderResponseModelGraderTokenUsagePerModelMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#RunGraderResponseMetadataErrors": {
+      "type": "structure",
+      "members": {
+        "formula_parse_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "sample_parse_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "truncated_observation_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "unresponsive_reward_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invalid_variable_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "other_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "python_grader_server_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "python_grader_server_error_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "python_grader_runtime_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "python_grader_runtime_error_details": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model_grader_server_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "model_grader_refusal_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "model_grader_parse_error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "model_grader_server_error_details": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#RunGraderResponseMetadataScoresMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#RunGraderResponseMetadataTokenUsage": {
+      "type": "structure",
+      "members": {
+        "prompt_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "completion_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cached_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#RunGraderResponseMetadata": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "errors": {
+          "target": "com.openai.fine_tuning#RunGraderResponseMetadataErrors",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "execution_time": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scores": {
+          "target": "com.openai.fine_tuning#RunGraderResponseMetadataScoresMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "token_usage": {
+          "target": "com.openai.fine_tuning#RunGraderResponseMetadataTokenUsage",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sampled_model_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#RunGraderResponseSubRewardsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#RunGraderResponseModelGraderTokenUsagePerModelMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#RunGrader": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#RunGraderRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#RunGraderResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fine_tuning/alpha/graders/run",
+          "code": 200
+        },
+        "smithy.api#documentation": "Run grader\n\nRun a grader."
+      }
+    },
+    "com.openai.fine_tuning#ValidateGraderRequestGrader": {
+      "type": "union",
+      "members": {
+        "GraderStringCheck": {
+          "target": "com.openai.fine_tuning#GraderStringCheck"
+        },
+        "GraderTextSimilarity": {
+          "target": "com.openai.fine_tuning#GraderTextSimilarity"
+        },
+        "GraderPython": {
+          "target": "com.openai.fine_tuning#GraderPython"
+        },
+        "GraderScoreModel": {
+          "target": "com.openai.fine_tuning#GraderScoreModel"
+        },
+        "GraderMulti": {
+          "target": "com.openai.fine_tuning#GraderMulti"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The grader used for the fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#ValidateGraderRequest": {
+      "type": "structure",
+      "members": {
+        "grader": {
+          "target": "com.openai.fine_tuning#ValidateGraderRequestGrader",
+          "traits": {
+            "smithy.api#documentation": "The grader used for the fine-tuning job.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#ValidateGraderResponse": {
+      "type": "structure",
+      "members": {
+        "grader": {
+          "target": "com.openai.fine_tuning#ValidateGraderResponseGrader",
+          "traits": {
+            "smithy.api#documentation": "The grader used for the fine-tuning job."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ValidateGraderResponseGrader": {
+      "type": "union",
+      "members": {
+        "GraderStringCheck": {
+          "target": "com.openai.fine_tuning#GraderStringCheck"
+        },
+        "GraderTextSimilarity": {
+          "target": "com.openai.fine_tuning#GraderTextSimilarity"
+        },
+        "GraderPython": {
+          "target": "com.openai.fine_tuning#GraderPython"
+        },
+        "GraderScoreModel": {
+          "target": "com.openai.fine_tuning#GraderScoreModel"
+        },
+        "GraderMulti": {
+          "target": "com.openai.fine_tuning#GraderMulti"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The grader used for the fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#ValidateGrader": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#ValidateGraderRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#ValidateGraderResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fine_tuning/alpha/graders/validate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Validate grader\n\nValidate a grader."
+      }
+    },
+    "com.openai.fine_tuning#ListFineTuningCheckpointPermissionsRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ascending"
+          }
+        },
+        "DESCENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "descending"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListFineTuningCheckpointPermissionsRequest": {
+      "type": "structure",
+      "members": {
+        "fine_tuned_model_checkpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuned model checkpoint to get permissions for.\n"
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "project_id",
+            "smithy.api#documentation": "The ID of the project to get permissions for."
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Identifier for the last permission ID from the previous pagination request."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of permissions to retrieve."
+          }
+        },
+        "order": {
+          "target": "com.openai.fine_tuning#ListFineTuningCheckpointPermissionsRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "The order in which to retrieve permissions."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#ListFineTuningCheckpointPermissionResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.openai.fine_tuning#ListFineTuningCheckpointPermissionResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.fine_tuning#ListFineTuningCheckpointPermissionResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuningCheckpointPermission": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The permission identifier, which can be referenced in the API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the permission was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The project identifier that the permission is for.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.fine_tuning#FineTuningCheckpointPermissionObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always \"checkpoint.permission\".",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The `checkpoint.permission` object represents a permission for a fine-tuned model checkpoint.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningCheckpointPermissionObject": {
+      "type": "enum",
+      "members": {
+        "CHECKPOINT_PERMISSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkpoint.permission"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always \"checkpoint.permission\"."
+      }
+    },
+    "com.openai.fine_tuning#ListFineTuningCheckpointPermissionResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.fine_tuning#FineTuningCheckpointPermission"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListFineTuningCheckpointPermissionResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListFineTuningCheckpointPermissions": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#ListFineTuningCheckpointPermissionsRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#ListFineTuningCheckpointPermissionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "List checkpoint permissions\n\n**NOTE:** This endpoint requires an [admin API key](https://developers.openai.com/api/reference/resources/admin/subresources/organization/subresources/admin_api_keys).\n\nOrganization owners can use this endpoint to view all permissions for a fine-tuned model checkpoint.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningCheckpointPermissionRequestProjectIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The project identifiers to grant access to."
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningCheckpointPermissionRequest": {
+      "type": "structure",
+      "members": {
+        "fine_tuned_model_checkpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuned model checkpoint to create a permission for.\n"
+          }
+        },
+        "project_ids": {
+          "target": "com.openai.fine_tuning#CreateFineTuningCheckpointPermissionRequestProjectIdsList",
+          "traits": {
+            "smithy.api#documentation": "The project identifiers to grant access to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningCheckpointPermission": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#CreateFineTuningCheckpointPermissionRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#ListFineTuningCheckpointPermissionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        },
+        {
+          "target": "com.openai.fine_tuning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create checkpoint permissions\n\n**NOTE:** Calling this endpoint requires an [admin API key](https://developers.openai.com/api/reference/resources/admin/subresources/organization/subresources/admin_api_keys).\n\nThis enables organization owners to share fine-tuned models with other projects in their organization."
+      }
+    },
+    "com.openai.fine_tuning#DeleteFineTuningCheckpointPermissionRequest": {
+      "type": "structure",
+      "members": {
+        "fine_tuned_model_checkpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuned model checkpoint to delete a permission for.\n"
+          }
+        },
+        "permission_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuned model checkpoint permission to delete.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#DeleteFineTuningCheckpointPermissionResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the fine-tuned model checkpoint permission that was deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.fine_tuning#DeleteFineTuningCheckpointPermissionResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always \"checkpoint.permission\".",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the fine-tuned model checkpoint permission was successfully deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#DeleteFineTuningCheckpointPermissionResponseObject": {
+      "type": "enum",
+      "members": {
+        "CHECKPOINT_PERMISSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "checkpoint.permission"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always \"checkpoint.permission\"."
+      }
+    },
+    "com.openai.fine_tuning#DeleteFineTuningCheckpointPermission": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#DeleteFineTuningCheckpointPermissionRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#DeleteFineTuningCheckpointPermissionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        },
+        {
+          "target": "com.openai.fine_tuning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions/{permission_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete checkpoint permission\n\n**NOTE:** This endpoint requires an [admin API key](https://developers.openai.com/api/reference/resources/admin/subresources/organization/subresources/admin_api_keys).\n\nOrganization owners can use this endpoint to delete a permission for a fine-tuned model checkpoint."
+      }
+    },
+    "com.openai.fine_tuning#ListPaginatedFineTuningJobsRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListPaginatedFineTuningJobsRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Identifier for the last job from the previous pagination request."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of fine-tuning jobs to retrieve."
+          }
+        },
+        "metadata": {
+          "target": "com.openai.fine_tuning#ListPaginatedFineTuningJobsRequestMetadataMap",
+          "traits": {
+            "smithy.api#httpQuery": "metadata",
+            "smithy.api#documentation": "Optional metadata filter. To filter, use the syntax `metadata[k]=v`. Omitting the parameter or passing an empty object applies no metadata filter. An empty value, such as `metadata[k]=`, filters for that key with an empty string value.\nTo select jobs with null metadata, send the literal query string `metadata=null`. Nullable caller types do not specify how a client serializes null for a deep-object parameter. Use a raw query parameter if the client omits null. Do not combine the two query forms.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#ListPaginatedFineTuningJobsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.openai.fine_tuning#ListPaginatedFineTuningJobsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.fine_tuning#ListPaginatedFineTuningJobsResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuningJob": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The object identifier, which can be referenced in the API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the fine-tuning job was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "com.openai.fine_tuning#FineTuningJobError",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fine_tuned_model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hyperparameters": {
+          "target": "com.openai.fine_tuning#FineTuningJobHyperparameters",
+          "traits": {
+            "smithy.api#documentation": "The hyperparameters used for the fine-tuning job. This value will only be returned when running `supervised` jobs.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base model that is being fine-tuned.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.fine_tuning#FineTuningJobObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always \"fine_tuning.job\".",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The organization that owns the fine-tuning job.",
+            "smithy.api#required": {}
+          }
+        },
+        "result_files": {
+          "target": "com.openai.fine_tuning#FineTuningJobResultFilesList",
+          "traits": {
+            "smithy.api#documentation": "The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](https://developers.openai.com/api/reference/resources/files/methods/content).",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.fine_tuning#FineTuningJobStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the fine-tuning job, which can be `validating_files`, `queued`, `running`, `pausing`, `paused`, `succeeded`, `failed`, or `cancelled`.",
+            "smithy.api#required": {}
+          }
+        },
+        "trained_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "training_file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file ID used for training. You can retrieve the training data with the [Files API](https://developers.openai.com/api/reference/resources/files/methods/content).",
+            "smithy.api#required": {}
+          }
+        },
+        "validation_file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "integrations": {
+          "target": "com.openai.fine_tuning#FineTuningJobIntegrationsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "seed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The seed used for the fine-tuning job.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_finish": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "method": {
+          "target": "com.openai.fine_tuning#FineTuneMethod",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metadata": {
+          "target": "com.openai.fine_tuning#MetadataMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The `fine_tuning.job` object represents a fine-tuning job that has been created through the API.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobErrorCase0": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A machine-readable error code.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable error message.",
+            "smithy.api#required": {}
+          }
+        },
+        "param": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "For fine-tuning jobs that have `failed`, this will contain more information on the cause of the failure."
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobError": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuningJobErrorCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuningJobHyperparametersBatchSizeCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuningJobHyperparametersBatchSize": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuningJobHyperparametersBatchSizeCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobHyperparametersLearningRateMultiplierCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuningJobHyperparametersLearningRateMultiplier": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuningJobHyperparametersLearningRateMultiplierCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobHyperparametersNEpochsCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuningJobHyperparametersNEpochs": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuningJobHyperparametersNEpochsCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle\nthrough the training dataset.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobHyperparameters": {
+      "type": "structure",
+      "members": {
+        "batch_size": {
+          "target": "com.openai.fine_tuning#FineTuningJobHyperparametersBatchSize",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "learning_rate_multiplier": {
+          "target": "com.openai.fine_tuning#FineTuningJobHyperparametersLearningRateMultiplier",
+          "traits": {
+            "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"
+          }
+        },
+        "n_epochs": {
+          "target": "com.openai.fine_tuning#FineTuningJobHyperparametersNEpochs",
+          "traits": {
+            "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle\nthrough the training dataset.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The hyperparameters used for the fine-tuning job. This value will only be returned when running `supervised` jobs."
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobObject": {
+      "type": "enum",
+      "members": {
+        "FINE_TUNING_JOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine_tuning.job"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always \"fine_tuning.job\"."
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobResultFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](https://developers.openai.com/api/reference/resources/files/methods/content)."
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobStatus": {
+      "type": "enum",
+      "members": {
+        "VALIDATING_FILES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "validating_files"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "succeeded"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "PAUSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pausing"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the fine-tuning job, which can be `validating_files`, `queued`, `running`, `pausing`, `paused`, `succeeded`, `failed`, or `cancelled`."
+      }
+    },
+    "com.openai.fine_tuning#FineTuningIntegration": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#FineTuningIntegrationType",
+          "traits": {
+            "smithy.api#documentation": "The type of the integration being enabled for the fine-tuning job",
+            "smithy.api#required": {}
+          }
+        },
+        "wandb": {
+          "target": "com.openai.fine_tuning#FineTuningIntegrationWandb",
+          "traits": {
+            "smithy.api#documentation": "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuningIntegrationType": {
+      "type": "enum",
+      "members": {
+        "WANDB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wandb"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the integration being enabled for the fine-tuning job"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningIntegrationWandbTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some\ndefault tags are generated by OpenAI: \"openai/finetune\", \"openai/{base-model}\", \"openai/{ftjob-abcdef}\".\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningIntegrationWandb": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the project that the new run will be created under.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "entity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.openai.fine_tuning#FineTuningIntegrationWandbTagsList",
+          "traits": {
+            "smithy.api#documentation": "A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some\ndefault tags are generated by OpenAI: \"openai/finetune\", \"openai/{base-model}\", \"openai/{ftjob-abcdef}\".\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobIntegrationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.fine_tuning#FineTuningIntegration"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of integrations to enable for this fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneMethod": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#FineTuneMethodType",
+          "traits": {
+            "smithy.api#documentation": "The type of method. Is either `supervised`, `dpo`, or `reinforcement`.",
+            "smithy.api#required": {}
+          }
+        },
+        "supervised": {
+          "target": "com.openai.fine_tuning#FineTuneSupervisedMethod"
+        },
+        "dpo": {
+          "target": "com.openai.fine_tuning#FineTuneDPOMethod"
+        },
+        "reinforcement": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementMethod"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The method used for fine-tuning."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneMethodType": {
+      "type": "enum",
+      "members": {
+        "SUPERVISED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "supervised"
+          }
+        },
+        "DPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dpo"
+          }
+        },
+        "REINFORCEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reinforcement"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of method. Is either `supervised`, `dpo`, or `reinforcement`."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneSupervisedMethod": {
+      "type": "structure",
+      "members": {
+        "hyperparameters": {
+          "target": "com.openai.fine_tuning#FineTuneSupervisedHyperparameters"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for the supervised fine-tuning method."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneSupervisedHyperparameters": {
+      "type": "structure",
+      "members": {
+        "batch_size": {
+          "target": "com.openai.fine_tuning#FineTuneSupervisedHyperparametersBatchSize",
+          "traits": {
+            "smithy.api#documentation": "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"
+          }
+        },
+        "learning_rate_multiplier": {
+          "target": "com.openai.fine_tuning#FineTuneSupervisedHyperparametersLearningRateMultiplier",
+          "traits": {
+            "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"
+          }
+        },
+        "n_epochs": {
+          "target": "com.openai.fine_tuning#FineTuneSupervisedHyperparametersNEpochs",
+          "traits": {
+            "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The hyperparameters used for the fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneSupervisedHyperparametersBatchSizeCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneSupervisedHyperparametersBatchSize": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneSupervisedHyperparametersBatchSizeCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneSupervisedHyperparametersLearningRateMultiplierCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneSupervisedHyperparametersLearningRateMultiplier": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneSupervisedHyperparametersLearningRateMultiplierCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneSupervisedHyperparametersNEpochsCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneSupervisedHyperparametersNEpochs": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneSupervisedHyperparametersNEpochsCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneDPOMethod": {
+      "type": "structure",
+      "members": {
+        "hyperparameters": {
+          "target": "com.openai.fine_tuning#FineTuneDPOHyperparameters"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for the DPO fine-tuning method."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneDPOHyperparameters": {
+      "type": "structure",
+      "members": {
+        "beta": {
+          "target": "com.openai.fine_tuning#FineTuneDPOHyperparametersBeta",
+          "traits": {
+            "smithy.api#documentation": "The beta value for the DPO method. A higher beta value will increase the weight of the penalty between the policy and reference model.\n"
+          }
+        },
+        "batch_size": {
+          "target": "com.openai.fine_tuning#FineTuneDPOHyperparametersBatchSize",
+          "traits": {
+            "smithy.api#documentation": "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"
+          }
+        },
+        "learning_rate_multiplier": {
+          "target": "com.openai.fine_tuning#FineTuneDPOHyperparametersLearningRateMultiplier",
+          "traits": {
+            "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"
+          }
+        },
+        "n_epochs": {
+          "target": "com.openai.fine_tuning#FineTuneDPOHyperparametersNEpochs",
+          "traits": {
+            "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The hyperparameters used for the DPO fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneDPOHyperparametersBetaCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneDPOHyperparametersBeta": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneDPOHyperparametersBetaCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The beta value for the DPO method. A higher beta value will increase the weight of the penalty between the policy and reference model.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneDPOHyperparametersBatchSizeCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneDPOHyperparametersBatchSize": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneDPOHyperparametersBatchSizeCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneDPOHyperparametersLearningRateMultiplierCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneDPOHyperparametersLearningRateMultiplier": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneDPOHyperparametersLearningRateMultiplierCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneDPOHyperparametersNEpochsCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneDPOHyperparametersNEpochs": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneDPOHyperparametersNEpochsCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementMethod": {
+      "type": "structure",
+      "members": {
+        "grader": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementMethodGrader",
+          "traits": {
+            "smithy.api#documentation": "The grader used for the fine-tuning job.",
+            "smithy.api#required": {}
+          }
+        },
+        "hyperparameters": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparameters"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration for the reinforcement fine-tuning method."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementMethodGrader": {
+      "type": "union",
+      "members": {
+        "GraderStringCheck": {
+          "target": "com.openai.fine_tuning#GraderStringCheck"
+        },
+        "GraderTextSimilarity": {
+          "target": "com.openai.fine_tuning#GraderTextSimilarity"
+        },
+        "GraderPython": {
+          "target": "com.openai.fine_tuning#GraderPython"
+        },
+        "GraderScoreModel": {
+          "target": "com.openai.fine_tuning#GraderScoreModel"
+        },
+        "GraderMulti": {
+          "target": "com.openai.fine_tuning#GraderMulti"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The grader used for the fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparameters": {
+      "type": "structure",
+      "members": {
+        "batch_size": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersBatchSize",
+          "traits": {
+            "smithy.api#documentation": "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"
+          }
+        },
+        "learning_rate_multiplier": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersLearningRateMultiplier",
+          "traits": {
+            "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"
+          }
+        },
+        "n_epochs": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersNEpochs",
+          "traits": {
+            "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"
+          }
+        },
+        "reasoning_effort": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersReasoningEffort",
+          "traits": {
+            "smithy.api#documentation": "Level of reasoning effort.\n"
+          }
+        },
+        "compute_multiplier": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersComputeMultiplier",
+          "traits": {
+            "smithy.api#documentation": "Multiplier on amount of compute used for exploring search space during training.\n"
+          }
+        },
+        "eval_interval": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersEvalInterval",
+          "traits": {
+            "smithy.api#documentation": "The number of training steps between evaluation runs.\n"
+          }
+        },
+        "eval_samples": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersEvalSamples",
+          "traits": {
+            "smithy.api#documentation": "Number of evaluation samples to generate per training step.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The hyperparameters used for the reinforcement fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersBatchSizeCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersBatchSize": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersBatchSizeCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersLearningRateMultiplierCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersLearningRateMultiplier": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersLearningRateMultiplierCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersNEpochsCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersNEpochs": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersNEpochsCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersReasoningEffort": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Level of reasoning effort.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersComputeMultiplierCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersComputeMultiplier": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersComputeMultiplierCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Multiplier on amount of compute used for exploring search space during training.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersEvalIntervalCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersEvalInterval": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersEvalIntervalCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The number of training steps between evaluation runs.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersEvalSamplesCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuneReinforcementHyperparametersEvalSamples": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#FineTuneReinforcementHyperparametersEvalSamplesCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Number of evaluation samples to generate per training step.\n"
+      }
+    },
+    "com.openai.fine_tuning#MetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Set of 16 key-value pairs that can be attached to an object. This can be\nuseful for storing additional information about the object in a structured\nformat, and querying for objects via API or the dashboard.\n\nKeys are strings with a maximum length of 64 characters. Values are strings\nwith a maximum length of 512 characters.\n"
+      }
+    },
+    "com.openai.fine_tuning#ListPaginatedFineTuningJobsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.fine_tuning#FineTuningJob"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListPaginatedFineTuningJobsResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListPaginatedFineTuningJobs": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#ListPaginatedFineTuningJobsRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#ListPaginatedFineTuningJobsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/fine_tuning/jobs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List fine-tuning jobs\n\nList your organization's fine-tuning jobs",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestModelCase1": {
+      "type": "enum",
+      "members": {
+        "BABBAGE_002": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "babbage-002"
+          }
+        },
+        "DAVINCI_002": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "davinci-002"
+          }
+        },
+        "GPT_3_5_TURBO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpt-3.5-turbo"
+          }
+        },
+        "GPT_4O_MINI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gpt-4o-mini"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestModel": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestModelCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The name of the model to fine-tune. You can select one of the\n[supported models](https://developers.openai.com/api/docs/guides/model-optimization#fine-tuning-methods).\n"
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersBatchSizeCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersBatchSize": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersBatchSizeCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersLearningRateMultiplierCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersLearningRateMultiplier": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersLearningRateMultiplierCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersNEpochsCase0": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersNEpochs": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersNEpochsCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle\nthrough the training dataset.\n"
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparameters": {
+      "type": "structure",
+      "members": {
+        "batch_size": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersBatchSize",
+          "traits": {
+            "smithy.api#documentation": "Number of examples in each batch. A larger batch size means that model parameters\nare updated less frequently, but with lower variance.\n"
+          }
+        },
+        "learning_rate_multiplier": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersLearningRateMultiplier",
+          "traits": {
+            "smithy.api#documentation": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid\noverfitting.\n"
+          }
+        },
+        "n_epochs": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparametersNEpochs",
+          "traits": {
+            "smithy.api#documentation": "The number of epochs to train the model for. An epoch refers to one full cycle\nthrough the training dataset.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsItemType": {
+      "type": "enum",
+      "members": {
+        "WANDB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wandb"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsItemWandbTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some\ndefault tags are generated by OpenAI: \"openai/finetune\", \"openai/{base-model}\", \"openai/{ftjob-abcdef}\".\n"
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsItemWandb": {
+      "type": "structure",
+      "members": {
+        "project": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the project that the new run will be created under.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A display name to set for the run. If not set, we will use the Job ID as the name.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "entity": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The entity to use for the run. This allows you to set the team or username of the WandB user that you would\nlike associated with the run. If not set, the default entity for the registered WandB API key is used.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsItemWandbTagsList",
+          "traits": {
+            "smithy.api#documentation": "A list of tags to be attached to the newly created run. These tags are passed through directly to WandB. Some\ndefault tags are generated by OpenAI: \"openai/finetune\", \"openai/{base-model}\", \"openai/{ftjob-abcdef}\".\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n"
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsItemType",
+          "traits": {
+            "smithy.api#documentation": "The type of integration to enable. Currently, only \"wandb\" (Weights and Biases) is supported.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "wandb": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsItemWandb",
+          "traits": {
+            "smithy.api#documentation": "The settings for your integration with Weights and Biases. This payload specifies the project that\nmetrics will be sent to. Optionally, you can set an explicit display name for your run, add tags\nto your run, and set a default entity (team, username, etc) to be associated with your run.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "A list of integrations to enable for your fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJobRequest": {
+      "type": "structure",
+      "members": {
+        "model": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestModel",
+          "traits": {
+            "smithy.api#documentation": "The name of the model to fine-tune. You can select one of the\n[supported models](https://developers.openai.com/api/docs/guides/model-optimization#fine-tuning-methods).\n",
+            "smithy.api#required": {}
+          }
+        },
+        "training_file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an uploaded file that contains training data.\n\nSee [upload file](https://developers.openai.com/api/reference/resources/files/methods/create) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.\n\nThe contents of the file should differ depending on if the model uses the [chat](https://developers.openai.com/api/docs/guides/supervised-fine-tuning#formatting-your-data), [completions](https://developers.openai.com/api/docs/guides/supervised-fine-tuning#formatting-your-data) format, or if the fine-tuning method uses the [preference](https://developers.openai.com/api/docs/guides/direct-preference-optimization) format.\n\nSee the [fine-tuning guide](https://developers.openai.com/api/docs/guides/model-optimization) for more details.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "hyperparameters": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestHyperparameters",
+          "traits": {
+            "smithy.api#documentation": "The hyperparameters used for the fine-tuning job.\nThis value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.\n"
+          }
+        },
+        "suffix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A string of up to 64 characters that will be added to your fine-tuned model name.\n\nFor example, a `suffix` of \"custom-model-name\" would produce a model name like `ft:gpt-4o-mini:openai:custom-model-name:7p4lURel`.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "validation_file": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of an uploaded file that contains validation data.\n\nIf you provide this file, the data is used to generate validation\nmetrics periodically during fine-tuning. These metrics can be viewed in\nthe fine-tuning results file.\nThe same data should not be present in both train and validation files.\n\nYour dataset must be formatted as a JSONL file. You must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](https://developers.openai.com/api/docs/guides/model-optimization) for more details.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "integrations": {
+          "target": "com.openai.fine_tuning#CreateFineTuningJobRequestIntegrationsList",
+          "traits": {
+            "smithy.api#documentation": "A list of integrations to enable for your fine-tuning job.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "seed": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The seed controls the reproducibility of the job. Passing in the same seed and job parameters should produce the same results, but may differ in rare cases.\nIf a seed is not specified, one will be generated for you.\n",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "method": {
+          "target": "com.openai.fine_tuning#FineTuneMethod"
+        },
+        "metadata": {
+          "target": "com.openai.fine_tuning#MetadataMap",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#CreateFineTuningJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#CreateFineTuningJobRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#FineTuningJob"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fine_tuning/jobs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create fine-tuning job\n\nCreates a fine-tuning job which begins the process of creating a new model from a given dataset.\n\nResponse includes details of the enqueued job including job status and the name of the fine-tuned models once complete.\n\n[Learn more about fine-tuning](https://developers.openai.com/api/docs/guides/model-optimization)"
+      }
+    },
+    "com.openai.fine_tuning#GetFineTuningJobRequest": {
+      "type": "structure",
+      "members": {
+        "fine_tuning_job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuning job.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#GetFineTuningJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#GetFineTuningJobRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#FineTuningJob"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/fine_tuning/jobs/{fine_tuning_job_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve fine-tuning job\n\nGet info about a fine-tuning job.\n\n[Learn more about fine-tuning](https://developers.openai.com/api/docs/guides/model-optimization)"
+      }
+    },
+    "com.openai.fine_tuning#CancelFineTuningJobRequest": {
+      "type": "structure",
+      "members": {
+        "fine_tuning_job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuning job to cancel.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#CancelFineTuningJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#CancelFineTuningJobRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#FineTuningJob"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        },
+        {
+          "target": "com.openai.fine_tuning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fine_tuning/jobs/{fine_tuning_job_id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel fine-tuning\n\nImmediately cancel a fine-tune job."
+      }
+    },
+    "com.openai.fine_tuning#ListFineTuningJobCheckpointsRequest": {
+      "type": "structure",
+      "members": {
+        "fine_tuning_job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuning job to get checkpoints for.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Identifier for the last checkpoint ID from the previous pagination request."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of checkpoints to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#ListFineTuningJobCheckpointsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.openai.fine_tuning#ListFineTuningJobCheckpointsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.fine_tuning#ListFineTuningJobCheckpointsResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuningJobCheckpoint": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The checkpoint identifier, which can be referenced in the API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the checkpoint was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "fine_tuned_model_checkpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the fine-tuned checkpoint model that is created.",
+            "smithy.api#required": {}
+          }
+        },
+        "step_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The step number that the checkpoint was created at.",
+            "smithy.api#required": {}
+          }
+        },
+        "metrics": {
+          "target": "com.openai.fine_tuning#FineTuningJobCheckpointMetrics",
+          "traits": {
+            "smithy.api#documentation": "Metrics at the step number during the fine-tuning job.",
+            "smithy.api#required": {}
+          }
+        },
+        "fine_tuning_job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the fine-tuning job that this checkpoint was created from.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.fine_tuning#FineTuningJobCheckpointObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always \"fine_tuning.job.checkpoint\".",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The `fine_tuning.job.checkpoint` object represents a model checkpoint for a fine-tuning job that is ready to use.\n"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobCheckpointMetrics": {
+      "type": "structure",
+      "members": {
+        "step": {
+          "target": "smithy.api#Double"
+        },
+        "train_loss": {
+          "target": "smithy.api#Double"
+        },
+        "train_mean_token_accuracy": {
+          "target": "smithy.api#Double"
+        },
+        "valid_loss": {
+          "target": "smithy.api#Double"
+        },
+        "valid_mean_token_accuracy": {
+          "target": "smithy.api#Double"
+        },
+        "full_valid_loss": {
+          "target": "smithy.api#Double"
+        },
+        "full_valid_mean_token_accuracy": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metrics at the step number during the fine-tuning job."
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobCheckpointObject": {
+      "type": "enum",
+      "members": {
+        "FINE_TUNING_JOB_CHECKPOINT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine_tuning.job.checkpoint"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always \"fine_tuning.job.checkpoint\"."
+      }
+    },
+    "com.openai.fine_tuning#ListFineTuningJobCheckpointsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.fine_tuning#FineTuningJobCheckpoint"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListFineTuningJobCheckpointsResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListFineTuningJobCheckpoints": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#ListFineTuningJobCheckpointsRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#ListFineTuningJobCheckpointsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        },
+        {
+          "target": "com.openai.fine_tuning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints",
+          "code": 200
+        },
+        "smithy.api#documentation": "List fine-tuning checkpoints\n\nList checkpoints for a fine-tuning job.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.fine_tuning#ListFineTuningEventsRequest": {
+      "type": "structure",
+      "members": {
+        "fine_tuning_job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuning job to get events for.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "Identifier for the last event from the previous pagination request."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of events to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#ListFineTuningJobEventsResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.openai.fine_tuning#ListFineTuningJobEventsResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.fine_tuning#ListFineTuningJobEventsResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#FineTuningJobEvent": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.fine_tuning#FineTuningJobEventObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always \"fine_tuning.job.event\".",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The object identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the fine-tuning job was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "level": {
+          "target": "com.openai.fine_tuning#FineTuningJobEventLevel",
+          "traits": {
+            "smithy.api#documentation": "The log level of the event.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The message of the event.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.fine_tuning#FineTuningJobEventType",
+          "traits": {
+            "smithy.api#documentation": "The type of event."
+          }
+        },
+        "data": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The data associated with the event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Fine-tuning job event object"
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobEventObject": {
+      "type": "enum",
+      "members": {
+        "FINE_TUNING_JOB_EVENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine_tuning.job.event"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always \"fine_tuning.job.event\"."
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobEventLevel": {
+      "type": "enum",
+      "members": {
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "info"
+          }
+        },
+        "WARN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warn"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The log level of the event."
+      }
+    },
+    "com.openai.fine_tuning#FineTuningJobEventType": {
+      "type": "enum",
+      "members": {
+        "MESSAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "message"
+          }
+        },
+        "METRICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "metrics"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of event."
+      }
+    },
+    "com.openai.fine_tuning#ListFineTuningJobEventsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.fine_tuning#FineTuningJobEvent"
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListFineTuningJobEventsResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.fine_tuning#ListFineTuningEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#ListFineTuningEventsRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#ListFineTuningJobEventsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        },
+        {
+          "target": "com.openai.fine_tuning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/fine_tuning/jobs/{fine_tuning_job_id}/events",
+          "code": 200
+        },
+        "smithy.api#documentation": "List fine-tuning events\n\nGet status updates for a fine-tuning job.",
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.fine_tuning#PauseFineTuningJobRequest": {
+      "type": "structure",
+      "members": {
+        "fine_tuning_job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuning job to pause.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#PauseFineTuningJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#PauseFineTuningJobRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#FineTuningJob"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        },
+        {
+          "target": "com.openai.fine_tuning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fine_tuning/jobs/{fine_tuning_job_id}/pause",
+          "code": 200
+        },
+        "smithy.api#documentation": "Pause fine-tuning\n\nPause a fine-tune job."
+      }
+    },
+    "com.openai.fine_tuning#ResumeFineTuningJobRequest": {
+      "type": "structure",
+      "members": {
+        "fine_tuning_job_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the fine-tuning job to resume.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.fine_tuning#ResumeFineTuningJob": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.fine_tuning#ResumeFineTuningJobRequest"
+      },
+      "output": {
+        "target": "com.openai.fine_tuning#FineTuningJob"
+      },
+      "errors": [
+        {
+          "target": "com.openai.fine_tuning#BadRequest"
+        },
+        {
+          "target": "com.openai.fine_tuning#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/fine_tuning/jobs/{fine_tuning_job_id}/resume",
+          "code": 200
+        },
+        "smithy.api#documentation": "Resume fine-tuning\n\nResume a fine-tune job."
+      }
+    },
+    "com.openai.fine_tuning#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.fine_tuning#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.fine_tuning#FineTuning": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.fine_tuning#RunGrader"
+        },
+        {
+          "target": "com.openai.fine_tuning#ValidateGrader"
+        },
+        {
+          "target": "com.openai.fine_tuning#ListFineTuningCheckpointPermissions"
+        },
+        {
+          "target": "com.openai.fine_tuning#CreateFineTuningCheckpointPermission"
+        },
+        {
+          "target": "com.openai.fine_tuning#DeleteFineTuningCheckpointPermission"
+        },
+        {
+          "target": "com.openai.fine_tuning#ListPaginatedFineTuningJobs"
+        },
+        {
+          "target": "com.openai.fine_tuning#CreateFineTuningJob"
+        },
+        {
+          "target": "com.openai.fine_tuning#GetFineTuningJob"
+        },
+        {
+          "target": "com.openai.fine_tuning#CancelFineTuningJob"
+        },
+        {
+          "target": "com.openai.fine_tuning#ListFineTuningJobCheckpoints"
+        },
+        {
+          "target": "com.openai.fine_tuning#ListFineTuningEvents"
+        },
+        {
+          "target": "com.openai.fine_tuning#PauseFineTuningJob"
+        },
+        {
+          "target": "com.openai.fine_tuning#ResumeFineTuningJob"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

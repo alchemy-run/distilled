@@ -1,0 +1,707 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.uploads#CreateUploadRequestPurpose": {
+      "type": "enum",
+      "members": {
+        "ASSISTANTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assistants"
+          }
+        },
+        "BATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch"
+          }
+        },
+        "FINE_TUNE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine-tune"
+          }
+        },
+        "VISION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vision"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The intended purpose of the uploaded file.\n\nSee the [documentation on File\npurposes](https://developers.openai.com/api/reference/resources/files/methods/create#%28resource%29%20files%20%3E%20%28method%29%20create%20%3E%20%28params%29%200%20%3E%20%28param%29%20purpose%20%3E%20%28schema%29).\n"
+      }
+    },
+    "com.openai.uploads#FileExpirationAfter": {
+      "type": "structure",
+      "members": {
+        "anchor": {
+          "target": "com.openai.uploads#FileExpirationAfterAnchor",
+          "traits": {
+            "smithy.api#documentation": "Anchor timestamp after which the expiration policy applies. Supported anchors: `created_at`.",
+            "smithy.api#required": {}
+          }
+        },
+        "seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of seconds after the anchor time that the file will expire. Must be between 3600 (1 hour) and 2592000 (30 days).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The expiration policy for a file. By default, files with `purpose=batch` expire after 30 days and all other files are persisted until they are manually deleted."
+      }
+    },
+    "com.openai.uploads#FileExpirationAfterAnchor": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Anchor timestamp after which the expiration policy applies. Supported anchors: `created_at`."
+      }
+    },
+    "com.openai.uploads#CreateUploadRequest": {
+      "type": "structure",
+      "members": {
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the file to upload.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "purpose": {
+          "target": "com.openai.uploads#CreateUploadRequestPurpose",
+          "traits": {
+            "smithy.api#documentation": "The intended purpose of the uploaded file.\n\nSee the [documentation on File\npurposes](https://developers.openai.com/api/reference/resources/files/methods/create#%28resource%29%20files%20%3E%20%28method%29%20create%20%3E%20%28params%29%200%20%3E%20%28param%29%20purpose%20%3E%20%28schema%29).\n",
+            "smithy.api#required": {}
+          }
+        },
+        "bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of bytes in the file you are uploading.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "mime_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The MIME type of the file.\n\n\nThis must fall within the supported MIME types for your file purpose. See\nthe supported MIME types for assistants and vision.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_after": {
+          "target": "com.openai.uploads#FileExpirationAfter"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.uploads#Upload": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Upload unique identifier, which can be referenced in API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the Upload was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the file to be uploaded.",
+            "smithy.api#required": {}
+          }
+        },
+        "bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The intended number of bytes to be uploaded.",
+            "smithy.api#required": {}
+          }
+        },
+        "purpose": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The intended purpose of the file. [Please refer here](https://developers.openai.com/api/reference/resources/files#%28resource%29%20files%20%3E%20%28model%29%20file_object%20%3E%20%28schema%29%20%3E%20%28property%29%20purpose) for acceptable values.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.uploads#UploadStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the Upload.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the Upload will expire.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.uploads#UploadObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always \"upload\"."
+          }
+        },
+        "file": {
+          "target": "com.openai.uploads#OpenAIFile",
+          "traits": {
+            "smithy.api#documentation": "The ready File object after the Upload is completed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Upload object can accept byte chunks in the form of Parts.\n"
+      }
+    },
+    "com.openai.uploads#UploadStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The status of the Upload."
+      }
+    },
+    "com.openai.uploads#UploadObject": {
+      "type": "enum",
+      "members": {
+        "UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always \"upload\"."
+      }
+    },
+    "com.openai.uploads#OpenAIFile": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file identifier, which can be referenced in the API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The size of the file, in bytes. In a completed file upload response, this can\nbe null when the file size is not yet available.\n",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the file was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the file will expire. In a\ncompleted file upload response, this can be null when no expiry is set.\n"
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the file.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.uploads#OpenAIFileObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `file`.",
+            "smithy.api#required": {}
+          }
+        },
+        "purpose": {
+          "target": "com.openai.uploads#OpenAIFilePurpose",
+          "traits": {
+            "smithy.api#documentation": "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results`, `vision`, and `user_data`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.openai.uploads#OpenAIFileStatus",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`.",
+            "smithy.api#required": {}
+          }
+        },
+        "status_details": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated. For details on why a fine-tuning training file failed validation, see the `error` field on `fine_tuning.job`. Completed file upload responses can return null when these details are unset."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The `File` object represents a document that has been uploaded to OpenAI."
+      }
+    },
+    "com.openai.uploads#OpenAIFileObject": {
+      "type": "enum",
+      "members": {
+        "FILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "file"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `file`."
+      }
+    },
+    "com.openai.uploads#OpenAIFilePurpose": {
+      "type": "enum",
+      "members": {
+        "ASSISTANTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assistants"
+          }
+        },
+        "ASSISTANTS_OUTPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assistants_output"
+          }
+        },
+        "BATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch"
+          }
+        },
+        "BATCH_OUTPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "batch_output"
+          }
+        },
+        "FINE_TUNE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine-tune"
+          }
+        },
+        "FINE_TUNE_RESULTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fine-tune-results"
+          }
+        },
+        "VISION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vision"
+          }
+        },
+        "USER_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user_data"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The intended purpose of the file. Supported values are `assistants`, `assistants_output`, `batch`, `batch_output`, `fine-tune`, `fine-tune-results`, `vision`, and `user_data`."
+      }
+    },
+    "com.openai.uploads#OpenAIFileStatus": {
+      "type": "enum",
+      "members": {
+        "UPLOADED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uploaded"
+          }
+        },
+        "PROCESSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processed"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`."
+      }
+    },
+    "com.openai.uploads#CreateUpload": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.uploads#CreateUploadRequest"
+      },
+      "output": {
+        "target": "com.openai.uploads#Upload"
+      },
+      "errors": [
+        {
+          "target": "com.openai.uploads#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/uploads",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create upload\n\nCreates an intermediate [Upload](https://developers.openai.com/api/reference/resources/uploads) object\nthat you can add [Parts](https://developers.openai.com/api/reference/resources/uploads/subresources/parts) to.\nCurrently, an Upload can accept at most 8 GB in total and expires after an\nhour after you create it.\n\nOnce you complete the Upload, we will create a\n[File](https://developers.openai.com/api/reference/resources/files) object that contains all the parts\nyou uploaded. This File is usable in the rest of our platform as a regular\nFile object.\n\nFor certain `purpose` values, the correct `mime_type` must be specified.\nPlease refer to documentation for the\n[supported MIME types for your use case](https://developers.openai.com/api/docs/guides/tools-file-search#supported-files).\n\nFor guidance on the proper filename extensions for each purpose, please\nfollow the documentation on [creating a\nFile](https://developers.openai.com/api/reference/resources/files/methods/create).\n\nReturns the Upload object with status `pending`."
+      }
+    },
+    "com.openai.uploads#CancelUploadRequest": {
+      "type": "structure",
+      "members": {
+        "upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the Upload.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.uploads#CancelUpload": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.uploads#CancelUploadRequest"
+      },
+      "output": {
+        "target": "com.openai.uploads#Upload"
+      },
+      "errors": [
+        {
+          "target": "com.openai.uploads#BadRequest"
+        },
+        {
+          "target": "com.openai.uploads#NotFound"
+        },
+        {
+          "target": "com.openai.uploads#Gone"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/uploads/{upload_id}/cancel",
+          "code": 200
+        },
+        "smithy.api#documentation": "Cancel upload\n\nCancels the Upload. No Parts may be added after an Upload is cancelled.\n\nReturns the Upload object with status `cancelled`."
+      }
+    },
+    "com.openai.uploads#UploadCompleteRequestPartIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The ordered list of Part IDs.\n"
+      }
+    },
+    "com.openai.uploads#UploadCompleteRequest": {
+      "type": "structure",
+      "members": {
+        "upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the Upload.\n"
+          }
+        },
+        "part_ids": {
+          "target": "com.openai.uploads#UploadCompleteRequestPartIdsList",
+          "traits": {
+            "smithy.api#documentation": "The ordered list of Part IDs.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "md5": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The optional md5 checksum for the file contents to verify if the bytes uploaded matches what you expect.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.uploads#UploadComplete": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.uploads#UploadCompleteRequest"
+      },
+      "output": {
+        "target": "com.openai.uploads#Upload"
+      },
+      "errors": [
+        {
+          "target": "com.openai.uploads#BadRequest"
+        },
+        {
+          "target": "com.openai.uploads#NotFound"
+        },
+        {
+          "target": "com.openai.uploads#Gone"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/uploads/{upload_id}/complete",
+          "code": 200
+        },
+        "smithy.api#documentation": "Complete upload\n\nCompletes the [Upload](https://developers.openai.com/api/reference/resources/uploads).\n\nWithin the returned Upload object, there is a nested [File](https://developers.openai.com/api/reference/resources/files) object that is ready to use in the rest of the platform.\n\nYou can specify the order of the Parts by passing in an ordered list of the Part IDs.\n\nThe number of bytes uploaded upon completion must match the number of bytes initially specified when creating the Upload object. No Parts may be added after an Upload is completed.\nReturns the Upload object with status `completed`, including an additional `file` property containing the created usable File object."
+      }
+    },
+    "com.openai.uploads#AddUploadPartRequest": {
+      "type": "structure",
+      "members": {
+        "upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the Upload.\n"
+          }
+        },
+        "data": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#documentation": "The chunk of bytes for this Part.\n",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.uploads#UploadPart": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The upload Part unique identifier, which can be referenced in API endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) for when the Part was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the Upload object that this Part was added to.",
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.uploads#UploadPartObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `upload.part`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The upload Part represents a chunk of bytes we can add to an Upload object.\n"
+      }
+    },
+    "com.openai.uploads#UploadPartObject": {
+      "type": "enum",
+      "members": {
+        "UPLOAD_PART": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload.part"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `upload.part`."
+      }
+    },
+    "com.openai.uploads#AddUploadPart": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.uploads#AddUploadPartRequest"
+      },
+      "output": {
+        "target": "com.openai.uploads#UploadPart"
+      },
+      "errors": [
+        {
+          "target": "com.openai.uploads#BadRequest"
+        },
+        {
+          "target": "com.openai.uploads#NotFound"
+        },
+        {
+          "target": "com.openai.uploads#Gone"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/uploads/{upload_id}/parts",
+          "code": 200,
+          "contentType": "multipart"
+        },
+        "smithy.api#documentation": "Add upload part\n\nAdds a [Part](https://developers.openai.com/api/reference/resources/uploads/subresources/parts) to an [Upload](https://developers.openai.com/api/reference/resources/uploads) object. A Part represents a chunk of bytes from the file you are trying to upload.\n\nEach Part can be at most 64 MB, and you can add Parts until you hit the Upload maximum of 8 GB.\n\nIt is possible to add multiple Parts in parallel. You can decide the intended order of the Parts when you [complete the Upload](https://developers.openai.com/api/reference/resources/uploads/methods/complete).",
+        "com.distilled.openapi#contentType": "multipart"
+      }
+    },
+    "com.openai.uploads#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.uploads#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.uploads#Gone": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 410,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 410
+          }
+        ]
+      }
+    },
+    "com.openai.uploads#Uploads": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.uploads#CreateUpload"
+        },
+        {
+          "target": "com.openai.uploads#CancelUpload"
+        },
+        {
+          "target": "com.openai.uploads#UploadComplete"
+        },
+        {
+          "target": "com.openai.uploads#AddUploadPart"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

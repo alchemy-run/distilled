@@ -1,0 +1,14 @@
+{
+  "description": "The GA Message the live API returns carries `diagnostics: null` (observed 2026-10-05 against api.anthropic.com, POST /v1/messages, claude-haiku-4-5-20251001), but the spec models `diagnostics` only on BetaMessage. Strict response validation rejects keys a schema does not model, so a real reply failed it. Model the member on Message as BetaMessage does: optional, nullable.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/schemas/Message/properties/diagnostics",
+      "value": {
+        "anyOf": [{ "$ref": "#/components/schemas/BetaDiagnostics" }, { "type": "null" }],
+        "default": null,
+        "description": "Request-level diagnostics. `null` when no prompt-cache divergence was detected."
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "description": "POST /audio/speech answers with raw audio bytes under `audio/*` (audio/mpeg, audio/pcm, … by requested format) and GET /videos/{jobId}/content with raw `video/mp4` bytes. The converter only reads binary success bodies declared as `application/octet-stream`, so both are re-keyed to it; the actual Content-Type still varies on the wire and the SDK returns the bytes as a Uint8Array regardless. Source: https://openrouter.ai/openapi.json (fetched 2026-10-05).",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/paths/~1audio~1speech/post/responses/200/content/audio~1*",
+      "path": "/paths/~1audio~1speech/post/responses/200/content/application~1octet-stream"
+    },
+    {
+      "op": "move",
+      "from": "/paths/~1videos~1{jobId}~1content/get/responses/200/content/video~1mp4",
+      "path": "/paths/~1videos~1{jobId}~1content/get/responses/200/content/application~1octet-stream"
+    }
+  ]
+}

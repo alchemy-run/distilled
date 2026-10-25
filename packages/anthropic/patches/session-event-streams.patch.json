@@ -1,0 +1,15 @@
+{
+  "description": "GET /v1/sessions/{session_id}/events/stream and GET /v1/sessions/{session_id}/threads/{thread_id}/stream are server-sent-event streams (the official SDKs consume them as `Stream<...>`; https://docs.anthropic.com/en/api/sessions-events-stream), but the spec declares their 200 response as `application/json` with the per-event schema. Replace the content type with `text/event-stream` so the converter emits them as stream operations whose output is one event.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/paths/~1v1~1sessions~1{session_id}~1events~1stream?beta=true/get/responses/200/content/application~1json",
+      "path": "/paths/~1v1~1sessions~1{session_id}~1events~1stream?beta=true/get/responses/200/content/text~1event-stream"
+    },
+    {
+      "op": "move",
+      "from": "/paths/~1v1~1sessions~1{session_id}~1threads~1{thread_id}~1stream?beta=true/get/responses/200/content/application~1json",
+      "path": "/paths/~1v1~1sessions~1{session_id}~1threads~1{thread_id}~1stream?beta=true/get/responses/200/content/text~1event-stream"
+    }
+  ]
+}

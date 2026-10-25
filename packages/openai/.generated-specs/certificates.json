@@ -1,0 +1,1270 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.certificates#ListOrganizationCertificatesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ListOrganizationCertificatesRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "order": {
+          "target": "com.openai.certificates#ListOrganizationCertificatesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#ListCertificatesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.openai.certificates#ListCertificatesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.certificates#ListCertificatesResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#OrganizationCertificate": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.certificates#OrganizationCertificateObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.certificate`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the certificate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the certificate was uploaded.",
+            "smithy.api#required": {}
+          }
+        },
+        "certificate_details": {
+          "target": "com.openai.certificates#OrganizationCertificateCertificateDetails",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the certificate is currently active at the organization level.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an individual certificate configured at the organization level."
+      }
+    },
+    "com.openai.certificates#OrganizationCertificateObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.certificate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.certificate`."
+      }
+    },
+    "com.openai.certificates#OrganizationCertificateCertificateDetails": {
+      "type": "structure",
+      "members": {
+        "valid_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the certificate becomes valid."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the certificate expires."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ListCertificatesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.certificates#OrganizationCertificate"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ListCertificatesResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ListOrganizationCertificates": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#ListOrganizationCertificatesRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#ListCertificatesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/certificates",
+          "code": 200
+        },
+        "smithy.api#documentation": "List organization certificates\n\nList uploaded certificates for this organization.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.certificates#UploadCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional name for the certificate"
+          }
+        },
+        "certificate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The certificate content in PEM format",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#Certificate": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.certificates#CertificateObject",
+          "traits": {
+            "smithy.api#documentation": "The object type.\n\n- If creating, updating, or getting a specific certificate, the object type is `certificate`.\n- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.\n- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.\n",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the certificate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the certificate was uploaded.",
+            "smithy.api#required": {}
+          }
+        },
+        "certificate_details": {
+          "target": "com.openai.certificates#CertificateCertificateDetails",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the certificate is currently active at the specified scope. Not returned when getting details for a specific certificate."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an individual `certificate` uploaded to the organization."
+      }
+    },
+    "com.openai.certificates#CertificateObject": {
+      "type": "enum",
+      "members": {
+        "CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "certificate"
+          }
+        },
+        "ORGANIZATION_CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.certificate"
+          }
+        },
+        "ORGANIZATION_PROJECT_CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.certificate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type.\n\n- If creating, updating, or getting a specific certificate, the object type is `certificate`.\n- If listing, activating, or deactivating certificates for the organization, the object type is `organization.certificate`.\n- If listing, activating, or deactivating certificates for a project, the object type is `organization.project.certificate`.\n"
+      }
+    },
+    "com.openai.certificates#CertificateCertificateDetails": {
+      "type": "structure",
+      "members": {
+        "valid_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the certificate becomes valid."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the certificate expires."
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The content of the certificate in PEM format."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#UploadCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#UploadCertificateRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#Certificate"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/certificates",
+          "code": 200
+        },
+        "smithy.api#documentation": "Upload certificate\n\nUpload a certificate to the organization. This does **not** automatically activate the certificate.\n\nOrganizations can upload up to 50 certificates.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.certificates#ActivateOrganizationCertificatesRequestCertificateIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ActivateOrganizationCertificatesRequest": {
+      "type": "structure",
+      "members": {
+        "certificate_ids": {
+          "target": "com.openai.certificates#ActivateOrganizationCertificatesRequestCertificateIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#OrganizationCertificateActivationResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.certificates#OrganizationCertificateActivationResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The organization certificate activation result type.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.certificates#OrganizationCertificateActivationResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#OrganizationCertificateActivationResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_CERTIFICATE_ACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.certificate.activation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The organization certificate activation result type."
+      }
+    },
+    "com.openai.certificates#OrganizationCertificateActivationResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.certificates#OrganizationCertificate"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ActivateOrganizationCertificates": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#ActivateOrganizationCertificatesRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#OrganizationCertificateActivationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        },
+        {
+          "target": "com.openai.certificates#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/certificates/activate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Activate certificates for organization\n\nActivate certificates at the organization level.\n\nYou can atomically and idempotently activate up to 10 certificates at a time.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.certificates#DeactivateOrganizationCertificatesRequestCertificateIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#DeactivateOrganizationCertificatesRequest": {
+      "type": "structure",
+      "members": {
+        "certificate_ids": {
+          "target": "com.openai.certificates#DeactivateOrganizationCertificatesRequestCertificateIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#OrganizationCertificateDeactivationResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.certificates#OrganizationCertificateDeactivationResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The organization certificate deactivation result type.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.certificates#OrganizationCertificateDeactivationResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#OrganizationCertificateDeactivationResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_CERTIFICATE_DEACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.certificate.deactivation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The organization certificate deactivation result type."
+      }
+    },
+    "com.openai.certificates#OrganizationCertificateDeactivationResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.certificates#OrganizationCertificate"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#DeactivateOrganizationCertificates": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#DeactivateOrganizationCertificatesRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#OrganizationCertificateDeactivationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        },
+        {
+          "target": "com.openai.certificates#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/certificates/deactivate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deactivate certificates for organization\n\nDeactivate certificates at the organization level.\n\nYou can atomically and idempotently deactivate up to 10 certificates at a time.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.certificates#GetCertificateRequestIncludeItem": {
+      "type": "enum",
+      "members": {
+        "CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#GetCertificateRequestIncludeList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.certificates#GetCertificateRequestIncludeItem"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#GetCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "certificate_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the certificate to retrieve."
+          }
+        },
+        "include": {
+          "target": "com.openai.certificates#GetCertificateRequestIncludeList",
+          "traits": {
+            "smithy.api#httpQuery": "include",
+            "smithy.api#documentation": "A list of additional fields to include in the response. Currently the only supported value is `content` to fetch the PEM content of the certificate."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#GetCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#GetCertificateRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#Certificate"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        },
+        {
+          "target": "com.openai.certificates#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/certificates/{certificate_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get certificate\n\nGet a certificate that has been uploaded to the organization.\n\nYou can get a certificate regardless of whether it is active or not.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.certificates#ModifyCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "certificate_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the certificate to modify."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated name for the certificate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#ModifyCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#ModifyCertificateRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#Certificate"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        },
+        {
+          "target": "com.openai.certificates#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/certificates/{certificate_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Modify certificate\n\nModify a certificate. Note that only the name can be modified.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.certificates#DeleteCertificateRequest": {
+      "type": "structure",
+      "members": {
+        "certificate_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique ID of the certificate to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#DeleteCertificateResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.certificates#DeleteCertificateResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, must be `certificate.deleted`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the certificate that was deleted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#DeleteCertificateResponseObject": {
+      "type": "enum",
+      "members": {
+        "CERTIFICATE_DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "certificate.deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, must be `certificate.deleted`."
+      }
+    },
+    "com.openai.certificates#DeleteCertificate": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#DeleteCertificateRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#DeleteCertificateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        },
+        {
+          "target": "com.openai.certificates#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organization/certificates/{certificate_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete certificate\n\nDelete a certificate from the organization.\n\nThe certificate must be inactive for the organization and all projects.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.certificates#ListProjectCertificatesRequestOrder": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ListProjectCertificatesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.\n"
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.\n"
+          }
+        },
+        "order": {
+          "target": "com.openai.certificates#ListProjectCertificatesRequestOrder",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#ListProjectCertificatesResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.openai.certificates#ListProjectCertificatesResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "first_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "object": {
+          "target": "com.openai.certificates#ListProjectCertificatesResponseObject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#OrganizationProjectCertificate": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.certificates#OrganizationProjectCertificateObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.project.certificate`.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier, which can be referenced in API endpoints",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the certificate.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the certificate was uploaded.",
+            "smithy.api#required": {}
+          }
+        },
+        "certificate_details": {
+          "target": "com.openai.certificates#OrganizationProjectCertificateCertificateDetails",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the certificate is currently active at the project level.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents an individual certificate configured at the project level."
+      }
+    },
+    "com.openai.certificates#OrganizationProjectCertificateObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_CERTIFICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.certificate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.project.certificate`."
+      }
+    },
+    "com.openai.certificates#OrganizationProjectCertificateCertificateDetails": {
+      "type": "structure",
+      "members": {
+        "valid_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the certificate becomes valid."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The Unix timestamp (in seconds) of when the certificate expires."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ListProjectCertificatesResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.certificates#OrganizationProjectCertificate"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ListProjectCertificatesResponseObject": {
+      "type": "enum",
+      "members": {
+        "LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ListProjectCertificates": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#ListProjectCertificatesRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#ListProjectCertificatesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/certificates",
+          "code": 200
+        },
+        "smithy.api#documentation": "List project certificates\n\nList certificates for this project.",
+        "com.distilled.openai#adminAuth": {},
+        "smithy.api#paginated": {
+          "mode": "cursor",
+          "inputToken": "after",
+          "outputToken": "last_id",
+          "items": "data",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.openai.certificates#ActivateProjectCertificatesRequestCertificateIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ActivateProjectCertificatesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "certificate_ids": {
+          "target": "com.openai.certificates#ActivateProjectCertificatesRequestCertificateIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#OrganizationProjectCertificateActivationResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.certificates#OrganizationProjectCertificateActivationResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The project certificate activation result type.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.certificates#OrganizationProjectCertificateActivationResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#OrganizationProjectCertificateActivationResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_CERTIFICATE_ACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.certificate.activation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The project certificate activation result type."
+      }
+    },
+    "com.openai.certificates#OrganizationProjectCertificateActivationResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.certificates#OrganizationProjectCertificate"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#ActivateProjectCertificates": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#ActivateProjectCertificatesRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#OrganizationProjectCertificateActivationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        },
+        {
+          "target": "com.openai.certificates#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/certificates/activate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Activate certificates for project\n\nActivate certificates at the project level.\n\nYou can atomically and idempotently activate up to 10 certificates at a time.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.certificates#DeactivateProjectCertificatesRequestCertificateIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#DeactivateProjectCertificatesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project."
+          }
+        },
+        "certificate_ids": {
+          "target": "com.openai.certificates#DeactivateProjectCertificatesRequestCertificateIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.certificates#OrganizationProjectCertificateDeactivationResponse": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.certificates#OrganizationProjectCertificateDeactivationResponseObject",
+          "traits": {
+            "smithy.api#documentation": "The project certificate deactivation result type.",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.openai.certificates#OrganizationProjectCertificateDeactivationResponseDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#OrganizationProjectCertificateDeactivationResponseObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_PROJECT_CERTIFICATE_DEACTIVATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.project.certificate.deactivation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The project certificate deactivation result type."
+      }
+    },
+    "com.openai.certificates#OrganizationProjectCertificateDeactivationResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.openai.certificates#OrganizationProjectCertificate"
+      },
+      "traits": {}
+    },
+    "com.openai.certificates#DeactivateProjectCertificates": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.certificates#DeactivateProjectCertificatesRequest"
+      },
+      "output": {
+        "target": "com.openai.certificates#OrganizationProjectCertificateDeactivationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.openai.certificates#BadRequest"
+        },
+        {
+          "target": "com.openai.certificates#Forbidden"
+        },
+        {
+          "target": "com.openai.certificates#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/certificates/deactivate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deactivate certificates for project\n\nDeactivate certificates at the project level. You can atomically and \nidempotently deactivate up to 10 certificates at a time.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.certificates#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.certificates#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.certificates#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.certificates#Certificates": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.certificates#ListOrganizationCertificates"
+        },
+        {
+          "target": "com.openai.certificates#UploadCertificate"
+        },
+        {
+          "target": "com.openai.certificates#ActivateOrganizationCertificates"
+        },
+        {
+          "target": "com.openai.certificates#DeactivateOrganizationCertificates"
+        },
+        {
+          "target": "com.openai.certificates#GetCertificate"
+        },
+        {
+          "target": "com.openai.certificates#ModifyCertificate"
+        },
+        {
+          "target": "com.openai.certificates#DeleteCertificate"
+        },
+        {
+          "target": "com.openai.certificates#ListProjectCertificates"
+        },
+        {
+          "target": "com.openai.certificates#ActivateProjectCertificates"
+        },
+        {
+          "target": "com.openai.certificates#DeactivateProjectCertificates"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

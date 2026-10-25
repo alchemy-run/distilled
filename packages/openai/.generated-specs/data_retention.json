@@ -1,0 +1,474 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.openai.data_retention#OrganizationDataRetention": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.data_retention#OrganizationDataRetentionObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `organization.data_retention`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.data_retention#OrganizationDataRetentionType",
+          "traits": {
+            "smithy.api#documentation": "The configured organization data retention type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents the organization's data retention control setting."
+      }
+    },
+    "com.openai.data_retention#OrganizationDataRetentionObject": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization.data_retention"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `organization.data_retention`."
+      }
+    },
+    "com.openai.data_retention#OrganizationDataRetentionType": {
+      "type": "enum",
+      "members": {
+        "ZERO_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero_data_retention"
+          }
+        },
+        "MODIFIED_ABUSE_MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modified_abuse_monitoring"
+          }
+        },
+        "ENHANCED_ZERO_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enhanced_zero_data_retention"
+          }
+        },
+        "ENHANCED_MODIFIED_ABUSE_MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enhanced_modified_abuse_monitoring"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The configured organization data retention type."
+      }
+    },
+    "com.openai.data_retention#GetOrganizationDataRetention": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.openai.data_retention#OrganizationDataRetention"
+      },
+      "errors": [
+        {
+          "target": "com.openai.data_retention#Forbidden"
+        },
+        {
+          "target": "com.openai.data_retention#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/data_retention",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve organization data retention\n\nRetrieves organization data retention controls.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.data_retention#UpdateOrganizationDataRetentionRequestRetentionType": {
+      "type": "enum",
+      "members": {
+        "ZERO_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero_data_retention"
+          }
+        },
+        "MODIFIED_ABUSE_MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modified_abuse_monitoring"
+          }
+        },
+        "ENHANCED_ZERO_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enhanced_zero_data_retention"
+          }
+        },
+        "ENHANCED_MODIFIED_ABUSE_MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enhanced_modified_abuse_monitoring"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The desired organization data retention type."
+      }
+    },
+    "com.openai.data_retention#UpdateOrganizationDataRetentionRequest": {
+      "type": "structure",
+      "members": {
+        "retention_type": {
+          "target": "com.openai.data_retention#UpdateOrganizationDataRetentionRequestRetentionType",
+          "traits": {
+            "smithy.api#documentation": "The desired organization data retention type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.data_retention#UpdateOrganizationDataRetention": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.data_retention#UpdateOrganizationDataRetentionRequest"
+      },
+      "output": {
+        "target": "com.openai.data_retention#OrganizationDataRetention"
+      },
+      "errors": [
+        {
+          "target": "com.openai.data_retention#BadRequest"
+        },
+        {
+          "target": "com.openai.data_retention#Forbidden"
+        },
+        {
+          "target": "com.openai.data_retention#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/data_retention",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update organization data retention\n\nUpdates organization data retention controls.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.data_retention#GetProjectDataRetentionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to inspect."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.data_retention#ProjectDataRetention": {
+      "type": "structure",
+      "members": {
+        "object": {
+          "target": "com.openai.data_retention#ProjectDataRetentionObject",
+          "traits": {
+            "smithy.api#documentation": "The object type, which is always `project.data_retention`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.openai.data_retention#ProjectDataRetentionType",
+          "traits": {
+            "smithy.api#documentation": "The configured project data retention type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a project's data retention control setting."
+      }
+    },
+    "com.openai.data_retention#ProjectDataRetentionObject": {
+      "type": "enum",
+      "members": {
+        "PROJECT_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "project.data_retention"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The object type, which is always `project.data_retention`."
+      }
+    },
+    "com.openai.data_retention#ProjectDataRetentionType": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_default"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "ZERO_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero_data_retention"
+          }
+        },
+        "MODIFIED_ABUSE_MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modified_abuse_monitoring"
+          }
+        },
+        "ENHANCED_ZERO_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enhanced_zero_data_retention"
+          }
+        },
+        "ENHANCED_MODIFIED_ABUSE_MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enhanced_modified_abuse_monitoring"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The configured project data retention type."
+      }
+    },
+    "com.openai.data_retention#GetProjectDataRetention": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.data_retention#GetProjectDataRetentionRequest"
+      },
+      "output": {
+        "target": "com.openai.data_retention#ProjectDataRetention"
+      },
+      "errors": [
+        {
+          "target": "com.openai.data_retention#BadRequest"
+        },
+        {
+          "target": "com.openai.data_retention#Forbidden"
+        },
+        {
+          "target": "com.openai.data_retention#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization/projects/{project_id}/data_retention",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve project data retention\n\nRetrieves project data retention controls.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.data_retention#UpdateProjectDataRetentionRequestRetentionType": {
+      "type": "enum",
+      "members": {
+        "ORGANIZATION_DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "organization_default"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "ZERO_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero_data_retention"
+          }
+        },
+        "MODIFIED_ABUSE_MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "modified_abuse_monitoring"
+          }
+        },
+        "ENHANCED_ZERO_DATA_RETENTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enhanced_zero_data_retention"
+          }
+        },
+        "ENHANCED_MODIFIED_ABUSE_MONITORING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enhanced_modified_abuse_monitoring"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The desired project data retention type."
+      }
+    },
+    "com.openai.data_retention#UpdateProjectDataRetentionRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the project to update."
+          }
+        },
+        "retention_type": {
+          "target": "com.openai.data_retention#UpdateProjectDataRetentionRequestRetentionType",
+          "traits": {
+            "smithy.api#documentation": "The desired project data retention type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.openai.data_retention#UpdateProjectDataRetention": {
+      "type": "operation",
+      "input": {
+        "target": "com.openai.data_retention#UpdateProjectDataRetentionRequest"
+      },
+      "output": {
+        "target": "com.openai.data_retention#ProjectDataRetention"
+      },
+      "errors": [
+        {
+          "target": "com.openai.data_retention#BadRequest"
+        },
+        {
+          "target": "com.openai.data_retention#Forbidden"
+        },
+        {
+          "target": "com.openai.data_retention#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organization/projects/{project_id}/data_retention",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update project data retention\n\nUpdates project data retention controls.",
+        "com.distilled.openai#adminAuth": {}
+      }
+    },
+    "com.openai.data_retention#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.openai.data_retention#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.openai.data_retention#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.openai.data_retention#DataRetention": {
+      "type": "service",
+      "version": "2.3.0",
+      "operations": [
+        {
+          "target": "com.openai.data_retention#GetOrganizationDataRetention"
+        },
+        {
+          "target": "com.openai.data_retention#UpdateOrganizationDataRetention"
+        },
+        {
+          "target": "com.openai.data_retention#GetProjectDataRetention"
+        },
+        {
+          "target": "com.openai.data_retention#UpdateProjectDataRetention"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "OpenAI API",
+        "smithy.api#documentation": "The OpenAI REST API. Please see https://platform.openai.com/docs/api-reference for more details."
+      }
+    }
+  }
+}

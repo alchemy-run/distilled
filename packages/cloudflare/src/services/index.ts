@@ -12,6 +12,7 @@ export * as alerting from "./alerting.ts";
 export * as analytics_query from "./analytics_query.ts";
 export * as api_gateway from "./api_gateway.ts";
 export * as argo from "./argo.ts";
+export * as artifacts from "./artifacts.ts";
 export * as audit_logs from "./audit_logs.ts";
 export * as autorag from "./autorag.ts";
 export * as basin_catalog from "./basin_catalog.ts";
