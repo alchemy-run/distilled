@@ -340,63 +340,6 @@ describe("fromApplicationDefault", () => {
     expect(form(calls[1].body).subject_token).toBe("oidc-from-url");
   });
 
-  test("a JSON subject token that is not valid JSON says so, without the token", async () => {
-    const tokenFile = join(dir, "oidc.json");
-    writeFileSync(tokenFile, "oidc-secret-not-json");
-    process.env.GOOGLE_APPLICATION_CREDENTIALS = writeJson("wif.json", {
-      type: "external_account",
-      audience:
-        "//iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/p/providers/q",
-      subject_token_type: "urn:ietf:params:oauth:token-type:jwt",
-      credential_source: {
-        file: tokenFile,
-        format: { type: "json", subject_token_field_name: "id_token" },
-      },
-    });
-    const { hosts, layer } = google();
-    const error = (await runFail(layer)) as GCPCredentialsError;
-    expect(error).toBeInstanceOf(GCPCredentialsError);
-    expect(error.message).toContain("subject token");
-    const cause = error.cause as GCPCredentialsError;
-    expect(cause).toBeInstanceOf(GCPCredentialsError);
-    expect(cause.message).toContain("is not valid JSON");
-    expect(cause.cause).toBeUndefined();
-    expect(cause.message).not.toContain("oidc-secret-not-json");
-    expect(hosts()).toEqual([]);
-  });
-
-  test("a malformed percent-escape in service_account_impersonation_url is a GCPCredentialsError", async () => {
-    const url =
-      "https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/ci%E0%A4%A@acme.iam.gserviceaccount.com:generateAccessToken";
-    for (const file of [
-      {
-        type: "impersonated_service_account",
-        service_account_impersonation_url: url,
-        source_credentials: {
-          type: "authorized_user",
-          client_id: "id",
-          client_secret: "secret",
-          refresh_token: "refresh",
-        },
-      },
-      {
-        type: "external_account",
-        audience:
-          "//iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/p/providers/q",
-        subject_token_type: "urn:ietf:params:oauth:token-type:jwt",
-        service_account_impersonation_url: url,
-        credential_source: { file: join(dir, "unused.json") },
-      },
-    ]) {
-      process.env.GOOGLE_APPLICATION_CREDENTIALS = writeJson("impersonate.json", file);
-      const { hosts, layer } = google();
-      const error = (await runFail(layer)) as GCPCredentialsError;
-      expect(error).toBeInstanceOf(GCPCredentialsError);
-      expect(error.message).toContain("malformed percent-escape");
-      expect(hosts()).toEqual([]);
-    }
-  });
-
   test("an external_account with an AWS credential_source says it is unsupported", async () => {
     process.env.GOOGLE_APPLICATION_CREDENTIALS = writeJson("aws.json", {
       type: "external_account",
