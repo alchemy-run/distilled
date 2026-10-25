@@ -1,7 +1,16 @@
+import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
-import { extractItems, paginateCursor, type PaginatedTrait } from "../src/pagination.ts";
+import {
+  extractItems,
+  getItems,
+  getPath,
+  paginateCursor,
+  paginateLink,
+  responseLinkHeaders,
+  type PaginatedTrait,
+} from "../src/pagination.ts";
 
 const pagination: PaginatedTrait = {
   mode: "cursor",
@@ -176,4 +185,128 @@ describe("cursor pagination", () => {
         expect(calls).toBe(12);
       }),
     ));
+});
+
+describe("link pagination", () => {
+  const linkTrait: PaginatedTrait = { mode: "link", inputToken: "cursor", items: "$" };
+
+  // A bare-array page with its Link header attached the way `API.make` does.
+  const page = (items: number[], link?: string): number[] => {
+    if (link !== undefined) responseLinkHeaders.set(items, link);
+    return items;
+  };
+
+  const run = (pages: number[][], input: Record<string, unknown> = {}, trait = linkTrait) => {
+    const requests: Record<string, unknown>[] = [];
+    const stream = paginateLink(
+      (request: Record<string, unknown>) =>
+        Effect.sync(() => {
+          const next = pages[requests.length];
+          requests.push(request);
+          if (!next) throw new Error("Paginator made an unexpected extra request");
+          return next;
+        }),
+      input,
+      trait,
+    );
+    return { stream, requests };
+  };
+
+  test("follows rel=next until the header has none, keeping other inputs", () =>
+    Effect.runPromise(
+      Effect.gen(function* () {
+        const { stream, requests } = run(
+          [
+            page([1, 2], '<https://x.test/api/0/items/?cursor=0:2:0&query=a>; rel="next"'),
+            page([3], '<https://x.test/api/0/items/?cursor=0:0:1>; rel="previous"'),
+          ],
+          { query: "a" },
+        );
+        const items = yield* collect(extractItems<number[], number, never, never>(stream, "$"));
+        expect(Array.from(items)).toEqual([1, 2, 3]);
+        expect(requests).toEqual([{ query: "a" }, { query: "a", cursor: "0:2:0" }]);
+      }),
+    ));
+
+  test("finds next among several links with commas inside quoted parameters", () =>
+    Effect.runPromise(
+      Effect.gen(function* () {
+        const { stream, requests } = run([
+          page(
+            [1],
+            '<https://x.test/?cursor=0:0:1>; rel="previous"; title="a, b", ' +
+              '<https://x.test/?cursor=0:1:0>; rel="next"; results="true"',
+          ),
+          page([2]),
+        ]);
+        yield* collect(stream);
+        expect(requests.map((request) => request.cursor)).toEqual([undefined, "0:1:0"]);
+      }),
+    ));
+
+  test("a response without a Link header is the last page", () =>
+    Effect.runPromise(
+      Effect.gen(function* () {
+        const { stream, requests } = run([page([1])]);
+        expect(Array.from(yield* collect(stream))).toEqual([[1]]);
+        expect(requests).toHaveLength(1);
+      }),
+    ));
+
+  test("replaces every alternative token with the one the next link carries", () =>
+    Effect.runPromise(
+      Effect.gen(function* () {
+        const { stream, requests } = run(
+          [page([1], '<https://x.test/?after=b>; rel="next"'), page([2])],
+          { before: "a" },
+          { mode: "link", inputToken: "after", inputTokens: ["after", "before"], items: "$" },
+        );
+        yield* collect(stream);
+        expect(requests).toEqual([{ before: "a" }, { after: "b" }]);
+      }),
+    ));
+
+  test("dies on a repeated token instead of looping", () =>
+    Effect.runPromise(
+      Effect.gen(function* () {
+        const { stream } = run([
+          page([1], '<https://x.test/?cursor=a>; rel="next"'),
+          page([2], '<https://x.test/?cursor=a>; rel="next"'),
+        ]);
+        const exit = yield* Effect.exit(collect(stream));
+        expect(exit._tag).toBe("Failure");
+      }),
+    ));
+
+  test("dies when the next link lacks the token parameter", () =>
+    Effect.runPromise(
+      Effect.gen(function* () {
+        const { stream } = run([page([1], '<https://x.test/?page=2>; rel="next"')]);
+        const exit = yield* Effect.exit(collect(stream));
+        expect(exit._tag).toBe("Failure");
+      }),
+    ));
+
+  test("dies without quoting the URL when the next link cannot be parsed", () =>
+    Effect.runPromise(
+      Effect.gen(function* () {
+        const { stream } = run([page([1], '<https://[bad]/?cursor=fixture-cursor>; rel="next"')]);
+        const exit = yield* Effect.exit(collect(stream));
+        expect(exit._tag).toBe("Failure");
+        if (exit._tag !== "Failure") return;
+        const defect = Cause.squash(exit.cause);
+        expect(defect).toBeInstanceOf(Error);
+        expect((defect as Error).message).toContain("cannot be parsed");
+        const props = Object.getOwnPropertyNames(defect).map((name) =>
+          String((defect as unknown as Record<string, unknown>)[name]),
+        );
+        expect(props.join("\n")).not.toContain("fixture-cursor");
+      }),
+    ));
+
+  test("`$` addresses a bare array", () => {
+    expect(getItems([1, 2], "$")).toEqual([1, 2]);
+    expect(getItems({ items: [1] }, "$")).toEqual([]);
+    expect(getPath({ a: 1 }, "$")).toEqual({ a: 1 });
+  });
 });

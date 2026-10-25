@@ -8,6 +8,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
+import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
 import {
@@ -17,6 +18,7 @@ import {
   ServiceUnavailable,
   TooManyRequests,
 } from "../src/errors.ts";
+import { extractItems, paginateLink } from "../src/pagination.ts";
 import {
   BinaryResponse,
   makeRestProtocol,
@@ -538,6 +540,38 @@ describe("makeRestProtocol success decoding", () => {
     const info = error.info as RestParseErrorInfo;
     expect(info.body).toEqual({ id: 42 });
     expect(info.cause).toBeDefined();
+  });
+
+  test("a Link header reaches link pagination, so the next page is requested", async () => {
+    const ListInput = S.Struct({
+      cursor: S.optional(S.String.pipe(T.Query("cursor"))),
+    }).pipe(T.Http({ method: "GET", uri: "/things" }));
+    const ListOutput = S.Array(S.Struct({ id: S.String })).pipe(RawResponseRoot());
+    const listOp = API.make(() => ({
+      input: ListInput,
+      output: ListOutput,
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const recorded: Recorded = { requests: [] };
+    const pages = [
+      () => json([{ id: "a" }], 200, { link: '<https://api.test/things?cursor=p2>; rel="next"' }),
+      () => json([{ id: "b" }]),
+    ];
+    const items = await succeed(
+      Stream.runCollect(
+        extractItems(
+          paginateLink(listOp, {}, { mode: "link", inputToken: "cursor", items: "$" }),
+          "$",
+        ),
+      ),
+      fakeClient(() => pages[recorded.requests.length - 1]!(), recorded),
+      creds(),
+    );
+    expect(Array.from(items)).toEqual([{ id: "a" }, { id: "b" }]);
+    expect(recorded.requests.map((r) => r.url)).toEqual([
+      "https://api.test/things",
+      "https://api.test/things?cursor=p2",
+    ]);
   });
 
   test("RawResponseRoot outputs return a bare array body as-is", async () => {
