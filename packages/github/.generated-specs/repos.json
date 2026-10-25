@@ -8459,6 +8459,12 @@
           "traits": {
             "smithy.api#documentation": "Either `true` to require contributors to sign off on web-based commits, or `false` to not require contributors to sign off on web-based commits."
           }
+        },
+        "has_discussions": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether GitHub Discussions are enabled for the repository."
+          }
         }
       },
       "traits": {

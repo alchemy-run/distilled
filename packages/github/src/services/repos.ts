@@ -6129,6 +6129,8 @@ export interface UpdateRequest {
   allow_forking?: boolean;
   /** Either `true` to require contributors to sign off on web-based commits, or `false` to not require contributors to sign off on web-based commits. */
   web_commit_signoff_required?: boolean;
+  /** Whether GitHub Discussions are enabled for the repository. */
+  has_discussions?: boolean;
 }
 /** **Closing down notice**: The list of status checks to require in order to merge into this branch. If any of these checks have recently been set by a particular GitHub App, they will be required to come from that app in future for the branch to merge. Use `checks` instead of `contexts` for more fine-grained control. */
 export type UpdateBranchProtectionRequestRequiredStatusChecksContextsList = Array<string>;
@@ -12339,6 +12341,7 @@ function __c121(j: number): any {
           archived: S.optional(S.Boolean),
           allow_forking: S.optional(S.Boolean),
           web_commit_signoff_required: S.optional(S.Boolean),
+          has_discussions: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}", code: 200 })),
       ).annotate({ identifier: "UpdateRequest" });
   }
