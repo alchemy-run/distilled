@@ -250,10 +250,10 @@ const optionsSection = () => {
   }));
   const ideas = [
     {
-      name: "1 · Land #933, publish converted specs elsewhere",
+      name: "1 · Land #933, publish converted specs on release",
       saves: `−${fmt(full.disk - after)} per worktree, distilled and Alchemy`,
-      how: "Alchemy never reads <code>.generated-specs/</code>, so dropping it costs Alchemy nothing to regenerate. For the few who read them: CI pushes the converted models to a separate repo (for example in the distilled-mirror org), one commit per distilled main commit. People browse and diff them on GitHub, and nobody's clone or worktree carries them. <code>pnpm convert &lt;pkg&gt;</code> stays as the local fallback.",
-      cost: "A CI job that fetches the spec mirrors and converts the changed packages on each push to main. <code>patches:names</code> and <code>patches:audit</code> convert locally first (seconds per package once its mirror is fetched).",
+      how: "Alchemy never reads <code>.generated-specs/</code>, so dropping it costs Alchemy nothing to regenerate. For the few who read them: the release uploads the converted models to our own storage (R2), so no clone or worktree carries them. <code>pnpm convert &lt;pkg&gt;</code> stays as the local fallback. Not built yet (todo.md).",
+      cost: "A release step that fetches the spec mirrors, converts every package and uploads to R2. <code>patches:names</code> and <code>patches:audit</code> convert locally first (seconds per package once its mirror is fetched).",
     },
     {
       name: "2 · Sparse checkout in bootstrap-distilled.mjs",

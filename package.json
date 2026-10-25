@@ -11,7 +11,6 @@
     "specs:local": "node scripts/specs.ts local",
     "specs:link": "node scripts/specs.ts link",
     "specs:check": "node scripts/specs.ts check",
-    "specs:converted": "node scripts/converted-specs.ts",
     "patches:audit": "node scripts/patches.ts audit",
     "patches:names": "node scripts/patches.ts names",
     "typecheck": "tsrs -b",
