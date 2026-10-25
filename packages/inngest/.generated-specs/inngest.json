@@ -123,6 +123,13 @@
             "smithy.api#httpQuery": "archived",
             "smithy.api#documentation": "Whether to return archived apps instead of active apps"
           }
+        },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+          }
         }
       },
       "traits": {
@@ -363,6 +370,13 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "The user-defined app ID"
           }
+        },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+          }
         }
       },
       "traits": {
@@ -396,7 +410,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Get app\n\nFetches details for a single app, including sync metadata and function count"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.inngest.api#AppNotFound"
+        }
+      ]
     },
     "com.inngest.api#GetV2FunctionsRequest": {
       "type": "structure",
@@ -420,6 +439,13 @@
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Number of functions to return per page (min: 1, max: 100)"
+          }
+        },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
           }
         }
       },
@@ -809,6 +835,13 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
+        },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+          }
         }
       },
       "traits": {
@@ -842,7 +875,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Get function\n\nFetches function configuration and status details for a function within an app"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.inngest.api#FunctionNotFound"
+        }
+      ]
     },
     "com.inngest.api#ListV2Experiments2Request": {
       "type": "structure",
@@ -1530,6 +1568,13 @@
             "smithy.api#documentation": "App ID"
           }
         },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+          }
+        },
         "url": {
           "target": "smithy.api#String",
           "traits": {
@@ -1644,6 +1689,15 @@
         },
         {
           "target": "com.inngest.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.inngest.api#AppIdMismatch"
+        },
+        {
+          "target": "com.inngest.api#AppUnreachable"
+        },
+        {
+          "target": "com.inngest.api#AppUnauthorized"
         }
       ],
       "traits": {
@@ -1670,6 +1724,13 @@
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Number of webhooks to return per page (min: 1, max: 100)"
+          }
+        },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Target environment for the webhooks (e.g., 'production', 'staging', 'development')"
           }
         }
       },
@@ -1802,6 +1863,13 @@
     "com.inngest.api#CreateV2WebhookRequest": {
       "type": "structure",
       "members": {
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Target environment for the webhook (e.g., 'production', 'staging', 'development')"
+          }
+        },
         "eventFilter": {
           "target": "com.inngest.api#V2EventFilter"
         },
@@ -1886,6 +1954,13 @@
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Number of environments to return per page (min: 1, max: 250)"
+          }
+        },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
           }
         }
       },
@@ -2053,6 +2128,13 @@
             "smithy.api#documentation": "The ID of the environment to update"
           }
         },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+          }
+        },
         "isArchived": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -2096,6 +2178,9 @@
         },
         {
           "target": "com.inngest.api#UnprocessableEntity"
+        },
+        {
+          "target": "com.inngest.api#EnvironmentNotFound"
         }
       ],
       "traits": {
@@ -2879,6 +2964,13 @@
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Number of event keys to return per page (min: 1, max: 100)"
           }
+        },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Filter event keys by environment (e.g., 'production', 'staging', 'development')"
+          }
         }
       },
       "traits": {
@@ -2971,6 +3063,13 @@
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Number of signing keys to return per page (min: 1, max: 100)"
+          }
+        },
+        "xInngestEnv": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "X-Inngest-Env",
+            "smithy.api#documentation": "Filter signing keys by environment (e.g., 'production', 'staging', 'development')"
           }
         }
       },
@@ -4420,7 +4519,8 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+        "smithy.api#documentation": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(&foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n    // or ...\n    if (any.isSameTypeAs(Foo.getDefaultInstance())) {\n      foo = any.unpack(Foo.getDefaultInstance());\n    }\n\n Example 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\n Example 4: Pack and unpack a message in Go\n\n     foo := &pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := &pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\nJSON\n====\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": <string>,\n      \"lastName\": <string>\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }",
+        "com.distilled.openapi#additionalProperties": {}
       }
     },
     "com.inngest.api#V2WriteSandboxFileRequestExtensionsList": {
@@ -5706,6 +5806,138 @@
       "traits": {
         "smithy.api#title": "Inngest REST API v2",
         "smithy.api#documentation": "The v2 API delivers a significantly improved developer experience with consistent design patterns and enhanced functionality."
+      }
+    },
+    "com.inngest.api#AppNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "The app does not exist in the environment (Inngest `not_found`, HTTP 404).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404,
+            "body": {
+              "/errors/0/code": "not_found"
+            }
+          }
+        ]
+      }
+    },
+    "com.inngest.api#FunctionNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "The function (or its app) does not exist in the environment (Inngest `not_found`, HTTP 404).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404,
+            "body": {
+              "/errors/0/code": "not_found"
+            }
+          }
+        ]
+      }
+    },
+    "com.inngest.api#AppIdMismatch": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "smithy.api#documentation": "The SDK served at the sync URL reports a different app id than the one being synced (Inngest `app_mismatch`, HTTP 422).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422,
+            "body": {
+              "/errors/0/code": "app_mismatch"
+            }
+          }
+        ]
+      }
+    },
+    "com.inngest.api#AppUnreachable": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "smithy.api#documentation": "Inngest could not reach the sync URL (HTTP 422 `http_unreachable`, or \"We could not reach your URL\").",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422,
+            "body": {
+              "/errors/0/code": "http_unreachable"
+            }
+          },
+          {
+            "status": 422,
+            "message": {
+              "includes": "could not reach your URL"
+            }
+          }
+        ]
+      }
+    },
+    "com.inngest.api#AppUnauthorized": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "smithy.api#documentation": "The app at the sync URL rejected Inngest because it signs with a different signing key (Inngest `unauthorized`, HTTP 422).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422,
+            "body": {
+              "/errors/0/code": "unauthorized"
+            }
+          }
+        ]
+      }
+    },
+    "com.inngest.api#EnvironmentNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "No environment has the given id (Inngest `env_not_found`, HTTP 404).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404,
+            "body": {
+              "/errors/0/code": "env_not_found"
+            }
+          }
+        ]
       }
     }
   }
