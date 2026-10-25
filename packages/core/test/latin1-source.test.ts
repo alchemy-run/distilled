@@ -3,7 +3,7 @@
  *
  * V8 keeps every module's source text in the heap and stores it at one byte
  * per character only while every character is Latin-1; one `—` in a comment
- * doubles the memory of the whole file (see `codegen/latin1.ts`). Generated
+ * doubles the memory of the whole file (see `dev/src/codegen/latin1.ts`). Generated
  * modules go through `toLatin1`; this test holds hand-written modules to the
  * same rule. Fix a failure with `--` for an em dash, `'` / `"` for curly
  * quotes, `->` for arrows, or a `\u` escape inside a string.
@@ -18,8 +18,7 @@ const shippedSources = (dir: string, out: string[] = []): string[] => {
   for (const name of readdirSync(dir)) {
     const path = join(dir, name);
     if (statSync(path).isDirectory()) {
-      // Dev-time only: never imported by an SDK at runtime.
-      if (name !== "codegen" && name !== "fixtures") shippedSources(path, out);
+      if (name !== "fixtures") shippedSources(path, out);
     } else if (name.endsWith(".ts") && !name.endsWith(".test.ts")) {
       out.push(path);
     }
@@ -29,7 +28,8 @@ const shippedSources = (dir: string, out: string[] = []): string[] => {
 
 test("shipped TypeScript sources contain only Latin-1 characters", () => {
   const offenders: string[] = [];
-  for (const pkg of readdirSync(PACKAGES)) {
+  // dev holds the generator and test helpers; no SDK imports it at runtime.
+  for (const pkg of readdirSync(PACKAGES).filter((p) => p !== "dev")) {
     const src = join(PACKAGES, pkg, "src");
     try {
       statSync(src);

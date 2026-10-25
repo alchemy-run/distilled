@@ -8,7 +8,7 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { applyAwsSpecPatches, dropForeignNamespaceShapes } from "./spec.ts";
 

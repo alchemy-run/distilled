@@ -1,3 +1,4 @@
+import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 /**
  * Test helpers for SDK packages: a canned-response `HttpClient` and a runner
  * that executes one operation under every response-validation mode.
@@ -17,7 +18,6 @@ import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import type * as Result from "effect/Result";
-import * as ResponseValidation from "./response-validation.ts";
 
 export interface MockResponse {
   /** Default 200. */

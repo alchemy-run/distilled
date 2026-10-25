@@ -1,8 +1,8 @@
+import * as L from "@distilled.cloud/core/chunks";
+import * as S from "@distilled.cloud/core/schema";
 import * as Schema from "effect/Schema";
 import { describe, expect, test } from "vitest";
-import * as L from "../../src/chunks.ts";
 import { chunkSchemas } from "../../src/codegen/chunk.ts";
-import * as S from "../../src/schema.ts";
 
 describe("chunkSchemas", () => {
   test("moves private schema initializers into builders and keeps casts and exports", () => {

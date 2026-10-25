@@ -67,6 +67,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
