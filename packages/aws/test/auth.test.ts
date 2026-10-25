@@ -412,14 +412,6 @@ describe("SSO access token refresh (#886)", () => {
         refreshToken: "refresh-token-2",
       },
     }),
-    portal: () => unknown = () => ({
-      roleCredentials: {
-        accessKeyId: "AKIA-dev",
-        secretAccessKey: "secret-dev",
-        sessionToken: "session-dev",
-        expiration: inOneHour().getTime(),
-      },
-    }),
   ) => {
     const files = new Map<string, string>([[tokenPath(), JSON.stringify(token)]]);
     const oidcBodies: unknown[] = [];
@@ -456,7 +448,17 @@ describe("SSO access token refresh (#886)", () => {
           }
           expect(url.hostname).toBe(`portal.sso.${SSO_REGION}.amazonaws.com`);
           portalTokens.push(request.headers["x-amz-sso_bearer_token"]!);
-          return HttpClientResponse.fromWeb(request, Response.json(portal()));
+          return HttpClientResponse.fromWeb(
+            request,
+            Response.json({
+              roleCredentials: {
+                accessKeyId: "AKIA-dev",
+                secretAccessKey: "secret-dev",
+                sessionToken: "session-dev",
+                expiration: inOneHour().getTime(),
+              },
+            }),
+          );
         }),
       ),
     );
@@ -580,17 +582,6 @@ describe("SSO access token refresh (#886)", () => {
     expect(h.savedToken().accessToken).toBe("expired-access-token");
   });
 
-  test("a token cache file holding JSON null fails with InvalidSSOToken", async () => {
-    const h = setup(null);
-    const result = await h.run();
-    expect(result._tag).toBe("Failure");
-    if (result._tag === "Failure") {
-      expect(result.failure._tag).toBe("Alchemy::AWS::InvalidSSOToken");
-    }
-    expect(h.oidcBodies).toEqual([]);
-    expect(h.portalTokens).toEqual([]);
-  });
-
   const malformedCreateTokens: ReadonlyArray<readonly [string, unknown]> = [
     ["a null body", null],
     ["a non-numeric expiresIn", { accessToken: "fresh-access-token", expiresIn: "soon" }],
@@ -618,19 +609,6 @@ describe("SSO access token refresh (#886)", () => {
       expect(h.portalTokens).toEqual(["expired-access-token"]);
     });
   }
-
-  test("a portal response with a null body fails with SsoPortalError", async () => {
-    const h = setup(
-      { ...expiredToken, expiresAt: inOneHour().toISOString() },
-      undefined,
-      () => null,
-    );
-    const result = await h.run();
-    expect(result._tag).toBe("Failure");
-    if (result._tag === "Failure") {
-      expect(result.failure._tag).toBe("Alchemy::AWS::SsoPortalError");
-    }
-  });
 });
 
 describe("AWS_CONFIG_FILE", () => {

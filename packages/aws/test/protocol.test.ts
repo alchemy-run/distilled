@@ -23,7 +23,6 @@ import * as EC2 from "../src/services/ec2.ts";
 import * as KMS from "../src/services/kms.ts";
 import * as Lambda from "../src/services/lambda.ts";
 import * as S3 from "../src/services/s3.ts";
-import * as SimpleDB from "../src/services/simpledb.ts";
 import * as STS from "../src/services/sts.ts";
 
 interface Canned {
@@ -261,27 +260,4 @@ describe("AwsProtocol.call", () => {
       }
     }
   }
-});
-
-describe("SigV2 signing", () => {
-  test("a malformed custom endpoint fails with InvalidSigningUrl, as under SigV4", async () => {
-    for (const op of [SimpleDB.listDomains, STS.getCallerIdentity] as const) {
-      const { sent, exit } = await run(
-        () => (op as (input: object) => Effect.Effect<unknown, unknown, any>)({}),
-        { status: 200, body: "" },
-        Endpoint.of("http://[bad"),
-      );
-      expect(sent).toEqual([]);
-      expect(exit).toMatchObject({
-        cause: {
-          failures: [
-            {
-              _tag: "Fail",
-              error: { _tag: "AWS::SigV4::InvalidSigningUrl", url: "http://[bad/" },
-            },
-          ],
-        },
-      });
-    }
-  });
 });

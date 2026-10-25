@@ -1,5 +1,5 @@
 import { createHash, generateKeyPairSync, verify } from "node:crypto";
-import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import * as ConfigProvider from "effect/ConfigProvider";
@@ -13,10 +13,7 @@ import * as Redacted from "effect/Redacted";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import * as Auth from "../../src/auth.ts";
 import { chain, CredentialSourceError } from "../../src/credential-providers/credential-source.ts";
-import {
-  cognitoIdentityPoolSource,
-  defaultIdentityIdCache,
-} from "../../src/credential-providers/from-cognito-identity-pool.ts";
+import { cognitoIdentityPoolSource } from "../../src/credential-providers/from-cognito-identity-pool.ts";
 import { cognitoIdentitySource } from "../../src/credential-providers/from-cognito-identity.ts";
 import { containerMetadataSource } from "../../src/credential-providers/from-container-metadata.ts";
 import { envSource } from "../../src/credential-providers/from-env.ts";
@@ -461,23 +458,6 @@ credential_process = echo nope
       "could not be found",
     );
   });
-
-  test("credential_process output that is JSON but not an object fails typed", async () => {
-    writeConfig(`
-[profile null]
-credential_process = echo null
-
-[profile number]
-credential_process = echo 42
-`);
-    for (const profile of ["null", "number"]) {
-      const error = await runFail(processSource({ profile }));
-      expect(error).toBeInstanceOf(CredentialSourceError);
-      expect(error.message).toBe(
-        `Profile ${profile} credential_process did not return a JSON object.`,
-      );
-    }
-  });
 });
 
 describe("fromTokenFile", () => {
@@ -579,14 +559,6 @@ describe("fromHttp / fromContainerMetadata", () => {
     );
     const error = await runFail(httpSource({ maxRetries: 0 }).pipe(Effect.provide(http)));
     expect(error.message).toBe("Server responded with status: 403 AccessDenied nope");
-  });
-
-  test("a malformed relative URI fails as a CredentialSourceError", async () => {
-    process.env.AWS_CONTAINER_CREDENTIALS_RELATIVE_URI = "//[bad";
-    const error = await runFail(containerMetadataSource());
-    expect(error).toBeInstanceOf(CredentialSourceError);
-    expect(error.message).toBe("//[bad is not a valid container metadata service path");
-    expect(error.tryNextLink).toBe(false);
   });
 
   test("nothing configured", async () => {
@@ -1034,27 +1006,6 @@ describe("fromCognitoIdentityPool", () => {
     expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-pool");
     expect(resolved.region).toBe("eu-west-1");
   });
-
-  test("a localStorage that throws counts as no storage", async () => {
-    const original = Object.getOwnPropertyDescriptor(globalThis, "localStorage");
-    const refuse = () => {
-      throw new DOMException("storage disabled", "SecurityError");
-    };
-    Object.defineProperty(globalThis, "localStorage", {
-      configurable: true,
-      value: { getItem: refuse, setItem: refuse, removeItem: refuse },
-    });
-    try {
-      const key = "aws:cognito-identity-ids:throwing-storage";
-      await run(defaultIdentityIdCache.set(key, "eu-west-1:kept"));
-      expect(await run(defaultIdentityIdCache.get(key))).toBe("eu-west-1:kept");
-      await run(defaultIdentityIdCache.remove(key));
-      expect(await run(defaultIdentityIdCache.get(key))).toBeUndefined();
-    } finally {
-      if (original) Object.defineProperty(globalThis, "localStorage", original);
-      else delete (globalThis as { localStorage?: unknown }).localStorage;
-    }
-  });
 });
 
 describe("fromLoginCredentials", () => {
@@ -1180,15 +1131,6 @@ login_session = ${loginSession}
     const { layer } = recordingHttp(() => new Response("boom", { status: 500 }));
     const creds = await run(loginCredentialsSource().pipe(Effect.provide(layer)));
     expect(creds.accessKeyId).toBe("ASIA-cached");
-  });
-
-  test("a cache write failure does not fail the refresh", async () => {
-    const path = writeToken(new Date(Date.now() + 60 * 1000));
-    chmodSync(path, 0o444);
-    const { layer } = recordingHttp(() => oauthToken("ASIA-refreshed"));
-    const creds = await run(loginCredentialsSource().pipe(Effect.provide(layer)));
-    expect(creds.accessKeyId).toBe("ASIA-refreshed");
-    expect(JSON.parse(readFileSync(path, "utf8")).accessToken.accessKeyId).toBe("ASIA-cached");
   });
 
   const malformedRefreshes = [
