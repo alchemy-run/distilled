@@ -1,4 +1,3 @@
-import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 /**
  * Test helpers for SDK packages: a canned-response `HttpClient` and a runner
  * that executes one operation under every response-validation mode.
@@ -12,6 +11,7 @@ import * as ResponseValidation from "@distilled.cloud/core/response-validation";
  * expect(strict).toMatchObject({ _tag: "Failure" });
  * ```
  */
+import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";

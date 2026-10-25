@@ -13,7 +13,7 @@ import {
   isStaleTargetError,
   type JsonPatchOperation,
   type PatchFile,
-} from "@distilled.cloud/core/json-patch";
+} from "../json-patch.ts";
 import { diffModels } from "./model-diff.ts";
 import {
   applyDeferredRename,

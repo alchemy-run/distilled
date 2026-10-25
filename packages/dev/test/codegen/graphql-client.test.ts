@@ -1,5 +1,4 @@
 import { stripTypeScriptTypes } from "node:module";
-import { applyOperation } from "@distilled.cloud/core/json-patch";
 import { describe, expect, test } from "vitest";
 import {
   convertGraphQLClient,
@@ -7,6 +6,7 @@ import {
   graphqlTypeString,
   validateGraphQLModel,
 } from "../../src/codegen/graphql-client.ts";
+import { applyOperation } from "../../src/json-patch.ts";
 
 const named = (name: string, kind = "OBJECT") => ({ kind, name });
 const required = (ofType: object) => ({ kind: "NON_NULL", ofType });
