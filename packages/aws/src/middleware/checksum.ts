@@ -176,8 +176,10 @@ export function createAwsChunkedStream(
 
       controller.enqueue(combined);
     },
-    cancel() {
-      reader.cancel();
+    // A source that already errored rejects `cancel()`; releasing it is best
+    // effort, as in Effect's `Stream.fromReadableStream`.
+    cancel(reason) {
+      return reader.cancel(reason).catch(() => {});
     },
   });
 }

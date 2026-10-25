@@ -155,9 +155,10 @@ export const paginatePageNumber = <Input extends Record<string, unknown>, Output
       // next one (e.g. Cloudflare's `result_info.page`). Taking that value as
       // the next page re-requests the same page forever. Only accept an
       // *advancing* page number; otherwise advance by one and terminate when
-      // a page comes back with no items (or the token is absent).
+      // a page comes back with no items (or the token is absent). A `null`
+      // items member (e.g. `result: null`) is an empty page, as in `getItems`.
       const items = pagination.items
-        ? (getPath(response, pagination.items) as readonly unknown[] | undefined)
+        ? (getPath(response, pagination.items) as readonly unknown[] | null | undefined)
         : undefined;
 
       const nextState: State = {
@@ -165,6 +166,7 @@ export const paginatePageNumber = <Input extends Record<string, unknown>, Output
         done:
           nextPage === null ||
           nextPage === undefined ||
+          items === null ||
           (items !== undefined && items.length === 0),
       };
 

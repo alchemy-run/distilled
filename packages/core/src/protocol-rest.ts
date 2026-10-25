@@ -518,22 +518,21 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     outputAst: AST.AST,
     errorClasses: ReadonlyArray<unknown>,
   ): Effect.Effect<unknown> =>
-    response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
-      ? Effect.map(Effect.orDie(response.arrayBuffer), (bytes) => new Uint8Array(bytes))
-      : Effect.matchEffect(response.text, {
-          onFailure: Effect.die,
-          onSuccess: (text) => {
-            const decoded = decodeText(
-              context,
-              response.status,
-              response.headers as Record<string, string | undefined>,
-              text ?? "",
-              outputAst,
-              errorClasses,
-            );
-            return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
-          },
-        });
+    // A body read that fails (reset or abort mid-body) fails the call with
+    // its `HttpClientError`, which every operation's error channel declares.
+    (response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
+      ? Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes))
+      : Effect.flatMap(response.text, (text) => {
+          const decoded = decodeText(
+            context,
+            response.status,
+            response.headers as Record<string, string | undefined>,
+            text ?? "",
+            outputAst,
+            errorClasses,
+          );
+          return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
+        })) as Effect.Effect<unknown>;
 
   const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
     Effect.withFiber((fiber) => {

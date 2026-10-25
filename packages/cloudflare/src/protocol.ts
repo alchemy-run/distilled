@@ -454,7 +454,7 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
     // Read as text and parse tolerantly -- Cloudflare answers some errors
     // (HTML 5xx pages, bare plain-text 4xx) with non-JSON bodies.
     return Effect.matchEffect(response.text, {
-      onFailure: Effect.die,
+      onFailure: fail,
       onSuccess: (read): Effect.Effect<unknown> => {
         const text = read ?? "";
         if (debugHttp()) {
