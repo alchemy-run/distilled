@@ -160,3 +160,17 @@ describe("models without operations", () => {
     expect(code).toContain("export interface PingEvent {");
   });
 });
+
+describe("operation type annotation overrides", () => {
+  test("replace the annotation and cast the value to it", () => {
+    const { code } = generateService(primitiveUnionModel("enum", false), {
+      ...spec,
+      operationDecl: {
+        ...spec.operationDecl!,
+        overrides: () => ({ typeAnnotation: "API.OperationMethod<A, B, C, D> & Overload" }),
+      },
+    });
+    expect(code).toContain("export const getValue: API.OperationMethod<A, B, C, D> & Overload =");
+    expect(code).toMatch(/\}\)\) as any;/);
+  });
+});

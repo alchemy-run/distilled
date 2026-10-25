@@ -26,7 +26,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * items path that can address a raw-array body. `page`/`per_page` stay plain
  * input fields; callers advance them.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type OperationEmit, type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -144,6 +144,47 @@ const webhooksSpec = (model: any): SdkSpec => {
   };
 };
 
+/**
+ * Operations whose `Accept` header selects a text media type (see
+ * convert.ts) return the JSON object OR the text. Type them as two
+ * overloads so the result follows the request: no `accept` (or the JSON
+ * media type) returns the object, a text media type returns `string`.
+ */
+const mediaTypeOverloads = (model: any) => {
+  const shapes: Record<string, any> = model.shapes;
+  const local = (id: string) => id.slice(id.indexOf("#") + 1);
+  const byInput = new Map<string, { json: string; text: string[] }>();
+  for (const shape of Object.values<any>(shapes)) {
+    if (shape.type !== "operation") continue;
+    const input = shapes[shape.input?.target];
+    const accept = Object.values<any>(input?.members ?? {}).find(
+      (member) => member.traits?.["smithy.api#httpHeader"] === "Accept",
+    );
+    if (!accept) continue;
+    const body = Object.values<any>(shapes[shape.output?.target]?.members ?? {})[0];
+    const cases = Object.values<any>(shapes[body?.target]?.members ?? {}).map((m) => m.target);
+    const json = cases.find((target: string) => target !== "smithy.api#String");
+    const text = Object.values<any>(shapes[accept.target]?.members ?? {})
+      .map((member) => member.traits?.["smithy.api#enumValue"] as string)
+      .filter((value) => value !== "application/vnd.github+json");
+    if (json && cases.includes("smithy.api#String") && text.length > 0) {
+      byInput.set(local(shape.input.target), { json: local(json), text });
+    }
+  }
+  return (ctx: OperationEmit) => {
+    const media = byInput.get(ctx.inputName);
+    if (!media) return undefined;
+    const method = (accept: string, output: string) =>
+      `API.OperationMethod<\n  ${ctx.inputName} & { readonly accept${accept} },\n  ${output},\n  ${ctx.opName}Error,\n  GithubOpContext\n>`;
+    return {
+      typeAnnotation: `${method('?: "application/vnd.github+json"', media.json)} &\n  ${method(
+        `: ${media.text.map((type) => JSON.stringify(type)).join(" | ")}`,
+        "string",
+      )}`,
+    };
+  };
+};
+
 runGeneratorCli({
   description: "Generate the GitHub Effect SDK from the Smithy models",
   root: `${import.meta.dirname}/..`,
@@ -154,5 +195,8 @@ runGeneratorCli({
   spec: (model) =>
     Object.values<any>(model.shapes).some((shape) => shape.traits?.[WEBHOOK_EVENT_TRAIT])
       ? webhooksSpec(model)
-      : spec,
+      : {
+          ...spec,
+          operationDecl: { ...spec.operationDecl!, overrides: mediaTypeOverloads(model) },
+        },
 });
