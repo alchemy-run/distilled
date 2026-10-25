@@ -121,6 +121,23 @@ describe("greedy labels", () => {
       "https://example.test/subscriptions/abc/providers/Things/x",
     );
   });
+
+  test("refuses an empty value or an empty, `.` or `..` segment", () => {
+    for (const scope of [
+      "",
+      "//",
+      "subscriptions/s/resourceGroups/",
+      "subscriptions/s//resourceGroups/rg",
+      "subscriptions/s/./resourceGroups/rg",
+      "/subscriptions/s/resourceGroups/rg/../../..",
+    ]) {
+      expect(() => urlOf({ scope, name: "x" })).toThrow(/: scope$/);
+    }
+  });
+
+  test("sends a `/` value followed by more path as the root (Azure's tenant scope)", () => {
+    expect(urlOf({ scope: "/", name: "x" })).toBe("https://example.test/providers/Things/x");
+  });
 });
 
 describe("dot-segment labels", () => {
@@ -141,6 +158,40 @@ describe("dot-segment labels", () => {
   test("other dotted labels are sent as written", () => {
     expect(build("...").url).toBe("https://example.test/things/...");
     expect(build("a.b").url).toBe("https://example.test/things/a.b");
+  });
+});
+
+describe("empty labels", () => {
+  const build = (method: "GET" | "DELETE", uri: string, input: Record<string, string>) =>
+    buildRequest({
+      input,
+      inputAst: S.Struct(
+        Object.fromEntries(Object.keys(input).map((k) => [k, S.String.pipe(T.Label())])),
+      ).pipe(T.Http({ method, uri })).ast,
+      baseUrl: "https://example.test",
+    });
+
+  test("an empty label throws before anything is sent", () => {
+    expect(() => build("DELETE", "/projects/{project_id}", { project_id: "" })).toThrow(
+      /: project_id$/,
+    );
+    expect(() =>
+      build("GET", "/projects/{project_id}/branches/{branch_id}", {
+        project_id: "",
+        branch_id: "b1",
+      }),
+    ).toThrow(/: project_id$/);
+  });
+
+  // GitHub's `GET .../contents/{path}` with `path: ""` lists the repository root.
+  test("an empty label ending the path of a GET is sent", () => {
+    expect(
+      build("GET", "/repos/{owner}/{repo}/contents/{path}", {
+        owner: "o",
+        repo: "r",
+        path: "",
+      }).url,
+    ).toBe("https://example.test/repos/o/r/contents/");
   });
 });
 

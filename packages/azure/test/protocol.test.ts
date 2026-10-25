@@ -22,6 +22,7 @@ import { RegenerateConfigurationStoreKey } from "../src/services/appconfiguratio
 import { CreateRoleAssignment, GetRoleAssignment } from "../src/services/authorization.ts";
 import { CommunicationServicesLinkNotificationHub } from "../src/services/communication.ts";
 import {
+  DeleteResourceById,
   DeleteResourceGroup,
   GetResourceGroup,
   ListResourceGroups,
@@ -166,6 +167,22 @@ describe("request encoding", () => {
       `/subscriptions/${subscriptionId}/resourceGroups/my%20rg/providers/Microsoft.Authorization/roleAssignments/ra-1`,
     );
     expect(calls[0].url.searchParams.get("api-version")).toBe("2022-04-01");
+  });
+
+  test("the tenant-root scope `/` is sent with the scope segment left out", async () => {
+    const { calls, layer } = fakeArm(200, JSON.stringify({}));
+    await run(GetRoleAssignment({ scope: "/", roleAssignmentName: "ra-1" }), layer);
+    expect(calls[0].url.pathname).toBe("/providers/Microsoft.Authorization/roleAssignments/ra-1");
+  });
+
+  // `DELETE /{resourceId+}`: each value would delete something other than the account.
+  test("a greedy label with an empty or dot segment sends nothing", async () => {
+    const account = `/subscriptions/${subscriptionId}/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/acct`;
+    for (const resourceId of [`${account}/../../../..`, `${account}/`, "/", ""]) {
+      const { calls, layer } = fakeArm();
+      await expect(run(DeleteResourceById({ resourceId }), layer)).rejects.toThrow(/: resourceId$/);
+      expect(calls).toEqual([]);
+    }
   });
 
   test("body members are sent as the JSON body", async () => {
