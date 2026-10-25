@@ -14,7 +14,9 @@
  * read, and the rest of the response still converts. Exact decoding throws
  * on the first mismatch instead; `"closed"` exact decoding also throws on a
  * key the schema does not model (`ResponseValidation.strict`). Only members
- * the schema declares are kept.
+ * the schema declares are kept, except that lenient decoding keeps a key the
+ * schema does not model as read, and wraps a value that does not fit in
+ * `Redacted` whole when its schema can hold a sensitive member.
  */
 import { encodeKeysKey, type Node } from "@distilled.cloud/core/schema-lite-impl";
 import * as Effect from "effect/Effect";
@@ -23,7 +25,25 @@ import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
 import { toBase64 } from "./base64.ts";
 
-export class CodecError extends Error {}
+/** A value that does not fit its schema. */
+export class CodecError extends Error {
+  /** The ` at [key]` suffixes the message gained on the way out, innermost first. */
+  at = "";
+  constructor(
+    /** What the schema expected there, e.g. `string`. */
+    readonly expected: string,
+    actual: unknown,
+  ) {
+    super(`Expected ${expected}, got ${show(actual)}`);
+  }
+}
+
+/**
+ * The message of a {@link CodecError} without the value it found, for a
+ * response whose schema has sensitive members (the value may be a secret).
+ */
+export const withheldMessage = (e: unknown): string =>
+  e instanceof CodecError ? `Expected ${e.expected}, got "[REDACTED]"${e.at}` : "[REDACTED]";
 
 const show = (u: unknown): string => {
   if (u === undefined) return "undefined";
@@ -35,12 +55,16 @@ const show = (u: unknown): string => {
 };
 
 const fail = (expected: string, actual: unknown): never => {
-  throw new CodecError(`Expected ${expected}, got ${show(actual)}`);
+  throw new CodecError(expected, actual);
 };
 
 /** Prefix a member's failure with its key, as Effect's issue paths did. */
 const within = (e: unknown, key: PropertyKey): unknown => {
-  if (e instanceof CodecError) e.message = `${e.message} at [${JSON.stringify(key)}]`;
+  if (e instanceof CodecError) {
+    const at = ` at [${JSON.stringify(key)}]`;
+    e.message += at;
+    e.at += at;
+  }
   return e;
 };
 
@@ -95,6 +119,55 @@ const codecOf = (n: Node): CodecKind | undefined =>
 
 /** The wire-side node of a `sensitive` value. */
 const innerOf = (n: Node): Node => n.encoding![0]!.to;
+
+const sensitiveNodes = /*@__PURE__*/ new WeakMap<Node, boolean>();
+
+/** Whether a value of the type `n` can hold a sensitive member, map key or value. */
+export const hasSensitiveMember = (n: Node): boolean => {
+  const cached = sensitiveNodes.get(n);
+  if (cached !== undefined) return cached;
+  const seen = new Set<Node>();
+  const visit = (node: Node): boolean => {
+    if (seen.has(node)) return false;
+    seen.add(node);
+    if (codecOf(node) === "sensitive") return true;
+    switch (node._tag) {
+      case "Suspend":
+        return visit(node.thunk!());
+      case "Objects":
+        return (
+          (node.propertySignatures ?? []).some((p) => visit(p.type)) ||
+          (node.indexSignatures ?? []).some((i) => visit(i.parameter) || visit(i.type))
+        );
+      case "Arrays":
+        return (node.elements ?? []).some(visit) || (node.rest ?? []).some(visit);
+      case "Union":
+        return node.types!.some(visit);
+      default:
+        return false;
+    }
+  };
+  const result = visit(n);
+  sensitiveNodes.set(n, result);
+  return result;
+};
+
+/** A value kept as read by a lenient decode, wrapped whole when it can hold a secret. */
+const asRead = (n: Node, v: unknown): unknown =>
+  v !== undefined && v !== null && hasSensitiveMember(n) ? Redacted.make(v) : v;
+
+/** An error body to quote, or `[REDACTED]` when a declared error has a sensitive member. */
+export const errorBody = (
+  operation: { readonly errors?: ReadonlyArray<{ readonly ast: unknown }> },
+  body: string,
+): string =>
+  (operation.errors ?? []).some((e) => hasSensitiveMember(e.ast as Node)) ? "[REDACTED]" : body;
+
+/** A 2xx body to quote, or `[REDACTED]` when the output has a sensitive member. */
+export const outputBody = (
+  operation: { readonly output: { readonly ast: unknown } },
+  body: string,
+): string => (hasSensitiveMember(operation.output.ast as Node) ? "[REDACTED]" : body);
 
 /** Whether `v` is a value of a leaf type (anything for types this does not check). */
 const primitive = (n: Node, v: unknown): boolean => {
@@ -252,7 +325,8 @@ export type Exactness = boolean | "closed";
 
 /**
  * The typed form of `v`, a value read off the wire for the type `n`
- * declares. Lenient by default: a value that does not fit is kept as read.
+ * declares. Lenient by default: a value that does not fit, or a key the
+ * schema does not model, is kept as read.
  * With `exact`, a mismatch throws {@link CodecError} instead.
  */
 export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown => {
@@ -264,7 +338,9 @@ export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =
     case "Objects":
       return decodeObjects(n, v, exact);
     case "Arrays":
-      return Array.isArray(v) || exact ? convertArray(n, v, (t, x) => decode(t, x, exact)) : v;
+      return Array.isArray(v) || exact
+        ? convertArray(n, v, (t, x) => decode(t, x, exact))
+        : asRead(n, v);
     case "Union":
       return decodeUnion(n, v, exact);
     default:
@@ -295,7 +371,7 @@ const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): u
 };
 
 const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
-  if (!isRecord(v)) return exact ? fail("an object", v) : v;
+  if (!isRecord(v)) return exact ? fail("an object", v) : asRead(n, v);
   const shape = shapeOf(n);
   const out: Record<string, unknown> = {};
   for (const m of shape.members) {
@@ -324,12 +400,18 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
   else if (exact === "closed" && shape.members.length > 0)
     for (const key of Object.keys(v))
       if (!shape.wireKeys.has(key) && v[key] !== undefined)
-        throw within(
-          new CodecError(
-            `Expected no value (the schema does not model this key), got ${show(v[key])}`,
-          ),
-          key,
-        );
+        throw within(new CodecError("no value (the schema does not model this key)", v[key]), key);
+  // Lenient: a key the schema does not model is kept as read, like any
+  // other value that does not fit.
+  if (exact === false && !index)
+    for (const key of Object.keys(v))
+      if (!shape.wireKeys.has(key) && !Object.hasOwn(out, key))
+        Object.defineProperty(out, key, {
+          value: v[key],
+          enumerable: true,
+          writable: true,
+          configurable: true,
+        });
   return out;
 };
 
@@ -352,7 +434,7 @@ const decodeUnion = (n: Node, v: unknown, exact: Exactness): unknown => {
   }
   // Lenient: convert as the first member that looks right, else keep as read.
   for (const t of types) if (fits(t, v, true)) return decode(t, v);
-  return v;
+  return asRead(n, v);
 };
 
 //#endregion

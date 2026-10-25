@@ -10,9 +10,14 @@
  * This is independently testable without making HTTP requests.
  */
 
-import { checkResponse, ResponseValidation } from "@distilled.cloud/core/response-validation";
+import {
+  checkResponse,
+  ResponseValidation,
+  withholdActual,
+} from "@distilled.cloud/core/response-validation";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import type * as SchemaIssue from "effect/SchemaIssue";
 import { COMMON_ERRORS, InternalError, ParseError, UnknownAwsError } from "../errors.ts";
 import {
@@ -22,10 +27,11 @@ import {
   getProtocol,
   getSyntheticError,
   hasErrorMessage,
+  hasHttpPayload,
   type SyntheticErrorTrait,
 } from "../traits.ts";
 import { getIdentifier, getPropertySignatures, isBooleanAST, isNumberAST } from "../util/ast.ts";
-import { decode } from "../util/codec.ts";
+import { decode, errorBody, hasSensitiveMember, withheldMessage } from "../util/codec.ts";
 import type { Operation } from "./operation.ts";
 import { deserialize, loadHandler, Unreadable, type Protocol } from "./protocol.ts";
 import type { Response } from "./response.ts";
@@ -82,10 +88,29 @@ export type Decoded =
   | { readonly ok: false; readonly error: unknown };
 
 /**
+ * The lenient fallback for a body that did not match its output. An
+ * `@httpPayload` structure arrives as the payload itself, so it converts
+ * against the payload member's schema.
+ */
+const lenientValue = (outputAst: any, read: unknown): unknown => {
+  const payload = getPropertySignatures(outputAst).find(hasHttpPayload);
+  return payload !== undefined &&
+    typeof read === "object" &&
+    read !== null &&
+    !Array.isArray(read) &&
+    !(String(payload.name) in read)
+    ? decode(payload.type as any, read)
+    : decode(outputAst, read);
+};
+
+/**
  * The success path of {@link makeResponseParser} without effects, for an
  * operation whose output never streams: converts what the protocol's
  * `deserializeText` read and, unless lenient, validates it. `context` is
  * the calling fiber's (it carries the validation mode).
+ *
+ * For an output with sensitive members, an unreadable body fails in every
+ * mode and no error message quotes the response.
  */
 export const makeSuccessDecoder = (
   operation: Operation<any, any, any>,
@@ -97,7 +122,10 @@ export const makeSuccessDecoder = (
     const mode = Context.get(context, ResponseValidation);
     const strict = mode !== "lenient";
     if (read instanceof Unreadable) {
-      return strict ? { ok: false, error: read.error } : { ok: true, value: read.asRead };
+      // The protocol's error already leaves out the body of a sensitive output.
+      return strict || hasSensitiveMember(outputAst)
+        ? { ok: false, error: read.error }
+        : { ok: true, value: read.asRead };
     }
     let decoded: unknown;
     try {
@@ -105,14 +133,17 @@ export const makeSuccessDecoder = (
       // others here; the check below sees the decoded value.
       decoded = decode(outputAst, read, mode === "strict" ? "closed" : true);
     } catch (error) {
-      return strict
+      const sensitive = hasSensitiveMember(outputAst);
+      // A body read as text (the protocol could not parse it) can not be
+      // redacted member by member.
+      return strict || (sensitive && typeof read === "string")
         ? {
             ok: false,
             error: new ParseError({
-              message: `${what} response does not match its output schema: ${(error as Error).message}`,
+              message: `${what} response does not match its output schema: ${sensitive ? withheldMessage(error) : (error as Error).message}`,
             }),
           }
-        : { ok: true, value: read };
+        : { ok: true, value: lenientValue(outputAst, read) };
     }
     const invalid = strict ? checkResponse(context, outputAst as any, decoded) : undefined;
     return invalid === undefined
@@ -120,7 +151,7 @@ export const makeSuccessDecoder = (
       : {
           ok: false,
           error: new ParseError({
-            message: `${what} response does not match its output schema: ${invalid.message}`,
+            message: `${what} response does not match its output schema: ${(hasSensitiveMember(outputAst) ? withholdActual(invalid) : invalid).message}`,
           }),
         };
   };
@@ -304,7 +335,7 @@ export const makeResponseParser = <A>(
         return yield* new InternalError();
       } else {
         return yield* new ParseError({
-          message: `No error code found in response and ${statusMatches.length} declared errors match status ${response.status}. Data: ${JSON.stringify(data)}`,
+          message: `No error code found in response and ${statusMatches.length} declared errors match status ${response.status}. Data: ${errorBody(operation, JSON.stringify(data))}`,
         });
       }
     }
@@ -352,13 +383,25 @@ export const makeResponseParser = <A>(
       // The error class built from its members, converted from the wire.
       // Its _tag is the class identifier, which may differ from the wire
       // errorCode ("EntityAlreadyExists" -> "EntityAlreadyExistsException").
-      // Data that does not match the class stays a plain tagged object.
+      // Data that does not match the class stays a plain tagged object, its
+      // declared members converted as far as they fit (sensitive ones
+      // `Redacted`) and the rest as read.
       const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
       let decoded: unknown;
       try {
         decoded = new errorSchema(decode(errorSchema.ast, data, true) as Record<string, unknown>);
       } catch {
-        decoded = { _tag: schemaTag, ...data };
+        const record: Record<string, unknown> = {
+          _tag: schemaTag,
+          ...data,
+          ...(decode(errorSchema.ast, data) as Record<string, unknown>),
+        };
+        // `Message` is the unmodeled wire spelling folded onto `message`
+        // above; it holds the same kind of text, so it is withheld with it.
+        if (Redacted.isRedacted(record.message) && typeof record.Message === "string") {
+          record.Message = Redacted.make(record.Message);
+        }
+        decoded = record;
       }
       // Ensure the JS `Error.message` carries the service's message. The
       // generator tags exactly one member per error class as the canonical

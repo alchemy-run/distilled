@@ -52,7 +52,7 @@ import {
   isBooleanAST,
   isNumberAST,
 } from "../util/ast.ts";
-import { inputEncoderSync } from "../util/codec.ts";
+import { errorBody, inputEncoderSync, outputBody } from "../util/codec.ts";
 import { extractJsonErrorCode, extractJsonErrorData, sanitizeErrorCode } from "../util/error.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
 import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
@@ -359,7 +359,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
           // Treat the text as the error message and fall back to matching
           // the operation's declared errors by httpError status instead of
           // failing the deserializer.
-          return { errorCode: "", data: { message: bodyText } };
+          return { errorCode: "", data: { message: errorBody(operation, bodyText) } };
         }
       }
 
@@ -414,7 +414,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
         // Lenient mode returns the body as read.
         return new Unreadable(
           new ParseError({
-            message: `Failed to parse JSON body: ${bodyText}`,
+            message: `Failed to parse JSON body: ${outputBody(operation, bodyText)}`,
           }),
           bodyText,
         );
