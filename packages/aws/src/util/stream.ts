@@ -157,8 +157,10 @@ export function createBufferedReadableStream(
 
   return new ReadableStream({
     pull,
+    // An upstream that already errored rejects `cancel()`; releasing it is
+    // best effort, as in Effect's `Stream.fromReadableStream`.
     cancel(reason) {
-      reader.cancel(reason);
+      return reader.cancel(reason).catch(() => {});
     },
   });
 }
