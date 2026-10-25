@@ -28,6 +28,7 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
@@ -278,6 +279,21 @@ const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 // here; the generated operation annotations reintroduce it for callers.
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
+/** A body read that fails mid-stream is a dropped connection: a retryable `TransportError`. */
+const droppedBody = (
+  response: HttpClientResponse.HttpClientResponse,
+  error: HttpClientError.HttpClientError,
+): Effect.Effect<never> =>
+  fail(
+    new HttpClientError.HttpClientError({
+      reason: new HttpClientError.TransportError({
+        request: response.request,
+        cause: error.reason.cause ?? error,
+        description: "connection dropped while reading the response body",
+      }),
+    }),
+  );
+
 /** Whether {@link wrapSensitive} can change any value of `root`. Cached per schema. */
 export const hasSensitive = (root: AST.AST): boolean => {
   let result = sensitiveCache.get(root);
@@ -519,9 +535,12 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     errorClasses: ReadonlyArray<unknown>,
   ): Effect.Effect<unknown> =>
     response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
-      ? Effect.map(Effect.orDie(response.arrayBuffer), (bytes) => new Uint8Array(bytes))
+      ? Effect.matchEffect(response.arrayBuffer, {
+          onFailure: (error) => droppedBody(response, error),
+          onSuccess: (bytes) => Effect.succeed(new Uint8Array(bytes)),
+        })
       : Effect.matchEffect(response.text, {
-          onFailure: Effect.die,
+          onFailure: (error) => droppedBody(response, error),
           onSuccess: (text) => {
             const decoded = decodeText(
               context,
