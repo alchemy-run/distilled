@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   type ConfigError,
   HTTP_STATUS_MAP,
@@ -13,7 +12,11 @@ import {
   responseHeaderMembers,
   withResponseHeaders,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import {
+  debugResponse,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { httpSymbol } from "@distilled.cloud/core/trait";
@@ -203,9 +206,7 @@ const decode = ({
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
     const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
+    debugResponse(response.status, text, outputAst);
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {

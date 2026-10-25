@@ -172,6 +172,16 @@ export const hasSensitiveMember = (ast: AST.AST): boolean => {
   return result;
 };
 
+/**
+ * Under `DISTILLED_DEBUG_HTTP`, logs a response's status and the start of its
+ * body, withheld when `outputAst` has sensitive members.
+ */
+export const debugResponse = (status: number, text: string, outputAst: AST.AST): void => {
+  if (!debugHttp()) return;
+  const body = hasSensitiveMember(outputAst) ? "[REDACTED]" : text.slice(0, 400);
+  console.error(`[distilled] <- ${status} ${body}`);
+};
+
 // =============================================================================
 // Protocol factory
 // =============================================================================

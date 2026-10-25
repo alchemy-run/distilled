@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   HTTP_STATUS_MAP,
   InternalServerError,
@@ -12,6 +11,7 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
+  debugResponse,
   unwrapRedactedDeep,
   wrapSensitive,
   type RestErrorEnvelope,
@@ -145,9 +145,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
     }) =>
       Effect.gen(function* () {
         const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-        if (debugHttp()) {
-          console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-        }
+        debugResponse(response.status, text, outputAst);
         let json: unknown;
         let nonJson = false;
         if (text.trim().length > 0) {
