@@ -4017,7 +4017,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Service health check."
+      }
     },
     "com.hetzner.load_balancer_actions#UpdateLoadBalancerServiceRequestHttpCertificatesList": {
       "type": "list",
@@ -4109,7 +4111,10 @@
           }
         },
         "health_check": {
-          "target": "com.hetzner.load_balancer_actions#UpdateLoadBalancerServiceRequestHealthCheck"
+          "target": "com.hetzner.load_balancer_actions#UpdateLoadBalancerServiceRequestHealthCheck",
+          "traits": {
+            "smithy.api#documentation": "Service health check."
+          }
         },
         "http": {
           "target": "com.hetzner.load_balancer_actions#UpdateLoadBalancerServiceRequestHttp",

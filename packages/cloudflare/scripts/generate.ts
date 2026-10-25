@@ -6,15 +6,15 @@
  * Output: src/services/<resource>.ts  +  services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Cloudflare's provider
+ * `@distilled.cloud/dev/codegen`; this script is Cloudflare's provider
  * spec: the envelope / form-data / nullable / key-dictionary trait
  * vocabulary and pipes, opaque union-cases, error matchers, resultInfo
  * injection, protocol/retry names, the import header, and route aliases.
  */
 
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { camel, lowerFirst } from "@distilled.cloud/core/codegen/naming";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { camel, lowerFirst } from "@distilled.cloud/dev/codegen/naming";
 
 const ENVELOPE_PAYLOAD_TRAIT = "com.cloudflare.protocols#envelopePayload";
 const NULLABLE_TRAIT = "com.cloudflare.protocols#nullable";

@@ -14,6 +14,7 @@
  * other remaining code references is deleted, repeated to a fixpoint.
  */
 import { parseAst } from "rolldown/parseAst";
+import { applyEdits, type Edit } from "./edits.ts";
 
 type Node = { readonly type: string; readonly start: number; readonly end: number } & Record<
   string,
@@ -154,25 +155,41 @@ export const privatizeSchemas = (
     for (const r of schemaDecls.get(n)!.refs) if (schemaDecls.has(r) && !live.has(r)) stack.push(r);
   }
 
-  // Rewrite back to front: drop dead consts (with their leading doc comment), un-export live ones.
-  const decls = [...schemaDecls.values()].sort((a, b) => b.stmt.start - a.stmt.start);
-  let out = code;
+  // Drop dead consts (with their leading doc comment), un-export live ones.
+  const edits: Edit[] = [];
+  const exportKeyword = /export\s+/y;
   let removed = 0;
-  for (const d of decls) {
+  for (const d of schemaDecls.values()) {
     if (live.has(d.name)) {
-      out = out.slice(0, d.stmt.start) + out.slice(d.stmt.start).replace(/^export\s+/, "");
+      exportKeyword.lastIndex = d.stmt.start;
+      if (exportKeyword.test(code)) edits.push([d.stmt.start, exportKeyword.lastIndex, ""]);
     } else {
-      let start = d.stmt.start;
-      const before = out.slice(0, start);
-      const doc = /\/\*\*(?:(?!\*\/)[\s\S])*\*\/\s*$/.exec(before);
-      if (doc) start = doc.index;
       let end = d.stmt.end;
-      while (out[end] === "\n") end++;
-      out = out.slice(0, start) + out.slice(end);
+      while (code[end] === "\n") end++;
+      edits.push([docCommentStart(code, d.stmt.start) ?? d.stmt.start, end, ""]);
       removed++;
     }
   }
-  return { code: out, privatized: live.size, removed };
+  return { code: applyEdits(code, edits), privatized: live.size, removed };
+};
+
+/**
+ * Start of the doc comment that ends right before `at` (only whitespace
+ * between), or undefined. Same match as
+ * `/\/\*\*(?:(?!\*\/)[\s\S])*\*\/\s*$/.exec(code.slice(0, at))?.index`,
+ * found by looking back from `at` instead of scanning the whole prefix: the
+ * comment opens at the first `/**` that no earlier `*\/` closes.
+ */
+export const docCommentStart = (code: string, at: number): number | undefined => {
+  let end = at;
+  while (end > 0 && /\s/.test(code[end - 1]!)) end--;
+  if (end < 2 || code[end - 2] !== "*" || code[end - 1] !== "/") return undefined;
+  const close = end - 2;
+  // The comment body may not contain `*/`, so the last one before `close` bounds the search.
+  const previous = close > 0 ? code.lastIndexOf("*/", close - 1) : -1;
+  const from = Math.max(0, previous - 2);
+  const open = code.slice(from, close).indexOf("/**");
+  return open === -1 ? undefined : from + open;
 };
 
 /**
@@ -186,15 +203,15 @@ export const typeOnlyNamespaceImports = (code: string, filename = "generated.ts"
   const body = program.body as unknown as Node[];
   const used = new Set<string>();
   for (const st of body) if (st.type !== "ImportDeclaration") valueRefs(st, used);
-  let out = code;
-  for (const st of [...body].reverse()) {
+  const edits: Edit[] = [];
+  for (const st of body) {
     if (st.type !== "ImportDeclaration" || st.importKind === "type") continue;
     const specs = st.specifiers as Node[];
     if (specs.length !== 1 || specs[0]!.type !== "ImportNamespaceSpecifier") continue;
     const name = (specs[0]!.local as Node).name as string;
     if (used.has(name)) continue;
     const text = code.slice(st.start, st.end).replace(/^import \*/, "import type *");
-    out = out.slice(0, st.start) + text + out.slice(st.end);
+    edits.push([st.start, st.end, text]);
   }
-  return out;
+  return applyEdits(code, edits);
 };

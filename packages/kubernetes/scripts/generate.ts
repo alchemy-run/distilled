@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the
  * Kubernetes Effect SDK.
@@ -9,7 +9,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/<group>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Kubernetes' provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Kubernetes' provider spec.
  * Kubernetes wire names are already camelCase, so no member renaming or wire
  * dictionaries appear here (the few `x-kubernetes-*` vendor-extension
  * properties are sanitized to `x_kubernetes_*` TS names with a jsonName wire
@@ -17,7 +17,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * `metadata.continue` token predates the v0 pagination heuristics, and v0
  * emitted every list op as a plain operation — v1 mirrors that.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";

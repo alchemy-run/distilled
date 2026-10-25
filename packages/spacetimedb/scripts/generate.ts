@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * SpacetimeDB Effect SDK.
@@ -8,14 +8,14 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/spacetimedb.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is SpacetimeDB's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is SpacetimeDB's provider spec.
  *
  * WASM publish and SQL/name string bodies are not JSON. The OpenAPI converter
  * only models application/json request bodies, so those operations are typed
  * as a raw `body` payload and this spec stamps `bodyMediaType` on the Http
  * trait so the REST protocol sends bytes/text verbatim.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";

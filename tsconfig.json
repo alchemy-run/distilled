@@ -11,6 +11,8 @@
       "path": "./packages/core/tsconfig.json"
     },
     { "path": "./packages/core/tsconfig.test.json" },
+    { "path": "./packages/dev/tsconfig.json" },
+    { "path": "./packages/dev/tsconfig.test.json" },
     {
       "path": "./packages/celld/tsconfig.json"
     },

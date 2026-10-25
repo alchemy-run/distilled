@@ -18,6 +18,7 @@
  * first time any code reaches it, and is the same object every time after.
  */
 import { parseAst } from "rolldown/parseAst";
+import { applyEdits, type Edit } from "./edits.ts";
 
 type Node = { readonly type: string; readonly start: number; readonly end: number } & Record<
   string,
@@ -145,12 +146,8 @@ export const tableSchemas = (
         changed = true;
       }
   }
-  const removed = new Set(entries.keys());
-  removals.splice(
-    0,
-    removals.length,
-    ...removals.filter(([start]) => [...removed].some((n) => declStart.get(n) === start)),
-  );
+  const removedStarts = new Set([...entries.keys()].map((n) => declStart.get(n)!));
+  const removed = removals.filter(([start]) => removedStarts.has(start));
   if (![...entries.values()].some((e) => e.kind === "at")) return { code, tabled: 0 };
   for (const e of entries.values()) if (e.kind === "at") chunkSize = Math.max(chunkSize, e.j + 1);
   const shift = Math.ceil(Math.log2(Math.max(2, chunkSize)));
@@ -165,8 +162,7 @@ export const tableSchemas = (
   };
 
   // Value references (not keys, member names, type positions or the removed declarations).
-  const edits: Array<[number, number, string]> = [];
-  const removedIds = new Set<number>();
+  const edits: Edit[] = [];
   const visit = (node: unknown, parent?: Node, key?: string): void => {
     if (Array.isArray(node)) {
       for (const c of node) visit(c, parent, key);
@@ -223,25 +219,18 @@ export const tableSchemas = (
     // Import and export lists name bindings of other modules or re-export; not schema references.
     if (st.type === "ImportDeclaration" || st.type === "ExportAllDeclaration") continue;
     if (st.type === "ExportNamedDeclaration" && !st.declaration) continue;
-    const isRemoved = removals.some(([s]) => s === st.start);
-    if (isRemoved) {
-      removedIds.add(st.start);
-      continue;
-    }
+    if (removedStarts.has(st.start)) continue;
     visit(st);
   }
 
-  const all: Array<[number, number, string]> = [
-    ...edits,
-    ...removals.map(([s, e]) => [s, e, ""] as [number, number, string]),
-  ];
-  all.sort((a, b) => b[0] - a[0]);
-  let out = code;
-  for (const [s, e, t] of all) {
+  // A removed declaration takes the newlines after it. Statements start on
+  // a non-newline character, so the run never reaches the next edit.
+  for (const [s, e] of removed) {
     let end = e;
-    if (t === "") while (out[end] === "\n") end++;
-    out = out.slice(0, s) + t + out.slice(end);
+    while (code[end] === "\n") end++;
+    edits.push([s, end, ""]);
   }
+  let out = applyEdits(code, edits);
   // The table array goes right after the imports: error classes reach schemas while the module evaluates.
   const lastImport = [...body].reverse().find((st) => st.type === "ImportDeclaration");
   const importEnd = lastImport ? lastImport.end : 0;

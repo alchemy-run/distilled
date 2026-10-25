@@ -54019,7 +54019,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#AWSCloudProviderSettingsInputAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#AWSCloudProviderSettingsInputDiskTypeName",
@@ -54072,38 +54075,7 @@
       },
       "traits": {}
     },
-    "com.mongodbatlas.api#CloudProviderAzureAutoScaling": {
-      "type": "structure",
-      "members": {
-        "compute": {
-          "target": "com.mongodbatlas.api#AzureComputeAutoScalingRules"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
-      }
-    },
-    "com.mongodbatlas.api#AzureComputeAutoScalingRules": {
-      "type": "structure",
-      "members": {
-        "maxInstanceSize": {
-          "target": "com.mongodbatlas.api#AzureComputeAutoScalingRulesMaxInstanceSize",
-          "traits": {
-            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
-          }
-        },
-        "minInstanceSize": {
-          "target": "com.mongodbatlas.api#AzureComputeAutoScalingRulesMinInstanceSize",
-          "traits": {
-            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
-      }
-    },
-    "com.mongodbatlas.api#AzureComputeAutoScalingRulesMaxInstanceSize": {
+    "com.mongodbatlas.api#AWSCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize": {
       "type": "enum",
       "members": {
         "M10": {
@@ -54243,7 +54215,7 @@
         "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
       }
     },
-    "com.mongodbatlas.api#AzureComputeAutoScalingRulesMinInstanceSize": {
+    "com.mongodbatlas.api#AWSCloudProviderSettingsInputAutoScalingComputeMinInstanceSize": {
       "type": "enum",
       "members": {
         "M10": {
@@ -54381,6 +54353,40 @@
       },
       "traits": {
         "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#AWSCloudProviderSettingsInputAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#AWSCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#AWSCloudProviderSettingsInputAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#AWSCloudProviderSettingsInputAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#AWSCloudProviderSettingsInputAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
       }
     },
     "com.mongodbatlas.api#AWSCloudProviderSettingsInputDiskTypeName": {
@@ -54991,7 +54997,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#AzureCloudProviderSettingsInputAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#AzureCloudProviderSettingsInputDiskTypeName",
@@ -55043,6 +55052,320 @@
         }
       },
       "traits": {}
+    },
+    "com.mongodbatlas.api#AzureCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#AzureCloudProviderSettingsInputAutoScalingComputeMinInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#AzureCloudProviderSettingsInputAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#AzureCloudProviderSettingsInputAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#AzureCloudProviderSettingsInputAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#AzureCloudProviderSettingsInputAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#AzureCloudProviderSettingsInputAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+      }
     },
     "com.mongodbatlas.api#AzureCloudProviderSettingsInputDiskTypeName": {
       "type": "enum",
@@ -55652,7 +55975,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#CloudGCPProviderSettingsInputAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#CloudGCPProviderSettingsInputDiskTypeName",
@@ -55704,6 +56030,320 @@
         }
       },
       "traits": {}
+    },
+    "com.mongodbatlas.api#CloudGCPProviderSettingsInputAutoScalingComputeMaxInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#CloudGCPProviderSettingsInputAutoScalingComputeMinInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#CloudGCPProviderSettingsInputAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#CloudGCPProviderSettingsInputAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#CloudGCPProviderSettingsInputAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#CloudGCPProviderSettingsInputAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#CloudGCPProviderSettingsInputAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+      }
     },
     "com.mongodbatlas.api#CloudGCPProviderSettingsInputDiskTypeName": {
       "type": "enum",
@@ -56313,7 +56953,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsInputAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsInputDiskTypeName",
@@ -56365,6 +57008,320 @@
         }
       },
       "traits": {}
+    },
+    "com.mongodbatlas.api#ClusterFreeProviderSettingsInputAutoScalingComputeMaxInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFreeProviderSettingsInputAutoScalingComputeMinInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFreeProviderSettingsInputAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsInputAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsInputAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFreeProviderSettingsInputAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsInputAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+      }
     },
     "com.mongodbatlas.api#ClusterFreeProviderSettingsInputDiskTypeName": {
       "type": "enum",
@@ -56974,7 +57931,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsInputAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsInputDiskTypeName",
@@ -57026,6 +57986,320 @@
         }
       },
       "traits": {}
+    },
+    "com.mongodbatlas.api#ClusterFlexProviderSettingsInputAutoScalingComputeMaxInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFlexProviderSettingsInputAutoScalingComputeMinInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFlexProviderSettingsInputAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsInputAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsInputAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFlexProviderSettingsInputAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsInputAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+      }
     },
     "com.mongodbatlas.api#ClusterFlexProviderSettingsInputDiskTypeName": {
       "type": "enum",
@@ -58518,7 +59792,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#AWSCloudProviderSettingsAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#AWSCloudProviderSettingsDiskTypeName",
@@ -58576,6 +59853,320 @@
         }
       },
       "traits": {}
+    },
+    "com.mongodbatlas.api#AWSCloudProviderSettingsAutoScalingComputeMaxInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#AWSCloudProviderSettingsAutoScalingComputeMinInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#AWSCloudProviderSettingsAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#AWSCloudProviderSettingsAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#AWSCloudProviderSettingsAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#AWSCloudProviderSettingsAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#AWSCloudProviderSettingsAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+      }
     },
     "com.mongodbatlas.api#AWSCloudProviderSettingsDiskTypeName": {
       "type": "enum",
@@ -59217,7 +60808,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#AzureCloudProviderSettingsAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#AzureCloudProviderSettingsDiskTypeName",
@@ -59275,6 +60869,320 @@
         }
       },
       "traits": {}
+    },
+    "com.mongodbatlas.api#AzureCloudProviderSettingsAutoScalingComputeMaxInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#AzureCloudProviderSettingsAutoScalingComputeMinInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#AzureCloudProviderSettingsAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#AzureCloudProviderSettingsAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#AzureCloudProviderSettingsAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#AzureCloudProviderSettingsAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#AzureCloudProviderSettingsAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+      }
     },
     "com.mongodbatlas.api#AzureCloudProviderSettingsDiskTypeName": {
       "type": "enum",
@@ -59916,7 +61824,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#CloudGCPProviderSettingsAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#CloudGCPProviderSettingsDiskTypeName",
@@ -59974,6 +61885,320 @@
         }
       },
       "traits": {}
+    },
+    "com.mongodbatlas.api#CloudGCPProviderSettingsAutoScalingComputeMaxInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#CloudGCPProviderSettingsAutoScalingComputeMinInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#CloudGCPProviderSettingsAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#CloudGCPProviderSettingsAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#CloudGCPProviderSettingsAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#CloudGCPProviderSettingsAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#CloudGCPProviderSettingsAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+      }
     },
     "com.mongodbatlas.api#CloudGCPProviderSettingsDiskTypeName": {
       "type": "enum",
@@ -60615,7 +62840,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsDiskTypeName",
@@ -60673,6 +62901,320 @@
         }
       },
       "traits": {}
+    },
+    "com.mongodbatlas.api#ClusterFreeProviderSettingsAutoScalingComputeMaxInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFreeProviderSettingsAutoScalingComputeMinInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFreeProviderSettingsAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFreeProviderSettingsAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#ClusterFreeProviderSettingsAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+      }
     },
     "com.mongodbatlas.api#ClusterFreeProviderSettingsDiskTypeName": {
       "type": "enum",
@@ -61314,7 +63856,10 @@
       "type": "structure",
       "members": {
         "autoScaling": {
-          "target": "com.mongodbatlas.api#CloudProviderAzureAutoScaling"
+          "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsAutoScaling",
+          "traits": {
+            "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+          }
         },
         "diskTypeName": {
           "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsDiskTypeName",
@@ -61372,6 +63917,320 @@
         }
       },
       "traits": {}
+    },
+    "com.mongodbatlas.api#ClusterFlexProviderSettingsAutoScalingComputeMaxInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFlexProviderSettingsAutoScalingComputeMinInstanceSize": {
+      "type": "enum",
+      "members": {
+        "M10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M10"
+          }
+        },
+        "M20": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M20"
+          }
+        },
+        "M30": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M30"
+          }
+        },
+        "M40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M40"
+          }
+        },
+        "M50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M50"
+          }
+        },
+        "M60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60"
+          }
+        },
+        "M80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80"
+          }
+        },
+        "M90": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M90"
+          }
+        },
+        "M200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200"
+          }
+        },
+        "R40": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R40"
+          }
+        },
+        "R50": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R50"
+          }
+        },
+        "R60": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R60"
+          }
+        },
+        "R80": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R80"
+          }
+        },
+        "R200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R200"
+          }
+        },
+        "R300": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R300"
+          }
+        },
+        "R400": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "R400"
+          }
+        },
+        "M60_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M60_NVME"
+          }
+        },
+        "M80_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M80_NVME"
+          }
+        },
+        "M200_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M200_NVME"
+          }
+        },
+        "M300_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M300_NVME"
+          }
+        },
+        "M400_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M400_NVME"
+          }
+        },
+        "M600_NVME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "M600_NVME"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFlexProviderSettingsAutoScalingCompute": {
+      "type": "structure",
+      "members": {
+        "maxInstanceSize": {
+          "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsAutoScalingComputeMaxInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Maximum instance size to which your cluster can automatically scale."
+          }
+        },
+        "minInstanceSize": {
+          "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsAutoScalingComputeMinInstanceSize",
+          "traits": {
+            "smithy.api#documentation": "Minimum instance size to which your cluster can automatically scale."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+      }
+    },
+    "com.mongodbatlas.api#ClusterFlexProviderSettingsAutoScaling": {
+      "type": "structure",
+      "members": {
+        "compute": {
+          "target": "com.mongodbatlas.api#ClusterFlexProviderSettingsAutoScalingCompute",
+          "traits": {
+            "smithy.api#documentation": "Collection of settings that configures how a cluster might scale its cluster tier and whether the cluster can scale down. Cluster tier auto-scaling is unavailable for clusters using Low CPU or NVME storage classes."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Range of instance sizes to which your cluster can scale."
+      }
     },
     "com.mongodbatlas.api#ClusterFlexProviderSettingsDiskTypeName": {
       "type": "enum",

@@ -19,6 +19,7 @@
  * (`X.pipe(a).annotate(b)`).
  */
 import { parseAst } from "rolldown/parseAst";
+import { applyEdits, type Edit } from "./edits.ts";
 
 const MARKER = "/*@__PURE__*/ ";
 const ALREADY_MARKED = /\/\*\s*[@#]__PURE__\s*\*\/\s*$/;
@@ -85,10 +86,10 @@ export const annotateNestedCalls = (code: string, filename = "generated.ts"): st
       collectCalls(statement.superClass, positions);
     }
   }
-  let out = code;
-  for (const position of [...positions].sort((a, b) => b - a)) {
-    if (ALREADY_MARKED.test(out.slice(Math.max(0, position - 32), position))) continue;
-    out = `${out.slice(0, position)}${MARKER}${out.slice(position)}`;
+  const edits: Edit[] = [];
+  for (const position of positions) {
+    if (ALREADY_MARKED.test(code.slice(Math.max(0, position - 32), position))) continue;
+    edits.push([position, position, MARKER]);
   }
-  return out;
+  return applyEdits(code, edits);
 };
