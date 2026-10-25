@@ -1,0 +1,3898 @@
+{
+  "generatedAt": "2026-10-25T17:25:48.254Z",
+  "head": "0021bace3",
+  "categories": [
+    {
+      "id": "generated-specs",
+      "label": "Converted specs (.generated-specs/)"
+    },
+    {
+      "id": "services",
+      "label": "Generated SDK source (src/services/)"
+    },
+    {
+      "id": "in-tree-specs",
+      "label": "Raw specs committed in the repo (before the spec mirrors)"
+    },
+    {
+      "id": "patches",
+      "label": "Spec patches (patches/)"
+    },
+    {
+      "id": "handwritten",
+      "label": "Hand-written SDK code and tests"
+    },
+    {
+      "id": "benches",
+      "label": "Benchmarks (benches/)"
+    },
+    {
+      "id": "other",
+      "label": "Everything else (website, stacks, scripts, lockfile, docs)"
+    }
+  ],
+  "tree": {
+    "bytes": 1179648764,
+    "files": 9972,
+    "categories": {
+      "generated-specs": {
+        "bytes": 743178161,
+        "files": 2085
+      },
+      "services": {
+        "bytes": 411243544,
+        "files": 2190
+      },
+      "in-tree-specs": {
+        "bytes": 131703,
+        "files": 4
+      },
+      "patches": {
+        "bytes": 8252557,
+        "files": 3697
+      },
+      "handwritten": {
+        "bytes": 5183513,
+        "files": 1414
+      },
+      "benches": {
+        "bytes": 9364773,
+        "files": 172
+      },
+      "other": {
+        "bytes": 2294513,
+        "files": 410
+      }
+    },
+    "packages": [
+      {
+        "name": "gcp",
+        "bytes": 308900222,
+        "byCategory": {
+          "generated-specs": 183918276,
+          "handwritten": 218317,
+          "patches": 778291,
+          "services": 123985338
+        }
+      },
+      {
+        "name": "aws",
+        "bytes": 235039233,
+        "byCategory": {
+          "generated-specs": 168398299,
+          "handwritten": 892014,
+          "in-tree-specs": 32440,
+          "patches": 295669,
+          "services": 65420811
+        }
+      },
+      {
+        "name": "azure",
+        "bytes": 142704195,
+        "byCategory": {
+          "generated-specs": 85987022,
+          "handwritten": 198232,
+          "patches": 523772,
+          "services": 55995169
+        }
+      },
+      {
+        "name": "cloudflare",
+        "bytes": 85696868,
+        "byCategory": {
+          "generated-specs": 54689768,
+          "handwritten": 255514,
+          "in-tree-specs": 99263,
+          "patches": 4699248,
+          "services": 25953075
+        }
+      },
+      {
+        "name": "infisical",
+        "bytes": 43252523,
+        "byCategory": {
+          "generated-specs": 30683313,
+          "handwritten": 19732,
+          "services": 12549478
+        }
+      },
+      {
+        "name": "posthog",
+        "bytes": 32502257,
+        "byCategory": {
+          "generated-specs": 19893240,
+          "handwritten": 25297,
+          "patches": 1189067,
+          "services": 11394653
+        }
+      },
+      {
+        "name": "stripe",
+        "bytes": 23904494,
+        "byCategory": {
+          "generated-specs": 15830551,
+          "handwritten": 79744,
+          "patches": 2732,
+          "services": 7991467
+        }
+      },
+      {
+        "name": "kubernetes",
+        "bytes": 22721836,
+        "byCategory": {
+          "generated-specs": 12196820,
+          "handwritten": 30484,
+          "patches": 323011,
+          "services": 10171521
+        }
+      },
+      {
+        "name": "expo-eas",
+        "bytes": 21159208,
+        "byCategory": {
+          "generated-specs": 15441527,
+          "handwritten": 56697,
+          "services": 5660984
+        }
+      },
+      {
+        "name": "ovh",
+        "bytes": 20312995,
+        "byCategory": {
+          "generated-specs": 12103928,
+          "handwritten": 21148,
+          "services": 8187919
+        }
+      },
+      {
+        "name": "vercel",
+        "bytes": 19905824,
+        "byCategory": {
+          "generated-specs": 13880122,
+          "handwritten": 35057,
+          "services": 5990645
+        }
+      },
+      {
+        "name": "datadog",
+        "bytes": 18221400,
+        "byCategory": {
+          "generated-specs": 11011405,
+          "handwritten": 21261,
+          "services": 7188734
+        }
+      },
+      {
+        "name": "elasticsearch",
+        "bytes": 12217536,
+        "byCategory": {
+          "generated-specs": 7336382,
+          "handwritten": 19584,
+          "services": 4861570
+        }
+      },
+      {
+        "name": "github",
+        "bytes": 11775750,
+        "byCategory": {
+          "generated-specs": 7281254,
+          "handwritten": 31569,
+          "services": 4462927
+        }
+      },
+      {
+        "name": "google-workspace",
+        "bytes": 11255101,
+        "byCategory": {
+          "generated-specs": 6543283,
+          "handwritten": 65143,
+          "services": 4646675
+        }
+      },
+      {
+        "name": "mongodb-atlas",
+        "bytes": 9266293,
+        "byCategory": {
+          "generated-specs": 5984090,
+          "handwritten": 47226,
+          "services": 3234977
+        }
+      },
+      {
+        "name": "whop",
+        "bytes": 8521028,
+        "byCategory": {
+          "generated-specs": 5639014,
+          "handwritten": 54386,
+          "services": 2827628
+        }
+      },
+      {
+        "name": "stackit",
+        "bytes": 6496515,
+        "byCategory": {
+          "generated-specs": 3873146,
+          "handwritten": 47512,
+          "services": 2575857
+        }
+      },
+      {
+        "name": "growthbook",
+        "bytes": 6415653,
+        "byCategory": {
+          "generated-specs": 4370578,
+          "handwritten": 21227,
+          "services": 2023848
+        }
+      },
+      {
+        "name": "huggingface",
+        "bytes": 6025887,
+        "byCategory": {
+          "generated-specs": 4433425,
+          "handwritten": 37737,
+          "services": 1554725
+        }
+      },
+      {
+        "name": "digitalocean",
+        "bytes": 5989403,
+        "byCategory": {
+          "generated-specs": 3542879,
+          "handwritten": 21694,
+          "patches": 35893,
+          "services": 2388937
+        }
+      },
+      {
+        "name": "paypal",
+        "bytes": 5525359,
+        "byCategory": {
+          "generated-specs": 4019624,
+          "handwritten": 22309,
+          "services": 1483426
+        }
+      },
+      {
+        "name": "plaid",
+        "bytes": 5147053,
+        "byCategory": {
+          "generated-specs": 3072993,
+          "handwritten": 20555,
+          "services": 2053505
+        }
+      },
+      {
+        "name": "sentry",
+        "bytes": 4940971,
+        "byCategory": {
+          "generated-specs": 3352318,
+          "handwritten": 19393,
+          "services": 1569260
+        }
+      },
+      {
+        "name": "auth0",
+        "bytes": 4681694,
+        "byCategory": {
+          "generated-specs": 2957991,
+          "handwritten": 19472,
+          "services": 1704231
+        }
+      },
+      {
+        "name": "okta",
+        "bytes": 4611811,
+        "byCategory": {
+          "generated-specs": 2727137,
+          "handwritten": 20791,
+          "services": 1863883
+        }
+      },
+      {
+        "name": "customerio",
+        "bytes": 4448091,
+        "byCategory": {
+          "generated-specs": 2890642,
+          "handwritten": 20808,
+          "services": 1536641
+        }
+      },
+      {
+        "name": "zendesk",
+        "bytes": 3966122,
+        "byCategory": {
+          "generated-specs": 2224910,
+          "handwritten": 22860,
+          "services": 1718352
+        }
+      },
+      {
+        "name": "hetzner",
+        "bytes": 3570564,
+        "byCategory": {
+          "generated-specs": 2528593,
+          "handwritten": 41413,
+          "patches": 4906,
+          "services": 995652
+        }
+      },
+      {
+        "name": "launchdarkly",
+        "bytes": 3457219,
+        "byCategory": {
+          "generated-specs": 2042213,
+          "handwritten": 20433,
+          "services": 1394573
+        }
+      },
+      {
+        "name": "planetscale",
+        "bytes": 3297911,
+        "byCategory": {
+          "generated-specs": 2157170,
+          "handwritten": 25473,
+          "patches": 13908,
+          "services": 1101360
+        }
+      },
+      {
+        "name": "remote",
+        "bytes": 3141895,
+        "byCategory": {
+          "generated-specs": 1891869,
+          "handwritten": 18846,
+          "services": 1231180
+        }
+      },
+      {
+        "name": "notion",
+        "bytes": 3141746,
+        "byCategory": {
+          "generated-specs": 2282123,
+          "handwritten": 35583,
+          "services": 824040
+        }
+      },
+      {
+        "name": "polar",
+        "bytes": 3135857,
+        "byCategory": {
+          "generated-specs": 2225201,
+          "handwritten": 21195,
+          "services": 889461
+        }
+      },
+      {
+        "name": "gusto",
+        "bytes": 3046593,
+        "byCategory": {
+          "generated-specs": 1811417,
+          "handwritten": 21624,
+          "services": 1213552
+        }
+      },
+      {
+        "name": "vanta",
+        "bytes": 2853412,
+        "byCategory": {
+          "generated-specs": 1766617,
+          "handwritten": 19559,
+          "services": 1067236
+        }
+      },
+      {
+        "name": "slack",
+        "bytes": 2567164,
+        "byCategory": {
+          "generated-specs": 1405182,
+          "handwritten": 71634,
+          "services": 1090348
+        }
+      },
+      {
+        "name": "apache-superset",
+        "bytes": 2559380,
+        "byCategory": {
+          "generated-specs": 1679859,
+          "handwritten": 19296,
+          "services": 860225
+        }
+      },
+      {
+        "name": "metabase",
+        "bytes": 2503117,
+        "byCategory": {
+          "generated-specs": 1416257,
+          "handwritten": 18572,
+          "services": 1068288
+        }
+      },
+      {
+        "name": "forgejo",
+        "bytes": 2424338,
+        "byCategory": {
+          "generated-specs": 1376249,
+          "handwritten": 31545,
+          "patches": 51985,
+          "services": 964559
+        }
+      },
+      {
+        "name": "hostinger",
+        "bytes": 2390657,
+        "byCategory": {
+          "generated-specs": 1368735,
+          "handwritten": 19563,
+          "services": 1002359
+        }
+      },
+      {
+        "name": "intercom",
+        "bytes": 2338836,
+        "byCategory": {
+          "generated-specs": 1421759,
+          "handwritten": 20515,
+          "services": 896562
+        }
+      },
+      {
+        "name": "workos",
+        "bytes": 2334906,
+        "byCategory": {
+          "generated-specs": 1374978,
+          "handwritten": 20441,
+          "patches": 61834,
+          "services": 877653
+        }
+      },
+      {
+        "name": "coinbase",
+        "bytes": 1835686,
+        "byCategory": {
+          "generated-specs": 1101639,
+          "handwritten": 70695,
+          "services": 663352
+        }
+      },
+      {
+        "name": "discord",
+        "bytes": 1812999,
+        "byCategory": {
+          "generated-specs": 1114046,
+          "handwritten": 26320,
+          "patches": 3748,
+          "services": 668885
+        }
+      },
+      {
+        "name": "clerk",
+        "bytes": 1808982,
+        "byCategory": {
+          "generated-specs": 1085793,
+          "handwritten": 19764,
+          "services": 703425
+        }
+      },
+      {
+        "name": "temporal",
+        "bytes": 1641781,
+        "byCategory": {
+          "generated-specs": 947283,
+          "handwritten": 20692,
+          "services": 673806
+        }
+      },
+      {
+        "name": "render",
+        "bytes": 1514444,
+        "byCategory": {
+          "generated-specs": 966536,
+          "handwritten": 20972,
+          "services": 526936
+        }
+      },
+      {
+        "name": "adyen",
+        "bytes": 1506470,
+        "byCategory": {
+          "generated-specs": 916310,
+          "handwritten": 19112,
+          "services": 571048
+        }
+      },
+      {
+        "name": "coolify",
+        "bytes": 1471612,
+        "byCategory": {
+          "generated-specs": 832907,
+          "handwritten": 18886,
+          "services": 619819
+        }
+      },
+      {
+        "name": "modal",
+        "bytes": 1338222,
+        "byCategory": {
+          "generated-specs": 713015,
+          "handwritten": 22830,
+          "services": 602377
+        }
+      },
+      {
+        "name": "supabase",
+        "bytes": 1304998,
+        "byCategory": {
+          "generated-specs": 784230,
+          "handwritten": 37131,
+          "patches": 33450,
+          "services": 450187
+        }
+      },
+      {
+        "name": "daytona",
+        "bytes": 1304768,
+        "byCategory": {
+          "generated-specs": 740032,
+          "handwritten": 33831,
+          "services": 530905
+        }
+      },
+      {
+        "name": "meilisearch",
+        "bytes": 1236769,
+        "byCategory": {
+          "generated-specs": 739504,
+          "handwritten": 18889,
+          "patches": 627,
+          "services": 477749
+        }
+      },
+      {
+        "name": "neon",
+        "bytes": 1230233,
+        "byCategory": {
+          "generated-specs": 686779,
+          "handwritten": 23846,
+          "patches": 16342,
+          "services": 503266
+        }
+      },
+      {
+        "name": "docker",
+        "bytes": 1229419,
+        "byCategory": {
+          "generated-specs": 714933,
+          "handwritten": 18874,
+          "services": 495612
+        }
+      },
+      {
+        "name": "opencode",
+        "bytes": 1215017,
+        "byCategory": {
+          "generated-specs": 787088,
+          "handwritten": 19860,
+          "services": 408069
+        }
+      },
+      {
+        "name": "redis-cloud",
+        "bytes": 1177166,
+        "byCategory": {
+          "generated-specs": 706770,
+          "handwritten": 21583,
+          "services": 448813
+        }
+      },
+      {
+        "name": "railway",
+        "bytes": 1152198,
+        "byCategory": {
+          "generated-specs": 595738,
+          "handwritten": 32320,
+          "patches": 37466,
+          "services": 486674
+        }
+      },
+      {
+        "name": "fly-io",
+        "bytes": 1142432,
+        "byCategory": {
+          "generated-specs": 570320,
+          "handwritten": 105547,
+          "patches": 66908,
+          "services": 399657
+        }
+      },
+      {
+        "name": "grafana",
+        "bytes": 1075173,
+        "byCategory": {
+          "generated-specs": 577928,
+          "handwritten": 19656,
+          "services": 477589
+        }
+      },
+      {
+        "name": "core",
+        "bytes": 1052100,
+        "byCategory": {
+          "handwritten": 1052100
+        }
+      },
+      {
+        "name": "chronosphere",
+        "bytes": 1038313,
+        "byCategory": {
+          "generated-specs": 566449,
+          "handwritten": 22637,
+          "services": 449227
+        }
+      },
+      {
+        "name": "porkbun",
+        "bytes": 877908,
+        "byCategory": {
+          "generated-specs": 516875,
+          "handwritten": 22573,
+          "services": 338460
+        }
+      },
+      {
+        "name": "prisma",
+        "bytes": 868964,
+        "byCategory": {
+          "generated-specs": 554294,
+          "handwritten": 24911,
+          "patches": 5178,
+          "services": 284581
+        }
+      },
+      {
+        "name": "unkey",
+        "bytes": 868720,
+        "byCategory": {
+          "generated-specs": 478517,
+          "handwritten": 20784,
+          "services": 369419
+        }
+      },
+      {
+        "name": "boat-dev",
+        "bytes": 853856,
+        "byCategory": {
+          "generated-specs": 504706,
+          "handwritten": 21971,
+          "services": 327179
+        }
+      },
+      {
+        "name": "argocd",
+        "bytes": 852522,
+        "byCategory": {
+          "generated-specs": 451506,
+          "handwritten": 19068,
+          "services": 381948
+        }
+      },
+      {
+        "name": "doppler",
+        "bytes": 822615,
+        "byCategory": {
+          "generated-specs": 430825,
+          "handwritten": 21288,
+          "patches": 64353,
+          "services": 306149
+        }
+      },
+      {
+        "name": "axiom",
+        "bytes": 613841,
+        "byCategory": {
+          "generated-specs": 357814,
+          "handwritten": 25609,
+          "patches": 29150,
+          "services": 201268
+        }
+      },
+      {
+        "name": "typesense",
+        "bytes": 613249,
+        "byCategory": {
+          "generated-specs": 340442,
+          "handwritten": 18736,
+          "patches": 1151,
+          "services": 252920
+        }
+      },
+      {
+        "name": "mercury",
+        "bytes": 564928,
+        "byCategory": {
+          "generated-specs": 348702,
+          "handwritten": 18853,
+          "services": 197373
+        }
+      },
+      {
+        "name": "trigger-dev",
+        "bytes": 542435,
+        "byCategory": {
+          "generated-specs": 324621,
+          "handwritten": 19031,
+          "services": 198783
+        }
+      },
+      {
+        "name": "modrinth",
+        "bytes": 534433,
+        "byCategory": {
+          "generated-specs": 335608,
+          "handwritten": 19460,
+          "services": 179365
+        }
+      },
+      {
+        "name": "squarespace",
+        "bytes": 522335,
+        "byCategory": {
+          "generated-specs": 312248,
+          "handwritten": 23440,
+          "services": 186647
+        }
+      },
+      {
+        "name": "iceberg",
+        "bytes": 520024,
+        "byCategory": {
+          "generated-specs": 277338,
+          "handwritten": 55572,
+          "services": 187114
+        }
+      },
+      {
+        "name": "xata",
+        "bytes": 496104,
+        "byCategory": {
+          "generated-specs": 282319,
+          "handwritten": 18545,
+          "services": 195240
+        }
+      },
+      {
+        "name": "resend",
+        "bytes": 481409,
+        "byCategory": {
+          "generated-specs": 274172,
+          "handwritten": 21900,
+          "services": 185337
+        }
+      },
+      {
+        "name": "onepassword",
+        "bytes": 355775,
+        "byCategory": {
+          "generated-specs": 196967,
+          "handwritten": 55596,
+          "patches": 607,
+          "services": 102605
+        }
+      },
+      {
+        "name": "turso",
+        "bytes": 320460,
+        "byCategory": {
+          "generated-specs": 170153,
+          "handwritten": 19204,
+          "patches": 4205,
+          "services": 126898
+        }
+      },
+      {
+        "name": "inngest",
+        "bytes": 311606,
+        "byCategory": {
+          "generated-specs": 159855,
+          "handwritten": 21043,
+          "services": 130708
+        }
+      },
+      {
+        "name": "zerossl",
+        "bytes": 258150,
+        "byCategory": {
+          "generated-specs": 126602,
+          "handwritten": 46808,
+          "patches": 1926,
+          "services": 82814
+        }
+      },
+      {
+        "name": "archil",
+        "bytes": 227093,
+        "byCategory": {
+          "generated-specs": 123997,
+          "handwritten": 19082,
+          "services": 84014
+        }
+      },
+      {
+        "name": "celld",
+        "bytes": 220072,
+        "byCategory": {
+          "generated-specs": 128562,
+          "handwritten": 13738,
+          "services": 77772
+        }
+      },
+      {
+        "name": "acme",
+        "bytes": 199991,
+        "byCategory": {
+          "generated-specs": 58901,
+          "handwritten": 97822,
+          "patches": 1799,
+          "services": 41469
+        }
+      },
+      {
+        "name": "s2",
+        "bytes": 185825,
+        "byCategory": {
+          "generated-specs": 87063,
+          "handwritten": 38786,
+          "services": 59976
+        }
+      },
+      {
+        "name": "turbopuffer",
+        "bytes": 178289,
+        "byCategory": {
+          "generated-specs": 92927,
+          "handwritten": 23742,
+          "services": 61620
+        }
+      },
+      {
+        "name": "spacetimedb",
+        "bytes": 82909,
+        "byCategory": {
+          "generated-specs": 34477,
+          "handwritten": 19425,
+          "services": 29007
+        }
+      },
+      {
+        "name": "aws4signer",
+        "bytes": 80130,
+        "byCategory": {
+          "handwritten": 80130
+        }
+      },
+      {
+        "name": "surrealdb",
+        "bytes": 78136,
+        "byCategory": {
+          "generated-specs": 29211,
+          "handwritten": 19396,
+          "patches": 5331,
+          "services": 24198
+        }
+      }
+    ]
+  },
+  "composition": {
+    "services": {
+      "files": 2189,
+      "bytes": 410756870,
+      "gzip": 48964703,
+      "lines": 9228617,
+      "pureMarkers": 159574,
+      "classes": {
+        "jsdoc": 126074123,
+        "pure": 2234036,
+        "comment": 633203,
+        "indent": 33250234,
+        "newline": 9109596,
+        "string": 27438253,
+        "code": 212017425
+      },
+      "kinds": {
+        "docs": 128702458,
+        "imports": 927460,
+        "other": 948348,
+        "types": 107869478,
+        "errors": 3872706,
+        "operations": 52227031,
+        "schemas": 116211578
+      }
+    },
+    "specs": {
+      "files": 2085,
+      "bytes": 743178161,
+      "minified": 532419035,
+      "gzip": 61528187
+    }
+  },
+  "clone": [
+    {
+      "id": "today",
+      "label": "Today",
+      "drop": [],
+      "bytes": 112953920,
+      "objects": 11163,
+      "ms": 8115
+    },
+    {
+      "id": "no-specs",
+      "label": "Without .generated-specs/",
+      "drop": ["generated-specs"],
+      "bytes": 53864304,
+      "objects": 9078,
+      "ms": 3418
+    },
+    {
+      "id": "no-generated",
+      "label": "Without .generated-specs/ and src/services/",
+      "drop": ["generated-specs", "services"],
+      "bytes": 5833806,
+      "objects": 6888,
+      "ms": 177
+    }
+  ],
+  "worktree": {
+    "head": "0021bace37b3ba97f892ee5b94eae5023966d6fa",
+    "sparsePatterns": ["/*", "!/packages/*/.generated-specs/", "!/packages/*/.generated-graphql/"],
+    "reflinkSupported": true,
+    "filesystem": "xfs",
+    "note": "Warm page cache. df deltas include anything else writing to the disk at the time.",
+    "runs": [
+      {
+        "id": "full",
+        "label": "git worktree add",
+        "mode": "full",
+        "ms": 2809.863686,
+        "disk": 1204752384,
+        "files": 9965,
+        "shared": 0,
+        "newDisk": 1204752384,
+        "diskDelta": 1205997568,
+        "clean": true
+      },
+      {
+        "id": "sparse",
+        "label": "git worktree add, sparse: no .generated-specs/",
+        "mode": "sparse",
+        "ms": 906.307317,
+        "disk": 457158656,
+        "files": 7880,
+        "shared": 0,
+        "newDisk": 457158656,
+        "diskDelta": 458407936,
+        "clean": true
+      },
+      {
+        "id": "reflink",
+        "label": "reflink copy of a checkout, then git reset",
+        "mode": "reflink",
+        "ms": 5660.692523,
+        "disk": 1204752384,
+        "files": 9965,
+        "shared": 1203859456,
+        "newDisk": 892928,
+        "diskDelta": 8978432,
+        "clean": true
+      },
+      {
+        "id": "dedupe",
+        "label": "git worktree add, then dedupe against a checkout",
+        "mode": "dedupe",
+        "ms": 5185.813276,
+        "disk": 1204752384,
+        "files": 9965,
+        "shared": 1182990336,
+        "newDisk": 21762048,
+        "diskDelta": 25522176,
+        "clean": true
+      }
+    ]
+  },
+  "local": {
+    "objects": 938659840,
+    "submodules": 416256000,
+    "refs": {
+      "refs/heads": 344,
+      "refs/remotes": 371,
+      "refs/stash": 1,
+      "refs/t3": 411,
+      "refs/tags": 127,
+      "refs/wt-backup": 16
+    },
+    "mainOnlyPack": 113091536,
+    "mainCommitsLocal": 9,
+    "sharing": {
+      "worktrees": 14,
+      "trackedTotal": 15662259473,
+      "trackedUnique": 1460130792,
+      "libTotal": 2120749387,
+      "libUnique": 1594816550
+    },
+    "worktrees": [
+      {
+        "path": "~/code/alchemy/distilled",
+        "checkout": 1665781760,
+        "lib": 808443904,
+        "nodeModules": {
+          "files": 82901,
+          "unique": 176826827,
+          "hardlinked": 1311402564
+        }
+      },
+      {
+        "path": "~/.cache/distilled-bench/checkout",
+        "checkout": 1275281408,
+        "lib": 514457600,
+        "nodeModules": {
+          "files": 164473,
+          "unique": 1689489,
+          "hardlinked": 1798478173
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/perf-codegen-linear-rewrites",
+        "checkout": 1724284928,
+        "lib": 518365184,
+        "nodeModules": {
+          "files": 111422,
+          "unique": 81901879,
+          "hardlinked": 1664382156
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/t3-0a8c7323",
+        "checkout": 1236852736,
+        "lib": 518103040,
+        "nodeModules": {
+          "files": 111015,
+          "unique": 1525990,
+          "hardlinked": 1664382156
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/t3-470e2afc",
+        "checkout": 1204858880,
+        "lib": 0,
+        "nodeModules": {
+          "files": 0,
+          "unique": 0,
+          "hardlinked": 0
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/t3-abd36abe",
+        "checkout": 1629786112,
+        "lib": 745783296,
+        "nodeModules": {
+          "files": 111188,
+          "unique": 6772361,
+          "hardlinked": 1664382156
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/t3-b9c56d52",
+        "checkout": 1205456896,
+        "lib": 0,
+        "nodeModules": {
+          "files": 111244,
+          "unique": 31229984,
+          "hardlinked": 1664382156
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/t3-f926ba03",
+        "checkout": 1318850560,
+        "lib": 743903232,
+        "nodeModules": {
+          "files": 229692,
+          "unique": 8260181,
+          "hardlinked": 2760301553
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/triage-issue-932",
+        "checkout": 1204686848,
+        "lib": 0,
+        "nodeModules": {
+          "files": 0,
+          "unique": 0,
+          "hardlinked": 0
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/triage-pr-918",
+        "checkout": 1204535296,
+        "lib": 0,
+        "nodeModules": {
+          "files": 111033,
+          "unique": 4086957,
+          "hardlinked": 1664382156
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/triage-pr-919",
+        "checkout": 1204461568,
+        "lib": 0,
+        "nodeModules": {
+          "files": 0,
+          "unique": 0,
+          "hardlinked": 0
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/triage-pr-933",
+        "checkout": 805732352,
+        "lib": 745472000,
+        "nodeModules": {
+          "files": 111110,
+          "unique": 4363585,
+          "hardlinked": 1664382156
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/triage-pr-935",
+        "checkout": 1204686848,
+        "lib": 0,
+        "nodeModules": {
+          "files": 0,
+          "unique": 0,
+          "hardlinked": 0
+        }
+      },
+      {
+        "path": "~/code/.worktrees/distilled/triage-pr-936",
+        "checkout": 1204711424,
+        "lib": 0,
+        "nodeModules": {
+          "files": 0,
+          "unique": 0,
+          "hardlinked": 0
+        }
+      },
+      {
+        "path": "/tmp/buildmem/wt",
+        "checkout": 1235775488,
+        "lib": 517582848,
+        "nodeModules": {
+          "files": 111413,
+          "unique": 83280907,
+          "hardlinked": 1664382156
+        }
+      }
+    ]
+  },
+  "timeline": {
+    "commitsOnMain": 1237,
+    "githubRepoSizeBytes": 752121856,
+    "points": [
+      {
+        "sha": "218cd0a62",
+        "date": "2026-01-04T22:43:43Z",
+        "message": "fix: apply httpLabel trait",
+        "bytes": 37775613,
+        "files": 529,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 36598331,
+            "files": 416
+          },
+          "in-tree-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "patches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "handwritten": {
+            "bytes": 0,
+            "files": 0
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 1177282,
+            "files": 113
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "e4c520809",
+        "date": "2026-01-11T23:36:46Z",
+        "message": "chore: add firehose tests",
+        "bytes": 61414831,
+        "files": 562,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 59577530,
+            "files": 416
+          },
+          "in-tree-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "patches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "handwritten": {
+            "bytes": 0,
+            "files": 0
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 1837301,
+            "files": 146
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "89886b82c",
+        "date": "2026-01-14T18:22:07Z",
+        "message": "fix: retry export condition",
+        "bytes": 61416852,
+        "files": 555,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 59587468,
+            "files": 416
+          },
+          "in-tree-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "patches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "handwritten": {
+            "bytes": 0,
+            "files": 0
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 1829384,
+            "files": 139
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "0e23ebca5",
+        "date": "2026-01-31T06:28:39Z",
+        "message": "feat(planetscale): bring distilled-planetscale in",
+        "bytes": 70404995,
+        "files": 920,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 66010308,
+            "files": 514
+          },
+          "in-tree-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "patches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "handwritten": {
+            "bytes": 0,
+            "files": 0
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 4394687,
+            "files": 406
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "14a819daf",
+        "date": "2026-02-15T05:35:40Z",
+        "message": "fix(cloudflare): response-parser returns raw json if cloudflare result envelope is not detected (WTF CLOUDFLARE)",
+        "bytes": 72548270,
+        "files": 1227,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 66010308,
+            "files": 514
+          },
+          "in-tree-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "patches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "handwritten": {
+            "bytes": 0,
+            "files": 0
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 6537962,
+            "files": 713
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "7e7278a8a",
+        "date": "2026-02-21T09:04:43Z",
+        "message": "feat(aws): update smithy specs to latest",
+        "bytes": 72553760,
+        "files": 1212,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 66278513,
+            "files": 515
+          },
+          "in-tree-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "patches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "handwritten": {
+            "bytes": 0,
+            "files": 0
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 6275247,
+            "files": 697
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "f8fdca345",
+        "date": "2026-02-28T05:46:03Z",
+        "message": "fix(cloudflare): more cloudflare tests (#106)",
+        "bytes": 75597198,
+        "files": 1519,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 68679787,
+            "files": 519
+          },
+          "in-tree-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "patches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "handwritten": {
+            "bytes": 0,
+            "files": 0
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 6917411,
+            "files": 1000
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "39d00d3ad",
+        "date": "2026-03-08T23:08:51Z",
+        "message": "chore(release): distilled-cloudflare@0.0.8",
+        "bytes": 131202554,
+        "files": 1880,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 124042419,
+            "files": 819
+          },
+          "in-tree-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "patches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "handwritten": {
+            "bytes": 0,
+            "files": 0
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 7160135,
+            "files": 1061
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "e2b467ced",
+        "date": "2026-03-15T08:43:29Z",
+        "message": "chore(release): 0.5.3",
+        "bytes": 228253717,
+        "files": 3639,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 215816862,
+            "files": 1265
+          },
+          "in-tree-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "patches": {
+            "bytes": 216266,
+            "files": 341
+          },
+          "handwritten": {
+            "bytes": 11719118,
+            "files": 1989
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 501471,
+            "files": 44
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "2604dc2bf",
+        "date": "2026-03-20T18:07:13Z",
+        "message": "chore(release): 0.7.0",
+        "bytes": 251908100,
+        "files": 3752,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 220956053,
+            "files": 1266
+          },
+          "in-tree-specs": {
+            "bytes": 18422114,
+            "files": 103
+          },
+          "patches": {
+            "bytes": 217322,
+            "files": 345
+          },
+          "handwritten": {
+            "bytes": 11800393,
+            "files": 1993
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 512218,
+            "files": 45
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "74dfeaa3d",
+        "date": "2026-03-25T00:13:51Z",
+        "message": "feat: add CHANGELOG.md and auto-update it on bump (#171)",
+        "bytes": 251920248,
+        "files": 3753,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 220956463,
+            "files": 1266
+          },
+          "in-tree-specs": {
+            "bytes": 18422033,
+            "files": 103
+          },
+          "patches": {
+            "bytes": 217322,
+            "files": 345
+          },
+          "handwritten": {
+            "bytes": 11800481,
+            "files": 1993
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 523949,
+            "files": 46
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "b290578b1",
+        "date": "2026-04-03T19:17:59Z",
+        "message": "chore(release): 0.7.9",
+        "bytes": 251945606,
+        "files": 3753,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 220960074,
+            "files": 1266
+          },
+          "in-tree-specs": {
+            "bytes": 18427165,
+            "files": 103
+          },
+          "patches": {
+            "bytes": 224309,
+            "files": 345
+          },
+          "handwritten": {
+            "bytes": 11808017,
+            "files": 1993
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 526041,
+            "files": 46
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "0ceb722a0",
+        "date": "2026-04-11T23:20:09Z",
+        "message": "chore(release): 0.7.12",
+        "bytes": 252105270,
+        "files": 3754,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 221017200,
+            "files": 1266
+          },
+          "in-tree-specs": {
+            "bytes": 18517164,
+            "files": 104
+          },
+          "patches": {
+            "bytes": 224410,
+            "files": 345
+          },
+          "handwritten": {
+            "bytes": 11819213,
+            "files": 1993
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 527283,
+            "files": 46
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "63fabcae6",
+        "date": "2026-04-16T21:11:54Z",
+        "message": "chore(release): 0.10.2",
+        "bytes": 247422996,
+        "files": 3796,
+        "categories": {
+          "generated-specs": {
+            "bytes": 0,
+            "files": 0
+          },
+          "services": {
+            "bytes": 216224104,
+            "files": 1276
+          },
+          "in-tree-specs": {
+            "bytes": 18528022,
+            "files": 105
+          },
+          "patches": {
+            "bytes": 227165,
+            "files": 346
+          },
+          "handwritten": {
+            "bytes": 11914163,
+            "files": 2022
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 529542,
+            "files": 47
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "af7d58f80",
+        "date": "2026-04-26T22:07:33Z",
+        "message": "chore(release): 0.12.4",
+        "bytes": 249193586,
+        "files": 4071,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 216266190,
+            "files": 1276
+          },
+          "in-tree-specs": {
+            "bytes": 18533692,
+            "files": 105
+          },
+          "patches": {
+            "bytes": 834300,
+            "files": 387
+          },
+          "handwritten": {
+            "bytes": 12643843,
+            "files": 2248
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 636868,
+            "files": 52
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "4edd245c0",
+        "date": "2026-05-02T02:08:31Z",
+        "message": "fix(supabase): tag FreeProjectLimitReached and recover in tests + CI nuke (#221)",
+        "bytes": 267267070,
+        "files": 6119,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 220439413,
+            "files": 1276
+          },
+          "in-tree-specs": {
+            "bytes": 18542661,
+            "files": 106
+          },
+          "patches": {
+            "bytes": 3077355,
+            "files": 480
+          },
+          "handwritten": {
+            "bytes": 24276724,
+            "files": 4201
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 652224,
+            "files": 53
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "b26cd7af1",
+        "date": "2026-05-08T14:22:10Z",
+        "message": "feat(gcp): add lustre v1, regenerate against latest specs, fix TS7056 (#286)",
+        "bytes": 277288243,
+        "files": 6180,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 229090899,
+            "files": 1284
+          },
+          "in-tree-specs": {
+            "bytes": 19632247,
+            "files": 109
+          },
+          "patches": {
+            "bytes": 3116070,
+            "files": 492
+          },
+          "handwritten": {
+            "bytes": 24500153,
+            "files": 4238
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 670181,
+            "files": 54
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "982594b70",
+        "date": "2026-05-16T22:20:03Z",
+        "message": "fix(planetscale): add branch cluster architecture and redact tokenId (#297)",
+        "bytes": 277417916,
+        "files": 6191,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 229126133,
+            "files": 1284
+          },
+          "in-tree-specs": {
+            "bytes": 19636165,
+            "files": 109
+          },
+          "patches": {
+            "bytes": 3120199,
+            "files": 496
+          },
+          "handwritten": {
+            "bytes": 24579230,
+            "files": 4243
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 677496,
+            "files": 56
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "11f7a3c37",
+        "date": "2026-05-22T17:17:33Z",
+        "message": "chore(release): 0.21.5",
+        "bytes": 277415102,
+        "files": 6192,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 229131908,
+            "files": 1284
+          },
+          "in-tree-specs": {
+            "bytes": 19644174,
+            "files": 109
+          },
+          "patches": {
+            "bytes": 3122526,
+            "files": 498
+          },
+          "handwritten": {
+            "bytes": 24589111,
+            "files": 4244
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 648690,
+            "files": 54
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "2d4c2750b",
+        "date": "2026-05-30T22:49:43Z",
+        "message": "chore(release): 0.22.2",
+        "bytes": 285508981,
+        "files": 6208,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 232473787,
+            "files": 1289
+          },
+          "in-tree-specs": {
+            "bytes": 24392326,
+            "files": 114
+          },
+          "patches": {
+            "bytes": 3124081,
+            "files": 504
+          },
+          "handwritten": {
+            "bytes": 24589334,
+            "files": 4244
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 650760,
+            "files": 54
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "c88b7ec9c",
+        "date": "2026-06-07T17:02:44Z",
+        "message": "chore: set minimumReleaseAge=2 days",
+        "bytes": 286781176,
+        "files": 6215,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 233351426,
+            "files": 1289
+          },
+          "in-tree-specs": {
+            "bytes": 24742178,
+            "files": 114
+          },
+          "patches": {
+            "bytes": 3125088,
+            "files": 508
+          },
+          "handwritten": {
+            "bytes": 24630595,
+            "files": 4246
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 653196,
+            "files": 55
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "fc388f48c",
+        "date": "2026-06-12T22:31:07Z",
+        "message": "fix(cloudflare): patch ai-gateway, ai-search and zero trust apis",
+        "bytes": 296092824,
+        "files": 6942,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 240745321,
+            "files": 1293
+          },
+          "in-tree-specs": {
+            "bytes": 26500731,
+            "files": 119
+          },
+          "patches": {
+            "bytes": 3243526,
+            "files": 1224
+          },
+          "handwritten": {
+            "bytes": 24667271,
+            "files": 4248
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 657282,
+            "files": 55
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "651d0e4bd",
+        "date": "2026-06-19T05:56:52Z",
+        "message": "chore(release): 0.26.1",
+        "bytes": 305933093,
+        "files": 6958,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 250507182,
+            "files": 1293
+          },
+          "in-tree-specs": {
+            "bytes": 26505729,
+            "files": 119
+          },
+          "patches": {
+            "bytes": 3270057,
+            "files": 1236
+          },
+          "handwritten": {
+            "bytes": 24708165,
+            "files": 4252
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 663267,
+            "files": 55
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "6fc3c0e53",
+        "date": "2026-06-27T10:47:53Z",
+        "message": "fix(cloudflare): DurableObjectCheckError for containers",
+        "bytes": 305943041,
+        "files": 6963,
+        "categories": {
+          "generated-specs": {
+            "bytes": 278693,
+            "files": 3
+          },
+          "services": {
+            "bytes": 250510020,
+            "files": 1293
+          },
+          "in-tree-specs": {
+            "bytes": 26507524,
+            "files": 119
+          },
+          "patches": {
+            "bytes": 3271383,
+            "files": 1241
+          },
+          "handwritten": {
+            "bytes": 24710389,
+            "files": 4252
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 665032,
+            "files": 55
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "7845750d6",
+        "date": "2026-07-02T23:51:18Z",
+        "message": "fix(aws): add PreconditionFailed + ConditionalRequestConflict to s3 putObject",
+        "bytes": 339779361,
+        "files": 7658,
+        "categories": {
+          "generated-specs": {
+            "bytes": 288091,
+            "files": 3
+          },
+          "services": {
+            "bytes": 264033328,
+            "files": 1312
+          },
+          "in-tree-specs": {
+            "bytes": 26890158,
+            "files": 124
+          },
+          "patches": {
+            "bytes": 3309927,
+            "files": 1242
+          },
+          "handwritten": {
+            "bytes": 44592004,
+            "files": 4922
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 665853,
+            "files": 55
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "da3429132",
+        "date": "2026-07-12T18:38:01Z",
+        "message": "chore(release): 0.29.0",
+        "bytes": 339806426,
+        "files": 7659,
+        "categories": {
+          "generated-specs": {
+            "bytes": 288091,
+            "files": 3
+          },
+          "services": {
+            "bytes": 264040924,
+            "files": 1312
+          },
+          "in-tree-specs": {
+            "bytes": 26892317,
+            "files": 124
+          },
+          "patches": {
+            "bytes": 3313330,
+            "files": 1243
+          },
+          "handwritten": {
+            "bytes": 44596761,
+            "files": 4922
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 675003,
+            "files": 55
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "c9a7779af",
+        "date": "2026-07-18T15:06:54Z",
+        "message": "fix(aws/ec2): type duplicate security group rules (#383)",
+        "bytes": 335704010,
+        "files": 7810,
+        "categories": {
+          "generated-specs": {
+            "bytes": 288091,
+            "files": 3
+          },
+          "services": {
+            "bytes": 259777242,
+            "files": 1313
+          },
+          "in-tree-specs": {
+            "bytes": 26896527,
+            "files": 125
+          },
+          "patches": {
+            "bytes": 3471463,
+            "files": 1349
+          },
+          "handwritten": {
+            "bytes": 44587069,
+            "files": 4965
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 683618,
+            "files": 55
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "801f5beba",
+        "date": "2026-07-26T06:43:53Z",
+        "message": "feat(cloudflare/workers): typed binding-validation errors on createScriptVersion (#389)",
+        "bytes": 335696381,
+        "files": 7810,
+        "categories": {
+          "generated-specs": {
+            "bytes": 288091,
+            "files": 3
+          },
+          "services": {
+            "bytes": 259763681,
+            "files": 1313
+          },
+          "in-tree-specs": {
+            "bytes": 26897432,
+            "files": 125
+          },
+          "patches": {
+            "bytes": 3474866,
+            "files": 1349
+          },
+          "handwritten": {
+            "bytes": 44587123,
+            "files": 4965
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 685188,
+            "files": 55
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "d9c542cbc",
+        "date": "2026-08-02T22:20:08Z",
+        "message": "feat(cloudflare/workers): streaming_tail_consumers on script-upload metadata (#398)",
+        "bytes": 743474515,
+        "files": 9424,
+        "categories": {
+          "generated-specs": {
+            "bytes": 341467234,
+            "files": 1024
+          },
+          "services": {
+            "bytes": 312785438,
+            "files": 1497
+          },
+          "in-tree-specs": {
+            "bytes": 77807693,
+            "files": 3528
+          },
+          "patches": {
+            "bytes": 8558828,
+            "files": 2997
+          },
+          "handwritten": {
+            "bytes": 2742337,
+            "files": 365
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 112985,
+            "files": 13
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "ca34cdc96",
+        "date": "2026-08-09T15:21:15Z",
+        "message": "Use content-addressed single-job PR package publishing (#436)",
+        "bytes": 740234827,
+        "files": 9537,
+        "categories": {
+          "generated-specs": {
+            "bytes": 342353879,
+            "files": 1024
+          },
+          "services": {
+            "bytes": 309481541,
+            "files": 1497
+          },
+          "in-tree-specs": {
+            "bytes": 77840165,
+            "files": 3530
+          },
+          "patches": {
+            "bytes": 7622681,
+            "files": 3099
+          },
+          "handwritten": {
+            "bytes": 2803860,
+            "files": 369
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 132701,
+            "files": 18
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "01db915ad",
+        "date": "2026-08-13T19:46:37Z",
+        "message": "chore: ignore Turbo cache directories (#454)",
+        "bytes": 791233739,
+        "files": 9770,
+        "categories": {
+          "generated-specs": {
+            "bytes": 367920570,
+            "files": 1137
+          },
+          "services": {
+            "bytes": 322561311,
+            "files": 1615
+          },
+          "in-tree-specs": {
+            "bytes": 91310126,
+            "files": 3532
+          },
+          "patches": {
+            "bytes": 7625013,
+            "files": 3100
+          },
+          "handwritten": {
+            "bytes": 1717294,
+            "files": 368
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 99425,
+            "files": 18
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "651cde92e",
+        "date": "2026-08-23T04:17:26Z",
+        "message": "fix(deps): update to effect 4.0.0-rc.111 (#474)",
+        "bytes": 798929903,
+        "files": 9890,
+        "categories": {
+          "generated-specs": {
+            "bytes": 370591559,
+            "files": 1170
+          },
+          "services": {
+            "bytes": 323867196,
+            "files": 1649
+          },
+          "in-tree-specs": {
+            "bytes": 94844015,
+            "files": 3536
+          },
+          "patches": {
+            "bytes": 7655577,
+            "files": 3124
+          },
+          "handwritten": {
+            "bytes": 1812408,
+            "files": 382
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 159148,
+            "files": 29
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "9c5658976",
+        "date": "2026-08-30T23:41:37Z",
+        "message": "feat(whop): add the Whop SDK (#479)",
+        "bytes": 827388985,
+        "files": 11209,
+        "categories": {
+          "generated-specs": {
+            "bytes": 389076976,
+            "files": 1287
+          },
+          "services": {
+            "bytes": 338664955,
+            "files": 1765
+          },
+          "in-tree-specs": {
+            "bytes": 89581380,
+            "files": 4455
+          },
+          "patches": {
+            "bytes": 7721783,
+            "files": 3180
+          },
+          "handwritten": {
+            "bytes": 1891566,
+            "files": 395
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 452325,
+            "files": 127
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "ddfee91b5",
+        "date": "2026-09-04T19:54:57Z",
+        "message": "ci: allow choosing release branch (#547)",
+        "bytes": 828658742,
+        "files": 11294,
+        "categories": {
+          "generated-specs": {
+            "bytes": 389728047,
+            "files": 1321
+          },
+          "services": {
+            "bytes": 339223496,
+            "files": 1800
+          },
+          "in-tree-specs": {
+            "bytes": 89581380,
+            "files": 4455
+          },
+          "patches": {
+            "bytes": 7721783,
+            "files": 3180
+          },
+          "handwritten": {
+            "bytes": 1946507,
+            "files": 408
+          },
+          "benches": {
+            "bytes": 0,
+            "files": 0
+          },
+          "other": {
+            "bytes": 457529,
+            "files": 130
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "fb98d73bd",
+        "date": "2026-09-10T17:12:53Z",
+        "message": "feat(cloudflare): Worker Previews API and custom-domain previews_enabled (#576)",
+        "bytes": 1198103222,
+        "files": 13290,
+        "categories": {
+          "generated-specs": {
+            "bytes": 668594408,
+            "files": 1927
+          },
+          "services": {
+            "bytes": 426944498,
+            "files": 2030
+          },
+          "in-tree-specs": {
+            "bytes": 90597402,
+            "files": 4777
+          },
+          "patches": {
+            "bytes": 7752265,
+            "files": 3195
+          },
+          "handwritten": {
+            "bytes": 3122692,
+            "files": 1040
+          },
+          "benches": {
+            "bytes": 199077,
+            "files": 36
+          },
+          "other": {
+            "bytes": 892880,
+            "files": 285
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "e8f6a7c4f",
+        "date": "2026-09-10T19:38:53Z",
+        "message": "feat(aws): replace aws4fetch with Effect-native SigV4 signer (#577)",
+        "bytes": 1198123540,
+        "files": 13292,
+        "categories": {
+          "generated-specs": {
+            "bytes": 668594408,
+            "files": 1927
+          },
+          "services": {
+            "bytes": 426944498,
+            "files": 2030
+          },
+          "in-tree-specs": {
+            "bytes": 90597402,
+            "files": 4777
+          },
+          "patches": {
+            "bytes": 7752265,
+            "files": 3195
+          },
+          "handwritten": {
+            "bytes": 3143167,
+            "files": 1042
+          },
+          "benches": {
+            "bytes": 199077,
+            "files": 36
+          },
+          "other": {
+            "bytes": 892723,
+            "files": 285
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "4fc05de2f",
+        "date": "2026-09-11T14:30:01Z",
+        "message": "chore(cloudflare): export Retry as a subpath (#578)",
+        "bytes": 1198123733,
+        "files": 13292,
+        "categories": {
+          "generated-specs": {
+            "bytes": 668594408,
+            "files": 1927
+          },
+          "services": {
+            "bytes": 426944498,
+            "files": 2030
+          },
+          "in-tree-specs": {
+            "bytes": 90597402,
+            "files": 4777
+          },
+          "patches": {
+            "bytes": 7752265,
+            "files": 3195
+          },
+          "handwritten": {
+            "bytes": 3143360,
+            "files": 1042
+          },
+          "benches": {
+            "bytes": 199077,
+            "files": 36
+          },
+          "other": {
+            "bytes": 892723,
+            "files": 285
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "ee6b0d84d",
+        "date": "2026-09-12T17:34:59Z",
+        "message": "feat(aws): Effect-native credential providers (#587)",
+        "bytes": 1198238366,
+        "files": 13296,
+        "categories": {
+          "generated-specs": {
+            "bytes": 668628182,
+            "files": 1927
+          },
+          "services": {
+            "bytes": 426951978,
+            "files": 2030
+          },
+          "in-tree-specs": {
+            "bytes": 90597402,
+            "files": 4777
+          },
+          "patches": {
+            "bytes": 7752265,
+            "files": 3195
+          },
+          "handwritten": {
+            "bytes": 3229933,
+            "files": 1046
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 879594,
+            "files": 285
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "c5b839daa",
+        "date": "2026-09-13T07:24:36Z",
+        "message": "fix(railway)!: expose only the native GraphQL client (#588)",
+        "bytes": 1196472195,
+        "files": 13252,
+        "categories": {
+          "generated-specs": {
+            "bytes": 667264134,
+            "files": 1927
+          },
+          "services": {
+            "bytes": 426485559,
+            "files": 2029
+          },
+          "in-tree-specs": {
+            "bytes": 90597402,
+            "files": 4777
+          },
+          "patches": {
+            "bytes": 7713359,
+            "files": 3148
+          },
+          "handwritten": {
+            "bytes": 3332817,
+            "files": 1050
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 879912,
+            "files": 285
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "fce951d4e",
+        "date": "2026-09-15T22:06:21Z",
+        "message": "fix(cloudflare): stop the converter splitting type names that end in \"or\" (#603)",
+        "bytes": 1135634815,
+        "files": 9768,
+        "categories": {
+          "generated-specs": {
+            "bytes": 677479316,
+            "files": 1938
+          },
+          "services": {
+            "bytes": 433130271,
+            "files": 2041
+          },
+          "in-tree-specs": {
+            "bytes": 12813446,
+            "files": 1250
+          },
+          "patches": {
+            "bytes": 7706849,
+            "files": 3147
+          },
+          "handwritten": {
+            "bytes": 3400282,
+            "files": 1065
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 905639,
+            "files": 291
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "2a62c5175",
+        "date": "2026-09-16T22:52:12Z",
+        "message": "fix(prisma): type Prisma lifecycle and Hyperdrive origin errors (#610)",
+        "bytes": 1135704890,
+        "files": 9773,
+        "categories": {
+          "generated-specs": {
+            "bytes": 677496066,
+            "files": 1938
+          },
+          "services": {
+            "bytes": 433152964,
+            "files": 2041
+          },
+          "in-tree-specs": {
+            "bytes": 12813446,
+            "files": 1250
+          },
+          "patches": {
+            "bytes": 7720517,
+            "files": 3152
+          },
+          "handwritten": {
+            "bytes": 3412297,
+            "files": 1065
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 910588,
+            "files": 291
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "c2a780021",
+        "date": "2026-09-17T20:26:57Z",
+        "message": "chore: align pnpm version with alchemy",
+        "bytes": 1135717950,
+        "files": 9778,
+        "categories": {
+          "generated-specs": {
+            "bytes": 677482685,
+            "files": 1938
+          },
+          "services": {
+            "bytes": 433150730,
+            "files": 2041
+          },
+          "in-tree-specs": {
+            "bytes": 12813446,
+            "files": 1250
+          },
+          "patches": {
+            "bytes": 7722554,
+            "files": 3152
+          },
+          "handwritten": {
+            "bytes": 3434108,
+            "files": 1069
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 915415,
+            "files": 292
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "47cc1ac64",
+        "date": "2026-09-18T17:21:41Z",
+        "message": "fix(aws/ec2): type missing rule errors on modification (#623)",
+        "bytes": 1135934658,
+        "files": 9817,
+        "categories": {
+          "generated-specs": {
+            "bytes": 677483301,
+            "files": 1938
+          },
+          "services": {
+            "bytes": 433185977,
+            "files": 2045
+          },
+          "in-tree-specs": {
+            "bytes": 12864002,
+            "files": 1252
+          },
+          "patches": {
+            "bytes": 7726589,
+            "files": 3154
+          },
+          "handwritten": {
+            "bytes": 3560339,
+            "files": 1100
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 915438,
+            "files": 292
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "541008479",
+        "date": "2026-09-19T02:12:16Z",
+        "message": "fix(aws/ec2): type Client VPN lifecycle errors (#624)",
+        "bytes": 1135946127,
+        "files": 9817,
+        "categories": {
+          "generated-specs": {
+            "bytes": 677487971,
+            "files": 1938
+          },
+          "services": {
+            "bytes": 433191551,
+            "files": 2045
+          },
+          "in-tree-specs": {
+            "bytes": 12864002,
+            "files": 1252
+          },
+          "patches": {
+            "bytes": 7727814,
+            "files": 3154
+          },
+          "handwritten": {
+            "bytes": 3560339,
+            "files": 1100
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 915438,
+            "files": 292
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "b5ddc5aca",
+        "date": "2026-09-20T10:57:59Z",
+        "message": "copy(website): lead the hero with what the SDKs give you (#633)",
+        "bytes": 1145325610,
+        "files": 10101,
+        "categories": {
+          "generated-specs": {
+            "bytes": 682367086,
+            "files": 2019
+          },
+          "services": {
+            "bytes": 436605716,
+            "files": 2129
+          },
+          "in-tree-specs": {
+            "bytes": 12864002,
+            "files": 1252
+          },
+          "patches": {
+            "bytes": 7739408,
+            "files": 3158
+          },
+          "handwritten": {
+            "bytes": 3669425,
+            "files": 1138
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1880961,
+            "files": 369
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "5358d6602",
+        "date": "2026-09-21T21:37:52Z",
+        "message": "fix: upgrade Effect to 4.0.0-rc.117 (#637)",
+        "bytes": 1145512649,
+        "files": 10118,
+        "categories": {
+          "generated-specs": {
+            "bytes": 682407046,
+            "files": 2019
+          },
+          "services": {
+            "bytes": 436635945,
+            "files": 2129
+          },
+          "in-tree-specs": {
+            "bytes": 12864002,
+            "files": 1252
+          },
+          "patches": {
+            "bytes": 7753090,
+            "files": 3166
+          },
+          "handwritten": {
+            "bytes": 3772275,
+            "files": 1147
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1881279,
+            "files": 369
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "484682270",
+        "date": "2026-09-22T09:59:41Z",
+        "message": "docs: add example READMEs for every provider (#640)",
+        "bytes": 1145573436,
+        "files": 10195,
+        "categories": {
+          "generated-specs": {
+            "bytes": 682407046,
+            "files": 2019
+          },
+          "services": {
+            "bytes": 436635945,
+            "files": 2129
+          },
+          "in-tree-specs": {
+            "bytes": 12864002,
+            "files": 1252
+          },
+          "patches": {
+            "bytes": 7753090,
+            "files": 3166
+          },
+          "handwritten": {
+            "bytes": 3833062,
+            "files": 1224
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1881279,
+            "files": 369
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "bf909babc",
+        "date": "2026-09-23T18:01:25Z",
+        "message": "fix(cloudflare): correct Workers-for-Platforms upload metadata (#649)",
+        "bytes": 1145649897,
+        "files": 10196,
+        "categories": {
+          "generated-specs": {
+            "bytes": 682429812,
+            "files": 2019
+          },
+          "services": {
+            "bytes": 436654911,
+            "files": 2129
+          },
+          "in-tree-specs": {
+            "bytes": 12864002,
+            "files": 1252
+          },
+          "patches": {
+            "bytes": 7787833,
+            "files": 3167
+          },
+          "handwritten": {
+            "bytes": 3833062,
+            "files": 1224
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1881265,
+            "files": 369
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "14d9302b7",
+        "date": "2026-09-24T15:21:08Z",
+        "message": "fix(gcp): type HTTP 501 on Agent Engine sandboxes and workerPools.list (#656)",
+        "bytes": 1146153246,
+        "files": 10188,
+        "categories": {
+          "generated-specs": {
+            "bytes": 682743328,
+            "files": 2019
+          },
+          "services": {
+            "bytes": 436858174,
+            "files": 2129
+          },
+          "in-tree-specs": {
+            "bytes": 12864002,
+            "files": 1252
+          },
+          "patches": {
+            "bytes": 7747136,
+            "files": 3155
+          },
+          "handwritten": {
+            "bytes": 3841909,
+            "files": 1224
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1899685,
+            "files": 373
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "584ee25b5",
+        "date": "2026-09-27T21:16:09Z",
+        "message": "chore(skill): add distilled-sdk-patch for writing and checking spec patches (#666)",
+        "bytes": 1146166082,
+        "files": 10192,
+        "categories": {
+          "generated-specs": {
+            "bytes": 682744272,
+            "files": 2019
+          },
+          "services": {
+            "bytes": 436859075,
+            "files": 2129
+          },
+          "in-tree-specs": {
+            "bytes": 12864002,
+            "files": 1252
+          },
+          "patches": {
+            "bytes": 7748689,
+            "files": 3156
+          },
+          "handwritten": {
+            "bytes": 3841909,
+            "files": 1224
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1909123,
+            "files": 376
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "85a6e12b8",
+        "date": "2026-09-28T23:56:43Z",
+        "message": "feat(aws): complete the credential-provider surface, one provider per file (#639)",
+        "bytes": 1146241085,
+        "files": 10246,
+        "categories": {
+          "generated-specs": {
+            "bytes": 682872921,
+            "files": 2021
+          },
+          "services": {
+            "bytes": 436555410,
+            "files": 2132
+          },
+          "in-tree-specs": {
+            "bytes": 12991798,
+            "files": 1254
+          },
+          "patches": {
+            "bytes": 7748733,
+            "files": 3156
+          },
+          "handwritten": {
+            "bytes": 3959117,
+            "files": 1271
+          },
+          "benches": {
+            "bytes": 199012,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1914094,
+            "files": 376
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "1f4a62973",
+        "date": "2026-09-29T22:28:18Z",
+        "message": "fix(aws,cloudflare): type Workers preview conflict and Deadline UpdateQueue conflict (#683)",
+        "bytes": 1147881010,
+        "files": 10448,
+        "categories": {
+          "generated-specs": {
+            "bytes": 683203790,
+            "files": 2021
+          },
+          "services": {
+            "bytes": 436871951,
+            "files": 2132
+          },
+          "in-tree-specs": {
+            "bytes": 12991798,
+            "files": 1254
+          },
+          "patches": {
+            "bytes": 8493195,
+            "files": 3269
+          },
+          "handwritten": {
+            "bytes": 4202652,
+            "files": 1360
+          },
+          "benches": {
+            "bytes": 198895,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1918729,
+            "files": 376
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "b8688c67b",
+        "date": "2026-10-01T12:20:21Z",
+        "message": "chore: upgrade SDKs to Effect 4 stable (#692)",
+        "bytes": 1147878888,
+        "files": 10448,
+        "categories": {
+          "generated-specs": {
+            "bytes": 683203790,
+            "files": 2021
+          },
+          "services": {
+            "bytes": 436871951,
+            "files": 2132
+          },
+          "in-tree-specs": {
+            "bytes": 12991798,
+            "files": 1254
+          },
+          "patches": {
+            "bytes": 8493195,
+            "files": 3269
+          },
+          "handwritten": {
+            "bytes": 4202652,
+            "files": 1360
+          },
+          "benches": {
+            "bytes": 198895,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1916607,
+            "files": 376
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "e02e9d405",
+        "date": "2026-10-02T08:23:52Z",
+        "message": "chore(release): 1.0.0-rc.13",
+        "bytes": 1147889680,
+        "files": 10448,
+        "categories": {
+          "generated-specs": {
+            "bytes": 683203790,
+            "files": 2021
+          },
+          "services": {
+            "bytes": 436871951,
+            "files": 2132
+          },
+          "in-tree-specs": {
+            "bytes": 12991798,
+            "files": 1254
+          },
+          "patches": {
+            "bytes": 8493195,
+            "files": 3269
+          },
+          "handwritten": {
+            "bytes": 4202864,
+            "files": 1360
+          },
+          "benches": {
+            "bytes": 198895,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1927187,
+            "files": 376
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "2ae180ba0",
+        "date": "2026-10-04T16:31:42Z",
+        "message": "chore: upgrade to pnpm 12.9.1 (#708)",
+        "bytes": 1143238927,
+        "files": 10450,
+        "categories": {
+          "generated-specs": {
+            "bytes": 683186330,
+            "files": 2021
+          },
+          "services": {
+            "bytes": 432322440,
+            "files": 2132
+          },
+          "in-tree-specs": {
+            "bytes": 12991766,
+            "files": 1254
+          },
+          "patches": {
+            "bytes": 8483175,
+            "files": 3269
+          },
+          "handwritten": {
+            "bytes": 4164807,
+            "files": 1362
+          },
+          "benches": {
+            "bytes": 197195,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1893214,
+            "files": 376
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "4d4212647",
+        "date": "2026-10-05T23:55:56Z",
+        "message": "fix(planetscale): type invoice line-item subtotal as a string (#686)",
+        "bytes": 1157798227,
+        "files": 10538,
+        "categories": {
+          "generated-specs": {
+            "bytes": 691931034,
+            "files": 2028
+          },
+          "services": {
+            "bytes": 437405151,
+            "files": 2140
+          },
+          "in-tree-specs": {
+            "bytes": 12991766,
+            "files": 1254
+          },
+          "patches": {
+            "bytes": 9005752,
+            "files": 3408
+          },
+          "handwritten": {
+            "bytes": 4373919,
+            "files": 1294
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1890695,
+            "files": 378
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "490a23b0f",
+        "date": "2026-10-06T14:32:36Z",
+        "message": "feat(cloudflare): support the Durable Object Container API (#685)",
+        "bytes": 1232018171,
+        "files": 10603,
+        "categories": {
+          "generated-specs": {
+            "bytes": 736832874,
+            "files": 2054
+          },
+          "services": {
+            "bytes": 467172134,
+            "files": 2156
+          },
+          "in-tree-specs": {
+            "bytes": 13112830,
+            "files": 1269
+          },
+          "patches": {
+            "bytes": 8369758,
+            "files": 3399
+          },
+          "handwritten": {
+            "bytes": 4435206,
+            "files": 1308
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1895459,
+            "files": 381
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "4406d5f9b",
+        "date": "2026-10-07T19:45:05Z",
+        "message": "fix(release): create every GitHub release as Latest, never prerelease (#837)",
+        "bytes": 1232044660,
+        "files": 10607,
+        "categories": {
+          "generated-specs": {
+            "bytes": 736834291,
+            "files": 2054
+          },
+          "services": {
+            "bytes": 467173572,
+            "files": 2156
+          },
+          "in-tree-specs": {
+            "bytes": 13112830,
+            "files": 1269
+          },
+          "patches": {
+            "bytes": 8372703,
+            "files": 3400
+          },
+          "handwritten": {
+            "bytes": 4435206,
+            "files": 1308
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 1916148,
+            "files": 384
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "40a9500a7",
+        "date": "2026-10-08T10:21:40Z",
+        "message": "feat(notion): add the Notion SDK (#855)",
+        "bytes": 1223933385,
+        "files": 9693,
+        "categories": {
+          "generated-specs": {
+            "bytes": 739540595,
+            "files": 2079
+          },
+          "services": {
+            "bytes": 469417845,
+            "files": 2184
+          },
+          "in-tree-specs": {
+            "bytes": 122275,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 7990767,
+            "files": 3653
+          },
+          "handwritten": {
+            "bytes": 4563182,
+            "files": 1335
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 2098811,
+            "files": 402
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "f445ff754",
+        "date": "2026-10-09T11:14:57Z",
+        "message": "fix(cloudflare): type dispatch_namespace on Durable Object namespace listings (#861)",
+        "bytes": 1224015552,
+        "files": 9701,
+        "categories": {
+          "generated-specs": {
+            "bytes": 739565336,
+            "files": 2079
+          },
+          "services": {
+            "bytes": 469438348,
+            "files": 2184
+          },
+          "in-tree-specs": {
+            "bytes": 123212,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8026087,
+            "files": 3661
+          },
+          "handwritten": {
+            "bytes": 4563848,
+            "files": 1335
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 2098811,
+            "files": 402
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "5f4a89531",
+        "date": "2026-10-10T00:44:37Z",
+        "message": "fix(cloudflare): type WorkerHasNoVersions on getDispatchNamespaceScriptSetting (#866)",
+        "bytes": 1224017655,
+        "files": 9701,
+        "categories": {
+          "generated-specs": {
+            "bytes": 739565965,
+            "files": 2079
+          },
+          "services": {
+            "bytes": 469438684,
+            "files": 2184
+          },
+          "in-tree-specs": {
+            "bytes": 123212,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8027225,
+            "files": 3661
+          },
+          "handwritten": {
+            "bytes": 4563848,
+            "files": 1335
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 2098811,
+            "files": 402
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "063c844c4",
+        "date": "2026-10-12T19:26:24Z",
+        "message": "chore(release): 1.0.0-rc.15",
+        "bytes": 1224218050,
+        "files": 9714,
+        "categories": {
+          "generated-specs": {
+            "bytes": 739600072,
+            "files": 2079
+          },
+          "services": {
+            "bytes": 469468946,
+            "files": 2184
+          },
+          "in-tree-specs": {
+            "bytes": 123212,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8128749,
+            "files": 3674
+          },
+          "handwritten": {
+            "bytes": 4563848,
+            "files": 1335
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 2133313,
+            "files": 402
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "3e24330a0",
+        "date": "2026-10-13T19:36:24Z",
+        "message": "chore: bump dependencies, drop graphql (#875)",
+        "bytes": 1224221782,
+        "files": 9715,
+        "categories": {
+          "generated-specs": {
+            "bytes": 739600801,
+            "files": 2079
+          },
+          "services": {
+            "bytes": 469469405,
+            "files": 2184
+          },
+          "in-tree-specs": {
+            "bytes": 123212,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8129298,
+            "files": 3675
+          },
+          "handwritten": {
+            "bytes": 4563848,
+            "files": 1335
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 2135308,
+            "files": 402
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "044b69039",
+        "date": "2026-10-14T19:56:55Z",
+        "message": "feat(aws): bump spec mirror for Lambda Web Functions (lambda-web, lambda-core) (#878)",
+        "bytes": 1224254771,
+        "files": 9716,
+        "categories": {
+          "generated-specs": {
+            "bytes": 739628362,
+            "files": 2079
+          },
+          "services": {
+            "bytes": 469473493,
+            "files": 2184
+          },
+          "in-tree-specs": {
+            "bytes": 123212,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8130638,
+            "files": 3676
+          },
+          "handwritten": {
+            "bytes": 4563848,
+            "files": 1335
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 2135308,
+            "files": 402
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "a65178cea",
+        "date": "2026-10-15T01:33:16Z",
+        "message": "fix(aws/lambda): type IAM and security-group propagation errors (#879)",
+        "bytes": 1224276208,
+        "files": 9717,
+        "categories": {
+          "generated-specs": {
+            "bytes": 739640878,
+            "files": 2079
+          },
+          "services": {
+            "bytes": 469477747,
+            "files": 2184
+          },
+          "in-tree-specs": {
+            "bytes": 123212,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8135305,
+            "files": 3677
+          },
+          "handwritten": {
+            "bytes": 4563848,
+            "files": 1335
+          },
+          "benches": {
+            "bytes": 199910,
+            "files": 36
+          },
+          "other": {
+            "bytes": 2135308,
+            "files": 402
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "eb746e257",
+        "date": "2026-10-20T20:39:05Z",
+        "message": "fix: type Cloudflare AI Search deletion-in-progress and GCP CES version-in-use errors (#885)",
+        "bytes": 1173172285,
+        "files": 9892,
+        "categories": {
+          "generated-specs": {
+            "bytes": 739642165,
+            "files": 2079
+          },
+          "services": {
+            "bytes": 408741213,
+            "files": 2184
+          },
+          "in-tree-specs": {
+            "bytes": 123212,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8137482,
+            "files": 3678
+          },
+          "handwritten": {
+            "bytes": 4953010,
+            "files": 1373
+          },
+          "benches": {
+            "bytes": 9317727,
+            "files": 168
+          },
+          "other": {
+            "bytes": 2257476,
+            "files": 406
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "b65951432",
+        "date": "2026-10-21T15:26:07Z",
+        "message": "fix(cloudflare): keep destinationConf on observability destination responses, now optional (#902)",
+        "bytes": 1174651264,
+        "files": 9909,
+        "categories": {
+          "generated-specs": {
+            "bytes": 740483430,
+            "files": 2080
+          },
+          "services": {
+            "bytes": 409249636,
+            "files": 2185
+          },
+          "in-tree-specs": {
+            "bytes": 123212,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8196369,
+            "files": 3687
+          },
+          "handwritten": {
+            "bytes": 5035907,
+            "files": 1379
+          },
+          "benches": {
+            "bytes": 9317727,
+            "files": 168
+          },
+          "other": {
+            "bytes": 2244983,
+            "files": 406
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "db4fe2e24",
+        "date": "2026-10-22T22:38:27Z",
+        "message": "chore(release): 1.0.0-rc.16",
+        "bytes": 1179412325,
+        "files": 9958,
+        "categories": {
+          "generated-specs": {
+            "bytes": 743105067,
+            "files": 2084
+          },
+          "services": {
+            "bytes": 411195752,
+            "files": 2189
+          },
+          "in-tree-specs": {
+            "bytes": 130875,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8208025,
+            "files": 3693
+          },
+          "handwritten": {
+            "bytes": 5139843,
+            "files": 1407
+          },
+          "benches": {
+            "bytes": 9358980,
+            "files": 172
+          },
+          "other": {
+            "bytes": 2273783,
+            "files": 409
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "8510122a3",
+        "date": "2026-10-23T22:59:00Z",
+        "message": "chore(release): 1.0.0-rc.17",
+        "bytes": 1179588153,
+        "files": 9965,
+        "categories": {
+          "generated-specs": {
+            "bytes": 743176628,
+            "files": 2085
+          },
+          "services": {
+            "bytes": 411240974,
+            "files": 2190
+          },
+          "in-tree-specs": {
+            "bytes": 130875,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8248818,
+            "files": 3696
+          },
+          "handwritten": {
+            "bytes": 5143056,
+            "files": 1409
+          },
+          "benches": {
+            "bytes": 9364773,
+            "files": 172
+          },
+          "other": {
+            "bytes": 2283029,
+            "files": 409
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "6ac779136",
+        "date": "2026-10-24T17:23:36Z",
+        "message": "feat(cloudflare): accept rollout_active_grace_period on Container application create and update (#918)",
+        "bytes": 1179635757,
+        "files": 9968,
+        "categories": {
+          "generated-specs": {
+            "bytes": 743178161,
+            "files": 2085
+          },
+          "services": {
+            "bytes": 411243544,
+            "files": 2190
+          },
+          "in-tree-specs": {
+            "bytes": 131703,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8252557,
+            "files": 3697
+          },
+          "handwritten": {
+            "bytes": 5171759,
+            "files": 1411
+          },
+          "benches": {
+            "bytes": 9364773,
+            "files": 172
+          },
+          "other": {
+            "bytes": 2293260,
+            "files": 409
+          }
+        },
+        "truncated": false
+      },
+      {
+        "sha": "0021bace3",
+        "date": "2026-10-25T16:55:16Z",
+        "message": "perf(codegen): apply post-processing edits in one pass (#938)",
+        "bytes": 1179648764,
+        "files": 9972,
+        "categories": {
+          "generated-specs": {
+            "bytes": 743178161,
+            "files": 2085
+          },
+          "services": {
+            "bytes": 411243544,
+            "files": 2190
+          },
+          "in-tree-specs": {
+            "bytes": 131703,
+            "files": 4
+          },
+          "patches": {
+            "bytes": 8252557,
+            "files": 3697
+          },
+          "handwritten": {
+            "bytes": 5183513,
+            "files": 1414
+          },
+          "benches": {
+            "bytes": 9364773,
+            "files": 172
+          },
+          "other": {
+            "bytes": 2294513,
+            "files": 410
+          }
+        },
+        "truncated": false
+      }
+    ]
+  }
+}
