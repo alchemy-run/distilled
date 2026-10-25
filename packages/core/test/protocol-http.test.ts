@@ -223,6 +223,17 @@ describe("sensitive union responses", () => {
     }
   });
 
+  test("a sensitive member two union arms both mark is wrapped once", () => {
+    const shared = S.Union([
+      S.Struct({ kind: S.Literal("a"), password: S.String.pipe(SensitiveValue()) }),
+      S.Struct({ kind: S.Literal("b"), password: S.String.pipe(SensitiveValue()) }),
+    ]);
+    const wrapped = wrapSensitive(shared.ast, { kind: "a", password: "fixture-password" }) as {
+      password: Redacted.Redacted<string>;
+    };
+    expect(Redacted.value(wrapped.password)).toBe("fixture-password");
+  });
+
   test("nested arrays and optional nullable unions preserve nonsecret values", () => {
     const nested = S.Struct({
       provider: S.optional(S.NullOr(schema)),
