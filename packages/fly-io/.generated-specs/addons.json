@@ -350,7 +350,8 @@
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#sensitive": {}
           }
         },
         "options": {
@@ -863,7 +864,8 @@
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#sensitive": {}
           }
         },
         "options": {
@@ -1039,7 +1041,8 @@
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#sensitive": {}
           }
         },
         "options": {
@@ -1710,7 +1713,8 @@
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#sensitive": {}
           }
         },
         "options": {
@@ -2094,7 +2098,8 @@
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#sensitive": {}
           }
         },
         "options": {
@@ -2346,7 +2351,8 @@
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#sensitive": {}
           }
         },
         "options": {
@@ -2732,7 +2738,8 @@
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#required": {},
-            "com.flyio.graphql#nullable": {}
+            "com.flyio.graphql#nullable": {},
+            "smithy.api#sensitive": {}
           }
         },
         "options": {

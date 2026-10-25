@@ -321,7 +321,7 @@ await finalizeConvert({
     for (const def of Object.values(model.shapes ?? {}) as any[]) {
       if (def?.type !== "structure") continue;
       for (const [name, member] of Object.entries(def.members ?? {}) as any[]) {
-        if (name === "password" || name === "publicUrl") {
+        if (name === "password" || name === "publicUrl" || name === "environment") {
           member.traits = {
             ...member.traits,
             "smithy.api#sensitive": {},

@@ -74,7 +74,7 @@ export interface AddOnResponse {
   privateIp: string | null;
   password: string | Redacted.Redacted<string> | null;
   ssoLink: string | null;
-  environment: unknown | null;
+  environment: Redacted.Redacted<unknown> | null;
   options: unknown | null;
   metadata: unknown | null;
   createdAt: string;
@@ -179,7 +179,7 @@ export interface AddOnsResponseEdgesItemNode {
   privateIp: string | null;
   password: string | Redacted.Redacted<string> | null;
   ssoLink: string | null;
-  environment: unknown | null;
+  environment: Redacted.Redacted<unknown> | null;
   options: unknown | null;
   metadata: unknown | null;
   createdAt: string;
@@ -207,7 +207,7 @@ export interface AddOnsResponseNodesItem {
   privateIp: string | null;
   password: string | Redacted.Redacted<string> | null;
   ssoLink: string | null;
-  environment: unknown | null;
+  environment: Redacted.Redacted<unknown> | null;
   options: unknown | null;
   metadata: unknown | null;
   createdAt: string;
@@ -268,7 +268,7 @@ export interface CreateAddOnResponseAddOn {
   privateIp: string | null;
   password: string | Redacted.Redacted<string> | null;
   ssoLink: string | null;
-  environment: unknown | null;
+  environment: Redacted.Redacted<unknown> | null;
   options: unknown | null;
   metadata: unknown | null;
   createdAt: string;
@@ -334,7 +334,7 @@ export interface OrganizationResponseAddOnsEdgesItemNode {
   privateIp: string | null;
   password: string | Redacted.Redacted<string> | null;
   ssoLink: string | null;
-  environment: unknown | null;
+  environment: Redacted.Redacted<unknown> | null;
   options: unknown | null;
   metadata: unknown | null;
   createdAt: string;
@@ -386,7 +386,7 @@ export interface ResetAddOnPasswordResponseAddOn {
   privateIp: string | null;
   password: string | Redacted.Redacted<string> | null;
   ssoLink: string | null;
-  environment: unknown | null;
+  environment: Redacted.Redacted<unknown> | null;
   options: unknown | null;
   metadata: unknown | null;
   createdAt: string;
@@ -435,7 +435,7 @@ export interface UpdateAddOnResponseAddOn {
   privateIp: string | null;
   password: string | Redacted.Redacted<string> | null;
   ssoLink: string | null;
-  environment: unknown | null;
+  environment: Redacted.Redacted<unknown> | null;
   options: unknown | null;
   metadata: unknown | null;
   createdAt: string;
@@ -661,7 +661,7 @@ function __c0(j: number): any {
           privateIp: S.NullOr(S.String),
           password: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           ssoLink: S.NullOr(S.String),
-          environment: S.NullOr(S.Unknown),
+          environment: S.NullOr(S.Unknown).pipe(T.SensitiveValue({})),
           options: S.NullOr(S.Unknown),
           metadata: S.NullOr(S.Unknown),
           createdAt: S.String,
@@ -910,7 +910,7 @@ function __c8(j: number): any {
           privateIp: S.NullOr(S.String),
           password: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           ssoLink: S.NullOr(S.String),
-          environment: S.NullOr(S.Unknown),
+          environment: S.NullOr(S.Unknown).pipe(T.SensitiveValue({})),
           options: S.NullOr(S.Unknown),
           metadata: S.NullOr(S.Unknown),
           createdAt: S.String,
@@ -959,7 +959,7 @@ function __c9(j: number): any {
           privateIp: S.NullOr(S.String),
           password: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           ssoLink: S.NullOr(S.String),
-          environment: S.NullOr(S.Unknown),
+          environment: S.NullOr(S.Unknown).pipe(T.SensitiveValue({})),
           options: S.NullOr(S.Unknown),
           metadata: S.NullOr(S.Unknown),
           createdAt: S.String,

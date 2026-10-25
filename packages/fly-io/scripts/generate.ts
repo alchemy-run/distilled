@@ -201,7 +201,7 @@ const graphqlSpec = (model: any, sourceNote: string): SdkSpec => ({
   },
   memberTsType: (m) =>
     "smithy.api#sensitive" in (m.traits ?? {})
-      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      ? `${m.target === "smithy.api#Document" ? "Redacted.Redacted<unknown>" : "string | Redacted.Redacted<string>"}${m.nullable ? " | null" : ""}`
       : undefined,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   errors: {
