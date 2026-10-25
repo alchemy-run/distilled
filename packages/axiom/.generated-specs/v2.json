@@ -3415,7 +3415,8 @@
         "discordToken": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Discord bot token for authentication"
+            "smithy.api#documentation": "Discord bot token for authentication",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -3429,7 +3430,8 @@
         "discordWebhookUrl": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Discord webhook URL"
+            "smithy.api#documentation": "Discord webhook URL",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -3466,7 +3468,8 @@
         "microsoftTeamsUrl": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Microsoft Teams webhook URL"
+            "smithy.api#documentation": "Microsoft Teams webhook URL",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -3501,13 +3504,15 @@
         "routingKey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "PagerDuty integration key for routing alerts"
+            "smithy.api#documentation": "PagerDuty integration key for routing alerts",
+            "smithy.api#sensitive": {}
           }
         },
         "token": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "PagerDuty API token for additional functionality"
+            "smithy.api#documentation": "PagerDuty API token for additional functionality",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -3521,7 +3526,8 @@
         "slackUrl": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Slack incoming webhook URL"
+            "smithy.api#documentation": "Slack incoming webhook URL",
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -4359,7 +4365,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Full-permission API token the agent uses to create datasets, ingest, and query. Returned once and never retrievable again.",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -8518,7 +8525,10 @@
           "target": "com.axiom.api#ViewCapabilities"
         },
         "token": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
         }
       },
       "traits": {
@@ -8737,7 +8747,10 @@
           "target": "com.axiom.api#ViewCapabilities"
         },
         "token": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
         }
       },
       "traits": {
