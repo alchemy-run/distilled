@@ -90,9 +90,9 @@ const exchangeToken = (
             message: "OAuth2 token exchange returned a non-JSON response",
           }),
       ),
-    )) as { access_token?: string; expires_in?: number };
+    )) as { access_token?: unknown; expires_in?: unknown } | null;
 
-    if (typeof data.access_token !== "string") {
+    if (typeof data?.access_token !== "string") {
       return yield* new ConfigError({
         message: "OAuth2 token exchange response is missing access_token",
       });

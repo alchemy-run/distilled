@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { afterEach, describe, expect, test, vi } from "vitest";
@@ -45,5 +46,12 @@ describe("fromClientCredentials", () => {
     expect(seen[0]!.headers.get("authorization")).toBe(
       `Basic ${Buffer.from("client-ü:s€cret", "utf8").toString("base64")}`,
     );
+  });
+
+  test("a 2xx token response whose JSON body is null fails with ConfigError", async () => {
+    stubTokenEndpoint(() => Response.json(null));
+    const error = await Effect.runPromise(Effect.flip(resolve("secret")));
+    expect(error).toBeInstanceOf(ConfigError);
+    expect(error.message).toBe("OAuth2 token exchange response is missing access_token");
   });
 });
