@@ -125,6 +125,16 @@ export const Body = (name?: string) => makeAnnotation(bodySymbol, name ?? true);
 export const querySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/query");
 export const Query = (name?: string) => makeAnnotation(querySymbol, name ?? true);
 
+/**
+ * How an object-valued `Query()` member goes on the wire: `"deepObject"` sends
+ * `page[size]=10`, exploded `"form"` sends its keys top-level (`q=x`).
+ * Without it, an object goes as dotted `name.key=v`.
+ */
+export type QueryStyleTrait = "form" | "deepObject";
+
+export const queryStyleSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/query-style");
+export const QueryStyle = (style: QueryStyleTrait) => makeAnnotation(queryStyleSymbol, style);
+
 export const deepQuerySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/deep-query");
 /**
  * Binds a struct-valued input member to a family of DOTTED query parameters:

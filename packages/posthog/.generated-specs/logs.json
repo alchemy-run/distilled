@@ -5260,6 +5260,7 @@
           "target": "com.posthog.logs#DateRange",
           "traits": {
             "smithy.api#httpQuery": "dateRange",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Date range to search within. Defaults to last hour."
           }
         },
@@ -10206,6 +10207,7 @@
           "target": "com.posthog.logs#DateRange",
           "traits": {
             "smithy.api#httpQuery": "dateRange",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Date range to search within. Defaults to last hour."
           }
         },

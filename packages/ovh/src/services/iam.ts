@@ -1419,7 +1419,7 @@ function __c22(j: number): any {
           resourceName: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           resourceType: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           resourceURN: S.optional(__S(16, __c1, 0).pipe(T.Query())),
-          tags: S.optional(__S(353, __c22, 1).pipe(T.Query())),
+          tags: S.optional(__S(353, __c22, 1).pipe(T.Query(), T.QueryStyle("form"))),
           xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
           xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
         }).pipe(T.Http({ method: "GET", uri: "/iam/resource", code: 200 })),

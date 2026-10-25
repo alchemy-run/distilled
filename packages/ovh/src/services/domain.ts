@@ -6001,7 +6001,7 @@ function __c77(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(1265, __c79, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(1265, __c79, 1).pipe(T.Query(), T.QueryStyle("form"))),
           whoisOwner: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/domain", code: 200 })),
       ).annotate({ identifier: "GetDomainsRequest" });
@@ -6476,7 +6476,7 @@ function __c107(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(1265, __c79, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(1265, __c79, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/domain/zone", code: 200 })),
       ).annotate({ identifier: "GetZonesRequest" });
   }

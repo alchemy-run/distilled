@@ -2016,6 +2016,7 @@
           "target": "com.zendesk.api#ListActivitiesRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -3673,6 +3674,7 @@
           "target": "com.zendesk.api#ListAuditLogsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -4046,6 +4048,7 @@
           "target": "com.zendesk.api#ListAutomationsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -5569,6 +5572,7 @@
           "target": "com.zendesk.api#ListBrandAgentsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -5788,6 +5792,7 @@
           "target": "com.zendesk.api#ListBrandsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor pagination parameters using deepObject format.\n\nUse `?page[size]=50&page[after]=cursor` to paginate through results.\n"
           }
         },
@@ -12090,6 +12095,7 @@
           "target": "com.zendesk.api#SearchAutocompleteCustomObjectRecordRequestFilterDynamicValuesMap",
           "traits": {
             "smithy.api#httpQuery": "filter[dynamic_values]",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Provided values to be used with [dynamic filters](/api-reference/ticketing/lookup_relationships/lookup_relationships/#using-dynamic-filters).\n"
           }
         },
@@ -15337,6 +15343,7 @@
           "target": "com.zendesk.api#ListDeletedTicketsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -15863,6 +15870,7 @@
           "target": "com.zendesk.api#ListDeletedUsersRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -16508,6 +16516,7 @@
           "target": "com.zendesk.api#ListDynamicContentsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -16875,6 +16884,7 @@
           "target": "com.zendesk.api#DynamicContentListVariantsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -17215,6 +17225,7 @@
           "target": "com.zendesk.api#ListEmailNotificationsRequestFilter",
           "traits": {
             "smithy.api#httpQuery": "filter",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#required": {},
             "smithy.api#documentation": "Filters the email notifications by ticket, comment, or notification id.\n"
           }
@@ -18082,6 +18093,7 @@
           "target": "com.zendesk.api#ListGroupMembershipsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -19007,6 +19019,7 @@
           "target": "com.zendesk.api#ListGroupsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -19614,6 +19627,7 @@
           "target": "com.zendesk.api#ListAvailableAgentsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -22289,6 +22303,7 @@
           "target": "com.zendesk.api#ListItamAssetsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -23327,6 +23342,7 @@
           "target": "com.zendesk.api#ListItamFieldsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         }
@@ -23683,6 +23699,7 @@
           "target": "com.zendesk.api#ListItamLocationsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         }
@@ -24420,6 +24437,7 @@
           "target": "com.zendesk.api#ListJobStatusesRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         }
@@ -24816,6 +24834,7 @@
           "target": "com.zendesk.api#ListMacrosRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -25946,6 +25965,7 @@
           "target": "com.zendesk.api#ListMacroGroupsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -26369,6 +26389,7 @@
           "target": "com.zendesk.api#ListOAuthClientsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -26715,6 +26736,7 @@
           "target": "com.zendesk.api#ListGlobalOAuthClientsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -26984,6 +27006,7 @@
           "target": "com.zendesk.api#ListOAuthTokensRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -27254,6 +27277,7 @@
           "target": "com.zendesk.api#ListOrganizationFieldsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -27657,6 +27681,7 @@
           "target": "com.zendesk.api#ListOrganizationMembershipsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -28295,6 +28320,7 @@
           "target": "com.zendesk.api#ListOrganizationsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -29651,6 +29677,7 @@
           "target": "com.zendesk.api#ListOrganizationUsersRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -30105,6 +30132,7 @@
           "target": "com.zendesk.api#ListTicketProblemsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -30896,6 +30924,7 @@
           "target": "com.zendesk.api#ListSupportAddressesRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -31919,6 +31948,7 @@
           "target": "com.zendesk.api#ListRequestsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -33745,6 +33775,7 @@
           "target": "com.zendesk.api#ListSatisfactionRatingsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -35313,6 +35344,7 @@
           "target": "com.zendesk.api#ListSessionsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -36502,6 +36534,7 @@
           "target": "com.zendesk.api#ListSuspendedTicketsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -37091,6 +37124,7 @@
           "target": "com.zendesk.api#ListTagsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -39301,6 +39335,7 @@
           "target": "com.zendesk.api#ListTicketFieldsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -40801,6 +40836,7 @@
           "target": "com.zendesk.api#ListTicketFormStatusesRequestFilter",
           "traits": {
             "smithy.api#httpQuery": "filter",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Additional filter criteria"
           }
         }
@@ -40963,6 +40999,7 @@
           "target": "com.zendesk.api#ListTicketFormsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -41797,6 +41834,7 @@
           "target": "com.zendesk.api#ListTicketMetricsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -42225,6 +42263,7 @@
           "target": "com.zendesk.api#ListTicketsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -43775,6 +43814,7 @@
           "target": "com.zendesk.api#ListAuditsForTicketRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -44182,6 +44222,7 @@
           "target": "com.zendesk.api#ListTicketCommentsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         }
@@ -44453,6 +44494,7 @@
           "target": "com.zendesk.api#ListConversationLogForTicketRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -49171,6 +49213,7 @@
           "target": "com.zendesk.api#ListTriggerCategoriesRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameters"
           }
         },
@@ -49949,6 +49992,7 @@
           "target": "com.zendesk.api#ListTriggersRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -51504,6 +51548,7 @@
           "target": "com.zendesk.api#ListUserFieldsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -52153,6 +52198,7 @@
           "target": "com.zendesk.api#ListUsersRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -53788,6 +53834,7 @@
           "target": "com.zendesk.api#ListUserGroupMembershipsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -54071,6 +54118,7 @@
           "target": "com.zendesk.api#ListUserGroupsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -54276,6 +54324,7 @@
           "target": "com.zendesk.api#ListUserIdentitiesRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Cursor-based pagination parameters (JSON:API style).\n\nSupports nested parameters:\n- `page[size]` - Number of records per page (default varies by endpoint, typically 100)\n- `page[after]` - Cursor token to fetch records after this position\n- `page[before]` - Cursor token to fetch records before this position\n\nExample: `?page[size]=50&page[after]=eyJvIjoiaWQiLCJ2IjoiYVFFPSJ9`\n"
           }
         },
@@ -54994,6 +55043,7 @@
           "target": "com.zendesk.api#ListUserOrganizationsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -56655,6 +56705,7 @@
           "target": "com.zendesk.api#ListUserFollowedTicketsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -56851,6 +56902,7 @@
           "target": "com.zendesk.api#ListUserRequestedTicketsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -58750,6 +58802,7 @@
           "target": "com.zendesk.api#ListViewsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -59257,6 +59310,7 @@
           "target": "com.zendesk.api#ExecuteViewRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },
@@ -60016,6 +60070,7 @@
           "target": "com.zendesk.api#PreviewViewsRequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Pagination parameter. Supports both traditional offset and cursor-based pagination:\n\n- Traditional: `?page=2` (integer page number)\n- Cursor: `?page[size]=50&page[after]=cursor` (deepObject with size, after, before)\n\nThese are mutually exclusive - use one format or the other, not both.\n"
           }
         },

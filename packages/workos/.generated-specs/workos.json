@@ -25574,6 +25574,7 @@
           "target": "com.workos.api#AuthorizeSsoControllerRequestProviderQueryParamsMap",
           "traits": {
             "smithy.api#httpQuery": "provider_query_params",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Key/value pairs of query parameters to pass to the OAuth provider. Only applicable when using OAuth connections."
           }
         },
@@ -28076,6 +28077,7 @@
           "target": "com.workos.api#AuthorizeUserlandSsoControllerRequestProviderQueryParamsMap",
           "traits": {
             "smithy.api#httpQuery": "provider_query_params",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Key/value pairs of query parameters to pass to the OAuth provider."
           }
         },

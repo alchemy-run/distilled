@@ -6760,7 +6760,7 @@ function __c124(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(993, __c124, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(993, __c124, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing", code: 200 })),
       ).annotate({ identifier: "ListIpLoadbalancingRequest" });
   }

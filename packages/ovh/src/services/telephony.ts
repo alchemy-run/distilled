@@ -24188,7 +24188,7 @@ function __c338(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/telephony", code: 200 })),
       ).annotate({ identifier: "ListTelephonyRequest" });
   }
@@ -24260,7 +24260,7 @@ function __c344(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/telephony/aliases", code: 200 })),
       ).annotate({ identifier: "ListTelephonyAliasesRequest" });
   }
@@ -25548,7 +25548,7 @@ function __c417(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/telephony/lines", code: 200 })),
       ).annotate({ identifier: "ListTelephonyLinesRequest" });
   }
@@ -26727,7 +26727,7 @@ function __c481(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/telephony/spare", code: 200 })),
       ).annotate({ identifier: "ListTelephonySpareRequest" });
   }
@@ -26901,7 +26901,7 @@ function __c492(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(2721, __c340, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/telephony/trunks", code: 200 })),
       ).annotate({ identifier: "ListTelephonyTrunksRequest" });
   }

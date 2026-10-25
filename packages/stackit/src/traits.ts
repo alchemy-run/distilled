@@ -13,6 +13,7 @@ export {
   Body,
   Header,
   Query,
+  QueryStyle,
   Label,
   HttpBody,
   FormDataFile,

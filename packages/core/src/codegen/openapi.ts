@@ -90,6 +90,11 @@ export const CONTENT_TYPE_TRAIT = "com.distilled.openapi#contentType";
  * provider's protocol injects it at request time.
  */
 export const API_VERSION_TRAIT = "com.distilled.openapi#apiVersion";
+/**
+ * The OpenAPI `style` of an object- or map-valued query parameter, emitted as
+ * `T.QueryStyle(...)`. Absent means core's dotted default.
+ */
+export const QUERY_STYLE_TRAIT = "com.distilled.openapi#queryStyle";
 
 // ============================================================================
 // Sensitive-field name patterns (distilled v0's SENSITIVE_FIELD_PATTERNS)
@@ -1010,6 +1015,8 @@ interface Param {
   required: boolean;
   description?: string;
   schema: any;
+  style?: string;
+  explode?: boolean;
 }
 
 /** Normalize a (possibly `$ref`'d) parameter; Swagger 2.0 carries the schema inline. */
@@ -1039,7 +1046,32 @@ const normalizeParam = (ctx: Ctx, raw: any): Param | undefined => {
     required: p.required === true || p.in === "path",
     description: typeof p.description === "string" ? p.description : undefined,
     schema,
+    style: typeof p.style === "string" ? p.style : undefined,
+    explode: typeof p.explode === "boolean" ? p.explode : undefined,
   };
+};
+
+const isObjectShape = (shape: any): boolean => shape?.type === "structure" || shape?.type === "map";
+
+/**
+ * The {@link QUERY_STYLE_TRAIT} value for a query parameter whose schema is a
+ * structure or map, or a union with one (Zendesk's `page`).
+ */
+const queryStyle = (
+  p: Param,
+  shape: any,
+  shapes: Record<string, any>,
+): "form" | "deepObject" | undefined => {
+  const objectValued =
+    isObjectShape(shape) ||
+    (shape?.type === "union" &&
+      Object.values(shape.members as Record<string, { target: string }>).some((m) =>
+        isObjectShape(shapes[m.target]),
+      ));
+  if (!objectValued) return undefined;
+  if (p.style === "deepObject") return "deepObject";
+  if ((p.style ?? "form") === "form" && p.explode !== false) return "form";
+  return undefined;
 };
 
 /**
@@ -1498,10 +1530,12 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
         }
         const san = memberIdent(p.name);
         const conv = convertSchema(ctx, p.schema, `${opName}Request${pascal(p.name)}`, 0, "in");
+        const style = queryStyle(p, ctx.shapes[conv.target], ctx.shapes);
         addMember(san, {
           target: conv.target,
           traits: {
             "smithy.api#httpQuery": p.name,
+            ...(style ? { [QUERY_STYLE_TRAIT]: style } : {}),
             ...(p.required ? { "smithy.api#required": {} } : {}),
             ...(p.description ? { "smithy.api#documentation": p.description } : {}),
           },

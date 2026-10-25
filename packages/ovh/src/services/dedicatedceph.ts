@@ -1603,7 +1603,7 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(105, __c26, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(105, __c26, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph", code: 200 })),
       ).annotate({ identifier: "ListDedicatedCephRequest" });
     case 3:

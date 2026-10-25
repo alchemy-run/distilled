@@ -716,7 +716,7 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(130, __c8, 2).pipe(T.Query())),
+          iamTags: S.optional(__S(130, __c8, 2).pipe(T.Query(), T.QueryStyle("form"))),
           xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
           xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
         }).pipe(T.Http({ method: "GET", uri: "/vrackServices/resource", code: 200 })),

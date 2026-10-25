@@ -4253,7 +4253,7 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(497, __c124, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(497, __c124, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/sms/virtualNumbers", code: 200 })),
       ).annotate({ identifier: "ListSmsVirtualNumbersRequest" });
   }
@@ -6131,7 +6131,7 @@ function __c123(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(497, __c124, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(497, __c124, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/sms", code: 200 })),
       ).annotate({ identifier: "ListSmsRequest" });
   }

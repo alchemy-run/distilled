@@ -28110,7 +28110,8 @@
         "owner": {
           "target": "com.huggingface.collections#GetCollectionsRequestOwner",
           "traits": {
-            "smithy.api#httpQuery": "owner"
+            "smithy.api#httpQuery": "owner",
+            "com.distilled.openapi#queryStyle": "form"
           }
         },
         "q": {

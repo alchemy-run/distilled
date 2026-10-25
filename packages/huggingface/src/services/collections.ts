@@ -7323,7 +7323,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           item: S.optional(S.Unknown.pipe(T.Query())),
-          owner: S.optional(S.Unknown.pipe(T.Query())),
+          owner: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("form"))),
           q: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),

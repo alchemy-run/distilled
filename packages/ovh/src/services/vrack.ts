@@ -2802,7 +2802,7 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(181, __c45, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(181, __c45, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/vrack", code: 200 })),
       ).annotate({ identifier: "ListVrackRequest" });
   }

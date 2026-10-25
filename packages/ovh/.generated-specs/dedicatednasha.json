@@ -49,6 +49,7 @@
           "target": "com.ovh.dedicatednasha#ListDedicatedNashaRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         }

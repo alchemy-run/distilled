@@ -4110,7 +4110,7 @@ function __c27(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           attribute_type: S.optional(S.String.pipe(T.Query())),
-          dateRange: S.optional(__S(1152, __c72, 0).pipe(T.Query())),
+          dateRange: S.optional(__S(1152, __c72, 0).pipe(T.Query(), T.QueryStyle("form"))),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
           filterGroup: S.optional(__S(1185, __c74, 1).pipe(T.Query())),
@@ -4222,7 +4222,7 @@ function __c33(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           attribute_type: S.optional(S.String.pipe(T.Query())),
-          dateRange: S.optional(__S(1152, __c72, 0).pipe(T.Query())),
+          dateRange: S.optional(__S(1152, __c72, 0).pipe(T.Query(), T.QueryStyle("form"))),
           filterGroup: S.optional(__S(1185, __c74, 1).pipe(T.Query())),
           key: S.String.pipe(T.Query()),
           serviceNames: S.optional(__S(704, __c44, 0).pipe(T.Query())),

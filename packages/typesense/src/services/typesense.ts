@@ -3708,7 +3708,9 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           collectionName: S.String.pipe(T.Label()),
-          deleteDocumentsParameters: S.optional(__S(480, __c15, 0).pipe(T.Query())),
+          deleteDocumentsParameters: S.optional(
+            __S(480, __c15, 0).pipe(T.Query(), T.QueryStyle("form")),
+          ),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/collections/{collectionName}/documents", code: 200 }),
         ),
@@ -3808,7 +3810,9 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           collectionName: S.String.pipe(T.Label()),
-          exportDocumentsParameters: S.optional(__S(704, __c22, 0).pipe(T.Query())),
+          exportDocumentsParameters: S.optional(
+            __S(704, __c22, 0).pipe(T.Query(), T.QueryStyle("form")),
+          ),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4145,7 +4149,9 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          getCollectionsParameters: S.optional(__S(1216, __c38, 0).pipe(T.Query())),
+          getCollectionsParameters: S.optional(
+            __S(1216, __c38, 0).pipe(T.Query(), T.QueryStyle("form")),
+          ),
         }).pipe(T.Http({ method: "GET", uri: "/collections", code: 200 })),
       ).annotate({ identifier: "GetCollectionsRequest" });
     case 2:
@@ -4747,7 +4753,9 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           collectionName: S.String.pipe(T.Label()),
-          importDocumentsParameters: S.optional(__S(2272, __c71, 0).pipe(T.Query())),
+          importDocumentsParameters: S.optional(
+            __S(2272, __c71, 0).pipe(T.Query(), T.QueryStyle("form")),
+          ),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4889,7 +4897,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           collectionName: S.String.pipe(T.Label()),
-          searchParameters: __S(2400, __c75, 0).pipe(T.Query()),
+          searchParameters: __S(2400, __c75, 0).pipe(T.Query(), T.QueryStyle("form")),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5216,7 +5224,7 @@ function __c77(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          multiSearchParameters: __S(2466, __c77, 2).pipe(T.Query()),
+          multiSearchParameters: __S(2466, __c77, 2).pipe(T.Query(), T.QueryStyle("form")),
           union: S.optional(S.Boolean),
           searches: __S(2465, __c77, 1),
         }).pipe(T.Http({ method: "POST", uri: "/multi_search", code: 200 })),
@@ -5439,7 +5447,9 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           collectionName: S.String.pipe(T.Label()),
-          updateDocumentsParameters: S.optional(__S(2752, __c86, 0).pipe(T.Query())),
+          updateDocumentsParameters: S.optional(
+            __S(2752, __c86, 0).pipe(T.Query(), T.QueryStyle("form")),
+          ),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/collections/{collectionName}/documents", code: 200 }),
         ),

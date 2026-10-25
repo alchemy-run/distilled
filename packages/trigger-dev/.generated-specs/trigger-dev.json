@@ -4182,6 +4182,7 @@
           "target": "com.trigger.dev.api#ListRunsV1RequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Use this parameter to paginate the results. You can specify the number of runs per page, and the ID of the run to start the page after or before.\n\nFor object fields like `page`, you should use the \"form\" encoding style. For example, to get the next page of runs, you can use `page[after]=run_1234`.\n"
           }
         },
@@ -4189,6 +4190,7 @@
           "target": "com.trigger.dev.api#CommonRunsFilter",
           "traits": {
             "smithy.api#httpQuery": "filter",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Use this parameter to filter the runs. You can filter by created at, status, task identifier, and version.\n\nFor array fields, you can provide multiple values to filter by using a comma-separated list. For example, to get QUEUED and EXECUTING runs, you can use `filter[status]=QUEUED,EXECUTING`.\n\nFor object fields, you should use the \"form\" encoding style. For example, to filter by the period, you can use `filter[createdAt][period]=1d`.\n"
           }
         }
@@ -4514,6 +4516,7 @@
           "target": "com.trigger.dev.api#ListBulkActionsV1RequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Use this parameter to paginate bulk actions. Pass `page[after]` or `page[before]` using the cursor returned in the previous response.\n"
           }
         }
@@ -5707,6 +5710,7 @@
           "target": "com.trigger.dev.api#ListProjectRunsV1RequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Use this parameter to paginate the results. You can specify the number of runs per page, and the ID of the run to start the page after or before.\n\nFor object fields like `page`, you should use the \"form\" encoding style. For example, to get the next page of runs, you can use `page[after]=run_1234`.\n"
           }
         },
@@ -5714,6 +5718,7 @@
           "target": "com.trigger.dev.api#ListProjectRunsV1RequestFilter",
           "traits": {
             "smithy.api#httpQuery": "filter",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Use this parameter to filter the runs. You can filter by created at, environment, status, task identifier, and version.\n\nFor array fields, you can provide multiple values to filter by using a comma-separated list. For example, to get QUEUED and EXECUTING runs, you can use `filter[status]=QUEUED,EXECUTING`.\n\nFor object fields, you should use the \"form\" encoding style. For example, to filter by the period, you can use `filter[createdAt][period]=1d`.\n"
           }
         }
@@ -8798,6 +8803,7 @@
           "target": "com.trigger.dev.api#ListSessionsV1RequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Paginate the results. Specify the number of sessions per page, and the ID of the session to start the page after or before.\n\nFor object fields like `page`, use the \"form\" encoding style. For example, to get the next page, use `page[after]=session_1234`.\n"
           }
         },
@@ -8805,6 +8811,7 @@
           "target": "com.trigger.dev.api#SessionsFilter",
           "traits": {
             "smithy.api#httpQuery": "filter",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Use this parameter to filter the sessions. You can filter by type, tags, task identifier, external id, status, and created at.\n\nFor array fields, you can provide multiple values to filter by using a comma-separated list. For example, to get ACTIVE and CLOSED sessions, you can use `filter[status]=ACTIVE,CLOSED`.\n\nFor object fields, you should use the \"form\" encoding style. For example, to filter by the period, you can use `filter[createdAt][period]=1d`.\n"
           }
         }
@@ -9597,6 +9604,7 @@
           "target": "com.trigger.dev.api#ListErrorsV1RequestPage",
           "traits": {
             "smithy.api#httpQuery": "page",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Paginate the results. Specify the number of errors per page, and the ID of the error to start the page after or before.\n\nFor object fields like `page`, use the \"form\" encoding style. For example, to get the next page, use `page[after]=error_1234`.\n"
           }
         },
@@ -9604,6 +9612,7 @@
           "target": "com.trigger.dev.api#ErrorsFilter",
           "traits": {
             "smithy.api#httpQuery": "filter",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter the error groups. Filter by task identifier, version, status, search text, and time range.\n\nFor array fields, provide multiple values as a comma-separated list. For example, to get unresolved and ignored errors, use `filter[status]=unresolved,ignored`.\n\nFor the time range, use `filter[period]` (e.g. `filter[period]=7d`) or `filter[from]` / `filter[to]` with ISO timestamps.\n"
           }
         }

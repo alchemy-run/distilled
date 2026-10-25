@@ -49,6 +49,7 @@
           "target": "com.ovh.vmwareclouddirectorbackup#ListVmwareCloudDirectorBackupRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         },
@@ -1176,6 +1177,7 @@
           "target": "com.ovh.vmwareclouddirectorbackup#ListVmwareCloudDirectorOrganizationRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         },
@@ -1792,6 +1794,7 @@
           "target": "com.ovh.vmwareclouddirectorbackup#ListVmwareCloudDirectorOrganizationVirtualDataCenterRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         },

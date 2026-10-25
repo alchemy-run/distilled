@@ -26,12 +26,14 @@ import {
   labelSymbol,
   labelEncodingSymbol,
   querySymbol,
+  queryStyleSymbol,
   stringEncodedSymbol,
   unionCasesSymbol,
   type ErrorMatcher,
   type ErrorTextMatcher,
   type HttpTrait,
   type KeyDictionaryEntries,
+  type QueryStyleTrait,
   type UnionDiscriminator,
 } from "./trait.ts";
 
@@ -429,15 +431,41 @@ const BODYLESS = /*@__PURE__*/ new Set(["GET", "HEAD"]);
  * filter matching nothing -- the call "succeeds" with zero results and the
  * bug is invisible to the caller.
  */
-const appendQuery = (query: URLSearchParams, name: string, value: unknown): void => {
+const appendQuery = (
+  query: URLSearchParams,
+  name: string,
+  value: unknown,
+  nest: (name: string, key: string) => string = (n, k) => `${n}.${k}`,
+): void => {
   if (Array.isArray(value)) {
-    for (const v of value) appendQuery(query, name, v);
-  } else if (value !== null && typeof value === "object" && !(value instanceof Date)) {
-    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-      if (v !== undefined) appendQuery(query, `${name}.${k}`, v);
+    for (const v of value) appendQuery(query, name, v, nest);
+  } else if (isQueryObject(value)) {
+    for (const [k, v] of Object.entries(value)) {
+      if (v !== undefined) appendQuery(query, nest(name, k), v, nest);
     }
   } else {
     query.append(name, String(value));
+  }
+};
+
+const isQueryObject = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === "object" && !Array.isArray(value) && !(value instanceof Date);
+
+/** Serialize a query member that carries a `QueryStyle()`. */
+const appendStyledQuery = (
+  query: URLSearchParams,
+  name: string,
+  style: QueryStyleTrait,
+  value: unknown,
+): void => {
+  if (style === "deepObject") {
+    appendQuery(query, name, value, (n, k) => `${n}[${k}]`);
+  } else if (isQueryObject(value)) {
+    for (const [k, v] of Object.entries(value)) {
+      if (v !== undefined) appendQuery(query, k, v);
+    }
+  } else {
+    appendQuery(query, name, value);
   }
 };
 
@@ -514,6 +542,8 @@ interface MemberPlan {
   /** `{name+}` placeholder. */
   readonly greedy: boolean;
   readonly stringEncoded: boolean;
+  /** `QueryStyle()` of a query member: how an object value goes on the wire. */
+  readonly queryStyle: QueryStyleTrait | undefined;
   /** `mapKeys(type, value, "encode", rootDict)` returns the value unchanged. */
   readonly verbatim: boolean;
 }
@@ -578,6 +608,10 @@ const planFor = (inputAst: AST.AST): RequestPlan => {
       preserve: typeof preserve === "string" ? preserve : undefined,
       greedy,
       stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
+      queryStyle:
+        bind === "query"
+          ? (getPropAnn(prop, queryStyleSymbol) as QueryStyleTrait | undefined)
+          : undefined,
       verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
     });
   }
@@ -686,7 +720,16 @@ export const buildRequest = ({
         break;
       }
       case "query":
-        appendQuery((query ??= new URLSearchParams()), m.name, value);
+        if (m.queryStyle === undefined) {
+          appendQuery((query ??= new URLSearchParams()), m.name, value);
+        } else {
+          appendStyledQuery(
+            (query ??= new URLSearchParams()),
+            m.name,
+            m.queryStyle,
+            m.verbatim ? value : mapKeys(m.type, value, "encode", rootDict),
+          );
+        }
         break;
       case "deepQuery": {
         // Deep-object query member (T.DeepQuery): a nested struct expands into

@@ -57752,6 +57752,7 @@
           "target": "com.stripe.api#GetAccountsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return connected accounts that were created during the given date interval."
           }
         },
@@ -68506,6 +68507,7 @@
           "target": "com.stripe.api#GetAccountPersonsRequestRelationship",
           "traits": {
             "smithy.api#httpQuery": "relationship",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filters on the list of people returned based on the person's relationship to the account's company."
           }
         },
@@ -71730,6 +71732,7 @@
           "target": "com.stripe.api#GetApplicationFeesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return applications fees that were created during the given date interval."
           }
         },
@@ -72387,6 +72390,7 @@
           "target": "com.stripe.api#GetAppsInstallsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return app installs that were created during the given date interval."
           }
         },
@@ -73117,6 +73121,7 @@
           "target": "com.stripe.api#GetAppsSecretsRequestScope",
           "traits": {
             "smithy.api#httpQuery": "scope",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#required": {},
             "smithy.api#documentation": "Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user."
           }
@@ -73603,6 +73608,7 @@
           "target": "com.stripe.api#GetAppsSecretsFindRequestScope",
           "traits": {
             "smithy.api#httpQuery": "scope",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#required": {},
             "smithy.api#documentation": "Specifies the scoping of the secret. Requests originating from UI extensions can only access account-scoped secrets or secrets scoped to their own user."
           }
@@ -74897,6 +74903,7 @@
           "target": "com.stripe.api#GetBalanceTransactionsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return transactions that were created during the given date interval."
           }
         },
@@ -76201,6 +76208,7 @@
           "target": "com.stripe.api#GetBillingCreditBalanceSummaryRequestFilter",
           "traits": {
             "smithy.api#httpQuery": "filter",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#required": {},
             "smithy.api#documentation": "The filter criteria for the credit balance summary."
           }
@@ -83179,6 +83187,7 @@
           "target": "com.stripe.api#GetChargesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return charges that were created during the given date interval."
           }
         },
@@ -84450,6 +84459,7 @@
           "target": "com.stripe.api#GetCheckoutSessionsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return Checkout Sessions that were created during the given date interval."
           }
         },
@@ -84471,6 +84481,7 @@
           "target": "com.stripe.api#GetCheckoutSessionsRequestCustomerDetails",
           "traits": {
             "smithy.api#httpQuery": "customer_details",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return the Checkout Sessions for the Customer details specified."
           }
         },
@@ -110536,6 +110547,7 @@
           "target": "com.stripe.api#GetCouponsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options."
           }
         },
@@ -111173,6 +111185,7 @@
           "target": "com.stripe.api#GetCreditNotesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return credit notes that were created during the given date interval."
           }
         },
@@ -113366,6 +113379,7 @@
           "target": "com.stripe.api#GetCreditNotesPreviewRequestMetadataMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`."
           }
         },
@@ -113401,6 +113415,7 @@
           "target": "com.stripe.api#GetCreditNotesPreviewRequestShippingCost",
           "traits": {
             "smithy.api#httpQuery": "shipping_cost",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided."
           }
         }
@@ -113860,6 +113875,7 @@
           "target": "com.stripe.api#GetCreditNotesPreviewLinesRequestMetadataMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to `metadata`."
           }
         },
@@ -113895,6 +113911,7 @@
           "target": "com.stripe.api#GetCreditNotesPreviewLinesRequestShippingCost",
           "traits": {
             "smithy.api#httpQuery": "shipping_cost",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "When shipping_cost contains the shipping_rate from the invoice, the shipping_cost is included in the credit note. One of `amount`, `lines`, or `shipping_cost` must be provided."
           }
         },
@@ -115635,6 +115652,7 @@
           "target": "com.stripe.api#GetCustomersRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return customers that were created during the given date interval."
           }
         },
@@ -118271,6 +118289,7 @@
           "target": "com.stripe.api#GetCustomerBalanceTransactionsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return customer balance transactions that were created during the given date interval."
           }
         },
@@ -122259,6 +122278,7 @@
           "target": "com.stripe.api#GetDisputesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return disputes that were created during the given date interval."
           }
         },
@@ -125958,6 +125978,7 @@
           "target": "com.stripe.api#GetEventsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return events that were created during the given date interval."
           }
         },
@@ -128190,6 +128211,7 @@
           "target": "com.stripe.api#GetFileLinksRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return links that were created during the given date interval."
           }
         },
@@ -128785,6 +128807,7 @@
           "target": "com.stripe.api#GetFilesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return files that were created during the given date interval."
           }
         },
@@ -129210,6 +129233,7 @@
           "target": "com.stripe.api#GetFinancialConnectionsAccountsRequestAccountHolder",
           "traits": {
             "smithy.api#httpQuery": "account_holder",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "If present, only return accounts that belong to the specified account holder. `account_holder[customer]` and `account_holder[account]` are mutually exclusive."
           }
         },
@@ -131918,6 +131942,7 @@
           "target": "com.stripe.api#GetFinancialConnectionsTransactionsRequestTransactedAt",
           "traits": {
             "smithy.api#httpQuery": "transacted_at",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list based on the object `transacted_at` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with the following options:"
           }
         },
@@ -131925,6 +131950,7 @@
           "target": "com.stripe.api#GetFinancialConnectionsTransactionsRequestTransactionRefresh",
           "traits": {
             "smithy.api#httpQuery": "transaction_refresh",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list based on the object `transaction_refresh` field. The value can be a dictionary with the following options:"
           }
         }
@@ -132254,6 +132280,7 @@
           "target": "com.stripe.api#GetForwardingRequestsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Similar to other List endpoints, filters results based on created timestamp. You can pass gt, gte, lt, and lte timestamp values."
           }
         },
@@ -132966,6 +132993,7 @@
           "target": "com.stripe.api#GetIdentityVerificationReportsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return VerificationReports that were created during the given date interval."
           }
         },
@@ -134266,6 +134294,7 @@
           "target": "com.stripe.api#GetIdentityVerificationSessionsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return VerificationSessions that were created during the given date interval."
           }
         },
@@ -135989,6 +136018,7 @@
           "target": "com.stripe.api#GetInvoicePaymentsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return invoice payments that were created during the given date interval."
           }
         },
@@ -136024,6 +136054,7 @@
           "target": "com.stripe.api#GetInvoicePaymentsRequestPayment",
           "traits": {
             "smithy.api#httpQuery": "payment",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "The payment details of the invoice payments to return."
           }
         },
@@ -136631,6 +136662,7 @@
           "target": "com.stripe.api#GetInvoiceitemsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return invoice items that were created during the given date interval."
           }
         },
@@ -138401,6 +138433,7 @@
           "target": "com.stripe.api#GetInvoicesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return invoices that were created during the given date interval."
           }
         },
@@ -138421,7 +138454,8 @@
         "due_date": {
           "target": "com.stripe.api#GetInvoicesRequestDueDate",
           "traits": {
-            "smithy.api#httpQuery": "due_date"
+            "smithy.api#httpQuery": "due_date",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "ending_before": {
@@ -152617,6 +152651,7 @@
           "target": "com.stripe.api#GetIssuingAuthorizationsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return authorizations that were created during the given date interval."
           }
         },
@@ -170431,6 +170466,7 @@
           "target": "com.stripe.api#GetIssuingCardholdersRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return cardholders that were created during the given date interval."
           }
         },
@@ -182718,6 +182754,7 @@
           "target": "com.stripe.api#GetIssuingCardsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return cards that were issued during the given date interval."
           }
         },
@@ -195022,6 +195059,7 @@
           "target": "com.stripe.api#GetIssuingDisputesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return Issuing disputes that were created during the given date interval."
           }
         },
@@ -198836,6 +198874,7 @@
           "target": "com.stripe.api#GetIssuingPersonalizationDesignsRequestPreferences",
           "traits": {
             "smithy.api#httpQuery": "preferences",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return personalization designs with the given preferences."
           }
         },
@@ -199907,6 +199946,7 @@
           "target": "com.stripe.api#GetIssuingTokensRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return Issuing tokens that were created during the given date interval."
           }
         },
@@ -200240,6 +200280,7 @@
           "target": "com.stripe.api#GetIssuingTransactionsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return transactions that were created during the given date interval."
           }
         },
@@ -200983,6 +201024,7 @@
           "target": "com.stripe.api#GetPaymentIntentsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options."
           }
         },
@@ -261730,6 +261772,7 @@
           "target": "com.stripe.api#GetPayoutsRequestArrivalDate",
           "traits": {
             "smithy.api#httpQuery": "arrival_date",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return payouts that are expected to arrive during the given date interval."
           }
         },
@@ -261737,6 +261780,7 @@
           "target": "com.stripe.api#GetPayoutsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return payouts that were created during the given date interval."
           }
         },
@@ -262721,6 +262765,7 @@
           "target": "com.stripe.api#GetPlansRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options."
           }
         },
@@ -263710,6 +263755,7 @@
           "target": "com.stripe.api#GetPricesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options."
           }
         },
@@ -263759,6 +263805,7 @@
           "target": "com.stripe.api#GetPricesRequestRecurring",
           "traits": {
             "smithy.api#httpQuery": "recurring",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return prices with these recurring fields."
           }
         },
@@ -265225,6 +265272,7 @@
           "target": "com.stripe.api#GetProductCatalogTrialOffersRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return trial offers that were created during the given date interval."
           }
         },
@@ -265885,6 +265933,7 @@
           "target": "com.stripe.api#GetProductsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return products that were created during the given date interval."
           }
         },
@@ -267838,6 +267887,7 @@
           "target": "com.stripe.api#GetPromotionCodesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options."
           }
         },
@@ -272551,6 +272601,7 @@
           "target": "com.stripe.api#GetRadarEarlyFraudWarningsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return early fraud warnings that were created during the given date interval."
           }
         },
@@ -274853,6 +274904,7 @@
           "target": "com.stripe.api#GetRadarValueListItemsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return items that were created during the given date interval."
           }
         },
@@ -275295,6 +275347,7 @@
           "target": "com.stripe.api#GetRadarValueListsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return value lists that were created during the given date interval."
           }
         },
@@ -276069,6 +276122,7 @@
           "target": "com.stripe.api#GetRefundsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return refunds that were created during the given date interval."
           }
         },
@@ -276607,6 +276661,7 @@
           "target": "com.stripe.api#GetReportingReportRunsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return Report Runs that were created during the given date interval."
           }
         },
@@ -281166,6 +281221,7 @@
           "target": "com.stripe.api#GetReviewsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return reviews that were created during the given date interval."
           }
         },
@@ -281427,6 +281483,7 @@
           "target": "com.stripe.api#GetSetupAttemptsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value\ncan be a string with an integer Unix timestamp or a\ndictionary with a number of different query options."
           }
         },
@@ -281608,6 +281665,7 @@
           "target": "com.stripe.api#GetSetupIntentsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options."
           }
         },
@@ -299007,6 +299065,7 @@
           "target": "com.stripe.api#GetShippingRatesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options."
           }
         },
@@ -303467,6 +303526,7 @@
           "target": "com.stripe.api#GetSubscriptionSchedulesRequestCanceledAt",
           "traits": {
             "smithy.api#httpQuery": "canceled_at",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return subscription schedules that were created canceled the given date interval."
           }
         },
@@ -303474,6 +303534,7 @@
           "target": "com.stripe.api#GetSubscriptionSchedulesRequestCompletedAt",
           "traits": {
             "smithy.api#httpQuery": "completed_at",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return subscription schedules that completed during the given date interval."
           }
         },
@@ -303481,6 +303542,7 @@
           "target": "com.stripe.api#GetSubscriptionSchedulesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return subscription schedules that were created during the given date interval."
           }
         },
@@ -303523,6 +303585,7 @@
           "target": "com.stripe.api#GetSubscriptionSchedulesRequestReleasedAt",
           "traits": {
             "smithy.api#httpQuery": "released_at",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return subscription schedules that were released during the given date interval."
           }
         },
@@ -309353,6 +309416,7 @@
           "target": "com.stripe.api#GetSubscriptionsRequestAutomaticTax",
           "traits": {
             "smithy.api#httpQuery": "automatic_tax",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter subscriptions by their automatic tax settings."
           }
         },
@@ -309367,6 +309431,7 @@
           "target": "com.stripe.api#GetSubscriptionsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return subscriptions that were created during the given date interval."
           }
         },
@@ -309374,6 +309439,7 @@
           "target": "com.stripe.api#GetSubscriptionsRequestCurrentPeriodEnd",
           "traits": {
             "smithy.api#httpQuery": "current_period_end",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return subscriptions whose minimum item current_period_end falls within the given date interval."
           }
         },
@@ -309381,6 +309447,7 @@
           "target": "com.stripe.api#GetSubscriptionsRequestCurrentPeriodStart",
           "traits": {
             "smithy.api#httpQuery": "current_period_start",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return subscriptions whose maximum item current_period_start falls within the given date interval."
           }
         },
@@ -332990,6 +333057,7 @@
           "target": "com.stripe.api#GetTaxIdsRequestOwner",
           "traits": {
             "smithy.api#httpQuery": "owner",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "The account or customer the tax ID belongs to. Defaults to `owner[type]=self`."
           }
         },
@@ -334061,6 +334129,7 @@
           "target": "com.stripe.api#GetTaxRatesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Optional range for filtering created date."
           }
         },
@@ -362385,6 +362454,7 @@
           "target": "com.stripe.api#GetThreeDSecureAuthenticationsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp or a dictionary with a number of different query options."
           }
         },
@@ -368247,6 +368317,7 @@
           "target": "com.stripe.api#GetTopupsRequestAmount",
           "traits": {
             "smithy.api#httpQuery": "amount",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A positive integer representing how much to transfer."
           }
         },
@@ -368254,6 +368325,7 @@
           "target": "com.stripe.api#GetTopupsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter on the list, based on the object `created` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options."
           }
         },
@@ -369089,6 +369161,7 @@
           "target": "com.stripe.api#GetTransfersRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return transfers that were created during the given date interval."
           }
         },
@@ -370531,6 +370604,7 @@
           "target": "com.stripe.api#GetTreasuryFinancialAccountsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return FinancialAccounts that were created during the given date interval."
           }
         },
@@ -373720,6 +373794,7 @@
           "target": "com.stripe.api#GetTreasuryOutboundPaymentsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return OutboundPayments that were created during the given date interval."
           }
         },
@@ -375087,6 +375162,7 @@
           "target": "com.stripe.api#GetTreasuryReceivedCreditsRequestLinkedFlows",
           "traits": {
             "smithy.api#httpQuery": "linked_flows",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return ReceivedCredits described by the flow."
           }
         },
@@ -375549,13 +375625,15 @@
           "target": "com.stripe.api#GetTreasuryTransactionEntriesRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return TransactionEntries that were created during the given date interval."
           }
         },
         "effective_at": {
           "target": "com.stripe.api#GetTreasuryTransactionEntriesRequestEffectiveAt",
           "traits": {
-            "smithy.api#httpQuery": "effective_at"
+            "smithy.api#httpQuery": "effective_at",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "ending_before": {
@@ -375891,6 +375969,7 @@
           "target": "com.stripe.api#GetTreasuryTransactionsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Only return Transactions that were created during the given date interval."
           }
         },
@@ -375948,6 +376027,7 @@
           "target": "com.stripe.api#GetTreasuryTransactionsRequestStatusTransitions",
           "traits": {
             "smithy.api#httpQuery": "status_transitions",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "A filter for the `status_transitions.posted_at` timestamp. When using this filter, `status=posted` and `order_by=posted_at` must also be specified."
           }
         }
@@ -426432,6 +426512,7 @@
           "target": "com.stripe.api#GetCoreEventsRequestCreated",
           "traits": {
             "smithy.api#httpQuery": "created",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Set of filters to query events within a range of `created` timestamps."
           }
         },

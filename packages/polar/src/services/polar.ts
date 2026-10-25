@@ -17545,7 +17545,7 @@ function __c13(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
-          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/", code: 200 })),
       ).annotate({ identifier: "BenefitsListRequest" });
     case 1:
@@ -17646,7 +17646,7 @@ function __c19(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
-          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/events/", code: 200 })),
       ).annotate({ identifier: "EventsListRequest" });
     case 1:
@@ -18257,7 +18257,7 @@ function __c47(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
-          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/meters/", code: 200 })),
       ).annotate({ identifier: "MetersListRequest" });
     case 1:
@@ -18284,7 +18284,7 @@ function __c48(j: number): any {
           customer_id: S.optional(S.Unknown.pipe(T.Query())),
           external_customer_id: S.optional(S.Unknown.pipe(T.Query())),
           customer_aggregation_function: S.optional(S.String.pipe(T.Query())),
-          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/meters/{id}/quantities", code: 200 })),
       ).annotate({ identifier: "MetersQuantitiesRequest" });
     case 1:
@@ -19051,7 +19051,7 @@ function __c78(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
-          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/orders/", code: 200 })),
       ).annotate({ identifier: "OrdersListRequest" });
     case 1:
@@ -19486,7 +19486,7 @@ function __c96(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
-          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/products/", code: 200 })),
       ).annotate({ identifier: "ProductsListRequest" });
     case 1:
@@ -19997,7 +19997,7 @@ function __c113(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
-          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/", code: 200 })),
       ).annotate({ identifier: "SubscriptionsListRequest" });
     case 1:
@@ -22395,7 +22395,7 @@ function __c235(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
-          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
+          metadata: S.optional(__S(120, __c15, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/v1/customers/", code: 200 })),
       ).annotate({ identifier: "CustomersListRequest" });
     case 1:

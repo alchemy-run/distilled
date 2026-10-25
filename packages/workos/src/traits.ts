@@ -9,6 +9,7 @@ export {
   Body,
   Header,
   Query,
+  QueryStyle,
   Label,
   Http,
   ResponseCode,

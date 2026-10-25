@@ -9403,7 +9403,7 @@ function __c153(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(2449, __c153, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(2449, __c153, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/dedicated/server", code: 200 })),
       ).annotate({ identifier: "ListDedicatedServerRequest" });
   }

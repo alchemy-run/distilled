@@ -1760,7 +1760,7 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(201, __c25, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(201, __c25, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/storage/netapp", code: 200 })),
       ).annotate({ identifier: "ListStorageNetappRequest" });
     case 3:

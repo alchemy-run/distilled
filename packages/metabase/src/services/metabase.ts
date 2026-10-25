@@ -19569,7 +19569,7 @@ function __c189(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action_id: S.Number.pipe(T.Label()),
-          parameters: __S(24, __c3, 0).pipe(T.Query()),
+          parameters: __S(24, __c3, 0).pipe(T.Query(), T.QueryStyle("form")),
         }).pipe(T.Http({ method: "GET", uri: "/api/action/{action_id}/execute", code: 200 })),
       ).annotate({ identifier: "GetActionExecuteRequest" });
   }
@@ -20427,7 +20427,7 @@ function __c254(j: number): any {
         S.Struct({
           dashboard_id: S.Number.pipe(T.Label()),
           dashcard_id: S.Number.pipe(T.Label()),
-          parameters: S.optional(__S(24, __c3, 0).pipe(T.Query())),
+          parameters: S.optional(__S(24, __c3, 0).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(
           T.Http({
             method: "GET",
@@ -20445,7 +20445,7 @@ function __c255(j: number): any {
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           dashcard_id: S.Number.pipe(T.Label()),
-          parameters: __S(24, __c3, 0).pipe(T.Query()),
+          parameters: __S(24, __c3, 0).pipe(T.Query(), T.QueryStyle("form")),
         }).pipe(
           T.Http({
             method: "GET",
@@ -23614,7 +23614,7 @@ function __c508(j: number): any {
           zoom: S.Number.pipe(T.Label()),
           x: S.Number.pipe(T.Label()),
           y: S.Number.pipe(T.Label()),
-          query: __S(1120, __c140, 0).pipe(T.Query()),
+          query: __S(1120, __c140, 0).pipe(T.Query(), T.QueryStyle("form")),
           latField: S.Unknown.pipe(T.Query()),
           lonField: S.Unknown.pipe(T.Query()),
         }).pipe(T.Http({ method: "GET", uri: "/api/tiles/{zoom}/{x}/{y}", code: 200 })),

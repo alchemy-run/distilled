@@ -2017,6 +2017,7 @@
           "target": "com.ovh.iam#ListIamResourceRequestTagsMap",
           "traits": {
             "smithy.api#httpQuery": "tags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources using tag filters"
           }
         },

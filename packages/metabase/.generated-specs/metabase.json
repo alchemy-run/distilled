@@ -3913,6 +3913,7 @@
           "target": "com.metabase.api#MetabaseActionsSchemaPrefetchParameterValues",
           "traits": {
             "smithy.api#httpQuery": "parameters",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#required": {}
           }
         }
@@ -13485,7 +13486,8 @@
         "parameters": {
           "target": "com.metabase.api#MetabaseActionsSchemaPrefetchParameterValues",
           "traits": {
-            "smithy.api#httpQuery": "parameters"
+            "smithy.api#httpQuery": "parameters",
+            "com.distilled.openapi#queryStyle": "form"
           }
         }
       },
@@ -36063,6 +36065,7 @@
           "target": "com.metabase.api#MetabaseActionsSchemaPrefetchParameterValues",
           "traits": {
             "smithy.api#httpQuery": "parameters",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#required": {}
           }
         }
@@ -41111,6 +41114,7 @@
           "target": "com.metabase.api#MetabaseLibSchemaQuery",
           "traits": {
             "smithy.api#httpQuery": "query",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#required": {}
           }
         },

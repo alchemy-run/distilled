@@ -454,7 +454,7 @@ function __c0(j: number): any {
           event: S.optional(S.String.pipe(T.Query())),
           conversion_window: S.optional(S.String.pipe(T.Query())),
           mature_only: S.optional(S.Boolean.pipe(T.Query())),
-          steps: S.optional(__S(1, __c0, 1).pipe(T.Query())),
+          steps: S.optional(__S(1, __c0, 1).pipe(T.Query(), T.QueryStyle("deepObject"))),
           compare_to: S.optional(S.String.pipe(T.Query())),
           confidence_level: S.optional(S.Number.pipe(T.Query())),
           contactable: S.optional(S.Boolean.pipe(T.Query())),

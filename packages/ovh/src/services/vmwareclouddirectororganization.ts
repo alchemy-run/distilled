@@ -1282,7 +1282,7 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(305, __c38, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(305, __c38, 1).pipe(T.Query(), T.QueryStyle("form"))),
           xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
           xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
         }).pipe(T.Http({ method: "GET", uri: "/vmwareCloudDirector/organization", code: 200 })),
@@ -1337,7 +1337,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
-          iamTags: S.optional(__S(305, __c38, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(305, __c38, 1).pipe(T.Query(), T.QueryStyle("form"))),
           xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
           xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
         }).pipe(
@@ -1881,7 +1881,7 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(305, __c38, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(305, __c38, 1).pipe(T.Query(), T.QueryStyle("form"))),
           xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
           xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
         }).pipe(T.Http({ method: "GET", uri: "/vmwareCloudDirector/backup", code: 200 })),

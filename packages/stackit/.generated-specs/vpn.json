@@ -71,6 +71,7 @@
           "target": "com.stackit.vpn#LabelSelector",
           "traits": {
             "smithy.api#httpQuery": "label_selector",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter resources by labels."
           }
         }
@@ -2346,6 +2347,7 @@
           "target": "com.stackit.vpn#LabelSelector",
           "traits": {
             "smithy.api#httpQuery": "label_selector",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter resources by labels."
           }
         }

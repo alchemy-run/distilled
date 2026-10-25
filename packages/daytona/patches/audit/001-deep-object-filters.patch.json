@@ -1,0 +1,55 @@
+{
+  "description": "Send getOrganizationAuditLogs' filters as deepObject (`actorId[eq]=...`). The spec's form/explode sends every operator top-level (`eq=...`), so filters collide; app.daytona.io ignores `eq=` and `actorId.eq=` and applies only `actorId[eq]=` (probed 2026-10-23).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/id/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/actorId/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/actorEmail/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/actorApiKeyPrefix/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/actorApiKeySuffix/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/action/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/targetType/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/targetId/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/statusCode/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.daytona.audit#GetOrganizationAuditLogsRequest/members/createdAt/traits/com.distilled.openapi#queryStyle",
+      "value": "deepObject"
+    }
+  ]
+}

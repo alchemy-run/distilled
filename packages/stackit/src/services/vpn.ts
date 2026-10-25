@@ -1563,7 +1563,9 @@ function __c11(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           gatewayId: S.String.pipe(T.Label()),
-          label_selector: S.optional(__S(352, __c22, 0).pipe(T.Query())),
+          label_selector: S.optional(
+            __S(352, __c22, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1590,7 +1592,9 @@ function __c12(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          label_selector: S.optional(__S(352, __c22, 0).pipe(T.Query())),
+          label_selector: S.optional(
+            __S(352, __c22, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
         }).pipe(
           T.Http({
             method: "GET",

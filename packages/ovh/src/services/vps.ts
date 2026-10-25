@@ -3916,7 +3916,7 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(425, __c53, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(425, __c53, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/vps", code: 200 })),
       ).annotate({ identifier: "ListVpsRequest" });
   }

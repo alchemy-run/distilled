@@ -7314,6 +7314,7 @@
           "target": "com.polar.api#MetadataQueryMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`."
           }
         }
@@ -16375,6 +16376,7 @@
           "target": "com.polar.api#MetadataQueryMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`."
           }
         }
@@ -20725,6 +20727,7 @@
           "target": "com.polar.api#MetadataQueryMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`."
           }
         }
@@ -22388,6 +22391,7 @@
           "target": "com.polar.api#MetadataQueryMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`."
           }
         }
@@ -49096,6 +49100,7 @@
           "target": "com.polar.api#MetadataQueryMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`."
           }
         }
@@ -60897,6 +60902,7 @@
           "target": "com.polar.api#MetadataQueryMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`."
           }
         }
@@ -67715,6 +67721,7 @@
           "target": "com.polar.api#MetadataQueryMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`."
           }
         }
@@ -71830,6 +71837,7 @@
           "target": "com.polar.api#MetadataQueryMap",
           "traits": {
             "smithy.api#httpQuery": "metadata",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`."
           }
         }

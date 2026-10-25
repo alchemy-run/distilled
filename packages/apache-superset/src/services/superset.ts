@@ -19768,7 +19768,7 @@ function __c211(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          q: S.optional(__S(3378, __c211, 2).pipe(T.Query())),
+          q: S.optional(__S(3378, __c211, 2).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/security/roles/search/", code: 200 })),
       ).annotate({ identifier: "ListSecurityRoleSearchRequest" });
     case 4:

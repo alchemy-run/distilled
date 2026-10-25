@@ -3982,7 +3982,7 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(312, __c39, 0).pipe(T.Query())),
+          page: S.optional(__S(312, __c39, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/bulk-actions", code: 200 })),
       ).annotate({ identifier: "ListBulkActionsV1Request" });
     case 1:
@@ -4206,8 +4206,8 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(312, __c39, 0).pipe(T.Query())),
-          filter: S.optional(__S(376, __c47, 0).pipe(T.Query())),
+          page: S.optional(__S(312, __c39, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
+          filter: S.optional(__S(376, __c47, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/errors", code: 200 })),
       ).annotate({ identifier: "ListErrorsV1Request" });
     case 2:
@@ -4294,8 +4294,8 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectRef: S.String.pipe(T.Label()),
-          page: S.optional(__S(312, __c39, 0).pipe(T.Query())),
-          filter: S.optional(__S(408, __c51, 0).pipe(T.Query())),
+          page: S.optional(__S(312, __c39, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
+          filter: S.optional(__S(408, __c51, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects/{projectRef}/runs", code: 200 })),
       ).annotate({ identifier: "ListProjectRunsV1Request" });
   }
@@ -4395,8 +4395,8 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(312, __c39, 0).pipe(T.Query())),
-          filter: S.optional(__S(440, __c55, 0).pipe(T.Query())),
+          page: S.optional(__S(312, __c39, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
+          filter: S.optional(__S(440, __c55, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/runs", code: 200 })),
       ).annotate({ identifier: "ListRunsV1Request" });
   }
@@ -4437,8 +4437,8 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(312, __c39, 0).pipe(T.Query())),
-          filter: S.optional(__S(456, __c57, 0).pipe(T.Query())),
+          page: S.optional(__S(312, __c39, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
+          filter: S.optional(__S(456, __c57, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/sessions", code: 200 })),
       ).annotate({ identifier: "ListSessionsV1Request" });
     case 2:

@@ -7588,7 +7588,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/fs/read/*", code: 200 })),
       ).annotate({ identifier: "ReadV2FsRequest" });
   }
@@ -7710,7 +7710,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           credentialID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/credential/{credentialID}", code: 200 })),
       ).annotate({ identifier: "RemoveV2CredentialRequest" });
   }
@@ -7731,7 +7731,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/pty/{ptyID}", code: 200 })),
       ).annotate({ identifier: "RemoveV2PtyRequest" });
   }
@@ -7786,7 +7786,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/api/integration/attempt/{attemptID}", code: 200 }),
         ),
@@ -8544,7 +8544,7 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           code: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -8757,7 +8757,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           credentialID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           label: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/api/credential/{credentialID}", code: 200 })),
       ).annotate({ identifier: "UpdateV2CredentialRequest" });
@@ -8769,7 +8769,7 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           title: S.optional(S.String),
           size: S.optional(__S(2656, __c83, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/pty/{ptyID}", code: 200 })),
@@ -8781,7 +8781,7 @@ function __c87(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           query: S.String.pipe(T.Query()),
           type: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.String.pipe(T.Query())),
@@ -8795,7 +8795,7 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attemptID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/integration/attempt/{attemptID}", code: 200 })),
       ).annotate({ identifier: "V2IntegrationAttemptStatusRequest" });
     case 1:
@@ -8970,7 +8970,7 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           key: S.String,
           label: S.optional(S.String),
         }).pipe(
@@ -8989,7 +8989,7 @@ function __c96(j: number): any {
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           methodID: S.String,
           inputs: __S(448, __c14, 0),
           label: S.optional(S.String),
@@ -9033,7 +9033,7 @@ function __c97(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           strategy: S.String,
           directory: S.String,
           name: S.optional(S.String),
@@ -9049,7 +9049,7 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9066,7 +9066,7 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           directory: S.String,
           force: S.Boolean,
         }).pipe(
@@ -9081,7 +9081,7 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "POST", uri: "/api/pty/{ptyID}/connect-token", code: 200 })),
       ).annotate({ identifier: "V2PtyConnectTokenRequest" });
     case 1:
@@ -9650,7 +9650,7 @@ function __c130(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           command: S.optional(S.String),
           args: S.optional(__S(2880, __c90, 0)),
           cwd: S.optional(S.String),
@@ -10665,7 +10665,7 @@ function __c173(j: number): any {
       return S.suspend(() =>
         S.Struct({
           integrationID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/integration/{integrationID}", code: 200 })),
       ).annotate({ identifier: "GetV2IntegrationRequest" });
     case 1:
@@ -10699,7 +10699,7 @@ function __c175(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/location", code: 200 })),
       ).annotate({ identifier: "GetV2LocationRequest" });
   }
@@ -10710,7 +10710,7 @@ function __c176(j: number): any {
       return S.suspend(() =>
         S.Struct({
           providerID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/provider/{providerID}", code: 200 })),
       ).annotate({ identifier: "GetV2ProviderRequest" });
     case 1:
@@ -10754,7 +10754,7 @@ function __c179(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ptyID: S.String.pipe(T.Label()),
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/pty/{ptyID}", code: 200 })),
       ).annotate({ identifier: "GetV2PtyRequest" });
   }
@@ -11471,7 +11471,7 @@ function __c214(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/agent", code: 200 })),
       ).annotate({ identifier: "ListV2AgentRequest" });
     case 1:
@@ -11515,7 +11515,7 @@ function __c215(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/command", code: 200 })),
       ).annotate({ identifier: "ListV2CommandRequest" });
     case 1:
@@ -11545,7 +11545,7 @@ function __c216(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           path: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/fs/list", code: 200 })),
       ).annotate({ identifier: "ListV2FsRequest" });
@@ -11576,7 +11576,7 @@ function __c218(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/integration", code: 200 })),
       ).annotate({ identifier: "ListV2IntegrationRequest" });
     case 1:
@@ -11595,7 +11595,7 @@ function __c219(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/model", code: 200 })),
       ).annotate({ identifier: "ListV2ModelRequest" });
     case 1:
@@ -11675,7 +11675,7 @@ function __c220(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/permission/request", code: 200 })),
       ).annotate({ identifier: "ListV2PermissionRequestRequest" });
     case 1:
@@ -11725,7 +11725,7 @@ function __c223(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/provider", code: 200 })),
       ).annotate({ identifier: "ListV2ProviderRequest" });
     case 1:
@@ -11744,7 +11744,7 @@ function __c224(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/pty", code: 200 })),
       ).annotate({ identifier: "ListV2PtyRequest" });
     case 1:
@@ -11761,7 +11761,7 @@ function __c225(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/question/request", code: 200 })),
       ).annotate({ identifier: "ListV2QuestionRequestRequest" });
     case 1:
@@ -11804,7 +11804,7 @@ function __c227(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/reference", code: 200 })),
       ).annotate({ identifier: "ListV2ReferenceRequest" });
     case 1:
@@ -11902,7 +11902,7 @@ function __c232(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(896, __c28, 0).pipe(T.Query())),
+          location: S.optional(__S(896, __c28, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/skill", code: 200 })),
       ).annotate({ identifier: "ListV2SkillRequest" });
     case 1:

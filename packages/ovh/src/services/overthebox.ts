@@ -1865,7 +1865,7 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(217, __c27, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(217, __c27, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/overTheBox", code: 200 })),
       ).annotate({ identifier: "ListOverTheBoxRequest" });
   }
@@ -1996,7 +1996,7 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(217, __c27, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(217, __c27, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/overTheBox/hardware", code: 200 })),
       ).annotate({ identifier: "ListOverTheBoxHardwareRequest" });
   }

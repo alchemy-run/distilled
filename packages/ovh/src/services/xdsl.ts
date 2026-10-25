@@ -7734,7 +7734,7 @@ function __c133(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(2145, __c134, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(2145, __c134, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/xdsl", code: 200 })),
       ).annotate({ identifier: "ListXdslRequest" });
   }
@@ -7793,7 +7793,7 @@ function __c137(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(2145, __c134, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(2145, __c134, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/xdsl/email/pro", code: 200 })),
       ).annotate({ identifier: "ListXdslEmailProRequest" });
   }
@@ -8151,7 +8151,7 @@ function __c160(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(2145, __c134, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(2145, __c134, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/xdsl/spare", code: 200 })),
       ).annotate({ identifier: "ListXdslSpareRequest" });
   }

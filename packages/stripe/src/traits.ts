@@ -14,6 +14,7 @@ export {
   Body,
   Header,
   Query,
+  QueryStyle,
   Label,
   ResponseCode,
   HttpBody,

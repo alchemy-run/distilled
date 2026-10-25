@@ -14196,7 +14196,7 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.Unknown.pipe(T.Query()),
+          filter: S.Unknown.pipe(T.Query(), T.QueryStyle("form")),
           type: S.String.pipe(T.Query()),
           summary: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
@@ -18727,7 +18727,7 @@ function __c284(j: number): any {
       return S.suspend(() =>
         S.Struct({
           custom_object_type_identifier: S.String.pipe(T.Label()),
-          external_id: __S(9088, __c284, 0).pipe(T.Query()),
+          external_id: __S(9088, __c284, 0).pipe(T.Query(), T.QueryStyle("form")),
         }).pipe(
           T.Http({
             method: "DELETE",

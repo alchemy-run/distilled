@@ -2748,7 +2748,7 @@ function __c38(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(153, __c38, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(153, __c38, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/email/pro", code: 200 })),
       ).annotate({ identifier: "ListEmailProRequest" });
   }

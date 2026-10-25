@@ -48,7 +48,8 @@
         "getCollectionsParameters": {
           "target": "com.typesense.api#GetCollectionsRequestGetCollectionsParameters",
           "traits": {
-            "smithy.api#httpQuery": "getCollectionsParameters"
+            "smithy.api#httpQuery": "getCollectionsParameters",
+            "com.distilled.openapi#queryStyle": "form"
           }
         }
       },
@@ -1208,7 +1209,8 @@
         "updateDocumentsParameters": {
           "target": "com.typesense.api#UpdateDocumentsRequestUpdateDocumentsParameters",
           "traits": {
-            "smithy.api#httpQuery": "updateDocumentsParameters"
+            "smithy.api#httpQuery": "updateDocumentsParameters",
+            "com.distilled.openapi#queryStyle": "form"
           }
         }
       },
@@ -1297,7 +1299,8 @@
         "deleteDocumentsParameters": {
           "target": "com.typesense.api#DeleteDocumentsRequestDeleteDocumentsParameters",
           "traits": {
-            "smithy.api#httpQuery": "deleteDocumentsParameters"
+            "smithy.api#httpQuery": "deleteDocumentsParameters",
+            "com.distilled.openapi#queryStyle": "form"
           }
         }
       },
@@ -1871,6 +1874,7 @@
           "target": "com.typesense.api#SearchParameters",
           "traits": {
             "smithy.api#httpQuery": "searchParameters",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#required": {}
           }
         }
@@ -4256,7 +4260,8 @@
         "exportDocumentsParameters": {
           "target": "com.typesense.api#ExportDocumentsRequestExportDocumentsParameters",
           "traits": {
-            "smithy.api#httpQuery": "exportDocumentsParameters"
+            "smithy.api#httpQuery": "exportDocumentsParameters",
+            "com.distilled.openapi#queryStyle": "form"
           }
         }
       },
@@ -4327,7 +4332,8 @@
         "importDocumentsParameters": {
           "target": "com.typesense.api#ImportDocumentsRequestImportDocumentsParameters",
           "traits": {
-            "smithy.api#httpQuery": "importDocumentsParameters"
+            "smithy.api#httpQuery": "importDocumentsParameters",
+            "com.distilled.openapi#queryStyle": "form"
           }
         }
       },
@@ -6898,6 +6904,7 @@
           "target": "com.typesense.api#MultiSearchParameters",
           "traits": {
             "smithy.api#httpQuery": "multiSearchParameters",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#required": {}
           }
         },

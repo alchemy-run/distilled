@@ -187,6 +187,7 @@
           "target": "com.ovh.ip#ListIpRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         },
@@ -806,6 +807,7 @@
           "target": "com.ovh.ip#ListIpServiceRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         }

@@ -30726,6 +30726,7 @@
           "target": "com.intercom.api#DeleteCustomObjectInstancesByIdRequestExternalId",
           "traits": {
             "smithy.api#httpQuery": "external_id",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#required": {}
           }
         }
@@ -33775,6 +33776,7 @@
           "target": "com.intercom.api#LisDataEventsRequestFilter",
           "traits": {
             "smithy.api#httpQuery": "filter",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#required": {}
           }
         },

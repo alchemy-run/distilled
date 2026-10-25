@@ -218,6 +218,7 @@
           "target": "com.daytona.audit#StringFilter",
           "traits": {
             "smithy.api#httpQuery": "id",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by audit log ID."
           }
         },
@@ -225,6 +226,7 @@
           "target": "com.daytona.audit#StringFilter",
           "traits": {
             "smithy.api#httpQuery": "actorId",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by actor user ID."
           }
         },
@@ -232,6 +234,7 @@
           "target": "com.daytona.audit#StringFilter",
           "traits": {
             "smithy.api#httpQuery": "actorEmail",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by actor email."
           }
         },
@@ -239,6 +242,7 @@
           "target": "com.daytona.audit#StringFilter",
           "traits": {
             "smithy.api#httpQuery": "actorApiKeyPrefix",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by actor API key prefix."
           }
         },
@@ -246,6 +250,7 @@
           "target": "com.daytona.audit#StringFilter",
           "traits": {
             "smithy.api#httpQuery": "actorApiKeySuffix",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by actor API key suffix."
           }
         },
@@ -253,6 +258,7 @@
           "target": "com.daytona.audit#StringFilter",
           "traits": {
             "smithy.api#httpQuery": "action",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by action."
           }
         },
@@ -260,6 +266,7 @@
           "target": "com.daytona.audit#StringFilter",
           "traits": {
             "smithy.api#httpQuery": "targetType",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by target type."
           }
         },
@@ -267,6 +274,7 @@
           "target": "com.daytona.audit#StringFilter",
           "traits": {
             "smithy.api#httpQuery": "targetId",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by target ID."
           }
         },
@@ -274,6 +282,7 @@
           "target": "com.daytona.audit#IntFilter",
           "traits": {
             "smithy.api#httpQuery": "statusCode",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by HTTP status code."
           }
         },
@@ -281,6 +290,7 @@
           "target": "com.daytona.audit#DateFilter",
           "traits": {
             "smithy.api#httpQuery": "createdAt",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by creation timestamp."
           }
         }

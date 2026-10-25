@@ -25700,7 +25700,7 @@ function __c182(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dynamic_content_item_id: S.Number.pipe(T.Label()),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -25719,7 +25719,7 @@ function __c183(j: number): any {
       return S.suspend(() =>
         S.Struct({
           view_id: S.String.pipe(T.Label()),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
@@ -30173,7 +30173,7 @@ function __c417(j: number): any {
       return S.suspend(() =>
         S.Struct({
           since: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
@@ -30410,7 +30410,7 @@ function __c426(j: number): any {
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/audit_logs", code: 200 })),
       ).annotate({ identifier: "ListAuditLogsRequest" });
@@ -30442,7 +30442,7 @@ function __c428(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ticket_id: S.Number.pipe(T.Label()),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
@@ -30489,7 +30489,7 @@ function __c431(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           active: S.optional(S.Boolean.pipe(T.Query())),
@@ -30503,7 +30503,7 @@ function __c432(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
           include_item_cursors: S.optional(S.Boolean.pipe(T.Query())),
@@ -30579,7 +30579,7 @@ function __c436(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/brand_agents", code: 200 })),
@@ -30613,7 +30613,7 @@ function __c439(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           assignable_from: S.optional(S.Number.pipe(T.Query())),
@@ -30704,7 +30704,7 @@ function __c446(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ticket_id: S.Number.pipe(T.Label()),
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/v2/tickets/{ticket_id}/conversation_log", code: 200 }),
@@ -30938,7 +30938,7 @@ function __c458(j: number): any {
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
           support_type_scope: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/deleted_tickets", code: 200 })),
       ).annotate({ identifier: "ListDeletedTicketsRequest" });
@@ -30982,7 +30982,7 @@ function __c460(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/deleted_users", code: 200 })),
@@ -31018,7 +31018,7 @@ function __c462(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/dynamic_content/items", code: 200 })),
@@ -31038,7 +31038,7 @@ function __c463(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filter: __S(14816, __c463, 0).pipe(T.Query()),
+          filter: __S(14816, __c463, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/email_notifications", code: 200 })),
@@ -31083,7 +31083,7 @@ function __c466(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/oauth/global_clients", code: 200 })),
       ).annotate({ identifier: "ListGlobalOAuthClientsRequest" });
@@ -31102,7 +31102,7 @@ function __c467(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
@@ -31127,7 +31127,7 @@ function __c469(j: number): any {
         S.Struct({
           exclude_deleted: S.optional(S.Boolean.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
@@ -31182,7 +31182,7 @@ function __c473(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           filter_ids_: S.optional(S.String.pipe(T.Query("filter[ids]"))),
           filter_external_ids_: S.optional(S.String.pipe(T.Query("filter[external_ids]"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/it_asset_management/assets", code: 200 })),
@@ -31234,7 +31234,7 @@ function __c476(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/it_asset_management/fields", code: 200 })),
       ).annotate({ identifier: "ListItamFieldsRequest" });
     case 1:
@@ -31252,7 +31252,7 @@ function __c477(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/it_asset_management/locations", code: 200 })),
       ).annotate({ identifier: "ListItamLocationsRequest" });
     case 1:
@@ -31290,7 +31290,7 @@ function __c479(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/job_statuses", code: 200 })),
       ).annotate({ identifier: "ListJobStatusesRequest" });
   }
@@ -31405,7 +31405,7 @@ function __c488(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/macros/groups", code: 200 })),
       ).annotate({ identifier: "ListMacroGroupsRequest" });
@@ -31424,7 +31424,7 @@ function __c489(j: number): any {
           only_viewable: S.optional(S.Boolean.pipe(T.Query())),
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/macros", code: 200 })),
       ).annotate({ identifier: "ListMacrosRequest" });
@@ -31560,7 +31560,7 @@ function __c495(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/oauth/clients", code: 200 })),
       ).annotate({ identifier: "ListOAuthClientsRequest" });
@@ -31574,7 +31574,7 @@ function __c496(j: number): any {
           client_id: S.optional(S.Number.pipe(T.Query())),
           global_client_id: S.optional(S.Number.pipe(T.Query())),
           all: S.optional(S.Boolean.pipe(T.Query())),
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/oauth/tokens", code: 200 })),
       ).annotate({ identifier: "ListOAuthTokensRequest" });
@@ -31693,7 +31693,7 @@ function __c500(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           resolve_dc: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/organization_fields", code: 200 })),
       ).annotate({ identifier: "ListOrganizationFieldsRequest" });
@@ -31713,7 +31713,7 @@ function __c501(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
@@ -31818,7 +31818,7 @@ function __c507(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
@@ -31908,7 +31908,7 @@ function __c513(j: number): any {
           external_id: S.optional(S.String.pipe(T.Query())),
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -32102,7 +32102,7 @@ function __c521(j: number): any {
         S.Struct({
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/requests", code: 200 })),
       ).annotate({ identifier: "ListRequestsRequest" });
@@ -32194,7 +32194,7 @@ function __c526(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/satisfaction_ratings", code: 200 })),
@@ -32263,7 +32263,7 @@ function __c530(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/sessions", code: 200 })),
       ).annotate({ identifier: "ListSessionsRequest" });
@@ -32368,7 +32368,7 @@ function __c538(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
@@ -32391,7 +32391,7 @@ function __c539(j: number): any {
         S.Struct({
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/suspended_tickets", code: 200 })),
       ).annotate({ identifier: "ListSuspendedTicketsRequest" });
@@ -32402,7 +32402,7 @@ function __c540(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/tags", code: 200 })),
@@ -32573,7 +32573,7 @@ function __c549(j: number): any {
           include: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/tickets/{ticket_id}/comments", code: 200 })),
       ).annotate({ identifier: "ListTicketCommentsRequest" });
   }
@@ -32643,7 +32643,7 @@ function __c554(j: number): any {
         S.Struct({
           locale: S.optional(S.String.pipe(T.Query())),
           creator: S.optional(S.Boolean.pipe(T.Query())),
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
           include_item_cursors: S.optional(S.Boolean.pipe(T.Query())),
@@ -32685,7 +32685,7 @@ function __c557(j: number): any {
           fallback_to_default: S.optional(S.Boolean.pipe(T.Query())),
           form_type: S.optional(S.String.pipe(T.Query())),
           associated_to_brand: S.optional(S.Boolean.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
@@ -32708,7 +32708,7 @@ function __c558(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ticket_form_id: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(__S(17856, __c558, 0).pipe(T.Query())),
+          filter: S.optional(__S(17856, __c558, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/ticket_form_statuses", code: 200 })),
       ).annotate({ identifier: "ListTicketFormStatusesRequest" });
   }
@@ -32821,7 +32821,7 @@ function __c564(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/ticket_metrics", code: 200 })),
       ).annotate({ identifier: "ListTicketMetricsRequest" });
@@ -32838,7 +32838,7 @@ function __c565(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
@@ -32856,7 +32856,7 @@ function __c566(j: number): any {
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
           support_type_scope: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
@@ -33047,7 +33047,7 @@ function __c577(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/trigger_categories", code: 200 })),
@@ -33169,7 +33169,7 @@ function __c580(j: number): any {
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
           category_id: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/triggers", code: 200 })),
@@ -33274,7 +33274,7 @@ function __c586(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           resolve_dc: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/user_fields", code: 200 })),
       ).annotate({ identifier: "ListUserFieldsRequest" });
@@ -33288,7 +33288,7 @@ function __c587(j: number): any {
           user_id: S.Number.pipe(T.Label()),
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           exclude_archived: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
@@ -33303,7 +33303,7 @@ function __c588(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user_id: S.Number.pipe(T.Label()),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           include: S.optional(S.String.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
@@ -33319,7 +33319,7 @@ function __c589(j: number): any {
         S.Struct({
           user_id: S.Number.pipe(T.Label()),
           exclude_deleted: S.optional(S.Boolean.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
@@ -33335,7 +33335,7 @@ function __c590(j: number): any {
         S.Struct({
           user_id: S.Number.pipe(T.Label()),
           type: S.optional(__S(2208, __c69, 0).pipe(T.Query())),
-          page: S.optional(__S(13664, __c427, 0).pipe(T.Query())),
+          page: S.optional(__S(13664, __c427, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
           include_item_cursors: S.optional(S.Boolean.pipe(T.Query())),
@@ -33366,7 +33366,7 @@ function __c592(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user_id: S.Number.pipe(T.Label()),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
@@ -33464,7 +33464,7 @@ function __c600(j: number): any {
           user_id: S.Number.pipe(T.Label()),
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
           exclude_archived: S.optional(S.Boolean.pipe(T.Query())),
@@ -33497,7 +33497,7 @@ function __c602(j: number): any {
           permission_set: S.optional(S.Number.pipe(T.Query())),
           external_id: S.optional(S.String.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           include_boundary_indicators: S.optional(S.Boolean.pipe(T.Query())),
@@ -33562,7 +33562,7 @@ function __c606(j: number): any {
           sort: S.optional(S.String.pipe(T.Query())),
           sort_by: S.optional(S.String.pipe(T.Query())),
           sort_order: S.optional(S.String.pipe(T.Query())),
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/views", code: 200 })),
       ).annotate({ identifier: "ListViewsRequest" });
@@ -33955,7 +33955,7 @@ function __c631(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          page: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include: S.optional(S.String.pipe(T.Query())),
           exclude: S.optional(S.String.pipe(T.Query())),
@@ -34598,7 +34598,10 @@ function __c674(j: number): any {
           field_id: S.optional(S.String.pipe(T.Query())),
           source: S.optional(S.String.pipe(T.Query())),
           filter_dynamic_values_: S.optional(
-            __S(21568, __c674, 0).pipe(T.Query("filter[dynamic_values]")),
+            __S(21568, __c674, 0).pipe(
+              T.Query("filter[dynamic_values]"),
+              T.QueryStyle("deepObject"),
+            ),
           ),
           requester_id: S.optional(S.Number.pipe(T.Query())),
           assignee_id: S.optional(S.Number.pipe(T.Query())),

@@ -114130,7 +114130,9 @@ function __c307(j: number): any {
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          relationship: S.optional(__S(9824, __c307, 0).pipe(T.Query())),
+          relationship: S.optional(
+            __S(9824, __c307, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
           starting_after: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -114159,7 +114161,7 @@ function __c308(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -114375,7 +114377,7 @@ function __c317(j: number): any {
       return S.suspend(() =>
         S.Struct({
           charge: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -114429,7 +114431,7 @@ function __c319(j: number): any {
           app: S.optional(S.String.pipe(T.Query())),
           approval_required: S.optional(S.Boolean.pipe(T.Query())),
           channel: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           created_by: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -114466,7 +114468,7 @@ function __c320(j: number): any {
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          scope: __S(2752, __c86, 0).pipe(T.Query()),
+          scope: __S(2752, __c86, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
           starting_after: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -114497,7 +114499,7 @@ function __c321(j: number): any {
         S.Struct({
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           name: S.String.pipe(T.Query()),
-          scope: __S(2752, __c86, 0).pipe(T.Query()),
+          scope: __S(2752, __c86, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
         }).pipe(
           T.Http({
             method: "GET",
@@ -114651,7 +114653,7 @@ function __c326(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           currency: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -114747,7 +114749,7 @@ function __c329(j: number): any {
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
-          filter: __S(10528, __c329, 0).pipe(T.Query()),
+          filter: __S(10528, __c329, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
         }).pipe(
           T.Http({
             method: "GET",
@@ -115237,7 +115239,7 @@ function __c346(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -115421,10 +115423,12 @@ function __c354(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
-          customer_details: S.optional(__S(11328, __c354, 0).pipe(T.Query())),
+          customer_details: S.optional(
+            __S(11328, __c354, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -115889,7 +115893,7 @@ function __c377(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(__S(12064, __c377, 0).pipe(T.Query())),
+          created: S.optional(__S(12064, __c377, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           limit: S.optional(S.Number.pipe(T.Query())),
           object_id: S.optional(S.String.pipe(T.Query())),
           types: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -116012,7 +116016,7 @@ function __c382(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -116078,7 +116082,7 @@ function __c385(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
@@ -116156,12 +116160,14 @@ function __c387(j: number): any {
           invoice: S.String.pipe(T.Query()),
           lines: S.optional(__S(12385, __c387, 1).pipe(T.Query())),
           memo: S.optional(S.String.pipe(T.Query())),
-          metadata: S.optional(__S(128, __c4, 0).pipe(T.Query())),
+          metadata: S.optional(__S(128, __c4, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           out_of_band_amount: S.optional(S.Number.pipe(T.Query())),
           reason: S.optional(S.String.pipe(T.Query())),
           refund_amount: S.optional(S.Number.pipe(T.Query())),
           refunds: S.optional(__S(23489, __c734, 1).pipe(T.Query())),
-          shipping_cost: S.optional(__S(23456, __c733, 0).pipe(T.Query())),
+          shipping_cost: S.optional(
+            __S(23456, __c733, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
         }).pipe(
           T.Http({
             method: "GET",
@@ -116205,12 +116211,14 @@ function __c388(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           lines: S.optional(__S(12417, __c388, 1).pipe(T.Query())),
           memo: S.optional(S.String.pipe(T.Query())),
-          metadata: S.optional(__S(128, __c4, 0).pipe(T.Query())),
+          metadata: S.optional(__S(128, __c4, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           out_of_band_amount: S.optional(S.Number.pipe(T.Query())),
           reason: S.optional(S.String.pipe(T.Query())),
           refund_amount: S.optional(S.Number.pipe(T.Query())),
           refunds: S.optional(__S(23489, __c734, 1).pipe(T.Query())),
-          shipping_cost: S.optional(__S(23456, __c733, 0).pipe(T.Query())),
+          shipping_cost: S.optional(
+            __S(23456, __c733, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
           starting_after: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -116270,7 +116278,7 @@ function __c391(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customer: S.String.pipe(T.Label()),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           invoice: S.optional(S.String.pipe(T.Query())),
@@ -116664,7 +116672,7 @@ function __c402(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           email: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -116833,7 +116841,7 @@ function __c410(j: number): any {
       return S.suspend(() =>
         S.Struct({
           charge: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -117250,7 +117258,7 @@ function __c423(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           delivery_success: S.optional(S.Boolean.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -117377,7 +117385,7 @@ function __c429(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           expired: S.optional(S.Boolean.pipe(T.Query())),
@@ -117400,7 +117408,7 @@ function __c430(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -118551,7 +118559,9 @@ function __c448(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          account_holder: S.optional(__S(14336, __c448, 0).pipe(T.Query())),
+          account_holder: S.optional(
+            __S(14336, __c448, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -118654,8 +118664,10 @@ function __c453(j: number): any {
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
-          transacted_at: S.optional(S.Unknown.pipe(T.Query())),
-          transaction_refresh: S.optional(__S(14496, __c453, 0).pipe(T.Query())),
+          transacted_at: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
+          transaction_refresh: S.optional(
+            __S(14496, __c453, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
         }).pipe(
           T.Http({
             method: "GET",
@@ -118710,7 +118722,7 @@ function __c455(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(__S(14560, __c455, 0).pipe(T.Query())),
+          created: S.optional(__S(14560, __c455, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -118848,7 +118860,7 @@ function __c458(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_reference_id: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -118937,7 +118949,7 @@ function __c462(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_reference_id: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -119008,7 +119020,7 @@ function __c465(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
@@ -119091,12 +119103,12 @@ function __c468(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           invoice: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          payment: S.optional(__S(14976, __c468, 0).pipe(T.Query())),
+          payment: S.optional(__S(14976, __c468, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           starting_after: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -120962,10 +120974,10 @@ function __c512(j: number): any {
       return S.suspend(() =>
         S.Struct({
           collection_method: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
-          due_date: S.optional(S.Unknown.pipe(T.Query())),
+          due_date: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -121049,7 +121061,7 @@ function __c516(j: number): any {
         S.Struct({
           card: S.optional(S.String.pipe(T.Query())),
           cardholder: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -121118,7 +121130,7 @@ function __c519(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           email: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -121155,7 +121167,7 @@ function __c520(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cardholder: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           exp_month: S.optional(S.Number.pipe(T.Query())),
           exp_year: S.optional(S.Number.pipe(T.Query())),
@@ -121211,7 +121223,7 @@ function __c522(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -121292,7 +121304,9 @@ function __c525(j: number): any {
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           lookup_keys: S.optional(__S(96, __c3, 0).pipe(T.Query())),
-          preferences: S.optional(__S(16800, __c525, 0).pipe(T.Query())),
+          preferences: S.optional(
+            __S(16800, __c525, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
           starting_after: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -121498,7 +121512,7 @@ function __c531(j: number): any {
       return S.suspend(() =>
         S.Struct({
           card: S.String.pipe(T.Query()),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -121551,7 +121565,7 @@ function __c533(j: number): any {
         S.Struct({
           card: S.optional(S.String.pipe(T.Query())),
           cardholder: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -121982,7 +121996,7 @@ function __c544(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
@@ -122353,8 +122367,8 @@ function __c560(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          arrival_date: S.optional(S.Unknown.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          arrival_date: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           destination: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -122402,7 +122416,7 @@ function __c562(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -122565,14 +122579,14 @@ function __c566(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           currency: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           lookup_keys: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           product: S.optional(S.String.pipe(T.Query())),
-          recurring: S.optional(__S(18112, __c566, 0).pipe(T.Query())),
+          recurring: S.optional(__S(18112, __c566, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           starting_after: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -122669,7 +122683,7 @@ function __c571(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -122754,7 +122768,7 @@ function __c574(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           ids: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -123886,7 +123900,7 @@ function __c593(j: number): any {
           active: S.optional(S.Boolean.pipe(T.Query())),
           code: S.optional(S.String.pipe(T.Query())),
           coupon: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
@@ -124066,7 +124080,7 @@ function __c601(j: number): any {
       return S.suspend(() =>
         S.Struct({
           charge: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -124146,7 +124160,7 @@ function __c605(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -124171,7 +124185,7 @@ function __c606(j: number): any {
         S.Struct({
           alias: S.optional(S.String.pipe(T.Query())),
           contains: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -124222,7 +124236,7 @@ function __c608(j: number): any {
       return S.suspend(() =>
         S.Struct({
           charge: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -124257,7 +124271,7 @@ function __c610(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -124410,7 +124424,7 @@ function __c616(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -124580,7 +124594,7 @@ function __c617(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -124633,7 +124647,7 @@ function __c619(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attach_to_self: S.optional(S.Boolean.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
@@ -124687,7 +124701,7 @@ function __c621(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           currency: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -125026,11 +125040,13 @@ function __c632(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          automatic_tax: S.optional(__S(12800, __c400, 0).pipe(T.Query())),
+          automatic_tax: S.optional(
+            __S(12800, __c400, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
           collection_method: S.optional(S.String.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
-          current_period_end: S.optional(S.Unknown.pipe(T.Query())),
-          current_period_start: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
+          current_period_end: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
+          current_period_start: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
@@ -125075,15 +125091,15 @@ function __c634(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          canceled_at: S.optional(S.Unknown.pipe(T.Query())),
-          completed_at: S.optional(S.Unknown.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          canceled_at: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
+          completed_at: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           customer_account: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          released_at: S.optional(S.Unknown.pipe(T.Query())),
+          released_at: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           scheduled: S.optional(S.Boolean.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -125396,7 +125412,7 @@ function __c647(j: number): any {
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          owner: S.optional(__S(27040, __c845, 0).pipe(T.Query())),
+          owner: S.optional(__S(27040, __c845, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
           starting_after: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/tax_ids", code: 200, contentType: "form-urlencoded" }),
@@ -125496,7 +125512,7 @@ function __c652(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           inclusive: S.optional(S.Boolean.pipe(T.Query())),
@@ -126077,7 +126093,7 @@ function __c673(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -126146,8 +126162,8 @@ function __c676(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(S.Unknown.pipe(T.Query())),
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          amount: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -126244,7 +126260,7 @@ function __c680(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           destination: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -126560,7 +126576,7 @@ function __c690(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -126674,7 +126690,7 @@ function __c695(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           customer: S.optional(S.String.pipe(T.Query())),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
@@ -126788,7 +126804,9 @@ function __c699(j: number): any {
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           financial_account: S.String.pipe(T.Query()),
           limit: S.optional(S.Number.pipe(T.Query())),
-          linked_flows: S.optional(__S(22368, __c699, 0).pipe(T.Query())),
+          linked_flows: S.optional(
+            __S(22368, __c699, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
           starting_after: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -126970,8 +126988,8 @@ function __c706(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
-          effective_at: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
+          effective_at: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           financial_account: S.String.pipe(T.Query()),
@@ -127063,7 +127081,7 @@ function __c710(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          created: S.optional(S.Unknown.pipe(T.Query())),
+          created: S.optional(S.Unknown.pipe(T.Query(), T.QueryStyle("deepObject"))),
           ending_before: S.optional(S.String.pipe(T.Query())),
           expand: S.optional(__S(96, __c3, 0).pipe(T.Query())),
           financial_account: S.String.pipe(T.Query()),
@@ -127071,7 +127089,9 @@ function __c710(j: number): any {
           order_by: S.optional(S.String.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
-          status_transitions: S.optional(__S(22720, __c710, 0).pipe(T.Query())),
+          status_transitions: S.optional(
+            __S(22720, __c710, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
         }).pipe(
           T.Http({
             method: "GET",

@@ -696,8 +696,10 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          subject: S.optional(__S(96, __c6, 0).pipe(T.Query())),
-          related_resource: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          subject: S.optional(__S(96, __c6, 0).pipe(T.Query(), T.QueryStyle("deepObject"))),
+          related_resource: S.optional(
+            __S(32, __c2, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
           flag_key: S.optional(S.String.pipe(T.Query())),
           account_id: S.optional(S.String.pipe(T.Query())),
           properties: S.optional(S.String.pipe(T.Query())),
@@ -727,7 +729,9 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
-          related_resource: S.optional(__S(32, __c2, 0).pipe(T.Query())),
+          related_resource: S.optional(
+            __S(32, __c2, 0).pipe(T.Query(), T.QueryStyle("deepObject")),
+          ),
           status: S.optional(S.String.pipe(T.Query())),
           first: S.optional(S.Number.pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),

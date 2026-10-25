@@ -7711,7 +7711,7 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(98, __c3, 2).pipe(T.Query())),
+          iamTags: S.optional(__S(98, __c3, 2).pipe(T.Query(), T.QueryStyle("form"))),
           xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
           xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
         }).pipe(T.Http({ method: "GET", uri: "/publicCloud/project", code: 200 })),

@@ -18393,7 +18393,8 @@
         "location": {
           "target": "com.opencode.api#GetV2LocationRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -18480,7 +18481,8 @@
         "location": {
           "target": "com.opencode.api#ListV2AgentRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -24772,7 +24774,8 @@
         "location": {
           "target": "com.opencode.api#ListV2ModelRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -25276,7 +25279,8 @@
         "location": {
           "target": "com.opencode.api#ListV2ProviderRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -25475,7 +25479,8 @@
         "location": {
           "target": "com.opencode.api#GetV2ProviderRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -25546,7 +25551,8 @@
         "location": {
           "target": "com.opencode.api#ListV2IntegrationRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -26044,7 +26050,8 @@
         "location": {
           "target": "com.opencode.api#GetV2IntegrationRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -26119,7 +26126,8 @@
         "location": {
           "target": "com.opencode.api#V2IntegrationConnectKeyRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "key": {
@@ -26193,7 +26201,8 @@
         "location": {
           "target": "com.opencode.api#V2IntegrationConnectOauthRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "methodID": {
@@ -26517,7 +26526,8 @@
         "location": {
           "target": "com.opencode.api#V2IntegrationAttemptStatusRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -27456,7 +27466,8 @@
         "location": {
           "target": "com.opencode.api#CancelV2IntegrationAttemptRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -27511,7 +27522,8 @@
         "location": {
           "target": "com.opencode.api#CompleteV2IntegrationAttemptRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "code": {
@@ -27569,7 +27581,8 @@
         "location": {
           "target": "com.opencode.api#UpdateV2CredentialRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "label": {
@@ -27630,7 +27643,8 @@
         "location": {
           "target": "com.opencode.api#RemoveV2CredentialRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -27678,7 +27692,8 @@
         "location": {
           "target": "com.opencode.api#ListV2PermissionRequestRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -28281,7 +28296,8 @@
         "location": {
           "target": "com.opencode.api#ReadV2FsRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -28329,7 +28345,8 @@
         "location": {
           "target": "com.opencode.api#ListV2FsRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "path": {
@@ -28464,7 +28481,8 @@
         "location": {
           "target": "com.opencode.api#V2FsFindRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "query": {
@@ -28558,7 +28576,8 @@
         "location": {
           "target": "com.opencode.api#ListV2CommandRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -28663,7 +28682,8 @@
         "location": {
           "target": "com.opencode.api#ListV2SkillRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -28790,7 +28810,8 @@
         "location": {
           "target": "com.opencode.api#ListV2PtyRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -28882,7 +28903,8 @@
         "location": {
           "target": "com.opencode.api#CreateV2PtyRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "command": {
@@ -28972,7 +28994,8 @@
         "location": {
           "target": "com.opencode.api#GetV2PtyRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -29068,7 +29091,8 @@
         "location": {
           "target": "com.opencode.api#UpdateV2PtyRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "title": {
@@ -29152,7 +29176,8 @@
         "location": {
           "target": "com.opencode.api#RemoveV2PtyRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -29210,7 +29235,8 @@
         "location": {
           "target": "com.opencode.api#V2PtyConnectTokenRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -29366,7 +29392,8 @@
         "location": {
           "target": "com.opencode.api#ListV2QuestionRequestRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -29736,7 +29763,8 @@
         "location": {
           "target": "com.opencode.api#ListV2ReferenceRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },
@@ -29935,7 +29963,8 @@
         "location": {
           "target": "com.opencode.api#V2ProjectCopyCreateRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "strategy": {
@@ -30016,7 +30045,8 @@
         "location": {
           "target": "com.opencode.api#V2ProjectCopyRemoveRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         },
         "directory": {
@@ -30082,7 +30112,8 @@
         "location": {
           "target": "com.opencode.api#V2ProjectCopyRefreshRequestLocation",
           "traits": {
-            "smithy.api#httpQuery": "location"
+            "smithy.api#httpQuery": "location",
+            "com.distilled.openapi#queryStyle": "deepObject"
           }
         }
       },

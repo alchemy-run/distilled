@@ -16577,7 +16577,9 @@ function __c170(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provider_scopes: S.optional(__S(2400, __c300, 0).pipe(T.Query())),
-          provider_query_params: S.optional(__S(416, __c52, 0).pipe(T.Query())),
+          provider_query_params: S.optional(
+            __S(416, __c52, 0).pipe(T.Query(), T.QueryStyle("form")),
+          ),
           client_id: S.String.pipe(T.Query()),
           domain: S.optional(S.String.pipe(T.Query())),
           provider: S.optional(S.String.pipe(T.Query())),
@@ -16798,7 +16800,9 @@ function __c183(j: number): any {
           code_challenge: S.optional(S.String.pipe(T.Query())),
           domain_hint: S.optional(S.String.pipe(T.Query())),
           connection_id: S.optional(S.String.pipe(T.Query())),
-          provider_query_params: S.optional(__S(416, __c52, 0).pipe(T.Query())),
+          provider_query_params: S.optional(
+            __S(416, __c52, 0).pipe(T.Query(), T.QueryStyle("form")),
+          ),
           provider_scopes: S.optional(__S(2400, __c300, 0).pipe(T.Query())),
           invitation_token: S.optional(S.String.pipe(T.Query())),
           max_age: S.optional(S.Number.pipe(T.Query())),

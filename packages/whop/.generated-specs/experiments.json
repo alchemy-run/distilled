@@ -147,6 +147,7 @@
           "target": "com.whop.experiments#ExperimentResourceReference",
           "traits": {
             "smithy.api#httpQuery": "related_resource",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Filter by related resource; requires account_id."
           }
         },
@@ -1110,6 +1111,7 @@
           "target": "com.whop.experiments#EvaluateExperimentExposuresRequestSubject",
           "traits": {
             "smithy.api#httpQuery": "subject",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Bucketing subject. Ownership is the top-level account_id. Account experiments accept caller-supplied subject IDs; internal experiments derive the user from the session."
           }
         },
@@ -1117,6 +1119,7 @@
           "target": "com.whop.experiments#ExperimentResourceReference",
           "traits": {
             "smithy.api#httpQuery": "related_resource",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Restricts batch evaluation to this related resource; omitted batches contain only unbound experiments."
           }
         },

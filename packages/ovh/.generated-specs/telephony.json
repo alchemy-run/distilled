@@ -49,6 +49,7 @@
           "target": "com.ovh.telephony#ListTelephonyRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         }
@@ -379,6 +380,7 @@
           "target": "com.ovh.telephony#ListTelephonyAliasesRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         }
@@ -1542,6 +1544,7 @@
           "target": "com.ovh.telephony#ListTelephonyLinesRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         }
@@ -3199,6 +3202,7 @@
           "target": "com.ovh.telephony#ListTelephonySpareRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         }
@@ -3583,6 +3587,7 @@
           "target": "com.ovh.telephony#ListTelephonyTrunksRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         }

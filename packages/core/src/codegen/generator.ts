@@ -28,6 +28,7 @@ import { ADDITIONAL_PROPERTIES_TRAIT, memberBases, smithyWireName } from "./memb
  * call {@link generateService} per model, write files.
  */
 import { camel as _camel, local, lowerFirst, oneLine, q, tsKey, upperFirst } from "./naming.ts";
+import { QUERY_STYLE_TRAIT } from "./openapi.ts";
 import {
   collectOperations,
   collectOpErrorIds,
@@ -670,6 +671,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         .filter(([trait]) => info.traits[trait] !== undefined)
         .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`),
       ...(STRING_ENCODED_TRAIT in info.traits ? ["T.StringEncoded()"] : []),
+      ...(info.binding === "query" && QUERY_STYLE_TRAIT in info.traits
+        ? [`T.QueryStyle(${q(info.traits[QUERY_STYLE_TRAIT])})`]
+        : []),
       ...(spec.memberExtraPipes?.(info) ?? []),
     ]);
 

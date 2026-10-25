@@ -3234,7 +3234,7 @@ function __c46(j: number): any {
         S.Struct({
           campus: S.optional(S.String.pipe(T.Query())),
           description: S.optional(S.String.pipe(T.Query())),
-          iamTags: S.optional(__S(393, __c49, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(393, __c49, 1).pipe(T.Query(), T.QueryStyle("form"))),
           ip: S.optional(S.String.pipe(T.Query())),
           isAdditionalIp: S.optional(S.Boolean.pipe(T.Query())),
           routedTo_serviceName: S.optional(S.String.pipe(T.Query("routedTo.serviceName"))),
@@ -3671,7 +3671,7 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iamTags: S.optional(__S(393, __c49, 1).pipe(T.Query())),
+          iamTags: S.optional(__S(393, __c49, 1).pipe(T.Query(), T.QueryStyle("form"))),
         }).pipe(T.Http({ method: "GET", uri: "/ip/service", code: 200 })),
       ).annotate({ identifier: "ListIpServiceRequest" });
   }

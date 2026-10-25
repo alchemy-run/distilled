@@ -49960,7 +49960,8 @@
         "q": {
           "target": "org.apache.superset.api#ListSecurityRoleSearchRequestQ",
           "traits": {
-            "smithy.api#httpQuery": "q"
+            "smithy.api#httpQuery": "q",
+            "com.distilled.openapi#queryStyle": "form"
           }
         }
       },

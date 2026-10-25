@@ -734,6 +734,7 @@
           "target": "com.whop.stats#GetMetricRequestSteps",
           "traits": {
             "smithy.api#httpQuery": "steps",
+            "com.distilled.openapi#queryStyle": "deepObject",
             "smithy.api#documentation": "Funnel only. Required when metric=funnel. Consecutive one-based steps encoded as steps[1][event], steps[1][page], steps[2][event], and so on. Values are scalar strings, never JSON."
           }
         },

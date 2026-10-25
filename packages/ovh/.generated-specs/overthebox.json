@@ -49,6 +49,7 @@
           "target": "com.ovh.overthebox#ListOverTheBoxRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         }
@@ -247,6 +248,7 @@
           "target": "com.ovh.overthebox#ListOverTheBoxHardwareRequestIamTagsMap",
           "traits": {
             "smithy.api#httpQuery": "iamTags",
+            "com.distilled.openapi#queryStyle": "form",
             "smithy.api#documentation": "Filter resources on IAM tags"
           }
         }
