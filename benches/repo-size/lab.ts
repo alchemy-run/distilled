@@ -604,6 +604,151 @@ const localSection = () => {
 
 //#endregion
 
+//#region alchemy
+
+/**
+ * Distilled as Alchemy uses it: a submodule at submodules/distilled. Alchemy's
+ * post-checkout hook (scripts/bootstrap-distilled.mjs) gives every Alchemy
+ * worktree its own `git worktree add` of the primary checkout's submodule
+ * repo, so each one pays for a full distilled checkout. This section sizes
+ * that checkout as Alchemy needs it, at Alchemy's pin.
+ */
+const ALCHEMY = process.env.ALCHEMY_REPO ?? join(homedir(), "code", "alchemy", "alchemy");
+
+/** Distilled packages Alchemy builds (tsconfig references) or depends on (package.json). */
+const alchemyPackages = (root: string) => {
+  const used = new Set<string>();
+  const tsconfig = readFileSync(join(root, "tsconfig.json"), "utf8");
+  for (const m of tsconfig.matchAll(/submodules\/distilled\/packages\/([^/]+)\/tsconfig/g))
+    used.add(m[1]!);
+  const manifests = sh(
+    "sh",
+    [
+      "-c",
+      `ls packages/*/package.json examples/*/package.json stacks/*/package.json website/package.json package.json 2>/dev/null || true`,
+    ],
+    { cwd: root },
+  );
+  for (const file of manifests.split("\n").filter(Boolean)) {
+    const text = readFileSync(join(root, file), "utf8");
+    for (const m of text.matchAll(/"@distilled\.cloud\/([a-z0-9-]+)"/g)) used.add(m[1]!);
+  }
+  return [...used].sort();
+};
+
+const alchemySection = () => {
+  if (!existsSync(join(ALCHEMY, ".git"))) return undefined;
+  const pin = git(["rev-parse", "HEAD:submodules/distilled"], ALCHEMY).trim();
+  const havePin =
+    spawnSync("git", ["cat-file", "-e", `${pin}^{commit}`], { cwd: ROOT }).status === 0;
+  const commit = havePin ? pin : git(["rev-parse", "HEAD"]).trim();
+  const used = alchemyPackages(ALCHEMY);
+
+  // Tracked bytes of the distilled checkout at the pin, split by what Alchemy needs.
+  const split = { specs: 0, usedServices: 0, unusedServices: 0, rest: 0 };
+  const unused = new Set<string>();
+  for (const line of git(["ls-tree", "-r", "-l", "--full-tree", commit]).split("\n")) {
+    const [meta, path] = line.split("\t");
+    const [, type, , size] = (meta ?? "").split(/\s+/);
+    if (type !== "blob" || !path) continue;
+    const n = Number(size);
+    const c = categoryOf(path, n);
+    const pkg = /^packages\/([^/]+)\//.exec(path)?.[1];
+    if (c === "generated-specs") split.specs += n;
+    else if (c === "services" && pkg && used.includes(pkg)) split.usedServices += n;
+    else if (c === "services" && pkg) {
+      split.unusedServices += n;
+      unused.add(pkg);
+    } else split.rest += n;
+  }
+
+  // Alchemy's own tracked files (submodules are gitlinks, so not counted).
+  const own = git(["ls-tree", "-r", "-l", "--full-tree", "HEAD"], ALCHEMY)
+    .split("\n")
+    .reduce((s, line) => {
+      const [, type, , size] = line.split("\t")[0]!.split(/\s+/);
+      return type === "blob" ? s + Number(size) : s;
+    }, 0);
+
+  // What bootstrap-distilled could check out instead: measured worktrees.
+  const variants = [
+    { id: "full", label: "Today: full checkout", patterns: undefined as string[] | undefined },
+    { id: "no-specs", label: "Without .generated-specs/", patterns: SPARSE_PATTERNS },
+    {
+      id: "alchemy-only",
+      label: "… and only the services Alchemy uses",
+      patterns: [...SPARSE_PATTERNS, ...[...unused].map((p) => `!/packages/${p}/src/`)],
+    },
+  ].map((v) => {
+    const dir = join(CACHE, `wt-alchemy-${v.id}`);
+    removeWorktree(dir);
+    const ms = timeMs(() => {
+      if (!v.patterns) return git(["worktree", "add", "--detach", "-q", dir, commit]);
+      git(["worktree", "add", "--detach", "--no-checkout", "-q", dir, commit]);
+      const sparseFile = git(["rev-parse", "--git-path", "info/sparse-checkout"], dir).trim();
+      const abs = sparseFile.startsWith("/") ? sparseFile : join(dir, sparseFile);
+      mkdirSync(dirname(abs), { recursive: true });
+      writeFileSync(abs, v.patterns.join("\n") + "\n");
+      git(["-c", "core.sparseCheckout=true", "read-tree", "-mu", "HEAD"], dir);
+    });
+    const size = duBytes(dir);
+    removeWorktree(dir);
+    log(`alchemy ${v.id}: ${(ms / 1000).toFixed(1)} s, ${MB(size.disk)}, ${size.files} files`);
+    return { id: v.id, label: v.label, ms, ...size };
+  });
+
+  // Every Alchemy worktree on this machine: its own files, distilled, distilled lib/.
+  const du = (p: string, extra: string[] = []) =>
+    existsSync(p) ? Number(sh("du", ["-s", "--block-size=1", ...extra, p]).split("\t")[0]) : 0;
+  const worktrees = git(["worktree", "list", "--porcelain"], ALCHEMY)
+    .split("\n")
+    .filter((l) => l.startsWith("worktree "))
+    .map((l) => l.slice(9))
+    .filter((p) => existsSync(p))
+    .map((wt) => {
+      const d = join(wt, "submodules", "distilled");
+      const lib = existsSync(join(d, "packages"))
+        ? readdirSync(join(d, "packages"))
+            .map((p) => du(join(d, "packages", p, "lib")))
+            .reduce((s, n) => s + n, 0)
+        : 0;
+      return {
+        path: wt.replace(homedir(), "~"),
+        alchemy: du(wt, ["--exclude=node_modules", "--exclude=submodules", "--exclude=.git"]),
+        distilled: du(d, ["--exclude=node_modules", "--exclude=lib", "--exclude=.git"]),
+        distilledLib: lib,
+      };
+    });
+
+  // The submodule repo every Alchemy worktree's distilled checkout shares.
+  const moduleRepo = join(ALCHEMY, ".git", "modules", "distilled");
+  const registered = existsSync(join(moduleRepo, "worktrees"))
+    ? readdirSync(join(moduleRepo, "worktrees")).length
+    : 0;
+  const prunable = (
+    spawnSync("git", ["worktree", "list", "--porcelain"], {
+      cwd: join(ALCHEMY, "submodules", "distilled"),
+      encoding: "utf8",
+    }).stdout ?? ""
+  )
+    .split("\n")
+    .filter((l) => l.startsWith("prunable")).length;
+
+  return {
+    pin: pin.slice(0, 9),
+    measuredAt: commit.slice(0, 9),
+    usedPackages: used,
+    unusedPackages: unused.size,
+    alchemyTracked: own,
+    split,
+    variants,
+    worktrees,
+    moduleRepo: { bytes: du(moduleRepo), registered, prunable },
+  };
+};
+
+//#endregion
+
 //#region timeline
 
 type Commit = { sha: string; tree: string; date: string; message: string };
@@ -707,6 +852,7 @@ run("composition", compositionSection);
 run("clone", () => cloneSection(blobs));
 run("worktree", worktreeSection);
 run("local", localSection);
+run("alchemy", alchemySection);
 run("timeline", timelineSection);
 
 mkdirSync(dirname(OUT), { recursive: true });

@@ -47,7 +47,6 @@ const full = run("full");
 const sparse = run("sparse");
 const reflink = run("reflink");
 const dedupe = run("dedupe");
-const clone = Object.fromEntries((lab.clone ?? []).map((c) => [c.id, c]));
 const comp = lab.composition;
 const local = lab.local;
 
@@ -113,43 +112,119 @@ const ORDER = [
 const treeSegments = (cats) =>
   ORDER.map((id) => ({ value: cats[id]?.bytes ?? 0, color: COLORS[id], label: SHORT[id] }));
 
+const alc = lab.alchemy;
+const alcRun = (id) => alc?.variants.find((v) => v.id === id);
+
 const headline = () => {
   const specs = tree.categories["generated-specs"].bytes;
   const sharing = local?.sharing;
   const reclaim = sharing ? sharing.trackedTotal - sharing.trackedUnique : 0;
   const libReclaim = sharing ? sharing.libTotal - sharing.libUnique : 0;
+  const slim = alcRun("alchemy-only");
   return `
-    <p class="verdict">A new worktree writes <b>${fmt(full?.disk ?? tree.bytes)}</b> in ${int(full?.files ?? tree.files)} files.
-    <b>${pct(specs, tree.bytes)}</b> of the tracked bytes are <code>.generated-specs/</code>, which PR #933 stops committing.
-    ${sharing ? `On this laptop ${sharing.worktrees} checkouts hold ${fmt(sharing.trackedTotal)} of tracked files with only ${fmt(sharing.trackedUnique)} of distinct content. Sharing blocks between them would free <b>${fmt(reclaim)}</b> with no repo change.` : ""}</p>
+    <p class="verdict">Every Alchemy worktree gets its own distilled checkout: <b>${fmt(full?.disk ?? tree.bytes)}</b> in ${int(full?.files ?? tree.files)} files, next to about ${alc ? fmt(alc.alchemyTracked) : "?"} of Alchemy itself.
+    <b>${pct(specs, tree.bytes)}</b> of it is <code>.generated-specs/</code>, which Alchemy never reads.
+    ${slim ? `Checking out only what Alchemy builds takes it to <b>${fmt(slim.disk)}</b>, with nothing to regenerate.` : ""}</p>
     <div class="cards">
-      ${card("One worktree", fmt(full?.disk ?? tree.bytes), `${int(full?.files ?? tree.files)} files${full ? ` · <code>git worktree add</code> ${secs(full.ms)}` : ""}`)}
-      ${sparse ? card("Without .generated-specs/", fmt(sparse.disk), `${int(sparse.files)} files · ${secs(sparse.ms)} · what #933 gives`) : ""}
-      ${clone.today ? card("Clone download, depth 1", fmt(clone.today.bytes), `${fmt(clone["no-specs"].bytes)} after #933`) : ""}
-      ${sharing ? card("Duplicate bytes on this laptop", fmt(reclaim + libReclaim), `${fmt(reclaim)} tracked + ${fmt(libReclaim)} lib/ · ${sharing.worktrees} checkouts`) : ""}
+      ${card("Distilled in each worktree", fmt(full?.disk ?? tree.bytes), `${int(full?.files ?? tree.files)} files${full ? ` · <code>git worktree add</code> ${secs(full.ms)}` : ""}`)}
+      ${sparse ? card("Without .generated-specs/", fmt(sparse.disk), `${int(sparse.files)} files · what #933 gives`) : ""}
+      ${slim ? card("Only what Alchemy builds", fmt(slim.disk), `${int(slim.files)} files · ${alc.usedPackages.length} of ${alc.usedPackages.length + alc.unusedPackages} packages' src/`) : ""}
+      ${sharing ? card("Duplicate bytes on this laptop", fmt(reclaim + libReclaim), `${fmt(reclaim)} tracked + ${fmt(libReclaim)} lib/ · ${sharing.worktrees} distilled checkouts`) : ""}
     </div>`;
+};
+
+const alchemySection = () => {
+  if (!alc) return "";
+  const s = alc.split;
+  const segs = [
+    {
+      value: s.specs,
+      color: COLORS["generated-specs"],
+      label: ".generated-specs/ (Alchemy never reads)",
+    },
+    {
+      value: s.unusedServices,
+      color: "var(--violet)",
+      label: "src/services/ of packages Alchemy doesn't use",
+    },
+    { value: s.usedServices, color: COLORS.services, label: "src/services/ Alchemy builds" },
+    { value: s.rest, color: COLORS.other, label: "everything else" },
+  ];
+  const total = segs.reduce((n, x) => n + x.value, 0);
+  const wts = alc.worktrees.slice(1).map((w) => ({
+    label: w.path.replace("~/code/.worktrees/alchemy/", ""),
+    value: w.alchemy + w.distilled + w.distilledLib,
+    segments: [
+      { value: w.alchemy, color: "var(--code-f)", label: "Alchemy" },
+      { value: w.distilled, color: "var(--accent)", label: "distilled checkout" },
+      { value: w.distilledLib, color: "var(--violet)", label: "distilled lib/" },
+    ],
+  }));
+  const variants = alc.variants.map((v) => ({
+    label: v.label,
+    value: v.disk,
+    tag: "measured",
+    color: v.id === "full" ? "var(--fg-3)" : "var(--accent)",
+  }));
+  return `<section class="panel">
+    <div class="chart-head"><h3>Distilled inside an Alchemy worktree <span class="muted">· pin <code>${esc(alc.pin)}</code></span></h3>
+    <div class="how">T3 runs <code>git worktree add</code> on Alchemy. Alchemy's <code>post-checkout</code> hook (<code>scripts/bootstrap-distilled.mjs</code>) then runs <code>git worktree add</code> on the primary checkout's distilled submodule, so every Alchemy worktree gets a full distilled checkout over one shared object store. Alchemy builds or depends on ${alc.usedPackages.length} distilled packages: ${alc.usedPackages.map((p) => `<code>${esc(p)}</code>`).join(" ")}.</div></div>
+    ${stackBar(segs, total)}
+    ${legend(segs, total)}
+    <h3 class="sub-h">What bootstrap-distilled could check out <span class="muted">· a real worktree at the pin, sized</span></h3>
+    ${bars(variants)}
+    ${
+      wts.length
+        ? `<h3 class="sub-h">Alchemy worktrees on this laptop</h3>
+    <ul class="legend"><li><i style="background:var(--code-f)"></i>Alchemy (untracked build output included)</li><li><i style="background:var(--accent)"></i>distilled checkout</li><li><i style="background:var(--violet)"></i>distilled lib/ (built by Alchemy's tsrs -b)</li></ul>
+    ${bars(wts)}`
+        : ""
+    }
+    <div class="how">The shared submodule repo <code>.git/modules/distilled</code> is ${fmt(alc.moduleRepo.bytes)} with ${alc.moduleRepo.registered} registered worktrees, ${alc.moduleRepo.prunable} of them prunable.</div>
+  </section>`;
 };
 
 const optionsSection = () => {
   if (!full || !sparse) return "";
   const services = tree.categories.services.bytes;
-  const big3 = tree.packages
-    .filter((p) => ["gcp", "aws", "azure"].includes(p.name))
-    .reduce((s, p) => s + (p.byCategory.services ?? 0), 0);
   const docs = comp?.services.kinds?.docs ?? 0;
   const indent = comp?.services.classes.indent ?? 0;
   const after = sparse.disk;
+  const slim = alcRun("alchemy-only");
   const options = [
     { label: "Today", value: full.disk, tag: "measured", color: "var(--fg-3)" },
     { label: "Without .generated-specs/ (#933, or sparse)", value: after, tag: "measured" },
-    { label: "… and no indentation in generated code", value: after - indent, tag: "computed" },
-    { label: "… and JSDoc out of src/services/", value: after - docs, tag: "computed" },
-    { label: "… and sparse: no gcp/aws/azure services", value: after - big3, tag: "computed" },
-    { label: "… and stop committing src/services/", value: after - services, tag: "computed" },
+    ...(slim
+      ? [
+          {
+            label: "… and only the packages Alchemy uses (sparse)",
+            value: slim.disk,
+            tag: "measured",
+          },
+        ]
+      : []),
+    {
+      label: "… JSDoc moved out of src/services/",
+      value: after - docs,
+      tag: "computed",
+      color: "var(--fg-3)",
+    },
+    {
+      label: "… no indentation in generated code",
+      value: after - indent,
+      tag: "computed",
+      color: "var(--fg-3)",
+    },
+    {
+      label: "… src/services/ not committed",
+      value: after - services,
+      tag: "computed",
+      color: "var(--fg-3)",
+    },
     ...(dedupe
       ? [
           {
-            label: "Today + dedupe pass after git worktree add",
+            label: "Today + dedupe pass against the primary checkout",
             value: dedupe.newDisk,
             tag: "measured",
             color: "var(--teal)",
@@ -159,7 +234,7 @@ const optionsSection = () => {
     ...(reflink
       ? [
           {
-            label: "Today + reflink copy of a checkout",
+            label: "Today + reflink copy of the primary checkout",
             value: reflink.newDisk,
             tag: "measured",
             color: "var(--teal)",
@@ -175,51 +250,40 @@ const optionsSection = () => {
   }));
   const ideas = [
     {
-      name: "1 · Land #933",
-      saves: `−${fmt(full.disk - after)} per worktree${clone["no-specs"] ? ` · clone ${fmt(clone.today.bytes)} → ${fmt(clone["no-specs"].bytes)}` : ""}`,
-      how: "<code>generate</code> converts in memory, and <code>.generated-specs/</code> becomes a gitignored dump. Every clone, CI checkout and worktree gets the win.",
-      cost: "The PR is open. <code>patches:names</code> and <code>patches:audit</code> need <code>pnpm convert</code> first. AGENTS.md still quotes the old sizes.",
+      name: "1 · Land #933, publish converted specs elsewhere",
+      saves: `−${fmt(full.disk - after)} per worktree, distilled and Alchemy`,
+      how: "Alchemy never reads <code>.generated-specs/</code>, so dropping it costs Alchemy nothing to regenerate. For the few who read them: CI pushes the converted models to a separate repo (for example in the distilled-mirror org), one commit per distilled main commit. People browse and diff them on GitHub, and nobody's clone or worktree carries them. <code>pnpm convert &lt;pkg&gt;</code> stays as the local fallback.",
+      cost: "A CI job that fetches the spec mirrors and converts the changed packages on each push to main. <code>patches:names</code> and <code>patches:audit</code> convert locally first (seconds per package once its mirror is fetched).",
     },
     {
-      name: "2 · Share blocks between worktrees",
+      name: "2 · Sparse checkout in bootstrap-distilled.mjs",
+      saves: slim ? `${fmt(full.disk)} → ${fmt(slim.disk)} per Alchemy worktree` : "",
+      how: "The hook already runs <code>git worktree add</code> and already turns on <code>extensions.worktreeConfig</code>. Add <code>--no-checkout</code>, write sparse patterns, then check out: no <code>.generated-specs/</code>, and no <code>src/</code> for packages Alchemy neither builds nor depends on. The hook reads that list from Alchemy's <code>tsconfig.json</code> and package.json files at checkout time. Works on any filesystem and in CI.",
+      cost: "To edit a package Alchemy doesn't use from inside an Alchemy worktree, run <code>git sparse-checkout add packages/&lt;pkg&gt;</code>. Each Alchemy worktree still holds what it builds.",
+    },
+    {
+      name: "3 · Share blocks with the primary checkout",
       saves: dedupe ? `${fmt(full.disk)} → ${fmt(dedupe.newDisk)} per worktree` : "",
-      how: `On a copy-on-write filesystem (XFS here, btrfs, APFS on macOS) two identical files can share their blocks. A dedupe pass after <code>git worktree add</code> took ${dedupe ? secs(dedupe.ms) : "?"} in total and left <code>git status</code> clean. The kernel compares the bytes before it shares them.`,
-      cost: "Local tooling, outside the repo. Does nothing on ext4. A file edited later gets its own blocks again, so savings shrink as a branch drifts.",
+      how: `Same hook: after the checkout, dedupe its files against the primary checkout's distilled. On XFS here it took ${dedupe ? secs(dedupe.ms) : "?"} and left <code>git status</code> clean; the kernel compares bytes before it shares them. On macOS, APFS clones files (<code>cp -c</code>) the same way. Built <code>lib/</code> could be shared too; whether Alchemy's <code>tsrs -b</code> then skips rebuilding is UNCLEAR and untested.`,
+      cost: "Does nothing on ext4 or in CI. Savings shrink as a worktree's pin drifts from the primary's.",
     },
     {
-      name: "3 · Sparse checkout until #933 lands",
-      saves: `−${fmt(full.disk - after)} per worktree`,
-      how: "<code>git sparse-checkout set --no-cone '/*' '!/packages/*/.generated-specs/'</code> in a worktree that does no codegen.",
-      cost: "Per worktree, by hand or in a setup hook, after the files are already written. Enables <code>extensions.worktreeConfig</code> in the shared repo config.",
+      name: "4 · Keep src/services/ committed",
+      saves: `would save ${fmt(services)}`,
+      how: "Alchemy's <code>tsrs -b</code> builds from these files. Without them, every Alchemy worktree and every Alchemy CI job must fetch the spec mirrors (about 406 MB) and run generate (minutes) before it can type-check.",
+      cost: `Same for a JSDoc sidecar (−${fmt(docs)}): the docs would need a build step in Alchemy too. Not worth it after options 1 and 2.`,
     },
     {
-      name: "4 · Slimmer generated TypeScript",
-      saves: `up to −${fmt(docs + indent)} per worktree`,
-      how: `JSDoc is ${pct(docs, comp?.services.bytes ?? 1)} of <code>src/services/</code> and indentation ${pct(indent, comp?.services.bytes ?? 1)}. The docs could live in a compressed sidecar file that the build writes into <code>lib/*.d.ts</code>, so editors of published SDKs still show them.`,
-      cost: "Hovers inside the repo lose docs. Generator and build changes. Doc changes show up in the sidecar's diff.",
-    },
-    {
-      name: "5 · Stop committing src/services/",
-      saves: `−${fmt(services)} per worktree`,
-      how: "Generate on install or in CI, as #933 does for the converted models.",
-      cost: "Every build then needs the spec mirrors (about 406 MB) and a full generate (minutes). Reviewers lose the generated diff. CI must generate. The largest change of all.",
-    },
-    {
-      name: "6 · Prune refs, then git gc",
-      saves: local ? `shared store ${fmt(local.objects)} → about ${fmt(local.mainOnlyPack)}` : "",
-      how: local
-        ? `The shared object store keeps every local branch (${int(local.refs["refs/heads"] ?? 0)}), remote branch (${int(local.refs["refs/remotes"] ?? 0)}) and T3 checkpoint (${int(local.refs["refs/t3"] ?? 0)}) alive. origin/main's own history packs to ${fmt(local.mainOnlyPack)}.`
-        : "",
-      cost: "Once per machine, not per worktree. Deleted refs are gone; the floor depends on which branches you keep.",
+      name: "5 · Prune and gc the shared repos",
+      saves: alc ? `Alchemy's distilled module repo: ${fmt(alc.moduleRepo.bytes)}` : "",
+      how: `${alc ? `Alchemy's <code>.git/modules/distilled</code> has ${alc.moduleRepo.prunable} prunable worktree registrations. ` : ""}${local ? `The distilled repo's own store is ${fmt(local.objects)}; origin/main's history alone packs to ${fmt(local.mainOnlyPack)}. Old branches and T3 checkpoints (${int(local.refs["refs/t3"] ?? 0)} refs) keep the rest alive.` : ""}`,
+      cost: "Once per machine. Deleted refs are gone; the floor depends on which branches you keep.",
     },
   ];
   return `<section class="panel">
-    <div class="chart-head"><h3>Ways to shrink a worktree <span class="muted">· new disk for one worktree</span></h3>
-    <div class="how"><span class="tag measured">measured</span> a real worktree was created and sized. <span class="tag computed">computed</span> from exact byte counts, not built. Teal bars share blocks with a checkout that already exists, so they need a copy-on-write filesystem.</div></div>
+    <div class="chart-head"><h3>Ways to shrink distilled's checkout <span class="muted">· new disk for one worktree</span></h3>
+    <div class="how"><span class="tag measured">measured</span> a real worktree was created and sized. <span class="tag computed">computed</span> from exact byte counts, not built; grey ones make Alchemy regenerate or rebuild. Teal bars share blocks with a checkout that already exists, so they need a copy-on-write filesystem.</div></div>
     ${bars(options)}
-    <h3 class="sub-h">Clone download, <code>git clone --depth=1</code></h3>
-    <div class="how">A pack of HEAD's objects, built the way the server builds one. The download is small; the unpacked working tree is what hurts.</div>
-    ${bars(cloneRows)}
     <h3 class="sub-h">Options, in the order I would do them</h3>
     <div class="options">${ideas
       .map(
@@ -230,6 +294,9 @@ const optionsSection = () => {
         </div>`,
       )
       .join("")}</div>
+    <h3 class="sub-h">Clone download, <code>git clone --depth=1</code></h3>
+    <div class="how">A pack of HEAD's objects, built the way the server builds one. Alchemy CI already fetches the submodule with <code>--depth=1</code>. The download is small; the unpacked working tree is what hurts.</div>
+    ${bars(cloneRows)}
   </section>`;
 };
 
@@ -419,6 +486,7 @@ const render = () => {
     <h2>Repo <em>size</em></h2>
     <p class="intro muted">Planning page. Generated ${esc(new Date(lab.generatedAt).toLocaleString())} at <code>${esc(lab.head)}</code> by <code>node benches/repo-size/lab.ts</code>. 1 MB = 1,048,576 bytes.</p>
     ${headline()}
+    ${alchemySection()}
     ${optionsSection()}
     ${whereSection()}
     ${timelineSection()}

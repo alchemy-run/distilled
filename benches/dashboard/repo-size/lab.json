@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-25T17:25:48.254Z",
-  "head": "0021bace3",
+  "generatedAt": "2026-10-25T17:36:56.116Z",
+  "head": "6e3febccf",
   "categories": [
     {
       "id": "generated-specs",
@@ -32,8 +32,8 @@
     }
   ],
   "tree": {
-    "bytes": 1179648764,
-    "files": 9972,
+    "bytes": 1179797125,
+    "files": 9977,
     "categories": {
       "generated-specs": {
         "bytes": 743178161,
@@ -56,8 +56,8 @@
         "files": 1414
       },
       "benches": {
-        "bytes": 9364773,
-        "files": 172
+        "bytes": 9513134,
+        "files": 177
       },
       "other": {
         "bytes": 2294513,
@@ -3894,5 +3894,87 @@
         "truncated": false
       }
     ]
+  },
+  "alchemy": {
+    "pin": "9892e563f",
+    "measuredAt": "9892e563f",
+    "usedPackages": [
+      "acme",
+      "aws",
+      "aws4signer",
+      "axiom",
+      "cloudflare",
+      "core",
+      "doppler",
+      "fly-io",
+      "gcp",
+      "github",
+      "hetzner",
+      "iceberg",
+      "infisical",
+      "neon",
+      "planetscale",
+      "prisma",
+      "railway",
+      "stripe",
+      "turso",
+      "zerossl"
+    ],
+    "unusedPackages": 70,
+    "alchemyTracked": 118631645,
+    "split": {
+      "specs": 743105067,
+      "usedServices": 245032206,
+      "unusedServices": 166163546,
+      "rest": 25101059
+    },
+    "variants": [
+      {
+        "id": "full",
+        "label": "Today: full checkout",
+        "ms": 3526.253665,
+        "disk": 1204482048,
+        "files": 9951
+      },
+      {
+        "id": "no-specs",
+        "label": "Without .generated-specs/",
+        "ms": 1959.846067,
+        "disk": 456957952,
+        "files": 7867
+      },
+      {
+        "id": "alchemy-only",
+        "label": "… and only the services Alchemy uses",
+        "ms": 913.539683,
+        "disk": 286375936,
+        "files": 6419
+      }
+    ],
+    "worktrees": [
+      {
+        "path": "~/code/alchemy/alchemy",
+        "alchemy": 12730863616,
+        "distilled": 2040815616,
+        "distilledLib": 714641408
+      },
+      {
+        "path": "~/code/.worktrees/alchemy/t3-24b0912c",
+        "alchemy": 281219072,
+        "distilled": 1205510144,
+        "distilledLib": 119189504
+      },
+      {
+        "path": "~/code/.worktrees/alchemy/t3-8b2c3bb8",
+        "alchemy": 710725632,
+        "distilled": 1512837120,
+        "distilledLib": 456904704
+      }
+    ],
+    "moduleRepo": {
+      "bytes": 2657476608,
+      "registered": 35,
+      "prunable": 33
+    }
   }
 }
