@@ -513,6 +513,8 @@ interface MemberPlan {
   readonly preserve: string | undefined;
   /** `{name+}` placeholder. */
   readonly greedy: boolean;
+  /** An empty value ending the path of a GET or HEAD is sent (e.g. GitHub's `contents/{path}` with `""`). */
+  readonly emptyAllowed: boolean;
   readonly stringEncoded: boolean;
   /** `mapKeys(type, value, "encode", rootDict)` returns the value unchanged. */
   readonly verbatim: boolean;
@@ -547,10 +549,15 @@ const planFor = (inputAst: AST.AST): RequestPlan => {
     let bind: Bind;
     let name: string;
     let greedy = false;
+    let emptyAllowed = false;
     if (hasPropAnn(prop, labelSymbol)) {
       bind = "label";
       name = nameOf(prop, labelSymbol);
       greedy = http.uri.includes(`{${name}+}`);
+      emptyAllowed =
+        !greedy &&
+        (http.method === "GET" || http.method === "HEAD") &&
+        http.uri.split("?")[0]!.endsWith(`{${name}}`);
     } else if (hasPropAnn(prop, headerSymbol)) {
       bind = "header";
       name = nameOf(prop, headerSymbol).toLowerCase();
@@ -577,6 +584,7 @@ const planFor = (inputAst: AST.AST): RequestPlan => {
       type: prop.type,
       preserve: typeof preserve === "string" ? preserve : undefined,
       greedy,
+      emptyAllowed,
       stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
       verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
     });
@@ -620,8 +628,10 @@ export const makeRequest = (
  * walk the input value.
  *
  * Throws when the input schema is missing the `Http()` trait -- a codegen
- * bug -- and, before anything is sent, when a label is `.` or `..` (for a
- * greedy `{name+}` label, when any of its segments is). Each surfaces as a
+ * bug -- and, before anything is sent, when a label is empty, `.` or `..`
+ * (for a greedy `{name+}` label, when any of its segments is). An empty
+ * label that ends the path of a GET or HEAD is sent, and a greedy `/` followed
+ * by more path is sent as the root (`/providers/...`). Each refusal surfaces as a
  * defect by the calling protocol's Effect context.
  */
 export const buildRequest = ({
@@ -654,18 +664,24 @@ export const buildRequest = ({
     if (value === undefined) continue;
     switch (m.bind) {
       case "label": {
+        const text = String(value);
         // The URL parser resolves a `.` or `..` segment, percent-encoded or
         // not, so no encoding can carry one: it would address another path
         // (`/projects/p1/branches/..` -> `/projects/p1/`). A greedy label keeps
         // its `/`, so each of its segments counts.
-        if (
-          (m.greedy ? String(value).split("/") : [String(value)]).some(
-            (s) => s === "." || s === "..",
-          )
-        ) {
+        // An empty segment drops a level the same way (`/projects/` instead
+        // of `/projects/{project_id}`). A greedy `/` followed by more path
+        // addresses the root, so its own segment is left out (e.g. Azure's
+        // tenant-root scope, `/providers/...`).
+        if (m.greedy && text === "/" && uri.includes(`/{${m.name}+}/`)) {
+          uri = uri.replace(`/{${m.name}+}`, "");
+          break;
+        }
+        const segments = m.greedy ? text.replace(/^\/+/, "").split("/") : [text];
+        if (segments.some((s) => s === "." || s === ".." || (s === "" && !m.emptyAllowed))) {
           throw new Error(`invalid value for input HTTP label: ${m.key}`);
         }
-        const encoded = encodeURIComponent(String(value));
+        const encoded = encodeURIComponent(text);
         const preserve = m.preserve;
         const label =
           preserve !== undefined
@@ -675,7 +691,7 @@ export const buildRequest = ({
               })
             : encoded;
         uri = m.greedy
-          ? uri.replace(`{${m.name}+}`, () => encodeGreedyLabel(String(value)))
+          ? uri.replace(`{${m.name}+}`, () => encodeGreedyLabel(text))
           : uri.replace(`{${m.name}}`, () => label);
         break;
       }
