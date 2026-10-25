@@ -7,11 +7,12 @@ import * as UrlParams from "effect/http/UrlParams";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
-import { describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import {
   ConnectCredentialsFromEnv,
   connectCredentials,
   eventsCredentials,
+  exchangeAccessToken,
   oauthCredentials,
   partnershipCredentials,
   usersCredentials,
@@ -231,6 +232,51 @@ describe("OAuthProtocol", () => {
     expect(seen[0]!.url).toBe("https://api.1password.com/v1/oauth/token");
     expect(seen[0]!.headers.authorization).toBe(`Basic ${btoa("client:secret")}`);
     expect(seen[0]!.body).toBe("grant_type=client_credentials");
+  });
+
+  test("encodes Basic credentials as UTF-8 then base64, including characters above U+00FF", async () => {
+    const { seen, layer } = recordingClient(() => ({
+      status: 200,
+      body: { access_token: "op_o_c_x", token_type: "Bearer", expires_in: 900 },
+    }));
+    await run(
+      requestAccessToken({ grant_type: "client_credentials" }),
+      Layer.merge(
+        layer,
+        oauthCredentials({ clientId: "clïent", clientSecret: Redacted.make("s€cret") }),
+      ),
+    );
+    expect(seen[0]!.headers.authorization).toBe(
+      `Basic ${Buffer.from("clïent:s€cret", "utf8").toString("base64")}`,
+    );
+  });
+});
+
+describe("exchangeAccessToken", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  test("encodes Basic credentials as UTF-8 then base64, including characters above U+00FF", async () => {
+    const headers: Headers[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (_url: string, init: RequestInit) => {
+        headers.push(new Headers(init.headers));
+        return Response.json({ access_token: "op_o_c_x", expires_in: 900 });
+      }),
+    );
+    const token = await Effect.runPromise(
+      exchangeAccessToken({
+        clientId: "clïent",
+        clientSecret: Redacted.make("s€cret"),
+        apiBaseUrl: "https://api.1password.test",
+      }),
+    );
+    expect(Redacted.value(token.accessToken)).toBe("op_o_c_x");
+    expect(headers[0]!.get("authorization")).toBe(
+      `Basic ${Buffer.from("clïent:s€cret", "utf8").toString("base64")}`,
+    );
   });
 });
 
