@@ -102,27 +102,6 @@ const valueOf = (run: CiRun, m: Metric, keys: string[]) => {
   return values.length ? median(values) : undefined;
 };
 
-/**
- * A call does strictly more work than the bare roundtrip it is compared with,
- * so added latency below zero means the roundtrip was timed on a disturbed
- * runner. Runs measured before the call and roundtrip were interleaved can
- * read negative on most programs (main c426bed0f: 56 of 82); their speed
- * numbers are not compared.
- */
-const NEGATIVE_US = -1;
-const speedUnreliable = (run: CiRun, keys: string[]) => {
-  const added = keys.flatMap((k) => {
-    const v = run.programs[k]?.runtime?.addedP50Us;
-    return v === undefined || !Number.isFinite(v) ? [] : [v];
-  });
-  const negative = added.filter((v) => v < NEGATIVE_US).length;
-  return added.length && negative / added.length >= 0.1
-    ? { negative, of: added.length }
-    : undefined;
-};
-const reliable = (run: CiRun, m: Metric, keys: string[]) =>
-  m.id !== "speed" || !speedUnreliable(run, keys);
-
 interface Change {
   from: number;
   to: number;
@@ -135,7 +114,6 @@ interface Change {
 const change = (run: CiRun, before: CiRun | undefined, m: Metric, keys: string[]) => {
   if (!before) return undefined;
   const shared = keys.filter((k) => run.programs[k] && before.programs[k]);
-  if (!reliable(run, m, shared) || !reliable(before, m, shared)) return undefined;
   const from = valueOf(before, m, shared);
   const to = valueOf(run, m, shared);
   if (from === undefined || to === undefined) return undefined;
@@ -176,17 +154,6 @@ export const summaryMarkdown = (head: CiRun, base: CiRun | undefined): string[] 
   const keys = Object.keys(head.programs);
   return METRICS.map((m) => {
     const v = m.format(valueOf(head, m, keys));
-    if (m.id === "speed") {
-      const bad = [
-        ["this PR's", speedUnreliable(head, keys)],
-        ["main's", base && speedUnreliable(base, keys)],
-      ] as const;
-      const hit = bad.find(([, u]) => u);
-      if (hit) {
-        const [whose, u] = hit;
-        return `- ⚪ **${m.label}** ${v}: not compared, ${whose} speed baseline is unreliable (${u!.negative} of ${u!.of} programs read below zero)`;
-      }
-    }
     const c = change(head, base, m, keys);
     if (!c) return `- **${m.label}** ${v}`;
     const sign = c.diff > 0 ? "+" : c.diff < 0 ? "−" : "±";
@@ -316,12 +283,7 @@ ${html}</div>
 
   // Change vs main in percent: main is 0, so the chart shows the move, not the size.
   const line = (m: Metric) => {
-    // Unreliable runs get no point; the reference is then the newest
-    // reliable main run.
-    const ok = (r: CiRun) => reliable(r, m, keys);
-    const refRun =
-      base && ok(base) ? base : (runs.slice(0, -1).findLast(ok) ?? (base ? undefined : runs[0]));
-    const ref = refRun && valueOf(refRun, m, keys);
+    const ref = base ? valueOf(base, m, keys) : valueOf(runs[0]!, m, keys);
     const pct = (v: number | undefined) =>
       v === undefined || !ref ? undefined : ((v - ref) / ref) * 100;
     const fmt = (p: number) =>
@@ -329,7 +291,7 @@ ${html}</div>
     const points = runs.map((r, i) => {
       const c = change(r, runs[i - 1], m, keys);
       return {
-        value: ok(r) ? pct(valueOf(r, m, keys)) : undefined,
+        value: pct(valueOf(r, m, keys)),
         label: r === head ? branch : short(r.sha).slice(0, 7),
         branch: r === head,
         cls: !c ? "" : c.noise ? "flat" : c.diff < 0 ? "good" : "bad",
@@ -338,7 +300,7 @@ ${html}</div>
       };
     });
     return `<section class="panel chart-panel">
-  <div class="chart-head"><h3>${esc(m.label)} <span class="muted">· change vs main ${base && refRun ? `<code>${esc(short(refRun.sha))}</code>` : ""} · median per program</span></h3>
+  <div class="chart-head"><h3>${esc(m.label)} <span class="muted">· change vs main ${base ? `<code>${esc(short(base.sha))}</code>` : ""} · median per program</span></h3>
   <div class="how">${esc(m.label)} of this PR: ${esc(m.format(valueOf(head, m, keys)))}, main: ${esc(m.format(ref))}. Lower is better.</div></div>
   <div class="chart">${lineChart(points, { format: fmt, branchLabel: "PR", around0: true, minSpan: 1 })}</div>
 </section>`;
