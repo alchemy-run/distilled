@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import * as CoreErrors from "@distilled.cloud/core/errors";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
@@ -18,6 +19,7 @@ import {
   createGroup,
   deleteGroupCluster,
   getGroup,
+  getGroupAiModelApiKey,
   getGroupCluster,
   listGroups,
   NotFound,
@@ -73,6 +75,8 @@ const runFlip = <A, E>(
   );
 
 const groupId = "5f1a2b3c4d5e6f7a8b9c0d1e";
+
+const SECRET = "sentinel-secret-7f3a";
 
 const atlasError = (status: number, errorCode: string, detail?: string, reason?: string) =>
   JSON.stringify({
@@ -271,5 +275,25 @@ describe("success decoding", () => {
       ),
     );
     expect(error).toBeInstanceOf(MongodbAtlasParseError);
+  });
+
+  const apiKey = getGroupAiModelApiKey({ groupId, apiKeyId: "k" });
+
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const { layer } = fakeAtlas(200, `{"secret":"${SECRET}`);
+      const error = await runFlip(apiKey.pipe(Effect.provide(mode)), layer);
+      expect(error).toBeInstanceOf(MongodbAtlasParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const { layer } = fakeAtlas(200, JSON.stringify({ secret: SECRET, apiKeyId: 42 }));
+    const error = await runFlip(apiKey.pipe(Effect.provide(ResponseValidation.strict)), layer);
+    expect(error).toBeInstanceOf(MongodbAtlasParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
   });
 });
