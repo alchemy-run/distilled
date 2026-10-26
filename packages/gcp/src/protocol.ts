@@ -1,6 +1,6 @@
 import * as API from "@distilled.cloud/core/api";
 import { debugHttp } from "@distilled.cloud/core/debug";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { ConfigError, HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
 import type { DefaultErrors } from "@distilled.cloud/core/errors";
 import {
   getAnn,
@@ -72,6 +72,7 @@ export type GcpOpError =
   | UnknownGCPError
   | GCPParseError
   | GCPCredentialsError
+  | ConfigError
   | SourceError
   | HttpClientError.HttpClientError;
 
@@ -215,6 +216,11 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     // never listed in an operation's requirements.
     const endpointOverride = yield* Effect.serviceOption(Endpoint.Endpoint);
     const override = Option.isSome(endpointOverride) ? yield* endpointOverride.value : undefined;
+    if (override !== undefined && !URL.canParse(override)) {
+      return yield* new ConfigError({
+        message: `GCP endpoint override must be an absolute URL (e.g. http://localhost:8085), got ${JSON.stringify(override)}`,
+      });
+    }
     const mode = Option.getOrElse(
       yield* Effect.serviceOption(Region.RegionalEndpoints),
       () => "required" as const,
