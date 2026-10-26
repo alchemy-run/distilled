@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Communication" },
+  prefix: "Communication",
+  service: "Communication",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Type of verification. */
 export type VerificationType = "Domain" | "SPF" | "DKIM" | "DKIM2" | "DMARC";
 export interface CancelDomainVerificationRequest {
@@ -1405,6 +1425,8 @@ export const CancelDomainVerification: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDomainVerification",
 }));
 
 export type CheckCommunicationServiceNameAvailabilityError = AzureOpError;
@@ -1420,6 +1442,8 @@ export const CheckCommunicationServiceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCommunicationServiceNameAvailability",
 }));
 
 export type CommunicationServicesCreateOrUpdateError = AzureOpError;
@@ -1435,6 +1459,8 @@ export const CommunicationServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommunicationServicesCreateOrUpdate",
 }));
 
 export type CommunicationServicesLinkNotificationHubError = AzureOpError;
@@ -1450,6 +1476,8 @@ export const CommunicationServicesLinkNotificationHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommunicationServicesLinkNotificationHub",
 }));
 
 export type DeleteCommunicationServiceError = AzureOpError;
@@ -1465,6 +1493,8 @@ export const DeleteCommunicationService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCommunicationService",
 }));
 
 export type DeleteDomainError = AzureOpError;
@@ -1480,6 +1510,8 @@ export const DeleteDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteEmailServiceError = AzureOpError;
@@ -1495,6 +1527,8 @@ export const DeleteEmailService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailService",
 }));
 
 export type DeleteSenderUsernameError = AzureOpError;
@@ -1510,6 +1544,8 @@ export const DeleteSenderUsername: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSenderUsername",
 }));
 
 export type DeleteSmtpUsernameError = AzureOpError;
@@ -1525,6 +1561,8 @@ export const DeleteSmtpUsername: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSmtpUsername",
 }));
 
 export type DeleteSuppressionListError = AzureOpError;
@@ -1540,6 +1578,8 @@ export const DeleteSuppressionList: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSuppressionList",
 }));
 
 export type DeleteSuppressionListAddressError = AzureOpError;
@@ -1555,6 +1595,8 @@ export const DeleteSuppressionListAddress: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSuppressionListAddress",
 }));
 
 export type DomainsCreateOrUpdateError = AzureOpError;
@@ -1570,6 +1612,8 @@ export const DomainsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsCreateOrUpdate",
 }));
 
 export type DomainsInitiateVerificationError = AzureOpError;
@@ -1585,6 +1629,8 @@ export const DomainsInitiateVerification: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsInitiateVerification",
 }));
 
 export type EmailServicesCreateOrUpdateError = AzureOpError;
@@ -1600,6 +1646,8 @@ export const EmailServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailServicesCreateOrUpdate",
 }));
 
 export type GetCommunicationServiceError = AzureOpError;
@@ -1615,6 +1663,8 @@ export const GetCommunicationService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommunicationService",
 }));
 
 export type GetDomainError = AzureOpError;
@@ -1630,6 +1680,8 @@ export const GetDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetEmailServiceError = AzureOpError;
@@ -1645,6 +1697,8 @@ export const GetEmailService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailService",
 }));
 
 export type GetSenderUsernameError = AzureOpError;
@@ -1660,6 +1714,8 @@ export const GetSenderUsername: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSenderUsername",
 }));
 
 export type GetSmtpUsernameError = AzureOpError;
@@ -1675,6 +1731,8 @@ export const GetSmtpUsername: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmtpUsername",
 }));
 
 export type GetSuppressionListError = AzureOpError;
@@ -1690,6 +1748,8 @@ export const GetSuppressionList: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuppressionList",
 }));
 
 export type GetSuppressionListAddressError = AzureOpError;
@@ -1705,6 +1765,8 @@ export const GetSuppressionListAddress: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuppressionListAddress",
 }));
 
 export type ListCommunicationServiceByResourceGroupError = AzureOpError;
@@ -1720,6 +1782,8 @@ export const ListCommunicationServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunicationServiceByResourceGroup",
 }));
 
 export type ListCommunicationServiceBySubscriptionError = AzureOpError;
@@ -1735,6 +1799,8 @@ export const ListCommunicationServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunicationServiceBySubscription",
 }));
 
 export type ListCommunicationServiceKeysError = AzureOpError;
@@ -1750,6 +1816,8 @@ export const ListCommunicationServiceKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunicationServiceKeys",
 }));
 
 export type ListDomainByEmailServiceResourceError = AzureOpError;
@@ -1765,6 +1833,8 @@ export const ListDomainByEmailServiceResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainByEmailServiceResource",
 }));
 
 export type ListEmailServiceByResourceGroupError = AzureOpError;
@@ -1780,6 +1850,8 @@ export const ListEmailServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailServiceByResourceGroup",
 }));
 
 export type ListEmailServiceBySubscriptionError = AzureOpError;
@@ -1795,6 +1867,8 @@ export const ListEmailServiceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailServiceBySubscription",
 }));
 
 export type ListEmailServiceVerifiedExchangeOnlineDomainsError = AzureOpError;
@@ -1818,6 +1892,8 @@ export const ListEmailServiceVerifiedExchangeOnlineDomains: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailServiceVerifiedExchangeOnlineDomains",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1833,6 +1909,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSenderUsernameByDomainsError = AzureOpError;
@@ -1848,6 +1926,8 @@ export const ListSenderUsernameByDomains: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSenderUsernameByDomains",
 }));
 
 export type ListSmtpUsernamesError = AzureOpError;
@@ -1863,6 +1943,8 @@ export const ListSmtpUsernames: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSmtpUsernames",
 }));
 
 export type ListSuppressionListAddressesError = AzureOpError;
@@ -1878,6 +1960,8 @@ export const ListSuppressionListAddresses: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSuppressionListAddresses",
 }));
 
 export type ListSuppressionListByDomainError = AzureOpError;
@@ -1893,6 +1977,8 @@ export const ListSuppressionListByDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSuppressionListByDomain",
 }));
 
 export type RegenerateCommunicationServiceKeyError = AzureOpError;
@@ -1908,6 +1994,8 @@ export const RegenerateCommunicationServiceKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateCommunicationServiceKey",
 }));
 
 export type SenderUsernamesCreateOrUpdateError = AzureOpError;
@@ -1923,6 +2011,8 @@ export const SenderUsernamesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SenderUsernamesCreateOrUpdate",
 }));
 
 export type SmtpUsernamesCreateOrUpdateError = AzureOpError;
@@ -1938,6 +2028,8 @@ export const SmtpUsernamesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SmtpUsernamesCreateOrUpdate",
 }));
 
 export type SuppressionListAddressesCreateOrUpdateError = AzureOpError;
@@ -1953,6 +2045,8 @@ export const SuppressionListAddressesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuppressionListAddressesCreateOrUpdate",
 }));
 
 export type SuppressionListsCreateOrUpdateError = AzureOpError;
@@ -1968,6 +2062,8 @@ export const SuppressionListsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuppressionListsCreateOrUpdate",
 }));
 
 export type UpdateCommunicationServiceError = AzureOpError;
@@ -1983,6 +2079,8 @@ export const UpdateCommunicationService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCommunicationService",
 }));
 
 export type UpdateDomainError = AzureOpError;
@@ -1998,6 +2096,8 @@ export const UpdateDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateEmailServiceError = AzureOpError;
@@ -2013,6 +2113,8 @@ export const UpdateEmailService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmailService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

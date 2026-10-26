@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Attestation" },
+  prefix: "Attestation",
+  service: "Attestation",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The tags that will be assigned to the attestation provider. */
 export type CreateAttestationProviderRequestTagsMap = { [key: string]: string | undefined };
 /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
@@ -594,6 +614,8 @@ export const CreateAttestationProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAttestationProvider",
 }));
 
 export type CreatePrivateEndpointConnectionError = AzureOpError;
@@ -609,6 +631,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type DeleteAttestationProviderError = AzureOpError;
@@ -624,6 +648,8 @@ export const DeleteAttestationProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationProvider",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -639,6 +665,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type GetAttestationProviderError = AzureOpError;
@@ -654,6 +682,8 @@ export const GetAttestationProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttestationProvider",
 }));
 
 export type GetAttestationProviderDefaultByLocationError = AzureOpError;
@@ -669,6 +699,8 @@ export const GetAttestationProviderDefaultByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttestationProviderDefaultByLocation",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -684,6 +716,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type ListAttestationProviderByResourceGroupError = AzureOpError;
@@ -699,6 +733,8 @@ export const ListAttestationProviderByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationProviderByResourceGroup",
 }));
 
 export type ListAttestationProviderDefaultError = AzureOpError;
@@ -714,6 +750,8 @@ export const ListAttestationProviderDefault: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationProviderDefault",
 }));
 
 export type ListAttestationProvidersError = AzureOpError;
@@ -729,6 +767,8 @@ export const ListAttestationProviders: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationProviders",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -744,6 +784,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -759,6 +801,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourceByProviderError = AzureOpError;
@@ -774,6 +818,8 @@ export const ListPrivateLinkResourceByProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByProvider",
 }));
 
 export type UpdateAttestationProviderError = AzureOpError;
@@ -789,6 +835,8 @@ export const UpdateAttestationProvider: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttestationProvider",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

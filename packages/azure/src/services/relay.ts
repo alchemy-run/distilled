@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Relay" },
+  prefix: "Relay",
+  service: "Relay",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckNamespaceNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1177,6 +1197,8 @@ export const CheckNamespaceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckNamespaceNameAvailability",
 }));
 
 export type DeleteHybridConnectionError = AzureOpError;
@@ -1192,6 +1214,8 @@ export const DeleteHybridConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHybridConnection",
 }));
 
 export type DeleteHybridConnectionAuthorizationRuleError = AzureOpError;
@@ -1207,6 +1231,8 @@ export const DeleteHybridConnectionAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHybridConnectionAuthorizationRule",
 }));
 
 export type DeleteNamespaceError = AzureOpError;
@@ -1222,6 +1248,8 @@ export const DeleteNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteNamespaceAuthorizationRuleError = AzureOpError;
@@ -1237,6 +1265,8 @@ export const DeleteNamespaceAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespaceAuthorizationRule",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1252,6 +1282,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteWCFRelayError = AzureOpError;
@@ -1267,6 +1299,8 @@ export const DeleteWCFRelay: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWCFRelay",
 }));
 
 export type DeleteWCFRelayAuthorizationRuleError = AzureOpError;
@@ -1282,6 +1316,8 @@ export const DeleteWCFRelayAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWCFRelayAuthorizationRule",
 }));
 
 export type GetHybridConnectionError = AzureOpError;
@@ -1297,6 +1333,8 @@ export const GetHybridConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHybridConnection",
 }));
 
 export type GetHybridConnectionAuthorizationRuleError = AzureOpError;
@@ -1312,6 +1350,8 @@ export const GetHybridConnectionAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHybridConnectionAuthorizationRule",
 }));
 
 export type GetNamespaceError = AzureOpError;
@@ -1327,6 +1367,8 @@ export const GetNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespace",
 }));
 
 export type GetNamespaceAuthorizationRuleError = AzureOpError;
@@ -1342,6 +1384,8 @@ export const GetNamespaceAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceAuthorizationRule",
 }));
 
 export type GetNamespaceNetworkRuleSetError = AzureOpError;
@@ -1357,6 +1401,8 @@ export const GetNamespaceNetworkRuleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceNetworkRuleSet",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1372,6 +1418,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -1387,6 +1435,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetWCFRelayError = AzureOpError;
@@ -1402,6 +1452,8 @@ export const GetWCFRelay: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWCFRelay",
 }));
 
 export type GetWCFRelayAuthorizationRuleError = AzureOpError;
@@ -1417,6 +1469,8 @@ export const GetWCFRelayAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWCFRelayAuthorizationRule",
 }));
 
 export type HybridConnectionsCreateOrUpdateError = AzureOpError;
@@ -1432,6 +1486,8 @@ export const HybridConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HybridConnectionsCreateOrUpdate",
 }));
 
 export type HybridConnectionsCreateOrUpdateAuthorizationRuleError = AzureOpError;
@@ -1455,6 +1511,8 @@ export const HybridConnectionsCreateOrUpdateAuthorizationRule: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HybridConnectionsCreateOrUpdateAuthorizationRule",
 }));
 
 export type ListHybridConnectionAuthorizationRulesError = AzureOpError;
@@ -1470,6 +1528,8 @@ export const ListHybridConnectionAuthorizationRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHybridConnectionAuthorizationRules",
 }));
 
 export type ListHybridConnectionByNamespaceError = AzureOpError;
@@ -1485,6 +1545,8 @@ export const ListHybridConnectionByNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHybridConnectionByNamespace",
 }));
 
 export type ListHybridConnectionKeysError = AzureOpError;
@@ -1500,6 +1562,8 @@ export const ListHybridConnectionKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHybridConnectionKeys",
 }));
 
 export type ListNamespaceAuthorizationRulesError = AzureOpError;
@@ -1515,6 +1579,8 @@ export const ListNamespaceAuthorizationRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceAuthorizationRules",
 }));
 
 export type ListNamespaceByResourceGroupError = AzureOpError;
@@ -1530,6 +1596,8 @@ export const ListNamespaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceByResourceGroup",
 }));
 
 export type ListNamespaceKeysError = AzureOpError;
@@ -1545,6 +1613,8 @@ export const ListNamespaceKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceKeys",
 }));
 
 export type ListNamespacesError = AzureOpError;
@@ -1560,6 +1630,8 @@ export const ListNamespaces: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1575,6 +1647,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -1590,6 +1664,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourcesError = AzureOpError;
@@ -1605,6 +1681,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResources",
 }));
 
 export type ListWCFRelayAuthorizationRulesError = AzureOpError;
@@ -1620,6 +1698,8 @@ export const ListWCFRelayAuthorizationRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWCFRelayAuthorizationRules",
 }));
 
 export type ListWCFRelayByNamespaceError = AzureOpError;
@@ -1635,6 +1715,8 @@ export const ListWCFRelayByNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWCFRelayByNamespace",
 }));
 
 export type ListWCFRelayKeysError = AzureOpError;
@@ -1650,6 +1732,8 @@ export const ListWCFRelayKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWCFRelayKeys",
 }));
 
 export type NamespacesCreateOrUpdateError = AzureOpError;
@@ -1665,6 +1749,8 @@ export const NamespacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespacesCreateOrUpdate",
 }));
 
 export type NamespacesCreateOrUpdateAuthorizationRuleError = AzureOpError;
@@ -1680,6 +1766,8 @@ export const NamespacesCreateOrUpdateAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespacesCreateOrUpdateAuthorizationRule",
 }));
 
 export type NamespacesCreateOrUpdateNetworkRuleSetError = AzureOpError;
@@ -1695,6 +1783,8 @@ export const NamespacesCreateOrUpdateNetworkRuleSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespacesCreateOrUpdateNetworkRuleSet",
 }));
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -1710,6 +1800,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type RegenerateHybridConnectionKeysError = AzureOpError;
@@ -1725,6 +1817,8 @@ export const RegenerateHybridConnectionKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateHybridConnectionKeys",
 }));
 
 export type RegenerateNamespaceKeysError = AzureOpError;
@@ -1740,6 +1834,8 @@ export const RegenerateNamespaceKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateNamespaceKeys",
 }));
 
 export type RegenerateWCFRelayKeysError = AzureOpError;
@@ -1755,6 +1851,8 @@ export const RegenerateWCFRelayKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateWCFRelayKeys",
 }));
 
 export type UpdateNamespaceError = AzureOpError;
@@ -1770,6 +1868,8 @@ export const UpdateNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespace",
 }));
 
 export type WCFRelaysCreateOrUpdateError = AzureOpError;
@@ -1785,6 +1885,8 @@ export const WCFRelaysCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WCFRelaysCreateOrUpdate",
 }));
 
 export type WCFRelaysCreateOrUpdateAuthorizationRuleError = AzureOpError;
@@ -1800,6 +1902,8 @@ export const WCFRelaysCreateOrUpdateAuthorizationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WCFRelaysCreateOrUpdateAuthorizationRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

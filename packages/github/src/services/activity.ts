@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Activity",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1686,6 +1704,8 @@ export const checkRepoIsStarredByAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckRepoIsStarredByAuthenticatedUser",
 }));
 
 export type DeleteRepoSubscriptionError = GithubOpError;
@@ -1701,6 +1721,8 @@ export const deleteRepoSubscription: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoSubscription",
 }));
 
 export type DeleteThreadSubscriptionError = Forbidden | GithubOpError;
@@ -1716,6 +1738,8 @@ export const deleteThreadSubscription: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteThreadSubscription",
 }));
 
 export type GetFeedsError = GithubOpError;
@@ -1727,6 +1751,8 @@ export const getFeeds: API.OperationMethod<GetFeedsRequest, Feed, GetFeedsError,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetFeeds",
   }));
 
 export type GetRepoSubscriptionError = Forbidden | NotFound | GithubOpError;
@@ -1742,6 +1768,8 @@ export const getRepoSubscription: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoSubscription",
 }));
 
 export type GetStargazerCountForRepoError = NotFound | GithubOpError;
@@ -1757,6 +1785,8 @@ export const getStargazerCountForRepo: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStargazerCountForRepo",
 }));
 
 export type GetStargazerHistoryForRepoError = UnprocessableEntity | GithubOpError;
@@ -1772,6 +1802,8 @@ export const getStargazerHistoryForRepo: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStargazerHistoryForRepo",
 }));
 
 export type GetThreadError = Forbidden | GithubOpError;
@@ -1787,6 +1819,8 @@ export const getThread: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThread",
 }));
 
 export type GetThreadSubscriptionForAuthenticatedUserError = Forbidden | GithubOpError;
@@ -1802,6 +1836,8 @@ export const getThreadSubscriptionForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThreadSubscriptionForAuthenticatedUser",
 }));
 
 export type ListEventsForAuthenticatedUserError = GithubOpError;
@@ -1817,6 +1853,8 @@ export const listEventsForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventsForAuthenticatedUser",
 }));
 
 export type ListNotificationsForAuthenticatedUserError =
@@ -1835,6 +1873,8 @@ export const listNotificationsForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationsForAuthenticatedUser",
 }));
 
 export type ListOrgEventsForAuthenticatedUserError = GithubOpError;
@@ -1850,6 +1890,8 @@ export const listOrgEventsForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgEventsForAuthenticatedUser",
 }));
 
 export type ListPublicEventsError = Forbidden | GithubOpError;
@@ -1865,6 +1907,8 @@ export const listPublicEvents: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicEvents",
 }));
 
 export type ListPublicEventsForRepoNetworkError = Forbidden | NotFound | GithubOpError;
@@ -1880,6 +1924,8 @@ export const listPublicEventsForRepoNetwork: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicEventsForRepoNetwork",
 }));
 
 export type ListPublicEventsForUserError = GithubOpError;
@@ -1895,6 +1941,8 @@ export const listPublicEventsForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicEventsForUser",
 }));
 
 export type ListPublicOrgEventsError = GithubOpError;
@@ -1910,6 +1958,8 @@ export const listPublicOrgEvents: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicOrgEvents",
 }));
 
 export type ListReceivedEventsForUserError = GithubOpError;
@@ -1925,6 +1975,8 @@ export const listReceivedEventsForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReceivedEventsForUser",
 }));
 
 export type ListReceivedPublicEventsForUserError = GithubOpError;
@@ -1940,6 +1992,8 @@ export const listReceivedPublicEventsForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReceivedPublicEventsForUser",
 }));
 
 export type ListRepoEventsError = GithubOpError;
@@ -1955,6 +2009,8 @@ export const listRepoEvents: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoEvents",
 }));
 
 export type ListRepoNotificationsForAuthenticatedUserError = GithubOpError;
@@ -1970,6 +2026,8 @@ export const listRepoNotificationsForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoNotificationsForAuthenticatedUser",
 }));
 
 export type ListReposStarredByAuthenticatedUserError = Forbidden | GithubOpError;
@@ -1985,6 +2043,8 @@ export const listReposStarredByAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReposStarredByAuthenticatedUser",
 }));
 
 export type ListReposStarredByUserError = GithubOpError;
@@ -2000,6 +2060,8 @@ export const listReposStarredByUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReposStarredByUser",
 }));
 
 export type ListReposWatchedByUserError = GithubOpError;
@@ -2015,6 +2077,8 @@ export const listReposWatchedByUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReposWatchedByUser",
 }));
 
 export type ListStargazersForRepoError = UnprocessableEntity | GithubOpError;
@@ -2030,6 +2094,8 @@ export const listStargazersForRepo: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStargazersForRepo",
 }));
 
 export type ListWatchedReposForAuthenticatedUserError = Forbidden | GithubOpError;
@@ -2045,6 +2111,8 @@ export const listWatchedReposForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchedReposForAuthenticatedUser",
 }));
 
 export type ListWatchersForRepoError = GithubOpError;
@@ -2060,6 +2128,8 @@ export const listWatchersForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchersForRepo",
 }));
 
 export type MarkThreadAsDoneError = GithubOpError;
@@ -2075,6 +2145,8 @@ export const markThreadAsDone: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkThreadAsDone",
 }));
 
 export type ReadMarkNotificationsAsError = Forbidden | GithubOpError;
@@ -2090,6 +2162,8 @@ export const readMarkNotificationsAs: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadMarkNotificationsAs",
 }));
 
 export type ReadMarkRepoNotificationsAsError = GithubOpError;
@@ -2105,6 +2179,8 @@ export const readMarkRepoNotificationsAs: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadMarkRepoNotificationsAs",
 }));
 
 export type ReadMarkThreadAsError = Forbidden | GithubOpError;
@@ -2120,6 +2196,8 @@ export const readMarkThreadAs: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadMarkThreadAs",
 }));
 
 export type SetRepoSubscriptionError = GithubOpError;
@@ -2135,6 +2213,8 @@ export const setRepoSubscription: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetRepoSubscription",
 }));
 
 export type SetThreadSubscriptionError = Forbidden | GithubOpError;
@@ -2150,6 +2230,8 @@ export const setThreadSubscription: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetThreadSubscription",
 }));
 
 export type StarRepoForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -2165,6 +2247,8 @@ export const starRepoForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StarRepoForAuthenticatedUser",
 }));
 
 export type UnstarRepoForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -2180,6 +2264,8 @@ export const unstarRepoForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnstarRepoForAuthenticatedUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

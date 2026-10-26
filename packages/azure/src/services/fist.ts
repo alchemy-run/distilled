@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.IoTFirmwareDefense" },
+  prefix: "Fist",
+  service: "Fist",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The status of a firmware analysis job. */
 export type Status = "Pending" | "Extracting" | "Analyzing" | "Ready" | "Error";
 /** Error and status message */
@@ -1057,6 +1077,8 @@ export const CreateFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFirmware",
 }));
 
 export type CreateWorkspaceError = AzureOpError;
@@ -1072,6 +1094,8 @@ export const CreateWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type DeleteFirmwareError = AzureOpError;
@@ -1087,6 +1111,8 @@ export const DeleteFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirmware",
 }));
 
 export type DeleteWorkspaceError = AzureOpError;
@@ -1102,6 +1128,8 @@ export const DeleteWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type GetFirmwareError = AzureOpError;
@@ -1117,6 +1145,8 @@ export const GetFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirmware",
 }));
 
 export type GetSummaryError = AzureOpError;
@@ -1132,6 +1162,8 @@ export const GetSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSummary",
 }));
 
 export type GetUsageMetricsError = AzureOpError;
@@ -1147,6 +1179,8 @@ export const GetUsageMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsageMetrics",
 }));
 
 export type GetWorkspaceError = AzureOpError;
@@ -1162,6 +1196,8 @@ export const GetWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type ListBinaryHardeningByFirmwareError = AzureOpError;
@@ -1177,6 +1213,8 @@ export const ListBinaryHardeningByFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBinaryHardeningByFirmware",
 }));
 
 export type ListCryptoCertificateByFirmwareError = AzureOpError;
@@ -1192,6 +1230,8 @@ export const ListCryptoCertificateByFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCryptoCertificateByFirmware",
 }));
 
 export type ListCryptoKeyByFirmwareError = AzureOpError;
@@ -1207,6 +1247,8 @@ export const ListCryptoKeyByFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCryptoKeyByFirmware",
 }));
 
 export type ListCveByFirmwareError = AzureOpError;
@@ -1222,6 +1264,8 @@ export const ListCveByFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCveByFirmware",
 }));
 
 export type ListFirmwareByWorkspaceError = AzureOpError;
@@ -1237,6 +1281,8 @@ export const ListFirmwareByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFirmwareByWorkspace",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1252,6 +1298,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPasswordHashByFirmwareError = AzureOpError;
@@ -1267,6 +1315,8 @@ export const ListPasswordHashByFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPasswordHashByFirmware",
 }));
 
 export type ListSbomComponentByFirmwareError = AzureOpError;
@@ -1282,6 +1332,8 @@ export const ListSbomComponentByFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSbomComponentByFirmware",
 }));
 
 export type ListSummaryByFirmwareError = AzureOpError;
@@ -1297,6 +1349,8 @@ export const ListSummaryByFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSummaryByFirmware",
 }));
 
 export type ListUsageMetricsByWorkspaceError = AzureOpError;
@@ -1312,6 +1366,8 @@ export const ListUsageMetricsByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsageMetricsByWorkspace",
 }));
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
@@ -1327,6 +1383,8 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceByResourceGroup",
 }));
 
 export type ListWorkspaceBySubscriptionError = AzureOpError;
@@ -1342,6 +1400,8 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceBySubscription",
 }));
 
 export type UpdateFirmwareError = AzureOpError;
@@ -1357,6 +1417,8 @@ export const UpdateFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFirmware",
 }));
 
 export type UpdateWorkspaceError = AzureOpError;
@@ -1372,6 +1434,8 @@ export const UpdateWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 export type WorkspacesGenerateUploadUrlError = AzureOpError;
@@ -1387,6 +1451,8 @@ export const WorkspacesGenerateUploadUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacesGenerateUploadUrl",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.WindowsIoT" },
+  prefix: "Windowsiot",
+  service: "Windowsiot",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckServiceDeviceServiceNameAvailabilityRequest {
   /** The subscription identifier. */
   subscriptionId: string;
@@ -259,6 +279,8 @@ export const CheckServiceDeviceServiceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServiceDeviceServiceNameAvailability",
 }));
 
 export type DeleteServiceError = AzureOpError;
@@ -274,6 +296,8 @@ export const DeleteService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type GetServiceError = AzureOpError;
@@ -289,6 +313,8 @@ export const GetService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -304,6 +330,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListServiceByResourceGroupError = AzureOpError;
@@ -319,6 +347,8 @@ export const ListServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceByResourceGroup",
 }));
 
 export type ListServicesError = AzureOpError;
@@ -334,6 +364,8 @@ export const ListServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 }));
 
 export type ServicesCreateOrUpdateError = AzureOpError;
@@ -349,6 +381,8 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServicesCreateOrUpdate",
 }));
 
 export type UpdateServiceError = AzureOpError;
@@ -364,6 +398,8 @@ export const UpdateService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

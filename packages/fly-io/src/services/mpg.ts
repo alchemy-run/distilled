@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { FlyIoOpError, FlyIoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "fly-io-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "fly-request-id", name: "http.response.header.fly-request-id", transform: "list" },
+  ],
+  prefix: "Fly",
+  service: "FlyMpg",
+  labels: "fly_io",
+  propagate: "w3c",
+} as const;
+
 export interface CreateAttachmentRequest {
   id: string;
   app_name: string;
@@ -255,6 +269,8 @@ export const createAttachment: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAttachment",
 }));
 
 export type CreateBackupError = NotFound | FlyIoOpError;
@@ -270,6 +286,8 @@ export const createBackup: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackup",
 }));
 
 export type CreateClusterError = Forbidden | NotFound | Conflict | FlyIoOpError;
@@ -285,6 +303,8 @@ export const createCluster: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateDatabaseError = NotFound | Conflict | FlyIoOpError;
@@ -300,6 +320,8 @@ export const createDatabase: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateUserError = NotFound | Conflict | FlyIoOpError;
@@ -315,6 +337,8 @@ export const createUser: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteAttachmentError = NotFound | FlyIoOpError;
@@ -330,6 +354,8 @@ export const deleteAttachment: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttachment",
 }));
 
 export type DeleteUserError = NotFound | FlyIoOpError;
@@ -345,6 +371,8 @@ export const deleteUser: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DestroyClusterError = NotFound | FlyIoOpError;
@@ -360,6 +388,8 @@ export const destroyCluster: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DestroyCluster",
 }));
 
 export type DisableExtensionError = NotFound | FlyIoOpError;
@@ -375,6 +405,8 @@ export const disableExtension: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableExtension",
 }));
 
 export type EnableExtensionError = NotFound | Conflict | FlyIoOpError;
@@ -390,6 +422,8 @@ export const enableExtension: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableExtension",
 }));
 
 export type GetClusterError = NotFound | FlyIoOpError;
@@ -405,6 +439,8 @@ export const getCluster: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetClusterByIdError = NotFound | FlyIoOpError;
@@ -420,6 +456,8 @@ export const getClusterById: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClusterById",
 }));
 
 export type GetUserCredentialsError = NotFound | FlyIoOpError;
@@ -435,6 +473,8 @@ export const getUserCredentials: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserCredentials",
 }));
 
 export type ListBackupsError = NotFound | FlyIoOpError;
@@ -450,6 +490,8 @@ export const listBackups: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackups",
 }));
 
 export type ListClustersError = Forbidden | NotFound | FlyIoOpError;
@@ -465,6 +507,8 @@ export const listClusters: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 }));
 
 export type ListDatabasesError = NotFound | FlyIoOpError;
@@ -480,6 +524,8 @@ export const listDatabases: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 }));
 
 export type ListExtensionsError = NotFound | FlyIoOpError;
@@ -495,6 +541,8 @@ export const listExtensions: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensions",
 }));
 
 export type ListRegionsError = FlyIoOpError;
@@ -510,6 +558,8 @@ export const listRegions: API.OperationMethod<
   errors: [],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegions",
 }));
 
 export type ListUsersError = NotFound | FlyIoOpError;
@@ -525,6 +575,8 @@ export const listUsers: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type RestoreBackupError = NotFound | FlyIoOpError;
@@ -540,6 +592,8 @@ export const restoreBackup: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreBackup",
 }));
 
 export type UpdateUserRoleError = NotFound | FlyIoOpError;
@@ -555,6 +609,8 @@ export const updateUserRole: API.OperationMethod<
   errors: [NotFound],
   protocol: FlyApiProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserRole",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

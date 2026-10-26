@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "AgentTasks",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -727,6 +745,8 @@ export const createTaskInRepo: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTaskInRepo",
 }));
 
 export type GetTaskByIdError =
@@ -747,6 +767,8 @@ export const getTaskById: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskById",
 }));
 
 export type GetTaskByRepoAndIdError =
@@ -767,6 +789,8 @@ export const getTaskByRepoAndId: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskByRepoAndId",
 }));
 
 export type ListTasksError = BadRequest | Forbidden | UnprocessableEntity | GithubOpError;
@@ -782,6 +806,8 @@ export const listTasks: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 }));
 
 export type ListTasksForRepoError =
@@ -802,6 +828,8 @@ export const listTasksForRepo: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasksForRepo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

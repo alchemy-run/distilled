@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://timestream-influxdb.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "TimestreamInfluxDB",
+  service: "TimestreamInfluxDB",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1041,6 +1057,8 @@ export const createDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbBackup",
+  telemetry: TELEMETRY,
+  span: "CreateDbBackup",
 }));
 
 export type CreateDbClusterError =
@@ -1075,6 +1093,8 @@ export const createDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbCluster",
+  telemetry: TELEMETRY,
+  span: "CreateDbCluster",
 }));
 
 export type CreateDbInstanceError =
@@ -1109,6 +1129,8 @@ export const createDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbInstance",
+  telemetry: TELEMETRY,
+  span: "CreateDbInstance",
 }));
 
 export type CreateDbParameterGroupError =
@@ -1143,6 +1165,8 @@ export const createDbParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDbParameterGroup",
 }));
 
 export type DeleteDbBackupError =
@@ -1175,6 +1199,8 @@ export const deleteDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDbBackup",
+  telemetry: TELEMETRY,
+  span: "DeleteDbBackup",
 }));
 
 export type DeleteDbClusterError =
@@ -1207,6 +1233,8 @@ export const deleteDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDbCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteDbCluster",
 }));
 
 export type DeleteDbInstanceError =
@@ -1239,6 +1267,8 @@ export const deleteDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDbInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteDbInstance",
 }));
 
 export type GetDbBackupError =
@@ -1269,6 +1299,8 @@ export const getDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbBackup",
+  telemetry: TELEMETRY,
+  span: "GetDbBackup",
 }));
 
 export type GetDbClusterError =
@@ -1299,6 +1331,8 @@ export const getDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbCluster",
+  telemetry: TELEMETRY,
+  span: "GetDbCluster",
 }));
 
 export type GetDbInstanceError =
@@ -1329,6 +1363,8 @@ export const getDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbInstance",
+  telemetry: TELEMETRY,
+  span: "GetDbInstance",
 }));
 
 export type GetDbParameterGroupError =
@@ -1359,6 +1395,8 @@ export const getDbParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbParameterGroup",
+  telemetry: TELEMETRY,
+  span: "GetDbParameterGroup",
 }));
 
 export type ListDbBackupsError =
@@ -1396,6 +1434,8 @@ export const listDbBackups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbBackups",
 })) as any;
 
 export type ListDbClustersError =
@@ -1433,6 +1473,8 @@ export const listDbClusters: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbClusters",
 })) as any;
 
 export type ListDbInstancesError =
@@ -1470,6 +1512,8 @@ export const listDbInstances: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbInstances",
 })) as any;
 
 export type ListDbInstancesForClusterError =
@@ -1507,6 +1551,8 @@ export const listDbInstancesForCluster: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbInstancesForCluster",
 })) as any;
 
 export type ListDbParameterGroupsError =
@@ -1544,6 +1590,8 @@ export const listDbParameterGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbParameterGroups",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1562,6 +1610,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RebootDbClusterError =
@@ -1594,6 +1644,8 @@ export const rebootDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDbCluster",
+  telemetry: TELEMETRY,
+  span: "RebootDbCluster",
 }));
 
 export type RebootDbInstanceError =
@@ -1626,6 +1678,8 @@ export const rebootDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDbInstance",
+  telemetry: TELEMETRY,
+  span: "RebootDbInstance",
 }));
 
 export type RestoreFromDbBackupError =
@@ -1660,6 +1714,8 @@ export const restoreFromDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromDbBackup",
+  telemetry: TELEMETRY,
+  span: "RestoreFromDbBackup",
 }));
 
 export type TagResourceError =
@@ -1681,6 +1737,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -1699,6 +1757,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDbClusterError =
@@ -1731,6 +1791,8 @@ export const updateDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDbCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateDbCluster",
 }));
 
 export type UpdateDbInstanceError =
@@ -1763,6 +1825,8 @@ export const updateDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDbInstance",
+  telemetry: TELEMETRY,
+  span: "UpdateDbInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

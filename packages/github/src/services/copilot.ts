@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Copilot",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -835,6 +853,8 @@ export const addCopilotSeatsForTeams: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCopilotSeatsForTeams",
 }));
 
 export type AddCopilotSeatsForUsersError =
@@ -854,6 +874,8 @@ export const addCopilotSeatsForUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCopilotSeatsForUsers",
 }));
 
 export type AddOrganizationsToEnterpriseCodingAgentPolicyError = BadRequest | GithubOpError;
@@ -877,6 +899,8 @@ export const addOrganizationsToEnterpriseCodingAgentPolicy: API.OperationMethod<
   errors: [BadRequest],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrganizationsToEnterpriseCodingAgentPolicy",
 }));
 
 export type CancelCopilotSeatAssignmentForTeamsError =
@@ -896,6 +920,8 @@ export const cancelCopilotSeatAssignmentForTeams: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelCopilotSeatAssignmentForTeams",
 }));
 
 export type CancelCopilotSeatAssignmentForUsersError =
@@ -915,6 +941,8 @@ export const cancelCopilotSeatAssignmentForUsers: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelCopilotSeatAssignmentForUsers",
 }));
 
 export type CopilotContentExclusionForOrganizationError = Forbidden | NotFound | GithubOpError;
@@ -930,6 +958,8 @@ export const copilotContentExclusionForOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotContentExclusionForOrganization",
 }));
 
 export type CopilotEnterpriseOneDayUsageMetricsError = Forbidden | NotFound | GithubOpError;
@@ -945,6 +975,8 @@ export const copilotEnterpriseOneDayUsageMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotEnterpriseOneDayUsageMetrics",
 }));
 
 export type CopilotEnterpriseReposOneDayReportError = Forbidden | NotFound | GithubOpError;
@@ -960,6 +992,8 @@ export const copilotEnterpriseReposOneDayReport: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotEnterpriseReposOneDayReport",
 }));
 
 export type CopilotEnterpriseUsageMetricsError = Forbidden | NotFound | GithubOpError;
@@ -975,6 +1009,8 @@ export const copilotEnterpriseUsageMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotEnterpriseUsageMetrics",
 }));
 
 export type CopilotEnterpriseUserTeamsOneDayReportError = Forbidden | NotFound | GithubOpError;
@@ -990,6 +1026,8 @@ export const copilotEnterpriseUserTeamsOneDayReport: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotEnterpriseUserTeamsOneDayReport",
 }));
 
 export type CopilotOrganizationOneDayUsageMetricsError = Forbidden | NotFound | GithubOpError;
@@ -1005,6 +1043,8 @@ export const copilotOrganizationOneDayUsageMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotOrganizationOneDayUsageMetrics",
 }));
 
 export type CopilotOrganizationReposOneDayReportError = Forbidden | NotFound | GithubOpError;
@@ -1020,6 +1060,8 @@ export const copilotOrganizationReposOneDayReport: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotOrganizationReposOneDayReport",
 }));
 
 export type CopilotOrganizationUsageMetricsError = Forbidden | NotFound | GithubOpError;
@@ -1035,6 +1077,8 @@ export const copilotOrganizationUsageMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotOrganizationUsageMetrics",
 }));
 
 export type CopilotOrganizationUsersOneDayUsageMetricsError = Forbidden | NotFound | GithubOpError;
@@ -1050,6 +1094,8 @@ export const copilotOrganizationUsersOneDayUsageMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotOrganizationUsersOneDayUsageMetrics",
 }));
 
 export type CopilotOrganizationUsersUsageMetricsError = Forbidden | NotFound | GithubOpError;
@@ -1065,6 +1111,8 @@ export const copilotOrganizationUsersUsageMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotOrganizationUsersUsageMetrics",
 }));
 
 export type CopilotOrganizationUserTeamsOneDayReportError = Forbidden | NotFound | GithubOpError;
@@ -1080,6 +1128,8 @@ export const copilotOrganizationUserTeamsOneDayReport: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotOrganizationUserTeamsOneDayReport",
 }));
 
 export type CopilotUsersOneDayUsageMetricsError = Forbidden | NotFound | GithubOpError;
@@ -1095,6 +1145,8 @@ export const copilotUsersOneDayUsageMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotUsersOneDayUsageMetrics",
 }));
 
 export type CopilotUsersUsageMetricsError = Forbidden | NotFound | GithubOpError;
@@ -1110,6 +1162,8 @@ export const copilotUsersUsageMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotUsersUsageMetrics",
 }));
 
 export type DisableCopilotCodingAgentForRepositoryInOrganizationError =
@@ -1137,6 +1191,8 @@ export const disableCopilotCodingAgentForRepositoryInOrganization: API.Operation
   errors: [Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableCopilotCodingAgentForRepositoryInOrganization",
 }));
 
 export type EnableCopilotCodingAgentForRepositoryInOrganizationError =
@@ -1165,6 +1221,8 @@ export const enableCopilotCodingAgentForRepositoryInOrganization: API.OperationM
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableCopilotCodingAgentForRepositoryInOrganization",
 }));
 
 export type GetCopilotCloudAgentConfigurationError = Forbidden | NotFound | GithubOpError;
@@ -1180,6 +1238,8 @@ export const getCopilotCloudAgentConfiguration: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCopilotCloudAgentConfiguration",
 }));
 
 export type GetCopilotCodingAgentPermissionsOrganizationError =
@@ -1202,6 +1262,8 @@ export const getCopilotCodingAgentPermissionsOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCopilotCodingAgentPermissionsOrganization",
 }));
 
 export type GetCopilotOrganizationDetailsError =
@@ -1221,6 +1283,8 @@ export const getCopilotOrganizationDetails: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCopilotOrganizationDetails",
 }));
 
 export type GetCopilotSeatDetailsForUserError =
@@ -1240,6 +1304,8 @@ export const getCopilotSeatDetailsForUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCopilotSeatDetailsForUser",
 }));
 
 export type ListCopilotCodingAgentSelectedRepositoriesForOrganizationError =
@@ -1267,6 +1333,8 @@ export const listCopilotCodingAgentSelectedRepositoriesForOrganization: API.Oper
   errors: [Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCopilotCodingAgentSelectedRepositoriesForOrganization",
 }));
 
 export type ListCopilotSeatsError = Forbidden | NotFound | GithubOpError;
@@ -1282,6 +1350,8 @@ export const listCopilotSeats: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCopilotSeats",
 }));
 
 export type RemoveOrganizationsFromEnterpriseCodingAgentPolicyError = BadRequest | GithubOpError;
@@ -1305,6 +1375,8 @@ export const removeOrganizationsFromEnterpriseCodingAgentPolicy: API.OperationMe
   errors: [BadRequest],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrganizationsFromEnterpriseCodingAgentPolicy",
 }));
 
 export type SetCopilotCodingAgentPermissionsOrganizationError =
@@ -1328,6 +1400,8 @@ export const setCopilotCodingAgentPermissionsOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCopilotCodingAgentPermissionsOrganization",
 }));
 
 export type SetCopilotCodingAgentSelectedRepositoriesForOrganizationError =
@@ -1356,6 +1430,8 @@ export const setCopilotCodingAgentSelectedRepositoriesForOrganization: API.Opera
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCopilotCodingAgentSelectedRepositoriesForOrganization",
 }));
 
 export type SetCopilotContentExclusionForOrganizationError =
@@ -1375,6 +1451,8 @@ export const setCopilotContentExclusionForOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCopilotContentExclusionForOrganization",
 }));
 
 export type SetEnterpriseCodingAgentPolicyError = BadRequest | GithubOpError;
@@ -1390,6 +1468,8 @@ export const setEnterpriseCodingAgentPolicy: API.OperationMethod<
   errors: [BadRequest],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetEnterpriseCodingAgentPolicy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

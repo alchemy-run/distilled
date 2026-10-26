@@ -23,6 +23,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   modifiedOn: "modified_on",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Vectorize",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Gone
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Gone>()("Gone", {
@@ -439,6 +453,8 @@ export const createIndex: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateIndexMetadataIndexError =
@@ -464,6 +480,8 @@ export const createIndexMetadataIndex: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIndexMetadataIndex",
 }));
 
 export type DeleteByIdsIndexError = CloudflareOpError;
@@ -479,6 +497,8 @@ export const deleteByIdsIndex: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteByIdsIndex",
 }));
 
 export type DeleteIndexError = NotFound | Gone | CloudflareOpError;
@@ -494,6 +514,8 @@ export const deleteIndex: API.OperationMethod<
   errors: [NotFound, Gone, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeleteIndexMetadataIndexError =
@@ -513,6 +535,8 @@ export const deleteIndexMetadataIndex: API.OperationMethod<
   errors: [NotFound, Gone, MetadataIndexNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIndexMetadataIndex",
 }));
 
 export type GetByIdsIndexError = CloudflareOpError;
@@ -528,6 +552,8 @@ export const getByIdsIndex: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetByIdsIndex",
 }));
 
 export type GetIndexError = NotFound | Gone | CloudflareOpError;
@@ -543,6 +569,8 @@ export const getIndex: API.OperationMethod<
   errors: [NotFound, Gone, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetIndexInfoError = CloudflareOpError;
@@ -558,6 +586,8 @@ export const getIndexInfo: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIndexInfo",
 }));
 
 export type InsertIndexError = CloudflareOpError;
@@ -573,6 +603,8 @@ export const insertIndex: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertIndex",
 }));
 
 export type ListIndexesError = NotFound | Gone | CloudflareOpError;
@@ -590,6 +622,8 @@ export const listIndexes: API.PaginatedOperationMethod<
     errors: [NotFound, Gone, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIndexes",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -608,6 +642,8 @@ export const listIndexMetadataIndexes: API.OperationMethod<
   errors: [NotFound, Gone, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIndexMetadataIndexes",
 }));
 
 export type ListVectorsIndexError = CloudflareOpError;
@@ -623,6 +659,8 @@ export const listVectorsIndex: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVectorsIndex",
 }));
 
 export type QueryIndexError = CloudflareOpError;
@@ -638,6 +676,8 @@ export const queryIndex: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryIndex",
 }));
 
 export type UpsertIndexError = CloudflareOpError;
@@ -653,6 +693,8 @@ export const upsertIndex: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertIndex",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

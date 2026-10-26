@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Experiments",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -398,6 +411,8 @@ export const activateExperiment: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateExperiment",
 }));
 
 export type CreateExperimentError = Conflict | WhopOpError;
@@ -413,6 +428,8 @@ export const createExperiment: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperiment",
 }));
 
 export type EndExperimentError = BadRequest | Conflict | WhopOpError;
@@ -428,6 +445,8 @@ export const endExperiment: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndExperiment",
 }));
 
 export type EvaluateExperimentExposuresError = WhopOpError;
@@ -443,6 +462,8 @@ export const evaluateExperimentExposures: API.OperationMethod<
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EvaluateExperimentExposures",
 }));
 
 export type GetExperimentError = NotFound | WhopOpError;
@@ -458,6 +479,8 @@ export const getExperiment: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type ListExperimentsError = BadRequest | WhopOpError;
@@ -475,6 +498,8 @@ export const listExperiments: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListExperiments",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -500,6 +525,8 @@ export const pauseExperiment: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseExperiment",
 }));
 
 export type UpdateExperimentError = NotFound | WhopOpError;
@@ -515,6 +542,8 @@ export const updateExperiment: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperiment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

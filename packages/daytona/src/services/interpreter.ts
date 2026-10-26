@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Interpreter",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface CreateInterpreterContextRequest {
   cwd?: string;
   language?: string;
@@ -48,6 +61,8 @@ export const createInterpreterContext: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInterpreterContext",
 }));
 
 export type DeleteInterpreterContextError = DaytonaOpError;
@@ -63,6 +78,8 @@ export const deleteInterpreterContext: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInterpreterContext",
 }));
 
 export type ExecuteInterpreterCodeError = DaytonaOpError;
@@ -78,6 +95,8 @@ export const executeInterpreterCode: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteInterpreterCode",
 }));
 
 export type ListInterpreterContextsError = DaytonaOpError;
@@ -93,6 +112,8 @@ export const listInterpreterContexts: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInterpreterContexts",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

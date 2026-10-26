@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Apps",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -4030,6 +4043,8 @@ export const createAppsV1NamespacedControllerRevision: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsV1NamespacedControllerRevision",
 }));
 
 export type CreateAppsV1NamespacedDaemonSetError =
@@ -4048,6 +4063,8 @@ export const createAppsV1NamespacedDaemonSet: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsV1NamespacedDaemonSet",
 }));
 
 export type CreateAppsV1NamespacedDeploymentError =
@@ -4066,6 +4083,8 @@ export const createAppsV1NamespacedDeployment: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsV1NamespacedDeployment",
 }));
 
 export type CreateAppsV1NamespacedReplicaSetError =
@@ -4084,6 +4103,8 @@ export const createAppsV1NamespacedReplicaSet: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsV1NamespacedReplicaSet",
 }));
 
 export type CreateAppsV1NamespacedStatefulSetError =
@@ -4102,6 +4123,8 @@ export const createAppsV1NamespacedStatefulSet: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAppsV1NamespacedStatefulSet",
 }));
 
 export type DeleteAppsV1CollectionNamespacedControllerRevisionError = KubernetesOpError;
@@ -4121,6 +4144,8 @@ export const deleteAppsV1CollectionNamespacedControllerRevision: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1CollectionNamespacedControllerRevision",
 }));
 
 export type DeleteAppsV1CollectionNamespacedDaemonSetError = KubernetesOpError;
@@ -4136,6 +4161,8 @@ export const deleteAppsV1CollectionNamespacedDaemonSet: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1CollectionNamespacedDaemonSet",
 }));
 
 export type DeleteAppsV1CollectionNamespacedDeploymentError = KubernetesOpError;
@@ -4151,6 +4178,8 @@ export const deleteAppsV1CollectionNamespacedDeployment: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1CollectionNamespacedDeployment",
 }));
 
 export type DeleteAppsV1CollectionNamespacedReplicaSetError = KubernetesOpError;
@@ -4166,6 +4195,8 @@ export const deleteAppsV1CollectionNamespacedReplicaSet: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1CollectionNamespacedReplicaSet",
 }));
 
 export type DeleteAppsV1CollectionNamespacedStatefulSetError = KubernetesOpError;
@@ -4181,6 +4212,8 @@ export const deleteAppsV1CollectionNamespacedStatefulSet: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1CollectionNamespacedStatefulSet",
 }));
 
 export type DeleteAppsV1NamespacedControllerRevisionError = NotFound | Conflict | KubernetesOpError;
@@ -4196,6 +4229,8 @@ export const deleteAppsV1NamespacedControllerRevision: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1NamespacedControllerRevision",
 }));
 
 export type DeleteAppsV1NamespacedDaemonSetError = NotFound | Conflict | KubernetesOpError;
@@ -4211,6 +4246,8 @@ export const deleteAppsV1NamespacedDaemonSet: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1NamespacedDaemonSet",
 }));
 
 export type DeleteAppsV1NamespacedDeploymentError = NotFound | Conflict | KubernetesOpError;
@@ -4226,6 +4263,8 @@ export const deleteAppsV1NamespacedDeployment: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1NamespacedDeployment",
 }));
 
 export type DeleteAppsV1NamespacedReplicaSetError = NotFound | Conflict | KubernetesOpError;
@@ -4241,6 +4280,8 @@ export const deleteAppsV1NamespacedReplicaSet: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1NamespacedReplicaSet",
 }));
 
 export type DeleteAppsV1NamespacedStatefulSetError = NotFound | Conflict | KubernetesOpError;
@@ -4256,6 +4297,8 @@ export const deleteAppsV1NamespacedStatefulSet: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppsV1NamespacedStatefulSet",
 }));
 
 export type GetAppsAPIGroupError = KubernetesOpError;
@@ -4271,6 +4314,8 @@ export const getAppsAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsAPIGroup",
 }));
 
 export type GetAppsV1APIResourcesError = KubernetesOpError;
@@ -4286,6 +4331,8 @@ export const getAppsV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppsV1APIResources",
 }));
 
 export type ListAppsV1ControllerRevisionForAllNamespacesError = KubernetesOpError;
@@ -4301,6 +4348,8 @@ export const listAppsV1ControllerRevisionForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1ControllerRevisionForAllNamespaces",
 }));
 
 export type ListAppsV1DaemonSetForAllNamespacesError = KubernetesOpError;
@@ -4316,6 +4365,8 @@ export const listAppsV1DaemonSetForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1DaemonSetForAllNamespaces",
 }));
 
 export type ListAppsV1DeploymentForAllNamespacesError = KubernetesOpError;
@@ -4331,6 +4382,8 @@ export const listAppsV1DeploymentForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1DeploymentForAllNamespaces",
 }));
 
 export type ListAppsV1NamespacedControllerRevisionError = KubernetesOpError;
@@ -4346,6 +4399,8 @@ export const listAppsV1NamespacedControllerRevision: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1NamespacedControllerRevision",
 }));
 
 export type ListAppsV1NamespacedDaemonSetError = KubernetesOpError;
@@ -4361,6 +4416,8 @@ export const listAppsV1NamespacedDaemonSet: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1NamespacedDaemonSet",
 }));
 
 export type ListAppsV1NamespacedDeploymentError = KubernetesOpError;
@@ -4376,6 +4433,8 @@ export const listAppsV1NamespacedDeployment: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1NamespacedDeployment",
 }));
 
 export type ListAppsV1NamespacedReplicaSetError = KubernetesOpError;
@@ -4391,6 +4450,8 @@ export const listAppsV1NamespacedReplicaSet: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1NamespacedReplicaSet",
 }));
 
 export type ListAppsV1NamespacedStatefulSetError = KubernetesOpError;
@@ -4406,6 +4467,8 @@ export const listAppsV1NamespacedStatefulSet: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1NamespacedStatefulSet",
 }));
 
 export type ListAppsV1ReplicaSetForAllNamespacesError = KubernetesOpError;
@@ -4421,6 +4484,8 @@ export const listAppsV1ReplicaSetForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1ReplicaSetForAllNamespaces",
 }));
 
 export type ListAppsV1StatefulSetForAllNamespacesError = KubernetesOpError;
@@ -4436,6 +4501,8 @@ export const listAppsV1StatefulSetForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppsV1StatefulSetForAllNamespaces",
 }));
 
 export type PatchAppsV1NamespacedControllerRevisionError =
@@ -4455,6 +4522,8 @@ export const patchAppsV1NamespacedControllerRevision: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedControllerRevision",
 }));
 
 export type PatchAppsV1NamespacedDaemonSetError =
@@ -4474,6 +4543,8 @@ export const patchAppsV1NamespacedDaemonSet: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedDaemonSet",
 }));
 
 export type PatchAppsV1NamespacedDaemonSetStatusError =
@@ -4493,6 +4564,8 @@ export const patchAppsV1NamespacedDaemonSetStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedDaemonSetStatus",
 }));
 
 export type PatchAppsV1NamespacedDeploymentError =
@@ -4512,6 +4585,8 @@ export const patchAppsV1NamespacedDeployment: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedDeployment",
 }));
 
 export type PatchAppsV1NamespacedDeploymentScaleError =
@@ -4531,6 +4606,8 @@ export const patchAppsV1NamespacedDeploymentScale: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedDeploymentScale",
 }));
 
 export type PatchAppsV1NamespacedDeploymentStatusError =
@@ -4550,6 +4627,8 @@ export const patchAppsV1NamespacedDeploymentStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedDeploymentStatus",
 }));
 
 export type PatchAppsV1NamespacedReplicaSetError =
@@ -4569,6 +4648,8 @@ export const patchAppsV1NamespacedReplicaSet: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedReplicaSet",
 }));
 
 export type PatchAppsV1NamespacedReplicaSetScaleError =
@@ -4588,6 +4669,8 @@ export const patchAppsV1NamespacedReplicaSetScale: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedReplicaSetScale",
 }));
 
 export type PatchAppsV1NamespacedReplicaSetStatusError =
@@ -4607,6 +4690,8 @@ export const patchAppsV1NamespacedReplicaSetStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedReplicaSetStatus",
 }));
 
 export type PatchAppsV1NamespacedStatefulSetError =
@@ -4626,6 +4711,8 @@ export const patchAppsV1NamespacedStatefulSet: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedStatefulSet",
 }));
 
 export type PatchAppsV1NamespacedStatefulSetScaleError =
@@ -4645,6 +4732,8 @@ export const patchAppsV1NamespacedStatefulSetScale: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedStatefulSetScale",
 }));
 
 export type PatchAppsV1NamespacedStatefulSetStatusError =
@@ -4664,6 +4753,8 @@ export const patchAppsV1NamespacedStatefulSetStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAppsV1NamespacedStatefulSetStatus",
 }));
 
 export type ReadAppsV1NamespacedControllerRevisionError = NotFound | KubernetesOpError;
@@ -4679,6 +4770,8 @@ export const readAppsV1NamespacedControllerRevision: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedControllerRevision",
 }));
 
 export type ReadAppsV1NamespacedDaemonSetError = NotFound | KubernetesOpError;
@@ -4694,6 +4787,8 @@ export const readAppsV1NamespacedDaemonSet: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedDaemonSet",
 }));
 
 export type ReadAppsV1NamespacedDaemonSetStatusError = NotFound | KubernetesOpError;
@@ -4709,6 +4804,8 @@ export const readAppsV1NamespacedDaemonSetStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedDaemonSetStatus",
 }));
 
 export type ReadAppsV1NamespacedDeploymentError = NotFound | KubernetesOpError;
@@ -4724,6 +4821,8 @@ export const readAppsV1NamespacedDeployment: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedDeployment",
 }));
 
 export type ReadAppsV1NamespacedDeploymentScaleError = NotFound | KubernetesOpError;
@@ -4739,6 +4838,8 @@ export const readAppsV1NamespacedDeploymentScale: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedDeploymentScale",
 }));
 
 export type ReadAppsV1NamespacedDeploymentStatusError = NotFound | KubernetesOpError;
@@ -4754,6 +4855,8 @@ export const readAppsV1NamespacedDeploymentStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedDeploymentStatus",
 }));
 
 export type ReadAppsV1NamespacedReplicaSetError = NotFound | KubernetesOpError;
@@ -4769,6 +4872,8 @@ export const readAppsV1NamespacedReplicaSet: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedReplicaSet",
 }));
 
 export type ReadAppsV1NamespacedReplicaSetScaleError = NotFound | KubernetesOpError;
@@ -4784,6 +4889,8 @@ export const readAppsV1NamespacedReplicaSetScale: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedReplicaSetScale",
 }));
 
 export type ReadAppsV1NamespacedReplicaSetStatusError = NotFound | KubernetesOpError;
@@ -4799,6 +4906,8 @@ export const readAppsV1NamespacedReplicaSetStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedReplicaSetStatus",
 }));
 
 export type ReadAppsV1NamespacedStatefulSetError = NotFound | KubernetesOpError;
@@ -4814,6 +4923,8 @@ export const readAppsV1NamespacedStatefulSet: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedStatefulSet",
 }));
 
 export type ReadAppsV1NamespacedStatefulSetScaleError = NotFound | KubernetesOpError;
@@ -4829,6 +4940,8 @@ export const readAppsV1NamespacedStatefulSetScale: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedStatefulSetScale",
 }));
 
 export type ReadAppsV1NamespacedStatefulSetStatusError = NotFound | KubernetesOpError;
@@ -4844,6 +4957,8 @@ export const readAppsV1NamespacedStatefulSetStatus: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAppsV1NamespacedStatefulSetStatus",
 }));
 
 export type ReplaceAppsV1NamespacedControllerRevisionError =
@@ -4863,6 +4978,8 @@ export const replaceAppsV1NamespacedControllerRevision: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedControllerRevision",
 }));
 
 export type ReplaceAppsV1NamespacedDaemonSetError =
@@ -4882,6 +4999,8 @@ export const replaceAppsV1NamespacedDaemonSet: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedDaemonSet",
 }));
 
 export type ReplaceAppsV1NamespacedDaemonSetStatusError =
@@ -4901,6 +5020,8 @@ export const replaceAppsV1NamespacedDaemonSetStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedDaemonSetStatus",
 }));
 
 export type ReplaceAppsV1NamespacedDeploymentError =
@@ -4920,6 +5041,8 @@ export const replaceAppsV1NamespacedDeployment: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedDeployment",
 }));
 
 export type ReplaceAppsV1NamespacedDeploymentScaleError =
@@ -4939,6 +5062,8 @@ export const replaceAppsV1NamespacedDeploymentScale: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedDeploymentScale",
 }));
 
 export type ReplaceAppsV1NamespacedDeploymentStatusError =
@@ -4958,6 +5083,8 @@ export const replaceAppsV1NamespacedDeploymentStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedDeploymentStatus",
 }));
 
 export type ReplaceAppsV1NamespacedReplicaSetError =
@@ -4977,6 +5104,8 @@ export const replaceAppsV1NamespacedReplicaSet: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedReplicaSet",
 }));
 
 export type ReplaceAppsV1NamespacedReplicaSetScaleError =
@@ -4996,6 +5125,8 @@ export const replaceAppsV1NamespacedReplicaSetScale: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedReplicaSetScale",
 }));
 
 export type ReplaceAppsV1NamespacedReplicaSetStatusError =
@@ -5015,6 +5146,8 @@ export const replaceAppsV1NamespacedReplicaSetStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedReplicaSetStatus",
 }));
 
 export type ReplaceAppsV1NamespacedStatefulSetError =
@@ -5034,6 +5167,8 @@ export const replaceAppsV1NamespacedStatefulSet: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedStatefulSet",
 }));
 
 export type ReplaceAppsV1NamespacedStatefulSetScaleError =
@@ -5053,6 +5188,8 @@ export const replaceAppsV1NamespacedStatefulSetScale: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedStatefulSetScale",
 }));
 
 export type ReplaceAppsV1NamespacedStatefulSetStatusError =
@@ -5072,6 +5209,8 @@ export const replaceAppsV1NamespacedStatefulSetStatus: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAppsV1NamespacedStatefulSetStatus",
 }));
 
 export type WatchAppsV1ControllerRevisionListForAllNamespacesError = KubernetesOpError;
@@ -5091,6 +5230,8 @@ export const watchAppsV1ControllerRevisionListForAllNamespaces: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1ControllerRevisionListForAllNamespaces",
 }));
 
 export type WatchAppsV1DaemonSetListForAllNamespacesError = KubernetesOpError;
@@ -5106,6 +5247,8 @@ export const watchAppsV1DaemonSetListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1DaemonSetListForAllNamespaces",
 }));
 
 export type WatchAppsV1DeploymentListForAllNamespacesError = KubernetesOpError;
@@ -5121,6 +5264,8 @@ export const watchAppsV1DeploymentListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1DeploymentListForAllNamespaces",
 }));
 
 export type WatchAppsV1NamespacedControllerRevisionError = KubernetesOpError;
@@ -5136,6 +5281,8 @@ export const watchAppsV1NamespacedControllerRevision: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedControllerRevision",
 }));
 
 export type WatchAppsV1NamespacedControllerRevisionListError = KubernetesOpError;
@@ -5151,6 +5298,8 @@ export const watchAppsV1NamespacedControllerRevisionList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedControllerRevisionList",
 }));
 
 export type WatchAppsV1NamespacedDaemonSetError = KubernetesOpError;
@@ -5166,6 +5315,8 @@ export const watchAppsV1NamespacedDaemonSet: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedDaemonSet",
 }));
 
 export type WatchAppsV1NamespacedDaemonSetListError = KubernetesOpError;
@@ -5181,6 +5332,8 @@ export const watchAppsV1NamespacedDaemonSetList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedDaemonSetList",
 }));
 
 export type WatchAppsV1NamespacedDeploymentError = KubernetesOpError;
@@ -5196,6 +5349,8 @@ export const watchAppsV1NamespacedDeployment: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedDeployment",
 }));
 
 export type WatchAppsV1NamespacedDeploymentListError = KubernetesOpError;
@@ -5211,6 +5366,8 @@ export const watchAppsV1NamespacedDeploymentList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedDeploymentList",
 }));
 
 export type WatchAppsV1NamespacedReplicaSetError = KubernetesOpError;
@@ -5226,6 +5383,8 @@ export const watchAppsV1NamespacedReplicaSet: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedReplicaSet",
 }));
 
 export type WatchAppsV1NamespacedReplicaSetListError = KubernetesOpError;
@@ -5241,6 +5400,8 @@ export const watchAppsV1NamespacedReplicaSetList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedReplicaSetList",
 }));
 
 export type WatchAppsV1NamespacedStatefulSetError = KubernetesOpError;
@@ -5256,6 +5417,8 @@ export const watchAppsV1NamespacedStatefulSet: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedStatefulSet",
 }));
 
 export type WatchAppsV1NamespacedStatefulSetListError = KubernetesOpError;
@@ -5271,6 +5434,8 @@ export const watchAppsV1NamespacedStatefulSetList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1NamespacedStatefulSetList",
 }));
 
 export type WatchAppsV1ReplicaSetListForAllNamespacesError = KubernetesOpError;
@@ -5286,6 +5451,8 @@ export const watchAppsV1ReplicaSetListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1ReplicaSetListForAllNamespaces",
 }));
 
 export type WatchAppsV1StatefulSetListForAllNamespacesError = KubernetesOpError;
@@ -5301,6 +5468,8 @@ export const watchAppsV1StatefulSetListForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAppsV1StatefulSetListForAllNamespaces",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

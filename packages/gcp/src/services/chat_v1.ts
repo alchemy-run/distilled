@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "chat" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Chat",
+  service: "chat",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2449,6 +2468,8 @@ export const completeImportSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteImportSpaces",
 }));
 
 export type CreateCustomEmojisError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2464,6 +2485,8 @@ export const createCustomEmojis: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomEmojis",
 }));
 
 export type CreateSpacesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2479,6 +2502,8 @@ export const createSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpaces",
 }));
 
 export type CreateSpacesMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2494,6 +2519,8 @@ export const createSpacesMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpacesMembers",
 }));
 
 export type CreateSpacesMessagePinsError =
@@ -2514,6 +2541,8 @@ export const createSpacesMessagePins: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpacesMessagePins",
 }));
 
 export type CreateSpacesMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2529,6 +2558,8 @@ export const createSpacesMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpacesMessages",
 }));
 
 export type CreateSpacesMessagesReactionsError =
@@ -2549,6 +2580,8 @@ export const createSpacesMessagesReactions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpacesMessagesReactions",
 }));
 
 export type CreateUsersSectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2564,6 +2597,8 @@ export const createUsersSections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUsersSections",
 }));
 
 export type DeleteCustomEmojisError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2579,6 +2614,8 @@ export const deleteCustomEmojis: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomEmojis",
 }));
 
 export type DeleteSpacesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2594,6 +2631,8 @@ export const deleteSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpaces",
 }));
 
 export type DeleteSpacesMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2609,6 +2648,8 @@ export const deleteSpacesMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpacesMembers",
 }));
 
 export type DeleteSpacesMessagePinsError =
@@ -2629,6 +2670,8 @@ export const deleteSpacesMessagePins: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpacesMessagePins",
 }));
 
 export type DeleteSpacesMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2644,6 +2687,8 @@ export const deleteSpacesMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpacesMessages",
 }));
 
 export type DeleteSpacesMessagesReactionsError =
@@ -2664,6 +2709,8 @@ export const deleteSpacesMessagesReactions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpacesMessagesReactions",
 }));
 
 export type DeleteUsersSectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2679,6 +2726,8 @@ export const deleteUsersSections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUsersSections",
 }));
 
 export type DownloadMediaError = NotFound | Forbidden | GcpOpError;
@@ -2694,6 +2743,8 @@ export const downloadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadMedia",
 }));
 
 export type FindDirectMessageSpacesError = NotFound | Forbidden | GcpOpError;
@@ -2709,6 +2760,8 @@ export const findDirectMessageSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindDirectMessageSpaces",
 }));
 
 export type FindGroupChatsSpacesError = NotFound | Forbidden | GcpOpError;
@@ -2725,6 +2778,8 @@ export const findGroupChatsSpaces: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindGroupChatsSpaces",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2741,6 +2796,8 @@ export const getCustomEmojis: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomEmojis",
 }));
 
 export type GetSpaceReadStateUsersSpacesError = NotFound | Forbidden | GcpOpError;
@@ -2756,6 +2813,8 @@ export const getSpaceReadStateUsersSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpaceReadStateUsersSpaces",
 }));
 
 export type GetSpacesError = NotFound | Forbidden | GcpOpError;
@@ -2767,6 +2826,8 @@ export const getSpaces: API.OperationMethod<GetSpacesRequest, Space, GetSpacesEr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetSpaces",
   }));
 
 export type GetSpacesMembersError = NotFound | Forbidden | GcpOpError;
@@ -2782,6 +2843,8 @@ export const getSpacesMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpacesMembers",
 }));
 
 export type GetSpacesMessagesError = NotFound | Forbidden | GcpOpError;
@@ -2797,6 +2860,8 @@ export const getSpacesMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpacesMessages",
 }));
 
 export type GetSpacesMessagesAttachmentsError = NotFound | Forbidden | GcpOpError;
@@ -2812,6 +2877,8 @@ export const getSpacesMessagesAttachments: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpacesMessagesAttachments",
 }));
 
 export type GetSpacesSpaceEventsError = NotFound | Forbidden | GcpOpError;
@@ -2827,6 +2894,8 @@ export const getSpacesSpaceEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpacesSpaceEvents",
 }));
 
 export type GetThreadReadStateUsersSpacesThreadsError = NotFound | Forbidden | GcpOpError;
@@ -2842,6 +2911,8 @@ export const getThreadReadStateUsersSpacesThreads: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThreadReadStateUsersSpacesThreads",
 }));
 
 export type GetUsersAvailabilityError = NotFound | Forbidden | GcpOpError;
@@ -2857,6 +2928,8 @@ export const getUsersAvailability: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersAvailability",
 }));
 
 export type GetUsersSpacesSpaceNotificationSettingError = NotFound | Forbidden | GcpOpError;
@@ -2872,6 +2945,8 @@ export const getUsersSpacesSpaceNotificationSetting: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUsersSpacesSpaceNotificationSetting",
 }));
 
 export type ListCustomEmojisError = NotFound | Forbidden | GcpOpError;
@@ -2888,6 +2963,8 @@ export const listCustomEmojis: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomEmojis",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2905,6 +2982,8 @@ export const listSpaces: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpaces",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2922,6 +3001,8 @@ export const listSpacesMembers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacesMembers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2939,6 +3020,8 @@ export const listSpacesMessagePins: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacesMessagePins",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2956,6 +3039,8 @@ export const listSpacesMessages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacesMessages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2973,6 +3058,8 @@ export const listSpacesMessagesReactions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacesMessagesReactions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2990,6 +3077,8 @@ export const listSpacesSpaceEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacesSpaceEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3007,6 +3096,8 @@ export const listUsersSections: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSections",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3024,6 +3115,8 @@ export const listUsersSectionsItems: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsersSectionsItems",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3045,6 +3138,8 @@ export const markAsActiveUsersAvailability: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkAsActiveUsersAvailability",
 }));
 
 export type MarkAsAwayUsersAvailabilityError =
@@ -3065,6 +3160,8 @@ export const markAsAwayUsersAvailability: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkAsAwayUsersAvailability",
 }));
 
 export type MarkAsDoNotDisturbUsersAvailabilityError =
@@ -3085,6 +3182,8 @@ export const markAsDoNotDisturbUsersAvailability: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarkAsDoNotDisturbUsersAvailability",
 }));
 
 export type MoveUsersSectionsItemsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3100,6 +3199,8 @@ export const moveUsersSectionsItems: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveUsersSectionsItems",
 }));
 
 export type PatchSpacesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3115,6 +3216,8 @@ export const patchSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSpaces",
 }));
 
 export type PatchSpacesMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3130,6 +3233,8 @@ export const patchSpacesMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSpacesMembers",
 }));
 
 export type PatchSpacesMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3145,6 +3250,8 @@ export const patchSpacesMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSpacesMessages",
 }));
 
 export type PatchUsersAvailabilityError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3160,6 +3267,8 @@ export const patchUsersAvailability: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersAvailability",
 }));
 
 export type PatchUsersSectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3175,6 +3284,8 @@ export const patchUsersSections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersSections",
 }));
 
 export type PatchUsersSpacesSpaceNotificationSettingError =
@@ -3195,6 +3306,8 @@ export const patchUsersSpacesSpaceNotificationSetting: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchUsersSpacesSpaceNotificationSetting",
 }));
 
 export type PositionUsersSectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3210,6 +3323,8 @@ export const positionUsersSections: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PositionUsersSections",
 }));
 
 export type SearchSpacesError = NotFound | Forbidden | GcpOpError;
@@ -3226,6 +3341,8 @@ export const searchSpaces: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSpaces",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3242,6 +3359,8 @@ export const searchSpacesMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchSpacesMessages",
 }));
 
 export type SetupSpacesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3257,6 +3376,8 @@ export const setupSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetupSpaces",
 }));
 
 export type UpdateSpaceReadStateUsersSpacesError =
@@ -3277,6 +3398,8 @@ export const updateSpaceReadStateUsersSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpaceReadStateUsersSpaces",
 }));
 
 export type UpdateSpacesMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3292,6 +3415,8 @@ export const updateSpacesMessages: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpacesMessages",
 }));
 
 export type UploadMediaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3307,6 +3432,8 @@ export const uploadMedia: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadMedia",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

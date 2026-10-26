@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.HealthcareApis" },
+  prefix: "Healthcareapis",
+  service: "Healthcareapis",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckServiceNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2506,6 +2526,8 @@ export const CheckServiceNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServiceNameAvailability",
 }));
 
 export type DeleteDicomServiceError = AzureOpError;
@@ -2521,6 +2543,8 @@ export const DeleteDicomService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDicomService",
 }));
 
 export type DeleteFhirServiceError = AzureOpError;
@@ -2536,6 +2560,8 @@ export const DeleteFhirService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFhirService",
 }));
 
 export type DeleteIotConnectorError = AzureOpError;
@@ -2551,6 +2577,8 @@ export const DeleteIotConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIotConnector",
 }));
 
 export type DeleteIotConnectorFhirDestinationError = AzureOpError;
@@ -2566,6 +2594,8 @@ export const DeleteIotConnectorFhirDestination: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIotConnectorFhirDestination",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -2581,6 +2611,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteServiceError = AzureOpError;
@@ -2596,6 +2628,8 @@ export const DeleteService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteWorkspaceError = AzureOpError;
@@ -2611,6 +2645,8 @@ export const DeleteWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DeleteWorkspacePrivateEndpointConnectionError = AzureOpError;
@@ -2626,6 +2662,8 @@ export const DeleteWorkspacePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspacePrivateEndpointConnection",
 }));
 
 export type DicomServicesCreateOrUpdateError = AzureOpError;
@@ -2641,6 +2679,8 @@ export const DicomServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DicomServicesCreateOrUpdate",
 }));
 
 export type FhirServicesCreateOrUpdateError = AzureOpError;
@@ -2656,6 +2696,8 @@ export const FhirServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FhirServicesCreateOrUpdate",
 }));
 
 export type GetDicomServiceError = AzureOpError;
@@ -2671,6 +2713,8 @@ export const GetDicomService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDicomService",
 }));
 
 export type GetFhirServiceError = AzureOpError;
@@ -2686,6 +2730,8 @@ export const GetFhirService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFhirService",
 }));
 
 export type GetIotConnectorError = AzureOpError;
@@ -2701,6 +2747,8 @@ export const GetIotConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotConnector",
 }));
 
 export type GetIotConnectorFhirDestinationError = AzureOpError;
@@ -2716,6 +2764,8 @@ export const GetIotConnectorFhirDestination: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIotConnectorFhirDestination",
 }));
 
 export type GetOperationResultError = AzureOpError;
@@ -2731,6 +2781,8 @@ export const GetOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationResult",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -2746,6 +2798,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -2761,6 +2815,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetServiceError = AzureOpError;
@@ -2776,6 +2832,8 @@ export const GetService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetWorkspaceError = AzureOpError;
@@ -2791,6 +2849,8 @@ export const GetWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type GetWorkspacePrivateEndpointConnectionError = AzureOpError;
@@ -2806,6 +2866,8 @@ export const GetWorkspacePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspacePrivateEndpointConnection",
 }));
 
 export type GetWorkspacePrivateLinkResourceError = AzureOpError;
@@ -2821,6 +2883,8 @@ export const GetWorkspacePrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspacePrivateLinkResource",
 }));
 
 export type IotConnectorFhirDestinationCreateOrUpdateError = AzureOpError;
@@ -2836,6 +2900,8 @@ export const IotConnectorFhirDestinationCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IotConnectorFhirDestinationCreateOrUpdate",
 }));
 
 export type IotConnectorsCreateOrUpdateError = AzureOpError;
@@ -2851,6 +2917,8 @@ export const IotConnectorsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IotConnectorsCreateOrUpdate",
 }));
 
 export type ListDicomServiceByWorkspaceError = AzureOpError;
@@ -2866,6 +2934,8 @@ export const ListDicomServiceByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDicomServiceByWorkspace",
 }));
 
 export type ListFhirDestinationByIotConnectorError = AzureOpError;
@@ -2881,6 +2951,8 @@ export const ListFhirDestinationByIotConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFhirDestinationByIotConnector",
 }));
 
 export type ListFhirServiceByWorkspaceError = AzureOpError;
@@ -2896,6 +2968,8 @@ export const ListFhirServiceByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFhirServiceByWorkspace",
 }));
 
 export type ListIotConnectorByWorkspaceError = AzureOpError;
@@ -2911,6 +2985,8 @@ export const ListIotConnectorByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIotConnectorByWorkspace",
 }));
 
 export type ListOperations2Error = AzureOpError;
@@ -2926,6 +3002,8 @@ export const ListOperations2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations2",
 }));
 
 export type ListPrivateEndpointConnectionByServiceError = AzureOpError;
@@ -2941,6 +3019,8 @@ export const ListPrivateEndpointConnectionByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByService",
 }));
 
 export type ListPrivateLinkResourceByServiceError = AzureOpError;
@@ -2956,6 +3036,8 @@ export const ListPrivateLinkResourceByService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByService",
 }));
 
 export type ListServiceByResourceGroupError = AzureOpError;
@@ -2971,6 +3053,8 @@ export const ListServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceByResourceGroup",
 }));
 
 export type ListServicesError = AzureOpError;
@@ -2986,6 +3070,8 @@ export const ListServices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 }));
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
@@ -3001,6 +3087,8 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceByResourceGroup",
 }));
 
 export type ListWorkspaceBySubscriptionError = AzureOpError;
@@ -3016,6 +3104,8 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceBySubscription",
 }));
 
 export type ListWorkspacePrivateEndpointConnectionByWorkspaceError = AzureOpError;
@@ -3035,6 +3125,8 @@ export const ListWorkspacePrivateEndpointConnectionByWorkspace: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspacePrivateEndpointConnectionByWorkspace",
 }));
 
 export type ListWorkspacePrivateLinkResourceByWorkspaceError = AzureOpError;
@@ -3050,6 +3142,8 @@ export const ListWorkspacePrivateLinkResourceByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspacePrivateLinkResourceByWorkspace",
 }));
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -3065,6 +3159,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type ServicesCreateOrUpdateError = AzureOpError;
@@ -3080,6 +3176,8 @@ export const ServicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServicesCreateOrUpdate",
 }));
 
 export type UpdateDicomServiceError = AzureOpError;
@@ -3095,6 +3193,8 @@ export const UpdateDicomService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDicomService",
 }));
 
 export type UpdateFhirServiceError = AzureOpError;
@@ -3110,6 +3210,8 @@ export const UpdateFhirService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFhirService",
 }));
 
 export type UpdateIotConnectorError = AzureOpError;
@@ -3125,6 +3227,8 @@ export const UpdateIotConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIotConnector",
 }));
 
 export type UpdateServiceError = AzureOpError;
@@ -3140,6 +3244,8 @@ export const UpdateService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateWorkspaceError = AzureOpError;
@@ -3155,6 +3261,8 @@ export const UpdateWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 export type WorkspacePrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -3178,6 +3286,8 @@ export const WorkspacePrivateEndpointConnectionsCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacePrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type WorkspacesCreateOrUpdateError = AzureOpError;
@@ -3193,6 +3303,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

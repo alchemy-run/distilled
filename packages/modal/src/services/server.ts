@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "ServerService",
+  propagate: "w3c",
+} as const;
+
 export interface FetchServerRequestRequestTail {
   /** Number of most recent requests to return. Must be between 1 and 1000. */
   count?: number;
@@ -107,6 +119,8 @@ export const fetchServerRequest: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchServerRequest",
 }));
 
 export type ServerGetTimeRangeStatsError = ModalOpError;
@@ -122,6 +136,8 @@ export const serverGetTimeRangeStats: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerGetTimeRangeStats",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

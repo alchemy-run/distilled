@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://controlplane.payment-cryptography.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PaymentCryptography",
+  service: "PaymentCryptography",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -771,6 +787,8 @@ export const addKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddKeyReplicationRegions",
+  telemetry: TELEMETRY,
+  span: "AddKeyReplicationRegions",
 }));
 
 export type AssociateMpaTeamError =
@@ -815,6 +833,8 @@ export const associateMpaTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMpaTeam",
+  telemetry: TELEMETRY,
+  span: "AssociateMpaTeam",
 }));
 
 export type CreateAliasError =
@@ -867,6 +887,8 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  telemetry: TELEMETRY,
+  span: "CreateAlias",
 }));
 
 export type CreateKeyError =
@@ -923,6 +945,8 @@ export const createKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKey",
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type DeleteAliasError =
@@ -971,6 +995,8 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteAlias",
 }));
 
 export type DeleteKeyError =
@@ -1019,6 +1045,8 @@ export const deleteKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKey",
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeleteResourcePolicyError =
@@ -1061,6 +1089,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DisableDefaultKeyReplicationRegionsError =
@@ -1107,6 +1137,8 @@ export const disableDefaultKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDefaultKeyReplicationRegions",
+  telemetry: TELEMETRY,
+  span: "DisableDefaultKeyReplicationRegions",
 }));
 
 export type DisassociateMpaTeamError =
@@ -1151,6 +1183,8 @@ export const disassociateMpaTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMpaTeam",
+  telemetry: TELEMETRY,
+  span: "DisassociateMpaTeam",
 }));
 
 export type EnableDefaultKeyReplicationRegionsError =
@@ -1197,6 +1231,8 @@ export const enableDefaultKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDefaultKeyReplicationRegions",
+  telemetry: TELEMETRY,
+  span: "EnableDefaultKeyReplicationRegions",
 }));
 
 export type ExportKeyError =
@@ -1319,6 +1355,8 @@ export const exportKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportKey",
+  telemetry: TELEMETRY,
+  span: "ExportKey",
 }));
 
 export type GetAliasError =
@@ -1363,6 +1401,8 @@ export const getAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlias",
+  telemetry: TELEMETRY,
+  span: "GetAlias",
 }));
 
 export type GetCertificateSigningRequestError =
@@ -1395,6 +1435,8 @@ export const getCertificateSigningRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateSigningRequest",
+  telemetry: TELEMETRY,
+  span: "GetCertificateSigningRequest",
 }));
 
 export type GetDefaultKeyReplicationRegionsError =
@@ -1439,6 +1481,8 @@ export const getDefaultKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultKeyReplicationRegions",
+  telemetry: TELEMETRY,
+  span: "GetDefaultKeyReplicationRegions",
 }));
 
 export type GetKeyError =
@@ -1481,6 +1525,8 @@ export const getKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKey",
+  telemetry: TELEMETRY,
+  span: "GetKey",
 }));
 
 export type GetMpaTeamAssociationError =
@@ -1525,6 +1571,8 @@ export const getMpaTeamAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMpaTeamAssociation",
+  telemetry: TELEMETRY,
+  span: "GetMpaTeamAssociation",
 }));
 
 export type GetParametersForExportError =
@@ -1573,6 +1621,8 @@ export const getParametersForExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParametersForExport",
+  telemetry: TELEMETRY,
+  span: "GetParametersForExport",
 }));
 
 export type GetParametersForImportError =
@@ -1621,6 +1671,8 @@ export const getParametersForImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParametersForImport",
+  telemetry: TELEMETRY,
+  span: "GetParametersForImport",
 }));
 
 export type GetPublicKeyCertificateError =
@@ -1657,6 +1709,8 @@ export const getPublicKeyCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKeyCertificate",
+  telemetry: TELEMETRY,
+  span: "GetPublicKeyCertificate",
 }));
 
 export type GetResourcePolicyError =
@@ -1697,6 +1751,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ImportKeyError =
@@ -1827,6 +1883,8 @@ export const importKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportKey",
+  telemetry: TELEMETRY,
+  span: "ImportKey",
 }));
 
 export type ListAliasesError =
@@ -1880,6 +1938,8 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAliases",
 })) as any;
 
 export type ListKeysError =
@@ -1931,6 +1991,8 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Keys",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeys",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1980,6 +2042,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type PutResourcePolicyError =
@@ -2030,6 +2094,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type RemoveKeyReplicationRegionsError =
@@ -2076,6 +2142,8 @@ export const removeKeyReplicationRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveKeyReplicationRegions",
+  telemetry: TELEMETRY,
+  span: "RemoveKeyReplicationRegions",
 }));
 
 export type RestoreKeyError =
@@ -2124,6 +2192,8 @@ export const restoreKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreKey",
+  telemetry: TELEMETRY,
+  span: "RestoreKey",
 }));
 
 export type StartKeyUsageError =
@@ -2166,6 +2236,8 @@ export const startKeyUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartKeyUsage",
+  telemetry: TELEMETRY,
+  span: "StartKeyUsage",
 }));
 
 export type StopKeyUsageError =
@@ -2212,6 +2284,8 @@ export const stopKeyUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopKeyUsage",
+  telemetry: TELEMETRY,
+  span: "StopKeyUsage",
 }));
 
 export type TagResourceError =
@@ -2260,6 +2334,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2304,6 +2380,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAliasError =
@@ -2350,6 +2428,8 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateAlias",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

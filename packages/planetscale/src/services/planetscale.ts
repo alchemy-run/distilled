@@ -18,6 +18,19 @@ const __s: any[] = [];
 
 export type { PlanetScaleOpError, PlanetScaleOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "planetscale-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PlanetScale",
+  service: "PlanetScale",
+  labels: "planetscale",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -13032,6 +13045,8 @@ export const addOrganizationTeamMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrganizationTeamMember",
 }));
 
 export type AssignShardConfigurationProfileShardsError =
@@ -13051,6 +13066,8 @@ export const assignShardConfigurationProfileShards: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignShardConfigurationProfileShards",
 }));
 
 export type BulkCreateShardConfigurationProfileShardsError =
@@ -13074,6 +13091,8 @@ export const bulkCreateShardConfigurationProfileShards: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkCreateShardConfigurationProfileShards",
 }));
 
 export type CancelAdminChangeRequestError =
@@ -13093,6 +13112,8 @@ export const cancelAdminChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelAdminChangeRequest",
 }));
 
 export type CancelBouncerResizeRequestError =
@@ -13112,6 +13133,8 @@ export const cancelBouncerResizeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelBouncerResizeRequest",
 }));
 
 export type CancelBranchChangeRequestError =
@@ -13131,6 +13154,8 @@ export const cancelBranchChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelBranchChangeRequest",
 }));
 
 export type CancelBranchConfigChangeRequestError =
@@ -13150,6 +13175,8 @@ export const cancelBranchConfigChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelBranchConfigChangeRequest",
 }));
 
 export type CancelDeployRequestError =
@@ -13169,6 +13196,8 @@ export const cancelDeployRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDeployRequest",
 }));
 
 export type CancelKeyspaceConfigChangeRequestError =
@@ -13188,6 +13217,8 @@ export const cancelKeyspaceConfigChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelKeyspaceConfigChangeRequest",
 }));
 
 export type CancelKeyspaceResizeRequestError =
@@ -13207,6 +13238,8 @@ export const cancelKeyspaceResizeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelKeyspaceResizeRequest",
 }));
 
 export type CancelMoveTablesWorkflowError =
@@ -13226,6 +13259,8 @@ export const cancelMoveTablesWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelMoveTablesWorkflow",
 }));
 
 export type CancelNekiChangeRequestError =
@@ -13245,6 +13280,8 @@ export const cancelNekiChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelNekiChangeRequest",
 }));
 
 export type CancelOrganizationInvitationError =
@@ -13264,6 +13301,8 @@ export const cancelOrganizationInvitation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelOrganizationInvitation",
 }));
 
 export type CancelRouterChangeRequestError =
@@ -13283,6 +13322,8 @@ export const cancelRouterChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelRouterChangeRequest",
 }));
 
 export type CancelShardConfigurationProfileChangeRequestError =
@@ -13310,6 +13351,8 @@ export const cancelShardConfigurationProfileChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelShardConfigurationProfileChangeRequest",
 }));
 
 export type CancelSidecarChangeRequestError =
@@ -13329,6 +13372,8 @@ export const cancelSidecarChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelSidecarChangeRequest",
 }));
 
 export type CancelWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13344,6 +13389,8 @@ export const cancelWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelWorkflow",
 }));
 
 export type CompleteRevertError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13359,6 +13406,8 @@ export const completeRevert: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteRevert",
 }));
 
 export type CompleteWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13374,6 +13423,8 @@ export const completeWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteWorkflow",
 }));
 
 export type ConfigureOrganizationSsoError =
@@ -13393,6 +13444,8 @@ export const configureOrganizationSso: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigureOrganizationSso",
 }));
 
 export type CreateBackupError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13408,6 +13461,8 @@ export const createBackup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackup",
 }));
 
 export type CreateBackupPolicyError =
@@ -13427,6 +13482,8 @@ export const createBackupPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackupPolicy",
 }));
 
 export type CreateBouncerError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13442,6 +13499,8 @@ export const createBouncer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBouncer",
 }));
 
 export type CreateBranchError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13457,6 +13516,8 @@ export const createBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBranch",
 }));
 
 export type CreateBranchConfigChangeRequestError =
@@ -13476,6 +13537,8 @@ export const createBranchConfigChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBranchConfigChangeRequest",
 }));
 
 export type CreateBranchLogSignatureError =
@@ -13495,6 +13558,8 @@ export const createBranchLogSignature: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBranchLogSignature",
 }));
 
 export type CreateDatabaseError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13510,6 +13575,8 @@ export const createDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateDatabasePostgresCidrError =
@@ -13529,6 +13596,8 @@ export const createDatabasePostgresCidr: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabasePostgresCidr",
 }));
 
 export type CreateDedicatedReadReplicaError =
@@ -13548,6 +13617,8 @@ export const createDedicatedReadReplica: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedReadReplica",
 }));
 
 export type CreateDeployRequestError =
@@ -13567,6 +13638,8 @@ export const createDeployRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeployRequest",
 }));
 
 export type CreateInsightsAgentRunError =
@@ -13586,6 +13659,8 @@ export const createInsightsAgentRun: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInsightsAgentRun",
 }));
 
 export type CreateKeyspaceError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13601,6 +13676,8 @@ export const createKeyspace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKeyspace",
 }));
 
 export type CreateKeyspaceConfigChangeRequestError =
@@ -13620,6 +13697,8 @@ export const createKeyspaceConfigChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKeyspaceConfigChangeRequest",
 }));
 
 export type CreateMoveTablesWorkflowError =
@@ -13639,6 +13718,8 @@ export const createMoveTablesWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMoveTablesWorkflow",
 }));
 
 export type CreateOauthTokenError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13654,6 +13735,8 @@ export const createOauthToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOauthToken",
 }));
 
 export type CreateOrganizationInvitationError =
@@ -13673,6 +13756,8 @@ export const createOrganizationInvitation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationInvitation",
 }));
 
 export type CreateOrganizationSsoDomainError =
@@ -13692,6 +13777,8 @@ export const createOrganizationSsoDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationSsoDomain",
 }));
 
 export type CreateOrganizationTeamError =
@@ -13712,6 +13799,8 @@ export const createOrganizationTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationTeam",
 }));
 
 export type CreatePasswordError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13727,6 +13816,8 @@ export const createPassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePassword",
 }));
 
 export type CreateQueryPatternsReportError =
@@ -13746,6 +13837,8 @@ export const createQueryPatternsReport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateQueryPatternsReport",
 }));
 
 export type CreateRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13761,6 +13854,8 @@ export const createRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRole",
 }));
 
 export type CreateRouterError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13776,6 +13871,8 @@ export const createRouter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRouter",
 }));
 
 export type CreateServiceTokenError =
@@ -13795,6 +13892,8 @@ export const createServiceToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceToken",
 }));
 
 export type CreateShardError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13810,6 +13909,8 @@ export const createShard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShard",
 }));
 
 export type CreateShardConfigurationProfileError =
@@ -13829,6 +13930,8 @@ export const createShardConfigurationProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShardConfigurationProfile",
 }));
 
 export type CreateShardConfigurationProfileShardError =
@@ -13848,6 +13951,8 @@ export const createShardConfigurationProfileShard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShardConfigurationProfileShard",
 }));
 
 export type CreateSwitchoverError =
@@ -13868,6 +13973,8 @@ export const createSwitchover: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSwitchover",
 }));
 
 export type CreateTrafficBudgetError =
@@ -13887,6 +13994,8 @@ export const createTrafficBudget: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrafficBudget",
 }));
 
 export type CreateTrafficRuleError =
@@ -13906,6 +14015,8 @@ export const createTrafficRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrafficRule",
 }));
 
 export type CreateWebhookError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13921,6 +14032,8 @@ export const createWebhook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type CreateWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13936,6 +14049,8 @@ export const createWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type DeleteBackupError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13951,6 +14066,8 @@ export const deleteBackup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackup",
 }));
 
 export type DeleteBackupPolicyError =
@@ -13970,6 +14087,8 @@ export const deleteBackupPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupPolicy",
 }));
 
 export type DeleteBouncerError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -13985,6 +14104,8 @@ export const deleteBouncer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBouncer",
 }));
 
 export type DeleteBranchError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14000,6 +14121,8 @@ export const deleteBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBranch",
 }));
 
 export type DeleteDatabaseError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14015,6 +14138,8 @@ export const deleteDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteDatabasePostgresCidrError =
@@ -14034,6 +14159,8 @@ export const deleteDatabasePostgresCidr: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabasePostgresCidr",
 }));
 
 export type DeleteDedicatedReadReplicaError =
@@ -14053,6 +14180,8 @@ export const deleteDedicatedReadReplica: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedReadReplica",
 }));
 
 export type DeleteKeyspaceError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14068,6 +14197,8 @@ export const deleteKeyspace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKeyspace",
 }));
 
 export type DeleteOauthTokenError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14083,6 +14214,8 @@ export const deleteOauthToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOauthToken",
 }));
 
 export type DeleteOrganizationBillingPaymentMethodError =
@@ -14102,6 +14235,8 @@ export const deleteOrganizationBillingPaymentMethod: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationBillingPaymentMethod",
 }));
 
 export type DeleteOrganizationSsoDomainError =
@@ -14121,6 +14256,8 @@ export const deleteOrganizationSsoDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationSsoDomain",
 }));
 
 export type DeleteOrganizationTeamError =
@@ -14141,6 +14278,8 @@ export const deleteOrganizationTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrganizationTeam",
 }));
 
 export type DeletePasswordError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14156,6 +14295,8 @@ export const deletePassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePassword",
 }));
 
 export type DeleteQueryPatternsReportError =
@@ -14175,6 +14316,8 @@ export const deleteQueryPatternsReport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteQueryPatternsReport",
 }));
 
 export type DeleteRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14190,6 +14333,8 @@ export const deleteRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRole",
 }));
 
 export type DeleteRouterError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14205,6 +14350,8 @@ export const deleteRouter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRouter",
 }));
 
 export type DeleteServiceTokenError =
@@ -14224,6 +14371,8 @@ export const deleteServiceToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceToken",
 }));
 
 export type DeleteShardError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14239,6 +14388,8 @@ export const deleteShard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteShard",
 }));
 
 export type DeleteShardConfigurationProfileError =
@@ -14258,6 +14409,8 @@ export const deleteShardConfigurationProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteShardConfigurationProfile",
 }));
 
 export type DeleteShardConfigurationProfileShardError =
@@ -14277,6 +14430,8 @@ export const deleteShardConfigurationProfileShard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteShardConfigurationProfileShard",
 }));
 
 export type DeleteShardConfigurationProfileShardsError =
@@ -14296,6 +14451,8 @@ export const deleteShardConfigurationProfileShards: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteShardConfigurationProfileShards",
 }));
 
 export type DeleteTrafficBudgetError =
@@ -14315,6 +14472,8 @@ export const deleteTrafficBudget: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficBudget",
 }));
 
 export type DeleteTrafficRuleError =
@@ -14334,6 +14493,8 @@ export const deleteTrafficRule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficRule",
 }));
 
 export type DeleteWebhookError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14349,6 +14510,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DemoteBranchError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14364,6 +14527,8 @@ export const demoteBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DemoteBranch",
 }));
 
 export type DeployCheckRequestStorageError =
@@ -14383,6 +14548,8 @@ export const deployCheckRequestStorage: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployCheckRequestStorage",
 }));
 
 export type DeployCloseRequestError =
@@ -14402,6 +14569,8 @@ export const deployCloseRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployCloseRequest",
 }));
 
 export type DeployCompleteErroredError =
@@ -14421,6 +14590,8 @@ export const deployCompleteErrored: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployCompleteErrored",
 }));
 
 export type DeployCompleteGatedRequestError =
@@ -14440,6 +14611,8 @@ export const deployCompleteGatedRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployCompleteGatedRequest",
 }));
 
 export type DeployForceCutoverRequestError =
@@ -14459,6 +14632,8 @@ export const deployForceCutoverRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployForceCutoverRequest",
 }));
 
 export type DeployQueueRequestError =
@@ -14478,6 +14653,8 @@ export const deployQueueRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployQueueRequest",
 }));
 
 export type DeployReviewRequestError =
@@ -14497,6 +14674,8 @@ export const deployReviewRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployReviewRequest",
 }));
 
 export type DisableOrganizationSsoError =
@@ -14516,6 +14695,8 @@ export const disableOrganizationSso: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableOrganizationSso",
 }));
 
 export type DisableOrganizationSsoDirectoryError =
@@ -14535,6 +14716,8 @@ export const disableOrganizationSsoDirectory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableOrganizationSsoDirectory",
 }));
 
 export type DisableSafeMigrationsError =
@@ -14554,6 +14737,8 @@ export const disableSafeMigrations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableSafeMigrations",
 }));
 
 export type DismissSchemaRecommendationError =
@@ -14573,6 +14758,8 @@ export const dismissSchemaRecommendation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissSchemaRecommendation",
 }));
 
 export type EnableOrganizationSsoError =
@@ -14592,6 +14779,8 @@ export const enableOrganizationSso: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableOrganizationSso",
 }));
 
 export type EnableOrganizationSsoDirectoryError =
@@ -14611,6 +14800,8 @@ export const enableOrganizationSsoDirectory: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableOrganizationSsoDirectory",
 }));
 
 export type EnableSafeMigrationsError =
@@ -14630,6 +14821,8 @@ export const enableSafeMigrations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableSafeMigrations",
 }));
 
 export type GetAdminError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14645,6 +14838,8 @@ export const getAdmin: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdmin",
 }));
 
 export type GetAdminChangeRequestError =
@@ -14664,6 +14859,8 @@ export const getAdminChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdminChangeRequest",
 }));
 
 export type GetBackupError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14679,6 +14876,8 @@ export const getBackup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackup",
 }));
 
 export type GetBackupPolicyError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14694,6 +14893,8 @@ export const getBackupPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupPolicy",
 }));
 
 export type GetBouncerError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14709,6 +14910,8 @@ export const getBouncer: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBouncer",
 }));
 
 export type GetBranchError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14724,6 +14927,8 @@ export const getBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranch",
 }));
 
 export type GetBranchAnomalyError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14739,6 +14944,8 @@ export const getBranchAnomaly: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchAnomaly",
 }));
 
 export type GetBranchChangeRequestError =
@@ -14758,6 +14965,8 @@ export const getBranchChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchChangeRequest",
 }));
 
 export type GetBranchConfigChangeRequestError =
@@ -14777,6 +14986,8 @@ export const getBranchConfigChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchConfigChangeRequest",
 }));
 
 export type GetBranchKeyspaceTableMetricsError =
@@ -14796,6 +15007,8 @@ export const getBranchKeyspaceTableMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchKeyspaceTableMetrics",
 }));
 
 export type GetBranchMetricsError =
@@ -14816,6 +15029,8 @@ export const getBranchMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchMetrics",
 }));
 
 export type GetBranchQueryError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14831,6 +15046,8 @@ export const getBranchQuery: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchQuery",
 }));
 
 export type GetBranchQueryErrorError =
@@ -14852,6 +15069,8 @@ export const getBranchQueryError: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetBranchQueryError",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -14880,6 +15099,8 @@ export const getBranchQueryMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchQueryMetrics",
 }));
 
 export type GetBranchQueryTagError =
@@ -14900,6 +15121,8 @@ export const getBranchQueryTag: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchQueryTag",
 }));
 
 export type GetBranchResizeRequestError =
@@ -14919,6 +15142,8 @@ export const getBranchResizeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchResizeRequest",
 }));
 
 export type GetBranchSchemaError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14934,6 +15159,8 @@ export const getBranchSchema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchSchema",
 }));
 
 export type GetBranchTableMetricsError =
@@ -14953,6 +15180,8 @@ export const getBranchTableMetrics: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchTableMetrics",
 }));
 
 export type GetBranchTagMetricsError =
@@ -14973,6 +15202,8 @@ export const getBranchTagMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBranchTagMetrics",
 }));
 
 export type GetCurrentUserError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -14988,6 +15219,8 @@ export const getCurrentUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentUser",
 }));
 
 export type GetDatabaseError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15003,6 +15236,8 @@ export const getDatabase: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDatabasePostgresCidrError =
@@ -15022,6 +15257,8 @@ export const getDatabasePostgresCidr: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabasePostgresCidr",
 }));
 
 export type GetDatabaseThrottlerError =
@@ -15041,6 +15278,8 @@ export const getDatabaseThrottler: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseThrottler",
 }));
 
 export type GetDataTopologyError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15056,6 +15295,8 @@ export const getDataTopology: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataTopology",
 }));
 
 export type GetDedicatedReadReplicaError =
@@ -15075,6 +15316,8 @@ export const getDedicatedReadReplica: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedReadReplica",
 }));
 
 export type GetDefaultRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15090,6 +15333,8 @@ export const getDefaultRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultRole",
 }));
 
 export type GetDefaultShardConfigurationProfileError =
@@ -15109,6 +15354,8 @@ export const getDefaultShardConfigurationProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultShardConfigurationProfile",
 }));
 
 export type GetDeploymentError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15124,6 +15371,8 @@ export const getDeployment: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeployQueueError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15141,6 +15390,8 @@ export const getDeployQueue: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDeployQueue",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15164,6 +15415,8 @@ export const getDeployRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployRequest",
 }));
 
 export type GetDeployRequestThrottlerError =
@@ -15183,6 +15436,8 @@ export const getDeployRequestThrottler: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployRequestThrottler",
 }));
 
 export type GetInsightsAgentRunError =
@@ -15202,6 +15457,8 @@ export const getInsightsAgentRun: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInsightsAgentRun",
 }));
 
 export type GetInstantBranchMetricsError =
@@ -15222,6 +15479,8 @@ export const getInstantBranchMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstantBranchMetrics",
 }));
 
 export type GetInstantTabletMetricsError =
@@ -15242,6 +15501,8 @@ export const getInstantTabletMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstantTabletMetrics",
 }));
 
 export type GetInvoiceError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15257,6 +15518,8 @@ export const getInvoice: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoice",
 }));
 
 export type GetInvoiceLineItemsError =
@@ -15278,6 +15541,8 @@ export const getInvoiceLineItems: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetInvoiceLineItems",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15301,6 +15566,8 @@ export const getKeyspace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyspace",
 }));
 
 export type GetKeyspaceConfigChangeRequestError =
@@ -15320,6 +15587,8 @@ export const getKeyspaceConfigChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyspaceConfigChangeRequest",
 }));
 
 export type GetKeyspaceResizeRequestError =
@@ -15339,6 +15608,8 @@ export const getKeyspaceResizeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyspaceResizeRequest",
 }));
 
 export type GetKeyspaceRolloutStatusError =
@@ -15358,6 +15629,8 @@ export const getKeyspaceRolloutStatus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyspaceRolloutStatus",
 }));
 
 export type GetKeyspaceVschemaError =
@@ -15377,6 +15650,8 @@ export const getKeyspaceVschema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyspaceVschema",
 }));
 
 export type GetMaintenanceScheduleError =
@@ -15396,6 +15671,8 @@ export const getMaintenanceSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceSchedule",
 }));
 
 export type GetMoveTablesWorkflowError =
@@ -15415,6 +15692,8 @@ export const getMoveTablesWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMoveTablesWorkflow",
 }));
 
 export type GetMoveTablesWorkflowStatusError =
@@ -15434,6 +15713,8 @@ export const getMoveTablesWorkflowStatus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMoveTablesWorkflowStatus",
 }));
 
 export type GetNekiChangeRequestError =
@@ -15453,6 +15734,8 @@ export const getNekiChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNekiChangeRequest",
 }));
 
 export type GetOauthApplicationError =
@@ -15472,6 +15755,8 @@ export const getOauthApplication: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOauthApplication",
 }));
 
 export type GetOauthTokenError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15487,6 +15772,8 @@ export const getOauthToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOauthToken",
 }));
 
 export type GetOrganizationError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15502,6 +15789,8 @@ export const getOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganization",
 }));
 
 export type GetOrganizationBillingPaymentMethodError =
@@ -15521,6 +15810,8 @@ export const getOrganizationBillingPaymentMethod: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationBillingPaymentMethod",
 }));
 
 export type GetOrganizationMembershipError =
@@ -15540,6 +15831,8 @@ export const getOrganizationMembership: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationMembership",
 }));
 
 export type GetOrganizationSsoError =
@@ -15559,6 +15852,8 @@ export const getOrganizationSso: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationSso",
 }));
 
 export type GetOrganizationSsoDomainError =
@@ -15578,6 +15873,8 @@ export const getOrganizationSsoDomain: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationSsoDomain",
 }));
 
 export type GetOrganizationTeamError =
@@ -15598,6 +15895,8 @@ export const getOrganizationTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationTeam",
 }));
 
 export type GetOrganizationTeamMemberError =
@@ -15618,6 +15917,8 @@ export const getOrganizationTeamMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrganizationTeamMember",
 }));
 
 export type GetPasswordError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15633,6 +15934,8 @@ export const getPassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPassword",
 }));
 
 export type GetPaymentMethodSetupError =
@@ -15652,6 +15955,8 @@ export const getPaymentMethodSetup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethodSetup",
 }));
 
 export type GetQueryPatternsReportError =
@@ -15671,6 +15976,8 @@ export const getQueryPatternsReport: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueryPatternsReport",
 }));
 
 export type GetQueryPatternsReportStatusError =
@@ -15690,6 +15997,8 @@ export const getQueryPatternsReportStatus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueryPatternsReportStatus",
 }));
 
 export type GetQueryStatisticsError =
@@ -15711,6 +16020,8 @@ export const getQueryStatistics: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetQueryStatistics",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -15739,6 +16050,8 @@ export const getQuerySummary: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuerySummary",
 }));
 
 export type GetRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15754,6 +16067,8 @@ export const getRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRole",
 }));
 
 export type GetRouterError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15769,6 +16084,8 @@ export const getRouter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRouter",
 }));
 
 export type GetRouterChangeRequestError =
@@ -15788,6 +16105,8 @@ export const getRouterChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRouterChangeRequest",
 }));
 
 export type GetSchemaRecommendationError =
@@ -15807,6 +16126,8 @@ export const getSchemaRecommendation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchemaRecommendation",
 }));
 
 export type GetServiceTokenError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15822,6 +16143,8 @@ export const getServiceToken: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceToken",
 }));
 
 export type GetShardError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15837,6 +16160,8 @@ export const getShard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShard",
 }));
 
 export type GetShardConfigurationProfileError =
@@ -15856,6 +16181,8 @@ export const getShardConfigurationProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShardConfigurationProfile",
 }));
 
 export type GetShardConfigurationProfileChangeRequestError =
@@ -15879,6 +16206,8 @@ export const getShardConfigurationProfileChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShardConfigurationProfileChangeRequest",
 }));
 
 export type GetShardConfigurationProfileShardError =
@@ -15898,6 +16227,8 @@ export const getShardConfigurationProfileShard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShardConfigurationProfileShard",
 }));
 
 export type GetSidecarError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15913,6 +16244,8 @@ export const getSidecar: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSidecar",
 }));
 
 export type GetSidecarChangeRequestError =
@@ -15932,6 +16265,8 @@ export const getSidecarChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSidecarChangeRequest",
 }));
 
 export type GetSwitchoverError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15947,6 +16282,8 @@ export const getSwitchover: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSwitchover",
 }));
 
 export type GetTabletMetricsError =
@@ -15967,6 +16304,8 @@ export const getTabletMetrics: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTabletMetrics",
 }));
 
 export type GetTrafficBudgetError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -15982,6 +16321,8 @@ export const getTrafficBudget: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrafficBudget",
 }));
 
 export type GetVtctldOperationError =
@@ -16001,6 +16342,8 @@ export const getVtctldOperation: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVtctldOperation",
 }));
 
 export type GetWebhookError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -16016,6 +16359,8 @@ export const getWebhook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -16031,6 +16376,8 @@ export const getWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type LintBranchSchemaError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -16048,6 +16395,8 @@ export const lintBranchSchema: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "LintBranchSchema",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16075,6 +16424,8 @@ export const listAdminChangeRequests: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdminChangeRequests",
 }));
 
 export type ListAdminParametersError =
@@ -16094,6 +16445,8 @@ export const listAdminParameters: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdminParameters",
 }));
 
 export type ListAdminSizeSkusError =
@@ -16113,6 +16466,8 @@ export const listAdminSizeSkus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdminSizeSkus",
 }));
 
 export type ListAuditLogsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -16128,6 +16483,8 @@ export const listAuditLogs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuditLogs",
 }));
 
 export type ListBackupPoliciesError =
@@ -16149,6 +16506,8 @@ export const listBackupPolicies: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBackupPolicies",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16174,6 +16533,8 @@ export const listBackups: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBackups",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16203,6 +16564,8 @@ export const listBouncerResizeRequests: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBouncerResizeRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16228,6 +16591,8 @@ export const listBouncers: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBouncers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16257,6 +16622,8 @@ export const listBranchAnomalies: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranchAnomalies",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16286,6 +16653,8 @@ export const listBranchBouncerResizeRequests: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranchBouncerResizeRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16315,6 +16684,8 @@ export const listBranchChangeRequests: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranchChangeRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16344,6 +16715,8 @@ export const listBranchConfigChangeRequests: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranchConfigChangeRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16369,6 +16742,8 @@ export const listBranches: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranches",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16399,6 +16774,8 @@ export const listBranchQueries: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranchQueries",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16428,6 +16805,8 @@ export const listBranchQueryErrors: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranchQueryErrors",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16458,6 +16837,8 @@ export const listBranchQueryTags: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranchQueryTags",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16488,6 +16869,8 @@ export const listBranchQueryTagSummaries: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranchQueryTagSummaries",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16517,6 +16900,8 @@ export const listBranchResizeRequests: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBranchResizeRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16544,6 +16929,8 @@ export const listBranchVitessParameters: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBranchVitessParameters",
 }));
 
 export type ListClusterSizeSkusError =
@@ -16563,6 +16950,8 @@ export const listClusterSizeSkus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterSizeSkus",
 }));
 
 export type ListDatabasePostgresCidrsError =
@@ -16584,6 +16973,8 @@ export const listDatabasePostgresCidrs: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDatabasePostgresCidrs",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16613,6 +17004,8 @@ export const listDatabaseRegions: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDatabaseRegions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16638,6 +17031,8 @@ export const listDatabases: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDatabases",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16667,6 +17062,8 @@ export const listDedicatedReadReplicaChangeRequests: API.PaginatedOperationMetho
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDedicatedReadReplicaChangeRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16694,6 +17091,8 @@ export const listDedicatedReadReplicas: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedReadReplicas",
 }));
 
 export type ListDeployOperationsError =
@@ -16715,6 +17114,8 @@ export const listDeployOperations: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeployOperations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16744,6 +17145,8 @@ export const listDeployRequestReviews: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeployRequestReviews",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16773,6 +17176,8 @@ export const listDeployRequests: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDeployRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16796,6 +17201,8 @@ export const listExtensions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensions",
 }));
 
 export type ListGeneratedQueryPatternsReportsError =
@@ -16815,6 +17222,8 @@ export const listGeneratedQueryPatternsReports: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGeneratedQueryPatternsReports",
 }));
 
 export type ListInsightsAgentRunsError =
@@ -16836,6 +17245,8 @@ export const listInsightsAgentRuns: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInsightsAgentRuns",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16863,6 +17274,8 @@ export const listInsightsAgentSchedules: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInsightsAgentSchedules",
 }));
 
 export type ListInvoicesError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -16880,6 +17293,8 @@ export const listInvoices: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListInvoices",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16909,6 +17324,8 @@ export const listKeyspaceConfigChangeRequests: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListKeyspaceConfigChangeRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16938,6 +17355,8 @@ export const listKeyspaceResizeRequests: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListKeyspaceResizeRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16963,6 +17382,8 @@ export const listKeyspaces: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListKeyspaces",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -16992,6 +17413,8 @@ export const listMaintenanceSchedules: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMaintenanceSchedules",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17021,6 +17444,8 @@ export const listMaintenanceWindows: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMaintenanceWindows",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17048,6 +17473,8 @@ export const listMoveTablesWorkflows: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMoveTablesWorkflows",
 }));
 
 export type ListNekiChangeRequestsError =
@@ -17069,6 +17496,8 @@ export const listNekiChangeRequests: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListNekiChangeRequests",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17098,6 +17527,8 @@ export const listOauthApplications: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOauthApplications",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17123,6 +17554,8 @@ export const listOauthTokens: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOauthTokens",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17152,6 +17585,8 @@ export const listOrganizationInvitations: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizationInvitations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17181,6 +17616,8 @@ export const listOrganizationMembers: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizationMembers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17210,6 +17647,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17237,6 +17676,8 @@ export const listOrganizationSsoDomains: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationSsoDomains",
 }));
 
 export type ListOrganizationTeamMembersError =
@@ -17259,6 +17700,8 @@ export const listOrganizationTeamMembers: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizationTeamMembers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17289,6 +17732,8 @@ export const listOrganizationTeams: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOrganizationTeams",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17312,6 +17757,8 @@ export const listParameters: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListParameters",
 }));
 
 export type ListPasswordsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -17329,6 +17776,8 @@ export const listPasswords: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPasswords",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17356,6 +17805,8 @@ export const listPostgresVersions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresVersions",
 }));
 
 export type ListPublicRegionsError =
@@ -17377,6 +17828,8 @@ export const listPublicRegions: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPublicRegions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17406,6 +17859,8 @@ export const listReadOnlyRegions: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListReadOnlyRegions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17435,6 +17890,8 @@ export const listRegionsForOrganization: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRegionsForOrganization",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17460,6 +17917,8 @@ export const listRoles: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRoles",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17487,6 +17946,8 @@ export const listRouterChangeRequests: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRouterChangeRequests",
 }));
 
 export type ListRouterParametersError =
@@ -17506,6 +17967,8 @@ export const listRouterParameters: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRouterParameters",
 }));
 
 export type ListRoutersError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -17521,6 +17984,8 @@ export const listRouters: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRouters",
 }));
 
 export type ListRouterSizeSkusError =
@@ -17540,6 +18005,8 @@ export const listRouterSizeSkus: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRouterSizeSkus",
 }));
 
 export type ListSchemaRecommendationsError =
@@ -17561,6 +18028,8 @@ export const listSchemaRecommendations: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSchemaRecommendations",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17590,6 +18059,8 @@ export const listServiceTokens: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListServiceTokens",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17625,6 +18096,8 @@ export const listShardConfigurationProfileChangeRequests: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShardConfigurationProfileChangeRequests",
 }));
 
 export type ListShardConfigurationProfileExtensionsError =
@@ -17644,6 +18117,8 @@ export const listShardConfigurationProfileExtensions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShardConfigurationProfileExtensions",
 }));
 
 export type ListShardConfigurationProfileParametersError =
@@ -17663,6 +18138,8 @@ export const listShardConfigurationProfileParameters: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShardConfigurationProfileParameters",
 }));
 
 export type ListShardConfigurationProfilesError =
@@ -17682,6 +18159,8 @@ export const listShardConfigurationProfiles: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShardConfigurationProfiles",
 }));
 
 export type ListShardConfigurationProfileShardsError =
@@ -17703,6 +18182,8 @@ export const listShardConfigurationProfileShards: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListShardConfigurationProfileShards",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17728,6 +18209,8 @@ export const listShards: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListShards",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17755,6 +18238,8 @@ export const listSidecarChangeRequests: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSidecarChangeRequests",
 }));
 
 export type ListSidecarParametersError =
@@ -17774,6 +18259,8 @@ export const listSidecarParameters: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSidecarParameters",
 }));
 
 export type ListSidecarsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -17789,6 +18276,8 @@ export const listSidecars: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSidecars",
 }));
 
 export type ListSwitchoversError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -17806,6 +18295,8 @@ export const listSwitchovers: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSwitchovers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17835,6 +18326,8 @@ export const listTrafficBudgets: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTrafficBudgets",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17864,6 +18357,8 @@ export const listTrafficBudgetsForQuery: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTrafficBudgetsForQuery",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17889,6 +18384,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWebhooks",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17914,6 +18411,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWorkflows",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -17941,6 +18440,8 @@ export const moveCompleteTablesWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveCompleteTablesWorkflow",
 }));
 
 export type MoveReverseTrafficTablesWorkflowError =
@@ -17960,6 +18461,8 @@ export const moveReverseTrafficTablesWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveReverseTrafficTablesWorkflow",
 }));
 
 export type MoveSwitchTrafficTablesWorkflowError =
@@ -17979,6 +18482,8 @@ export const moveSwitchTrafficTablesWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveSwitchTrafficTablesWorkflow",
 }));
 
 export type PromoteBranchError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -17994,6 +18499,8 @@ export const promoteBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromoteBranch",
 }));
 
 export type ReassignRoleObjectsError =
@@ -18013,6 +18520,8 @@ export const reassignRoleObjects: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReassignRoleObjects",
 }));
 
 export type RemoveOrganizationMemberError =
@@ -18032,6 +18541,8 @@ export const removeOrganizationMember: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrganizationMember",
 }));
 
 export type RemoveOrganizationTeamMemberError =
@@ -18052,6 +18563,8 @@ export const removeOrganizationTeamMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOrganizationTeamMember",
 }));
 
 export type RenewPasswordError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18067,6 +18580,8 @@ export const renewPassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewPassword",
 }));
 
 export type RenewRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18082,6 +18597,8 @@ export const renewRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewRole",
 }));
 
 export type ResetDefaultRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18097,6 +18614,8 @@ export const resetDefaultRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetDefaultRole",
 }));
 
 export type ResetRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18112,6 +18631,8 @@ export const resetRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetRole",
 }));
 
 export type RetryWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18127,6 +18648,8 @@ export const retryWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryWorkflow",
 }));
 
 export type RunBranchMaintenanceError =
@@ -18146,6 +18669,8 @@ export const runBranchMaintenance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunBranchMaintenance",
 }));
 
 export type RunShardConfigurationProfileMaintenanceError =
@@ -18165,6 +18690,8 @@ export const runShardConfigurationProfileMaintenance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunShardConfigurationProfileMaintenance",
 }));
 
 export type RunShardConfigurationProfilesMaintenanceError =
@@ -18188,6 +18715,8 @@ export const runShardConfigurationProfilesMaintenance: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunShardConfigurationProfilesMaintenance",
 }));
 
 export type SetDefaultShardConfigurationProfileError =
@@ -18207,6 +18736,8 @@ export const setDefaultShardConfigurationProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultShardConfigurationProfile",
 }));
 
 export type SkipRevertPeriodError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18222,6 +18753,8 @@ export const skipRevertPeriod: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SkipRevertPeriod",
 }));
 
 export type StartMoveTablesWorkflowError =
@@ -18241,6 +18774,8 @@ export const startMoveTablesWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartMoveTablesWorkflow",
 }));
 
 export type StopMoveTablesWorkflowError =
@@ -18260,6 +18795,8 @@ export const stopMoveTablesWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopMoveTablesWorkflow",
 }));
 
 export type SubmitBranchConfigChangeRequestsError =
@@ -18279,6 +18816,8 @@ export const submitBranchConfigChangeRequests: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitBranchConfigChangeRequests",
 }));
 
 export type TestWebhookError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18294,6 +18833,8 @@ export const testWebhook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestWebhook",
 }));
 
 export type UpdateAdminError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18309,6 +18850,8 @@ export const updateAdmin: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAdmin",
 }));
 
 export type UpdateAutoApplyError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18324,6 +18867,8 @@ export const updateAutoApply: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoApply",
 }));
 
 export type UpdateAutoDeleteBranchError =
@@ -18343,6 +18888,8 @@ export const updateAutoDeleteBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoDeleteBranch",
 }));
 
 export type UpdateBackupError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18358,6 +18905,8 @@ export const updateBackup: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackup",
 }));
 
 export type UpdateBackupPolicyError =
@@ -18377,6 +18926,8 @@ export const updateBackupPolicy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackupPolicy",
 }));
 
 export type UpdateBouncerResizeRequestError =
@@ -18396,6 +18947,8 @@ export const updateBouncerResizeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBouncerResizeRequest",
 }));
 
 export type UpdateBranchError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18411,6 +18964,8 @@ export const updateBranch: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranch",
 }));
 
 export type UpdateBranchChangeRequestError =
@@ -18430,6 +18985,8 @@ export const updateBranchChangeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranchChangeRequest",
 }));
 
 export type UpdateBranchClusterConfigError =
@@ -18449,6 +19006,8 @@ export const updateBranchClusterConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranchClusterConfig",
 }));
 
 export type UpdateBranchResizeRequestError =
@@ -18468,6 +19027,8 @@ export const updateBranchResizeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranchResizeRequest",
 }));
 
 export type UpdateDatabasePostgresCidrError =
@@ -18487,6 +19048,8 @@ export const updateDatabasePostgresCidr: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabasePostgresCidr",
 }));
 
 export type UpdateDatabaseSettingsError =
@@ -18506,6 +19069,8 @@ export const updateDatabaseSettings: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseSettings",
 }));
 
 export type UpdateDatabaseThrottlerError =
@@ -18525,6 +19090,8 @@ export const updateDatabaseThrottler: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabaseThrottler",
 }));
 
 export type UpdateDataTopologyError =
@@ -18544,6 +19111,8 @@ export const updateDataTopology: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataTopology",
 }));
 
 export type UpdateDedicatedReadReplicaError =
@@ -18563,6 +19132,8 @@ export const updateDedicatedReadReplica: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDedicatedReadReplica",
 }));
 
 export type UpdateDeployRequestThrottlerError =
@@ -18582,6 +19153,8 @@ export const updateDeployRequestThrottler: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeployRequestThrottler",
 }));
 
 export type UpdateInsightsAgentScheduleError =
@@ -18601,6 +19174,8 @@ export const updateInsightsAgentSchedule: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInsightsAgentSchedule",
 }));
 
 export type UpdateKeyspaceError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18616,6 +19191,8 @@ export const updateKeyspace: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKeyspace",
 }));
 
 export type UpdateKeyspaceResizeRequestError =
@@ -18635,6 +19212,8 @@ export const updateKeyspaceResizeRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKeyspaceResizeRequest",
 }));
 
 export type UpdateKeyspaceVschemaError =
@@ -18654,6 +19233,8 @@ export const updateKeyspaceVschema: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKeyspaceVschema",
 }));
 
 export type UpdateOrganizationError =
@@ -18673,6 +19254,8 @@ export const updateOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganization",
 }));
 
 export type UpdateOrganizationMembershipError =
@@ -18692,6 +19275,8 @@ export const updateOrganizationMembership: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationMembership",
 }));
 
 export type UpdateOrganizationTeamError =
@@ -18712,6 +19297,8 @@ export const updateOrganizationTeam: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationTeam",
 }));
 
 export type UpdatePasswordError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18727,6 +19314,8 @@ export const updatePassword: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePassword",
 }));
 
 export type UpdatePaymentMethodError =
@@ -18746,6 +19335,8 @@ export const updatePaymentMethod: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePaymentMethod",
 }));
 
 export type UpdateRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18761,6 +19352,8 @@ export const updateRole: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRole",
 }));
 
 export type UpdateRouterError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18776,6 +19369,8 @@ export const updateRouter: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRouter",
 }));
 
 export type UpdateSafeMigrationsError =
@@ -18795,6 +19390,8 @@ export const updateSafeMigrations: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSafeMigrations",
 }));
 
 export type UpdateShardError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18810,6 +19407,8 @@ export const updateShard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateShard",
 }));
 
 export type UpdateShardConfigurationProfileError =
@@ -18829,6 +19428,8 @@ export const updateShardConfigurationProfile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateShardConfigurationProfile",
 }));
 
 export type UpdateShardConfigurationProfileShardError =
@@ -18848,6 +19449,8 @@ export const updateShardConfigurationProfileShard: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateShardConfigurationProfileShard",
 }));
 
 export type UpdateSidecarError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18863,6 +19466,8 @@ export const updateSidecar: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSidecar",
 }));
 
 export type UpdateTrafficBudgetError =
@@ -18882,6 +19487,8 @@ export const updateTrafficBudget: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTrafficBudget",
 }));
 
 export type UpdateWebhookError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18897,6 +19504,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type VerifyWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18912,6 +19521,8 @@ export const verifyWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyWorkflow",
 }));
 
 export type WorkflowCutoverError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
@@ -18927,6 +19538,8 @@ export const workflowCutover: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkflowCutover",
 }));
 
 export type WorkflowReverseCutoverError =
@@ -18946,6 +19559,8 @@ export const workflowReverseCutover: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkflowReverseCutover",
 }));
 
 export type WorkflowReverseTrafficError =
@@ -18965,6 +19580,8 @@ export const workflowReverseTraffic: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkflowReverseTraffic",
 }));
 
 export type WorkflowSwitchPrimariesError =
@@ -18984,6 +19601,8 @@ export const workflowSwitchPrimaries: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkflowSwitchPrimaries",
 }));
 
 export type WorkflowSwitchReplicasError =
@@ -19003,6 +19622,8 @@ export const workflowSwitchReplicas: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkflowSwitchReplicas",
 }));
 
 // v0 surface parity: the distilled v0 SDK named operation I/O types

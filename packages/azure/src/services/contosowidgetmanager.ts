@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Contoso" },
+  prefix: "Contosowidgetmanager",
+  service: "Contosowidgetmanager",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteEmployeeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -257,6 +277,8 @@ export const DeleteEmployee: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmployee",
 }));
 
 export type EmployeesCreateOrUpdateError = AzureOpError;
@@ -272,6 +294,8 @@ export const EmployeesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmployeesCreateOrUpdate",
 }));
 
 export type GetEmployeeError = AzureOpError;
@@ -287,6 +311,8 @@ export const GetEmployee: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmployee",
 }));
 
 export type ListEmployeeByResourceGroupError = AzureOpError;
@@ -302,6 +328,8 @@ export const ListEmployeeByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmployeeByResourceGroup",
 }));
 
 export type ListEmployeeBySubscriptionError = AzureOpError;
@@ -317,6 +345,8 @@ export const ListEmployeeBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmployeeBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -332,6 +362,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateEmployeeError = AzureOpError;
@@ -347,6 +379,8 @@ export const UpdateEmployee: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmployee",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

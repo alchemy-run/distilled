@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "healthcare" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Healthcare",
+  service: "healthcare",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2636,6 +2655,8 @@ export const activateProjectsLocationsDatasetsConsentStoresConsents: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateProjectsLocationsDatasetsConsentStoresConsents",
 }));
 
 export type AnalyzeEntitiesProjectsLocationsServicesNlpError =
@@ -2660,6 +2681,8 @@ export const analyzeEntitiesProjectsLocationsServicesNlp: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeEntitiesProjectsLocationsServicesNlp",
 }));
 
 export type ApplyAdminConsentsProjectsLocationsDatasetsFhirStoresError =
@@ -2684,6 +2707,8 @@ export const applyAdminConsentsProjectsLocationsDatasetsFhirStores: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyAdminConsentsProjectsLocationsDatasetsFhirStores",
 }));
 
 export type ApplyConsentsProjectsLocationsDatasetsFhirStoresError =
@@ -2708,6 +2733,8 @@ export const applyConsentsProjectsLocationsDatasetsFhirStores: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyConsentsProjectsLocationsDatasetsFhirStores",
 }));
 
 export type ArchiveProjectsLocationsDatasetsConsentStoresUserDataMappingsError =
@@ -2732,6 +2759,8 @@ export const archiveProjectsLocationsDatasetsConsentStoresUserDataMappings: API.
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveProjectsLocationsDatasetsConsentStoresUserDataMappings",
 }));
 
 export type Binary_vreadProjectsLocationsDatasetsFhirStoresFhirError =
@@ -2754,6 +2783,8 @@ export const binary_vreadProjectsLocationsDatasetsFhirStoresFhir: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Binary_vreadProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type BulkDeleteProjectsLocationsDatasetsFhirStoresError =
@@ -2774,6 +2805,8 @@ export const bulkDeleteProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteProjectsLocationsDatasetsFhirStores",
 }));
 
 export type BulkExportGroupProjectsLocationsDatasetsFhirStoresError =
@@ -2796,6 +2829,8 @@ export const bulkExportGroupProjectsLocationsDatasetsFhirStores: API.OperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkExportGroupProjectsLocationsDatasetsFhirStores",
 }));
 
 export type BulkExportProjectsLocationsDatasetsFhirStoresFhirError =
@@ -2818,6 +2853,8 @@ export const bulkExportProjectsLocationsDatasetsFhirStoresFhir: API.OperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkExportProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type CancelProjectsLocationsDatasetsOperationsError =
@@ -2838,6 +2875,8 @@ export const cancelProjectsLocationsDatasetsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelProjectsLocationsDatasetsOperations",
 }));
 
 export type CapabilitiesProjectsLocationsDatasetsFhirStoresFhirError =
@@ -2860,6 +2899,8 @@ export const capabilitiesProjectsLocationsDatasetsFhirStoresFhir: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CapabilitiesProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type CheckDataAccessProjectsLocationsDatasetsConsentStoresError =
@@ -2884,6 +2925,8 @@ export const checkDataAccessProjectsLocationsDatasetsConsentStores: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDataAccessProjectsLocationsDatasetsConsentStores",
 }));
 
 export type ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhirError =
@@ -2908,6 +2951,8 @@ export const conditionalDeleteProjectsLocationsDatasetsFhirStoresFhir: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirError =
@@ -2932,6 +2977,8 @@ export const conditionalPatchProjectsLocationsDatasetsFhirStoresFhir: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConditionalPatchProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirError =
@@ -2956,6 +3003,8 @@ export const conditionalUpdateProjectsLocationsDatasetsFhirStoresFhir: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirError =
@@ -2978,6 +3027,8 @@ export const consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhir: 
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type CreateBinaryProjectsLocationsDatasetsFhirStoresFhirError =
@@ -3002,6 +3053,8 @@ export const createBinaryProjectsLocationsDatasetsFhirStoresFhir: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBinaryProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type CreateProjectsLocationsDatasetsError =
@@ -3022,6 +3075,8 @@ export const createProjectsLocationsDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasets",
 }));
 
 export type CreateProjectsLocationsDatasetsConsentStoresError =
@@ -3046,6 +3101,8 @@ export const createProjectsLocationsDatasetsConsentStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsConsentStores",
 }));
 
 export type CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitionsError =
@@ -3070,6 +3127,8 @@ export const createProjectsLocationsDatasetsConsentStoresAttributeDefinitions: A
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitions",
 }));
 
 export type CreateProjectsLocationsDatasetsConsentStoresConsentArtifactsError =
@@ -3094,6 +3153,8 @@ export const createProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsConsentStoresConsentArtifacts",
 }));
 
 export type CreateProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -3118,6 +3179,8 @@ export const createProjectsLocationsDatasetsConsentStoresConsents: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsConsentStoresConsents",
 }));
 
 export type CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsError =
@@ -3142,6 +3205,8 @@ export const createProjectsLocationsDatasetsConsentStoresUserDataMappings: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsConsentStoresUserDataMappings",
 }));
 
 export type CreateProjectsLocationsDatasetsDicomStoresError =
@@ -3162,6 +3227,8 @@ export const createProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsDicomStores",
 }));
 
 export type CreateProjectsLocationsDatasetsFhirStoresError =
@@ -3182,6 +3249,8 @@ export const createProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsFhirStores",
 }));
 
 export type CreateProjectsLocationsDatasetsFhirStoresFhirError =
@@ -3206,6 +3275,8 @@ export const createProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type CreateProjectsLocationsDatasetsHl7V2StoresError =
@@ -3226,6 +3297,8 @@ export const createProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type CreateProjectsLocationsDatasetsHl7V2StoresMessagesError =
@@ -3250,6 +3323,8 @@ export const createProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsDatasetsHl7V2StoresMessages",
 }));
 
 export type DeidentifyProjectsLocationsDatasetsError =
@@ -3270,6 +3345,8 @@ export const deidentifyProjectsLocationsDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeidentifyProjectsLocationsDatasets",
 }));
 
 export type DeidentifyProjectsLocationsDatasetsDicomStoresError =
@@ -3294,6 +3371,8 @@ export const deidentifyProjectsLocationsDatasetsDicomStores: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeidentifyProjectsLocationsDatasetsDicomStores",
 }));
 
 export type DeidentifyProjectsLocationsDatasetsFhirStoresError =
@@ -3318,6 +3397,8 @@ export const deidentifyProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeidentifyProjectsLocationsDatasetsFhirStores",
 }));
 
 export type DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsError =
@@ -3342,6 +3423,8 @@ export const deleteFhirOperationProjectsLocationsDatasetsFhirStoresOperations: A
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperations",
 }));
 
 export type DeleteProjectsLocationsDatasetsError =
@@ -3362,6 +3445,8 @@ export const deleteProjectsLocationsDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasets",
 }));
 
 export type DeleteProjectsLocationsDatasetsConsentStoresError =
@@ -3386,6 +3471,8 @@ export const deleteProjectsLocationsDatasetsConsentStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsConsentStores",
 }));
 
 export type DeleteProjectsLocationsDatasetsConsentStoresAttributeDefinitionsError =
@@ -3410,6 +3497,8 @@ export const deleteProjectsLocationsDatasetsConsentStoresAttributeDefinitions: A
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsConsentStoresAttributeDefinitions",
 }));
 
 export type DeleteProjectsLocationsDatasetsConsentStoresConsentArtifactsError =
@@ -3434,6 +3523,8 @@ export const deleteProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsConsentStoresConsentArtifacts",
 }));
 
 export type DeleteProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -3458,6 +3549,8 @@ export const deleteProjectsLocationsDatasetsConsentStoresConsents: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsConsentStoresConsents",
 }));
 
 export type DeleteProjectsLocationsDatasetsConsentStoresUserDataMappingsError =
@@ -3482,6 +3575,8 @@ export const deleteProjectsLocationsDatasetsConsentStoresUserDataMappings: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsConsentStoresUserDataMappings",
 }));
 
 export type DeleteProjectsLocationsDatasetsDicomStoresError =
@@ -3502,6 +3597,8 @@ export const deleteProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsDicomStores",
 }));
 
 export type DeleteProjectsLocationsDatasetsDicomStoresStudiesError =
@@ -3526,6 +3623,8 @@ export const deleteProjectsLocationsDatasetsDicomStoresStudies: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsDicomStoresStudies",
 }));
 
 export type DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
@@ -3550,6 +3649,8 @@ export const deleteProjectsLocationsDatasetsDicomStoresStudiesSeries: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsDicomStoresStudiesSeries",
 }));
 
 export type DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
@@ -3574,6 +3675,8 @@ export const deleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances: A
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances",
 }));
 
 export type DeleteProjectsLocationsDatasetsFhirStoresError =
@@ -3594,6 +3697,8 @@ export const deleteProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsFhirStores",
 }));
 
 export type DeleteProjectsLocationsDatasetsFhirStoresFhirError =
@@ -3618,6 +3723,8 @@ export const deleteProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type DeleteProjectsLocationsDatasetsHl7V2StoresError =
@@ -3638,6 +3745,8 @@ export const deleteProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type DeleteProjectsLocationsDatasetsHl7V2StoresMessagesError =
@@ -3662,6 +3771,8 @@ export const deleteProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsDatasetsHl7V2StoresMessages",
 }));
 
 export type DeleteRevisionProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -3686,6 +3797,8 @@ export const deleteRevisionProjectsLocationsDatasetsConsentStoresConsents: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRevisionProjectsLocationsDatasetsConsentStoresConsents",
 }));
 
 export type EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresError =
@@ -3710,6 +3823,8 @@ export const evaluateUserConsentsProjectsLocationsDatasetsConsentStores: API.Ope
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EvaluateUserConsentsProjectsLocationsDatasetsConsentStores",
 }));
 
 export type ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirError =
@@ -3734,6 +3849,8 @@ export const executeBundleProjectsLocationsDatasetsFhirStoresFhir: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteBundleProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type ExplainDataAccessProjectsLocationsDatasetsFhirStoresError =
@@ -3756,6 +3873,8 @@ export const explainDataAccessProjectsLocationsDatasetsFhirStores: API.Operation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExplainDataAccessProjectsLocationsDatasetsFhirStores",
 }));
 
 export type ExportProjectsLocationsDatasetsDicomStoresError =
@@ -3776,6 +3895,8 @@ export const exportProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportProjectsLocationsDatasetsDicomStores",
 }));
 
 export type ExportProjectsLocationsDatasetsFhirStoresError =
@@ -3796,6 +3917,8 @@ export const exportProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportProjectsLocationsDatasetsFhirStores",
 }));
 
 export type ExportProjectsLocationsDatasetsHl7V2StoresError =
@@ -3816,6 +3939,8 @@ export const exportProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataError =
@@ -3838,6 +3963,8 @@ export const getBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdata",
 }));
 
 export type GetDICOMStoreMetricsProjectsLocationsDatasetsDicomStoresError =
@@ -3860,6 +3987,8 @@ export const getDICOMStoreMetricsProjectsLocationsDatasetsDicomStores: API.Opera
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDICOMStoreMetricsProjectsLocationsDatasetsDicomStores",
 }));
 
 export type GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsError =
@@ -3882,6 +4011,8 @@ export const getFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperations
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperations",
 }));
 
 export type GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStoresError =
@@ -3904,6 +4035,8 @@ export const getFHIRStoreMetricsProjectsLocationsDatasetsFhirStores: API.Operati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStores",
 }));
 
 export type GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError =
@@ -3926,6 +4059,8 @@ export const getFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFrames",
 }));
 
 export type GetHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2StoresError =
@@ -3948,6 +4083,8 @@ export const getHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2Stores: API.Opera
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type GetIamPolicyProjectsLocationsDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -3963,6 +4100,8 @@ export const getIamPolicyProjectsLocationsDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsDatasets",
 }));
 
 export type GetIamPolicyProjectsLocationsDatasetsConsentStoresError =
@@ -3985,6 +4124,8 @@ export const getIamPolicyProjectsLocationsDatasetsConsentStores: API.OperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsDatasetsConsentStores",
 }));
 
 export type GetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesError =
@@ -4007,6 +4148,8 @@ export const getIamPolicyProjectsLocationsDatasetsDataMapperWorkspaces: API.Oper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsDatasetsDataMapperWorkspaces",
 }));
 
 export type GetIamPolicyProjectsLocationsDatasetsDicomStoresError =
@@ -4029,6 +4172,8 @@ export const getIamPolicyProjectsLocationsDatasetsDicomStores: API.OperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsDatasetsDicomStores",
 }));
 
 export type GetIamPolicyProjectsLocationsDatasetsFhirStoresError =
@@ -4051,6 +4196,8 @@ export const getIamPolicyProjectsLocationsDatasetsFhirStores: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsDatasetsFhirStores",
 }));
 
 export type GetIamPolicyProjectsLocationsDatasetsHl7V2StoresError =
@@ -4073,6 +4220,8 @@ export const getIamPolicyProjectsLocationsDatasetsHl7V2Stores: API.OperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
@@ -4095,6 +4244,8 @@ export const getInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances",
 }));
 
 export type GetMetadataProjectsLocationsDatasetsDicomStoresStudiesError =
@@ -4117,6 +4268,8 @@ export const getMetadataProjectsLocationsDatasetsDicomStoresStudies: API.Operati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadataProjectsLocationsDatasetsDicomStoresStudies",
 }));
 
 export type GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
@@ -4139,6 +4292,8 @@ export const getMetadataProjectsLocationsDatasetsDicomStoresStudiesSeries: API.O
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeries",
 }));
 
 export type GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
@@ -4161,6 +4316,8 @@ export const getMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances",
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4176,6 +4333,8 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocations",
 }));
 
 export type GetProjectsLocationsDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -4191,6 +4350,8 @@ export const getProjectsLocationsDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasets",
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresError = NotFound | Forbidden | GcpOpError;
@@ -4206,6 +4367,8 @@ export const getProjectsLocationsDatasetsConsentStores: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsConsentStores",
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresAttributeDefinitionsError =
@@ -4228,6 +4391,8 @@ export const getProjectsLocationsDatasetsConsentStoresAttributeDefinitions: API.
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsConsentStoresAttributeDefinitions",
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresConsentArtifactsError =
@@ -4250,6 +4415,8 @@ export const getProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.Oper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsConsentStoresConsentArtifacts",
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -4272,6 +4439,8 @@ export const getProjectsLocationsDatasetsConsentStoresConsents: API.OperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsConsentStoresConsents",
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresUserDataMappingsError =
@@ -4294,6 +4463,8 @@ export const getProjectsLocationsDatasetsConsentStoresUserDataMappings: API.Oper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsConsentStoresUserDataMappings",
 }));
 
 export type GetProjectsLocationsDatasetsDicomStoresError = NotFound | Forbidden | GcpOpError;
@@ -4309,6 +4480,8 @@ export const getProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsDicomStores",
 }));
 
 export type GetProjectsLocationsDatasetsFhirStoresError = NotFound | Forbidden | GcpOpError;
@@ -4324,6 +4497,8 @@ export const getProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsFhirStores",
 }));
 
 export type GetProjectsLocationsDatasetsHl7V2StoresError = NotFound | Forbidden | GcpOpError;
@@ -4339,6 +4514,8 @@ export const getProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type GetProjectsLocationsDatasetsHl7V2StoresMessagesError =
@@ -4361,6 +4538,8 @@ export const getProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsHl7V2StoresMessages",
 }));
 
 export type GetProjectsLocationsDatasetsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -4376,6 +4555,8 @@ export const getProjectsLocationsDatasetsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsDatasetsOperations",
 }));
 
 export type GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
@@ -4398,6 +4579,8 @@ export const getRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances",
 }));
 
 export type GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError =
@@ -4420,6 +4603,8 @@ export const getRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstanc
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFrames",
 }));
 
 export type GetSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesError =
@@ -4442,6 +4627,8 @@ export const getSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudies
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeries",
 }));
 
 export type GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
@@ -4464,6 +4651,8 @@ export const getSeriesProjectsLocationsDatasetsDicomStoresStudiesSeries: API.Ope
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeries",
 }));
 
 export type GetStorageInfoProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesInstancesError =
@@ -4486,6 +4675,8 @@ export const getStorageInfoProjectsLocationsDatasetsDicomStoresDicomWebStudiesSe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageInfoProjectsLocationsDatasetsDicomStoresDicomWebStudiesSeriesInstances",
 }));
 
 export type GetStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesError =
@@ -4508,6 +4699,8 @@ export const getStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudies:
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudies",
 }));
 
 export type GetStudyProjectsLocationsDatasetsDicomStoresStudiesError =
@@ -4530,6 +4723,8 @@ export const getStudyProjectsLocationsDatasetsDicomStoresStudies: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStudyProjectsLocationsDatasetsDicomStoresStudies",
 }));
 
 export type HistoryProjectsLocationsDatasetsFhirStoresFhirError = NotFound | Forbidden | GcpOpError;
@@ -4549,6 +4744,8 @@ export const historyProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HistoryProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type ImportProjectsLocationsDatasetsDicomStoresError =
@@ -4569,6 +4766,8 @@ export const importProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportProjectsLocationsDatasetsDicomStores",
 }));
 
 export type ImportProjectsLocationsDatasetsFhirStoresError =
@@ -4589,6 +4788,8 @@ export const importProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportProjectsLocationsDatasetsFhirStores",
 }));
 
 export type ImportProjectsLocationsDatasetsHl7V2StoresError =
@@ -4609,6 +4810,8 @@ export const importProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type IngestProjectsLocationsDatasetsHl7V2StoresMessagesError =
@@ -4633,6 +4836,8 @@ export const ingestProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestProjectsLocationsDatasetsHl7V2StoresMessages",
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4649,6 +4854,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4666,6 +4873,8 @@ export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4683,6 +4892,8 @@ export const listProjectsLocationsDatasetsConsentStores: API.PaginatedOperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsConsentStores",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4707,6 +4918,8 @@ export const listProjectsLocationsDatasetsConsentStoresAttributeDefinitions: API
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsConsentStoresAttributeDefinitions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4731,6 +4944,8 @@ export const listProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.Pag
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsConsentStoresConsentArtifacts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4755,6 +4970,8 @@ export const listProjectsLocationsDatasetsConsentStoresConsents: API.PaginatedOp
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsConsentStoresConsents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4779,6 +4996,8 @@ export const listProjectsLocationsDatasetsConsentStoresUserDataMappings: API.Pag
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsConsentStoresUserDataMappings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4796,6 +5015,8 @@ export const listProjectsLocationsDatasetsDicomStores: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsDicomStores",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4813,6 +5034,8 @@ export const listProjectsLocationsDatasetsFhirStores: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsFhirStores",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4830,6 +5053,8 @@ export const listProjectsLocationsDatasetsHl7V2Stores: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsHl7V2Stores",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4854,6 +5079,8 @@ export const listProjectsLocationsDatasetsHl7V2StoresMessages: API.PaginatedOper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsHl7V2StoresMessages",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4871,6 +5098,8 @@ export const listProjectsLocationsDatasetsOperations: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsDatasetsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4895,6 +5124,8 @@ export const listRevisionsProjectsLocationsDatasetsConsentStoresConsents: API.Pa
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRevisionsProjectsLocationsDatasetsConsentStoresConsents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4916,6 +5147,8 @@ export const patchProjectsLocationsDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasets",
 }));
 
 export type PatchProjectsLocationsDatasetsConsentStoresError =
@@ -4936,6 +5169,8 @@ export const patchProjectsLocationsDatasetsConsentStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasetsConsentStores",
 }));
 
 export type PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsError =
@@ -4960,6 +5195,8 @@ export const patchProjectsLocationsDatasetsConsentStoresAttributeDefinitions: AP
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitions",
 }));
 
 export type PatchProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -4984,6 +5221,8 @@ export const patchProjectsLocationsDatasetsConsentStoresConsents: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasetsConsentStoresConsents",
 }));
 
 export type PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsError =
@@ -5008,6 +5247,8 @@ export const patchProjectsLocationsDatasetsConsentStoresUserDataMappings: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasetsConsentStoresUserDataMappings",
 }));
 
 export type PatchProjectsLocationsDatasetsDicomStoresError =
@@ -5028,6 +5269,8 @@ export const patchProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasetsDicomStores",
 }));
 
 export type PatchProjectsLocationsDatasetsFhirStoresError =
@@ -5048,6 +5291,8 @@ export const patchProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasetsFhirStores",
 }));
 
 export type PatchProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5068,6 +5313,8 @@ export const patchProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type PatchProjectsLocationsDatasetsHl7V2StoresError =
@@ -5088,6 +5335,8 @@ export const patchProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type PatchProjectsLocationsDatasetsHl7V2StoresMessagesError =
@@ -5112,6 +5361,8 @@ export const patchProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsDatasetsHl7V2StoresMessages",
 }));
 
 export type Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5134,6 +5385,8 @@ export const patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStor
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type Patient_everythingProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5156,6 +5409,8 @@ export const patient_everythingProjectsLocationsDatasetsFhirStoresFhir: API.Oper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Patient_everythingProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type PurgeResourceProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5180,6 +5435,8 @@ export const purgeResourceProjectsLocationsDatasetsFhirStoresFhir: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeResourceProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type QueryAccessibleDataProjectsLocationsDatasetsConsentStoresError =
@@ -5204,6 +5461,8 @@ export const queryAccessibleDataProjectsLocationsDatasetsConsentStores: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryAccessibleDataProjectsLocationsDatasetsConsentStores",
 }));
 
 export type ReadBinaryProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5226,6 +5485,8 @@ export const readBinaryProjectsLocationsDatasetsFhirStoresFhir: API.OperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadBinaryProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type ReadProjectsLocationsDatasetsFhirStoresFhirError = NotFound | Forbidden | GcpOpError;
@@ -5241,6 +5502,8 @@ export const readProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type RejectProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -5265,6 +5528,8 @@ export const rejectProjectsLocationsDatasetsConsentStoresConsents: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectProjectsLocationsDatasetsConsentStoresConsents",
 }));
 
 export type RevokeProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -5289,6 +5554,8 @@ export const revokeProjectsLocationsDatasetsConsentStoresConsents: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeProjectsLocationsDatasetsConsentStoresConsents",
 }));
 
 export type RollbackProjectsLocationsDatasetsFhirStoresError =
@@ -5309,6 +5576,8 @@ export const rollbackProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RollbackProjectsLocationsDatasetsFhirStores",
 }));
 
 export type RollbackProjectsLocationsDatasetsHl7V2StoresError =
@@ -5333,6 +5602,8 @@ export const rollbackProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RollbackProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type SearchForInstancesProjectsLocationsDatasetsDicomStoresError =
@@ -5355,6 +5626,8 @@ export const searchForInstancesProjectsLocationsDatasetsDicomStores: API.Operati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchForInstancesProjectsLocationsDatasetsDicomStores",
 }));
 
 export type SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesError =
@@ -5377,6 +5650,8 @@ export const searchForInstancesProjectsLocationsDatasetsDicomStoresStudies: API.
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchForInstancesProjectsLocationsDatasetsDicomStoresStudies",
 }));
 
 export type SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
@@ -5399,6 +5674,8 @@ export const searchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeries
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeries",
 }));
 
 export type SearchForSeriesProjectsLocationsDatasetsDicomStoresError =
@@ -5421,6 +5698,8 @@ export const searchForSeriesProjectsLocationsDatasetsDicomStores: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchForSeriesProjectsLocationsDatasetsDicomStores",
 }));
 
 export type SearchForSeriesProjectsLocationsDatasetsDicomStoresStudiesError =
@@ -5443,6 +5722,8 @@ export const searchForSeriesProjectsLocationsDatasetsDicomStoresStudies: API.Ope
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchForSeriesProjectsLocationsDatasetsDicomStoresStudies",
 }));
 
 export type SearchForStudiesProjectsLocationsDatasetsDicomStoresError =
@@ -5465,6 +5746,8 @@ export const searchForStudiesProjectsLocationsDatasetsDicomStores: API.Operation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchForStudiesProjectsLocationsDatasetsDicomStores",
 }));
 
 export type SearchProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5489,6 +5772,8 @@ export const searchProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type SearchTypeProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5513,6 +5798,8 @@ export const searchTypeProjectsLocationsDatasetsFhirStoresFhir: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTypeProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresError =
@@ -5537,6 +5824,8 @@ export const setBlobStorageSettingsProjectsLocationsDatasetsDicomStores: API.Ope
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetBlobStorageSettingsProjectsLocationsDatasetsDicomStores",
 }));
 
 export type SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebStudiesError =
@@ -5561,6 +5850,8 @@ export const setBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebS
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebStudies",
 }));
 
 export type SetIamPolicyProjectsLocationsDatasetsError =
@@ -5581,6 +5872,8 @@ export const setIamPolicyProjectsLocationsDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsDatasets",
 }));
 
 export type SetIamPolicyProjectsLocationsDatasetsConsentStoresError =
@@ -5605,6 +5898,8 @@ export const setIamPolicyProjectsLocationsDatasetsConsentStores: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsDatasetsConsentStores",
 }));
 
 export type SetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesError =
@@ -5629,6 +5924,8 @@ export const setIamPolicyProjectsLocationsDatasetsDataMapperWorkspaces: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsDatasetsDataMapperWorkspaces",
 }));
 
 export type SetIamPolicyProjectsLocationsDatasetsDicomStoresError =
@@ -5653,6 +5950,8 @@ export const setIamPolicyProjectsLocationsDatasetsDicomStores: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsDatasetsDicomStores",
 }));
 
 export type SetIamPolicyProjectsLocationsDatasetsFhirStoresError =
@@ -5677,6 +5976,8 @@ export const setIamPolicyProjectsLocationsDatasetsFhirStores: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsDatasetsFhirStores",
 }));
 
 export type SetIamPolicyProjectsLocationsDatasetsHl7V2StoresError =
@@ -5701,6 +6002,8 @@ export const setIamPolicyProjectsLocationsDatasetsHl7V2Stores: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type StoreInstancesProjectsLocationsDatasetsDicomStoresError =
@@ -5725,6 +6028,8 @@ export const storeInstancesProjectsLocationsDatasetsDicomStores: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StoreInstancesProjectsLocationsDatasetsDicomStores",
 }));
 
 export type StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesError =
@@ -5749,6 +6054,8 @@ export const storeInstancesProjectsLocationsDatasetsDicomStoresStudies: API.Oper
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StoreInstancesProjectsLocationsDatasetsDicomStoresStudies",
 }));
 
 export type TestIamPermissionsProjectsLocationsDatasetsError =
@@ -5769,6 +6076,8 @@ export const testIamPermissionsProjectsLocationsDatasets: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsDatasets",
 }));
 
 export type TestIamPermissionsProjectsLocationsDatasetsConsentStoresError =
@@ -5793,6 +6102,8 @@ export const testIamPermissionsProjectsLocationsDatasetsConsentStores: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsDatasetsConsentStores",
 }));
 
 export type TestIamPermissionsProjectsLocationsDatasetsDataMapperWorkspacesError =
@@ -5817,6 +6128,8 @@ export const testIamPermissionsProjectsLocationsDatasetsDataMapperWorkspaces: AP
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsDatasetsDataMapperWorkspaces",
 }));
 
 export type TestIamPermissionsProjectsLocationsDatasetsDicomStoresError =
@@ -5841,6 +6154,8 @@ export const testIamPermissionsProjectsLocationsDatasetsDicomStores: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsDatasetsDicomStores",
 }));
 
 export type TestIamPermissionsProjectsLocationsDatasetsFhirStoresError =
@@ -5865,6 +6180,8 @@ export const testIamPermissionsProjectsLocationsDatasetsFhirStores: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsDatasetsFhirStores",
 }));
 
 export type TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresError =
@@ -5889,6 +6206,8 @@ export const testIamPermissionsProjectsLocationsDatasetsHl7V2Stores: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsDatasetsHl7V2Stores",
 }));
 
 export type UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5913,6 +6232,8 @@ export const updateBinaryProjectsLocationsDatasetsFhirStoresFhir: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBinaryProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type UpdateProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5937,6 +6258,8 @@ export const updateProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type ValidateResourceProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5961,6 +6284,8 @@ export const validateResourceProjectsLocationsDatasetsFhirStoresFhir: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateResourceProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 export type VreadProjectsLocationsDatasetsFhirStoresFhirError = NotFound | Forbidden | GcpOpError;
@@ -5980,6 +6305,8 @@ export const vreadProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VreadProjectsLocationsDatasetsFhirStoresFhir",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

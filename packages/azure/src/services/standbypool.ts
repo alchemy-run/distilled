@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.StandbyPool" },
+  prefix: "Standbypool",
+  service: "Standbypool",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteStandbyContainerGroupPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -793,6 +813,8 @@ export const DeleteStandbyContainerGroupPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStandbyContainerGroupPool",
 }));
 
 export type DeleteStandbyVirtualMachinePoolError = AzureOpError;
@@ -808,6 +830,8 @@ export const DeleteStandbyVirtualMachinePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStandbyVirtualMachinePool",
 }));
 
 export type GetStandbyContainerGroupPoolError = AzureOpError;
@@ -823,6 +847,8 @@ export const GetStandbyContainerGroupPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStandbyContainerGroupPool",
 }));
 
 export type GetStandbyContainerGroupPoolRuntimeViewError = AzureOpError;
@@ -838,6 +864,8 @@ export const GetStandbyContainerGroupPoolRuntimeView: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStandbyContainerGroupPoolRuntimeView",
 }));
 
 export type GetStandbyVirtualMachineError = AzureOpError;
@@ -853,6 +881,8 @@ export const GetStandbyVirtualMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStandbyVirtualMachine",
 }));
 
 export type GetStandbyVirtualMachinePoolError = AzureOpError;
@@ -868,6 +898,8 @@ export const GetStandbyVirtualMachinePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStandbyVirtualMachinePool",
 }));
 
 export type GetStandbyVirtualMachinePoolRuntimeViewError = AzureOpError;
@@ -883,6 +915,8 @@ export const GetStandbyVirtualMachinePoolRuntimeView: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStandbyVirtualMachinePoolRuntimeView",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -898,6 +932,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListStandbyContainerGroupPoolByResourceGroupError = AzureOpError;
@@ -913,6 +949,8 @@ export const ListStandbyContainerGroupPoolByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStandbyContainerGroupPoolByResourceGroup",
 }));
 
 export type ListStandbyContainerGroupPoolBySubscriptionError = AzureOpError;
@@ -928,6 +966,8 @@ export const ListStandbyContainerGroupPoolBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStandbyContainerGroupPoolBySubscription",
 }));
 
 export type ListStandbyContainerGroupPoolRuntimeViewByStandbyPoolError = AzureOpError;
@@ -951,6 +991,8 @@ export const ListStandbyContainerGroupPoolRuntimeViewByStandbyPool: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStandbyContainerGroupPoolRuntimeViewByStandbyPool",
 }));
 
 export type ListStandbyVirtualMachineByStandbyVirtualMachinePoolResourceError = AzureOpError;
@@ -970,6 +1012,8 @@ export const ListStandbyVirtualMachineByStandbyVirtualMachinePoolResource: API.O
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStandbyVirtualMachineByStandbyVirtualMachinePoolResource",
 }));
 
 export type ListStandbyVirtualMachinePoolByResourceGroupError = AzureOpError;
@@ -985,6 +1029,8 @@ export const ListStandbyVirtualMachinePoolByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStandbyVirtualMachinePoolByResourceGroup",
 }));
 
 export type ListStandbyVirtualMachinePoolBySubscriptionError = AzureOpError;
@@ -1000,6 +1046,8 @@ export const ListStandbyVirtualMachinePoolBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStandbyVirtualMachinePoolBySubscription",
 }));
 
 export type ListStandbyVirtualMachinePoolRuntimeViewByStandbyPoolError = AzureOpError;
@@ -1023,6 +1071,8 @@ export const ListStandbyVirtualMachinePoolRuntimeViewByStandbyPool: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStandbyVirtualMachinePoolRuntimeViewByStandbyPool",
 }));
 
 export type StandbyContainerGroupPoolsCreateOrUpdateError = AzureOpError;
@@ -1038,6 +1088,8 @@ export const StandbyContainerGroupPoolsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StandbyContainerGroupPoolsCreateOrUpdate",
 }));
 
 export type StandbyVirtualMachinePoolsCreateOrUpdateError = AzureOpError;
@@ -1053,6 +1105,8 @@ export const StandbyVirtualMachinePoolsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StandbyVirtualMachinePoolsCreateOrUpdate",
 }));
 
 export type UpdateStandbyContainerGroupPoolError = AzureOpError;
@@ -1068,6 +1122,8 @@ export const UpdateStandbyContainerGroupPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStandbyContainerGroupPool",
 }));
 
 export type UpdateStandbyVirtualMachinePoolError = AzureOpError;
@@ -1083,6 +1139,8 @@ export const UpdateStandbyVirtualMachinePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStandbyVirtualMachinePool",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

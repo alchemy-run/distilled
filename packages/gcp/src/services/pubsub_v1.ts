@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "pubsub" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Pubsub",
+  service: "pubsub",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1107,6 +1126,8 @@ export const acknowledgeProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgeProjectsSubscriptions",
 }));
 
 export type CommitProjectsSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1122,6 +1143,8 @@ export const commitProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CommitProjectsSchemas",
 }));
 
 export type CreateProjectsSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1137,6 +1160,8 @@ export const createProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSchemas",
 }));
 
 export type CreateProjectsSnapshotsError =
@@ -1157,6 +1182,8 @@ export const createProjectsSnapshots: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSnapshots",
 }));
 
 export type CreateProjectsSubscriptionsError =
@@ -1177,6 +1204,8 @@ export const createProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsSubscriptions",
 }));
 
 export type CreateProjectsTopicsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1192,6 +1221,8 @@ export const createProjectsTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsTopics",
 }));
 
 export type DeleteProjectsSchemasError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1207,6 +1238,8 @@ export const deleteProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsSchemas",
 }));
 
 export type DeleteProjectsSnapshotsError =
@@ -1227,6 +1260,8 @@ export const deleteProjectsSnapshots: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsSnapshots",
 }));
 
 export type DeleteProjectsSubscriptionsError =
@@ -1247,6 +1282,8 @@ export const deleteProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsSubscriptions",
 }));
 
 export type DeleteProjectsTopicsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1262,6 +1299,8 @@ export const deleteProjectsTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsTopics",
 }));
 
 export type DeleteRevisionProjectsSchemasError =
@@ -1282,6 +1321,8 @@ export const deleteRevisionProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRevisionProjectsSchemas",
 }));
 
 export type DetachProjectsSubscriptionsError =
@@ -1302,6 +1343,8 @@ export const detachProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachProjectsSubscriptions",
 }));
 
 export type GetIamPolicyProjectsSchemasError = NotFound | Forbidden | GcpOpError;
@@ -1317,6 +1360,8 @@ export const getIamPolicyProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsSchemas",
 }));
 
 export type GetIamPolicyProjectsSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -1332,6 +1377,8 @@ export const getIamPolicyProjectsSnapshots: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsSnapshots",
 }));
 
 export type GetIamPolicyProjectsSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -1347,6 +1394,8 @@ export const getIamPolicyProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsSubscriptions",
 }));
 
 export type GetIamPolicyProjectsTopicsError = NotFound | Forbidden | GcpOpError;
@@ -1362,6 +1411,8 @@ export const getIamPolicyProjectsTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsTopics",
 }));
 
 export type GetProjectsSchemasError = NotFound | Forbidden | GcpOpError;
@@ -1377,6 +1428,8 @@ export const getProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSchemas",
 }));
 
 export type GetProjectsSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -1392,6 +1445,8 @@ export const getProjectsSnapshots: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSnapshots",
 }));
 
 export type GetProjectsSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -1407,6 +1462,8 @@ export const getProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsSubscriptions",
 }));
 
 export type GetProjectsTopicsError = NotFound | Forbidden | GcpOpError;
@@ -1422,6 +1479,8 @@ export const getProjectsTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsTopics",
 }));
 
 export type ListProjectsSchemasError = NotFound | Forbidden | GcpOpError;
@@ -1438,6 +1497,8 @@ export const listProjectsSchemas: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSchemas",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1455,6 +1516,8 @@ export const listProjectsSnapshots: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSnapshots",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1472,6 +1535,8 @@ export const listProjectsSubscriptions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsSubscriptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1489,6 +1554,8 @@ export const listProjectsTopics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTopics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1506,6 +1573,8 @@ export const listProjectsTopicsSnapshots: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTopicsSnapshots",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1523,6 +1592,8 @@ export const listProjectsTopicsSubscriptions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsTopicsSubscriptions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1540,6 +1611,8 @@ export const listRevisionsProjectsSchemas: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRevisionsProjectsSchemas",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1561,6 +1634,8 @@ export const modifyAckDeadlineProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyAckDeadlineProjectsSubscriptions",
 }));
 
 export type ModifyPushConfigProjectsSubscriptionsError =
@@ -1581,6 +1656,8 @@ export const modifyPushConfigProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyPushConfigProjectsSubscriptions",
 }));
 
 export type PatchProjectsSnapshotsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1596,6 +1673,8 @@ export const patchProjectsSnapshots: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsSnapshots",
 }));
 
 export type PatchProjectsSubscriptionsError =
@@ -1616,6 +1695,8 @@ export const patchProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsSubscriptions",
 }));
 
 export type PatchProjectsTopicsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1631,6 +1712,8 @@ export const patchProjectsTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsTopics",
 }));
 
 export type PublishProjectsTopicsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1646,6 +1729,8 @@ export const publishProjectsTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishProjectsTopics",
 }));
 
 export type PullProjectsSubscriptionsError =
@@ -1666,6 +1751,8 @@ export const pullProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PullProjectsSubscriptions",
 }));
 
 export type RollbackProjectsSchemasError =
@@ -1686,6 +1773,8 @@ export const rollbackProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RollbackProjectsSchemas",
 }));
 
 export type SeekProjectsSubscriptionsError =
@@ -1706,6 +1795,8 @@ export const seekProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SeekProjectsSubscriptions",
 }));
 
 export type SetIamPolicyProjectsSchemasError =
@@ -1726,6 +1817,8 @@ export const setIamPolicyProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsSchemas",
 }));
 
 export type SetIamPolicyProjectsSnapshotsError =
@@ -1746,6 +1839,8 @@ export const setIamPolicyProjectsSnapshots: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsSnapshots",
 }));
 
 export type SetIamPolicyProjectsSubscriptionsError =
@@ -1766,6 +1861,8 @@ export const setIamPolicyProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsSubscriptions",
 }));
 
 export type SetIamPolicyProjectsTopicsError =
@@ -1787,6 +1884,8 @@ export const setIamPolicyProjectsTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, IamMemberNotFound, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsTopics",
 }));
 
 export type TestIamPermissionsProjectsSchemasError =
@@ -1807,6 +1906,8 @@ export const testIamPermissionsProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsSchemas",
 }));
 
 export type TestIamPermissionsProjectsSnapshotsError =
@@ -1827,6 +1928,8 @@ export const testIamPermissionsProjectsSnapshots: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsSnapshots",
 }));
 
 export type TestIamPermissionsProjectsSubscriptionsError =
@@ -1847,6 +1950,8 @@ export const testIamPermissionsProjectsSubscriptions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsSubscriptions",
 }));
 
 export type TestIamPermissionsProjectsTopicsError =
@@ -1867,6 +1972,8 @@ export const testIamPermissionsProjectsTopics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsTopics",
 }));
 
 export type ValidateMessageProjectsSchemasError =
@@ -1887,6 +1994,8 @@ export const validateMessageProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateMessageProjectsSchemas",
 }));
 
 export type ValidateProjectsSchemasError =
@@ -1907,6 +2016,8 @@ export const validateProjectsSchemas: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateProjectsSchemas",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

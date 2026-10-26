@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Team",
+  propagate: "w3c",
+} as const;
+
 export type AccessLogsRequestBeforeCase0 = "now";
 export type AccessLogsRequestBefore = AccessLogsRequestBeforeCase0 | (string & {}) | string;
 export interface AccessLogsRequest {
@@ -281,6 +294,8 @@ export const accessLogs: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "AccessLogs",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -305,6 +320,8 @@ export const billableInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillableInfo",
 }));
 
 export type BillingInfoError = SlackOpError;
@@ -320,6 +337,8 @@ export const billingInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingInfo",
 }));
 
 export type DisconnectExternalTeamError = SlackOpError;
@@ -335,6 +354,8 @@ export const disconnectExternalTeam: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectExternalTeam",
 }));
 
 export type GetProfileError = SlackOpError;
@@ -350,6 +371,8 @@ export const getProfile: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type IntegrationLogsError = SlackOpError;
@@ -365,6 +388,8 @@ export const integrationLogs: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationLogs",
 }));
 
 export type ListExternalTeamsError = SlackOpError;
@@ -382,6 +407,8 @@ export const listExternalTeams: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListExternalTeams",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -406,6 +433,8 @@ export const listPreferences: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPreferences",
 }));
 
 export type TeamInfoError = SlackOpError;
@@ -421,6 +450,8 @@ export const teamInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TeamInfo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

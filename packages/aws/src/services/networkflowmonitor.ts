@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -67,6 +68,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NetworkFlowMonitor",
+  service: "NetworkFlowMonitor",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -568,6 +583,8 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type CreateScopeError =
@@ -610,6 +627,8 @@ export const createScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScope",
+  telemetry: TELEMETRY,
+  span: "CreateScope",
 }));
 
 export type DeleteMonitorError =
@@ -642,6 +661,8 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeleteScopeError =
@@ -676,6 +697,8 @@ export const deleteScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScope",
+  telemetry: TELEMETRY,
+  span: "DeleteScope",
 }));
 
 export type GetMonitorError =
@@ -706,6 +729,8 @@ export const getMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitor",
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetQueryResultsMonitorTopContributorsError =
@@ -749,6 +774,8 @@ export const getQueryResultsMonitorTopContributors: API.PaginatedOperationMethod
     items: "topContributors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResultsMonitorTopContributors",
 })) as any;
 
 export type GetQueryResultsWorkloadInsightsTopContributorsError =
@@ -794,6 +821,8 @@ export const getQueryResultsWorkloadInsightsTopContributors: API.PaginatedOperat
     items: "topContributors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResultsWorkloadInsightsTopContributors",
 })) as any;
 
 export type GetQueryResultsWorkloadInsightsTopContributorsDataError =
@@ -849,6 +878,8 @@ export const getQueryResultsWorkloadInsightsTopContributorsData: API.PaginatedOp
     items: "datapoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResultsWorkloadInsightsTopContributorsData",
 })) as any;
 
 export type GetQueryStatusMonitorTopContributorsError =
@@ -883,6 +914,8 @@ export const getQueryStatusMonitorTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatusMonitorTopContributors",
+  telemetry: TELEMETRY,
+  span: "GetQueryStatusMonitorTopContributors",
 }));
 
 export type GetQueryStatusWorkloadInsightsTopContributorsError =
@@ -917,6 +950,8 @@ export const getQueryStatusWorkloadInsightsTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatusWorkloadInsightsTopContributors",
+  telemetry: TELEMETRY,
+  span: "GetQueryStatusWorkloadInsightsTopContributors",
 }));
 
 export type GetQueryStatusWorkloadInsightsTopContributorsDataError =
@@ -961,6 +996,8 @@ export const getQueryStatusWorkloadInsightsTopContributorsData: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatusWorkloadInsightsTopContributorsData",
+  telemetry: TELEMETRY,
+  span: "GetQueryStatusWorkloadInsightsTopContributorsData",
 }));
 
 export type GetScopeError =
@@ -993,6 +1030,8 @@ export const getScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScope",
+  telemetry: TELEMETRY,
+  span: "GetScope",
 }));
 
 export type ListMonitorsError =
@@ -1028,6 +1067,8 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "monitors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 })) as any;
 
 export type ListScopesError =
@@ -1065,6 +1106,8 @@ export const listScopes: API.PaginatedOperationMethod<
     items: "scopes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScopes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1097,6 +1140,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartQueryMonitorTopContributorsError =
@@ -1131,6 +1176,8 @@ export const startQueryMonitorTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryMonitorTopContributors",
+  telemetry: TELEMETRY,
+  span: "StartQueryMonitorTopContributors",
 }));
 
 export type StartQueryWorkloadInsightsTopContributorsError =
@@ -1165,6 +1212,8 @@ export const startQueryWorkloadInsightsTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryWorkloadInsightsTopContributors",
+  telemetry: TELEMETRY,
+  span: "StartQueryWorkloadInsightsTopContributors",
 }));
 
 export type StartQueryWorkloadInsightsTopContributorsDataError =
@@ -1203,6 +1252,8 @@ export const startQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryWorkloadInsightsTopContributorsData",
+  telemetry: TELEMETRY,
+  span: "StartQueryWorkloadInsightsTopContributorsData",
 }));
 
 export type StopQueryMonitorTopContributorsError =
@@ -1235,6 +1286,8 @@ export const stopQueryMonitorTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryMonitorTopContributors",
+  telemetry: TELEMETRY,
+  span: "StopQueryMonitorTopContributors",
 }));
 
 export type StopQueryWorkloadInsightsTopContributorsError =
@@ -1267,6 +1320,8 @@ export const stopQueryWorkloadInsightsTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryWorkloadInsightsTopContributors",
+  telemetry: TELEMETRY,
+  span: "StopQueryWorkloadInsightsTopContributors",
 }));
 
 export type StopQueryWorkloadInsightsTopContributorsDataError =
@@ -1299,6 +1354,8 @@ export const stopQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryWorkloadInsightsTopContributorsData",
+  telemetry: TELEMETRY,
+  span: "StopQueryWorkloadInsightsTopContributorsData",
 }));
 
 export type TagResourceError =
@@ -1331,6 +1388,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1363,6 +1422,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateMonitorError =
@@ -1393,6 +1454,8 @@ export const updateMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitor",
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 export type UpdateScopeError =
@@ -1427,6 +1490,8 @@ export const updateScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScope",
+  telemetry: TELEMETRY,
+  span: "UpdateScope",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

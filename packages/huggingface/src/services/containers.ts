@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Containers",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -344,6 +357,8 @@ export const batchFileOperations: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchFileOperations",
 }));
 
 export type CreateBucketError = Conflict | HuggingFaceOpError;
@@ -359,6 +374,8 @@ export const createBucket: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBucket",
 }));
 
 export type DeleteBucketError = HuggingFaceOpError;
@@ -374,6 +391,8 @@ export const deleteBucket: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBucket",
 }));
 
 export type GetBucketDetailsError = HuggingFaceOpError;
@@ -389,6 +408,8 @@ export const getBucketDetails: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBucketDetails",
 }));
 
 export type GetFileMetadataError = BadRequest | NotFound | HuggingFaceOpError;
@@ -404,6 +425,8 @@ export const getFileMetadata: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileMetadata",
 }));
 
 export type ListFilesError = HuggingFaceOpError;
@@ -419,6 +442,8 @@ export const listFiles: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFiles",
 }));
 
 export type ListNamespaceBucketsError = HuggingFaceOpError;
@@ -434,6 +459,8 @@ export const listNamespaceBuckets: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceBuckets",
 }));
 
 export type ListPathsInfoError = HuggingFaceOpError;
@@ -449,6 +476,8 @@ export const listPathsInfo: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPathsInfo",
 }));
 
 export type RegistryTokenError = HuggingFaceOpError;
@@ -464,6 +493,8 @@ export const registryToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegistryToken",
 }));
 
 export type UpdateBucketSettingsError = HuggingFaceOpError;
@@ -479,6 +510,8 @@ export const updateBucketSettings: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBucketSettings",
 }));
 
 export type XetReadTokenError = HuggingFaceOpError;
@@ -494,6 +527,8 @@ export const xetReadToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "XetReadToken",
 }));
 
 export type XetWriteTokenError = HuggingFaceOpError;
@@ -509,6 +544,8 @@ export const xetWriteToken: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "XetWriteToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

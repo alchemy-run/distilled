@@ -12,6 +12,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Orgs",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -3077,6 +3095,8 @@ export const assignTeamToOrgRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignTeamToOrgRole",
 }));
 
 export type AssignUserToOrgRoleError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3092,6 +3112,8 @@ export const assignUserToOrgRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignUserToOrgRole",
 }));
 
 export type BlockUserError = UnprocessableEntity | GithubOpError;
@@ -3107,6 +3129,8 @@ export const blockUser: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BlockUser",
 }));
 
 export type BulkReviewPatGrantRequestsInError =
@@ -3126,6 +3150,8 @@ export const bulkReviewPatGrantRequestsIn: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkReviewPatGrantRequestsIn",
 }));
 
 export type CancelInvitationError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3141,6 +3167,8 @@ export const cancelInvitation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelInvitation",
 }));
 
 export type CheckBlockedUserError = NotFound | GithubOpError;
@@ -3156,6 +3184,8 @@ export const checkBlockedUser: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBlockedUser",
 }));
 
 export type CheckMembershipForUserError = NotFound | GithubOpError;
@@ -3171,6 +3201,8 @@ export const checkMembershipForUser: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckMembershipForUser",
 }));
 
 export type CheckPublicMembershipForUserError = NotFound | GithubOpError;
@@ -3186,6 +3218,8 @@ export const checkPublicMembershipForUser: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPublicMembershipForUser",
 }));
 
 export type ConvertMemberToOutsideCollaboratorError = Forbidden | NotFound | GithubOpError;
@@ -3201,6 +3235,8 @@ export const convertMemberToOutsideCollaborator: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConvertMemberToOutsideCollaborator",
 }));
 
 export type CreateArtifactDeploymentRecordError = Forbidden | NotFound | GithubOpError;
@@ -3216,6 +3252,8 @@ export const createArtifactDeploymentRecord: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArtifactDeploymentRecord",
 }));
 
 export type CreateArtifactStorageRecordError = Forbidden | NotFound | GithubOpError;
@@ -3231,6 +3269,8 @@ export const createArtifactStorageRecord: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArtifactStorageRecord",
 }));
 
 export type CreateClusterDeploymentRecordsJobError =
@@ -3251,6 +3291,8 @@ export const createClusterDeploymentRecordsJob: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClusterDeploymentRecordsJob",
 }));
 
 export type CreateInvitationError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3266,6 +3308,8 @@ export const createInvitation: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvitation",
 }));
 
 export type CreateIssueFieldError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3281,6 +3325,8 @@ export const createIssueField: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueField",
 }));
 
 export type CreateIssueTypeError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3296,6 +3342,8 @@ export const createIssueType: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueType",
 }));
 
 export type CreateWebhookError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3311,6 +3359,8 @@ export const createWebhook: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionError =
@@ -3333,6 +3383,8 @@ export const customPropertiesForReposCreateOrUpdateOrganizationDefinition: API.O
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposCreateOrUpdateOrganizationDefinition",
 }));
 
 export type CustomPropertiesForReposCreateOrUpdateOrganizationDefinitionsError =
@@ -3359,6 +3411,8 @@ export const customPropertiesForReposCreateOrUpdateOrganizationDefinitions: API.
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposCreateOrUpdateOrganizationDefinitions",
 }));
 
 export type CustomPropertiesForReposCreateOrUpdateOrganizationValuesError =
@@ -3386,6 +3440,8 @@ export const customPropertiesForReposCreateOrUpdateOrganizationValues: API.Opera
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposCreateOrUpdateOrganizationValues",
 }));
 
 export type CustomPropertiesForReposDeleteOrganizationDefinitionError =
@@ -3412,6 +3468,8 @@ export const customPropertiesForReposDeleteOrganizationDefinition: API.Operation
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposDeleteOrganizationDefinition",
 }));
 
 export type CustomPropertiesForReposGetOrganizationDefinitionError =
@@ -3434,6 +3492,8 @@ export const customPropertiesForReposGetOrganizationDefinition: API.OperationMet
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposGetOrganizationDefinition",
 }));
 
 export type CustomPropertiesForReposGetOrganizationDefinitionsError =
@@ -3460,6 +3520,8 @@ export const customPropertiesForReposGetOrganizationDefinitions: API.OperationMe
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposGetOrganizationDefinitions",
 }));
 
 export type CustomPropertiesForReposGetOrganizationValuesError =
@@ -3486,6 +3548,8 @@ export const customPropertiesForReposGetOrganizationValues: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomPropertiesForReposGetOrganizationValues",
 }));
 
 export type DeleteError = Forbidden | NotFound | GithubOpError;
@@ -3501,6 +3565,8 @@ export const Delete: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Delete",
 }));
 
 export type DeleteAttestationsBulkError = NotFound | GithubOpError;
@@ -3516,6 +3582,8 @@ export const deleteAttestationsBulk: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationsBulk",
 }));
 
 export type DeleteAttestationsByIdError = Forbidden | NotFound | GithubOpError;
@@ -3531,6 +3599,8 @@ export const deleteAttestationsById: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationsById",
 }));
 
 export type DeleteAttestationsBySubjectDigestError = NotFound | GithubOpError;
@@ -3546,6 +3616,8 @@ export const deleteAttestationsBySubjectDigest: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationsBySubjectDigest",
 }));
 
 export type DeleteIssueFieldError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3561,6 +3633,8 @@ export const deleteIssueField: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueField",
 }));
 
 export type DeleteIssueTypeError = NotFound | UnprocessableEntity | GithubOpError;
@@ -3576,6 +3650,8 @@ export const deleteIssueType: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueType",
 }));
 
 export type DeleteWebhookError = NotFound | GithubOpError;
@@ -3591,6 +3667,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DisableSelectedRepositoryImmutableReleasesOrganizationError = GithubOpError;
@@ -3614,6 +3692,8 @@ export const disableSelectedRepositoryImmutableReleasesOrganization: API.Operati
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableSelectedRepositoryImmutableReleasesOrganization",
 }));
 
 export type EnableSelectedRepositoryImmutableReleasesOrganizationError = GithubOpError;
@@ -3637,6 +3717,8 @@ export const enableSelectedRepositoryImmutableReleasesOrganization: API.Operatio
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableSelectedRepositoryImmutableReleasesOrganization",
 }));
 
 export type ExternalPropertiesForReposCreateOrUpdateOrganizationValuesError =
@@ -3664,6 +3746,8 @@ export const externalPropertiesForReposCreateOrUpdateOrganizationValues: API.Ope
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposCreateOrUpdateOrganizationValues",
 }));
 
 export type ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationPropertyError =
@@ -3691,6 +3775,8 @@ export const externalPropertiesForReposCreateOrUpdateValuesForOrganizationProper
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposCreateOrUpdateValuesForOrganizationProperty",
 }));
 
 export type ExternalPropertiesForReposDeleteOrganizationValuesError =
@@ -3718,6 +3804,8 @@ export const externalPropertiesForReposDeleteOrganizationValues: API.OperationMe
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposDeleteOrganizationValues",
 }));
 
 export type ExternalPropertiesForReposGetOrganizationAppInstallationsError =
@@ -3745,6 +3833,8 @@ export const externalPropertiesForReposGetOrganizationAppInstallations: API.Oper
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposGetOrganizationAppInstallations",
 }));
 
 export type ExternalPropertiesForReposGetOrganizationDefinitionsError =
@@ -3772,6 +3862,8 @@ export const externalPropertiesForReposGetOrganizationDefinitions: API.Operation
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposGetOrganizationDefinitions",
 }));
 
 export type ExternalPropertiesForReposRegisterOrganizationAppInstallationError =
@@ -3795,6 +3887,8 @@ export const externalPropertiesForReposRegisterOrganizationAppInstallation: API.
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalPropertiesForReposRegisterOrganizationAppInstallation",
 }));
 
 export type GetError = NotFound | GithubOpError;
@@ -3806,6 +3900,8 @@ export const get: API.OperationMethod<GetRequest, OrganizationFull, GetError, Gi
     errors: [NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetApiInsightRouteStatsByActorError = GithubOpError;
@@ -3821,6 +3917,8 @@ export const getApiInsightRouteStatsByActor: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightRouteStatsByActor",
 }));
 
 export type GetApiInsightSubjectStatsError = GithubOpError;
@@ -3836,6 +3934,8 @@ export const getApiInsightSubjectStats: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightSubjectStats",
 }));
 
 export type GetApiInsightSummaryStatsError = GithubOpError;
@@ -3851,6 +3951,8 @@ export const getApiInsightSummaryStats: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightSummaryStats",
 }));
 
 export type GetApiInsightSummaryStatsByActorError = GithubOpError;
@@ -3866,6 +3968,8 @@ export const getApiInsightSummaryStatsByActor: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightSummaryStatsByActor",
 }));
 
 export type GetApiInsightSummaryStatsByUserError = GithubOpError;
@@ -3881,6 +3985,8 @@ export const getApiInsightSummaryStatsByUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightSummaryStatsByUser",
 }));
 
 export type GetApiInsightTimeStatsError = GithubOpError;
@@ -3896,6 +4002,8 @@ export const getApiInsightTimeStats: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightTimeStats",
 }));
 
 export type GetApiInsightTimeStatsByActorError = GithubOpError;
@@ -3911,6 +4019,8 @@ export const getApiInsightTimeStatsByActor: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightTimeStatsByActor",
 }));
 
 export type GetApiInsightTimeStatsByUserError = GithubOpError;
@@ -3926,6 +4036,8 @@ export const getApiInsightTimeStatsByUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightTimeStatsByUser",
 }));
 
 export type GetApiInsightUserStatsError = GithubOpError;
@@ -3941,6 +4053,8 @@ export const getApiInsightUserStats: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiInsightUserStats",
 }));
 
 export type GetClusterDeploymentRecordsJobError = NotFound | GithubOpError;
@@ -3956,6 +4070,8 @@ export const getClusterDeploymentRecordsJob: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClusterDeploymentRecordsJob",
 }));
 
 export type GetImmutableReleasesSettingsError = GithubOpError;
@@ -3971,6 +4087,8 @@ export const getImmutableReleasesSettings: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImmutableReleasesSettings",
 }));
 
 export type GetImmutableReleasesSettingsRepositoriesError = GithubOpError;
@@ -3986,6 +4104,8 @@ export const getImmutableReleasesSettingsRepositories: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImmutableReleasesSettingsRepositories",
 }));
 
 export type GetMembershipForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -4001,6 +4121,8 @@ export const getMembershipForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembershipForAuthenticatedUser",
 }));
 
 export type GetMembershipForUserError = Forbidden | NotFound | GithubOpError;
@@ -4016,6 +4138,8 @@ export const getMembershipForUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembershipForUser",
 }));
 
 export type GetOrgRoleError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4031,6 +4155,8 @@ export const getOrgRole: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgRole",
 }));
 
 export type GetOrgRulesetHistoryError = NotFound | GithubOpError;
@@ -4046,6 +4172,8 @@ export const getOrgRulesetHistory: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgRulesetHistory",
 }));
 
 export type GetOrgRulesetVersionError = NotFound | GithubOpError;
@@ -4061,6 +4189,8 @@ export const getOrgRulesetVersion: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgRulesetVersion",
 }));
 
 export type GetWebhookError = NotFound | GithubOpError;
@@ -4076,6 +4206,8 @@ export const getWebhook: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWebhookConfigForOrgError = GithubOpError;
@@ -4091,6 +4223,8 @@ export const getWebhookConfigForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookConfigForOrg",
 }));
 
 export type GetWebhookDeliveryError = BadRequest | UnprocessableEntity | GithubOpError;
@@ -4106,6 +4240,8 @@ export const getWebhookDelivery: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookDelivery",
 }));
 
 export type ListError = GithubOpError;
@@ -4117,6 +4253,8 @@ export const list: API.OperationMethod<ListRequest, ListResponse, ListError, Git
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "List",
   }));
 
 export type ListAppInstallationsError = GithubOpError;
@@ -4132,6 +4270,8 @@ export const listAppInstallations: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppInstallations",
 }));
 
 export type ListArtifactDeploymentRecordsError = GithubOpError;
@@ -4147,6 +4287,8 @@ export const listArtifactDeploymentRecords: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactDeploymentRecords",
 }));
 
 export type ListArtifactStorageRecordsError = GithubOpError;
@@ -4162,6 +4304,8 @@ export const listArtifactStorageRecords: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactStorageRecords",
 }));
 
 export type ListAttestationRepositoriesError = GithubOpError;
@@ -4177,6 +4321,8 @@ export const listAttestationRepositories: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationRepositories",
 }));
 
 export type ListAttestationsError = GithubOpError;
@@ -4192,6 +4338,8 @@ export const listAttestations: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestations",
 }));
 
 export type ListAttestationsBulkError = GithubOpError;
@@ -4207,6 +4355,8 @@ export const listAttestationsBulk: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationsBulk",
 }));
 
 export type ListBlockedUsersError = GithubOpError;
@@ -4222,6 +4372,8 @@ export const listBlockedUsers: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlockedUsers",
 }));
 
 export type ListFailedInvitationsError = NotFound | GithubOpError;
@@ -4237,6 +4389,8 @@ export const listFailedInvitations: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFailedInvitations",
 }));
 
 export type ListForAuthenticatedUserError = Forbidden | GithubOpError;
@@ -4252,6 +4406,8 @@ export const listForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForAuthenticatedUser",
 }));
 
 export type ListForUserError = GithubOpError;
@@ -4267,6 +4423,8 @@ export const listForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForUser",
 }));
 
 export type ListInvitationTeamsError = NotFound | GithubOpError;
@@ -4282,6 +4440,8 @@ export const listInvitationTeams: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvitationTeams",
 }));
 
 export type ListIssueFieldsError = NotFound | GithubOpError;
@@ -4297,6 +4457,8 @@ export const listIssueFields: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssueFields",
 }));
 
 export type ListIssueTypesError = NotFound | GithubOpError;
@@ -4312,6 +4474,8 @@ export const listIssueTypes: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIssueTypes",
 }));
 
 export type ListMembersError = UnprocessableEntity | GithubOpError;
@@ -4327,6 +4491,8 @@ export const listMembers: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 }));
 
 export type ListMembershipsForAuthenticatedUserError =
@@ -4345,6 +4511,8 @@ export const listMembershipsForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMembershipsForAuthenticatedUser",
 }));
 
 export type ListOrgRolesError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4360,6 +4528,8 @@ export const listOrgRoles: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgRoles",
 }));
 
 export type ListOrgRoleTeamsError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4375,6 +4545,8 @@ export const listOrgRoleTeams: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgRoleTeams",
 }));
 
 export type ListOrgRoleUsersError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4390,6 +4562,8 @@ export const listOrgRoleUsers: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgRoleUsers",
 }));
 
 export type ListOutsideCollaboratorsError = GithubOpError;
@@ -4405,6 +4579,8 @@ export const listOutsideCollaborators: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOutsideCollaborators",
 }));
 
 export type ListPatGrantRepositoriesError = Forbidden | NotFound | GithubOpError;
@@ -4420,6 +4596,8 @@ export const listPatGrantRepositories: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPatGrantRepositories",
 }));
 
 export type ListPatGrantRequestRepositoriesError = Forbidden | NotFound | GithubOpError;
@@ -4435,6 +4613,8 @@ export const listPatGrantRequestRepositories: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPatGrantRequestRepositories",
 }));
 
 export type ListPatGrantRequestsError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4450,6 +4630,8 @@ export const listPatGrantRequests: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPatGrantRequests",
 }));
 
 export type ListPatGrantsError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4465,6 +4647,8 @@ export const listPatGrants: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPatGrants",
 }));
 
 export type ListPendingInvitationsError = NotFound | GithubOpError;
@@ -4480,6 +4664,8 @@ export const listPendingInvitations: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPendingInvitations",
 }));
 
 export type ListPublicMembersError = GithubOpError;
@@ -4495,6 +4681,8 @@ export const listPublicMembers: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicMembers",
 }));
 
 export type ListWebhookDeliveriesError = BadRequest | UnprocessableEntity | GithubOpError;
@@ -4510,6 +4698,8 @@ export const listWebhookDeliveries: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhookDeliveries",
 }));
 
 export type ListWebhooksError = NotFound | GithubOpError;
@@ -4525,6 +4715,8 @@ export const listWebhooks: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type PingWebhookError = NotFound | GithubOpError;
@@ -4540,6 +4732,8 @@ export const pingWebhook: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PingWebhook",
 }));
 
 export type RedeliverWebhookDeliveryError = BadRequest | UnprocessableEntity | GithubOpError;
@@ -4555,6 +4749,8 @@ export const redeliverWebhookDelivery: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeliverWebhookDelivery",
 }));
 
 export type RemoveMemberError = Forbidden | GithubOpError;
@@ -4570,6 +4766,8 @@ export const removeMember: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveMember",
 }));
 
 export type RemoveMembershipForUserError = Forbidden | NotFound | GithubOpError;
@@ -4585,6 +4783,8 @@ export const removeMembershipForUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveMembershipForUser",
 }));
 
 export type RemoveOutsideCollaboratorError = UnprocessableEntity | GithubOpError;
@@ -4600,6 +4800,8 @@ export const removeOutsideCollaborator: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveOutsideCollaborator",
 }));
 
 export type RemovePublicMembershipForAuthenticatedUserError = GithubOpError;
@@ -4619,6 +4821,8 @@ export const removePublicMembershipForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePublicMembershipForAuthenticatedUser",
 }));
 
 export type ReviewPatGrantRequestError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4634,6 +4838,8 @@ export const reviewPatGrantRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewPatGrantRequest",
 }));
 
 export type RevokeAllOrgRolesTeamError = GithubOpError;
@@ -4649,6 +4855,8 @@ export const revokeAllOrgRolesTeam: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAllOrgRolesTeam",
 }));
 
 export type RevokeAllOrgRolesUserError = GithubOpError;
@@ -4664,6 +4872,8 @@ export const revokeAllOrgRolesUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAllOrgRolesUser",
 }));
 
 export type RevokeOrgRoleTeamError = GithubOpError;
@@ -4679,6 +4889,8 @@ export const revokeOrgRoleTeam: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOrgRoleTeam",
 }));
 
 export type RevokeOrgRoleUserError = GithubOpError;
@@ -4694,6 +4906,8 @@ export const revokeOrgRoleUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOrgRoleUser",
 }));
 
 export type SetClusterDeploymentRecordsError = Forbidden | NotFound | GithubOpError;
@@ -4709,6 +4923,8 @@ export const setClusterDeploymentRecords: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetClusterDeploymentRecords",
 }));
 
 export type SetImmutableReleasesSettingsError = GithubOpError;
@@ -4724,6 +4940,8 @@ export const setImmutableReleasesSettings: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetImmutableReleasesSettings",
 }));
 
 export type SetImmutableReleasesSettingsRepositoriesError = GithubOpError;
@@ -4739,6 +4957,8 @@ export const setImmutableReleasesSettingsRepositories: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetImmutableReleasesSettingsRepositories",
 }));
 
 export type SetMembershipForUserError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -4754,6 +4974,8 @@ export const setMembershipForUser: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetMembershipForUser",
 }));
 
 export type SetPublicMembershipForAuthenticatedUserError = Forbidden | GithubOpError;
@@ -4769,6 +4991,8 @@ export const setPublicMembershipForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPublicMembershipForAuthenticatedUser",
 }));
 
 export type UnblockUserError = GithubOpError;
@@ -4784,6 +5008,8 @@ export const unblockUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnblockUser",
 }));
 
 export type UpdateError = Conflict | UnprocessableEntity | GithubOpError;
@@ -4799,6 +5025,8 @@ export const update: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Update",
 }));
 
 export type UpdateIssueFieldError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4814,6 +5042,8 @@ export const updateIssueField: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueField",
 }));
 
 export type UpdateIssueTypeError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4829,6 +5059,8 @@ export const updateIssueType: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueType",
 }));
 
 export type UpdateMembershipForAuthenticatedUserError =
@@ -4848,6 +5080,8 @@ export const updateMembershipForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMembershipForAuthenticatedUser",
 }));
 
 export type UpdatePatAccessError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4863,6 +5097,8 @@ export const updatePatAccess: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePatAccess",
 }));
 
 export type UpdatePatAccessesError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4878,6 +5114,8 @@ export const updatePatAccesses: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePatAccesses",
 }));
 
 export type UpdateWebhookError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4893,6 +5131,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type UpdateWebhookConfigForOrgError = GithubOpError;
@@ -4908,6 +5148,8 @@ export const updateWebhookConfigForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhookConfigForOrg",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

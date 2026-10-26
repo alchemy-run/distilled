@@ -30,6 +30,7 @@ import {
   SchemaMismatch,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
+import * as Telemetry from "@distilled.cloud/core/telemetry";
 import {
   bodySymbol,
   headerSymbol,
@@ -671,8 +672,12 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
         return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
-          Effect.flatMap(client.execute(request), (response) =>
-            decodeResponse(context, response, op.outputAst, op.errors),
+          Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+            Telemetry.phase(
+              context,
+              "cloudflare.decode",
+              decodeResponse(context, response, op.outputAst, op.errors),
+            ),
           ),
         );
       });

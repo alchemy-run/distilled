@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Pulls",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1494,6 +1512,8 @@ export const addPullRequestStack: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddPullRequestStack",
 }));
 
 export type CheckIfMergedError = NotFound | GithubOpError;
@@ -1509,6 +1529,8 @@ export const checkIfMerged: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckIfMerged",
 }));
 
 export type CreateError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1520,6 +1542,8 @@ export const create: API.OperationMethod<CreateRequest, PullRequest, CreateError
     errors: [Forbidden, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Create",
   }));
 
 export type CreatePullRequestStackError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1535,6 +1559,8 @@ export const createPullRequestStack: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePullRequestStack",
 }));
 
 export type CreateReplyForReviewCommentError = NotFound | GithubOpError;
@@ -1550,6 +1576,8 @@ export const createReplyForReviewComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReplyForReviewComment",
 }));
 
 export type CreateReviewError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1565,6 +1593,8 @@ export const createReview: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReview",
 }));
 
 export type CreateReviewCommentError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1580,6 +1610,8 @@ export const createReviewComment: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateReviewComment",
 }));
 
 export type DeletePendingReviewError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1595,6 +1627,8 @@ export const deletePendingReview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePendingReview",
 }));
 
 export type DeleteReviewCommentError = NotFound | GithubOpError;
@@ -1610,6 +1644,8 @@ export const deleteReviewComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReviewComment",
 }));
 
 export type DismissReviewError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1625,6 +1661,8 @@ export const dismissReview: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DismissReview",
 }));
 
 export type GetError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1636,6 +1674,8 @@ export const get: API.OperationMethod<GetRequest, PullRequest, GetError, GithubO
     errors: [NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetMergeAsyncResultError = Forbidden | NotFound | GithubOpError;
@@ -1651,6 +1691,8 @@ export const getMergeAsyncResult: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMergeAsyncResult",
 }));
 
 export type GetPullRequestStackError = NotFound | GithubOpError;
@@ -1666,6 +1708,8 @@ export const getPullRequestStack: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPullRequestStack",
 }));
 
 export type GetReviewError = NotFound | GithubOpError;
@@ -1681,6 +1725,8 @@ export const getReview: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReview",
 }));
 
 export type GetReviewCommentError = NotFound | GithubOpError;
@@ -1696,6 +1742,8 @@ export const getReviewComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviewComment",
 }));
 
 export type ListError = UnprocessableEntity | GithubOpError;
@@ -1707,6 +1755,8 @@ export const list: API.OperationMethod<ListRequest, ListResponse, ListError, Git
     errors: [UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "List",
   }));
 
 export type ListCommentsForReviewError = NotFound | GithubOpError;
@@ -1722,6 +1772,8 @@ export const listCommentsForReview: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommentsForReview",
 }));
 
 export type ListCommitsError = GithubOpError;
@@ -1737,6 +1789,8 @@ export const listCommits: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommits",
 }));
 
 export type ListFilesError = UnprocessableEntity | GithubOpError;
@@ -1752,6 +1806,8 @@ export const listFiles: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFiles",
 }));
 
 export type ListPullRequestStacksError = NotFound | UnprocessableEntity | GithubOpError;
@@ -1767,6 +1823,8 @@ export const listPullRequestStacks: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPullRequestStacks",
 }));
 
 export type ListRequestedReviewersError = GithubOpError;
@@ -1782,6 +1840,8 @@ export const listRequestedReviewers: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRequestedReviewers",
 }));
 
 export type ListReviewCommentsError = GithubOpError;
@@ -1797,6 +1857,8 @@ export const listReviewComments: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewComments",
 }));
 
 export type ListReviewCommentsForRepoError = GithubOpError;
@@ -1812,6 +1874,8 @@ export const listReviewCommentsForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviewCommentsForRepo",
 }));
 
 export type ListReviewsError = GithubOpError;
@@ -1827,6 +1891,8 @@ export const listReviews: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReviews",
 }));
 
 export type MergeError = Forbidden | NotFound | Conflict | UnprocessableEntity | GithubOpError;
@@ -1842,6 +1908,8 @@ export const merge: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Merge",
 }));
 
 export type MergeAsyncError =
@@ -1863,6 +1931,8 @@ export const mergeAsync: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeAsync",
 }));
 
 export type PullRequestStacksUnstackError =
@@ -1882,6 +1952,8 @@ export const pullRequestStacksUnstack: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PullRequestStacksUnstack",
 }));
 
 export type RemoveRequestedReviewersError = UnprocessableEntity | GithubOpError;
@@ -1897,6 +1969,8 @@ export const removeRequestedReviewers: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRequestedReviewers",
 }));
 
 export type RequestReviewersError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1912,6 +1986,8 @@ export const requestReviewers: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestReviewers",
 }));
 
 export type RerequestReviewersError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1927,6 +2003,8 @@ export const rerequestReviewers: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RerequestReviewers",
 }));
 
 export type SubmitReviewError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1942,6 +2020,8 @@ export const submitReview: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitReview",
 }));
 
 export type UpdateError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1953,6 +2033,8 @@ export const update: API.OperationMethod<UpdateRequest, PullRequest, UpdateError
     errors: [Forbidden, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Update",
   }));
 
 export type UpdateBranchError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1968,6 +2050,8 @@ export const updateBranch: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBranch",
 }));
 
 export type UpdateReviewError = UnprocessableEntity | GithubOpError;
@@ -1983,6 +2067,8 @@ export const updateReview: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReview",
 }));
 
 export type UpdateReviewCommentError = GithubOpError;
@@ -1998,6 +2084,8 @@ export const updateReviewComment: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReviewComment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

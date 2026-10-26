@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "EventFilter",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `disabled` - Disabled * `dry_run` - Dry Run * `live` - Live */
 export type EventFilterModeEnum = "disabled" | "dry_run" | "live";
 export interface CreateEventFilterRequest {
@@ -71,6 +84,8 @@ export const createEventFilter: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEventFilter",
 }));
 
 export type GetEventFilterError = PosthogOpError;
@@ -86,6 +101,8 @@ export const getEventFilter: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventFilter",
 }));
 
 export type GetEventFilterMetricsError = PosthogOpError;
@@ -101,6 +118,8 @@ export const getEventFilterMetrics: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventFilterMetrics",
 }));
 
 export type GetEventFilterMetricsTotalError = PosthogOpError;
@@ -116,6 +135,8 @@ export const getEventFilterMetricsTotal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventFilterMetricsTotal",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

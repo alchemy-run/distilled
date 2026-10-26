@@ -53,6 +53,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   userTag: "user_tag",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Tenants",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface GetEntitlementRequest {
   tenantId: string;
 }
@@ -232,6 +246,8 @@ export const getEntitlement: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitlement",
 }));
 
 export type GetTenantError = CloudflareOpError;
@@ -247,6 +263,8 @@ export const getTenant: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTenant",
 }));
 
 export type ListAccountsError = CloudflareOpError;
@@ -264,6 +282,8 @@ export const listAccounts: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccounts",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -284,6 +304,8 @@ export const listAccountTypes: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAccountTypes",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -304,6 +326,8 @@ export const listMemberships: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMemberships",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

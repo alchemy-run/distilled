@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "LoadBalancerActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** Protocol of the Load Balancer. */
 export type AddLoadBalancerServiceRequestProtocol = "tcp" | "http" | "https";
 /** Type of the health check. */
@@ -877,6 +890,8 @@ export const addLoadBalancerService: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddLoadBalancerService",
 }));
 
 export type AddLoadBalancerTargetError = HetznerOpError;
@@ -892,6 +907,8 @@ export const addLoadBalancerTarget: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddLoadBalancerTarget",
 }));
 
 export type AttachLoadBalancerToNetworkError = HetznerOpError;
@@ -907,6 +924,8 @@ export const attachLoadBalancerToNetwork: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachLoadBalancerToNetwork",
 }));
 
 export type ChangeLoadBalancerAlgorithmError = HetznerOpError;
@@ -922,6 +941,8 @@ export const changeLoadBalancerAlgorithm: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeLoadBalancerAlgorithm",
 }));
 
 export type ChangeLoadBalancerDnsPtrError = HetznerOpError;
@@ -937,6 +958,8 @@ export const changeLoadBalancerDnsPtr: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeLoadBalancerDnsPtr",
 }));
 
 export type ChangeLoadBalancerProtectionError = HetznerOpError;
@@ -952,6 +975,8 @@ export const changeLoadBalancerProtection: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeLoadBalancerProtection",
 }));
 
 export type ChangeLoadBalancerTypeError = HetznerOpError;
@@ -967,6 +992,8 @@ export const changeLoadBalancerType: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeLoadBalancerType",
 }));
 
 export type DeleteLoadBalancerServiceError = HetznerOpError;
@@ -982,6 +1009,8 @@ export const deleteLoadBalancerService: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLoadBalancerService",
 }));
 
 export type DetachLoadBalancerFromNetworkError = HetznerOpError;
@@ -997,6 +1026,8 @@ export const detachLoadBalancerFromNetwork: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachLoadBalancerFromNetwork",
 }));
 
 export type DisableLoadBalancerPublicInterfaceError = HetznerOpError;
@@ -1012,6 +1043,8 @@ export const disableLoadBalancerPublicInterface: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableLoadBalancerPublicInterface",
 }));
 
 export type EnableLoadBalancerPublicInterfaceError = HetznerOpError;
@@ -1027,6 +1060,8 @@ export const enableLoadBalancerPublicInterface: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableLoadBalancerPublicInterface",
 }));
 
 export type GetLoadBalancersActionError = HetznerOpError;
@@ -1042,6 +1077,8 @@ export const getLoadBalancersAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLoadBalancersAction",
 }));
 
 export type ListLoadBalancerActionsError = HetznerOpError;
@@ -1059,6 +1096,8 @@ export const listLoadBalancerActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLoadBalancerActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1085,6 +1124,8 @@ export const listLoadBalancersActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLoadBalancersActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1109,6 +1150,8 @@ export const removeLoadBalancerTarget: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveLoadBalancerTarget",
 }));
 
 export type UpdateLoadBalancerServiceError = HetznerOpError;
@@ -1124,6 +1167,8 @@ export const updateLoadBalancerService: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLoadBalancerService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

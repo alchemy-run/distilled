@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "PartnerReferralRequests",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -245,6 +258,8 @@ export const acceptPartnerReferralRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptPartnerReferralRequest",
 }));
 
 export type CancelPartnerReferralRequestError = Forbidden | NotFound | Conflict | WhopOpError;
@@ -260,6 +275,8 @@ export const cancelPartnerReferralRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPartnerReferralRequest",
 }));
 
 export type CreatePartnerReferralRequestError =
@@ -280,6 +297,8 @@ export const createPartnerReferralRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnerReferralRequest",
 }));
 
 export type DeclinePartnerReferralRequestError = Forbidden | NotFound | Conflict | WhopOpError;
@@ -295,6 +314,8 @@ export const declinePartnerReferralRequest: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeclinePartnerReferralRequest",
 }));
 
 export type GetPartnerReferralRequestError = Forbidden | NotFound | WhopOpError;
@@ -310,6 +331,8 @@ export const getPartnerReferralRequest: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerReferralRequest",
 }));
 
 export type ListPartnerReferralRequestsError = BadRequest | Forbidden | WhopOpError;
@@ -327,6 +350,8 @@ export const listPartnerReferralRequests: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPartnerReferralRequests",
     pagination: {
       mode: "relay",
       inputToken: "after",

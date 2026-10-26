@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Kubernetes" },
+  prefix: "Hybridkubernetes",
+  service: "Hybridkubernetes",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type ConnectedClusterCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 /** The current deployment state of connectedClusters. */
@@ -567,6 +587,8 @@ export const ConnectedClusterCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectedClusterCreateOrReplace",
 }));
 
 export type DeleteConnectedClusterError = AzureOpError;
@@ -582,6 +604,8 @@ export const DeleteConnectedCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnectedCluster",
 }));
 
 export type GetConnectedClusterError = AzureOpError;
@@ -597,6 +621,8 @@ export const GetConnectedCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectedCluster",
 }));
 
 export type GetOperationError = AzureOpError;
@@ -612,6 +638,8 @@ export const GetOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperation",
 }));
 
 export type ListConnectedClusterByResourceGroupError = AzureOpError;
@@ -627,6 +655,8 @@ export const ListConnectedClusterByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectedClusterByResourceGroup",
 }));
 
 export type ListConnectedClusterBySubscriptionError = AzureOpError;
@@ -642,6 +672,8 @@ export const ListConnectedClusterBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectedClusterBySubscription",
 }));
 
 export type ListConnectedClusterClusterUserCredentialError = AzureOpError;
@@ -657,6 +689,8 @@ export const ListConnectedClusterClusterUserCredential: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectedClusterClusterUserCredential",
 }));
 
 export type UpdateConnectedClusterError = AzureOpError;
@@ -672,6 +706,8 @@ export const UpdateConnectedCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConnectedCluster",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

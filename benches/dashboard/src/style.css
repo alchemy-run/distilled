@@ -278,7 +278,7 @@ header {
   border-left: 1px solid var(--line-2);
 }
 
-/* Page tabs: Benchmarks / Repo size */
+/* Page tabs: Benchmarks / Repo size / Telemetry */
 @media (max-width: 560px) {
   .brand .eyebrow {
     display: none;

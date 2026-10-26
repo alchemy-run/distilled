@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Synapse" },
+  prefix: "Synapse",
+  service: "Synapse",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type BigDataPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Auto-scaling properties of a Big Data pool powered by Apache Spark */
@@ -5996,6 +6016,8 @@ export const BigDataPoolsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BigDataPoolsCreateOrUpdate",
 }));
 
 export type CheckOperationNameAvailabilityError = AzureOpError;
@@ -6011,6 +6033,8 @@ export const CheckOperationNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckOperationNameAvailability",
 }));
 
 export type CreateAzureADOnlyAuthenticationError = AzureOpError;
@@ -6026,6 +6050,8 @@ export const CreateAzureADOnlyAuthentication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureADOnlyAuthentication",
 }));
 
 export type CreateIntegrationRuntimeError = AzureOpError;
@@ -6041,6 +6067,8 @@ export const CreateIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationRuntime",
 }));
 
 export type CreatePrivateEndpointConnectionError = AzureOpError;
@@ -6056,6 +6084,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type CreateSqlPoolError = AzureOpError;
@@ -6071,6 +6101,8 @@ export const CreateSqlPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlPool",
 }));
 
 export type CreateSqlPoolRestorePointError = AzureOpError;
@@ -6086,6 +6118,8 @@ export const CreateSqlPoolRestorePoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlPoolRestorePoint",
 }));
 
 export type DataMaskingPoliciesCreateOrUpdateError = AzureOpError;
@@ -6101,6 +6135,8 @@ export const DataMaskingPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataMaskingPoliciesCreateOrUpdate",
 }));
 
 export type DataMaskingRulesCreateOrUpdateError = AzureOpError;
@@ -6116,6 +6152,8 @@ export const DataMaskingRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataMaskingRulesCreateOrUpdate",
 }));
 
 export type DeleteBigDataPoolError = AzureOpError;
@@ -6131,6 +6169,8 @@ export const DeleteBigDataPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBigDataPool",
 }));
 
 export type DeleteIntegrationRuntimeError = AzureOpError;
@@ -6146,6 +6186,8 @@ export const DeleteIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationRuntime",
 }));
 
 export type DeleteIntegrationRuntimeNodeError = AzureOpError;
@@ -6161,6 +6203,8 @@ export const DeleteIntegrationRuntimeNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationRuntimeNode",
 }));
 
 export type DeleteIpFirewallRuleError = AzureOpError;
@@ -6176,6 +6220,8 @@ export const DeleteIpFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIpFirewallRule",
 }));
 
 export type DeleteKeyError = AzureOpError;
@@ -6191,6 +6237,8 @@ export const DeleteKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -6206,6 +6254,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeletePrivateLinkHubError = AzureOpError;
@@ -6221,6 +6271,8 @@ export const DeletePrivateLinkHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateLinkHub",
 }));
 
 export type DeleteSqlPoolError = AzureOpError;
@@ -6236,6 +6288,8 @@ export const DeleteSqlPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlPool",
 }));
 
 export type DeleteSqlPoolRestorePointError = AzureOpError;
@@ -6251,6 +6305,8 @@ export const DeleteSqlPoolRestorePoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlPoolRestorePoint",
 }));
 
 export type DeleteSqlPoolSensitivityLabelError = AzureOpError;
@@ -6266,6 +6322,8 @@ export const DeleteSqlPoolSensitivityLabel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlPoolSensitivityLabel",
 }));
 
 export type DeleteSqlPoolVulnerabilityAssessmentError = AzureOpError;
@@ -6281,6 +6339,8 @@ export const DeleteSqlPoolVulnerabilityAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlPoolVulnerabilityAssessment",
 }));
 
 export type DeleteSqlPoolVulnerabilityAssessmentRuleBaselineError = AzureOpError;
@@ -6304,6 +6364,8 @@ export const DeleteSqlPoolVulnerabilityAssessmentRuleBaseline: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlPoolVulnerabilityAssessmentRuleBaseline",
 }));
 
 export type DeleteSqlPoolWorkloadClassifierError = AzureOpError;
@@ -6319,6 +6381,8 @@ export const DeleteSqlPoolWorkloadClassifier: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlPoolWorkloadClassifier",
 }));
 
 export type DeleteSqlPoolWorkloadGroupError = AzureOpError;
@@ -6334,6 +6398,8 @@ export const DeleteSqlPoolWorkloadGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlPoolWorkloadGroup",
 }));
 
 export type DeleteWorkspaceError = AzureOpError;
@@ -6349,6 +6415,8 @@ export const DeleteWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DeleteWorkspaceAadAdminError = AzureOpError;
@@ -6364,6 +6432,8 @@ export const DeleteWorkspaceAadAdmin: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceAadAdmin",
 }));
 
 export type DeleteWorkspaceManagedSqlServerVulnerabilityAssessmentError = AzureOpError;
@@ -6387,6 +6457,8 @@ export const DeleteWorkspaceManagedSqlServerVulnerabilityAssessment: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceManagedSqlServerVulnerabilityAssessment",
 }));
 
 export type DeleteWorkspaceSqlAadAdminError = AzureOpError;
@@ -6402,6 +6474,8 @@ export const DeleteWorkspaceSqlAadAdmin: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceSqlAadAdmin",
 }));
 
 export type DisableIntegrationRuntimeInteractiveQueryError = AzureOpError;
@@ -6421,6 +6495,8 @@ export const DisableIntegrationRuntimeInteractiveQuery: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableIntegrationRuntimeInteractiveQuery",
 }));
 
 export type DisableSqlPoolSensitivityLabelRecommendationError = AzureOpError;
@@ -6444,6 +6520,8 @@ export const DisableSqlPoolSensitivityLabelRecommendation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableSqlPoolSensitivityLabelRecommendation",
 }));
 
 export type EnableIntegrationRuntimeInteractiveQueryError = AzureOpError;
@@ -6459,6 +6537,8 @@ export const EnableIntegrationRuntimeInteractiveQuery: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableIntegrationRuntimeInteractiveQuery",
 }));
 
 export type EnableSqlPoolSensitivityLabelRecommendationError = AzureOpError;
@@ -6482,6 +6562,8 @@ export const EnableSqlPoolSensitivityLabelRecommendation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableSqlPoolSensitivityLabelRecommendation",
 }));
 
 export type ExportSqlPoolVulnerabilityAssessmentScanError = AzureOpError;
@@ -6497,6 +6579,8 @@ export const ExportSqlPoolVulnerabilityAssessmentScan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSqlPoolVulnerabilityAssessmentScan",
 }));
 
 export type ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateError = AzureOpError;
@@ -6520,6 +6604,8 @@ export const ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdate",
 }));
 
 export type GetAzureADOnlyAuthenticationError = AzureOpError;
@@ -6535,6 +6621,8 @@ export const GetAzureADOnlyAuthentication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureADOnlyAuthentication",
 }));
 
 export type GetBigDataPoolError = AzureOpError;
@@ -6550,6 +6638,8 @@ export const GetBigDataPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBigDataPool",
 }));
 
 export type GetDataMaskingPolicyError = AzureOpError;
@@ -6565,6 +6655,8 @@ export const GetDataMaskingPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataMaskingPolicy",
 }));
 
 export type GetDataMaskingRuleError = AzureOpError;
@@ -6580,6 +6672,8 @@ export const GetDataMaskingRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataMaskingRule",
 }));
 
 export type GetExtendedSqlPoolBlobAuditingPolicyError = AzureOpError;
@@ -6595,6 +6689,8 @@ export const GetExtendedSqlPoolBlobAuditingPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExtendedSqlPoolBlobAuditingPolicy",
 }));
 
 export type GetIntegrationRuntimeError = AzureOpError;
@@ -6610,6 +6706,8 @@ export const GetIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntime",
 }));
 
 export type GetIntegrationRuntimeConnectionInfosError = AzureOpError;
@@ -6625,6 +6723,8 @@ export const GetIntegrationRuntimeConnectionInfos: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeConnectionInfos",
 }));
 
 export type GetIntegrationRuntimeNodeError = AzureOpError;
@@ -6640,6 +6740,8 @@ export const GetIntegrationRuntimeNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeNode",
 }));
 
 export type GetIntegrationRuntimeNodeIpAddressError = AzureOpError;
@@ -6655,6 +6757,8 @@ export const GetIntegrationRuntimeNodeIpAddress: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeNodeIpAddress",
 }));
 
 export type GetIntegrationRuntimeStatusError = AzureOpError;
@@ -6670,6 +6774,8 @@ export const GetIntegrationRuntimeStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationRuntimeStatus",
 }));
 
 export type GetIpFirewallRuleError = AzureOpError;
@@ -6685,6 +6791,8 @@ export const GetIpFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIpFirewallRule",
 }));
 
 export type GetKeyError = AzureOpError;
@@ -6700,6 +6808,8 @@ export const GetKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKey",
 }));
 
 export type GetLibraryError = AzureOpError;
@@ -6715,6 +6825,8 @@ export const GetLibrary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLibrary",
 }));
 
 export type GetOperationAzureAsyncHeaderResultError = AzureOpError;
@@ -6730,6 +6842,8 @@ export const GetOperationAzureAsyncHeaderResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationAzureAsyncHeaderResult",
 }));
 
 export type GetOperationLocationHeaderResultError = AzureOpError;
@@ -6745,6 +6859,8 @@ export const GetOperationLocationHeaderResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationLocationHeaderResult",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -6760,6 +6876,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateEndpointConnectionsPrivateLinkHubError = AzureOpError;
@@ -6783,6 +6901,8 @@ export const GetPrivateEndpointConnectionsPrivateLinkHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionsPrivateLinkHub",
 }));
 
 export type GetPrivateLinkHubError = AzureOpError;
@@ -6798,6 +6918,8 @@ export const GetPrivateLinkHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkHub",
 }));
 
 export type GetPrivateLinkHubPrivateLinkResourceError = AzureOpError;
@@ -6813,6 +6935,8 @@ export const GetPrivateLinkHubPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkHubPrivateLinkResource",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -6828,6 +6952,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetRestorableDroppedSqlPoolError = AzureOpError;
@@ -6843,6 +6969,8 @@ export const GetRestorableDroppedSqlPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRestorableDroppedSqlPool",
 }));
 
 export type GetSqlPoolError = AzureOpError;
@@ -6858,6 +6986,8 @@ export const GetSqlPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPool",
 }));
 
 export type GetSqlPoolBlobAuditingPolicyError = AzureOpError;
@@ -6873,6 +7003,8 @@ export const GetSqlPoolBlobAuditingPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolBlobAuditingPolicy",
 }));
 
 export type GetSqlPoolColumnError = AzureOpError;
@@ -6888,6 +7020,8 @@ export const GetSqlPoolColumn: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolColumn",
 }));
 
 export type GetSqlPoolDataWarehouseUserActivityError = AzureOpError;
@@ -6903,6 +7037,8 @@ export const GetSqlPoolDataWarehouseUserActivity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolDataWarehouseUserActivity",
 }));
 
 export type GetSqlPoolGeoBackupPolicyError = AzureOpError;
@@ -6918,6 +7054,8 @@ export const GetSqlPoolGeoBackupPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolGeoBackupPolicy",
 }));
 
 export type GetSqlPoolMaintenanceWindowOptionError = AzureOpError;
@@ -6933,6 +7071,8 @@ export const GetSqlPoolMaintenanceWindowOption: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolMaintenanceWindowOption",
 }));
 
 export type GetSqlPoolMaintenanceWindowsError = AzureOpError;
@@ -6948,6 +7088,8 @@ export const GetSqlPoolMaintenanceWindows: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolMaintenanceWindows",
 }));
 
 export type GetSqlPoolOperationResultLocationHeaderResultError = AzureOpError;
@@ -6971,6 +7113,8 @@ export const GetSqlPoolOperationResultLocationHeaderResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolOperationResultLocationHeaderResult",
 }));
 
 export type GetSqlPoolReplicationLinkByNameError = AzureOpError;
@@ -6986,6 +7130,8 @@ export const GetSqlPoolReplicationLinkByName: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolReplicationLinkByName",
 }));
 
 export type GetSqlPoolRestorePointError = AzureOpError;
@@ -7001,6 +7147,8 @@ export const GetSqlPoolRestorePoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolRestorePoint",
 }));
 
 export type GetSqlPoolSchemaError = AzureOpError;
@@ -7016,6 +7164,8 @@ export const GetSqlPoolSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolSchema",
 }));
 
 export type GetSqlPoolSecurityAlertPolicyError = AzureOpError;
@@ -7031,6 +7181,8 @@ export const GetSqlPoolSecurityAlertPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolSecurityAlertPolicy",
 }));
 
 export type GetSqlPoolSensitivityLabelError = AzureOpError;
@@ -7046,6 +7198,8 @@ export const GetSqlPoolSensitivityLabel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolSensitivityLabel",
 }));
 
 export type GetSqlPoolTableError = AzureOpError;
@@ -7061,6 +7215,8 @@ export const GetSqlPoolTable: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolTable",
 }));
 
 export type GetSqlPoolTransparentDataEncryptionError = AzureOpError;
@@ -7076,6 +7232,8 @@ export const GetSqlPoolTransparentDataEncryption: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolTransparentDataEncryption",
 }));
 
 export type GetSqlPoolVulnerabilityAssessmentError = AzureOpError;
@@ -7091,6 +7249,8 @@ export const GetSqlPoolVulnerabilityAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolVulnerabilityAssessment",
 }));
 
 export type GetSqlPoolVulnerabilityAssessmentRuleBaselineError = AzureOpError;
@@ -7114,6 +7274,8 @@ export const GetSqlPoolVulnerabilityAssessmentRuleBaseline: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolVulnerabilityAssessmentRuleBaseline",
 }));
 
 export type GetSqlPoolVulnerabilityAssessmentScanError = AzureOpError;
@@ -7129,6 +7291,8 @@ export const GetSqlPoolVulnerabilityAssessmentScan: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolVulnerabilityAssessmentScan",
 }));
 
 export type GetSqlPoolWorkloadClassifierError = AzureOpError;
@@ -7144,6 +7308,8 @@ export const GetSqlPoolWorkloadClassifier: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolWorkloadClassifier",
 }));
 
 export type GetSqlPoolWorkloadGroupError = AzureOpError;
@@ -7159,6 +7325,8 @@ export const GetSqlPoolWorkloadGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlPoolWorkloadGroup",
 }));
 
 export type GetWorkspaceError = AzureOpError;
@@ -7174,6 +7342,8 @@ export const GetWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspace",
 }));
 
 export type GetWorkspaceAadAdminError = AzureOpError;
@@ -7189,6 +7359,8 @@ export const GetWorkspaceAadAdmin: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceAadAdmin",
 }));
 
 export type GetWorkspaceManagedIdentitySqlControlSettingsError = AzureOpError;
@@ -7212,6 +7384,8 @@ export const GetWorkspaceManagedIdentitySqlControlSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceManagedIdentitySqlControlSettings",
 }));
 
 export type GetWorkspaceManagedSqlServerBlobAuditingPolicyError = AzureOpError;
@@ -7235,6 +7409,8 @@ export const GetWorkspaceManagedSqlServerBlobAuditingPolicy: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceManagedSqlServerBlobAuditingPolicy",
 }));
 
 export type GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsError = AzureOpError;
@@ -7258,6 +7434,8 @@ export const GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings",
 }));
 
 export type GetWorkspaceManagedSqlServerEncryptionProtectorError = AzureOpError;
@@ -7281,6 +7459,8 @@ export const GetWorkspaceManagedSqlServerEncryptionProtector: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceManagedSqlServerEncryptionProtector",
 }));
 
 export type GetWorkspaceManagedSqlServerExtendedBlobAuditingPolicyError = AzureOpError;
@@ -7304,6 +7484,8 @@ export const GetWorkspaceManagedSqlServerExtendedBlobAuditingPolicy: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceManagedSqlServerExtendedBlobAuditingPolicy",
 }));
 
 export type GetWorkspaceManagedSqlServerRecoverableSqlPoolError = AzureOpError;
@@ -7327,6 +7509,8 @@ export const GetWorkspaceManagedSqlServerRecoverableSqlPool: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceManagedSqlServerRecoverableSqlPool",
 }));
 
 export type GetWorkspaceManagedSqlServerSecurityAlertPolicyError = AzureOpError;
@@ -7350,6 +7534,8 @@ export const GetWorkspaceManagedSqlServerSecurityAlertPolicy: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceManagedSqlServerSecurityAlertPolicy",
 }));
 
 export type GetWorkspaceManagedSqlServerVulnerabilityAssessmentError = AzureOpError;
@@ -7373,6 +7559,8 @@ export const GetWorkspaceManagedSqlServerVulnerabilityAssessment: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceManagedSqlServerVulnerabilityAssessment",
 }));
 
 export type GetWorkspaceSqlAadAdminError = AzureOpError;
@@ -7388,6 +7576,8 @@ export const GetWorkspaceSqlAadAdmin: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceSqlAadAdmin",
 }));
 
 export type IntegrationRuntimesUpgradeError = AzureOpError;
@@ -7403,6 +7593,8 @@ export const IntegrationRuntimesUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationRuntimesUpgrade",
 }));
 
 export type IpFirewallRulesCreateOrUpdateError = AzureOpError;
@@ -7418,6 +7610,8 @@ export const IpFirewallRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IpFirewallRulesCreateOrUpdate",
 }));
 
 export type KeysCreateOrUpdateError = AzureOpError;
@@ -7433,6 +7627,8 @@ export const KeysCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "KeysCreateOrUpdate",
 }));
 
 export type ListAzureADOnlyAuthenticationsError = AzureOpError;
@@ -7448,6 +7644,8 @@ export const ListAzureADOnlyAuthentications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureADOnlyAuthentications",
 }));
 
 export type ListBigDataPoolByWorkspaceError = AzureOpError;
@@ -7463,6 +7661,8 @@ export const ListBigDataPoolByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBigDataPoolByWorkspace",
 }));
 
 export type ListDataMaskingRuleBySqlPoolError = AzureOpError;
@@ -7478,6 +7678,8 @@ export const ListDataMaskingRuleBySqlPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataMaskingRuleBySqlPool",
 }));
 
 export type ListExtendedSqlPoolBlobAuditingPolicyBySqlPoolError = AzureOpError;
@@ -7497,6 +7699,8 @@ export const ListExtendedSqlPoolBlobAuditingPolicyBySqlPool: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtendedSqlPoolBlobAuditingPolicyBySqlPool",
 }));
 
 export type ListIntegrationRuntimeAuthKeysError = AzureOpError;
@@ -7512,6 +7716,8 @@ export const ListIntegrationRuntimeAuthKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationRuntimeAuthKeys",
 }));
 
 export type ListIntegrationRuntimeByWorkspaceError = AzureOpError;
@@ -7527,6 +7733,8 @@ export const ListIntegrationRuntimeByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationRuntimeByWorkspace",
 }));
 
 export type ListIntegrationRuntimeMonitoringDataError = AzureOpError;
@@ -7542,6 +7750,8 @@ export const ListIntegrationRuntimeMonitoringData: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationRuntimeMonitoringData",
 }));
 
 export type ListIntegrationRuntimeObjectMetadataError = AzureOpError;
@@ -7557,6 +7767,8 @@ export const ListIntegrationRuntimeObjectMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationRuntimeObjectMetadata",
 }));
 
 export type ListIntegrationRuntimeOutboundNetworkDependenciesEndpointsError = AzureOpError;
@@ -7580,6 +7792,8 @@ export const ListIntegrationRuntimeOutboundNetworkDependenciesEndpoints: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationRuntimeOutboundNetworkDependenciesEndpoints",
 }));
 
 export type ListIpFirewallRuleByWorkspaceError = AzureOpError;
@@ -7595,6 +7809,8 @@ export const ListIpFirewallRuleByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIpFirewallRuleByWorkspace",
 }));
 
 export type ListKeyByWorkspaceError = AzureOpError;
@@ -7610,6 +7826,8 @@ export const ListKeyByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKeyByWorkspace",
 }));
 
 export type ListLibraryByWorkspaceError = AzureOpError;
@@ -7625,6 +7843,8 @@ export const ListLibraryByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLibraryByWorkspace",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -7640,6 +7860,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -7655,6 +7877,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateEndpointConnectionsPrivateLinkHubError = AzureOpError;
@@ -7674,6 +7898,8 @@ export const ListPrivateEndpointConnectionsPrivateLinkHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionsPrivateLinkHub",
 }));
 
 export type ListPrivateLinkHubByResourceGroupError = AzureOpError;
@@ -7689,6 +7915,8 @@ export const ListPrivateLinkHubByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkHubByResourceGroup",
 }));
 
 export type ListPrivateLinkHubPrivateLinkResourcesError = AzureOpError;
@@ -7704,6 +7932,8 @@ export const ListPrivateLinkHubPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkHubPrivateLinkResources",
 }));
 
 export type ListPrivateLinkHubsError = AzureOpError;
@@ -7719,6 +7949,8 @@ export const ListPrivateLinkHubs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkHubs",
 }));
 
 export type ListPrivateLinkResourcesError = AzureOpError;
@@ -7734,6 +7966,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResources",
 }));
 
 export type ListRestorableDroppedSqlPoolByWorkspaceError = AzureOpError;
@@ -7749,6 +7983,8 @@ export const ListRestorableDroppedSqlPoolByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRestorableDroppedSqlPoolByWorkspace",
 }));
 
 export type ListSqlPoolBlobAuditingPolicyBySqlPoolError = AzureOpError;
@@ -7764,6 +8000,8 @@ export const ListSqlPoolBlobAuditingPolicyBySqlPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolBlobAuditingPolicyBySqlPool",
 }));
 
 export type ListSqlPoolByWorkspaceError = AzureOpError;
@@ -7779,6 +8017,8 @@ export const ListSqlPoolByWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolByWorkspace",
 }));
 
 export type ListSqlPoolGeoBackupPoliciesError = AzureOpError;
@@ -7794,6 +8034,8 @@ export const ListSqlPoolGeoBackupPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolGeoBackupPolicies",
 }));
 
 export type ListSqlPoolOperationsError = AzureOpError;
@@ -7813,6 +8055,8 @@ export const ListSqlPoolOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolOperations",
 }));
 
 export type ListSqlPoolReplicationLinksError = AzureOpError;
@@ -7828,6 +8072,8 @@ export const ListSqlPoolReplicationLinks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolReplicationLinks",
 }));
 
 export type ListSqlPoolRestorePointsError = AzureOpError;
@@ -7843,6 +8089,8 @@ export const ListSqlPoolRestorePoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolRestorePoints",
 }));
 
 export type ListSqlPoolSchemasError = AzureOpError;
@@ -7858,6 +8106,8 @@ export const ListSqlPoolSchemas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolSchemas",
 }));
 
 export type ListSqlPoolSecurityAlertPolicies2Error = AzureOpError;
@@ -7873,6 +8123,8 @@ export const ListSqlPoolSecurityAlertPolicies2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolSecurityAlertPolicies2",
 }));
 
 export type ListSqlPoolSensitivityLabelCurrentError = AzureOpError;
@@ -7888,6 +8140,8 @@ export const ListSqlPoolSensitivityLabelCurrent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolSensitivityLabelCurrent",
 }));
 
 export type ListSqlPoolSensitivityLabelRecommendedError = AzureOpError;
@@ -7903,6 +8157,8 @@ export const ListSqlPoolSensitivityLabelRecommended: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolSensitivityLabelRecommended",
 }));
 
 export type ListSqlPoolTableBySchemaError = AzureOpError;
@@ -7918,6 +8174,8 @@ export const ListSqlPoolTableBySchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolTableBySchema",
 }));
 
 export type ListSqlPoolTableColumnByTableNameError = AzureOpError;
@@ -7933,6 +8191,8 @@ export const ListSqlPoolTableColumnByTableName: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolTableColumnByTableName",
 }));
 
 export type ListSqlPoolTransparentDataEncryptionsError = AzureOpError;
@@ -7948,6 +8208,8 @@ export const ListSqlPoolTransparentDataEncryptions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolTransparentDataEncryptions",
 }));
 
 export type ListSqlPoolUsagesError = AzureOpError;
@@ -7963,6 +8225,8 @@ export const ListSqlPoolUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolUsages",
 }));
 
 export type ListSqlPoolVulnerabilityAssessmentsError = AzureOpError;
@@ -7978,6 +8242,8 @@ export const ListSqlPoolVulnerabilityAssessments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolVulnerabilityAssessments",
 }));
 
 export type ListSqlPoolVulnerabilityAssessmentScansError = AzureOpError;
@@ -7993,6 +8259,8 @@ export const ListSqlPoolVulnerabilityAssessmentScans: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolVulnerabilityAssessmentScans",
 }));
 
 export type ListSqlPoolWorkloadClassifierError = AzureOpError;
@@ -8008,6 +8276,8 @@ export const ListSqlPoolWorkloadClassifier: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolWorkloadClassifier",
 }));
 
 export type ListSqlPoolWorkloadGroupError = AzureOpError;
@@ -8023,6 +8293,8 @@ export const ListSqlPoolWorkloadGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlPoolWorkloadGroup",
 }));
 
 export type ListWorkspaceByResourceGroupError = AzureOpError;
@@ -8038,6 +8310,8 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceByResourceGroup",
 }));
 
 export type ListWorkspaceManagedSqlServerBlobAuditingPolicyByWorkspaceError = AzureOpError;
@@ -8057,6 +8331,8 @@ export const ListWorkspaceManagedSqlServerBlobAuditingPolicyByWorkspace: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceManagedSqlServerBlobAuditingPolicyByWorkspace",
 }));
 
 export type ListWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsError = AzureOpError;
@@ -8076,6 +8352,8 @@ export const ListWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: API.Op
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings",
 }));
 
 export type ListWorkspaceManagedSqlServerEncryptionProtectorError = AzureOpError;
@@ -8095,6 +8373,8 @@ export const ListWorkspaceManagedSqlServerEncryptionProtector: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceManagedSqlServerEncryptionProtector",
 }));
 
 export type ListWorkspaceManagedSqlServerExtendedBlobAuditingPolicyByWorkspaceError = AzureOpError;
@@ -8114,6 +8394,8 @@ export const ListWorkspaceManagedSqlServerExtendedBlobAuditingPolicyByWorkspace:
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceManagedSqlServerExtendedBlobAuditingPolicyByWorkspace",
 }));
 
 export type ListWorkspaceManagedSqlServerRecoverableSqlPoolsError = AzureOpError;
@@ -8133,6 +8415,8 @@ export const ListWorkspaceManagedSqlServerRecoverableSqlPools: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceManagedSqlServerRecoverableSqlPools",
 }));
 
 export type ListWorkspaceManagedSqlServerSecurityAlertPolicyError = AzureOpError;
@@ -8152,6 +8436,8 @@ export const ListWorkspaceManagedSqlServerSecurityAlertPolicy: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceManagedSqlServerSecurityAlertPolicy",
 }));
 
 export type ListWorkspaceManagedSqlServerUsagesError = AzureOpError;
@@ -8167,6 +8453,8 @@ export const ListWorkspaceManagedSqlServerUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceManagedSqlServerUsages",
 }));
 
 export type ListWorkspaceManagedSqlServerVulnerabilityAssessmentsError = AzureOpError;
@@ -8186,6 +8474,8 @@ export const ListWorkspaceManagedSqlServerVulnerabilityAssessments: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceManagedSqlServerVulnerabilityAssessments",
 }));
 
 export type ListWorkspacesError = AzureOpError;
@@ -8201,6 +8491,8 @@ export const ListWorkspaces: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 }));
 
 export type PauseSqlPoolError = AzureOpError;
@@ -8216,6 +8508,8 @@ export const PauseSqlPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseSqlPool",
 }));
 
 export type PrivateLinkHubsCreateOrUpdateError = AzureOpError;
@@ -8231,6 +8525,8 @@ export const PrivateLinkHubsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateLinkHubsCreateOrUpdate",
 }));
 
 export type RefreshIntegrationRuntimeObjectMetadataError = AzureOpError;
@@ -8246,6 +8542,8 @@ export const RefreshIntegrationRuntimeObjectMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshIntegrationRuntimeObjectMetadata",
 }));
 
 export type RegenerateIntegrationRuntimeAuthKeyError = AzureOpError;
@@ -8261,6 +8559,8 @@ export const RegenerateIntegrationRuntimeAuthKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateIntegrationRuntimeAuthKey",
 }));
 
 export type ReplaceIpFirewallRuleAllError = AzureOpError;
@@ -8276,6 +8576,8 @@ export const ReplaceIpFirewallRuleAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceIpFirewallRuleAll",
 }));
 
 export type ResumeSqlPoolError = AzureOpError;
@@ -8291,6 +8593,8 @@ export const ResumeSqlPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeSqlPool",
 }));
 
 export type SqlPoolBlobAuditingPoliciesCreateOrUpdateError = AzureOpError;
@@ -8310,6 +8614,8 @@ export const SqlPoolBlobAuditingPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolBlobAuditingPoliciesCreateOrUpdate",
 }));
 
 export type SqlPoolGeoBackupPoliciesCreateOrUpdateError = AzureOpError;
@@ -8325,6 +8631,8 @@ export const SqlPoolGeoBackupPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolGeoBackupPoliciesCreateOrUpdate",
 }));
 
 export type SqlPoolMaintenanceWindowsCreateOrUpdateError = AzureOpError;
@@ -8340,6 +8648,8 @@ export const SqlPoolMaintenanceWindowsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolMaintenanceWindowsCreateOrUpdate",
 }));
 
 export type SqlPoolSecurityAlertPoliciesCreateOrUpdateError = AzureOpError;
@@ -8359,6 +8669,8 @@ export const SqlPoolSecurityAlertPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolSecurityAlertPoliciesCreateOrUpdate",
 }));
 
 export type SqlPoolSensitivityLabelsCreateOrUpdateError = AzureOpError;
@@ -8374,6 +8686,8 @@ export const SqlPoolSensitivityLabelsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolSensitivityLabelsCreateOrUpdate",
 }));
 
 export type SqlPoolTransparentDataEncryptionsCreateOrUpdateError = AzureOpError;
@@ -8397,6 +8711,8 @@ export const SqlPoolTransparentDataEncryptionsCreateOrUpdate: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolTransparentDataEncryptionsCreateOrUpdate",
 }));
 
 export type SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdateError = AzureOpError;
@@ -8420,6 +8736,8 @@ export const SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdate: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdate",
 }));
 
 export type SqlPoolVulnerabilityAssessmentScansInitiateScanError = AzureOpError;
@@ -8443,6 +8761,8 @@ export const SqlPoolVulnerabilityAssessmentScansInitiateScan: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolVulnerabilityAssessmentScansInitiateScan",
 }));
 
 export type SqlPoolVulnerabilityAssessmentsCreateOrUpdateError = AzureOpError;
@@ -8466,6 +8786,8 @@ export const SqlPoolVulnerabilityAssessmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolVulnerabilityAssessmentsCreateOrUpdate",
 }));
 
 export type SqlPoolWorkloadClassifierCreateOrUpdateError = AzureOpError;
@@ -8481,6 +8803,8 @@ export const SqlPoolWorkloadClassifierCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolWorkloadClassifierCreateOrUpdate",
 }));
 
 export type SqlPoolWorkloadGroupCreateOrUpdateError = AzureOpError;
@@ -8496,6 +8820,8 @@ export const SqlPoolWorkloadGroupCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlPoolWorkloadGroupCreateOrUpdate",
 }));
 
 export type StartIntegrationRuntimeError = AzureOpError;
@@ -8511,6 +8837,8 @@ export const StartIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartIntegrationRuntime",
 }));
 
 export type StopIntegrationRuntimeError = AzureOpError;
@@ -8526,6 +8854,8 @@ export const StopIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopIntegrationRuntime",
 }));
 
 export type SyncIntegrationRuntimeCredentialsError = AzureOpError;
@@ -8541,6 +8871,8 @@ export const SyncIntegrationRuntimeCredentials: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncIntegrationRuntimeCredentials",
 }));
 
 export type UpdateBigDataPoolError = AzureOpError;
@@ -8556,6 +8888,8 @@ export const UpdateBigDataPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBigDataPool",
 }));
 
 export type UpdateIntegrationRuntimeError = AzureOpError;
@@ -8571,6 +8905,8 @@ export const UpdateIntegrationRuntime: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationRuntime",
 }));
 
 export type UpdateIntegrationRuntimeNodeError = AzureOpError;
@@ -8586,6 +8922,8 @@ export const UpdateIntegrationRuntimeNode: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationRuntimeNode",
 }));
 
 export type UpdatePrivateLinkHubError = AzureOpError;
@@ -8601,6 +8939,8 @@ export const UpdatePrivateLinkHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateLinkHub",
 }));
 
 export type UpdateSqlPoolError = AzureOpError;
@@ -8616,6 +8956,8 @@ export const UpdateSqlPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlPool",
 }));
 
 export type UpdateSqlPoolRecommendedSensitivityLabelError = AzureOpError;
@@ -8631,6 +8973,8 @@ export const UpdateSqlPoolRecommendedSensitivityLabel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlPoolRecommendedSensitivityLabel",
 }));
 
 export type UpdateSqlPoolSensitivityLabelError = AzureOpError;
@@ -8646,6 +8990,8 @@ export const UpdateSqlPoolSensitivityLabel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlPoolSensitivityLabel",
 }));
 
 export type UpdateWorkspaceError = AzureOpError;
@@ -8661,6 +9007,8 @@ export const UpdateWorkspace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 export type UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsError = AzureOpError;
@@ -8684,6 +9032,8 @@ export const UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: API.
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings",
 }));
 
 export type WorkspaceAadAdminsCreateOrUpdateError = AzureOpError;
@@ -8699,6 +9049,8 @@ export const WorkspaceAadAdminsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceAadAdminsCreateOrUpdate",
 }));
 
 export type WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateError = AzureOpError;
@@ -8722,6 +9074,8 @@ export const WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdate: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdate",
 }));
 
 export type WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateError = AzureOpError;
@@ -8745,6 +9099,8 @@ export const WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdate: API.Op
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdate",
 }));
 
 export type WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateError = AzureOpError;
@@ -8768,6 +9124,8 @@ export const WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdate: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdate",
 }));
 
 export type WorkspaceManagedSqlServerEncryptionProtectorRevalidateError = AzureOpError;
@@ -8791,6 +9149,8 @@ export const WorkspaceManagedSqlServerEncryptionProtectorRevalidate: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceManagedSqlServerEncryptionProtectorRevalidate",
 }));
 
 export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateError = AzureOpError;
@@ -8814,6 +9174,8 @@ export const WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdate
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdate",
 }));
 
 export type WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateError = AzureOpError;
@@ -8837,6 +9199,8 @@ export const WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdate: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdate",
 }));
 
 export type WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdateError = AzureOpError;
@@ -8860,6 +9224,8 @@ export const WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdate: AP
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdate",
 }));
 
 export type WorkspacesCreateOrUpdateError = AzureOpError;
@@ -8875,6 +9241,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspacesCreateOrUpdate",
 }));
 
 export type WorkspaceSqlAadAdminsCreateOrUpdateError = AzureOpError;
@@ -8890,6 +9258,8 @@ export const WorkspaceSqlAadAdminsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceSqlAadAdminsCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

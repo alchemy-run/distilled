@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { AxiomOpError, AxiomOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "axiom-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Axiom",
+  service: "AxiomEdgeIngest",
+  labels: "axiom",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -74,6 +87,8 @@ export const ingestToDataset: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IngestToDataset",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

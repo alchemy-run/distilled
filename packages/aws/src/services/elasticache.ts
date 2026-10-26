@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -81,6 +82,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticache.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ElastiCache",
+  service: "ElastiCache",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class APICallRateForCustomerExceededFault
   extends /*@__PURE__*/ S.TaggedError<APICallRateForCustomerExceededFault>()(
@@ -2440,6 +2456,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type AuthorizeCacheSecurityGroupIngressError =
@@ -2475,6 +2493,8 @@ export const authorizeCacheSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeCacheSecurityGroupIngress",
+  telemetry: TELEMETRY,
+  span: "AuthorizeCacheSecurityGroupIngress",
 }));
 
 export type BatchApplyUpdateActionError =
@@ -2498,6 +2518,8 @@ export const batchApplyUpdateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchApplyUpdateAction",
+  telemetry: TELEMETRY,
+  span: "BatchApplyUpdateAction",
 }));
 
 export type BatchStopUpdateActionError =
@@ -2521,6 +2543,8 @@ export const batchStopUpdateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStopUpdateAction",
+  telemetry: TELEMETRY,
+  span: "BatchStopUpdateAction",
 }));
 
 export type CompleteMigrationError =
@@ -2547,6 +2571,8 @@ export const completeMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMigration",
+  telemetry: TELEMETRY,
+  span: "CompleteMigration",
 }));
 
 export type CopyServerlessCacheSnapshotError =
@@ -2583,6 +2609,8 @@ export const copyServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyServerlessCacheSnapshot",
+  telemetry: TELEMETRY,
+  span: "CopyServerlessCacheSnapshot",
 }));
 
 export type CopySnapshotError =
@@ -2687,6 +2715,8 @@ export const copySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
+  telemetry: TELEMETRY,
+  span: "CopySnapshot",
 }));
 
 export type CreateCacheClusterError =
@@ -2738,6 +2768,8 @@ export const createCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCacheCluster",
 }));
 
 export type CreateCacheParameterGroupError =
@@ -2782,6 +2814,8 @@ export const createCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCacheParameterGroup",
 }));
 
 export type CreateCacheSecurityGroupError =
@@ -2817,6 +2851,8 @@ export const createCacheSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCacheSecurityGroup",
 }));
 
 export type CreateCacheSubnetGroupError =
@@ -2852,6 +2888,8 @@ export const createCacheSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCacheSubnetGroup",
 }));
 
 export type CreateGlobalReplicationGroupError =
@@ -2895,6 +2933,8 @@ export const createGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGlobalReplicationGroup",
 }));
 
 export type CreateReplicationGroupError =
@@ -2987,6 +3027,8 @@ export const createReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationGroup",
 }));
 
 export type CreateServerlessCacheError =
@@ -3029,6 +3071,8 @@ export const createServerlessCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServerlessCache",
+  telemetry: TELEMETRY,
+  span: "CreateServerlessCache",
 }));
 
 export type CreateServerlessCacheSnapshotError =
@@ -3065,6 +3109,8 @@ export const createServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServerlessCacheSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateServerlessCacheSnapshot",
 }));
 
 export type CreateSnapshotError =
@@ -3108,6 +3154,8 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateUserError =
@@ -3143,6 +3191,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateUserGroupError =
@@ -3180,6 +3230,8 @@ export const createUserGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserGroup",
+  telemetry: TELEMETRY,
+  span: "CreateUserGroup",
 }));
 
 export type DecreaseNodeGroupsInGlobalReplicationGroupError =
@@ -3208,6 +3260,8 @@ export const decreaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseNodeGroupsInGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "DecreaseNodeGroupsInGlobalReplicationGroup",
 }));
 
 export type DecreaseReplicaCountError =
@@ -3255,6 +3309,8 @@ export const decreaseReplicaCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseReplicaCount",
+  telemetry: TELEMETRY,
+  span: "DecreaseReplicaCount",
 }));
 
 export type DeleteCacheClusterError =
@@ -3308,6 +3364,8 @@ export const deleteCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCacheCluster",
 }));
 
 export type DeleteCacheParameterGroupError =
@@ -3338,6 +3396,8 @@ export const deleteCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCacheParameterGroup",
 }));
 
 export type DeleteCacheSecurityGroupError =
@@ -3369,6 +3429,8 @@ export const deleteCacheSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCacheSecurityGroup",
 }));
 
 export type DeleteCacheSubnetGroupError =
@@ -3393,6 +3455,8 @@ export const deleteCacheSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCacheSubnetGroup",
 }));
 
 export type DeleteGlobalReplicationGroupError =
@@ -3437,6 +3501,8 @@ export const deleteGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalReplicationGroup",
 }));
 
 export type DeleteReplicationGroupError =
@@ -3484,6 +3550,8 @@ export const deleteReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationGroup",
 }));
 
 export type DeleteServerlessCacheError =
@@ -3521,6 +3589,8 @@ export const deleteServerlessCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerlessCache",
+  telemetry: TELEMETRY,
+  span: "DeleteServerlessCache",
 }));
 
 export type DeleteServerlessCacheSnapshotError =
@@ -3549,6 +3619,8 @@ export const deleteServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerlessCacheSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteServerlessCacheSnapshot",
 }));
 
 export type DeleteSnapshotError =
@@ -3581,6 +3653,8 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteUserError =
@@ -3613,6 +3687,8 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DeleteUserGroupError =
@@ -3643,6 +3719,8 @@ export const deleteUserGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteUserGroup",
 }));
 
 export type DescribeCacheClustersError =
@@ -3696,6 +3774,8 @@ export const describeCacheClusters: API.PaginatedOperationMethod<
     items: "CacheClusters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheClusters",
 })) as any;
 
 export type DescribeCacheEngineVersionsError = CommonErrors;
@@ -3721,6 +3801,8 @@ export const describeCacheEngineVersions: API.PaginatedOperationMethod<
     items: "CacheEngineVersions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheEngineVersions",
 })) as any;
 
 export type DescribeCacheParameterGroupsError =
@@ -3755,6 +3837,8 @@ export const describeCacheParameterGroups: API.PaginatedOperationMethod<
     items: "CacheParameterGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheParameterGroups",
 })) as any;
 
 export type DescribeCacheParametersError =
@@ -3788,6 +3872,8 @@ export const describeCacheParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheParameters",
 })) as any;
 
 export type DescribeCacheSecurityGroupsError =
@@ -3823,6 +3909,8 @@ export const describeCacheSecurityGroups: API.PaginatedOperationMethod<
     items: "CacheSecurityGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheSecurityGroups",
 })) as any;
 
 export type DescribeCacheSubnetGroupsError = CacheSubnetGroupNotFoundFault | CommonErrors;
@@ -3851,6 +3939,8 @@ export const describeCacheSubnetGroups: API.PaginatedOperationMethod<
     items: "CacheSubnetGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCacheSubnetGroups",
 })) as any;
 
 export type DescribeEngineDefaultParametersError =
@@ -3880,6 +3970,8 @@ export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
     items: "EngineDefaults.Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEngineDefaultParameters",
 })) as any;
 
 export type DescribeEventsError =
@@ -3913,6 +4005,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeGlobalReplicationGroupsError =
@@ -3947,6 +4041,8 @@ export const describeGlobalReplicationGroups: API.PaginatedOperationMethod<
     items: "GlobalReplicationGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGlobalReplicationGroups",
 })) as any;
 
 export type DescribeReplicationGroupsError =
@@ -3984,6 +4080,8 @@ export const describeReplicationGroups: API.PaginatedOperationMethod<
     items: "ReplicationGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationGroups",
 })) as any;
 
 export type DescribeReservedCacheNodesError =
@@ -4018,6 +4116,8 @@ export const describeReservedCacheNodes: API.PaginatedOperationMethod<
     items: "ReservedCacheNodes",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedCacheNodes",
 })) as any;
 
 export type DescribeReservedCacheNodesOfferingsError =
@@ -4051,6 +4151,8 @@ export const describeReservedCacheNodesOfferings: API.PaginatedOperationMethod<
     items: "ReservedCacheNodesOfferings",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedCacheNodesOfferings",
 })) as any;
 
 export type DescribeServerlessCachesError =
@@ -4086,6 +4188,8 @@ export const describeServerlessCaches: API.PaginatedOperationMethod<
     items: "ServerlessCaches",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServerlessCaches",
 })) as any;
 
 export type DescribeServerlessCacheSnapshotsError =
@@ -4124,6 +4228,8 @@ export const describeServerlessCacheSnapshots: API.PaginatedOperationMethod<
     items: "ServerlessCacheSnapshots",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServerlessCacheSnapshots",
 })) as any;
 
 export type DescribeServiceUpdatesError =
@@ -4157,6 +4263,8 @@ export const describeServiceUpdates: API.PaginatedOperationMethod<
     items: "ServiceUpdates",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServiceUpdates",
 })) as any;
 
 export type DescribeSnapshotsError =
@@ -4197,6 +4305,8 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshots",
 })) as any;
 
 export type DescribeUpdateActionsError =
@@ -4225,6 +4335,8 @@ export const describeUpdateActions: API.PaginatedOperationMethod<
     items: "UpdateActions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUpdateActions",
 })) as any;
 
 export type DescribeUserGroupsError =
@@ -4258,6 +4370,8 @@ export const describeUserGroups: API.PaginatedOperationMethod<
     items: "UserGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUserGroups",
 })) as any;
 
 export type DescribeUsersError =
@@ -4287,6 +4401,8 @@ export const describeUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUsers",
 })) as any;
 
 export type DisassociateGlobalReplicationGroupError =
@@ -4317,6 +4433,8 @@ export const disassociateGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateGlobalReplicationGroup",
 }));
 
 export type ExportServerlessCacheSnapshotError =
@@ -4345,6 +4463,8 @@ export const exportServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportServerlessCacheSnapshot",
+  telemetry: TELEMETRY,
+  span: "ExportServerlessCacheSnapshot",
 }));
 
 export type FailoverGlobalReplicationGroupError =
@@ -4374,6 +4494,8 @@ export const failoverGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "FailoverGlobalReplicationGroup",
 }));
 
 export type IncreaseNodeGroupsInGlobalReplicationGroupError =
@@ -4400,6 +4522,8 @@ export const increaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseNodeGroupsInGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "IncreaseNodeGroupsInGlobalReplicationGroup",
 }));
 
 export type IncreaseReplicaCountError =
@@ -4447,6 +4571,8 @@ export const increaseReplicaCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseReplicaCount",
+  telemetry: TELEMETRY,
+  span: "IncreaseReplicaCount",
 }));
 
 export type ListAllowedNodeTypeModificationsError =
@@ -4481,6 +4607,8 @@ export const listAllowedNodeTypeModifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedNodeTypeModifications",
+  telemetry: TELEMETRY,
+  span: "ListAllowedNodeTypeModifications",
 }));
 
 export type ListTagsForResourceError =
@@ -4544,6 +4672,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ModifyCacheClusterError =
@@ -4587,6 +4717,8 @@ export const modifyCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyCacheCluster",
 }));
 
 export type ModifyCacheParameterGroupError =
@@ -4618,6 +4750,8 @@ export const modifyCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyCacheParameterGroup",
 }));
 
 export type ModifyCacheSubnetGroupError =
@@ -4648,6 +4782,8 @@ export const modifyCacheSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyCacheSubnetGroup",
 }));
 
 export type ModifyGlobalReplicationGroupError =
@@ -4674,6 +4810,8 @@ export const modifyGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyGlobalReplicationGroup",
 }));
 
 export type ModifyReplicationGroupError =
@@ -4734,6 +4872,8 @@ export const modifyReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyReplicationGroup",
 }));
 
 export type ModifyReplicationGroupShardConfigurationError =
@@ -4775,6 +4915,8 @@ export const modifyReplicationGroupShardConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationGroupShardConfiguration",
+  telemetry: TELEMETRY,
+  span: "ModifyReplicationGroupShardConfiguration",
 }));
 
 export type ModifyServerlessCacheError =
@@ -4811,6 +4953,8 @@ export const modifyServerlessCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyServerlessCache",
+  telemetry: TELEMETRY,
+  span: "ModifyServerlessCache",
 }));
 
 export type ModifyUserError =
@@ -4841,6 +4985,8 @@ export const modifyUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUser",
+  telemetry: TELEMETRY,
+  span: "ModifyUser",
 }));
 
 export type ModifyUserGroupError =
@@ -4877,6 +5023,8 @@ export const modifyUserGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUserGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyUserGroup",
 }));
 
 export type PurchaseReservedCacheNodesOfferingError =
@@ -4910,6 +5058,8 @@ export const purchaseReservedCacheNodesOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedCacheNodesOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedCacheNodesOffering",
 }));
 
 export type RebalanceSlotsInGlobalReplicationGroupError =
@@ -4937,6 +5087,8 @@ export const rebalanceSlotsInGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebalanceSlotsInGlobalReplicationGroup",
+  telemetry: TELEMETRY,
+  span: "RebalanceSlotsInGlobalReplicationGroup",
 }));
 
 export type RebootCacheClusterError =
@@ -4973,6 +5125,8 @@ export const rebootCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootCacheCluster",
+  telemetry: TELEMETRY,
+  span: "RebootCacheCluster",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -5033,6 +5187,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 export type ResetCacheParameterGroupError =
@@ -5066,6 +5222,8 @@ export const resetCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetCacheParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ResetCacheParameterGroup",
 }));
 
 export type RevokeCacheSecurityGroupIngressError =
@@ -5097,6 +5255,8 @@ export const revokeCacheSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCacheSecurityGroupIngress",
+  telemetry: TELEMETRY,
+  span: "RevokeCacheSecurityGroupIngress",
 }));
 
 export type StartMigrationError =
@@ -5125,6 +5285,8 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
+  telemetry: TELEMETRY,
+  span: "StartMigration",
 }));
 
 export type TestFailoverError =
@@ -5213,6 +5375,8 @@ export const testFailover: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestFailover",
+  telemetry: TELEMETRY,
+  span: "TestFailover",
 }));
 
 export type TestMigrationError =
@@ -5241,6 +5405,8 @@ export const testMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestMigration",
+  telemetry: TELEMETRY,
+  span: "TestMigration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

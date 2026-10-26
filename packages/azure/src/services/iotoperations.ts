@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.IoTOperations" },
+  prefix: "Iotoperations",
+  service: "Iotoperations",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** AkriConnector properties. */
 export interface AkriConnectorPropertiesInput {}
 /** The enum defining type of ExtendedLocation accepted. */
@@ -3198,6 +3218,8 @@ export const AkriConnectorCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AkriConnectorCreateOrUpdate",
 }));
 
 export type AkriConnectorTemplateCreateOrUpdateError = AzureOpError;
@@ -3213,6 +3235,8 @@ export const AkriConnectorTemplateCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AkriConnectorTemplateCreateOrUpdate",
 }));
 
 export type AkriServiceCreateOrUpdateError = AzureOpError;
@@ -3228,6 +3252,8 @@ export const AkriServiceCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AkriServiceCreateOrUpdate",
 }));
 
 export type BrokerAuthenticationCreateOrUpdateError = AzureOpError;
@@ -3243,6 +3269,8 @@ export const BrokerAuthenticationCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BrokerAuthenticationCreateOrUpdate",
 }));
 
 export type BrokerAuthorizationCreateOrUpdateError = AzureOpError;
@@ -3258,6 +3286,8 @@ export const BrokerAuthorizationCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BrokerAuthorizationCreateOrUpdate",
 }));
 
 export type BrokerCreateOrUpdateError = AzureOpError;
@@ -3273,6 +3303,8 @@ export const BrokerCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BrokerCreateOrUpdate",
 }));
 
 export type BrokerListenerCreateOrUpdateError = AzureOpError;
@@ -3288,6 +3320,8 @@ export const BrokerListenerCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BrokerListenerCreateOrUpdate",
 }));
 
 export type DataflowCreateOrUpdateError = AzureOpError;
@@ -3303,6 +3337,8 @@ export const DataflowCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataflowCreateOrUpdate",
 }));
 
 export type DataflowEndpointCreateOrUpdateError = AzureOpError;
@@ -3318,6 +3354,8 @@ export const DataflowEndpointCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataflowEndpointCreateOrUpdate",
 }));
 
 export type DataflowGraphCreateOrUpdateError = AzureOpError;
@@ -3333,6 +3371,8 @@ export const DataflowGraphCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataflowGraphCreateOrUpdate",
 }));
 
 export type DataflowProfileCreateOrUpdateError = AzureOpError;
@@ -3348,6 +3388,8 @@ export const DataflowProfileCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataflowProfileCreateOrUpdate",
 }));
 
 export type DeleteAkriConnectorError = AzureOpError;
@@ -3363,6 +3405,8 @@ export const DeleteAkriConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAkriConnector",
 }));
 
 export type DeleteAkriConnectorTemplateError = AzureOpError;
@@ -3378,6 +3422,8 @@ export const DeleteAkriConnectorTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAkriConnectorTemplate",
 }));
 
 export type DeleteAkriServiceError = AzureOpError;
@@ -3393,6 +3439,8 @@ export const DeleteAkriService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAkriService",
 }));
 
 export type DeleteBrokerError = AzureOpError;
@@ -3408,6 +3456,8 @@ export const DeleteBroker: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBroker",
 }));
 
 export type DeleteBrokerAuthenticationError = AzureOpError;
@@ -3423,6 +3473,8 @@ export const DeleteBrokerAuthentication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrokerAuthentication",
 }));
 
 export type DeleteBrokerAuthorizationError = AzureOpError;
@@ -3438,6 +3490,8 @@ export const DeleteBrokerAuthorization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrokerAuthorization",
 }));
 
 export type DeleteBrokerListenerError = AzureOpError;
@@ -3453,6 +3507,8 @@ export const DeleteBrokerListener: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBrokerListener",
 }));
 
 export type DeleteDataflowError = AzureOpError;
@@ -3468,6 +3524,8 @@ export const DeleteDataflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataflow",
 }));
 
 export type DeleteDataflowEndpointError = AzureOpError;
@@ -3483,6 +3541,8 @@ export const DeleteDataflowEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataflowEndpoint",
 }));
 
 export type DeleteDataflowGraphError = AzureOpError;
@@ -3498,6 +3558,8 @@ export const DeleteDataflowGraph: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataflowGraph",
 }));
 
 export type DeleteDataflowProfileError = AzureOpError;
@@ -3513,6 +3575,8 @@ export const DeleteDataflowProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataflowProfile",
 }));
 
 export type DeleteInstanceError = AzureOpError;
@@ -3528,6 +3592,8 @@ export const DeleteInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DeleteRegistryEndpointError = AzureOpError;
@@ -3543,6 +3609,8 @@ export const DeleteRegistryEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistryEndpoint",
 }));
 
 export type GetAkriConnectorError = AzureOpError;
@@ -3558,6 +3626,8 @@ export const GetAkriConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAkriConnector",
 }));
 
 export type GetAkriConnectorTemplateError = AzureOpError;
@@ -3573,6 +3643,8 @@ export const GetAkriConnectorTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAkriConnectorTemplate",
 }));
 
 export type GetAkriServiceError = AzureOpError;
@@ -3588,6 +3660,8 @@ export const GetAkriService: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAkriService",
 }));
 
 export type GetBrokerError = AzureOpError;
@@ -3603,6 +3677,8 @@ export const GetBroker: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBroker",
 }));
 
 export type GetBrokerAuthenticationError = AzureOpError;
@@ -3618,6 +3694,8 @@ export const GetBrokerAuthentication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrokerAuthentication",
 }));
 
 export type GetBrokerAuthorizationError = AzureOpError;
@@ -3633,6 +3711,8 @@ export const GetBrokerAuthorization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrokerAuthorization",
 }));
 
 export type GetBrokerListenerError = AzureOpError;
@@ -3648,6 +3728,8 @@ export const GetBrokerListener: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBrokerListener",
 }));
 
 export type GetDataflowError = AzureOpError;
@@ -3663,6 +3745,8 @@ export const GetDataflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataflow",
 }));
 
 export type GetDataflowEndpointError = AzureOpError;
@@ -3678,6 +3762,8 @@ export const GetDataflowEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataflowEndpoint",
 }));
 
 export type GetDataflowGraphError = AzureOpError;
@@ -3693,6 +3779,8 @@ export const GetDataflowGraph: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataflowGraph",
 }));
 
 export type GetDataflowProfileError = AzureOpError;
@@ -3708,6 +3796,8 @@ export const GetDataflowProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataflowProfile",
 }));
 
 export type GetInstanceError = AzureOpError;
@@ -3723,6 +3813,8 @@ export const GetInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetRegistryEndpointError = AzureOpError;
@@ -3738,6 +3830,8 @@ export const GetRegistryEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistryEndpoint",
 }));
 
 export type InstanceCreateOrUpdateError = AzureOpError;
@@ -3753,6 +3847,8 @@ export const InstanceCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstanceCreateOrUpdate",
 }));
 
 export type ListAkriConnectorByTemplateError = AzureOpError;
@@ -3768,6 +3864,8 @@ export const ListAkriConnectorByTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAkriConnectorByTemplate",
 }));
 
 export type ListAkriConnectorTemplateByInstanceResourceError = AzureOpError;
@@ -3783,6 +3881,8 @@ export const ListAkriConnectorTemplateByInstanceResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAkriConnectorTemplateByInstanceResource",
 }));
 
 export type ListAkriServiceByInstanceResourceError = AzureOpError;
@@ -3798,6 +3898,8 @@ export const ListAkriServiceByInstanceResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAkriServiceByInstanceResource",
 }));
 
 export type ListBrokerAuthenticationByResourceGroupError = AzureOpError;
@@ -3813,6 +3915,8 @@ export const ListBrokerAuthenticationByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrokerAuthenticationByResourceGroup",
 }));
 
 export type ListBrokerAuthorizationByResourceGroupError = AzureOpError;
@@ -3828,6 +3932,8 @@ export const ListBrokerAuthorizationByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrokerAuthorizationByResourceGroup",
 }));
 
 export type ListBrokerByResourceGroupError = AzureOpError;
@@ -3843,6 +3949,8 @@ export const ListBrokerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrokerByResourceGroup",
 }));
 
 export type ListBrokerListenerByResourceGroupError = AzureOpError;
@@ -3858,6 +3966,8 @@ export const ListBrokerListenerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBrokerListenerByResourceGroup",
 }));
 
 export type ListDataflowByProfileResourceError = AzureOpError;
@@ -3873,6 +3983,8 @@ export const ListDataflowByProfileResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataflowByProfileResource",
 }));
 
 export type ListDataflowEndpointByResourceGroupError = AzureOpError;
@@ -3888,6 +4000,8 @@ export const ListDataflowEndpointByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataflowEndpointByResourceGroup",
 }));
 
 export type ListDataflowGraphByDataflowProfileError = AzureOpError;
@@ -3903,6 +4017,8 @@ export const ListDataflowGraphByDataflowProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataflowGraphByDataflowProfile",
 }));
 
 export type ListDataflowProfileByResourceGroupError = AzureOpError;
@@ -3918,6 +4034,8 @@ export const ListDataflowProfileByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataflowProfileByResourceGroup",
 }));
 
 export type ListInstanceByResourceGroupError = AzureOpError;
@@ -3933,6 +4051,8 @@ export const ListInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstanceByResourceGroup",
 }));
 
 export type ListInstanceBySubscriptionError = AzureOpError;
@@ -3948,6 +4068,8 @@ export const ListInstanceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstanceBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -3963,6 +4085,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListRegistryEndpointByInstanceResourceError = AzureOpError;
@@ -3978,6 +4102,8 @@ export const ListRegistryEndpointByInstanceResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistryEndpointByInstanceResource",
 }));
 
 export type RegistryEndpointCreateOrUpdateError = AzureOpError;
@@ -3993,6 +4119,8 @@ export const RegistryEndpointCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegistryEndpointCreateOrUpdate",
 }));
 
 export type UpdateInstanceError = AzureOpError;
@@ -4008,6 +4136,8 @@ export const UpdateInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

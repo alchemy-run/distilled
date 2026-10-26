@@ -11,6 +11,23 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Search",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1153,6 +1170,8 @@ export const code: API.OperationMethod<CodeRequest, CodeResponse, CodeError, Git
     errors: [Forbidden, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Code",
   }));
 
 export type CommitsError = GithubOpError;
@@ -1168,6 +1187,8 @@ export const commits: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Commits",
 }));
 
 export type IssuesAndPullRequestsError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -1183,6 +1204,8 @@ export const issuesAndPullRequests: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IssuesAndPullRequests",
 }));
 
 export type LabelsError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -1198,6 +1221,8 @@ export const labels: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Labels",
 }));
 
 export type ReposError = UnprocessableEntity | GithubOpError;
@@ -1209,6 +1234,8 @@ export const repos: API.OperationMethod<ReposRequest, ReposResponse, ReposError,
     errors: [UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Repos",
   }));
 
 export type TopicsError = GithubOpError;
@@ -1224,6 +1251,8 @@ export const topics: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Topics",
 }));
 
 export type UsersError = UnprocessableEntity | GithubOpError;
@@ -1235,6 +1264,8 @@ export const users: API.OperationMethod<UsersRequest, UsersResponse, UsersError,
     errors: [UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Users",
   }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

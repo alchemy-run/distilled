@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.RecommendationsService" },
+  prefix: "Recommendationsservice",
+  service: "Recommendationsservice",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Account configuration. This can only be set at RecommendationsService Account creation. */
@@ -1180,6 +1200,8 @@ export const AccountsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsCreateOrUpdate",
 }));
 
 export type CheckAccountNameAvailabilityError = AzureOpError;
@@ -1195,6 +1217,8 @@ export const CheckAccountNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAccountNameAvailability",
 }));
 
 export type DeleteAccountError = AzureOpError;
@@ -1210,6 +1234,8 @@ export const DeleteAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteModelingError = AzureOpError;
@@ -1225,6 +1251,8 @@ export const DeleteModeling: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteModeling",
 }));
 
 export type DeleteServiceEndpointError = AzureOpError;
@@ -1240,6 +1268,8 @@ export const DeleteServiceEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServiceEndpoint",
 }));
 
 export type GetAccountError = AzureOpError;
@@ -1255,6 +1285,8 @@ export const GetAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetAccountStatusError = AzureOpError;
@@ -1270,6 +1302,8 @@ export const GetAccountStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountStatus",
 }));
 
 export type GetModelingError = AzureOpError;
@@ -1285,6 +1319,8 @@ export const GetModeling: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetModeling",
 }));
 
 export type GetOperationStatusError = AzureOpError;
@@ -1300,6 +1336,8 @@ export const GetOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationStatus",
 }));
 
 export type GetServiceEndpointError = AzureOpError;
@@ -1315,6 +1353,8 @@ export const GetServiceEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceEndpoint",
 }));
 
 export type ListAccountByResourceGroupError = AzureOpError;
@@ -1330,6 +1370,8 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountByResourceGroup",
 }));
 
 export type ListAccountBySubscriptionError = AzureOpError;
@@ -1345,6 +1387,8 @@ export const ListAccountBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountBySubscription",
 }));
 
 export type ListModelingByAccountResourceError = AzureOpError;
@@ -1360,6 +1404,8 @@ export const ListModelingByAccountResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListModelingByAccountResource",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1375,6 +1421,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListServiceEndpointByAccountResourceError = AzureOpError;
@@ -1390,6 +1438,8 @@ export const ListServiceEndpointByAccountResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServiceEndpointByAccountResource",
 }));
 
 export type ModelingCreateOrUpdateError = AzureOpError;
@@ -1405,6 +1455,8 @@ export const ModelingCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModelingCreateOrUpdate",
 }));
 
 export type ServiceEndpointsCreateOrUpdateError = AzureOpError;
@@ -1420,6 +1472,8 @@ export const ServiceEndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServiceEndpointsCreateOrUpdate",
 }));
 
 export type UpdateAccountError = AzureOpError;
@@ -1435,6 +1489,8 @@ export const UpdateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 export type UpdateModelingError = AzureOpError;
@@ -1450,6 +1506,8 @@ export const UpdateModeling: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateModeling",
 }));
 
 export type UpdateServiceEndpointError = AzureOpError;
@@ -1465,6 +1523,8 @@ export const UpdateServiceEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServiceEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://geo.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Location",
+  service: "Location",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1337,6 +1352,8 @@ export const associateTrackerConsumer: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateTrackerConsumer",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "AssociateTrackerConsumer",
 }));
 
 export type BatchDeleteDevicePositionHistoryError =
@@ -1368,6 +1385,8 @@ export const batchDeleteDevicePositionHistory: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteDevicePositionHistory",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteDevicePositionHistory",
 }));
 
 export type BatchDeleteGeofenceError =
@@ -1401,6 +1420,8 @@ export const batchDeleteGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteGeofence",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteGeofence",
 }));
 
 export type BatchEvaluateGeofencesError =
@@ -1444,6 +1465,8 @@ export const batchEvaluateGeofences: API.OperationMethod<
   retry: Retry,
   operationName: "BatchEvaluateGeofences",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "BatchEvaluateGeofences",
 }));
 
 export type BatchGetDevicePositionError =
@@ -1475,6 +1498,8 @@ export const batchGetDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetDevicePosition",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "BatchGetDevicePosition",
 }));
 
 export type BatchPutGeofenceError =
@@ -1506,6 +1531,8 @@ export const batchPutGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "BatchPutGeofence",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "BatchPutGeofence",
 }));
 
 export type BatchUpdateDevicePositionError =
@@ -1543,6 +1570,8 @@ export const batchUpdateDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateDevicePosition",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateDevicePosition",
 }));
 
 export type CalculateRouteError =
@@ -1596,6 +1625,8 @@ export const calculateRoute: API.OperationMethod<
   retry: Retry,
   operationName: "CalculateRoute",
   endpointHostPrefix: "routes.",
+  telemetry: TELEMETRY,
+  span: "CalculateRoute",
 }));
 
 export type CalculateRouteMatrixError =
@@ -1653,6 +1684,8 @@ export const calculateRouteMatrix: API.OperationMethod<
   retry: Retry,
   operationName: "CalculateRouteMatrix",
   endpointHostPrefix: "routes.",
+  telemetry: TELEMETRY,
+  span: "CalculateRouteMatrix",
 }));
 
 export type CancelJobError =
@@ -1686,6 +1719,8 @@ export const cancelJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelJob",
   endpointHostPrefix: "metadata.",
+  telemetry: TELEMETRY,
+  span: "CancelJob",
 }));
 
 export type CreateGeofenceCollectionError =
@@ -1719,6 +1754,8 @@ export const createGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "CreateGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  telemetry: TELEMETRY,
+  span: "CreateGeofenceCollection",
 }));
 
 export type CreateKeyError =
@@ -1754,6 +1791,8 @@ export const createKey: API.OperationMethod<
   retry: Retry,
   operationName: "CreateKey",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "CreateKey",
 }));
 
 export type CreateMapError =
@@ -1801,6 +1840,8 @@ export const createMap: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMap",
   endpointHostPrefix: "cp.maps.",
+  telemetry: TELEMETRY,
+  span: "CreateMap",
 }));
 
 export type CreatePlaceIndexError =
@@ -1848,6 +1889,8 @@ export const createPlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  telemetry: TELEMETRY,
+  span: "CreatePlaceIndex",
 }));
 
 export type CreateRouteCalculatorError =
@@ -1897,6 +1940,8 @@ export const createRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "CreateRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  telemetry: TELEMETRY,
+  span: "CreateRouteCalculator",
 }));
 
 export type CreateTrackerError =
@@ -1930,6 +1975,8 @@ export const createTracker: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTracker",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "CreateTracker",
 }));
 
 export type DeleteGeofenceCollectionError =
@@ -1963,6 +2010,8 @@ export const deleteGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  telemetry: TELEMETRY,
+  span: "DeleteGeofenceCollection",
 }));
 
 export type DeleteKeyError =
@@ -1996,6 +2045,8 @@ export const deleteKey: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteKey",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DeleteMapError =
@@ -2041,6 +2092,8 @@ export const deleteMap: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMap",
   endpointHostPrefix: "cp.maps.",
+  telemetry: TELEMETRY,
+  span: "DeleteMap",
 }));
 
 export type DeletePlaceIndexError =
@@ -2086,6 +2139,8 @@ export const deletePlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  telemetry: TELEMETRY,
+  span: "DeletePlaceIndex",
 }));
 
 export type DeleteRouteCalculatorError =
@@ -2131,6 +2186,8 @@ export const deleteRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  telemetry: TELEMETRY,
+  span: "DeleteRouteCalculator",
 }));
 
 export type DeleteTrackerError =
@@ -2164,6 +2221,8 @@ export const deleteTracker: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTracker",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "DeleteTracker",
 }));
 
 export type DescribeGeofenceCollectionError =
@@ -2195,6 +2254,8 @@ export const describeGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  telemetry: TELEMETRY,
+  span: "DescribeGeofenceCollection",
 }));
 
 export type DescribeKeyError =
@@ -2228,6 +2289,8 @@ export const describeKey: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeKey",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "DescribeKey",
 }));
 
 export type DescribeMapError =
@@ -2271,6 +2334,8 @@ export const describeMap: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeMap",
   endpointHostPrefix: "cp.maps.",
+  telemetry: TELEMETRY,
+  span: "DescribeMap",
 }));
 
 export type DescribePlaceIndexError =
@@ -2314,6 +2379,8 @@ export const describePlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  telemetry: TELEMETRY,
+  span: "DescribePlaceIndex",
 }));
 
 export type DescribeRouteCalculatorError =
@@ -2357,6 +2424,8 @@ export const describeRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  telemetry: TELEMETRY,
+  span: "DescribeRouteCalculator",
 }));
 
 export type DescribeTrackerError =
@@ -2388,6 +2457,8 @@ export const describeTracker: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeTracker",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "DescribeTracker",
 }));
 
 export type DisassociateTrackerConsumerError =
@@ -2421,6 +2492,8 @@ export const disassociateTrackerConsumer: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateTrackerConsumer",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "DisassociateTrackerConsumer",
 }));
 
 export type ForecastGeofenceEventsError =
@@ -2467,6 +2540,8 @@ export const forecastGeofenceEvents: API.PaginatedOperationMethod<
     items: "ForecastedEvents",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ForecastGeofenceEvents",
 })) as any;
 
 export type GetDevicePositionError =
@@ -2500,6 +2575,8 @@ export const getDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "GetDevicePosition",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "GetDevicePosition",
 }));
 
 export type GetDevicePositionHistoryError =
@@ -2540,6 +2617,8 @@ export const getDevicePositionHistory: API.PaginatedOperationMethod<
     items: "DevicePositions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDevicePositionHistory",
 })) as any;
 
 export type GetGeofenceError =
@@ -2573,6 +2652,8 @@ export const getGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "GetGeofence",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "GetGeofence",
 }));
 
 export type GetJobError =
@@ -2606,6 +2687,8 @@ export const getJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetJob",
   endpointHostPrefix: "metadata.",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetMapGlyphsError =
@@ -2649,6 +2732,8 @@ export const getMapGlyphs: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapGlyphs",
   endpointHostPrefix: "maps.",
+  telemetry: TELEMETRY,
+  span: "GetMapGlyphs",
 }));
 
 export type GetMapSpritesError =
@@ -2692,6 +2777,8 @@ export const getMapSprites: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapSprites",
   endpointHostPrefix: "maps.",
+  telemetry: TELEMETRY,
+  span: "GetMapSprites",
 }));
 
 export type GetMapStyleDescriptorError =
@@ -2737,6 +2824,8 @@ export const getMapStyleDescriptor: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapStyleDescriptor",
   endpointHostPrefix: "maps.",
+  telemetry: TELEMETRY,
+  span: "GetMapStyleDescriptor",
 }));
 
 export type GetMapTileError =
@@ -2782,6 +2871,8 @@ export const getMapTile: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapTile",
   endpointHostPrefix: "maps.",
+  telemetry: TELEMETRY,
+  span: "GetMapTile",
 }));
 
 export type GetPlaceError =
@@ -2835,6 +2926,8 @@ export const getPlace: API.OperationMethod<
   retry: Retry,
   operationName: "GetPlace",
   endpointHostPrefix: "places.",
+  telemetry: TELEMETRY,
+  span: "GetPlace",
 }));
 
 export type ListDevicePositionsError =
@@ -2871,6 +2964,8 @@ export const listDevicePositions: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDevicePositions",
 })) as any;
 
 export type ListGeofenceCollectionsError =
@@ -2907,6 +3002,8 @@ export const listGeofenceCollections: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGeofenceCollections",
 })) as any;
 
 export type ListGeofencesError =
@@ -2945,6 +3042,8 @@ export const listGeofences: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGeofences",
 })) as any;
 
 export type ListJobsError =
@@ -2983,6 +3082,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListKeysError =
@@ -3021,6 +3122,8 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeys",
 })) as any;
 
 export type ListMapsError =
@@ -3069,6 +3172,8 @@ export const listMaps: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMaps",
 })) as any;
 
 export type ListPlaceIndexesError =
@@ -3117,6 +3222,8 @@ export const listPlaceIndexes: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlaceIndexes",
 })) as any;
 
 export type ListRouteCalculatorsError =
@@ -3165,6 +3272,8 @@ export const listRouteCalculators: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRouteCalculators",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3196,6 +3305,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTrackerConsumersError =
@@ -3234,6 +3345,8 @@ export const listTrackerConsumers: API.PaginatedOperationMethod<
     items: "ConsumerArns",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrackerConsumers",
 })) as any;
 
 export type ListTrackersError =
@@ -3270,6 +3383,8 @@ export const listTrackers: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrackers",
 })) as any;
 
 export type PutGeofenceError =
@@ -3303,6 +3418,8 @@ export const putGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "PutGeofence",
   endpointHostPrefix: "geofencing.",
+  telemetry: TELEMETRY,
+  span: "PutGeofence",
 }));
 
 export type SearchPlaceIndexForPositionError =
@@ -3344,6 +3461,8 @@ export const searchPlaceIndexForPosition: API.OperationMethod<
   retry: Retry,
   operationName: "SearchPlaceIndexForPosition",
   endpointHostPrefix: "places.",
+  telemetry: TELEMETRY,
+  span: "SearchPlaceIndexForPosition",
 }));
 
 export type SearchPlaceIndexForSuggestionsError =
@@ -3389,6 +3508,8 @@ export const searchPlaceIndexForSuggestions: API.OperationMethod<
   retry: Retry,
   operationName: "SearchPlaceIndexForSuggestions",
   endpointHostPrefix: "places.",
+  telemetry: TELEMETRY,
+  span: "SearchPlaceIndexForSuggestions",
 }));
 
 export type SearchPlaceIndexForTextError =
@@ -3436,6 +3557,8 @@ export const searchPlaceIndexForText: API.OperationMethod<
   retry: Retry,
   operationName: "SearchPlaceIndexForText",
   endpointHostPrefix: "places.",
+  telemetry: TELEMETRY,
+  span: "SearchPlaceIndexForText",
 }));
 
 export type StartJobError =
@@ -3467,6 +3590,8 @@ export const startJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartJob",
   endpointHostPrefix: "metadata.",
+  telemetry: TELEMETRY,
+  span: "StartJob",
 }));
 
 export type TagResourceError =
@@ -3504,6 +3629,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3535,6 +3662,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGeofenceCollectionError =
@@ -3566,6 +3695,8 @@ export const updateGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  telemetry: TELEMETRY,
+  span: "UpdateGeofenceCollection",
 }));
 
 export type UpdateKeyError =
@@ -3597,6 +3728,8 @@ export const updateKey: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateKey",
   endpointHostPrefix: "cp.metadata.",
+  telemetry: TELEMETRY,
+  span: "UpdateKey",
 }));
 
 export type UpdateMapError =
@@ -3640,6 +3773,8 @@ export const updateMap: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMap",
   endpointHostPrefix: "cp.maps.",
+  telemetry: TELEMETRY,
+  span: "UpdateMap",
 }));
 
 export type UpdatePlaceIndexError =
@@ -3683,6 +3818,8 @@ export const updatePlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  telemetry: TELEMETRY,
+  span: "UpdatePlaceIndex",
 }));
 
 export type UpdateRouteCalculatorError =
@@ -3726,6 +3863,8 @@ export const updateRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  telemetry: TELEMETRY,
+  span: "UpdateRouteCalculator",
 }));
 
 export type UpdateTrackerError =
@@ -3757,6 +3896,8 @@ export const updateTracker: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTracker",
   endpointHostPrefix: "cp.tracking.",
+  telemetry: TELEMETRY,
+  span: "UpdateTracker",
 }));
 
 export type VerifyDevicePositionError =
@@ -3790,6 +3931,8 @@ export const verifyDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "VerifyDevicePosition",
   endpointHostPrefix: "tracking.",
+  telemetry: TELEMETRY,
+  span: "VerifyDevicePosition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

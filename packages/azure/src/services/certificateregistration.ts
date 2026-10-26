@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.CertificateRegistration" },
+  prefix: "Certificateregistration",
+  service: "Certificateregistration",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type AppServiceCertificateOrdersCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
@@ -997,6 +1017,8 @@ export const AppServiceCertificateOrdersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppServiceCertificateOrdersCreateOrUpdate",
 }));
 
 export type AppServiceCertificateOrdersCreateOrUpdateCertificateError = AzureOpError;
@@ -1020,6 +1042,8 @@ export const AppServiceCertificateOrdersCreateOrUpdateCertificate: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppServiceCertificateOrdersCreateOrUpdateCertificate",
 }));
 
 export type AppServiceCertificateOrdersReissueError = AzureOpError;
@@ -1035,6 +1059,8 @@ export const AppServiceCertificateOrdersReissue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppServiceCertificateOrdersReissue",
 }));
 
 export type DeleteAppServiceCertificateOrderError = AzureOpError;
@@ -1050,6 +1076,8 @@ export const DeleteAppServiceCertificateOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppServiceCertificateOrder",
 }));
 
 export type DeleteAppServiceCertificateOrderCertificateError = AzureOpError;
@@ -1069,6 +1097,8 @@ export const DeleteAppServiceCertificateOrderCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAppServiceCertificateOrderCertificate",
 }));
 
 export type GetAppServiceCertificateOrderError = AzureOpError;
@@ -1084,6 +1114,8 @@ export const GetAppServiceCertificateOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppServiceCertificateOrder",
 }));
 
 export type GetAppServiceCertificateOrderCertificateError = AzureOpError;
@@ -1099,6 +1131,8 @@ export const GetAppServiceCertificateOrderCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppServiceCertificateOrderCertificate",
 }));
 
 export type GetAppServiceCertificateOrderCertificateActionsError = AzureOpError;
@@ -1122,6 +1156,8 @@ export const GetAppServiceCertificateOrderCertificateActions: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppServiceCertificateOrderCertificateActions",
 }));
 
 export type GetAppServiceCertificateOrderCertificateEmailHistoryError = AzureOpError;
@@ -1145,6 +1181,8 @@ export const GetAppServiceCertificateOrderCertificateEmailHistory: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppServiceCertificateOrderCertificateEmailHistory",
 }));
 
 export type GetAppServiceCertificateOrderSiteSealError = AzureOpError;
@@ -1160,6 +1198,8 @@ export const GetAppServiceCertificateOrderSiteSeal: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppServiceCertificateOrderSiteSeal",
 }));
 
 export type GetCertificateOrdersDiagnosticAppServiceCertificateOrderDetectorResponseError =
@@ -1184,6 +1224,8 @@ export const GetCertificateOrdersDiagnosticAppServiceCertificateOrderDetectorRes
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateOrdersDiagnosticAppServiceCertificateOrderDetectorResponse",
 }));
 
 export type ListAppServiceCertificateOrderByResourceGroupError = AzureOpError;
@@ -1203,6 +1245,8 @@ export const ListAppServiceCertificateOrderByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppServiceCertificateOrderByResourceGroup",
 }));
 
 export type ListAppServiceCertificateOrderCertificatesError = AzureOpError;
@@ -1218,6 +1262,8 @@ export const ListAppServiceCertificateOrderCertificates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppServiceCertificateOrderCertificates",
 }));
 
 export type ListAppServiceCertificateOrdersError = AzureOpError;
@@ -1233,6 +1279,8 @@ export const ListAppServiceCertificateOrders: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAppServiceCertificateOrders",
 }));
 
 export type ListCertificateOrdersDiagnosticAppServiceCertificateOrderDetectorResponseError =
@@ -1253,6 +1301,8 @@ export const ListCertificateOrdersDiagnosticAppServiceCertificateOrderDetectorRe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateOrdersDiagnosticAppServiceCertificateOrderDetectorResponse",
 }));
 
 export type ListCertificateRegistrationProviderOperationsError = AzureOpError;
@@ -1272,6 +1322,8 @@ export const ListCertificateRegistrationProviderOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateRegistrationProviderOperations",
 }));
 
 export type RenewAppServiceCertificateOrderError = AzureOpError;
@@ -1287,6 +1339,8 @@ export const RenewAppServiceCertificateOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewAppServiceCertificateOrder",
 }));
 
 export type ResendAppServiceCertificateOrderEmailError = AzureOpError;
@@ -1302,6 +1356,8 @@ export const ResendAppServiceCertificateOrderEmail: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendAppServiceCertificateOrderEmail",
 }));
 
 export type ResendAppServiceCertificateOrderRequestEmailsError = AzureOpError;
@@ -1325,6 +1381,8 @@ export const ResendAppServiceCertificateOrderRequestEmails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendAppServiceCertificateOrderRequestEmails",
 }));
 
 export type UpdateAppServiceCertificateOrderError = AzureOpError;
@@ -1340,6 +1398,8 @@ export const UpdateAppServiceCertificateOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppServiceCertificateOrder",
 }));
 
 export type UpdateAppServiceCertificateOrderCertificateError = AzureOpError;
@@ -1359,6 +1419,8 @@ export const UpdateAppServiceCertificateOrderCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppServiceCertificateOrderCertificate",
 }));
 
 export type ValidateAppServiceCertificateOrderPurchaseInformationError = AzureOpError;
@@ -1382,6 +1444,8 @@ export const ValidateAppServiceCertificateOrderPurchaseInformation: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAppServiceCertificateOrderPurchaseInformation",
 }));
 
 export type VerifyAppServiceCertificateOrderDomainOwnershipError = AzureOpError;
@@ -1405,6 +1469,8 @@ export const VerifyAppServiceCertificateOrderDomainOwnership: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyAppServiceCertificateOrderDomainOwnership",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Auth",
+  propagate: "w3c",
+} as const;
+
 export interface ListTeamsRequest {
   /** The maximum number of workspaces to return. Must be a positive integer no larger than 1000. */
   limit?: number;
@@ -92,6 +105,8 @@ export const listTeams: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTeams",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -116,6 +131,8 @@ export const revokeAuth: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAuth",
 }));
 
 export type TestAuthError = SlackOpError;
@@ -131,6 +148,8 @@ export const testAuth: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestAuth",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

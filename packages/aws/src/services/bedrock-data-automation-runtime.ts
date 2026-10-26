@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock-data-automation-runtime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BedrockDataAutomationRuntime",
+  service: "BedrockDataAutomationRuntime",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -283,6 +299,8 @@ export const getDataAutomationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationStatus",
+  telemetry: TELEMETRY,
+  span: "GetDataAutomationStatus",
 }));
 
 export type InvokeDataAutomationError =
@@ -313,6 +331,8 @@ export const invokeDataAutomation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeDataAutomation",
+  telemetry: TELEMETRY,
+  span: "InvokeDataAutomation",
 }));
 
 export type InvokeDataAutomationAsyncError =
@@ -343,6 +363,8 @@ export const invokeDataAutomationAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeDataAutomationAsync",
+  telemetry: TELEMETRY,
+  span: "InvokeDataAutomationAsync",
 }));
 
 export type ListTagsForResourceError =
@@ -373,6 +395,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -405,6 +429,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -435,6 +461,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

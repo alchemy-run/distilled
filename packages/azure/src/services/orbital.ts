@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Orbital" },
+  prefix: "Orbital",
+  service: "Orbital",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type ContactProfilesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The current state of the resource's creation, deletion, or modification. */
@@ -1531,6 +1551,8 @@ export const ContactProfilesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContactProfilesCreateOrUpdate",
 }));
 
 export type CreateContactError = AzureOpError;
@@ -1546,6 +1568,8 @@ export const CreateContact: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContact",
 }));
 
 export type DeleteContactError = AzureOpError;
@@ -1561,6 +1585,8 @@ export const DeleteContact: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContact",
 }));
 
 export type DeleteContactProfileError = AzureOpError;
@@ -1576,6 +1602,8 @@ export const DeleteContactProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContactProfile",
 }));
 
 export type DeleteEdgeSiteError = AzureOpError;
@@ -1591,6 +1619,8 @@ export const DeleteEdgeSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeSite",
 }));
 
 export type DeleteGroundStationError = AzureOpError;
@@ -1606,6 +1636,8 @@ export const DeleteGroundStation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroundStation",
 }));
 
 export type DeleteL2ConnectionError = AzureOpError;
@@ -1621,6 +1653,8 @@ export const DeleteL2Connection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteL2Connection",
 }));
 
 export type DeleteSpacecraftError = AzureOpError;
@@ -1636,6 +1670,8 @@ export const DeleteSpacecraft: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpacecraft",
 }));
 
 export type EdgeSitesCreateOrUpdateError = AzureOpError;
@@ -1651,6 +1687,8 @@ export const EdgeSitesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeSitesCreateOrUpdate",
 }));
 
 export type GetContactError = AzureOpError;
@@ -1666,6 +1704,8 @@ export const GetContact: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContact",
 }));
 
 export type GetContactProfileError = AzureOpError;
@@ -1681,6 +1721,8 @@ export const GetContactProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContactProfile",
 }));
 
 export type GetEdgeSiteError = AzureOpError;
@@ -1696,6 +1738,8 @@ export const GetEdgeSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeSite",
 }));
 
 export type GetGroundStationError = AzureOpError;
@@ -1711,6 +1755,8 @@ export const GetGroundStation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroundStation",
 }));
 
 export type GetL2ConnectionError = AzureOpError;
@@ -1726,6 +1772,8 @@ export const GetL2Connection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetL2Connection",
 }));
 
 export type GetOperationsResultError = AzureOpError;
@@ -1741,6 +1789,8 @@ export const GetOperationsResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationsResult",
 }));
 
 export type GetSpacecraftError = AzureOpError;
@@ -1756,6 +1806,8 @@ export const GetSpacecraft: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpacecraft",
 }));
 
 export type GroundStationsCreateOrUpdateError = AzureOpError;
@@ -1771,6 +1823,8 @@ export const GroundStationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroundStationsCreateOrUpdate",
 }));
 
 export type L2ConnectionsCreateOrUpdateError = AzureOpError;
@@ -1786,6 +1840,8 @@ export const L2ConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "L2ConnectionsCreateOrUpdate",
 }));
 
 export type ListAvailableGroundStationByCapabilityError = AzureOpError;
@@ -1801,6 +1857,8 @@ export const ListAvailableGroundStationByCapability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailableGroundStationByCapability",
 }));
 
 export type ListContactProfileBySubscriptionError = AzureOpError;
@@ -1816,6 +1874,8 @@ export const ListContactProfileBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContactProfileBySubscription",
 }));
 
 export type ListContactProfilesError = AzureOpError;
@@ -1831,6 +1891,8 @@ export const ListContactProfiles: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContactProfiles",
 }));
 
 export type ListContactsError = AzureOpError;
@@ -1846,6 +1908,8 @@ export const ListContacts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContacts",
 }));
 
 export type ListEdgeSiteBySubscriptionError = AzureOpError;
@@ -1861,6 +1925,8 @@ export const ListEdgeSiteBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeSiteBySubscription",
 }));
 
 export type ListEdgeSiteL2ConnectionsError = AzureOpError;
@@ -1876,6 +1942,8 @@ export const ListEdgeSiteL2Connections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeSiteL2Connections",
 }));
 
 export type ListEdgeSitesError = AzureOpError;
@@ -1891,6 +1959,8 @@ export const ListEdgeSites: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeSites",
 }));
 
 export type ListGlobalCommunicationsSiteBySubscriptionError = AzureOpError;
@@ -1906,6 +1976,8 @@ export const ListGlobalCommunicationsSiteBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGlobalCommunicationsSiteBySubscription",
 }));
 
 export type ListGroundStationBySubscriptionError = AzureOpError;
@@ -1921,6 +1993,8 @@ export const ListGroundStationBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroundStationBySubscription",
 }));
 
 export type ListGroundStationL2ConnectionsError = AzureOpError;
@@ -1936,6 +2010,8 @@ export const ListGroundStationL2Connections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroundStationL2Connections",
 }));
 
 export type ListGroundStationsError = AzureOpError;
@@ -1951,6 +2027,8 @@ export const ListGroundStations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroundStations",
 }));
 
 export type ListL2ConnectionBySubscriptionError = AzureOpError;
@@ -1966,6 +2044,8 @@ export const ListL2ConnectionBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListL2ConnectionBySubscription",
 }));
 
 export type ListL2ConnectionsError = AzureOpError;
@@ -1981,6 +2061,8 @@ export const ListL2Connections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListL2Connections",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1996,6 +2078,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSpacecraftAvailableContactsError = AzureOpError;
@@ -2011,6 +2095,8 @@ export const ListSpacecraftAvailableContacts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacecraftAvailableContacts",
 }));
 
 export type ListSpacecraftBySubscriptionError = AzureOpError;
@@ -2026,6 +2112,8 @@ export const ListSpacecraftBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacecraftBySubscription",
 }));
 
 export type ListSpacecraftsError = AzureOpError;
@@ -2041,6 +2129,8 @@ export const ListSpacecrafts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacecrafts",
 }));
 
 export type SpacecraftsCreateOrUpdateError = AzureOpError;
@@ -2056,6 +2146,8 @@ export const SpacecraftsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SpacecraftsCreateOrUpdate",
 }));
 
 export type UpdateContactProfileTagsError = AzureOpError;
@@ -2071,6 +2163,8 @@ export const UpdateContactProfileTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContactProfileTags",
 }));
 
 export type UpdateEdgeSiteTagsError = AzureOpError;
@@ -2086,6 +2180,8 @@ export const UpdateEdgeSiteTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEdgeSiteTags",
 }));
 
 export type UpdateGroundStationTagsError = AzureOpError;
@@ -2101,6 +2197,8 @@ export const UpdateGroundStationTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGroundStationTags",
 }));
 
 export type UpdateL2ConnectionTagsError = AzureOpError;
@@ -2116,6 +2214,8 @@ export const UpdateL2ConnectionTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateL2ConnectionTags",
 }));
 
 export type UpdateSpacecraftTagsError = AzureOpError;
@@ -2131,6 +2231,8 @@ export const UpdateSpacecraftTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSpacecraftTags",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

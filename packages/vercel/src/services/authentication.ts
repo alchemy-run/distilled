@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Authentication",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -372,6 +386,8 @@ export const createApiKeys: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiKeys",
 }));
 
 export type CreateAuthTokenError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -387,6 +403,8 @@ export const createAuthToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthToken",
 }));
 
 export type DeleteAuthTokenError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -402,6 +420,8 @@ export const deleteAuthToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthToken",
 }));
 
 export type ExchangeSsoTokenError = BadRequest | Forbidden | VercelOpError;
@@ -417,6 +437,8 @@ export const exchangeSsoToken: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExchangeSsoToken",
 }));
 
 export type GetAuthTokenError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -432,6 +454,8 @@ export const getAuthToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthToken",
 }));
 
 export type ListAuthTokensError = BadRequest | Forbidden | VercelOpError;
@@ -447,6 +471,8 @@ export const listAuthTokens: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthTokens",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

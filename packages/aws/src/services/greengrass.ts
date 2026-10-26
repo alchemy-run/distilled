@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -100,6 +101,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://greengrass.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Greengrass",
+  service: "Greengrass",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1328,6 +1343,8 @@ export const associateRoleToGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRoleToGroup",
+  telemetry: TELEMETRY,
+  span: "AssociateRoleToGroup",
 }));
 
 export type AssociateServiceRoleToAccountError =
@@ -1349,6 +1366,8 @@ export const associateServiceRoleToAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceRoleToAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateServiceRoleToAccount",
 }));
 
 export type CreateConnectorDefinitionError = BadRequestException | CommonErrors;
@@ -1367,6 +1386,8 @@ export const createConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateConnectorDefinition",
 }));
 
 export type CreateConnectorDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1385,6 +1406,8 @@ export const createConnectorDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateConnectorDefinitionVersion",
 }));
 
 export type CreateCoreDefinitionError = BadRequestException | CommonErrors;
@@ -1403,6 +1426,8 @@ export const createCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateCoreDefinition",
 }));
 
 export type CreateCoreDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1421,6 +1446,8 @@ export const createCoreDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateCoreDefinitionVersion",
 }));
 
 export type CreateDeploymentError = BadRequestException | CommonErrors;
@@ -1439,6 +1466,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateDeviceDefinitionError = BadRequestException | CommonErrors;
@@ -1457,6 +1486,8 @@ export const createDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateDeviceDefinition",
 }));
 
 export type CreateDeviceDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1475,6 +1506,8 @@ export const createDeviceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateDeviceDefinitionVersion",
 }));
 
 export type CreateFunctionDefinitionError = BadRequestException | CommonErrors;
@@ -1493,6 +1526,8 @@ export const createFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateFunctionDefinition",
 }));
 
 export type CreateFunctionDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1511,6 +1546,8 @@ export const createFunctionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateFunctionDefinitionVersion",
 }));
 
 export type CreateGroupError = BadRequestException | CommonErrors;
@@ -1529,6 +1566,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type CreateGroupCertificateAuthorityError =
@@ -1550,6 +1589,8 @@ export const createGroupCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "CreateGroupCertificateAuthority",
 }));
 
 export type CreateGroupVersionError = BadRequestException | CommonErrors;
@@ -1568,6 +1609,8 @@ export const createGroupVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupVersion",
+  telemetry: TELEMETRY,
+  span: "CreateGroupVersion",
 }));
 
 export type CreateLoggerDefinitionError = BadRequestException | CommonErrors;
@@ -1586,6 +1629,8 @@ export const createLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggerDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateLoggerDefinition",
 }));
 
 export type CreateLoggerDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1604,6 +1649,8 @@ export const createLoggerDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggerDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateLoggerDefinitionVersion",
 }));
 
 export type CreateResourceDefinitionError = BadRequestException | CommonErrors;
@@ -1622,6 +1669,8 @@ export const createResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateResourceDefinition",
 }));
 
 export type CreateResourceDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1640,6 +1689,8 @@ export const createResourceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateResourceDefinitionVersion",
 }));
 
 export type CreateSoftwareUpdateJobError =
@@ -1661,6 +1712,8 @@ export const createSoftwareUpdateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSoftwareUpdateJob",
+  telemetry: TELEMETRY,
+  span: "CreateSoftwareUpdateJob",
 }));
 
 export type CreateSubscriptionDefinitionError = BadRequestException | CommonErrors;
@@ -1679,6 +1732,8 @@ export const createSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionDefinition",
 }));
 
 export type CreateSubscriptionDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1697,6 +1752,8 @@ export const createSubscriptionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateSubscriptionDefinitionVersion",
 }));
 
 export type DeleteConnectorDefinitionError = BadRequestException | CommonErrors;
@@ -1715,6 +1772,8 @@ export const deleteConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteConnectorDefinition",
 }));
 
 export type DeleteCoreDefinitionError = BadRequestException | CommonErrors;
@@ -1733,6 +1792,8 @@ export const deleteCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteCoreDefinition",
 }));
 
 export type DeleteDeviceDefinitionError = BadRequestException | CommonErrors;
@@ -1751,6 +1812,8 @@ export const deleteDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeviceDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceDefinition",
 }));
 
 export type DeleteFunctionDefinitionError = BadRequestException | CommonErrors;
@@ -1769,6 +1832,8 @@ export const deleteFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteFunctionDefinition",
 }));
 
 export type DeleteGroupError = BadRequestException | CommonErrors;
@@ -1787,6 +1852,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type DeleteLoggerDefinitionError = BadRequestException | CommonErrors;
@@ -1805,6 +1872,8 @@ export const deleteLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggerDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteLoggerDefinition",
 }));
 
 export type DeleteResourceDefinitionError = BadRequestException | CommonErrors;
@@ -1823,6 +1892,8 @@ export const deleteResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceDefinition",
 }));
 
 export type DeleteSubscriptionDefinitionError = BadRequestException | CommonErrors;
@@ -1841,6 +1912,8 @@ export const deleteSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriptionDefinition",
 }));
 
 export type DisassociateRoleFromGroupError =
@@ -1862,6 +1935,8 @@ export const disassociateRoleFromGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRoleFromGroup",
+  telemetry: TELEMETRY,
+  span: "DisassociateRoleFromGroup",
 }));
 
 export type DisassociateServiceRoleFromAccountError = InternalServerErrorException | CommonErrors;
@@ -1880,6 +1955,8 @@ export const disassociateServiceRoleFromAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceRoleFromAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateServiceRoleFromAccount",
 }));
 
 export type GetAssociatedRoleError =
@@ -1901,6 +1978,8 @@ export const getAssociatedRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedRole",
+  telemetry: TELEMETRY,
+  span: "GetAssociatedRole",
 }));
 
 export type GetBulkDeploymentStatusError = BadRequestException | CommonErrors;
@@ -1919,6 +1998,8 @@ export const getBulkDeploymentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBulkDeploymentStatus",
+  telemetry: TELEMETRY,
+  span: "GetBulkDeploymentStatus",
 }));
 
 export type GetConnectivityInfoError =
@@ -1940,6 +2021,8 @@ export const getConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectivityInfo",
+  telemetry: TELEMETRY,
+  span: "GetConnectivityInfo",
 }));
 
 export type GetConnectorDefinitionError = BadRequestException | CommonErrors;
@@ -1958,6 +2041,8 @@ export const getConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDefinition",
+  telemetry: TELEMETRY,
+  span: "GetConnectorDefinition",
 }));
 
 export type GetConnectorDefinitionVersionError = BadRequestException | CommonErrors;
@@ -1976,6 +2061,8 @@ export const getConnectorDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetConnectorDefinitionVersion",
 }));
 
 export type GetCoreDefinitionError = BadRequestException | CommonErrors;
@@ -1994,6 +2081,8 @@ export const getCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDefinition",
+  telemetry: TELEMETRY,
+  span: "GetCoreDefinition",
 }));
 
 export type GetCoreDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2012,6 +2101,8 @@ export const getCoreDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetCoreDefinitionVersion",
 }));
 
 export type GetDeploymentStatusError = BadRequestException | CommonErrors;
@@ -2030,6 +2121,8 @@ export const getDeploymentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentStatus",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentStatus",
 }));
 
 export type GetDeviceDefinitionError = BadRequestException | CommonErrors;
@@ -2048,6 +2141,8 @@ export const getDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDefinition",
+  telemetry: TELEMETRY,
+  span: "GetDeviceDefinition",
 }));
 
 export type GetDeviceDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2066,6 +2161,8 @@ export const getDeviceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetDeviceDefinitionVersion",
 }));
 
 export type GetFunctionDefinitionError = BadRequestException | CommonErrors;
@@ -2084,6 +2181,8 @@ export const getFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionDefinition",
+  telemetry: TELEMETRY,
+  span: "GetFunctionDefinition",
 }));
 
 export type GetFunctionDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2102,6 +2201,8 @@ export const getFunctionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetFunctionDefinitionVersion",
 }));
 
 export type GetGroupError = BadRequestException | CommonErrors;
@@ -2120,6 +2221,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetGroupCertificateAuthorityError =
@@ -2141,6 +2244,8 @@ export const getGroupCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "GetGroupCertificateAuthority",
 }));
 
 export type GetGroupCertificateConfigurationError =
@@ -2162,6 +2267,8 @@ export const getGroupCertificateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupCertificateConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetGroupCertificateConfiguration",
 }));
 
 export type GetGroupVersionError = BadRequestException | CommonErrors;
@@ -2180,6 +2287,8 @@ export const getGroupVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupVersion",
+  telemetry: TELEMETRY,
+  span: "GetGroupVersion",
 }));
 
 export type GetLoggerDefinitionError = BadRequestException | CommonErrors;
@@ -2198,6 +2307,8 @@ export const getLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggerDefinition",
+  telemetry: TELEMETRY,
+  span: "GetLoggerDefinition",
 }));
 
 export type GetLoggerDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2216,6 +2327,8 @@ export const getLoggerDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggerDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetLoggerDefinitionVersion",
 }));
 
 export type GetResourceDefinitionError = BadRequestException | CommonErrors;
@@ -2234,6 +2347,8 @@ export const getResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDefinition",
+  telemetry: TELEMETRY,
+  span: "GetResourceDefinition",
 }));
 
 export type GetResourceDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2252,6 +2367,8 @@ export const getResourceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetResourceDefinitionVersion",
 }));
 
 export type GetServiceRoleForAccountError = InternalServerErrorException | CommonErrors;
@@ -2270,6 +2387,8 @@ export const getServiceRoleForAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceRoleForAccount",
+  telemetry: TELEMETRY,
+  span: "GetServiceRoleForAccount",
 }));
 
 export type GetSubscriptionDefinitionError = BadRequestException | CommonErrors;
@@ -2288,6 +2407,8 @@ export const getSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionDefinition",
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionDefinition",
 }));
 
 export type GetSubscriptionDefinitionVersionError = BadRequestException | CommonErrors;
@@ -2306,6 +2427,8 @@ export const getSubscriptionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionDefinitionVersion",
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionDefinitionVersion",
 }));
 
 export type GetThingRuntimeConfigurationError =
@@ -2327,6 +2450,8 @@ export const getThingRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThingRuntimeConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetThingRuntimeConfiguration",
 }));
 
 export type ListBulkDeploymentDetailedReportsError = BadRequestException | CommonErrors;
@@ -2345,6 +2470,8 @@ export const listBulkDeploymentDetailedReports: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBulkDeploymentDetailedReports",
+  telemetry: TELEMETRY,
+  span: "ListBulkDeploymentDetailedReports",
 }));
 
 export type ListBulkDeploymentsError = BadRequestException | CommonErrors;
@@ -2363,6 +2490,8 @@ export const listBulkDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBulkDeployments",
+  telemetry: TELEMETRY,
+  span: "ListBulkDeployments",
 }));
 
 export type ListConnectorDefinitionsError = CommonErrors;
@@ -2381,6 +2510,8 @@ export const listConnectorDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListConnectorDefinitions",
 }));
 
 export type ListConnectorDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2399,6 +2530,8 @@ export const listConnectorDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListConnectorDefinitionVersions",
 }));
 
 export type ListCoreDefinitionsError = CommonErrors;
@@ -2417,6 +2550,8 @@ export const listCoreDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCoreDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListCoreDefinitions",
 }));
 
 export type ListCoreDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2435,6 +2570,8 @@ export const listCoreDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCoreDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListCoreDefinitionVersions",
 }));
 
 export type ListDeploymentsError = BadRequestException | CommonErrors;
@@ -2453,6 +2590,8 @@ export const listDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeployments",
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 }));
 
 export type ListDeviceDefinitionsError = CommonErrors;
@@ -2471,6 +2610,8 @@ export const listDeviceDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListDeviceDefinitions",
 }));
 
 export type ListDeviceDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2489,6 +2630,8 @@ export const listDeviceDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListDeviceDefinitionVersions",
 }));
 
 export type ListFunctionDefinitionsError = CommonErrors;
@@ -2507,6 +2650,8 @@ export const listFunctionDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListFunctionDefinitions",
 }));
 
 export type ListFunctionDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2525,6 +2670,8 @@ export const listFunctionDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListFunctionDefinitionVersions",
 }));
 
 export type ListGroupCertificateAuthoritiesError =
@@ -2546,6 +2693,8 @@ export const listGroupCertificateAuthorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupCertificateAuthorities",
+  telemetry: TELEMETRY,
+  span: "ListGroupCertificateAuthorities",
 }));
 
 export type ListGroupsError = CommonErrors;
@@ -2564,6 +2713,8 @@ export const listGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroups",
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListGroupVersionsError = BadRequestException | CommonErrors;
@@ -2582,6 +2733,8 @@ export const listGroupVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupVersions",
+  telemetry: TELEMETRY,
+  span: "ListGroupVersions",
 }));
 
 export type ListLoggerDefinitionsError = CommonErrors;
@@ -2600,6 +2753,8 @@ export const listLoggerDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggerDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListLoggerDefinitions",
 }));
 
 export type ListLoggerDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2618,6 +2773,8 @@ export const listLoggerDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggerDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListLoggerDefinitionVersions",
 }));
 
 export type ListResourceDefinitionsError = CommonErrors;
@@ -2636,6 +2793,8 @@ export const listResourceDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListResourceDefinitions",
 }));
 
 export type ListResourceDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2654,6 +2813,8 @@ export const listResourceDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListResourceDefinitionVersions",
 }));
 
 export type ListSubscriptionDefinitionsError = CommonErrors;
@@ -2672,6 +2833,8 @@ export const listSubscriptionDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionDefinitions",
 }));
 
 export type ListSubscriptionDefinitionVersionsError = BadRequestException | CommonErrors;
@@ -2690,6 +2853,8 @@ export const listSubscriptionDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionDefinitionVersions",
+  telemetry: TELEMETRY,
+  span: "ListSubscriptionDefinitionVersions",
 }));
 
 export type ListTagsForResourceError = BadRequestException | CommonErrors;
@@ -2708,6 +2873,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResetDeploymentsError = BadRequestException | CommonErrors;
@@ -2726,6 +2893,8 @@ export const resetDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDeployments",
+  telemetry: TELEMETRY,
+  span: "ResetDeployments",
 }));
 
 export type StartBulkDeploymentError = BadRequestException | CommonErrors;
@@ -2744,6 +2913,8 @@ export const startBulkDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBulkDeployment",
+  telemetry: TELEMETRY,
+  span: "StartBulkDeployment",
 }));
 
 export type StopBulkDeploymentError = BadRequestException | CommonErrors;
@@ -2762,6 +2933,8 @@ export const stopBulkDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBulkDeployment",
+  telemetry: TELEMETRY,
+  span: "StopBulkDeployment",
 }));
 
 export type TagResourceError = BadRequestException | CommonErrors;
@@ -2780,6 +2953,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = BadRequestException | CommonErrors;
@@ -2798,6 +2973,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectivityInfoError =
@@ -2819,6 +2996,8 @@ export const updateConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectivityInfo",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectivityInfo",
 }));
 
 export type UpdateConnectorDefinitionError = BadRequestException | CommonErrors;
@@ -2837,6 +3016,8 @@ export const updateConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateConnectorDefinition",
 }));
 
 export type UpdateCoreDefinitionError = BadRequestException | CommonErrors;
@@ -2855,6 +3036,8 @@ export const updateCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCoreDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateCoreDefinition",
 }));
 
 export type UpdateDeviceDefinitionError = BadRequestException | CommonErrors;
@@ -2873,6 +3056,8 @@ export const updateDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceDefinition",
 }));
 
 export type UpdateFunctionDefinitionError = BadRequestException | CommonErrors;
@@ -2891,6 +3076,8 @@ export const updateFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateFunctionDefinition",
 }));
 
 export type UpdateGroupError = BadRequestException | CommonErrors;
@@ -2909,6 +3096,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateGroupCertificateConfigurationError =
@@ -2930,6 +3119,8 @@ export const updateGroupCertificateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupCertificateConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateGroupCertificateConfiguration",
 }));
 
 export type UpdateLoggerDefinitionError = BadRequestException | CommonErrors;
@@ -2948,6 +3139,8 @@ export const updateLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggerDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateLoggerDefinition",
 }));
 
 export type UpdateResourceDefinitionError = BadRequestException | CommonErrors;
@@ -2966,6 +3159,8 @@ export const updateResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceDefinition",
 }));
 
 export type UpdateSubscriptionDefinitionError = BadRequestException | CommonErrors;
@@ -2984,6 +3179,8 @@ export const updateSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionDefinition",
 }));
 
 export type UpdateThingRuntimeConfigurationError =
@@ -3005,6 +3202,8 @@ export const updateThingRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingRuntimeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateThingRuntimeConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

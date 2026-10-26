@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Maintenance" },
+  prefix: "Maintenance",
+  service: "Maintenance",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface ApplyUpdatesCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
@@ -1669,6 +1689,8 @@ export const ApplyUpdatesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyUpdatesCreateOrUpdate",
 }));
 
 export type ApplyUpdatesCreateOrUpdateParentError = AzureOpError;
@@ -1684,6 +1706,8 @@ export const ApplyUpdatesCreateOrUpdateParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplyUpdatesCreateOrUpdateParent",
 }));
 
 export type ConfigurationAssignmentsCreateOrUpdateError = AzureOpError;
@@ -1699,6 +1723,8 @@ export const ConfigurationAssignmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationAssignmentsCreateOrUpdate",
 }));
 
 export type ConfigurationAssignmentsCreateOrUpdateParentError = AzureOpError;
@@ -1718,6 +1744,8 @@ export const ConfigurationAssignmentsCreateOrUpdateParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationAssignmentsCreateOrUpdateParent",
 }));
 
 export type ConfigurationAssignmentsForResourceGroupCreateOrUpdateError = AzureOpError;
@@ -1741,6 +1769,8 @@ export const ConfigurationAssignmentsForResourceGroupCreateOrUpdate: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationAssignmentsForResourceGroupCreateOrUpdate",
 }));
 
 export type ConfigurationAssignmentsForSubscriptionsCreateOrUpdateError = AzureOpError;
@@ -1764,6 +1794,8 @@ export const ConfigurationAssignmentsForSubscriptionsCreateOrUpdate: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationAssignmentsForSubscriptionsCreateOrUpdate",
 }));
 
 export type DeleteConfigurationAssignmentError = AzureOpError;
@@ -1779,6 +1811,8 @@ export const DeleteConfigurationAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationAssignment",
 }));
 
 export type DeleteConfigurationAssignmentParentError = AzureOpError;
@@ -1794,6 +1828,8 @@ export const DeleteConfigurationAssignmentParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationAssignmentParent",
 }));
 
 export type DeleteConfigurationAssignmentsForResourceGroupError = AzureOpError;
@@ -1817,6 +1853,8 @@ export const DeleteConfigurationAssignmentsForResourceGroup: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationAssignmentsForResourceGroup",
 }));
 
 export type DeleteConfigurationAssignmentsForSubscriptionError = AzureOpError;
@@ -1840,6 +1878,8 @@ export const DeleteConfigurationAssignmentsForSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationAssignmentsForSubscription",
 }));
 
 export type DeleteMaintenanceConfigurationError = AzureOpError;
@@ -1855,6 +1895,8 @@ export const DeleteMaintenanceConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMaintenanceConfiguration",
 }));
 
 export type GetApplyUpdateError = AzureOpError;
@@ -1870,6 +1912,8 @@ export const GetApplyUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplyUpdate",
 }));
 
 export type GetApplyUpdateParentError = AzureOpError;
@@ -1885,6 +1929,8 @@ export const GetApplyUpdateParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplyUpdateParent",
 }));
 
 export type GetConfigurationAssignmentError = AzureOpError;
@@ -1900,6 +1946,8 @@ export const GetConfigurationAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationAssignment",
 }));
 
 export type GetConfigurationAssignmentParentError = AzureOpError;
@@ -1915,6 +1963,8 @@ export const GetConfigurationAssignmentParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationAssignmentParent",
 }));
 
 export type GetConfigurationAssignmentsForResourceGroupError = AzureOpError;
@@ -1934,6 +1984,8 @@ export const GetConfigurationAssignmentsForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationAssignmentsForResourceGroup",
 }));
 
 export type GetConfigurationAssignmentsForSubscriptionError = AzureOpError;
@@ -1949,6 +2001,8 @@ export const GetConfigurationAssignmentsForSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationAssignmentsForSubscription",
 }));
 
 export type GetMaintenanceConfigurationError = AzureOpError;
@@ -1964,6 +2018,8 @@ export const GetMaintenanceConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaintenanceConfiguration",
 }));
 
 export type GetPublicMaintenanceConfigurationError = AzureOpError;
@@ -1979,6 +2035,8 @@ export const GetPublicMaintenanceConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublicMaintenanceConfiguration",
 }));
 
 export type ListConfigurationAssignmentParentError = AzureOpError;
@@ -1994,6 +2052,8 @@ export const ListConfigurationAssignmentParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationAssignmentParent",
 }));
 
 export type ListConfigurationAssignmentsError = AzureOpError;
@@ -2009,6 +2069,8 @@ export const ListConfigurationAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationAssignments",
 }));
 
 export type ListConfigurationAssignmentsWithinSubscriptionError = AzureOpError;
@@ -2028,6 +2090,8 @@ export const ListConfigurationAssignmentsWithinSubscription: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationAssignmentsWithinSubscription",
 }));
 
 export type ListMaintenanceConfigurationsError = AzureOpError;
@@ -2043,6 +2107,8 @@ export const ListMaintenanceConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaintenanceConfigurations",
 }));
 
 export type ListMaintenanceConfigurationsForResourceGroupError = AzureOpError;
@@ -2062,6 +2128,8 @@ export const ListMaintenanceConfigurationsForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaintenanceConfigurationsForResourceGroup",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2077,6 +2145,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPublicMaintenanceConfigurationsError = AzureOpError;
@@ -2092,6 +2162,8 @@ export const ListPublicMaintenanceConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublicMaintenanceConfigurations",
 }));
 
 export type ListUpdateParentError = AzureOpError;
@@ -2107,6 +2179,8 @@ export const ListUpdateParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUpdateParent",
 }));
 
 export type ListUpdatesError = AzureOpError;
@@ -2122,6 +2196,8 @@ export const ListUpdates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUpdates",
 }));
 
 export type MaintenanceConfigurationsCreateOrUpdateError = AzureOpError;
@@ -2137,6 +2213,8 @@ export const MaintenanceConfigurationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MaintenanceConfigurationsCreateOrUpdate",
 }));
 
 export type UpdateConfigurationAssignmentsForResourceGroupError = AzureOpError;
@@ -2160,6 +2238,8 @@ export const UpdateConfigurationAssignmentsForResourceGroup: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationAssignmentsForResourceGroup",
 }));
 
 export type UpdateConfigurationAssignmentsForSubscriptionError = AzureOpError;
@@ -2183,6 +2263,8 @@ export const UpdateConfigurationAssignmentsForSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationAssignmentsForSubscription",
 }));
 
 export type UpdateMaintenanceConfigurationError = AzureOpError;
@@ -2198,6 +2280,8 @@ export const UpdateMaintenanceConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenanceConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://machinelearning.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MachineLearning",
+  service: "MachineLearning",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class IdempotentParameterMismatchException
   extends /*@__PURE__*/ S.TaggedError<IdempotentParameterMismatchException>()(
@@ -762,6 +778,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type CreateBatchPredictionError =
@@ -793,6 +811,8 @@ export const createBatchPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchPrediction",
+  telemetry: TELEMETRY,
+  span: "CreateBatchPrediction",
 }));
 
 export type CreateDataSourceFromRDSError =
@@ -823,6 +843,8 @@ export const createDataSourceFromRDS: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSourceFromRDS",
+  telemetry: TELEMETRY,
+  span: "CreateDataSourceFromRDS",
 }));
 
 export type CreateDataSourceFromRedshiftError =
@@ -874,6 +896,8 @@ export const createDataSourceFromRedshift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSourceFromRedshift",
+  telemetry: TELEMETRY,
+  span: "CreateDataSourceFromRedshift",
 }));
 
 export type CreateDataSourceFromS3Error =
@@ -926,6 +950,8 @@ export const createDataSourceFromS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSourceFromS3",
+  telemetry: TELEMETRY,
+  span: "CreateDataSourceFromS3",
 }));
 
 export type CreateEvaluationError =
@@ -957,6 +983,8 @@ export const createEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluation",
+  telemetry: TELEMETRY,
+  span: "CreateEvaluation",
 }));
 
 export type CreateMLModelError =
@@ -998,6 +1026,8 @@ export const createMLModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMLModel",
+  telemetry: TELEMETRY,
+  span: "CreateMLModel",
 }));
 
 export type CreateRealtimeEndpointError =
@@ -1020,6 +1050,8 @@ export const createRealtimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRealtimeEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateRealtimeEndpoint",
 }));
 
 export type DeleteBatchPredictionError =
@@ -1047,6 +1079,8 @@ export const deleteBatchPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchPrediction",
+  telemetry: TELEMETRY,
+  span: "DeleteBatchPrediction",
 }));
 
 export type DeleteDataSourceError =
@@ -1073,6 +1107,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteEvaluationError =
@@ -1100,6 +1136,8 @@ export const deleteEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluation",
+  telemetry: TELEMETRY,
+  span: "DeleteEvaluation",
 }));
 
 export type DeleteMLModelError =
@@ -1127,6 +1165,8 @@ export const deleteMLModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLModel",
+  telemetry: TELEMETRY,
+  span: "DeleteMLModel",
 }));
 
 export type DeleteRealtimeEndpointError =
@@ -1149,6 +1189,8 @@ export const deleteRealtimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRealtimeEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteRealtimeEndpoint",
 }));
 
 export type DeleteTagsError =
@@ -1179,6 +1221,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DescribeBatchPredictionsError =
@@ -1207,6 +1251,8 @@ export const describeBatchPredictions: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBatchPredictions",
 })) as any;
 
 export type DescribeDataSourcesError =
@@ -1235,6 +1281,8 @@ export const describeDataSources: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDataSources",
 })) as any;
 
 export type DescribeEvaluationsError =
@@ -1263,6 +1311,8 @@ export const describeEvaluations: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvaluations",
 })) as any;
 
 export type DescribeMLModelsError = InternalServerException | InvalidInputException | CommonErrors;
@@ -1288,6 +1338,8 @@ export const describeMLModels: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMLModels",
 })) as any;
 
 export type DescribeTagsError =
@@ -1310,6 +1362,8 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 }));
 
 export type GetBatchPredictionError =
@@ -1333,6 +1387,8 @@ export const getBatchPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatchPrediction",
+  telemetry: TELEMETRY,
+  span: "GetBatchPrediction",
 }));
 
 export type GetDataSourceError =
@@ -1358,6 +1414,8 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetEvaluationError =
@@ -1380,6 +1438,8 @@ export const getEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluation",
+  telemetry: TELEMETRY,
+  span: "GetEvaluation",
 }));
 
 export type GetMLModelError =
@@ -1404,6 +1464,8 @@ export const getMLModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLModel",
+  telemetry: TELEMETRY,
+  span: "GetMLModel",
 }));
 
 export type PredictError =
@@ -1437,6 +1499,8 @@ export const predict: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Predict",
+  telemetry: TELEMETRY,
+  span: "Predict",
 }));
 
 export type UpdateBatchPredictionError =
@@ -1461,6 +1525,8 @@ export const updateBatchPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBatchPrediction",
+  telemetry: TELEMETRY,
+  span: "UpdateBatchPrediction",
 }));
 
 export type UpdateDataSourceError =
@@ -1485,6 +1551,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateEvaluationError =
@@ -1509,6 +1577,8 @@ export const updateEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEvaluation",
+  telemetry: TELEMETRY,
+  span: "UpdateEvaluation",
 }));
 
 export type UpdateMLModelError =
@@ -1533,6 +1603,8 @@ export const updateMLModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMLModel",
+  telemetry: TELEMETRY,
+  span: "UpdateMLModel",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

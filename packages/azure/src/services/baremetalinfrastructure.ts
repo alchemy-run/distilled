@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.BareMetalInfrastructure" },
+  prefix: "Baremetalinfrastructure",
+  service: "Baremetalinfrastructure",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CreateAzureBareMetalStorageInstanceRequestTagsMap = {
   [key: string]: string | undefined;
@@ -659,6 +679,8 @@ export const CreateAzureBareMetalStorageInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAzureBareMetalStorageInstance",
 }));
 
 export type DeleteAzureBareMetalStorageInstanceError = AzureOpError;
@@ -674,6 +696,8 @@ export const DeleteAzureBareMetalStorageInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAzureBareMetalStorageInstance",
 }));
 
 export type GetAzureBareMetalInstanceError = AzureOpError;
@@ -689,6 +713,8 @@ export const GetAzureBareMetalInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureBareMetalInstance",
 }));
 
 export type GetAzureBareMetalStorageInstanceError = AzureOpError;
@@ -704,6 +730,8 @@ export const GetAzureBareMetalStorageInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAzureBareMetalStorageInstance",
 }));
 
 export type ListAzureBareMetalInstanceByResourceGroupError = AzureOpError;
@@ -719,6 +747,8 @@ export const ListAzureBareMetalInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureBareMetalInstanceByResourceGroup",
 }));
 
 export type ListAzureBareMetalInstanceBySubscriptionError = AzureOpError;
@@ -734,6 +764,8 @@ export const ListAzureBareMetalInstanceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureBareMetalInstanceBySubscription",
 }));
 
 export type ListAzureBareMetalStorageInstanceByResourceGroupError = AzureOpError;
@@ -753,6 +785,8 @@ export const ListAzureBareMetalStorageInstanceByResourceGroup: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureBareMetalStorageInstanceByResourceGroup",
 }));
 
 export type ListAzureBareMetalStorageInstanceBySubscriptionError = AzureOpError;
@@ -772,6 +806,8 @@ export const ListAzureBareMetalStorageInstanceBySubscription: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAzureBareMetalStorageInstanceBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -787,6 +823,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateAzureBareMetalInstanceError = AzureOpError;
@@ -802,6 +840,8 @@ export const UpdateAzureBareMetalInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureBareMetalInstance",
 }));
 
 export type UpdateAzureBareMetalStorageInstanceError = AzureOpError;
@@ -817,6 +857,8 @@ export const UpdateAzureBareMetalStorageInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAzureBareMetalStorageInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ErrorTracking",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2347,6 +2360,8 @@ export const createErrorTrackingAlert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingAlert",
 }));
 
 export type CreateErrorTrackingAssignmentRuleError = PosthogOpError;
@@ -2361,6 +2376,8 @@ export const createErrorTrackingAssignmentRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingAssignmentRule",
 }));
 
 export type CreateErrorTrackingBypassRuleError = PosthogOpError;
@@ -2375,6 +2392,8 @@ export const createErrorTrackingBypassRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingBypassRule",
 }));
 
 export type CreateErrorTrackingExternalReferenceError = PosthogOpError;
@@ -2389,6 +2408,8 @@ export const createErrorTrackingExternalReference: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingExternalReference",
 }));
 
 export type CreateErrorTrackingExternalReferencesLinkIssueError = PosthogOpError;
@@ -2408,6 +2429,8 @@ export const createErrorTrackingExternalReferencesLinkIssue: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingExternalReferencesLinkIssue",
 }));
 
 export type CreateErrorTrackingGroupingRuleError = PosthogOpError;
@@ -2422,6 +2445,8 @@ export const createErrorTrackingGroupingRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingGroupingRule",
 }));
 
 export type CreateErrorTrackingIssuesMergeError = PosthogOpError;
@@ -2436,6 +2461,8 @@ export const createErrorTrackingIssuesMerge: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingIssuesMerge",
 }));
 
 export type CreateErrorTrackingIssuesSplitError = PosthogOpError;
@@ -2450,6 +2477,8 @@ export const createErrorTrackingIssuesSplit: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingIssuesSplit",
 }));
 
 export type CreateErrorTrackingQueryIssueError = NotFound | PosthogOpError;
@@ -2465,6 +2494,8 @@ export const createErrorTrackingQueryIssue: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingQueryIssue",
 }));
 
 export type CreateErrorTrackingQueryIssueEventError = NotFound | PosthogOpError;
@@ -2480,6 +2511,8 @@ export const createErrorTrackingQueryIssueEvent: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingQueryIssueEvent",
 }));
 
 export type CreateErrorTrackingRecommendationsDismissError = PosthogOpError;
@@ -2494,6 +2527,8 @@ export const createErrorTrackingRecommendationsDismiss: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingRecommendationsDismiss",
 }));
 
 export type CreateErrorTrackingReleaseError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2508,6 +2543,8 @@ export const createErrorTrackingRelease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingRelease",
 }));
 
 export type CreateErrorTrackingSeverityRuleError = PosthogOpError;
@@ -2522,6 +2559,8 @@ export const createErrorTrackingSeverityRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingSeverityRule",
 }));
 
 export type CreateErrorTrackingSuppressionRuleError = PosthogOpError;
@@ -2536,6 +2575,8 @@ export const createErrorTrackingSuppressionRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateErrorTrackingSuppressionRule",
 }));
 
 export type ErrorTrackingAlertsDestroyError = PosthogOpError;
@@ -2550,6 +2591,8 @@ export const errorTrackingAlertsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingAlertsDestroy",
 }));
 
 export type ErrorTrackingAssignmentRulesDestroyError = PosthogOpError;
@@ -2564,6 +2607,8 @@ export const errorTrackingAssignmentRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingAssignmentRulesDestroy",
 }));
 
 export type ErrorTrackingBypassRulesDestroyError = PosthogOpError;
@@ -2578,6 +2623,8 @@ export const errorTrackingBypassRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingBypassRulesDestroy",
 }));
 
 export type ErrorTrackingExternalReferencesDestroyError = PosthogOpError;
@@ -2593,6 +2640,8 @@ export const errorTrackingExternalReferencesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingExternalReferencesDestroy",
 }));
 
 export type ErrorTrackingExternalReferencesSearchIssuesRetrieveError = PosthogOpError;
@@ -2612,6 +2661,8 @@ export const errorTrackingExternalReferencesSearchIssuesRetrieve: API.OperationM
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingExternalReferencesSearchIssuesRetrieve",
 }));
 
 export type ErrorTrackingFingerprintsDestroyError = PosthogOpError;
@@ -2627,6 +2678,8 @@ export const errorTrackingFingerprintsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingFingerprintsDestroy",
 }));
 
 export type ErrorTrackingGroupingRulesDestroyError = PosthogOpError;
@@ -2641,6 +2694,8 @@ export const errorTrackingGroupingRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingGroupingRulesDestroy",
 }));
 
 export type ErrorTrackingIssuesAssignPartialUpdateError = PosthogOpError;
@@ -2655,6 +2710,8 @@ export const errorTrackingIssuesAssignPartialUpdate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingIssuesAssignPartialUpdate",
 }));
 
 export type ErrorTrackingIssuesBulkCreateError = PosthogOpError;
@@ -2669,6 +2726,8 @@ export const errorTrackingIssuesBulkCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingIssuesBulkCreate",
 }));
 
 export type ErrorTrackingIssuesDestroyError = PosthogOpError;
@@ -2684,6 +2743,8 @@ export const errorTrackingIssuesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingIssuesDestroy",
 }));
 
 export type ErrorTrackingQueryIssuesListCreateError = PosthogOpError;
@@ -2699,6 +2760,8 @@ export const errorTrackingQueryIssuesListCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingQueryIssuesListCreate",
 }));
 
 export type ErrorTrackingRecommendationsRefreshCreateError = PosthogOpError;
@@ -2713,6 +2776,8 @@ export const errorTrackingRecommendationsRefreshCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingRecommendationsRefreshCreate",
 }));
 
 export type ErrorTrackingRecommendationsRestoreCreateError = PosthogOpError;
@@ -2727,6 +2792,8 @@ export const errorTrackingRecommendationsRestoreCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingRecommendationsRestoreCreate",
 }));
 
 export type ErrorTrackingReleasesDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -2741,6 +2808,8 @@ export const errorTrackingReleasesDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingReleasesDestroy",
 }));
 
 export type ErrorTrackingSettingsRetrieveSettingsRetrieveError = PosthogOpError;
@@ -2759,6 +2828,8 @@ export const errorTrackingSettingsRetrieveSettingsRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSettingsRetrieveSettingsRetrieve",
 }));
 
 export type ErrorTrackingSettingsUpdateSettingsPartialUpdateError = PosthogOpError;
@@ -2777,6 +2848,8 @@ export const errorTrackingSettingsUpdateSettingsPartialUpdate: API.OperationMeth
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSettingsUpdateSettingsPartialUpdate",
 }));
 
 export type ErrorTrackingSeverityRulesDestroyError = PosthogOpError;
@@ -2791,6 +2864,8 @@ export const errorTrackingSeverityRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSeverityRulesDestroy",
 }));
 
 export type ErrorTrackingSpikeDetectionConfigUpdateConfigPartialUpdateError = PosthogOpError;
@@ -2809,6 +2884,8 @@ export const errorTrackingSpikeDetectionConfigUpdateConfigPartialUpdate: API.Ope
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSpikeDetectionConfigUpdateConfigPartialUpdate",
 }));
 
 export type ErrorTrackingStackFramesBatchGetCreateError = PosthogOpError;
@@ -2823,6 +2900,8 @@ export const errorTrackingStackFramesBatchGetCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingStackFramesBatchGetCreate",
 }));
 
 export type ErrorTrackingStackFramesDestroyError = PosthogOpError;
@@ -2838,6 +2917,8 @@ export const errorTrackingStackFramesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingStackFramesDestroy",
 }));
 
 export type ErrorTrackingSuppressionRulesDestroyError = PosthogOpError;
@@ -2852,6 +2933,8 @@ export const errorTrackingSuppressionRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSuppressionRulesDestroy",
 }));
 
 export type ErrorTrackingSymbolSetsBulkCheckUploadCreateError = PosthogOpError;
@@ -2867,6 +2950,8 @@ export const errorTrackingSymbolSetsBulkCheckUploadCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSymbolSetsBulkCheckUploadCreate",
 }));
 
 export type ErrorTrackingSymbolSetsBulkDeleteCreateError =
@@ -2885,6 +2970,8 @@ export const errorTrackingSymbolSetsBulkDeleteCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSymbolSetsBulkDeleteCreate",
 }));
 
 export type ErrorTrackingSymbolSetsBulkFinishUploadCreateError =
@@ -2911,6 +2998,8 @@ export const errorTrackingSymbolSetsBulkFinishUploadCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSymbolSetsBulkFinishUploadCreate",
 }));
 
 export type ErrorTrackingSymbolSetsBulkStartUploadCreateError =
@@ -2929,6 +3018,8 @@ export const errorTrackingSymbolSetsBulkStartUploadCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSymbolSetsBulkStartUploadCreate",
 }));
 
 export type ErrorTrackingSymbolSetsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -2943,6 +3034,8 @@ export const errorTrackingSymbolSetsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSymbolSetsDestroy",
 }));
 
 export type ErrorTrackingSymbolSetsDownloadRetrieveError = Forbidden | NotFound | PosthogOpError;
@@ -2958,6 +3051,8 @@ export const errorTrackingSymbolSetsDownloadRetrieve: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSymbolSetsDownloadRetrieve",
 }));
 
 export type ErrorTrackingSymbolSetsFinishUploadUpdateError =
@@ -2976,6 +3071,8 @@ export const errorTrackingSymbolSetsFinishUploadUpdate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ErrorTrackingSymbolSetsFinishUploadUpdate",
 }));
 
 export type GetErrorTrackingAlertError = PosthogOpError;
@@ -2990,6 +3087,8 @@ export const getErrorTrackingAlert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingAlert",
 }));
 
 export type GetErrorTrackingAssignmentRuleError = PosthogOpError;
@@ -3004,6 +3103,8 @@ export const getErrorTrackingAssignmentRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingAssignmentRule",
 }));
 
 export type GetErrorTrackingBypassRuleError = PosthogOpError;
@@ -3018,6 +3119,8 @@ export const getErrorTrackingBypassRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingBypassRule",
 }));
 
 export type GetErrorTrackingExternalReferenceError = PosthogOpError;
@@ -3032,6 +3135,8 @@ export const getErrorTrackingExternalReference: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingExternalReference",
 }));
 
 export type GetErrorTrackingFingerprintError = PosthogOpError;
@@ -3046,6 +3151,8 @@ export const getErrorTrackingFingerprint: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingFingerprint",
 }));
 
 export type GetErrorTrackingFingerprintsResolveError = PosthogOpError;
@@ -3060,6 +3167,8 @@ export const getErrorTrackingFingerprintsResolve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingFingerprintsResolve",
 }));
 
 export type GetErrorTrackingGitProviderFileLinksResolveGithubError = PosthogOpError;
@@ -3078,6 +3187,8 @@ export const getErrorTrackingGitProviderFileLinksResolveGithub: API.OperationMet
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingGitProviderFileLinksResolveGithub",
 }));
 
 export type GetErrorTrackingGitProviderFileLinksResolveGitlabError = PosthogOpError;
@@ -3096,6 +3207,8 @@ export const getErrorTrackingGitProviderFileLinksResolveGitlab: API.OperationMet
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingGitProviderFileLinksResolveGitlab",
 }));
 
 export type GetErrorTrackingGroupingRuleError = PosthogOpError;
@@ -3110,6 +3223,8 @@ export const getErrorTrackingGroupingRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingGroupingRule",
 }));
 
 export type GetErrorTrackingIssueError = PosthogOpError;
@@ -3124,6 +3239,8 @@ export const getErrorTrackingIssue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingIssue",
 }));
 
 export type GetErrorTrackingIssuesActivityError = PosthogOpError;
@@ -3138,6 +3255,8 @@ export const getErrorTrackingIssuesActivity: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingIssuesActivity",
 }));
 
 export type GetErrorTrackingIssuesAllActivityError = PosthogOpError;
@@ -3152,6 +3271,8 @@ export const getErrorTrackingIssuesAllActivity: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingIssuesAllActivity",
 }));
 
 export type GetErrorTrackingIssuesExistError = PosthogOpError;
@@ -3166,6 +3287,8 @@ export const getErrorTrackingIssuesExist: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingIssuesExist",
 }));
 
 export type GetErrorTrackingIssuesValueError = PosthogOpError;
@@ -3180,6 +3303,8 @@ export const getErrorTrackingIssuesValue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingIssuesValue",
 }));
 
 export type GetErrorTrackingReleaseError = Forbidden | NotFound | PosthogOpError;
@@ -3194,6 +3319,8 @@ export const getErrorTrackingRelease: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingRelease",
 }));
 
 export type GetErrorTrackingReleasesHashError = Forbidden | NotFound | PosthogOpError;
@@ -3208,6 +3335,8 @@ export const getErrorTrackingReleasesHash: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingReleasesHash",
 }));
 
 export type GetErrorTrackingSeverityRuleError = PosthogOpError;
@@ -3222,6 +3351,8 @@ export const getErrorTrackingSeverityRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingSeverityRule",
 }));
 
 export type GetErrorTrackingStackFrameError = PosthogOpError;
@@ -3236,6 +3367,8 @@ export const getErrorTrackingStackFrame: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingStackFrame",
 }));
 
 export type GetErrorTrackingSuppressionRuleError = PosthogOpError;
@@ -3250,6 +3383,8 @@ export const getErrorTrackingSuppressionRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingSuppressionRule",
 }));
 
 export type GetErrorTrackingSymbolSetError = Forbidden | NotFound | PosthogOpError;
@@ -3264,6 +3399,8 @@ export const getErrorTrackingSymbolSet: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorTrackingSymbolSet",
 }));
 
 export type ListErrorTrackingAlertsError = PosthogOpError;
@@ -3278,6 +3415,8 @@ export const listErrorTrackingAlerts: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingAlerts",
 }));
 
 export type ListErrorTrackingAssignmentRulesError = PosthogOpError;
@@ -3292,6 +3431,8 @@ export const listErrorTrackingAssignmentRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingAssignmentRules",
 }));
 
 export type ListErrorTrackingBypassRulesError = PosthogOpError;
@@ -3306,6 +3447,8 @@ export const listErrorTrackingBypassRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingBypassRules",
 }));
 
 export type ListErrorTrackingExternalReferencesError = PosthogOpError;
@@ -3320,6 +3463,8 @@ export const listErrorTrackingExternalReferences: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingExternalReferences",
 }));
 
 export type ListErrorTrackingFingerprintsError = PosthogOpError;
@@ -3334,6 +3479,8 @@ export const listErrorTrackingFingerprints: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingFingerprints",
 }));
 
 export type ListErrorTrackingGroupingRulesError = PosthogOpError;
@@ -3348,6 +3495,8 @@ export const listErrorTrackingGroupingRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingGroupingRules",
 }));
 
 export type ListErrorTrackingIssuesError = PosthogOpError;
@@ -3362,6 +3511,8 @@ export const listErrorTrackingIssues: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingIssues",
 }));
 
 export type ListErrorTrackingRecommendationsError = PosthogOpError;
@@ -3376,6 +3527,8 @@ export const listErrorTrackingRecommendations: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingRecommendations",
 }));
 
 export type ListErrorTrackingReleasesError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3390,6 +3543,8 @@ export const listErrorTrackingReleases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingReleases",
 }));
 
 export type ListErrorTrackingSeverityRulesError = PosthogOpError;
@@ -3404,6 +3559,8 @@ export const listErrorTrackingSeverityRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingSeverityRules",
 }));
 
 export type ListErrorTrackingSpikeDetectionConfigError = PosthogOpError;
@@ -3418,6 +3575,8 @@ export const listErrorTrackingSpikeDetectionConfig: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingSpikeDetectionConfig",
 }));
 
 export type ListErrorTrackingSpikeEventsError = PosthogOpError;
@@ -3432,6 +3591,8 @@ export const listErrorTrackingSpikeEvents: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingSpikeEvents",
 }));
 
 export type ListErrorTrackingStackFramesError = PosthogOpError;
@@ -3446,6 +3607,8 @@ export const listErrorTrackingStackFrames: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingStackFrames",
 }));
 
 export type ListErrorTrackingSuppressionRulesError = PosthogOpError;
@@ -3460,6 +3623,8 @@ export const listErrorTrackingSuppressionRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingSuppressionRules",
 }));
 
 export type ListErrorTrackingSymbolSetsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3474,6 +3639,8 @@ export const listErrorTrackingSymbolSets: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorTrackingSymbolSets",
 }));
 
 export type UpdateErrorTrackingAlertError = PosthogOpError;
@@ -3488,6 +3655,8 @@ export const updateErrorTrackingAlert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingAlert",
 }));
 
 export type UpdateErrorTrackingAlertsPartialError = PosthogOpError;
@@ -3502,6 +3671,8 @@ export const updateErrorTrackingAlertsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingAlertsPartial",
 }));
 
 export type UpdateErrorTrackingAssignmentRuleError = PosthogOpError;
@@ -3516,6 +3687,8 @@ export const updateErrorTrackingAssignmentRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingAssignmentRule",
 }));
 
 export type UpdateErrorTrackingAssignmentRulesPartialError = PosthogOpError;
@@ -3530,6 +3703,8 @@ export const updateErrorTrackingAssignmentRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingAssignmentRulesPartial",
 }));
 
 export type UpdateErrorTrackingAssignmentRulesReorderPartialError = PosthogOpError;
@@ -3552,6 +3727,8 @@ export const updateErrorTrackingAssignmentRulesReorderPartial: API.OperationMeth
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingAssignmentRulesReorderPartial",
 }));
 
 export type UpdateErrorTrackingBypassRuleError = PosthogOpError;
@@ -3566,6 +3743,8 @@ export const updateErrorTrackingBypassRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingBypassRule",
 }));
 
 export type UpdateErrorTrackingBypassRulesPartialError = PosthogOpError;
@@ -3580,6 +3759,8 @@ export const updateErrorTrackingBypassRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingBypassRulesPartial",
 }));
 
 export type UpdateErrorTrackingBypassRulesReorderPartialError = PosthogOpError;
@@ -3602,6 +3783,8 @@ export const updateErrorTrackingBypassRulesReorderPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingBypassRulesReorderPartial",
 }));
 
 export type UpdateErrorTrackingGroupingRuleError = PosthogOpError;
@@ -3616,6 +3799,8 @@ export const updateErrorTrackingGroupingRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingGroupingRule",
 }));
 
 export type UpdateErrorTrackingGroupingRulesPartialError = PosthogOpError;
@@ -3630,6 +3815,8 @@ export const updateErrorTrackingGroupingRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingGroupingRulesPartial",
 }));
 
 export type UpdateErrorTrackingGroupingRulesReorderPartialError = PosthogOpError;
@@ -3652,6 +3839,8 @@ export const updateErrorTrackingGroupingRulesReorderPartial: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingGroupingRulesReorderPartial",
 }));
 
 export type UpdateErrorTrackingIssueError = PosthogOpError;
@@ -3666,6 +3855,8 @@ export const updateErrorTrackingIssue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingIssue",
 }));
 
 export type UpdateErrorTrackingIssuesCohortError = PosthogOpError;
@@ -3680,6 +3871,8 @@ export const updateErrorTrackingIssuesCohort: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingIssuesCohort",
 }));
 
 export type UpdateErrorTrackingIssuesPartialError = PosthogOpError;
@@ -3694,6 +3887,8 @@ export const updateErrorTrackingIssuesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingIssuesPartial",
 }));
 
 export type UpdateErrorTrackingReleaseError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3708,6 +3903,8 @@ export const updateErrorTrackingRelease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingRelease",
 }));
 
 export type UpdateErrorTrackingReleasesPartialError =
@@ -3726,6 +3923,8 @@ export const updateErrorTrackingReleasesPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingReleasesPartial",
 }));
 
 export type UpdateErrorTrackingSeverityRuleError = PosthogOpError;
@@ -3740,6 +3939,8 @@ export const updateErrorTrackingSeverityRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingSeverityRule",
 }));
 
 export type UpdateErrorTrackingSeverityRulesPartialError = PosthogOpError;
@@ -3754,6 +3955,8 @@ export const updateErrorTrackingSeverityRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingSeverityRulesPartial",
 }));
 
 export type UpdateErrorTrackingSeverityRulesReorderPartialError = PosthogOpError;
@@ -3776,6 +3979,8 @@ export const updateErrorTrackingSeverityRulesReorderPartial: API.OperationMethod
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingSeverityRulesReorderPartial",
 }));
 
 export type UpdateErrorTrackingSuppressionRuleError = PosthogOpError;
@@ -3790,6 +3995,8 @@ export const updateErrorTrackingSuppressionRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingSuppressionRule",
 }));
 
 export type UpdateErrorTrackingSuppressionRulesPartialError = PosthogOpError;
@@ -3804,6 +4011,8 @@ export const updateErrorTrackingSuppressionRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingSuppressionRulesPartial",
 }));
 
 export type UpdateErrorTrackingSuppressionRulesReorderPartialError = PosthogOpError;
@@ -3826,6 +4035,8 @@ export const updateErrorTrackingSuppressionRulesReorderPartial: API.OperationMet
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateErrorTrackingSuppressionRulesReorderPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

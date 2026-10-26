@@ -12,6 +12,24 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "civicinfo" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Civicinfo",
+  service: "civicinfo",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -432,6 +450,8 @@ export const electionQueryElections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ElectionQueryElections",
 }));
 
 export type QueryDivisionByAddressDivisionsError = NotFound | Forbidden | GcpOpError;
@@ -447,6 +467,8 @@ export const queryDivisionByAddressDivisions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryDivisionByAddressDivisions",
 }));
 
 export type SearchDivisionsError = NotFound | Forbidden | GcpOpError;
@@ -462,6 +484,8 @@ export const searchDivisions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchDivisions",
 }));
 
 export type VoterInfoQueryElectionsError = NotFound | Forbidden | GcpOpError;
@@ -477,6 +501,8 @@ export const voterInfoQueryElections: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VoterInfoQueryElections",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

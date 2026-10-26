@@ -9,6 +9,7 @@ import {
 import { writeModel } from "../../dev/src/codegen/models.ts";
 import { applyRfc6902Files, listRfc6902PatchFiles } from "../../dev/src/codegen/patches.ts";
 import { resolveSpecPath } from "../../dev/src/codegen/spec-path.ts";
+import { applyGraphQLTelemetry, providerDefaults } from "../../dev/src/codegen/telemetry.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
 const source = resolveSpecPath(root, "specs/spec-mirror-railway/specs/schema.json");
@@ -24,6 +25,8 @@ const patches = await applyRfc6902Files(
   await listRfc6902PatchFiles(path.join(root, "patches/graphql")),
 );
 if (patches.errors.length) throw new Error(patches.errors.join("\n"));
+// Telemetry last, so a patch's `telemetry` fields win.
+applyGraphQLTelemetry(model, providerDefaults(root));
 validateGraphQLModel(model);
 const output = path.join(root, ".generated-graphql/railway.json");
 writeModel(output, model);

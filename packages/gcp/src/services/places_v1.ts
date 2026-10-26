@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "places" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Places",
+  service: "places",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1274,6 +1293,8 @@ export const autocompletePlaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutocompletePlaces",
 }));
 
 export type GetMediaPlacesPhotosError = NotFound | Forbidden | GcpOpError;
@@ -1289,6 +1310,8 @@ export const getMediaPlacesPhotos: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMediaPlacesPhotos",
 }));
 
 export type GetPlacesError = NotFound | Forbidden | GcpOpError;
@@ -1304,6 +1327,8 @@ export const getPlaces: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlaces",
 }));
 
 export type SearchNearbyPlacesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1319,6 +1344,8 @@ export const searchNearbyPlaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchNearbyPlaces",
 }));
 
 export type SearchTextPlacesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1334,6 +1361,8 @@ export const searchTextPlaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTextPlaces",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

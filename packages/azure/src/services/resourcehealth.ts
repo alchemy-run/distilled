@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ResourceHealth" },
+  prefix: "Resourcehealth",
+  service: "Resourcehealth",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingIdRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -922,6 +942,8 @@ export const EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingId
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingId",
 }));
 
 export type EventFetchDetailsBySubscriptionIdAndTrackingIdError = AzureOpError;
@@ -945,6 +967,8 @@ export const EventFetchDetailsBySubscriptionIdAndTrackingId: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventFetchDetailsBySubscriptionIdAndTrackingId",
 }));
 
 export type EventFetchDetailsByTenantIdAndTrackingIdError = AzureOpError;
@@ -960,6 +984,8 @@ export const EventFetchDetailsByTenantIdAndTrackingId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventFetchDetailsByTenantIdAndTrackingId",
 }));
 
 export type EventGetBySubscriptionIdAndTrackingIdError = AzureOpError;
@@ -975,6 +1001,8 @@ export const EventGetBySubscriptionIdAndTrackingId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventGetBySubscriptionIdAndTrackingId",
 }));
 
 export type EventGetByTenantIdAndTrackingIdError = AzureOpError;
@@ -990,6 +1018,8 @@ export const EventGetByTenantIdAndTrackingId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventGetByTenantIdAndTrackingId",
 }));
 
 export type GetAvailabilityStatusByResourceError = AzureOpError;
@@ -1005,6 +1035,14 @@ export const GetAvailabilityStatusByResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAvailabilityStatusByResource",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
+    },
+  },
 }));
 
 export type GetChildAvailabilityStatusByResourceError = AzureOpError;
@@ -1020,6 +1058,14 @@ export const GetChildAvailabilityStatusByResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetChildAvailabilityStatusByResource",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses/current",
+    },
+  },
 }));
 
 export type GetEmergingIssueError = AzureOpError;
@@ -1035,6 +1081,8 @@ export const GetEmergingIssue: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmergingIssue",
 }));
 
 export type GetImpactedResourceError = AzureOpError;
@@ -1050,6 +1098,8 @@ export const GetImpactedResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImpactedResource",
 }));
 
 export type GetImpactedResourceByTenantIdError = AzureOpError;
@@ -1065,6 +1115,8 @@ export const GetImpactedResourceByTenantId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImpactedResourceByTenantId",
 }));
 
 export type GetMetadataEntityError = AzureOpError;
@@ -1080,6 +1132,8 @@ export const GetMetadataEntity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadataEntity",
 }));
 
 export type ImpactedResourcesListBySubscriptionIdAndEventIdError = AzureOpError;
@@ -1099,6 +1153,8 @@ export const ImpactedResourcesListBySubscriptionIdAndEventId: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImpactedResourcesListBySubscriptionIdAndEventId",
 }));
 
 export type ImpactedResourcesListByTenantIdAndEventIdError = AzureOpError;
@@ -1114,6 +1170,8 @@ export const ImpactedResourcesListByTenantIdAndEventId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImpactedResourcesListByTenantIdAndEventId",
 }));
 
 export type ListAvailabilityStatusByResourceGroupError = AzureOpError;
@@ -1129,6 +1187,8 @@ export const ListAvailabilityStatusByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilityStatusByResourceGroup",
 }));
 
 export type ListAvailabilityStatusBySubscriptionIdError = AzureOpError;
@@ -1144,6 +1204,8 @@ export const ListAvailabilityStatusBySubscriptionId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAvailabilityStatusBySubscriptionId",
 }));
 
 export type ListAvailabilityStatusesError = AzureOpError;
@@ -1159,6 +1221,13 @@ export const ListAvailabilityStatuses: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAvailabilityStatuses",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses",
+    },
+  },
 }));
 
 export type ListChildAvailabilityStatusesError = AzureOpError;
@@ -1174,6 +1243,13 @@ export const ListChildAvailabilityStatuses: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListChildAvailabilityStatuses",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses",
+    },
+  },
 }));
 
 export type ListChildResourcesError = AzureOpError;
@@ -1189,6 +1265,13 @@ export const ListChildResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListChildResources",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.ResourceHealth/childResources",
+    },
+  },
 }));
 
 export type ListEmergingIssuesError = AzureOpError;
@@ -1204,6 +1287,8 @@ export const ListEmergingIssues: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmergingIssues",
 }));
 
 export type ListEventBySingleResourceError = AzureOpError;
@@ -1219,6 +1304,11 @@ export const ListEventBySingleResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListEventBySingleResource",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.ResourceHealth/events" },
+  },
 }));
 
 export type ListEventBySubscriptionIdError = AzureOpError;
@@ -1234,6 +1324,8 @@ export const ListEventBySubscriptionId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventBySubscriptionId",
 }));
 
 export type ListEventByTenantIdError = AzureOpError;
@@ -1249,6 +1341,8 @@ export const ListEventByTenantId: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventByTenantId",
 }));
 
 export type ListMetadataError = AzureOpError;
@@ -1264,6 +1358,8 @@ export const ListMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetadata",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1279,6 +1375,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdError = AzureOpError;
@@ -1298,6 +1396,8 @@ export const SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventId: AP
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventId",
 }));
 
 export type SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdError = AzureOpError;
@@ -1317,6 +1417,8 @@ export const SecurityAdvisoryImpactedResourcesListByTenantIdAndEventId: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityAdvisoryImpactedResourcesListByTenantIdAndEventId",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

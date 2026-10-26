@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://wisdom.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "QConnect",
+  service: "QConnect",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3187,6 +3202,8 @@ export const activateMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "ActivateMessageTemplate",
 }));
 
 export type CreateAIAgentError =
@@ -3221,6 +3238,8 @@ export const createAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIAgent",
+  telemetry: TELEMETRY,
+  span: "CreateAIAgent",
 }));
 
 export type CreateAIAgentVersionError =
@@ -3255,6 +3274,8 @@ export const createAIAgentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIAgentVersion",
+  telemetry: TELEMETRY,
+  span: "CreateAIAgentVersion",
 }));
 
 export type CreateAIGuardrailError =
@@ -3289,6 +3310,8 @@ export const createAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIGuardrail",
+  telemetry: TELEMETRY,
+  span: "CreateAIGuardrail",
 }));
 
 export type CreateAIGuardrailVersionError =
@@ -3323,6 +3346,8 @@ export const createAIGuardrailVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIGuardrailVersion",
+  telemetry: TELEMETRY,
+  span: "CreateAIGuardrailVersion",
 }));
 
 export type CreateAIPromptError =
@@ -3357,6 +3382,8 @@ export const createAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIPrompt",
+  telemetry: TELEMETRY,
+  span: "CreateAIPrompt",
 }));
 
 export type CreateAIPromptVersionError =
@@ -3391,6 +3418,8 @@ export const createAIPromptVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIPromptVersion",
+  telemetry: TELEMETRY,
+  span: "CreateAIPromptVersion",
 }));
 
 export type CreateAssistantError =
@@ -3421,6 +3450,8 @@ export const createAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistant",
+  telemetry: TELEMETRY,
+  span: "CreateAssistant",
 }));
 
 export type CreateAssistantAssociationError =
@@ -3451,6 +3482,8 @@ export const createAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistantAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateAssistantAssociation",
 }));
 
 export type CreateContentError =
@@ -3483,6 +3516,8 @@ export const createContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContent",
+  telemetry: TELEMETRY,
+  span: "CreateContent",
 }));
 
 export type CreateContentAssociationError =
@@ -3527,6 +3562,8 @@ export const createContentAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContentAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateContentAssociation",
 }));
 
 export type CreateKnowledgeBaseError =
@@ -3569,6 +3606,8 @@ export const createKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "CreateKnowledgeBase",
 }));
 
 export type CreateMessageTemplateError =
@@ -3601,6 +3640,8 @@ export const createMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateMessageTemplate",
 }));
 
 export type CreateMessageTemplateAttachmentError =
@@ -3635,6 +3676,8 @@ export const createMessageTemplateAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMessageTemplateAttachment",
+  telemetry: TELEMETRY,
+  span: "CreateMessageTemplateAttachment",
 }));
 
 export type CreateMessageTemplateVersionError =
@@ -3667,6 +3710,8 @@ export const createMessageTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMessageTemplateVersion",
+  telemetry: TELEMETRY,
+  span: "CreateMessageTemplateVersion",
 }));
 
 export type CreateQuickResponseError =
@@ -3699,6 +3744,8 @@ export const createQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuickResponse",
+  telemetry: TELEMETRY,
+  span: "CreateQuickResponse",
 }));
 
 export type CreateSessionError =
@@ -3731,6 +3778,8 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type DeactivateMessageTemplateError =
@@ -3761,6 +3810,8 @@ export const deactivateMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "DeactivateMessageTemplate",
 }));
 
 export type DeleteAIAgentError =
@@ -3791,6 +3842,8 @@ export const deleteAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIAgent",
+  telemetry: TELEMETRY,
+  span: "DeleteAIAgent",
 }));
 
 export type DeleteAIAgentVersionError =
@@ -3823,6 +3876,8 @@ export const deleteAIAgentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIAgentVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteAIAgentVersion",
 }));
 
 export type DeleteAIGuardrailError =
@@ -3855,6 +3910,8 @@ export const deleteAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIGuardrail",
+  telemetry: TELEMETRY,
+  span: "DeleteAIGuardrail",
 }));
 
 export type DeleteAIGuardrailVersionError =
@@ -3887,6 +3944,8 @@ export const deleteAIGuardrailVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIGuardrailVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteAIGuardrailVersion",
 }));
 
 export type DeleteAIPromptError =
@@ -3917,6 +3976,8 @@ export const deleteAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIPrompt",
+  telemetry: TELEMETRY,
+  span: "DeleteAIPrompt",
 }));
 
 export type DeleteAIPromptVersionError =
@@ -3949,6 +4010,8 @@ export const deleteAIPromptVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIPromptVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteAIPromptVersion",
 }));
 
 export type DeleteAssistantError =
@@ -3977,6 +4040,8 @@ export const deleteAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistant",
+  telemetry: TELEMETRY,
+  span: "DeleteAssistant",
 }));
 
 export type DeleteAssistantAssociationError =
@@ -4005,6 +4070,8 @@ export const deleteAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistantAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteAssistantAssociation",
 }));
 
 export type DeleteContentError =
@@ -4035,6 +4102,8 @@ export const deleteContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContent",
+  telemetry: TELEMETRY,
+  span: "DeleteContent",
 }));
 
 export type DeleteContentAssociationError =
@@ -4065,6 +4134,8 @@ export const deleteContentAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContentAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteContentAssociation",
 }));
 
 export type DeleteImportJobError =
@@ -4095,6 +4166,8 @@ export const deleteImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportJob",
+  telemetry: TELEMETRY,
+  span: "DeleteImportJob",
 }));
 
 export type DeleteKnowledgeBaseError =
@@ -4127,6 +4200,8 @@ export const deleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "DeleteKnowledgeBase",
 }));
 
 export type DeleteMessageTemplateError =
@@ -4157,6 +4232,8 @@ export const deleteMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteMessageTemplate",
 }));
 
 export type DeleteMessageTemplateAttachmentError =
@@ -4187,6 +4264,8 @@ export const deleteMessageTemplateAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageTemplateAttachment",
+  telemetry: TELEMETRY,
+  span: "DeleteMessageTemplateAttachment",
 }));
 
 export type DeleteQuickResponseError =
@@ -4215,6 +4294,8 @@ export const deleteQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuickResponse",
+  telemetry: TELEMETRY,
+  span: "DeleteQuickResponse",
 }));
 
 export type GetAIAgentError =
@@ -4245,6 +4326,8 @@ export const getAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAIAgent",
+  telemetry: TELEMETRY,
+  span: "GetAIAgent",
 }));
 
 export type GetAIGuardrailError =
@@ -4275,6 +4358,8 @@ export const getAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAIGuardrail",
+  telemetry: TELEMETRY,
+  span: "GetAIGuardrail",
 }));
 
 export type GetAIPromptError =
@@ -4305,6 +4390,8 @@ export const getAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAIPrompt",
+  telemetry: TELEMETRY,
+  span: "GetAIPrompt",
 }));
 
 export type GetAssistantError =
@@ -4333,6 +4420,8 @@ export const getAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistant",
+  telemetry: TELEMETRY,
+  span: "GetAssistant",
 }));
 
 export type GetAssistantAssociationError =
@@ -4361,6 +4450,8 @@ export const getAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistantAssociation",
+  telemetry: TELEMETRY,
+  span: "GetAssistantAssociation",
 }));
 
 export type GetContentError =
@@ -4389,6 +4480,8 @@ export const getContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContent",
+  telemetry: TELEMETRY,
+  span: "GetContent",
 }));
 
 export type GetContentAssociationError =
@@ -4419,6 +4512,8 @@ export const getContentAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentAssociation",
+  telemetry: TELEMETRY,
+  span: "GetContentAssociation",
 }));
 
 export type GetContentSummaryError =
@@ -4447,6 +4542,8 @@ export const getContentSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentSummary",
+  telemetry: TELEMETRY,
+  span: "GetContentSummary",
 }));
 
 export type GetImportJobError =
@@ -4469,6 +4566,8 @@ export const getImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
+  telemetry: TELEMETRY,
+  span: "GetImportJob",
 }));
 
 export type GetKnowledgeBaseError =
@@ -4497,6 +4596,8 @@ export const getKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "GetKnowledgeBase",
 }));
 
 export type GetMessageTemplateError =
@@ -4527,6 +4628,8 @@ export const getMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "GetMessageTemplate",
 }));
 
 export type GetNextMessageError =
@@ -4555,6 +4658,8 @@ export const getNextMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNextMessage",
+  telemetry: TELEMETRY,
+  span: "GetNextMessage",
 }));
 
 export type GetQuickResponseError =
@@ -4583,6 +4688,8 @@ export const getQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuickResponse",
+  telemetry: TELEMETRY,
+  span: "GetQuickResponse",
 }));
 
 export type GetRecommendationsError =
@@ -4607,6 +4714,8 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetRecommendations",
 }));
 
 export type GetSessionError =
@@ -4635,6 +4744,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type ListAIAgentsError =
@@ -4672,6 +4783,8 @@ export const listAIAgents: API.PaginatedOperationMethod<
     items: "aiAgentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIAgents",
 })) as any;
 
 export type ListAIAgentVersionsError =
@@ -4709,6 +4822,8 @@ export const listAIAgentVersions: API.PaginatedOperationMethod<
     items: "aiAgentVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIAgentVersions",
 })) as any;
 
 export type ListAIGuardrailsError =
@@ -4746,6 +4861,8 @@ export const listAIGuardrails: API.PaginatedOperationMethod<
     items: "aiGuardrailSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIGuardrails",
 })) as any;
 
 export type ListAIGuardrailVersionsError =
@@ -4783,6 +4900,8 @@ export const listAIGuardrailVersions: API.PaginatedOperationMethod<
     items: "aiGuardrailVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIGuardrailVersions",
 })) as any;
 
 export type ListAIPromptsError =
@@ -4820,6 +4939,8 @@ export const listAIPrompts: API.PaginatedOperationMethod<
     items: "aiPromptSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIPrompts",
 })) as any;
 
 export type ListAIPromptVersionsError =
@@ -4857,6 +4978,8 @@ export const listAIPromptVersions: API.PaginatedOperationMethod<
     items: "aiPromptVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAIPromptVersions",
 })) as any;
 
 export type ListAssistantAssociationsError =
@@ -4886,6 +5009,8 @@ export const listAssistantAssociations: API.PaginatedOperationMethod<
     items: "assistantAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssistantAssociations",
 })) as any;
 
 export type ListAssistantsError =
@@ -4915,6 +5040,8 @@ export const listAssistants: API.PaginatedOperationMethod<
     items: "assistantSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssistants",
 })) as any;
 
 export type ListContentAssociationsError =
@@ -4952,6 +5079,8 @@ export const listContentAssociations: API.PaginatedOperationMethod<
     items: "contentAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContentAssociations",
 })) as any;
 
 export type ListContentsError =
@@ -4981,6 +5110,8 @@ export const listContents: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContents",
 })) as any;
 
 export type ListImportJobsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -5006,6 +5137,8 @@ export const listImportJobs: API.PaginatedOperationMethod<
     items: "importJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportJobs",
 })) as any;
 
 export type ListKnowledgeBasesError = AccessDeniedException | ValidationException | CommonErrors;
@@ -5031,6 +5164,8 @@ export const listKnowledgeBases: API.PaginatedOperationMethod<
     items: "knowledgeBaseSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKnowledgeBases",
 })) as any;
 
 export type ListMessagesError =
@@ -5060,6 +5195,8 @@ export const listMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMessages",
 })) as any;
 
 export type ListMessageTemplatesError =
@@ -5095,6 +5232,8 @@ export const listMessageTemplates: API.PaginatedOperationMethod<
     items: "messageTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMessageTemplates",
 })) as any;
 
 export type ListMessageTemplateVersionsError =
@@ -5130,6 +5269,8 @@ export const listMessageTemplateVersions: API.PaginatedOperationMethod<
     items: "messageTemplateVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMessageTemplateVersions",
 })) as any;
 
 export type ListModelsError =
@@ -5169,6 +5310,8 @@ export const listModels: API.PaginatedOperationMethod<
     items: "modelSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModels",
 })) as any;
 
 export type ListQuickResponsesError =
@@ -5198,6 +5341,8 @@ export const listQuickResponses: API.PaginatedOperationMethod<
     items: "quickResponseSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQuickResponses",
 })) as any;
 
 export type ListSpansError =
@@ -5227,6 +5372,8 @@ export const listSpans: API.PaginatedOperationMethod<
     items: "spans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSpans",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -5245,6 +5392,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type NotifyRecommendationsReceivedError =
@@ -5267,6 +5416,8 @@ export const notifyRecommendationsReceived: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyRecommendationsReceived",
+  telemetry: TELEMETRY,
+  span: "NotifyRecommendationsReceived",
 }));
 
 export type PutFeedbackError =
@@ -5289,6 +5440,8 @@ export const putFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedback",
+  telemetry: TELEMETRY,
+  span: "PutFeedback",
 }));
 
 export type QueryAssistantError =
@@ -5326,6 +5479,8 @@ export const queryAssistant: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "QueryAssistant",
 })) as any;
 
 export type RemoveAssistantAIAgentError =
@@ -5354,6 +5509,8 @@ export const removeAssistantAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAssistantAIAgent",
+  telemetry: TELEMETRY,
+  span: "RemoveAssistantAIAgent",
 }));
 
 export type RemoveKnowledgeBaseTemplateUriError =
@@ -5376,6 +5533,8 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveKnowledgeBaseTemplateUri",
+  telemetry: TELEMETRY,
+  span: "RemoveKnowledgeBaseTemplateUri",
 }));
 
 export type RenderMessageTemplateError =
@@ -5404,6 +5563,8 @@ export const renderMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenderMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "RenderMessageTemplate",
 }));
 
 export type RetrieveError =
@@ -5440,6 +5601,8 @@ export const retrieve: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Retrieve",
+  telemetry: TELEMETRY,
+  span: "Retrieve",
 }));
 
 export type SearchContentError =
@@ -5475,6 +5638,8 @@ export const searchContent: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchContent",
 })) as any;
 
 export type SearchMessageTemplatesError =
@@ -5512,6 +5677,8 @@ export const searchMessageTemplates: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchMessageTemplates",
 })) as any;
 
 export type SearchQuickResponsesError =
@@ -5549,6 +5716,8 @@ export const searchQuickResponses: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchQuickResponses",
 })) as any;
 
 export type SearchSessionsError =
@@ -5584,6 +5753,8 @@ export const searchSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchSessions",
 })) as any;
 
 export type SendMessageError =
@@ -5620,6 +5791,8 @@ export const sendMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessage",
+  telemetry: TELEMETRY,
+  span: "SendMessage",
 }));
 
 export type StartContentUploadError =
@@ -5648,6 +5821,8 @@ export const startContentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentUpload",
+  telemetry: TELEMETRY,
+  span: "StartContentUpload",
 }));
 
 export type StartImportJobError =
@@ -5682,6 +5857,8 @@ export const startImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportJob",
+  telemetry: TELEMETRY,
+  span: "StartImportJob",
 }));
 
 export type TagResourceError = ResourceNotFoundException | TooManyTagsException | CommonErrors;
@@ -5700,6 +5877,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -5718,6 +5897,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAIAgentError =
@@ -5750,6 +5931,8 @@ export const updateAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAIAgent",
+  telemetry: TELEMETRY,
+  span: "UpdateAIAgent",
 }));
 
 export type UpdateAIGuardrailError =
@@ -5782,6 +5965,8 @@ export const updateAIGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAIGuardrail",
+  telemetry: TELEMETRY,
+  span: "UpdateAIGuardrail",
 }));
 
 export type UpdateAIPromptError =
@@ -5814,6 +5999,8 @@ export const updateAIPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAIPrompt",
+  telemetry: TELEMETRY,
+  span: "UpdateAIPrompt",
 }));
 
 export type UpdateAssistantAIAgentError =
@@ -5842,6 +6029,8 @@ export const updateAssistantAIAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssistantAIAgent",
+  telemetry: TELEMETRY,
+  span: "UpdateAssistantAIAgent",
 }));
 
 export type UpdateContentError =
@@ -5872,6 +6061,8 @@ export const updateContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContent",
+  telemetry: TELEMETRY,
+  span: "UpdateContent",
 }));
 
 export type UpdateKnowledgeBaseTemplateUriError =
@@ -5894,6 +6085,8 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBaseTemplateUri",
+  telemetry: TELEMETRY,
+  span: "UpdateKnowledgeBaseTemplateUri",
 }));
 
 export type UpdateMessageTemplateError =
@@ -5924,6 +6117,8 @@ export const updateMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateMessageTemplate",
 }));
 
 export type UpdateMessageTemplateMetadataError =
@@ -5954,6 +6149,8 @@ export const updateMessageTemplateMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMessageTemplateMetadata",
+  telemetry: TELEMETRY,
+  span: "UpdateMessageTemplateMetadata",
 }));
 
 export type UpdateQuickResponseError =
@@ -5986,6 +6183,8 @@ export const updateQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickResponse",
+  telemetry: TELEMETRY,
+  span: "UpdateQuickResponse",
 }));
 
 export type UpdateSessionError =
@@ -6014,6 +6213,8 @@ export const updateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSession",
+  telemetry: TELEMETRY,
+  span: "UpdateSession",
 }));
 
 export type UpdateSessionDataError =
@@ -6042,6 +6243,8 @@ export const updateSessionData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSessionData",
+  telemetry: TELEMETRY,
+  span: "UpdateSessionData",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

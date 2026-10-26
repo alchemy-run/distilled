@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Billing",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -690,6 +708,8 @@ export const createOrganizationBudget: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrganizationBudget",
 }));
 
 export type DeleteBudgetOrgError = BadRequest | Forbidden | NotFound | GithubOpError;
@@ -705,6 +725,8 @@ export const deleteBudgetOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBudgetOrg",
 }));
 
 export type GetAllBudgetsOrgError = Forbidden | NotFound | GithubOpError;
@@ -720,6 +742,8 @@ export const getAllBudgetsOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllBudgetsOrg",
 }));
 
 export type GetBudgetOrgError = BadRequest | Forbidden | NotFound | GithubOpError;
@@ -735,6 +759,8 @@ export const getBudgetOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBudgetOrg",
 }));
 
 export type GetGithubBillingAiCreditUsageReportOrgError =
@@ -754,6 +780,8 @@ export const getGithubBillingAiCreditUsageReportOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubBillingAiCreditUsageReportOrg",
 }));
 
 export type GetGithubBillingAiCreditUsageReportUserError =
@@ -773,6 +801,8 @@ export const getGithubBillingAiCreditUsageReportUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubBillingAiCreditUsageReportUser",
 }));
 
 export type GetGithubBillingPremiumRequestUsageReportOrgError =
@@ -792,6 +822,8 @@ export const getGithubBillingPremiumRequestUsageReportOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubBillingPremiumRequestUsageReportOrg",
 }));
 
 export type GetGithubBillingPremiumRequestUsageReportUserError =
@@ -811,6 +843,8 @@ export const getGithubBillingPremiumRequestUsageReportUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubBillingPremiumRequestUsageReportUser",
 }));
 
 export type GetGithubBillingUsageReportOrgError = BadRequest | Forbidden | GithubOpError;
@@ -826,6 +860,8 @@ export const getGithubBillingUsageReportOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubBillingUsageReportOrg",
 }));
 
 export type GetGithubBillingUsageReportUserError = BadRequest | Forbidden | GithubOpError;
@@ -841,6 +877,8 @@ export const getGithubBillingUsageReportUser: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubBillingUsageReportUser",
 }));
 
 export type GetGithubBillingUsageSummaryReportOrgError = BadRequest | Forbidden | GithubOpError;
@@ -856,6 +894,8 @@ export const getGithubBillingUsageSummaryReportOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubBillingUsageSummaryReportOrg",
 }));
 
 export type GetGithubBillingUsageSummaryReportUserError =
@@ -875,6 +915,8 @@ export const getGithubBillingUsageSummaryReportUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubBillingUsageSummaryReportUser",
 }));
 
 export type UpdateBudgetOrgError =
@@ -895,6 +937,8 @@ export const updateBudgetOrg: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBudgetOrg",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Batch" },
+  prefix: "Batch",
+  service: "Batch",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface ActivateApplicationPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2471,6 +2491,8 @@ export const ActivateApplicationPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateApplicationPackage",
 }));
 
 export type BatchAccountSynchronizeAutoStorageKeysError = AzureOpError;
@@ -2486,6 +2508,8 @@ export const BatchAccountSynchronizeAutoStorageKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchAccountSynchronizeAutoStorageKeys",
 }));
 
 export type CheckLocationNameAvailabilityError = AzureOpError;
@@ -2501,6 +2525,8 @@ export const CheckLocationNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckLocationNameAvailability",
 }));
 
 export type CreateApplicationError = AzureOpError;
@@ -2516,6 +2542,8 @@ export const CreateApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateApplicationPackageError = AzureOpError;
@@ -2531,6 +2559,8 @@ export const CreateApplicationPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationPackage",
 }));
 
 export type CreateBatchAccountError = AzureOpError;
@@ -2546,6 +2576,8 @@ export const CreateBatchAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBatchAccount",
 }));
 
 export type CreatePoolError = AzureOpError;
@@ -2561,6 +2593,8 @@ export const CreatePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePool",
 }));
 
 export type DeleteApplicationError = AzureOpError;
@@ -2576,6 +2610,8 @@ export const DeleteApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteApplicationPackageError = AzureOpError;
@@ -2591,6 +2627,8 @@ export const DeleteApplicationPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationPackage",
 }));
 
 export type DeleteBatchAccountError = AzureOpError;
@@ -2606,6 +2644,8 @@ export const DeleteBatchAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBatchAccount",
 }));
 
 export type DeletePoolError = AzureOpError;
@@ -2621,6 +2661,8 @@ export const DeletePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePool",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -2636,6 +2678,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DisablePoolAutoScaleError = AzureOpError;
@@ -2651,6 +2695,8 @@ export const DisablePoolAutoScale: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisablePoolAutoScale",
 }));
 
 export type GetApplicationError = AzureOpError;
@@ -2666,6 +2712,8 @@ export const GetApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetApplicationPackageError = AzureOpError;
@@ -2681,6 +2729,8 @@ export const GetApplicationPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationPackage",
 }));
 
 export type GetBatchAccountError = AzureOpError;
@@ -2696,6 +2746,8 @@ export const GetBatchAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchAccount",
 }));
 
 export type GetBatchAccountDetectorError = AzureOpError;
@@ -2711,6 +2763,8 @@ export const GetBatchAccountDetector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchAccountDetector",
 }));
 
 export type GetBatchAccountKeysError = AzureOpError;
@@ -2726,6 +2780,8 @@ export const GetBatchAccountKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchAccountKeys",
 }));
 
 export type GetLocationQuotasError = AzureOpError;
@@ -2741,6 +2797,8 @@ export const GetLocationQuotas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocationQuotas",
 }));
 
 export type GetNetworkSecurityPerimeterConfigurationError = AzureOpError;
@@ -2756,6 +2814,8 @@ export const GetNetworkSecurityPerimeterConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkSecurityPerimeterConfiguration",
 }));
 
 export type GetPoolError = AzureOpError;
@@ -2771,6 +2831,8 @@ export const GetPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPool",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -2786,6 +2848,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -2801,6 +2865,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type ListApplicationError = AzureOpError;
@@ -2816,6 +2882,8 @@ export const ListApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplication",
 }));
 
 export type ListApplicationPackageError = AzureOpError;
@@ -2831,6 +2899,8 @@ export const ListApplicationPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationPackage",
 }));
 
 export type ListBatchAccountError = AzureOpError;
@@ -2846,6 +2916,8 @@ export const ListBatchAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchAccount",
 }));
 
 export type ListBatchAccountByResourceGroupError = AzureOpError;
@@ -2861,6 +2933,8 @@ export const ListBatchAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchAccountByResourceGroup",
 }));
 
 export type ListBatchAccountDetectorsError = AzureOpError;
@@ -2876,6 +2950,8 @@ export const ListBatchAccountDetectors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchAccountDetectors",
 }));
 
 export type ListBatchAccountOutboundNetworkDependenciesEndpointsError = AzureOpError;
@@ -2895,6 +2971,8 @@ export const ListBatchAccountOutboundNetworkDependenciesEndpoints: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchAccountOutboundNetworkDependenciesEndpoints",
 }));
 
 export type ListLocationSupportedVirtualMachineSkusError = AzureOpError;
@@ -2910,6 +2988,8 @@ export const ListLocationSupportedVirtualMachineSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocationSupportedVirtualMachineSkus",
 }));
 
 export type ListNetworkSecurityPerimeterConfigurationsError = AzureOpError;
@@ -2925,6 +3005,8 @@ export const ListNetworkSecurityPerimeterConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkSecurityPerimeterConfigurations",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2940,6 +3022,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPoolByBatchAccountError = AzureOpError;
@@ -2955,6 +3039,8 @@ export const ListPoolByBatchAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPoolByBatchAccount",
 }));
 
 export type ListPrivateEndpointConnectionByBatchAccountError = AzureOpError;
@@ -2970,6 +3056,8 @@ export const ListPrivateEndpointConnectionByBatchAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByBatchAccount",
 }));
 
 export type ListPrivateLinkResourceByBatchAccountError = AzureOpError;
@@ -2985,6 +3073,8 @@ export const ListPrivateLinkResourceByBatchAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByBatchAccount",
 }));
 
 export type NetworkSecurityPerimeterReconcileConfigurationError = AzureOpError;
@@ -3008,6 +3098,8 @@ export const NetworkSecurityPerimeterReconcileConfiguration: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkSecurityPerimeterReconcileConfiguration",
 }));
 
 export type PoolStopResizeError = AzureOpError;
@@ -3023,6 +3115,8 @@ export const PoolStopResize: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoolStopResize",
 }));
 
 export type RegenerateBatchAccountKeyError = AzureOpError;
@@ -3038,6 +3132,8 @@ export const RegenerateBatchAccountKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateBatchAccountKey",
 }));
 
 export type UpdateApplicationError = AzureOpError;
@@ -3053,6 +3149,8 @@ export const UpdateApplication: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateBatchAccountError = AzureOpError;
@@ -3068,6 +3166,8 @@ export const UpdateBatchAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBatchAccount",
 }));
 
 export type UpdatePoolError = AzureOpError;
@@ -3083,6 +3183,8 @@ export const UpdatePool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePool",
 }));
 
 export type UpdatePrivateEndpointConnectionError = AzureOpError;
@@ -3098,6 +3200,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

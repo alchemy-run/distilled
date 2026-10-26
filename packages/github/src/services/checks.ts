@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Checks",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -850,6 +868,8 @@ export const create: API.OperationMethod<CreateRequest, CheckRun, CreateError, G
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Create",
   }));
 
 export type CreateSuiteError = GithubOpError;
@@ -865,6 +885,8 @@ export const createSuite: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSuite",
 }));
 
 export type GetError = GithubOpError;
@@ -876,6 +898,8 @@ export const get: API.OperationMethod<GetRequest, CheckRun, GetError, GithubOpCo
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetSuiteError = GithubOpError;
@@ -891,6 +915,8 @@ export const getSuite: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuite",
 }));
 
 export type ListAnnotationsError = GithubOpError;
@@ -906,6 +932,8 @@ export const listAnnotations: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAnnotations",
 }));
 
 export type ListForRefError = GithubOpError;
@@ -921,6 +949,8 @@ export const listForRef: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForRef",
 }));
 
 export type ListForSuiteError = GithubOpError;
@@ -936,6 +966,8 @@ export const listForSuite: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForSuite",
 }));
 
 export type ListSuitesForRefError = GithubOpError;
@@ -951,6 +983,8 @@ export const listSuitesForRef: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSuitesForRef",
 }));
 
 export type RerequestSuiteError = GithubOpError;
@@ -966,6 +1000,8 @@ export const rerequestSuite: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RerequestSuite",
 }));
 
 export type RunRerequestError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -981,6 +1017,8 @@ export const runRerequest: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunRerequest",
 }));
 
 export type SetSuitesPreferencesError = GithubOpError;
@@ -996,6 +1034,8 @@ export const setSuitesPreferences: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSuitesPreferences",
 }));
 
 export type UpdateError = GithubOpError;
@@ -1007,6 +1047,8 @@ export const update: API.OperationMethod<UpdateRequest, CheckRun, UpdateError, G
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Update",
   }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

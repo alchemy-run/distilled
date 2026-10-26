@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticmapreduce.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EMR",
+  service: "EMR",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ClusterNotFound
   extends /*@__PURE__*/ S.TaggedError<ClusterNotFound>()(
@@ -1987,6 +2003,8 @@ export const addInstanceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddInstanceFleet",
+  telemetry: TELEMETRY,
+  span: "AddInstanceFleet",
 }));
 
 export type AddInstanceGroupsError = InternalServerError | CommonErrors;
@@ -2005,6 +2023,8 @@ export const addInstanceGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddInstanceGroups",
+  telemetry: TELEMETRY,
+  span: "AddInstanceGroups",
 }));
 
 export type AddJobFlowStepsError = InternalServerError | CommonErrors;
@@ -2044,6 +2064,8 @@ export const addJobFlowSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddJobFlowSteps",
+  telemetry: TELEMETRY,
+  span: "AddJobFlowSteps",
 }));
 
 export type AddTagsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2066,6 +2088,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type CancelStepsError = InternalServerError | InvalidRequestException | CommonErrors;
@@ -2088,6 +2112,8 @@ export const cancelSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSteps",
+  telemetry: TELEMETRY,
+  span: "CancelSteps",
 }));
 
 export type CreatePersistentAppUIError =
@@ -2109,6 +2135,8 @@ export const createPersistentAppUI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePersistentAppUI",
+  telemetry: TELEMETRY,
+  span: "CreatePersistentAppUI",
 }));
 
 export type CreateSecurityConfigurationError =
@@ -2132,6 +2160,8 @@ export const createSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityConfiguration",
 }));
 
 export type CreateStudioError =
@@ -2160,6 +2190,8 @@ export const createStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStudio",
+  telemetry: TELEMETRY,
+  span: "CreateStudio",
 }));
 
 export type CreateStudioSessionMappingError =
@@ -2185,6 +2217,8 @@ export const createStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStudioSessionMapping",
+  telemetry: TELEMETRY,
+  span: "CreateStudioSessionMapping",
 }));
 
 export type DeleteSecurityConfigurationError =
@@ -2207,6 +2241,8 @@ export const deleteSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityConfiguration",
 }));
 
 export type DeleteStudioError =
@@ -2229,6 +2265,8 @@ export const deleteStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStudio",
+  telemetry: TELEMETRY,
+  span: "DeleteStudio",
 }));
 
 export type DeleteStudioSessionMappingError =
@@ -2250,6 +2288,8 @@ export const deleteStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStudioSessionMapping",
+  telemetry: TELEMETRY,
+  span: "DeleteStudioSessionMapping",
 }));
 
 export type DescribeClusterError =
@@ -2273,6 +2313,8 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeCluster",
 }));
 
 export type DescribeJobFlowsError = InternalServerError | CommonErrors;
@@ -2310,6 +2352,8 @@ export const describeJobFlows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobFlows",
+  telemetry: TELEMETRY,
+  span: "DescribeJobFlows",
 }));
 
 export type DescribeNotebookExecutionError =
@@ -2331,6 +2375,8 @@ export const describeNotebookExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotebookExecution",
+  telemetry: TELEMETRY,
+  span: "DescribeNotebookExecution",
 }));
 
 export type DescribePersistentAppUIError =
@@ -2352,6 +2398,8 @@ export const describePersistentAppUI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePersistentAppUI",
+  telemetry: TELEMETRY,
+  span: "DescribePersistentAppUI",
 }));
 
 export type DescribeReleaseLabelError =
@@ -2375,6 +2423,8 @@ export const describeReleaseLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReleaseLabel",
+  telemetry: TELEMETRY,
+  span: "DescribeReleaseLabel",
 }));
 
 export type DescribeSecurityConfigurationError =
@@ -2398,6 +2448,8 @@ export const describeSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeSecurityConfiguration",
 }));
 
 export type DescribeStepError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2416,6 +2468,8 @@ export const describeStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStep",
+  telemetry: TELEMETRY,
+  span: "DescribeStep",
 }));
 
 export type DescribeStudioError =
@@ -2439,6 +2493,8 @@ export const describeStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStudio",
+  telemetry: TELEMETRY,
+  span: "DescribeStudio",
 }));
 
 export type GetAutoTerminationPolicyError = CommonErrors;
@@ -2457,6 +2513,8 @@ export const getAutoTerminationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoTerminationPolicy",
+  telemetry: TELEMETRY,
+  span: "GetAutoTerminationPolicy",
 }));
 
 export type GetBlockPublicAccessConfigurationError =
@@ -2480,6 +2538,8 @@ export const getBlockPublicAccessConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlockPublicAccessConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetBlockPublicAccessConfiguration",
 }));
 
 export type GetClusterSessionCredentialsError =
@@ -2504,6 +2564,8 @@ export const getClusterSessionCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterSessionCredentials",
+  telemetry: TELEMETRY,
+  span: "GetClusterSessionCredentials",
 }));
 
 export type GetManagedScalingPolicyError = CommonErrors;
@@ -2522,6 +2584,8 @@ export const getManagedScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "GetManagedScalingPolicy",
 }));
 
 export type GetOnClusterAppUIPresignedURLError =
@@ -2543,6 +2607,8 @@ export const getOnClusterAppUIPresignedURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOnClusterAppUIPresignedURL",
+  telemetry: TELEMETRY,
+  span: "GetOnClusterAppUIPresignedURL",
 }));
 
 export type GetPersistentAppUIPresignedURLError =
@@ -2564,6 +2630,8 @@ export const getPersistentAppUIPresignedURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPersistentAppUIPresignedURL",
+  telemetry: TELEMETRY,
+  span: "GetPersistentAppUIPresignedURL",
 }));
 
 export type GetSessionError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2582,6 +2650,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type GetSessionEndpointError =
@@ -2603,6 +2673,8 @@ export const getSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetSessionEndpoint",
 }));
 
 export type GetStudioSessionMappingError =
@@ -2625,6 +2697,8 @@ export const getStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStudioSessionMapping",
+  telemetry: TELEMETRY,
+  span: "GetStudioSessionMapping",
 }));
 
 export type ListBootstrapActionsError =
@@ -2648,6 +2722,8 @@ export const listBootstrapActions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBootstrapActions",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "BootstrapActions" } as const,
+  telemetry: TELEMETRY,
+  span: "ListBootstrapActions",
 })) as any;
 
 export type ListClustersError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2672,6 +2748,8 @@ export const listClusters: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListClusters",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Clusters" } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListInstanceFleetsError =
@@ -2698,6 +2776,8 @@ export const listInstanceFleets: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListInstanceFleets",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "InstanceFleets" } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstanceFleets",
 })) as any;
 
 export type ListInstanceGroupsError =
@@ -2721,6 +2801,8 @@ export const listInstanceGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListInstanceGroups",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "InstanceGroups" } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstanceGroups",
 })) as any;
 
 export type ListInstancesError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2744,6 +2826,8 @@ export const listInstances: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListInstances",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Instances" } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 })) as any;
 
 export type ListNotebookExecutionsError =
@@ -2770,6 +2854,8 @@ export const listNotebookExecutions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListNotebookExecutions",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "NotebookExecutions" } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotebookExecutions",
 })) as any;
 
 export type ListReleaseLabelsError =
@@ -2798,6 +2884,8 @@ export const listReleaseLabels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReleaseLabels",
 })) as any;
 
 export type ListSecurityConfigurationsError =
@@ -2828,6 +2916,8 @@ export const listSecurityConfigurations: API.PaginatedOperationMethod<
     outputToken: "Marker",
     items: "SecurityConfigurations",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityConfigurations",
 })) as any;
 
 export type ListSessionsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2848,6 +2938,8 @@ export const listSessions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSessions",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Sessions" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListStepsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2873,6 +2965,8 @@ export const listSteps: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSteps",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Steps" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSteps",
 })) as any;
 
 export type ListStudiosError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -2894,6 +2988,8 @@ export const listStudios: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListStudios",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "Studios" } as const,
+  telemetry: TELEMETRY,
+  span: "ListStudios",
 })) as any;
 
 export type ListStudioSessionMappingsError =
@@ -2918,6 +3014,8 @@ export const listStudioSessionMappings: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListStudioSessionMappings",
   pagination: { inputToken: "Marker", outputToken: "Marker", items: "SessionMappings" } as const,
+  telemetry: TELEMETRY,
+  span: "ListStudioSessionMappings",
 })) as any;
 
 export type ListSupportedInstanceTypesError =
@@ -2942,6 +3040,8 @@ export const listSupportedInstanceTypes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSupportedInstanceTypes",
   pagination: { inputToken: "Marker", outputToken: "Marker" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSupportedInstanceTypes",
 })) as any;
 
 export type ModifyClusterError = InternalServerError | InvalidRequestException | CommonErrors;
@@ -2961,6 +3061,8 @@ export const modifyCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyCluster",
 }));
 
 export type ModifyInstanceFleetError =
@@ -2987,6 +3089,8 @@ export const modifyInstanceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceFleet",
+  telemetry: TELEMETRY,
+  span: "ModifyInstanceFleet",
 }));
 
 export type ModifyInstanceGroupsError = InternalServerError | CommonErrors;
@@ -3007,6 +3111,8 @@ export const modifyInstanceGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceGroups",
+  telemetry: TELEMETRY,
+  span: "ModifyInstanceGroups",
 }));
 
 export type PutAutoScalingPolicyError = CommonErrors;
@@ -3028,6 +3134,8 @@ export const putAutoScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAutoScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutAutoScalingPolicy",
 }));
 
 export type PutAutoTerminationPolicyError = CommonErrors;
@@ -3053,6 +3161,8 @@ export const putAutoTerminationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAutoTerminationPolicy",
+  telemetry: TELEMETRY,
+  span: "PutAutoTerminationPolicy",
 }));
 
 export type PutBlockPublicAccessConfigurationError =
@@ -3077,6 +3187,8 @@ export const putBlockPublicAccessConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBlockPublicAccessConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBlockPublicAccessConfiguration",
 }));
 
 export type PutManagedScalingPolicyError = CommonErrors;
@@ -3098,6 +3210,8 @@ export const putManagedScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutManagedScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutManagedScalingPolicy",
 }));
 
 export type RemoveAutoScalingPolicyError = CommonErrors;
@@ -3116,6 +3230,8 @@ export const removeAutoScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAutoScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "RemoveAutoScalingPolicy",
 }));
 
 export type RemoveAutoTerminationPolicyError = CommonErrors;
@@ -3134,6 +3250,8 @@ export const removeAutoTerminationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAutoTerminationPolicy",
+  telemetry: TELEMETRY,
+  span: "RemoveAutoTerminationPolicy",
 }));
 
 export type RemoveManagedScalingPolicyError = CommonErrors;
@@ -3152,6 +3270,8 @@ export const removeManagedScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveManagedScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "RemoveManagedScalingPolicy",
 }));
 
 export type RemoveTagsError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -3175,6 +3295,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type RunJobFlowError = InternalServerError | EmrInstanceProfileNotReady | CommonErrors;
@@ -3217,6 +3339,8 @@ export const runJobFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunJobFlow",
+  telemetry: TELEMETRY,
+  span: "RunJobFlow",
 }));
 
 export type SetKeepJobFlowAliveWhenNoStepsError = InternalServerError | CommonErrors;
@@ -3239,6 +3363,8 @@ export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetKeepJobFlowAliveWhenNoSteps",
+  telemetry: TELEMETRY,
+  span: "SetKeepJobFlowAliveWhenNoSteps",
 }));
 
 export type SetTerminationProtectionError = InternalServerError | JobFlowNotFound | CommonErrors;
@@ -3275,6 +3401,8 @@ export const setTerminationProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTerminationProtection",
+  telemetry: TELEMETRY,
+  span: "SetTerminationProtection",
 }));
 
 export type SetUnhealthyNodeReplacementError = InternalServerError | CommonErrors;
@@ -3306,6 +3434,8 @@ export const setUnhealthyNodeReplacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUnhealthyNodeReplacement",
+  telemetry: TELEMETRY,
+  span: "SetUnhealthyNodeReplacement",
 }));
 
 export type SetVisibleToAllUsersError = InternalServerError | CommonErrors;
@@ -3337,6 +3467,8 @@ export const setVisibleToAllUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVisibleToAllUsers",
+  telemetry: TELEMETRY,
+  span: "SetVisibleToAllUsers",
 }));
 
 export type StartNotebookExecutionError =
@@ -3358,6 +3490,8 @@ export const startNotebookExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookExecution",
+  telemetry: TELEMETRY,
+  span: "StartNotebookExecution",
 }));
 
 export type StartSessionError = InternalServerException | InvalidRequestException | CommonErrors;
@@ -3376,6 +3510,8 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  telemetry: TELEMETRY,
+  span: "StartSession",
 }));
 
 export type StopNotebookExecutionError =
@@ -3397,6 +3533,8 @@ export const stopNotebookExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopNotebookExecution",
+  telemetry: TELEMETRY,
+  span: "StopNotebookExecution",
 }));
 
 export type TerminateJobFlowsError = InternalServerError | JobFlowNotFound | CommonErrors;
@@ -3422,6 +3560,8 @@ export const terminateJobFlows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateJobFlows",
+  telemetry: TELEMETRY,
+  span: "TerminateJobFlows",
 }));
 
 export type TerminateSessionError =
@@ -3443,6 +3583,8 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
+  telemetry: TELEMETRY,
+  span: "TerminateSession",
 }));
 
 export type UpdateStudioError =
@@ -3466,6 +3608,8 @@ export const updateStudio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStudio",
+  telemetry: TELEMETRY,
+  span: "UpdateStudio",
 }));
 
 export type UpdateStudioSessionMappingError =
@@ -3487,6 +3631,8 @@ export const updateStudioSessionMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStudioSessionMapping",
+  telemetry: TELEMETRY,
+  span: "UpdateStudioSessionMapping",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "PostgresFlex",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -705,6 +718,8 @@ export const cloneInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloneInstance",
 }));
 
 export type CreateDatabaseError =
@@ -726,6 +741,8 @@ export const createDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateInstanceError =
@@ -746,6 +763,8 @@ export const createInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInstance",
 }));
 
 export type CreateUserError =
@@ -767,6 +786,8 @@ export const createUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteDatabaseError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -782,6 +803,8 @@ export const deleteDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteInstanceError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -797,6 +820,8 @@ export const deleteInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInstance",
 }));
 
 export type DeleteUserError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
@@ -812,6 +837,8 @@ export const deleteUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type GetBackupError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -827,6 +854,8 @@ export const getBackup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackup",
 }));
 
 export type GetDatabaseError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -842,6 +871,8 @@ export const getDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetInstanceError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -857,6 +888,8 @@ export const getInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstance",
 }));
 
 export type GetUserError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -872,6 +905,8 @@ export const getUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type ListBackupsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -887,6 +922,8 @@ export const listBackups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackups",
 }));
 
 export type ListCollationsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -902,6 +939,8 @@ export const listCollations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCollations",
 }));
 
 export type ListDatabasesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -917,6 +956,8 @@ export const listDatabases: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 }));
 
 export type ListFlavors2Error = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -932,6 +973,8 @@ export const listFlavors2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFlavors2",
 }));
 
 export type ListInstancesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -947,6 +990,8 @@ export const listInstances: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 }));
 
 export type ListRolesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -962,6 +1007,8 @@ export const listRoles: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoles",
 }));
 
 export type ListUsersError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -977,6 +1024,8 @@ export const listUsers: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsers",
 }));
 
 export type ListVersionsError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -992,6 +1041,8 @@ export const listVersions: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVersions",
 }));
 
 export type PartialUpdateDatabaseError =
@@ -1012,6 +1063,8 @@ export const partialUpdateDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateDatabase",
 }));
 
 export type PartialUpdateInstanceError =
@@ -1032,6 +1085,8 @@ export const partialUpdateInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateInstance",
 }));
 
 export type PartialUpdateUserError =
@@ -1052,6 +1107,8 @@ export const partialUpdateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartialUpdateUser",
 }));
 
 export type ResetUserPasswordError =
@@ -1072,6 +1129,8 @@ export const resetUserPassword: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetUserPassword",
 }));
 
 export type UpdateDatabaseError =
@@ -1092,6 +1151,8 @@ export const updateDatabase: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabase",
 }));
 
 export type UpdateInstanceError =
@@ -1112,6 +1173,8 @@ export const updateInstance: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstance",
 }));
 
 export type UpdateInstanceProtectionError =
@@ -1132,6 +1195,8 @@ export const updateInstanceProtection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInstanceProtection",
 }));
 
 export type UpdateUserError =
@@ -1152,6 +1217,8 @@ export const updateUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

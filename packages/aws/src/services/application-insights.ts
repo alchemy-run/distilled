@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://applicationinsights.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ApplicationInsights",
+  service: "ApplicationInsights",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -741,6 +757,8 @@ export const addWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddWorkload",
+  telemetry: TELEMETRY,
+  span: "AddWorkload",
 }));
 
 export type CreateApplicationError =
@@ -773,6 +791,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateComponentError =
@@ -801,6 +821,8 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateLogPatternError =
@@ -829,6 +851,8 @@ export const createLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogPattern",
+  telemetry: TELEMETRY,
+  span: "CreateLogPattern",
 }));
 
 export type DeleteApplicationError =
@@ -858,6 +882,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteComponentError =
@@ -882,6 +908,8 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteLogPatternError =
@@ -910,6 +938,8 @@ export const deleteLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogPattern",
+  telemetry: TELEMETRY,
+  span: "DeleteLogPattern",
 }));
 
 export type DescribeApplicationError =
@@ -932,6 +962,8 @@ export const describeApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplication",
+  telemetry: TELEMETRY,
+  span: "DescribeApplication",
 }));
 
 export type DescribeComponentError =
@@ -955,6 +987,8 @@ export const describeComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponent",
+  telemetry: TELEMETRY,
+  span: "DescribeComponent",
 }));
 
 export type DescribeComponentConfigurationError =
@@ -977,6 +1011,8 @@ export const describeComponentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponentConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeComponentConfiguration",
 }));
 
 export type DescribeComponentConfigurationRecommendationError =
@@ -1003,6 +1039,8 @@ export const describeComponentConfigurationRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponentConfigurationRecommendation",
+  telemetry: TELEMETRY,
+  span: "DescribeComponentConfigurationRecommendation",
 }));
 
 export type DescribeLogPatternError =
@@ -1025,6 +1063,8 @@ export const describeLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLogPattern",
+  telemetry: TELEMETRY,
+  span: "DescribeLogPattern",
 }));
 
 export type DescribeObservationError =
@@ -1047,6 +1087,8 @@ export const describeObservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObservation",
+  telemetry: TELEMETRY,
+  span: "DescribeObservation",
 }));
 
 export type DescribeProblemError =
@@ -1069,6 +1111,8 @@ export const describeProblem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProblem",
+  telemetry: TELEMETRY,
+  span: "DescribeProblem",
 }));
 
 export type DescribeProblemObservationsError =
@@ -1091,6 +1135,8 @@ export const describeProblemObservations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProblemObservations",
+  telemetry: TELEMETRY,
+  span: "DescribeProblemObservations",
 }));
 
 export type DescribeWorkloadError =
@@ -1113,6 +1159,8 @@ export const describeWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkload",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkload",
 }));
 
 export type ListApplicationsError = InternalServerException | ValidationException | CommonErrors;
@@ -1137,6 +1185,8 @@ export const listApplications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListComponentsError =
@@ -1165,6 +1215,8 @@ export const listComponents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 })) as any;
 
 export type ListConfigurationHistoryError =
@@ -1201,6 +1253,8 @@ export const listConfigurationHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationHistory",
 })) as any;
 
 export type ListLogPatternsError =
@@ -1229,6 +1283,8 @@ export const listLogPatterns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLogPatterns",
 })) as any;
 
 export type ListLogPatternSetsError =
@@ -1257,6 +1313,8 @@ export const listLogPatternSets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLogPatternSets",
 })) as any;
 
 export type ListProblemsError =
@@ -1285,6 +1343,8 @@ export const listProblems: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProblems",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1311,6 +1371,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWorkloadsError =
@@ -1339,6 +1401,8 @@ export const listWorkloads: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloads",
 })) as any;
 
 export type RemoveWorkloadError =
@@ -1361,6 +1425,8 @@ export const removeWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveWorkload",
+  telemetry: TELEMETRY,
+  span: "RemoveWorkload",
 }));
 
 export type TagResourceError =
@@ -1391,6 +1457,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -1409,6 +1477,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApplicationError =
@@ -1431,6 +1501,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateComponentError =
@@ -1460,6 +1532,8 @@ export const updateComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
+  telemetry: TELEMETRY,
+  span: "UpdateComponent",
 }));
 
 export type UpdateComponentConfigurationError =
@@ -1490,6 +1564,8 @@ export const updateComponentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponentConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateComponentConfiguration",
 }));
 
 export type UpdateLogPatternError =
@@ -1518,6 +1594,8 @@ export const updateLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLogPattern",
+  telemetry: TELEMETRY,
+  span: "UpdateLogPattern",
 }));
 
 export type UpdateProblemError =
@@ -1541,6 +1619,8 @@ export const updateProblem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProblem",
+  telemetry: TELEMETRY,
+  span: "UpdateProblem",
 }));
 
 export type UpdateWorkloadError =
@@ -1563,6 +1643,8 @@ export const updateWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkload",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkload",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

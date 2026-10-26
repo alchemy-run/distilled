@@ -43,7 +43,8 @@ describe("models", () => {
     const root = scaffold();
     const file = join(root, ".generated-specs", "svc.json");
     writeModel(file, model());
-    await finalizeConvert({ root });
+    // Patches only: telemetry traits are covered by telemetry.test.ts.
+    await finalizeConvert({ root, telemetry: false });
     const m = JSON.parse(readFileSync(file, "utf8"));
     expect(m.shapes["ns#GetApp"].traits).toEqual({ "x#patched": {} });
     expect(m.metadata[FINALIZED_KEY]).toBe(true);
@@ -59,7 +60,11 @@ describe("models", () => {
       removeModel(join(dir, "dropped.json"));
       expect(modelExists(join(dir, "svc.json"))).toBe(true);
       expect(listModels(dir)).toEqual([join(dir, "nested", "other.json"), join(dir, "svc.json")]);
-      await finalizeConvert({ root, include: (resource) => resource === "svc" });
+      await finalizeConvert({
+        root,
+        include: (resource) => resource === "svc",
+        telemetry: false,
+      });
       expect(readModel(join(dir, "svc.json")).shapes["ns#GetApp"].traits).toEqual({
         "x#patched": {},
       });

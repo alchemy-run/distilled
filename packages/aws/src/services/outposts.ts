@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://outposts.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Outposts",
+  service: "Outposts",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1194,6 +1209,8 @@ export const cancelCapacityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCapacityTask",
+  telemetry: TELEMETRY,
+  span: "CancelCapacityTask",
 }));
 
 export type CancelOrderError =
@@ -1224,6 +1241,8 @@ export const cancelOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelOrder",
+  telemetry: TELEMETRY,
+  span: "CancelOrder",
 }));
 
 export type CreateOrderError =
@@ -1256,6 +1275,8 @@ export const createOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrder",
+  telemetry: TELEMETRY,
+  span: "CreateOrder",
 }));
 
 export type CreateOutpostError =
@@ -1290,6 +1311,8 @@ export const createOutpost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutpost",
+  telemetry: TELEMETRY,
+  span: "CreateOutpost",
 }));
 
 export type CreatePrivateConnectivityConfigError =
@@ -1323,6 +1346,8 @@ export const createPrivateConnectivityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateConnectivityConfig",
+  telemetry: TELEMETRY,
+  span: "CreatePrivateConnectivityConfig",
 }));
 
 export type CreateQuoteError =
@@ -1348,6 +1373,8 @@ export const createQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuote",
+  telemetry: TELEMETRY,
+  span: "CreateQuote",
 }));
 
 export type CreateRenewalError =
@@ -1371,6 +1398,8 @@ export const createRenewal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRenewal",
+  telemetry: TELEMETRY,
+  span: "CreateRenewal",
 }));
 
 export type CreateSiteError =
@@ -1401,6 +1430,8 @@ export const createSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSite",
+  telemetry: TELEMETRY,
+  span: "CreateSite",
 }));
 
 export type DeleteOutpostError =
@@ -1431,6 +1462,8 @@ export const deleteOutpost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutpost",
+  telemetry: TELEMETRY,
+  span: "DeleteOutpost",
 }));
 
 export type DeleteQuoteError =
@@ -1454,6 +1487,8 @@ export const deleteQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuote",
+  telemetry: TELEMETRY,
+  span: "DeleteQuote",
 }));
 
 export type DeleteSiteError =
@@ -1484,6 +1519,8 @@ export const deleteSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSite",
+  telemetry: TELEMETRY,
+  span: "DeleteSite",
 }));
 
 export type GetCapacityTaskError =
@@ -1507,6 +1544,8 @@ export const getCapacityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityTask",
+  telemetry: TELEMETRY,
+  span: "GetCapacityTask",
 }));
 
 export type GetCatalogItemError =
@@ -1530,6 +1569,8 @@ export const getCatalogItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCatalogItem",
+  telemetry: TELEMETRY,
+  span: "GetCatalogItem",
 }));
 
 export type GetConnectionError =
@@ -1560,6 +1601,8 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetOrderError =
@@ -1582,6 +1625,8 @@ export const getOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrder",
+  telemetry: TELEMETRY,
+  span: "GetOrder",
 }));
 
 export type GetOutpostError =
@@ -1605,6 +1650,8 @@ export const getOutpost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutpost",
+  telemetry: TELEMETRY,
+  span: "GetOutpost",
 }));
 
 export type GetOutpostBillingInformationError =
@@ -1634,6 +1681,8 @@ export const getOutpostBillingInformation: API.PaginatedOperationMethod<
     items: "Subscriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOutpostBillingInformation",
 })) as any;
 
 export type GetOutpostInstanceTypesError =
@@ -1664,6 +1713,8 @@ export const getOutpostInstanceTypes: API.PaginatedOperationMethod<
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOutpostInstanceTypes",
 })) as any;
 
 export type GetOutpostSupportedInstanceTypesError =
@@ -1696,6 +1747,8 @@ export const getOutpostSupportedInstanceTypes: API.PaginatedOperationMethod<
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetOutpostSupportedInstanceTypes",
 })) as any;
 
 export type GetPrivateConnectivityConfigError =
@@ -1719,6 +1772,8 @@ export const getPrivateConnectivityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrivateConnectivityConfig",
+  telemetry: TELEMETRY,
+  span: "GetPrivateConnectivityConfig",
 }));
 
 export type GetQuoteError =
@@ -1742,6 +1797,8 @@ export const getQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuote",
+  telemetry: TELEMETRY,
+  span: "GetQuote",
 }));
 
 export type GetRenewalPricingError =
@@ -1765,6 +1822,8 @@ export const getRenewalPricing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRenewalPricing",
+  telemetry: TELEMETRY,
+  span: "GetRenewalPricing",
 }));
 
 export type GetSiteError =
@@ -1788,6 +1847,8 @@ export const getSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSite",
+  telemetry: TELEMETRY,
+  span: "GetSite",
 }));
 
 export type GetSiteAddressError =
@@ -1811,6 +1872,8 @@ export const getSiteAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSiteAddress",
+  telemetry: TELEMETRY,
+  span: "GetSiteAddress",
 }));
 
 export type ListAssetInstancesError =
@@ -1842,6 +1905,8 @@ export const listAssetInstances: API.PaginatedOperationMethod<
     items: "AssetInstances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetInstances",
 })) as any;
 
 export type ListAssetsError =
@@ -1876,6 +1941,8 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "Assets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssets",
 })) as any;
 
 export type ListBlockingInstancesForCapacityTaskError =
@@ -1908,6 +1975,8 @@ export const listBlockingInstancesForCapacityTask: API.PaginatedOperationMethod<
     items: "BlockingInstances",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBlockingInstancesForCapacityTask",
 })) as any;
 
 export type ListCapacityTasksError =
@@ -1942,6 +2011,8 @@ export const listCapacityTasks: API.PaginatedOperationMethod<
     items: "CapacityTasks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCapacityTasks",
 })) as any;
 
 export type ListCatalogItemsError =
@@ -1976,6 +2047,8 @@ export const listCatalogItems: API.PaginatedOperationMethod<
     items: "CatalogItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCatalogItems",
 })) as any;
 
 export type ListOrderableInstanceTypesError =
@@ -2007,6 +2080,8 @@ export const listOrderableInstanceTypes: API.PaginatedOperationMethod<
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrderableInstanceTypes",
 })) as any;
 
 export type ListOrdersError =
@@ -2037,6 +2112,8 @@ export const listOrders: API.PaginatedOperationMethod<
     items: "Orders",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrders",
 })) as any;
 
 export type ListOutpostsError =
@@ -2070,6 +2147,8 @@ export const listOutposts: API.PaginatedOperationMethod<
     items: "Outposts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOutposts",
 })) as any;
 
 export type ListQuotesError = AccessDeniedException | InternalServerException | CommonErrors;
@@ -2095,6 +2174,8 @@ export const listQuotes: API.PaginatedOperationMethod<
     items: "Quotes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQuotes",
 })) as any;
 
 export type ListSitesError =
@@ -2129,6 +2210,8 @@ export const listSites: API.PaginatedOperationMethod<
     items: "Sites",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSites",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2151,6 +2234,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartCapacityTaskError =
@@ -2182,6 +2267,8 @@ export const startCapacityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCapacityTask",
+  telemetry: TELEMETRY,
+  span: "StartCapacityTask",
 }));
 
 export type StartConnectionError =
@@ -2212,6 +2299,8 @@ export const startConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConnection",
+  telemetry: TELEMETRY,
+  span: "StartConnection",
 }));
 
 export type StartOutpostDecommissionError =
@@ -2242,6 +2331,8 @@ export const startOutpostDecommission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOutpostDecommission",
+  telemetry: TELEMETRY,
+  span: "StartOutpostDecommission",
 }));
 
 export type TagResourceError =
@@ -2264,6 +2355,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2286,6 +2379,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateOutpostError =
@@ -2316,6 +2411,8 @@ export const updateOutpost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOutpost",
+  telemetry: TELEMETRY,
+  span: "UpdateOutpost",
 }));
 
 export type UpdateQuoteError =
@@ -2340,6 +2437,8 @@ export const updateQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuote",
+  telemetry: TELEMETRY,
+  span: "UpdateQuote",
 }));
 
 export type UpdateSiteError =
@@ -2370,6 +2469,8 @@ export const updateSite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSite",
+  telemetry: TELEMETRY,
+  span: "UpdateSite",
 }));
 
 export type UpdateSiteAddressError =
@@ -2406,6 +2507,8 @@ export const updateSiteAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSiteAddress",
+  telemetry: TELEMETRY,
+  span: "UpdateSiteAddress",
 }));
 
 export type UpdateSiteRackPhysicalPropertiesError =
@@ -2441,6 +2544,8 @@ export const updateSiteRackPhysicalProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSiteRackPhysicalProperties",
+  telemetry: TELEMETRY,
+  span: "UpdateSiteRackPhysicalProperties",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { VantaOpError, VantaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vanta-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Vanta",
+  service: "Webhooks",
+  propagate: "w3c",
+} as const;
+
 export interface V1ControlCommentCreatedRequestControl {
   /** The unique identifier of the control the comment was added to. */
   id: string;
@@ -352,6 +364,8 @@ export const v1ControlCommentCreated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ControlCommentCreated",
 }));
 
 export type V1ControlCommentDeletedError = VantaOpError;
@@ -367,6 +381,8 @@ export const v1ControlCommentDeleted: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ControlCommentDeleted",
 }));
 
 export type V1ControlCommentUpdatedError = VantaOpError;
@@ -382,6 +398,8 @@ export const v1ControlCommentUpdated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1ControlCommentUpdated",
 }));
 
 export type V1EvidenceCommentCreatedError = VantaOpError;
@@ -397,6 +415,8 @@ export const v1EvidenceCommentCreated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1EvidenceCommentCreated",
 }));
 
 export type V1EvidenceCommentDeletedError = VantaOpError;
@@ -412,6 +432,8 @@ export const v1EvidenceCommentDeleted: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1EvidenceCommentDeleted",
 }));
 
 export type V1EvidenceCommentUpdatedError = VantaOpError;
@@ -427,6 +449,8 @@ export const v1EvidenceCommentUpdated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1EvidenceCommentUpdated",
 }));
 
 export type V1EvidenceCreatedError = VantaOpError;
@@ -442,6 +466,8 @@ export const v1EvidenceCreated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1EvidenceCreated",
 }));
 
 export type V1EvidenceDeletedError = VantaOpError;
@@ -457,6 +483,8 @@ export const v1EvidenceDeleted: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1EvidenceDeleted",
 }));
 
 export type V1EvidenceStatusChangedError = VantaOpError;
@@ -472,6 +500,8 @@ export const v1EvidenceStatusChanged: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1EvidenceStatusChanged",
 }));
 
 export type V1InformationRequestCommentCreatedError = VantaOpError;
@@ -487,6 +517,8 @@ export const v1InformationRequestCommentCreated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InformationRequestCommentCreated",
 }));
 
 export type V1InformationRequestCommentDeletedError = VantaOpError;
@@ -502,6 +534,8 @@ export const v1InformationRequestCommentDeleted: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InformationRequestCommentDeleted",
 }));
 
 export type V1InformationRequestCommentUpdatedError = VantaOpError;
@@ -517,6 +551,8 @@ export const v1InformationRequestCommentUpdated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InformationRequestCommentUpdated",
 }));
 
 export type V1InformationRequestEvidenceCreatedError = VantaOpError;
@@ -532,6 +568,8 @@ export const v1InformationRequestEvidenceCreated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InformationRequestEvidenceCreated",
 }));
 
 export type V1InformationRequestEvidenceDeletedError = VantaOpError;
@@ -547,6 +585,8 @@ export const v1InformationRequestEvidenceDeleted: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InformationRequestEvidenceDeleted",
 }));
 
 export type V1InformationRequestStatusChangedError = VantaOpError;
@@ -562,6 +602,8 @@ export const v1InformationRequestStatusChanged: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1InformationRequestStatusChanged",
 }));
 
 export type V1QuestionnaireCreatedError = VantaOpError;
@@ -577,6 +619,8 @@ export const v1QuestionnaireCreated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1QuestionnaireCreated",
 }));
 
 export type V1QuestionnaireDeletedError = VantaOpError;
@@ -592,6 +636,8 @@ export const v1QuestionnaireDeleted: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1QuestionnaireDeleted",
 }));
 
 export type V1QuestionnaireExportCompletedError = VantaOpError;
@@ -607,6 +653,8 @@ export const v1QuestionnaireExportCompleted: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1QuestionnaireExportCompleted",
 }));
 
 export type V1QuestionnaireExportFailedError = VantaOpError;
@@ -622,6 +670,8 @@ export const v1QuestionnaireExportFailed: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1QuestionnaireExportFailed",
 }));
 
 export type V1QuestionnaireStatusChangedError = VantaOpError;
@@ -637,6 +687,8 @@ export const v1QuestionnaireStatusChanged: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1QuestionnaireStatusChanged",
 }));
 
 export type V1TrustCenterAccessRequestApprovedError = VantaOpError;
@@ -652,6 +704,8 @@ export const v1TrustCenterAccessRequestApproved: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1TrustCenterAccessRequestApproved",
 }));
 
 export type V1TrustCenterAccessRequestDeniedError = VantaOpError;
@@ -667,6 +721,8 @@ export const v1TrustCenterAccessRequestDenied: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1TrustCenterAccessRequestDenied",
 }));
 
 export type V1TrustCenterAccessRequestReceivedError = VantaOpError;
@@ -682,6 +738,8 @@ export const v1TrustCenterAccessRequestReceived: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1TrustCenterAccessRequestReceived",
 }));
 
 export type V1VendorDecisionCreatedError = VantaOpError;
@@ -697,6 +755,8 @@ export const v1VendorDecisionCreated: API.OperationMethod<
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "V1VendorDecisionCreated",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

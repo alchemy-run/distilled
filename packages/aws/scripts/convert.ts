@@ -10,8 +10,10 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { writeModel } from "@distilled.cloud/dev/codegen/models";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { applyTelemetryTraits } from "@distilled.cloud/dev/codegen/telemetry";
 import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { applyAwsSpecPatches, dropForeignNamespaceShapes } from "./spec.ts";
+import { awsTelemetry } from "./telemetry.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
 const specsRoot = resolveSpecPath(root, "specs/spec-mirror-aws/specs");
@@ -72,6 +74,7 @@ for (const service of services) {
   const patchFileBase = moduleName(sdkId);
   const spec = loadServiceSpecPatch(sdkId, root);
   applyAwsSpecPatches(model, spec, patchFileBase);
+  applyTelemetryTraits(model, patchFileBase, awsTelemetry(sdkId));
   const hasPatch = fs.existsSync(path.join(root, "patches", `${patchFileBase}.json`));
   if (hasPatch) patched++;
 

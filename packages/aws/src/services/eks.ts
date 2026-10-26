@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -74,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://eks.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EKS",
+  service: "EKS",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2188,6 +2203,8 @@ export const activateCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "ActivateCertificateAuthority",
 }));
 
 export type AssociateAccessPolicyError =
@@ -2218,6 +2235,8 @@ export const associateAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "AssociateAccessPolicy",
 }));
 
 export type AssociateEncryptionConfigError =
@@ -2256,6 +2275,8 @@ export const associateEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEncryptionConfig",
+  telemetry: TELEMETRY,
+  span: "AssociateEncryptionConfig",
 }));
 
 export type AssociateIdentityProviderConfigError =
@@ -2298,6 +2319,8 @@ export const associateIdentityProviderConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIdentityProviderConfig",
+  telemetry: TELEMETRY,
+  span: "AssociateIdentityProviderConfig",
 }));
 
 export type CancelUpdateError =
@@ -2341,6 +2364,8 @@ export const cancelUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelUpdate",
+  telemetry: TELEMETRY,
+  span: "CancelUpdate",
 }));
 
 export type CreateAccessEntryError =
@@ -2387,6 +2412,8 @@ export const createAccessEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessEntry",
+  telemetry: TELEMETRY,
+  span: "CreateAccessEntry",
 }));
 
 export type CreateAddonError =
@@ -2423,6 +2450,8 @@ export const createAddon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddon",
+  telemetry: TELEMETRY,
+  span: "CreateAddon",
 }));
 
 export type CreateCapabilityError =
@@ -2463,6 +2492,8 @@ export const createCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapability",
+  telemetry: TELEMETRY,
+  span: "CreateCapability",
 }));
 
 export type CreateCertificateAuthorityError =
@@ -2520,6 +2551,8 @@ export const createCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "CreateCertificateAuthority",
 }));
 
 export type CreateClusterError =
@@ -2597,6 +2630,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateEksAnywhereSubscriptionError =
@@ -2630,6 +2665,8 @@ export const createEksAnywhereSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEksAnywhereSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateEksAnywhereSubscription",
 }));
 
 export type CreateFargateProfileError =
@@ -2693,6 +2730,8 @@ export const createFargateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFargateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateFargateProfile",
 }));
 
 export type CreateNodegroupError =
@@ -2746,6 +2785,8 @@ export const createNodegroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNodegroup",
+  telemetry: TELEMETRY,
+  span: "CreateNodegroup",
 }));
 
 export type CreatePodIdentityAssociationError =
@@ -2805,6 +2846,8 @@ export const createPodIdentityAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePodIdentityAssociation",
+  telemetry: TELEMETRY,
+  span: "CreatePodIdentityAssociation",
 }));
 
 export type DeleteAccessEntryError =
@@ -2831,6 +2874,8 @@ export const deleteAccessEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessEntry",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessEntry",
 }));
 
 export type DeleteAddonError =
@@ -2864,6 +2909,8 @@ export const deleteAddon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddon",
+  telemetry: TELEMETRY,
+  span: "DeleteAddon",
 }));
 
 export type DeleteCapabilityError =
@@ -2896,6 +2943,8 @@ export const deleteCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapability",
+  telemetry: TELEMETRY,
+  span: "DeleteCapability",
 }));
 
 export type DeleteCertificateAuthorityError =
@@ -2936,6 +2985,8 @@ export const deleteCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "DeleteCertificateAuthority",
 }));
 
 export type DeleteClusterError =
@@ -2978,6 +3029,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteEksAnywhereSubscriptionError =
@@ -3004,6 +3057,8 @@ export const deleteEksAnywhereSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEksAnywhereSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteEksAnywhereSubscription",
 }));
 
 export type DeleteFargateProfileError =
@@ -3044,6 +3099,8 @@ export const deleteFargateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFargateProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteFargateProfile",
 }));
 
 export type DeleteNodegroupError =
@@ -3076,6 +3133,8 @@ export const deleteNodegroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNodegroup",
+  telemetry: TELEMETRY,
+  span: "DeleteNodegroup",
 }));
 
 export type DeletePodIdentityAssociationError =
@@ -3106,6 +3165,8 @@ export const deletePodIdentityAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePodIdentityAssociation",
+  telemetry: TELEMETRY,
+  span: "DeletePodIdentityAssociation",
 }));
 
 export type DeregisterClusterError =
@@ -3141,6 +3202,8 @@ export const deregisterCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCluster",
+  telemetry: TELEMETRY,
+  span: "DeregisterCluster",
 }));
 
 export type DescribeAccessEntryError =
@@ -3163,6 +3226,8 @@ export const describeAccessEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccessEntry",
+  telemetry: TELEMETRY,
+  span: "DescribeAccessEntry",
 }));
 
 export type DescribeAddonError =
@@ -3193,6 +3258,8 @@ export const describeAddon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddon",
+  telemetry: TELEMETRY,
+  span: "DescribeAddon",
 }));
 
 export type DescribeAddonConfigurationError =
@@ -3215,6 +3282,8 @@ export const describeAddonConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddonConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeAddonConfiguration",
 }));
 
 export type DescribeAddonVersionsError =
@@ -3248,6 +3317,8 @@ export const describeAddonVersions: API.PaginatedOperationMethod<
     items: "addons",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAddonVersions",
 })) as any;
 
 export type DescribeCapabilityError =
@@ -3276,6 +3347,8 @@ export const describeCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapability",
+  telemetry: TELEMETRY,
+  span: "DescribeCapability",
 }));
 
 export type DescribeCertificateAuthorityError =
@@ -3300,6 +3373,8 @@ export const describeCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "DescribeCertificateAuthority",
 }));
 
 export type DescribeClusterError =
@@ -3336,6 +3411,8 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  telemetry: TELEMETRY,
+  span: "DescribeCluster",
 }));
 
 export type DescribeClusterVersionsError =
@@ -3365,6 +3442,8 @@ export const describeClusterVersions: API.PaginatedOperationMethod<
     items: "clusterVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusterVersions",
 })) as any;
 
 export type DescribeEksAnywhereSubscriptionError =
@@ -3393,6 +3472,8 @@ export const describeEksAnywhereSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEksAnywhereSubscription",
+  telemetry: TELEMETRY,
+  span: "DescribeEksAnywhereSubscription",
 }));
 
 export type DescribeFargateProfileError =
@@ -3416,6 +3497,8 @@ export const describeFargateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFargateProfile",
+  telemetry: TELEMETRY,
+  span: "DescribeFargateProfile",
 }));
 
 export type DescribeIdentityProviderConfigError =
@@ -3446,6 +3529,8 @@ export const describeIdentityProviderConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityProviderConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeIdentityProviderConfig",
 }));
 
 export type DescribeInsightError =
@@ -3474,6 +3559,8 @@ export const describeInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsight",
+  telemetry: TELEMETRY,
+  span: "DescribeInsight",
 }));
 
 export type DescribeInsightsRefreshError =
@@ -3502,6 +3589,8 @@ export const describeInsightsRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsightsRefresh",
+  telemetry: TELEMETRY,
+  span: "DescribeInsightsRefresh",
 }));
 
 export type DescribeNodegroupError =
@@ -3532,6 +3621,8 @@ export const describeNodegroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNodegroup",
+  telemetry: TELEMETRY,
+  span: "DescribeNodegroup",
 }));
 
 export type DescribePodIdentityAssociationError =
@@ -3565,6 +3656,8 @@ export const describePodIdentityAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePodIdentityAssociation",
+  telemetry: TELEMETRY,
+  span: "DescribePodIdentityAssociation",
 }));
 
 export type DescribeUpdateError =
@@ -3592,6 +3685,8 @@ export const describeUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUpdate",
+  telemetry: TELEMETRY,
+  span: "DescribeUpdate",
 }));
 
 export type DisassociateAccessPolicyError =
@@ -3614,6 +3709,8 @@ export const disassociateAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "DisassociateAccessPolicy",
 }));
 
 export type DisassociateIdentityProviderConfigError =
@@ -3652,6 +3749,8 @@ export const disassociateIdentityProviderConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIdentityProviderConfig",
+  telemetry: TELEMETRY,
+  span: "DisassociateIdentityProviderConfig",
 }));
 
 export type ListAccessEntriesError =
@@ -3687,6 +3786,8 @@ export const listAccessEntries: API.PaginatedOperationMethod<
     items: "accessEntries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessEntries",
 })) as any;
 
 export type ListAccessPoliciesError = ServerException | CommonErrors;
@@ -3712,6 +3813,8 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
     items: "accessPolicies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicies",
 })) as any;
 
 export type ListAddonsError =
@@ -3749,6 +3852,8 @@ export const listAddons: API.PaginatedOperationMethod<
     items: "addons",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAddons",
 })) as any;
 
 export type ListAssociatedAccessPoliciesError =
@@ -3778,6 +3883,8 @@ export const listAssociatedAccessPolicies: API.PaginatedOperationMethod<
     items: "associatedAccessPolicies",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedAccessPolicies",
 })) as any;
 
 export type ListCapabilitiesError = InvalidParameterException | ServerException | CommonErrors;
@@ -3803,6 +3910,8 @@ export const listCapabilities: API.PaginatedOperationMethod<
     items: "capabilities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCapabilities",
 })) as any;
 
 export type ListCertificateAuthoritiesError =
@@ -3840,6 +3949,8 @@ export const listCertificateAuthorities: API.PaginatedOperationMethod<
     items: "certificateAuthorities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCertificateAuthorities",
 })) as any;
 
 export type ListClustersError =
@@ -3875,6 +3986,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListEksAnywhereSubscriptionsError =
@@ -3910,6 +4023,8 @@ export const listEksAnywhereSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEksAnywhereSubscriptions",
 })) as any;
 
 export type ListFargateProfilesError =
@@ -3941,6 +4056,8 @@ export const listFargateProfiles: API.PaginatedOperationMethod<
     items: "fargateProfileNames",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFargateProfiles",
 })) as any;
 
 export type ListIdentityProviderConfigsError =
@@ -3978,6 +4095,8 @@ export const listIdentityProviderConfigs: API.PaginatedOperationMethod<
     items: "identityProviderConfigs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentityProviderConfigs",
 })) as any;
 
 export type ListInsightsError =
@@ -4024,6 +4143,8 @@ export const listInsights: API.PaginatedOperationMethod<
     items: "insights",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInsights",
 })) as any;
 
 export type ListNodegroupsError =
@@ -4062,6 +4183,8 @@ export const listNodegroups: API.PaginatedOperationMethod<
     items: "nodegroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNodegroups",
 })) as any;
 
 export type ListPodIdentityAssociationsError =
@@ -4098,6 +4221,8 @@ export const listPodIdentityAssociations: API.PaginatedOperationMethod<
     items: "associations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPodIdentityAssociations",
 })) as any;
 
 export type ListTagsForResourceError = BadRequestException | NotFoundException | CommonErrors;
@@ -4116,6 +4241,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListUpdatesError =
@@ -4147,6 +4274,8 @@ export const listUpdates: API.PaginatedOperationMethod<
     items: "updateIds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUpdates",
 })) as any;
 
 export type RegisterClusterError =
@@ -4200,6 +4329,8 @@ export const registerCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCluster",
+  telemetry: TELEMETRY,
+  span: "RegisterCluster",
 }));
 
 export type StartInsightsRefreshError =
@@ -4228,6 +4359,8 @@ export const startInsightsRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInsightsRefresh",
+  telemetry: TELEMETRY,
+  span: "StartInsightsRefresh",
 }));
 
 export type TagResourceError = BadRequestException | NotFoundException | CommonErrors;
@@ -4252,6 +4385,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = BadRequestException | NotFoundException | CommonErrors;
@@ -4270,6 +4405,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessEntryError =
@@ -4298,6 +4435,8 @@ export const updateAccessEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessEntry",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessEntry",
 }));
 
 export type UpdateAddonError =
@@ -4330,6 +4469,8 @@ export const updateAddon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAddon",
+  telemetry: TELEMETRY,
+  span: "UpdateAddon",
 }));
 
 export type UpdateCapabilityError =
@@ -4362,6 +4503,8 @@ export const updateCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapability",
+  telemetry: TELEMETRY,
+  span: "UpdateCapability",
 }));
 
 export type UpdateClusterConfigError =
@@ -4442,6 +4585,8 @@ export const updateClusterConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterConfig",
 }));
 
 export type UpdateClusterVersionError =
@@ -4491,6 +4636,8 @@ export const updateClusterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateClusterVersion",
 }));
 
 export type UpdateEksAnywhereSubscriptionError =
@@ -4522,6 +4669,8 @@ export const updateEksAnywhereSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEksAnywhereSubscription",
+  telemetry: TELEMETRY,
+  span: "UpdateEksAnywhereSubscription",
 }));
 
 export type UpdateNodegroupConfigError =
@@ -4559,6 +4708,8 @@ export const updateNodegroupConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNodegroupConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateNodegroupConfig",
 }));
 
 export type UpdateNodegroupVersionError =
@@ -4617,6 +4768,8 @@ export const updateNodegroupVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNodegroupVersion",
+  telemetry: TELEMETRY,
+  span: "UpdateNodegroupVersion",
 }));
 
 export type UpdatePodIdentityAssociationError =
@@ -4663,6 +4816,8 @@ export const updatePodIdentityAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePodIdentityAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdatePodIdentityAssociation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

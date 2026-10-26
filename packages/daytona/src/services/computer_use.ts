@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "ComputerUse",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export interface ClickRequest {
   /** left, right, middle */
   button?: string;
@@ -315,6 +328,8 @@ export const click: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Click",
 }));
 
 export type DeleteRecordingError = DaytonaOpError;
@@ -330,6 +345,8 @@ export const deleteRecording: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecording",
 }));
 
 export type DownloadRecordingError = DaytonaOpError;
@@ -345,6 +362,8 @@ export const downloadRecording: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadRecording",
 }));
 
 export type DragError = DaytonaOpError;
@@ -360,6 +379,8 @@ export const drag: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Drag",
 }));
 
 export type FindAccessibilityNodesError = DaytonaOpError;
@@ -375,6 +396,8 @@ export const findAccessibilityNodes: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FindAccessibilityNodes",
 }));
 
 export type FocusAccessibilityNodeError = DaytonaOpError;
@@ -390,6 +413,8 @@ export const focusAccessibilityNode: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FocusAccessibilityNode",
 }));
 
 export type GetAccessibilityTreeError = DaytonaOpError;
@@ -405,6 +430,8 @@ export const getAccessibilityTree: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessibilityTree",
 }));
 
 export type GetComputerUseStatusError = DaytonaOpError;
@@ -420,6 +447,8 @@ export const getComputerUseStatus: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComputerUseStatus",
 }));
 
 export type GetComputerUseSystemStatusError = DaytonaOpError;
@@ -435,6 +464,8 @@ export const getComputerUseSystemStatus: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComputerUseSystemStatus",
 }));
 
 export type GetDisplayInfoError = DaytonaOpError;
@@ -450,6 +481,8 @@ export const getDisplayInfo: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDisplayInfo",
 }));
 
 export type GetMousePositionError = DaytonaOpError;
@@ -465,6 +498,8 @@ export const getMousePosition: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMousePosition",
 }));
 
 export type GetProcessErrorsError = DaytonaOpError;
@@ -480,6 +515,8 @@ export const getProcessErrors: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessErrors",
 }));
 
 export type GetProcessLogsError = DaytonaOpError;
@@ -495,6 +532,8 @@ export const getProcessLogs: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessLogs",
 }));
 
 export type GetProcessStatusError = DaytonaOpError;
@@ -510,6 +549,8 @@ export const getProcessStatus: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessStatus",
 }));
 
 export type GetRecordingError = DaytonaOpError;
@@ -525,6 +566,8 @@ export const getRecording: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecording",
 }));
 
 export type GetWindowsError = DaytonaOpError;
@@ -540,6 +583,8 @@ export const getWindows: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWindows",
 }));
 
 export type InvokeAccessibilityNodeError = DaytonaOpError;
@@ -555,6 +600,8 @@ export const invokeAccessibilityNode: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeAccessibilityNode",
 }));
 
 export type ListRecordingsError = DaytonaOpError;
@@ -570,6 +617,8 @@ export const listRecordings: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecordings",
 }));
 
 export type MoveMouseError = DaytonaOpError;
@@ -585,6 +634,8 @@ export const moveMouse: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveMouse",
 }));
 
 export type PressHotkeyError = DaytonaOpError;
@@ -600,6 +651,8 @@ export const pressHotkey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PressHotkey",
 }));
 
 export type PressKeyError = DaytonaOpError;
@@ -615,6 +668,8 @@ export const pressKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PressKey",
 }));
 
 export type RestartProcessError = DaytonaOpError;
@@ -630,6 +685,8 @@ export const restartProcess: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartProcess",
 }));
 
 export type ScrollError = DaytonaOpError;
@@ -645,6 +702,8 @@ export const scroll: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Scroll",
 }));
 
 export type SetAccessibilityNodeValueError = DaytonaOpError;
@@ -660,6 +719,8 @@ export const setAccessibilityNodeValue: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAccessibilityNodeValue",
 }));
 
 export type StartComputerUseError = DaytonaOpError;
@@ -675,6 +736,8 @@ export const startComputerUse: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartComputerUse",
 }));
 
 export type StartRecordingError = DaytonaOpError;
@@ -690,6 +753,8 @@ export const startRecording: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartRecording",
 }));
 
 export type StopComputerUseError = DaytonaOpError;
@@ -705,6 +770,8 @@ export const stopComputerUse: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopComputerUse",
 }));
 
 export type StopRecordingError = DaytonaOpError;
@@ -720,6 +787,8 @@ export const stopRecording: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopRecording",
 }));
 
 export type TakeCompressedRegionScreenshotError = DaytonaOpError;
@@ -735,6 +804,8 @@ export const takeCompressedRegionScreenshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TakeCompressedRegionScreenshot",
 }));
 
 export type TakeCompressedScreenshotError = DaytonaOpError;
@@ -750,6 +821,8 @@ export const takeCompressedScreenshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TakeCompressedScreenshot",
 }));
 
 export type TakeRegionScreenshotError = DaytonaOpError;
@@ -765,6 +838,8 @@ export const takeRegionScreenshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TakeRegionScreenshot",
 }));
 
 export type TakeScreenshotError = DaytonaOpError;
@@ -780,6 +855,8 @@ export const takeScreenshot: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TakeScreenshot",
 }));
 
 export type TypeTextError = DaytonaOpError;
@@ -795,6 +872,8 @@ export const typeText: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TypeText",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Orbital" },
+  prefix: "Planetarycomputer",
+  service: "Planetarycomputer",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CreateGeoCatalogRequestTagsMap = { [key: string]: string | undefined };
 /** Tier of the catalog. This cannot be changed after the catalog is created. If not provided, defaults to Basic. */
@@ -311,6 +331,8 @@ export const CreateGeoCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGeoCatalog",
 }));
 
 export type DeleteGeoCatalogError = AzureOpError;
@@ -326,6 +348,8 @@ export const DeleteGeoCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGeoCatalog",
 }));
 
 export type GetGeoCatalogError = AzureOpError;
@@ -341,6 +365,8 @@ export const GetGeoCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGeoCatalog",
 }));
 
 export type ListGeoCatalogByResourceGroupError = AzureOpError;
@@ -356,6 +382,8 @@ export const ListGeoCatalogByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGeoCatalogByResourceGroup",
 }));
 
 export type ListGeoCatalogBySubscriptionError = AzureOpError;
@@ -371,6 +399,8 @@ export const ListGeoCatalogBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGeoCatalogBySubscription",
 }));
 
 export type UpdateGeoCatalogError = AzureOpError;
@@ -386,6 +416,8 @@ export const UpdateGeoCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGeoCatalog",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

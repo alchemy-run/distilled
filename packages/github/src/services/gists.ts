@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Gists",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -451,6 +469,8 @@ export const checkIsStarred: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckIsStarred",
 }));
 
 export type CreateError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -462,6 +482,8 @@ export const create: API.OperationMethod<CreateRequest, GistSimple, CreateError,
     errors: [Forbidden, NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Create",
   }));
 
 export type CreateCommentError = Forbidden | NotFound | GithubOpError;
@@ -477,6 +499,8 @@ export const createComment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateComment",
 }));
 
 export type DeleteError = Forbidden | NotFound | GithubOpError;
@@ -492,6 +516,8 @@ export const Delete: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Delete",
 }));
 
 export type DeleteCommentError = Forbidden | NotFound | GithubOpError;
@@ -507,6 +533,8 @@ export const deleteComment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteComment",
 }));
 
 export type ForkError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -518,6 +546,8 @@ export const fork: API.OperationMethod<ForkRequest, BaseGist, ForkError, GithubO
     errors: [Forbidden, NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Fork",
   }));
 
 export type GetError = Forbidden | NotFound | GithubOpError;
@@ -529,6 +559,8 @@ export const get: API.OperationMethod<GetRequest, GistSimple, GetError, GithubOp
     errors: [Forbidden, NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetCommentError = Forbidden | NotFound | GithubOpError;
@@ -544,6 +576,8 @@ export const getComment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComment",
 }));
 
 export type GetRevisionError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -559,6 +593,8 @@ export const getRevision: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRevision",
 }));
 
 export type ListError = Forbidden | GithubOpError;
@@ -570,6 +606,8 @@ export const list: API.OperationMethod<ListRequest, ListResponse, ListError, Git
     errors: [Forbidden],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "List",
   }));
 
 export type ListCommentsError = Forbidden | NotFound | GithubOpError;
@@ -585,6 +623,8 @@ export const listComments: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComments",
 }));
 
 export type ListCommitsError = Forbidden | NotFound | GithubOpError;
@@ -600,6 +640,8 @@ export const listCommits: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommits",
 }));
 
 export type ListForksError = Forbidden | NotFound | GithubOpError;
@@ -615,6 +657,8 @@ export const listForks: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForks",
 }));
 
 export type ListForUserError = UnprocessableEntity | GithubOpError;
@@ -630,6 +674,8 @@ export const listForUser: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForUser",
 }));
 
 export type ListPublicError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -645,6 +691,8 @@ export const listPublic: API.OperationMethod<
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublic",
 }));
 
 export type ListStarredError = Forbidden | GithubOpError;
@@ -660,6 +708,8 @@ export const listStarred: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStarred",
 }));
 
 export type StarError = Forbidden | NotFound | GithubOpError;
@@ -671,6 +721,8 @@ export const star: API.OperationMethod<StarRequest, StarResponse, StarError, Git
     errors: [Forbidden, NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Star",
   }));
 
 export type UnstarError = Forbidden | NotFound | GithubOpError;
@@ -686,6 +738,8 @@ export const unstar: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Unstar",
 }));
 
 export type UpdateError = NotFound | UnprocessableEntity | GithubOpError;
@@ -697,6 +751,8 @@ export const update: API.OperationMethod<UpdateRequest, GistSimple, UpdateError,
     errors: [NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Update",
   }));
 
 export type UpdateCommentError = NotFound | GithubOpError;
@@ -712,6 +768,8 @@ export const updateComment: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateComment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

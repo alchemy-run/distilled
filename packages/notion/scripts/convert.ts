@@ -106,6 +106,7 @@ const OPERATION_NAMES: Record<string, string> = {
   "GET /v1/ai/plugins": "listPlugins",
   "GET /v1/ai/plugins/{id}": "getPluginDirectory",
   "GET /v1/ai/skills/{id}": "getSkillDirectory",
+  "POST /v1/ai/skills/{id}/upload": "uploadSkill",
   "POST /v1/sessions": "updateSession",
   "GET /v1/sessions/{session_id}": "getSession",
   "POST /v1/sessions/query": "querySessions",

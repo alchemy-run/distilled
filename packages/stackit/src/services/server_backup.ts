@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "ServerBackup",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -316,6 +329,8 @@ export const createBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackup",
 }));
 
 export type CreateBackupScheduleError = BadRequest | NotFound | StackitOpError;
@@ -331,6 +346,8 @@ export const createBackupSchedule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBackupSchedule",
 }));
 
 export type DeleteBackupError = BadRequest | NotFound | StackitOpError;
@@ -346,6 +363,8 @@ export const deleteBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackup",
 }));
 
 export type DeleteBackupScheduleError = BadRequest | NotFound | StackitOpError;
@@ -361,6 +380,8 @@ export const deleteBackupSchedule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBackupSchedule",
 }));
 
 export type DeleteVolumeBackupError = BadRequest | NotFound | StackitOpError;
@@ -376,6 +397,8 @@ export const deleteVolumeBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVolumeBackup",
 }));
 
 export type DisableServiceResourceError = BadRequest | NotFound | StackitOpError;
@@ -391,6 +414,8 @@ export const disableServiceResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableServiceResource",
 }));
 
 export type EnableServiceResourceError = BadRequest | NotFound | StackitOpError;
@@ -406,6 +431,8 @@ export const enableServiceResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableServiceResource",
 }));
 
 export type GetBackupError = BadRequest | NotFound | StackitOpError;
@@ -421,6 +448,8 @@ export const getBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackup",
 }));
 
 export type GetBackupScheduleError = BadRequest | NotFound | StackitOpError;
@@ -436,6 +465,8 @@ export const getBackupSchedule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBackupSchedule",
 }));
 
 export type GetServiceResourceError = BadRequest | NotFound | StackitOpError;
@@ -451,6 +482,8 @@ export const getServiceResource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceResource",
 }));
 
 export type ListBackupPoliciesError = BadRequest | NotFound | StackitOpError;
@@ -466,6 +499,8 @@ export const listBackupPolicies: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupPolicies",
 }));
 
 export type ListBackupsError = BadRequest | NotFound | StackitOpError;
@@ -481,6 +516,8 @@ export const listBackups: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackups",
 }));
 
 export type ListBackupSchedulesError = BadRequest | NotFound | StackitOpError;
@@ -496,6 +533,8 @@ export const listBackupSchedules: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBackupSchedules",
 }));
 
 export type RestoreBackupError = BadRequest | NotFound | Conflict | StackitOpError;
@@ -511,6 +550,8 @@ export const restoreBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreBackup",
 }));
 
 export type RestoreVolumeBackupError = BadRequest | NotFound | StackitOpError;
@@ -526,6 +567,8 @@ export const restoreVolumeBackup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreVolumeBackup",
 }));
 
 export type UpdateBackupScheduleError = BadRequest | NotFound | StackitOpError;
@@ -541,6 +584,8 @@ export const updateBackupSchedule: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBackupSchedule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

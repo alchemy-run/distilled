@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -63,6 +64,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Region must be set to resolve an endpoint.");
 }, '{"url":"https://acm.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ACM",
+  service: "ACM",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1325,6 +1341,8 @@ export const addTagsToCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToCertificate",
+  telemetry: TELEMETRY,
+  span: "AddTagsToCertificate",
 }));
 
 export type CreateAcmeDomainValidationError =
@@ -1359,6 +1377,8 @@ export const createAcmeDomainValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAcmeDomainValidation",
+  telemetry: TELEMETRY,
+  span: "CreateAcmeDomainValidation",
 }));
 
 export type CreateAcmeEndpointError =
@@ -1391,6 +1411,8 @@ export const createAcmeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAcmeEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateAcmeEndpoint",
 }));
 
 export type CreateAcmeExternalAccountBindingError =
@@ -1425,6 +1447,8 @@ export const createAcmeExternalAccountBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAcmeExternalAccountBinding",
+  telemetry: TELEMETRY,
+  span: "CreateAcmeExternalAccountBinding",
 }));
 
 export type DeleteAcmeDomainValidationError =
@@ -1455,6 +1479,8 @@ export const deleteAcmeDomainValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAcmeDomainValidation",
+  telemetry: TELEMETRY,
+  span: "DeleteAcmeDomainValidation",
 }));
 
 export type DeleteAcmeEndpointError =
@@ -1485,6 +1511,8 @@ export const deleteAcmeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAcmeEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteAcmeEndpoint",
 }));
 
 export type DeleteAcmeExternalAccountBindingError =
@@ -1513,6 +1541,8 @@ export const deleteAcmeExternalAccountBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAcmeExternalAccountBinding",
+  telemetry: TELEMETRY,
+  span: "DeleteAcmeExternalAccountBinding",
 }));
 
 export type DeleteCertificateError =
@@ -1555,6 +1585,8 @@ export const deleteCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
+  telemetry: TELEMETRY,
+  span: "DeleteCertificate",
 }));
 
 export type DescribeAcmeAccountError =
@@ -1585,6 +1617,8 @@ export const describeAcmeAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeAccount",
+  telemetry: TELEMETRY,
+  span: "DescribeAcmeAccount",
 }));
 
 export type DescribeAcmeDomainValidationError =
@@ -1615,6 +1649,8 @@ export const describeAcmeDomainValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeDomainValidation",
+  telemetry: TELEMETRY,
+  span: "DescribeAcmeDomainValidation",
 }));
 
 export type DescribeAcmeEndpointError =
@@ -1645,6 +1681,8 @@ export const describeAcmeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeAcmeEndpoint",
 }));
 
 export type DescribeAcmeExternalAccountBindingError =
@@ -1675,6 +1713,8 @@ export const describeAcmeExternalAccountBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcmeExternalAccountBinding",
+  telemetry: TELEMETRY,
+  span: "DescribeAcmeExternalAccountBinding",
 }));
 
 export type DescribeCertificateError =
@@ -1699,6 +1739,8 @@ export const describeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificate",
+  telemetry: TELEMETRY,
+  span: "DescribeCertificate",
 }));
 
 export type ExportCertificateError =
@@ -1733,6 +1775,8 @@ export const exportCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportCertificate",
+  telemetry: TELEMETRY,
+  span: "ExportCertificate",
 }));
 
 export type GetAccountConfigurationError =
@@ -1754,6 +1798,8 @@ export const getAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetAccountConfiguration",
 }));
 
 export type GetAcmeExternalAccountBindingCredentialsError =
@@ -1784,6 +1830,8 @@ export const getAcmeExternalAccountBindingCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAcmeExternalAccountBindingCredentials",
+  telemetry: TELEMETRY,
+  span: "GetAcmeExternalAccountBindingCredentials",
 }));
 
 export type GetCertificateError =
@@ -1812,6 +1860,8 @@ export const getCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificate",
+  telemetry: TELEMETRY,
+  span: "GetCertificate",
 }));
 
 export type ImportCertificateError =
@@ -1878,6 +1928,8 @@ export const importCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificate",
+  telemetry: TELEMETRY,
+  span: "ImportCertificate",
 }));
 
 export type ListAcmeAccountsError =
@@ -1915,6 +1967,8 @@ export const listAcmeAccounts: API.PaginatedOperationMethod<
     items: "AcmeAccounts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAcmeAccounts",
 })) as any;
 
 export type ListAcmeDomainValidationsError =
@@ -1952,6 +2006,8 @@ export const listAcmeDomainValidations: API.PaginatedOperationMethod<
     items: "AcmeDomainValidations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAcmeDomainValidations",
 })) as any;
 
 export type ListAcmeEndpointsError =
@@ -1987,6 +2043,8 @@ export const listAcmeEndpoints: API.PaginatedOperationMethod<
     items: "AcmeEndpoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAcmeEndpoints",
 })) as any;
 
 export type ListAcmeExternalAccountBindingsError =
@@ -2024,6 +2082,8 @@ export const listAcmeExternalAccountBindings: API.PaginatedOperationMethod<
     items: "ExternalAccountBindings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAcmeExternalAccountBindings",
 })) as any;
 
 export type ListCertificateDomainValidationsError =
@@ -2059,6 +2119,8 @@ export const listCertificateDomainValidations: API.PaginatedOperationMethod<
     items: "DomainValidationSummaryList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCertificateDomainValidations",
 })) as any;
 
 export type ListCertificatesError = InvalidArgsException | ValidationException | CommonErrors;
@@ -2086,6 +2148,8 @@ export const listCertificates: API.PaginatedOperationMethod<
     items: "CertificateSummaryList",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCertificates",
 })) as any;
 
 export type ListTagsForCertificateError =
@@ -2110,6 +2174,8 @@ export const listTagsForCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForCertificate",
+  telemetry: TELEMETRY,
+  span: "ListTagsForCertificate",
 }));
 
 export type ListTagsForResourceError =
@@ -2135,6 +2201,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutAccountConfigurationError =
@@ -2160,6 +2228,8 @@ export const putAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutAccountConfiguration",
 }));
 
 export type RemoveTagsFromCertificateError =
@@ -2198,6 +2268,8 @@ export const removeTagsFromCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromCertificate",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromCertificate",
 }));
 
 export type RenewCertificateError =
@@ -2226,6 +2298,8 @@ export const renewCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenewCertificate",
+  telemetry: TELEMETRY,
+  span: "RenewCertificate",
 }));
 
 export type RequestCertificateError =
@@ -2266,6 +2340,8 @@ export const requestCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestCertificate",
+  telemetry: TELEMETRY,
+  span: "RequestCertificate",
 }));
 
 export type ResendValidationEmailError =
@@ -2296,6 +2372,8 @@ export const resendValidationEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendValidationEmail",
+  telemetry: TELEMETRY,
+  span: "ResendValidationEmail",
 }));
 
 export type RevokeAcmeAccountError =
@@ -2328,6 +2406,8 @@ export const revokeAcmeAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeAcmeAccount",
+  telemetry: TELEMETRY,
+  span: "RevokeAcmeAccount",
 }));
 
 export type RevokeAcmeExternalAccountBindingError =
@@ -2360,6 +2440,8 @@ export const revokeAcmeExternalAccountBinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeAcmeExternalAccountBinding",
+  telemetry: TELEMETRY,
+  span: "RevokeAcmeExternalAccountBinding",
 }));
 
 export type RevokeCertificateError =
@@ -2396,6 +2478,8 @@ export const revokeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCertificate",
+  telemetry: TELEMETRY,
+  span: "RevokeCertificate",
 }));
 
 export type SearchCertificatesError =
@@ -2425,6 +2509,8 @@ export const searchCertificates: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchCertificates",
 })) as any;
 
 export type TagResourceError =
@@ -2451,6 +2537,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
@@ -2473,6 +2561,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAcmeDomainValidationError =
@@ -2505,6 +2595,8 @@ export const updateAcmeDomainValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcmeDomainValidation",
+  telemetry: TELEMETRY,
+  span: "UpdateAcmeDomainValidation",
 }));
 
 export type UpdateAcmeEndpointError =
@@ -2537,6 +2629,8 @@ export const updateAcmeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcmeEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateAcmeEndpoint",
 }));
 
 export type UpdateCertificateOptionsError =
@@ -2569,6 +2663,8 @@ export const updateCertificateOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificateOptions",
+  telemetry: TELEMETRY,
+  span: "UpdateCertificateOptions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

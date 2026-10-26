@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Portal" },
+  prefix: "Portal",
+  service: "Portal",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Tenant Configuration Properties with Provisioning state */
 export interface ConfigurationPropertiesInput {
   /** When flag is set to true Markdown tile will require external storage configuration (URI). The inline content configuration will be prohibited. */
@@ -379,6 +399,8 @@ export const CreateTenantConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTenantConfiguration",
 }));
 
 export type DashboardsCreateOrUpdateError = AzureOpError;
@@ -394,6 +416,8 @@ export const DashboardsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DashboardsCreateOrUpdate",
 }));
 
 export type DeleteDashboardError = AzureOpError;
@@ -409,6 +433,8 @@ export const DeleteDashboard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDashboard",
 }));
 
 export type DeleteTenantConfigurationError = AzureOpError;
@@ -424,6 +450,8 @@ export const DeleteTenantConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTenantConfiguration",
 }));
 
 export type GetDashboardError = AzureOpError;
@@ -439,6 +467,8 @@ export const GetDashboard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetTenantConfigurationError = AzureOpError;
@@ -454,6 +484,8 @@ export const GetTenantConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTenantConfiguration",
 }));
 
 export type ListDashboardByResourceGroupError = AzureOpError;
@@ -469,6 +501,8 @@ export const ListDashboardByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardByResourceGroup",
 }));
 
 export type ListDashboardBySubscriptionError = AzureOpError;
@@ -484,6 +518,8 @@ export const ListDashboardBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardBySubscription",
 }));
 
 export type ListListTenantConfigurationViolationsError = AzureOpError;
@@ -499,6 +535,8 @@ export const ListListTenantConfigurationViolations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListListTenantConfigurationViolations",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -514,6 +552,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListTenantConfigurationsError = AzureOpError;
@@ -529,6 +569,8 @@ export const ListTenantConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTenantConfigurations",
 }));
 
 export type UpdateDashboardError = AzureOpError;
@@ -544,6 +586,8 @@ export const UpdateDashboard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDashboard",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

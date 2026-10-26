@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "CustomerAnalytics",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -585,6 +598,8 @@ export const accountsNotebooksDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsNotebooksDestroy",
 }));
 
 export type AccountsRelationshipsDestroyError = PosthogOpError;
@@ -599,6 +614,8 @@ export const accountsRelationshipsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountsRelationshipsDestroy",
 }));
 
 export type CreateAccountsCustomPropertyValueError = PosthogOpError;
@@ -613,6 +630,8 @@ export const createAccountsCustomPropertyValue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsCustomPropertyValue",
 }));
 
 export type CreateAccountsNotebookError = PosthogOpError;
@@ -627,6 +646,8 @@ export const createAccountsNotebook: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsNotebook",
 }));
 
 export type CreateAccountsRelationshipError = PosthogOpError;
@@ -641,6 +662,8 @@ export const createAccountsRelationship: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsRelationship",
 }));
 
 export type CreateAccountsRelationshipsEndError = PosthogOpError;
@@ -655,6 +678,8 @@ export const createAccountsRelationshipsEnd: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountsRelationshipsEnd",
 }));
 
 export type CreateCustomerAnalyticsExternalAccountError = BadRequest | Forbidden | PosthogOpError;
@@ -670,6 +695,8 @@ export const createCustomerAnalyticsExternalAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomerAnalyticsExternalAccount",
 }));
 
 export type CreateEventStreamError = PosthogOpError;
@@ -685,6 +712,8 @@ export const createEventStream: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEventStream",
 }));
 
 export type EventStreamsAddAccountCreateError = PosthogOpError;
@@ -700,6 +729,8 @@ export const eventStreamsAddAccountCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventStreamsAddAccountCreate",
 }));
 
 export type EventStreamsDestroyError = PosthogOpError;
@@ -715,6 +746,8 @@ export const eventStreamsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventStreamsDestroy",
 }));
 
 export type EventStreamsRemoveAccountCreateError = PosthogOpError;
@@ -730,6 +763,8 @@ export const eventStreamsRemoveAccountCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventStreamsRemoveAccountCreate",
 }));
 
 export type EventStreamsSendTestMessageCreateError = PosthogOpError;
@@ -745,6 +780,8 @@ export const eventStreamsSendTestMessageCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventStreamsSendTestMessageCreate",
 }));
 
 export type GetAccountsNotebookError = PosthogOpError;
@@ -759,6 +796,8 @@ export const getAccountsNotebook: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsNotebook",
 }));
 
 export type GetCustomerAnalyticsExternalAccountError =
@@ -778,6 +817,8 @@ export const getCustomerAnalyticsExternalAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerAnalyticsExternalAccount",
 }));
 
 export type GetCustomerAnalyticsExternalAccount2Error =
@@ -797,6 +838,8 @@ export const getCustomerAnalyticsExternalAccount2: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerAnalyticsExternalAccount2",
 }));
 
 export type ListAccountNotesError = PosthogOpError;
@@ -811,6 +854,8 @@ export const listAccountNotes: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountNotes",
 }));
 
 export type ListAccountsCustomPropertyValuesError = PosthogOpError;
@@ -825,6 +870,8 @@ export const listAccountsCustomPropertyValues: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsCustomPropertyValues",
 }));
 
 export type ListAccountsNotebooksError = PosthogOpError;
@@ -839,6 +886,8 @@ export const listAccountsNotebooks: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsNotebooks",
 }));
 
 export type ListAccountsRelationshipsError = PosthogOpError;
@@ -853,6 +902,8 @@ export const listAccountsRelationships: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountsRelationships",
 }));
 
 export type ListEventStreamsError = PosthogOpError;
@@ -868,6 +919,8 @@ export const listEventStreams: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventStreams",
 }));
 
 export type UpdateEventStreamError = PosthogOpError;
@@ -883,6 +936,8 @@ export const updateEventStream: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventStream",
 }));
 
 export type UpdateEventStreamsPartialError = PosthogOpError;
@@ -898,6 +953,8 @@ export const updateEventStreamsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventStreamsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

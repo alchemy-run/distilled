@@ -12,6 +12,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "SecretScanning",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1064,6 +1082,8 @@ export const bulkCreateOrgCustomPatterns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkCreateOrgCustomPatterns",
 }));
 
 export type BulkCreateRepoCustomPatternsError =
@@ -1084,6 +1104,8 @@ export const bulkCreateRepoCustomPatterns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkCreateRepoCustomPatterns",
 }));
 
 export type BulkDeleteOrgCustomPatternsError = BadRequest | Forbidden | NotFound | GithubOpError;
@@ -1099,6 +1121,8 @@ export const bulkDeleteOrgCustomPatterns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteOrgCustomPatterns",
 }));
 
 export type BulkDeleteRepoCustomPatternsError = BadRequest | Forbidden | NotFound | GithubOpError;
@@ -1114,6 +1138,8 @@ export const bulkDeleteRepoCustomPatterns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDeleteRepoCustomPatterns",
 }));
 
 export type CreatePushProtectionBypassError =
@@ -1133,6 +1159,8 @@ export const createPushProtectionBypass: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePushProtectionBypass",
 }));
 
 export type GetAlertError = NotFound | GithubOpError;
@@ -1148,6 +1176,8 @@ export const getAlert: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlert",
 }));
 
 export type GetScanHistoryError = NotFound | GithubOpError;
@@ -1163,6 +1193,8 @@ export const getScanHistory: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScanHistory",
 }));
 
 export type ListAlertsForOrgError = NotFound | GithubOpError;
@@ -1178,6 +1210,8 @@ export const listAlertsForOrg: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertsForOrg",
 }));
 
 export type ListAlertsForRepoError = NotFound | GithubOpError;
@@ -1193,6 +1227,8 @@ export const listAlertsForRepo: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertsForRepo",
 }));
 
 export type ListLocationsForAlertError = NotFound | GithubOpError;
@@ -1208,6 +1244,8 @@ export const listLocationsForAlert: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocationsForAlert",
 }));
 
 export type ListOrgCustomPatternsError = Forbidden | NotFound | GithubOpError;
@@ -1223,6 +1261,8 @@ export const listOrgCustomPatterns: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgCustomPatterns",
 }));
 
 export type ListOrgPatternConfigsError = Forbidden | NotFound | GithubOpError;
@@ -1238,6 +1278,8 @@ export const listOrgPatternConfigs: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgPatternConfigs",
 }));
 
 export type ListRepoCustomPatternsError = Forbidden | NotFound | GithubOpError;
@@ -1253,6 +1295,8 @@ export const listRepoCustomPatterns: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoCustomPatterns",
 }));
 
 export type UpdateAlertError =
@@ -1273,6 +1317,8 @@ export const updateAlert: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAlert",
 }));
 
 export type UpdateOrgCustomPatternError =
@@ -1293,6 +1339,8 @@ export const updateOrgCustomPattern: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgCustomPattern",
 }));
 
 export type UpdateOrgPatternConfigsError =
@@ -1314,6 +1362,8 @@ export const updateOrgPatternConfigs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgPatternConfigs",
 }));
 
 export type UpdateRepoCustomPatternError =
@@ -1334,6 +1384,8 @@ export const updateRepoCustomPattern: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepoCustomPattern",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

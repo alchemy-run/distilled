@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://mediastore.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaStore",
+  service: "MediaStore",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ContainerInUseException
   extends /*@__PURE__*/ S.TaggedError<ContainerInUseException>()("ContainerInUseException", {
@@ -286,6 +302,8 @@ export const createContainer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainer",
+  telemetry: TELEMETRY,
+  span: "CreateContainer",
 }));
 
 export type DeleteContainerError =
@@ -310,6 +328,8 @@ export const deleteContainer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainer",
+  telemetry: TELEMETRY,
+  span: "DeleteContainer",
 }));
 
 export type DeleteContainerPolicyError =
@@ -338,6 +358,8 @@ export const deleteContainerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerPolicy",
 }));
 
 export type DeleteCorsPolicyError =
@@ -371,6 +393,8 @@ export const deleteCorsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCorsPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteCorsPolicy",
 }));
 
 export type DeleteLifecyclePolicyError =
@@ -399,6 +423,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecyclePolicy",
 }));
 
 export type DeleteMetricPolicyError =
@@ -427,6 +453,8 @@ export const deleteMetricPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteMetricPolicy",
 }));
 
 export type DescribeContainerError =
@@ -454,6 +482,8 @@ export const describeContainer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainer",
+  telemetry: TELEMETRY,
+  span: "DescribeContainer",
 }));
 
 export type GetContainerPolicyError =
@@ -484,6 +514,8 @@ export const getContainerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContainerPolicy",
+  telemetry: TELEMETRY,
+  span: "GetContainerPolicy",
 }));
 
 export type GetCorsPolicyError =
@@ -517,6 +549,8 @@ export const getCorsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCorsPolicy",
+  telemetry: TELEMETRY,
+  span: "GetCorsPolicy",
 }));
 
 export type GetLifecyclePolicyError =
@@ -545,6 +579,8 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "GetLifecyclePolicy",
 }));
 
 export type GetMetricPolicyError =
@@ -573,6 +609,8 @@ export const getMetricPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricPolicy",
+  telemetry: TELEMETRY,
+  span: "GetMetricPolicy",
 }));
 
 export type ListContainersError = InternalServerError | CommonErrors;
@@ -607,6 +645,8 @@ export const listContainers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -629,6 +669,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutContainerPolicyError =
@@ -658,6 +700,8 @@ export const putContainerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContainerPolicy",
+  telemetry: TELEMETRY,
+  span: "PutContainerPolicy",
 }));
 
 export type PutCorsPolicyError =
@@ -692,6 +736,8 @@ export const putCorsPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCorsPolicy",
+  telemetry: TELEMETRY,
+  span: "PutCorsPolicy",
 }));
 
 export type PutLifecyclePolicyError =
@@ -716,6 +762,8 @@ export const putLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "PutLifecyclePolicy",
 }));
 
 export type PutMetricPolicyError =
@@ -738,6 +786,8 @@ export const putMetricPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricPolicy",
+  telemetry: TELEMETRY,
+  span: "PutMetricPolicy",
 }));
 
 export type StartAccessLoggingError =
@@ -760,6 +810,8 @@ export const startAccessLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAccessLogging",
+  telemetry: TELEMETRY,
+  span: "StartAccessLogging",
 }));
 
 export type StopAccessLoggingError =
@@ -782,6 +834,8 @@ export const stopAccessLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAccessLogging",
+  telemetry: TELEMETRY,
+  span: "StopAccessLogging",
 }));
 
 export type TagResourceError =
@@ -806,6 +860,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -828,6 +884,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

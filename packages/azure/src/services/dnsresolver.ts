@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Network" },
+  prefix: "Dnsresolver",
+  service: "Dnsresolver",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The action type in requests for bulk upload or download of a DNS resolver domain list. */
 export type Action = "Upload" | "Download";
 /** Describes DNS resolver domain list properties for bulk UPLOAD or DOWNLOAD operations. */
@@ -1973,6 +1993,8 @@ export const BulkDnsResolverDomainList: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkDnsResolverDomainList",
 }));
 
 export type DeleteDnsForwardingRulesetError = AzureOpError;
@@ -1988,6 +2010,8 @@ export const DeleteDnsForwardingRuleset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDnsForwardingRuleset",
 }));
 
 export type DeleteDnsResolverError = AzureOpError;
@@ -2003,6 +2027,8 @@ export const DeleteDnsResolver: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDnsResolver",
 }));
 
 export type DeleteDnsResolverDomainListError = AzureOpError;
@@ -2018,6 +2044,8 @@ export const DeleteDnsResolverDomainList: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDnsResolverDomainList",
 }));
 
 export type DeleteDnsResolverPolicyError = AzureOpError;
@@ -2033,6 +2061,8 @@ export const DeleteDnsResolverPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDnsResolverPolicy",
 }));
 
 export type DeleteDnsResolverPolicyVirtualNetworkLinkError = AzureOpError;
@@ -2048,6 +2078,8 @@ export const DeleteDnsResolverPolicyVirtualNetworkLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDnsResolverPolicyVirtualNetworkLink",
 }));
 
 export type DeleteDnsSecurityRuleError = AzureOpError;
@@ -2063,6 +2095,8 @@ export const DeleteDnsSecurityRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDnsSecurityRule",
 }));
 
 export type DeleteForwardingRuleError = AzureOpError;
@@ -2078,6 +2112,8 @@ export const DeleteForwardingRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteForwardingRule",
 }));
 
 export type DeleteInboundEndpointError = AzureOpError;
@@ -2093,6 +2129,8 @@ export const DeleteInboundEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInboundEndpoint",
 }));
 
 export type DeleteOutboundEndpointError = AzureOpError;
@@ -2108,6 +2146,8 @@ export const DeleteOutboundEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOutboundEndpoint",
 }));
 
 export type DeleteVirtualNetworkLinkError = AzureOpError;
@@ -2123,6 +2163,8 @@ export const DeleteVirtualNetworkLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualNetworkLink",
 }));
 
 export type DnsForwardingRulesetsCreateOrUpdateError = AzureOpError;
@@ -2138,6 +2180,8 @@ export const DnsForwardingRulesetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsForwardingRulesetsCreateOrUpdate",
 }));
 
 export type DnsResolverDomainListsCreateOrUpdateError = AzureOpError;
@@ -2153,6 +2197,8 @@ export const DnsResolverDomainListsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsResolverDomainListsCreateOrUpdate",
 }));
 
 export type DnsResolverPoliciesCreateOrUpdateError = AzureOpError;
@@ -2168,6 +2214,8 @@ export const DnsResolverPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsResolverPoliciesCreateOrUpdate",
 }));
 
 export type DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateError = AzureOpError;
@@ -2191,6 +2239,8 @@ export const DnsResolverPolicyVirtualNetworkLinksCreateOrUpdate: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsResolverPolicyVirtualNetworkLinksCreateOrUpdate",
 }));
 
 export type DnsResolversCreateOrUpdateError = AzureOpError;
@@ -2206,6 +2256,8 @@ export const DnsResolversCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsResolversCreateOrUpdate",
 }));
 
 export type DnsSecurityRulesCreateOrUpdateError = AzureOpError;
@@ -2221,6 +2273,8 @@ export const DnsSecurityRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DnsSecurityRulesCreateOrUpdate",
 }));
 
 export type ForwardingRulesCreateOrUpdateError = AzureOpError;
@@ -2236,6 +2290,8 @@ export const ForwardingRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForwardingRulesCreateOrUpdate",
 }));
 
 export type GetDnsForwardingRulesetError = AzureOpError;
@@ -2251,6 +2307,8 @@ export const GetDnsForwardingRuleset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsForwardingRuleset",
 }));
 
 export type GetDnsResolverError = AzureOpError;
@@ -2266,6 +2324,8 @@ export const GetDnsResolver: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsResolver",
 }));
 
 export type GetDnsResolverDomainListError = AzureOpError;
@@ -2281,6 +2341,8 @@ export const GetDnsResolverDomainList: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsResolverDomainList",
 }));
 
 export type GetDnsResolverPolicyError = AzureOpError;
@@ -2296,6 +2358,8 @@ export const GetDnsResolverPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsResolverPolicy",
 }));
 
 export type GetDnsResolverPolicyVirtualNetworkLinkError = AzureOpError;
@@ -2311,6 +2375,8 @@ export const GetDnsResolverPolicyVirtualNetworkLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsResolverPolicyVirtualNetworkLink",
 }));
 
 export type GetDnsSecurityRuleError = AzureOpError;
@@ -2326,6 +2392,8 @@ export const GetDnsSecurityRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsSecurityRule",
 }));
 
 export type GetForwardingRuleError = AzureOpError;
@@ -2341,6 +2409,8 @@ export const GetForwardingRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForwardingRule",
 }));
 
 export type GetInboundEndpointError = AzureOpError;
@@ -2356,6 +2426,8 @@ export const GetInboundEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInboundEndpoint",
 }));
 
 export type GetOutboundEndpointError = AzureOpError;
@@ -2371,6 +2443,8 @@ export const GetOutboundEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOutboundEndpoint",
 }));
 
 export type GetVirtualNetworkLinkError = AzureOpError;
@@ -2386,6 +2460,8 @@ export const GetVirtualNetworkLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualNetworkLink",
 }));
 
 export type InboundEndpointsCreateOrUpdateError = AzureOpError;
@@ -2401,6 +2477,8 @@ export const InboundEndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InboundEndpointsCreateOrUpdate",
 }));
 
 export type ListDnsForwardingRulesetByResourceGroupError = AzureOpError;
@@ -2416,6 +2494,8 @@ export const ListDnsForwardingRulesetByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsForwardingRulesetByResourceGroup",
 }));
 
 export type ListDnsForwardingRulesetByVirtualNetworkError = AzureOpError;
@@ -2431,6 +2511,8 @@ export const ListDnsForwardingRulesetByVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsForwardingRulesetByVirtualNetwork",
 }));
 
 export type ListDnsForwardingRulesetsError = AzureOpError;
@@ -2446,6 +2528,8 @@ export const ListDnsForwardingRulesets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsForwardingRulesets",
 }));
 
 export type ListDnsResolverByResourceGroupError = AzureOpError;
@@ -2461,6 +2545,8 @@ export const ListDnsResolverByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsResolverByResourceGroup",
 }));
 
 export type ListDnsResolverByVirtualNetworkError = AzureOpError;
@@ -2476,6 +2562,8 @@ export const ListDnsResolverByVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsResolverByVirtualNetwork",
 }));
 
 export type ListDnsResolverDomainListByResourceGroupError = AzureOpError;
@@ -2491,6 +2579,8 @@ export const ListDnsResolverDomainListByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsResolverDomainListByResourceGroup",
 }));
 
 export type ListDnsResolverDomainListsError = AzureOpError;
@@ -2506,6 +2596,8 @@ export const ListDnsResolverDomainLists: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsResolverDomainLists",
 }));
 
 export type ListDnsResolverPoliciesError = AzureOpError;
@@ -2521,6 +2613,8 @@ export const ListDnsResolverPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsResolverPolicies",
 }));
 
 export type ListDnsResolverPolicyByResourceGroupError = AzureOpError;
@@ -2536,6 +2630,8 @@ export const ListDnsResolverPolicyByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsResolverPolicyByResourceGroup",
 }));
 
 export type ListDnsResolverPolicyByVirtualNetworkError = AzureOpError;
@@ -2551,6 +2647,8 @@ export const ListDnsResolverPolicyByVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsResolverPolicyByVirtualNetwork",
 }));
 
 export type ListDnsResolverPolicyVirtualNetworkLinksError = AzureOpError;
@@ -2566,6 +2664,8 @@ export const ListDnsResolverPolicyVirtualNetworkLinks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsResolverPolicyVirtualNetworkLinks",
 }));
 
 export type ListDnsResolversError = AzureOpError;
@@ -2581,6 +2681,8 @@ export const ListDnsResolvers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsResolvers",
 }));
 
 export type ListDnsSecurityRulesError = AzureOpError;
@@ -2596,6 +2698,8 @@ export const ListDnsSecurityRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsSecurityRules",
 }));
 
 export type ListForwardingRulesError = AzureOpError;
@@ -2611,6 +2715,8 @@ export const ListForwardingRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListForwardingRules",
 }));
 
 export type ListInboundEndpointsError = AzureOpError;
@@ -2626,6 +2732,8 @@ export const ListInboundEndpoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInboundEndpoints",
 }));
 
 export type ListOutboundEndpointsError = AzureOpError;
@@ -2641,6 +2749,8 @@ export const ListOutboundEndpoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOutboundEndpoints",
 }));
 
 export type ListVirtualNetworkLinksError = AzureOpError;
@@ -2656,6 +2766,8 @@ export const ListVirtualNetworkLinks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNetworkLinks",
 }));
 
 export type OutboundEndpointsCreateOrUpdateError = AzureOpError;
@@ -2671,6 +2783,8 @@ export const OutboundEndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OutboundEndpointsCreateOrUpdate",
 }));
 
 export type UpdateDnsForwardingRulesetError = AzureOpError;
@@ -2686,6 +2800,8 @@ export const UpdateDnsForwardingRuleset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDnsForwardingRuleset",
 }));
 
 export type UpdateDnsResolverError = AzureOpError;
@@ -2701,6 +2817,8 @@ export const UpdateDnsResolver: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDnsResolver",
 }));
 
 export type UpdateDnsResolverDomainListError = AzureOpError;
@@ -2716,6 +2834,8 @@ export const UpdateDnsResolverDomainList: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDnsResolverDomainList",
 }));
 
 export type UpdateDnsResolverPolicyError = AzureOpError;
@@ -2731,6 +2851,8 @@ export const UpdateDnsResolverPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDnsResolverPolicy",
 }));
 
 export type UpdateDnsResolverPolicyVirtualNetworkLinkError = AzureOpError;
@@ -2746,6 +2868,8 @@ export const UpdateDnsResolverPolicyVirtualNetworkLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDnsResolverPolicyVirtualNetworkLink",
 }));
 
 export type UpdateDnsSecurityRuleError = AzureOpError;
@@ -2761,6 +2885,8 @@ export const UpdateDnsSecurityRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDnsSecurityRule",
 }));
 
 export type UpdateForwardingRuleError = AzureOpError;
@@ -2776,6 +2902,8 @@ export const UpdateForwardingRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateForwardingRule",
 }));
 
 export type UpdateInboundEndpointError = AzureOpError;
@@ -2791,6 +2919,8 @@ export const UpdateInboundEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateInboundEndpoint",
 }));
 
 export type UpdateOutboundEndpointError = AzureOpError;
@@ -2806,6 +2936,8 @@ export const UpdateOutboundEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOutboundEndpoint",
 }));
 
 export type UpdateVirtualNetworkLinkError = AzureOpError;
@@ -2821,6 +2953,8 @@ export const UpdateVirtualNetworkLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualNetworkLink",
 }));
 
 export type VirtualNetworkLinksCreateOrUpdateError = AzureOpError;
@@ -2836,6 +2970,8 @@ export const VirtualNetworkLinksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualNetworkLinksCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "PaymentExperienceWebExperienceProfilesV1",
+  labels: "paypal",
+  propagate: "w3c",
+} as const;
+
 /** The type of landing page to display on the PayPal site for user checkout. To use the non-PayPal account landing page, set to `Billing`. To use the PayPal account login landing page, set to `Login`. */
 export type FlowConfigLandingPageType = "login" | "billing";
 /** Presents either the **Continue** or **Pay Now** checkout flow to the customer.<br/><br/>Default is **Continue**, or `user_action=continue`. When you do not know the final payment amount, accept this default flow, which redirects the customer to the PayPal payment page with the **Continue** button. When the customer clicks **Continue**, the customer can change the payment amount.<br/><br/> When you know the final payment amount, set `user_action=commit` to choose the **Pay Now** flow, which redirects the customer to the PayPal payment page with the **Pay Now** button. When the customer clicks **Pay Now**, the payment is processed immediately. */
@@ -126,6 +140,8 @@ export const createWebProfile: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebProfile",
 }));
 
 export type DeleteWebProfileError = PaypalOpError;
@@ -141,6 +157,8 @@ export const deleteWebProfile: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebProfile",
 }));
 
 export type GetWebProfileError = PaypalOpError;
@@ -156,6 +174,8 @@ export const getWebProfile: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebProfile",
 }));
 
 export type UpdateWebProfileError = PaypalOpError;
@@ -171,6 +191,8 @@ export const updateWebProfile: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebProfile",
 }));
 
 export type UpdateWebProfilePartialError = PaypalOpError;
@@ -186,6 +208,8 @@ export const updateWebProfilePartial: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebProfilePartial",
 }));
 
 export type WebProfileGetListError = PaypalOpError;
@@ -201,6 +225,8 @@ export const webProfileGetList: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebProfileGetList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

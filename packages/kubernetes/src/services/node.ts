@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Node",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -559,6 +572,8 @@ export const createNodeV1RuntimeClass: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNodeV1RuntimeClass",
 }));
 
 export type DeleteNodeV1CollectionRuntimeClassError = KubernetesOpError;
@@ -574,6 +589,8 @@ export const deleteNodeV1CollectionRuntimeClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNodeV1CollectionRuntimeClass",
 }));
 
 export type DeleteNodeV1RuntimeClassError = NotFound | Conflict | KubernetesOpError;
@@ -589,6 +606,8 @@ export const deleteNodeV1RuntimeClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNodeV1RuntimeClass",
 }));
 
 export type GetNodeAPIGroupError = KubernetesOpError;
@@ -604,6 +623,8 @@ export const getNodeAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNodeAPIGroup",
 }));
 
 export type GetNodeV1APIResourcesError = KubernetesOpError;
@@ -619,6 +640,8 @@ export const getNodeV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNodeV1APIResources",
 }));
 
 export type ListNodeV1RuntimeClassError = KubernetesOpError;
@@ -634,6 +657,8 @@ export const listNodeV1RuntimeClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNodeV1RuntimeClass",
 }));
 
 export type PatchNodeV1RuntimeClassError =
@@ -653,6 +678,8 @@ export const patchNodeV1RuntimeClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchNodeV1RuntimeClass",
 }));
 
 export type ReadNodeV1RuntimeClassError = NotFound | KubernetesOpError;
@@ -668,6 +695,8 @@ export const readNodeV1RuntimeClass: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadNodeV1RuntimeClass",
 }));
 
 export type ReplaceNodeV1RuntimeClassError =
@@ -687,6 +716,8 @@ export const replaceNodeV1RuntimeClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceNodeV1RuntimeClass",
 }));
 
 export type WatchNodeV1RuntimeClassError = KubernetesOpError;
@@ -702,6 +733,8 @@ export const watchNodeV1RuntimeClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNodeV1RuntimeClass",
 }));
 
 export type WatchNodeV1RuntimeClassListError = KubernetesOpError;
@@ -717,6 +750,8 @@ export const watchNodeV1RuntimeClassList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchNodeV1RuntimeClassList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

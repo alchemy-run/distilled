@@ -170,6 +170,16 @@ generated interface then gains `[key: string]: unknown` and the schema an
 `remove …/shapes/<id>/traits/com.distilled.openapi#additionalProperties`; an
 object the wire extends but the spec closes gains it with `add` and `{}`.
 
+**Trace span carries the wrong thing.** Span names, kinds and attributes
+are the `com.distilled.telemetry#…` traits (spec:
+`packages/dev/src/codegen/telemetry-traits.md`). Convert stamps defaults
+after the patches and keeps any field a patch set, so a patch adds or
+replaces just the trait or field it means: `[]` as a member's
+`com.distilled.telemetry#attributes` stops recording that member, and an
+operation's `com.distilled.telemetry#operation` `{ "kind": "producer" }`
+changes only its kind. AWS patches are not RFC-6902: AWS spans come from
+the table in `packages/aws/scripts/telemetry.ts`.
+
 **One operation returns more than the shared shape promises.** Add a copy
 of the shape under a new name, change the copy, and re-point only that
 operation's member or output at it, so the other operations keep the shared

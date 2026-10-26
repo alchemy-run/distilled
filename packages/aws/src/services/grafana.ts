@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://grafana.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "grafana",
+  service: "grafana",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -608,6 +623,8 @@ export const associateLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLicense",
+  telemetry: TELEMETRY,
+  span: "AssociateLicense",
 }));
 
 export type CreateWorkspaceError =
@@ -642,6 +659,8 @@ export const createWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspace",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspace",
 }));
 
 export type CreateWorkspaceApiKeyError =
@@ -678,6 +697,8 @@ export const createWorkspaceApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceApiKey",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceApiKey",
 }));
 
 export type CreateWorkspaceServiceAccountError =
@@ -718,6 +739,8 @@ export const createWorkspaceServiceAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceServiceAccount",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceServiceAccount",
 }));
 
 export type CreateWorkspaceServiceAccountTokenError =
@@ -758,6 +781,8 @@ export const createWorkspaceServiceAccountToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceServiceAccountToken",
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceServiceAccountToken",
 }));
 
 export type DeleteWorkspaceError =
@@ -790,6 +815,8 @@ export const deleteWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspace",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspace",
 }));
 
 export type DeleteWorkspaceApiKeyError =
@@ -824,6 +851,8 @@ export const deleteWorkspaceApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceApiKey",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceApiKey",
 }));
 
 export type DeleteWorkspaceServiceAccountError =
@@ -860,6 +889,8 @@ export const deleteWorkspaceServiceAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceServiceAccount",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceServiceAccount",
 }));
 
 export type DeleteWorkspaceServiceAccountTokenError =
@@ -896,6 +927,8 @@ export const deleteWorkspaceServiceAccountToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceServiceAccountToken",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceServiceAccountToken",
 }));
 
 export type DescribeWorkspaceError =
@@ -926,6 +959,8 @@ export const describeWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspace",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspace",
 }));
 
 export type DescribeWorkspaceAuthenticationError =
@@ -958,6 +993,8 @@ export const describeWorkspaceAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceAuthentication",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspaceAuthentication",
 }));
 
 export type DescribeWorkspaceConfigurationError =
@@ -986,6 +1023,8 @@ export const describeWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeWorkspaceConfiguration",
 }));
 
 export type DisassociateLicenseError =
@@ -1016,6 +1055,8 @@ export const disassociateLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLicense",
+  telemetry: TELEMETRY,
+  span: "DisassociateLicense",
 }));
 
 export type ListPermissionsError =
@@ -1053,6 +1094,8 @@ export const listPermissions: API.PaginatedOperationMethod<
     items: "permissions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1083,6 +1126,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVersionsError =
@@ -1120,6 +1165,8 @@ export const listVersions: API.PaginatedOperationMethod<
     items: "grafanaVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVersions",
 })) as any;
 
 export type ListWorkspacesError =
@@ -1149,6 +1196,8 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "workspaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 })) as any;
 
 export type ListWorkspaceServiceAccountsError =
@@ -1190,6 +1239,8 @@ export const listWorkspaceServiceAccounts: API.PaginatedOperationMethod<
     items: "serviceAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceServiceAccounts",
 })) as any;
 
 export type ListWorkspaceServiceAccountTokensError =
@@ -1233,6 +1284,8 @@ export const listWorkspaceServiceAccountTokens: API.PaginatedOperationMethod<
     items: "serviceAccountTokens",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceServiceAccountTokens",
 })) as any;
 
 export type TagResourceError =
@@ -1265,6 +1318,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1295,6 +1350,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePermissionsError =
@@ -1325,6 +1382,8 @@ export const updatePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePermissions",
+  telemetry: TELEMETRY,
+  span: "UpdatePermissions",
 }));
 
 export type UpdateWorkspaceError =
@@ -1361,6 +1420,8 @@ export const updateWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspace",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspace",
 }));
 
 export type UpdateWorkspaceAuthenticationError =
@@ -1395,6 +1456,8 @@ export const updateWorkspaceAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceAuthentication",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceAuthentication",
 }));
 
 export type UpdateWorkspaceConfigurationError =
@@ -1427,6 +1490,8 @@ export const updateWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

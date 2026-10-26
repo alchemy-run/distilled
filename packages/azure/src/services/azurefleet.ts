@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AzureFleet" },
+  prefix: "Azurefleet",
+  service: "Azurefleet",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1548,6 +1568,8 @@ export const DeleteFleet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type FleetsCreateOrUpdateError = AzureOpError;
@@ -1563,6 +1585,8 @@ export const FleetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FleetsCreateOrUpdate",
 }));
 
 export type GetFleetError = AzureOpError;
@@ -1578,6 +1602,8 @@ export const GetFleet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFleet",
 }));
 
 export type ListFleetByResourceGroupError = AzureOpError;
@@ -1593,6 +1619,8 @@ export const ListFleetByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetByResourceGroup",
 }));
 
 export type ListFleetBySubscriptionError = AzureOpError;
@@ -1608,6 +1636,8 @@ export const ListFleetBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetBySubscription",
 }));
 
 export type ListFleetVirtualMachinesError = AzureOpError;
@@ -1623,6 +1653,8 @@ export const ListFleetVirtualMachines: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetVirtualMachines",
 }));
 
 export type ListFleetVirtualMachineScaleSetsError = AzureOpError;
@@ -1638,6 +1670,8 @@ export const ListFleetVirtualMachineScaleSets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFleetVirtualMachineScaleSets",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1653,6 +1687,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateFleetError = AzureOpError;
@@ -1668,6 +1704,8 @@ export const UpdateFleet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFleet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

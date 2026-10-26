@@ -21,6 +21,7 @@ import {
   RENAME_METADATA_KEY,
   verbNounSmithyModel,
 } from "./rewrite-operation-ids.ts";
+import { applyTelemetryTraits, providerDefaults, type TelemetryOptions } from "./telemetry.ts";
 
 export type OnStalePatch = "fail" | "warn";
 
@@ -249,6 +250,12 @@ export interface FinalizeOptions {
   readonly transform?: (model: any, resource: string) => string | void;
   readonly operationNaming?: "as-is" | "verbNoun";
   readonly onStalePatch?: OnStalePatch;
+  /**
+   * Telemetry traits stamped after patches and renames (see
+   * `./telemetry.ts`). Merged over the package's defaults; `false` stamps
+   * none.
+   */
+  readonly telemetry?: TelemetryOptions | false;
 }
 
 /** A patch file read once, with only its Smithy ops. */
@@ -366,6 +373,10 @@ const finalizeModel = (
 
   const note = o.transform?.(model, resource);
   if (note) log(`   ${note}`);
+
+  if (o.telemetry !== false) {
+    applyTelemetryTraits(model, resource, providerDefaults(o.root, o.telemetry));
+  }
 
   syncServiceOperations(model);
 

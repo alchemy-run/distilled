@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "monitoring" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Monitoring",
+  service: "monitoring",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1143,6 +1162,8 @@ export const createLocationsGlobalMetricsScopesProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLocationsGlobalMetricsScopesProjects",
 }));
 
 export type CreateProjectsDashboardsError =
@@ -1163,6 +1184,8 @@ export const createProjectsDashboards: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsDashboards",
 }));
 
 export type DeleteLocationsGlobalMetricsScopesProjectsError =
@@ -1183,6 +1206,8 @@ export const deleteLocationsGlobalMetricsScopesProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLocationsGlobalMetricsScopesProjects",
 }));
 
 export type DeleteProjectsDashboardsError =
@@ -1203,6 +1228,8 @@ export const deleteProjectsDashboards: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsDashboards",
 }));
 
 export type GetLocationsGlobalMetricsScopesError = NotFound | Forbidden | GcpOpError;
@@ -1218,6 +1245,8 @@ export const getLocationsGlobalMetricsScopes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLocationsGlobalMetricsScopes",
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1233,6 +1262,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type GetProjectsDashboardsError = NotFound | Forbidden | GcpOpError;
@@ -1248,6 +1279,8 @@ export const getProjectsDashboards: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsDashboards",
 }));
 
 export type LabelsProjectsLocationPrometheusApiV1Error =
@@ -1268,6 +1301,8 @@ export const labelsProjectsLocationPrometheusApiV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LabelsProjectsLocationPrometheusApiV1",
 }));
 
 export type ListMetricsScopesByMonitoredProjectLocationsGlobalMetricsScopesError =
@@ -1290,6 +1325,8 @@ export const listMetricsScopesByMonitoredProjectLocationsGlobalMetricsScopes: AP
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetricsScopesByMonitoredProjectLocationsGlobalMetricsScopes",
 }));
 
 export type ListProjectsDashboardsError = NotFound | Forbidden | GcpOpError;
@@ -1306,6 +1343,8 @@ export const listProjectsDashboards: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsDashboards",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1322,6 +1361,8 @@ export const listProjectsLocationPrometheusApiV1Metadata: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationPrometheusApiV1Metadata",
 }));
 
 export type PatchProjectsDashboardsError =
@@ -1342,6 +1383,8 @@ export const patchProjectsDashboards: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsDashboards",
 }));
 
 export type Query_exemplarsProjectsLocationPrometheusApiV1Error =
@@ -1366,6 +1409,8 @@ export const query_exemplarsProjectsLocationPrometheusApiV1: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Query_exemplarsProjectsLocationPrometheusApiV1",
 }));
 
 export type Query_rangeProjectsLocationPrometheusApiV1Error =
@@ -1386,6 +1431,8 @@ export const query_rangeProjectsLocationPrometheusApiV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Query_rangeProjectsLocationPrometheusApiV1",
 }));
 
 export type QueryProjectsLocationPrometheusApiV1Error =
@@ -1406,6 +1453,8 @@ export const queryProjectsLocationPrometheusApiV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryProjectsLocationPrometheusApiV1",
 }));
 
 export type SeriesProjectsLocationPrometheusApiV1Error =
@@ -1426,6 +1475,8 @@ export const seriesProjectsLocationPrometheusApiV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SeriesProjectsLocationPrometheusApiV1",
 }));
 
 export type ValuesProjectsLocationPrometheusApiV1LabelError = NotFound | Forbidden | GcpOpError;
@@ -1441,6 +1492,8 @@ export const valuesProjectsLocationPrometheusApiV1Label: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValuesProjectsLocationPrometheusApiV1Label",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { ForgejoOpError, ForgejoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "forgejo-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Forgejo",
+  service: "ForgejoNotification",
+  labels: "forgejo",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -344,6 +357,8 @@ export const notifyGetList: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotifyGetList",
 }));
 
 export type NotifyGetRepoListError = ForgejoOpError;
@@ -359,6 +374,8 @@ export const notifyGetRepoList: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotifyGetRepoList",
 }));
 
 export type NotifyGetThreadError = Forbidden | NotFound | ForgejoOpError;
@@ -374,6 +391,8 @@ export const notifyGetThread: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotifyGetThread",
 }));
 
 export type NotifyNewAvailableError = ForgejoOpError;
@@ -389,6 +408,8 @@ export const notifyNewAvailable: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotifyNewAvailable",
 }));
 
 export type NotifyReadListError = ForgejoOpError;
@@ -404,6 +425,8 @@ export const notifyReadList: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotifyReadList",
 }));
 
 export type NotifyReadRepoListError = ForgejoOpError;
@@ -419,6 +442,8 @@ export const notifyReadRepoList: API.OperationMethod<
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotifyReadRepoList",
 }));
 
 export type NotifyReadThreadError = Forbidden | NotFound | ForgejoOpError;
@@ -434,6 +459,8 @@ export const notifyReadThread: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NotifyReadThread",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

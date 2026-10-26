@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -68,6 +69,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rum.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RUM",
+  service: "RUM",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -535,6 +550,8 @@ export const batchCreateRumMetricDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateRumMetricDefinitions",
+  telemetry: TELEMETRY,
+  span: "BatchCreateRumMetricDefinitions",
 }));
 
 export type BatchDeleteRumMetricDefinitionsError =
@@ -571,6 +588,8 @@ export const batchDeleteRumMetricDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteRumMetricDefinitions",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteRumMetricDefinitions",
 }));
 
 export type BatchGetRumMetricDefinitionsError =
@@ -606,6 +625,8 @@ export const batchGetRumMetricDefinitions: API.PaginatedOperationMethod<
     items: "MetricDefinitions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "BatchGetRumMetricDefinitions",
 })) as any;
 
 export type CreateAppMonitorError =
@@ -644,6 +665,8 @@ export const createAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppMonitor",
+  telemetry: TELEMETRY,
+  span: "CreateAppMonitor",
 }));
 
 export type DeleteAppMonitorError =
@@ -676,6 +699,8 @@ export const deleteAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppMonitor",
+  telemetry: TELEMETRY,
+  span: "DeleteAppMonitor",
 }));
 
 export type DeleteResourcePolicyError =
@@ -712,6 +737,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteRumMetricsDestinationError =
@@ -744,6 +771,8 @@ export const deleteRumMetricsDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRumMetricsDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteRumMetricsDestination",
 }));
 
 export type GetAppMonitorError =
@@ -774,6 +803,8 @@ export const getAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppMonitor",
+  telemetry: TELEMETRY,
+  span: "GetAppMonitor",
 }));
 
 export type GetAppMonitorDataError =
@@ -811,6 +842,8 @@ export const getAppMonitorData: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAppMonitorData",
 })) as any;
 
 export type GetResourcePolicyError =
@@ -845,6 +878,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type ListAppMonitorsError =
@@ -880,6 +915,8 @@ export const listAppMonitors: API.PaginatedOperationMethod<
     items: "AppMonitorSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAppMonitors",
 })) as any;
 
 export type ListRumMetricsDestinationsError =
@@ -917,6 +954,8 @@ export const listRumMetricsDestinations: API.PaginatedOperationMethod<
     items: "Destinations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRumMetricsDestinations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -939,6 +978,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutResourcePolicyError =
@@ -977,6 +1018,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type PutRumEventsError =
@@ -1010,6 +1053,8 @@ export const putRumEvents: API.OperationMethod<
   retry: Retry,
   operationName: "PutRumEvents",
   endpointHostPrefix: "dataplane.",
+  telemetry: TELEMETRY,
+  span: "PutRumEvents",
 }));
 
 export type PutRumMetricsDestinationError =
@@ -1044,6 +1089,8 @@ export const putRumMetricsDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRumMetricsDestination",
+  telemetry: TELEMETRY,
+  span: "PutRumMetricsDestination",
 }));
 
 export type TagResourceError =
@@ -1076,6 +1123,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1098,6 +1147,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAppMonitorError =
@@ -1136,6 +1187,8 @@ export const updateAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppMonitor",
+  telemetry: TELEMETRY,
+  span: "UpdateAppMonitor",
 }));
 
 export type UpdateRumMetricDefinitionError =
@@ -1170,6 +1223,8 @@ export const updateRumMetricDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRumMetricDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateRumMetricDefinition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

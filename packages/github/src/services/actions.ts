@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Actions",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -4190,6 +4208,8 @@ export const addCustomLabelsToSelfHostedRunnerForOrg: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCustomLabelsToSelfHostedRunnerForOrg",
 }));
 
 export type AddCustomLabelsToSelfHostedRunnerForRepoError =
@@ -4208,6 +4228,8 @@ export const addCustomLabelsToSelfHostedRunnerForRepo: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCustomLabelsToSelfHostedRunnerForRepo",
 }));
 
 export type AddRepoAccessToSelfHostedRunnerGroupInOrgError = GithubOpError;
@@ -4227,6 +4249,8 @@ export const addRepoAccessToSelfHostedRunnerGroupInOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRepoAccessToSelfHostedRunnerGroupInOrg",
 }));
 
 export type AddSelectedRepoToOrgSecretError = Conflict | GithubOpError;
@@ -4242,6 +4266,8 @@ export const addSelectedRepoToOrgSecret: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSelectedRepoToOrgSecret",
 }));
 
 export type AddSelectedRepoToOrgVariableError = Conflict | GithubOpError;
@@ -4257,6 +4283,8 @@ export const addSelectedRepoToOrgVariable: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSelectedRepoToOrgVariable",
 }));
 
 export type AddSelfHostedRunnerToGroupForOrgError = GithubOpError;
@@ -4272,6 +4300,8 @@ export const addSelfHostedRunnerToGroupForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSelfHostedRunnerToGroupForOrg",
 }));
 
 export type ApproveWorkflowRunError = Forbidden | NotFound | GithubOpError;
@@ -4287,6 +4317,8 @@ export const approveWorkflowRun: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveWorkflowRun",
 }));
 
 export type CancelWorkflowRunError = Conflict | GithubOpError;
@@ -4302,6 +4334,8 @@ export const cancelWorkflowRun: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelWorkflowRun",
 }));
 
 export type CreateEnvironmentVariableError = GithubOpError;
@@ -4317,6 +4351,8 @@ export const createEnvironmentVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironmentVariable",
 }));
 
 export type CreateHostedRunnerForOrgError = GithubOpError;
@@ -4332,6 +4368,8 @@ export const createHostedRunnerForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostedRunnerForOrg",
 }));
 
 export type CreateOrgActionsPolicyError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4347,6 +4385,8 @@ export const createOrgActionsPolicy: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgActionsPolicy",
 }));
 
 export type CreateOrgVariableError = GithubOpError;
@@ -4362,6 +4402,8 @@ export const createOrgVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgVariable",
 }));
 
 export type CreateOrUpdateEnvironmentSecretError = GithubOpError;
@@ -4377,6 +4419,8 @@ export const createOrUpdateEnvironmentSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateEnvironmentSecret",
 }));
 
 export type CreateOrUpdateOrgSecretError = GithubOpError;
@@ -4392,6 +4436,8 @@ export const createOrUpdateOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateOrgSecret",
 }));
 
 export type CreateOrUpdateRepoSecretError = GithubOpError;
@@ -4407,6 +4453,8 @@ export const createOrUpdateRepoSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrUpdateRepoSecret",
 }));
 
 export type CreateRegistrationTokenForOrgError = GithubOpError;
@@ -4422,6 +4470,8 @@ export const createRegistrationTokenForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegistrationTokenForOrg",
 }));
 
 export type CreateRegistrationTokenForRepoError = GithubOpError;
@@ -4437,6 +4487,8 @@ export const createRegistrationTokenForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegistrationTokenForRepo",
 }));
 
 export type CreateRemoveTokenForOrgError = GithubOpError;
@@ -4452,6 +4504,8 @@ export const createRemoveTokenForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRemoveTokenForOrg",
 }));
 
 export type CreateRemoveTokenForRepoError = GithubOpError;
@@ -4467,6 +4521,8 @@ export const createRemoveTokenForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRemoveTokenForRepo",
 }));
 
 export type CreateRepoActionsPolicyError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4482,6 +4538,8 @@ export const createRepoActionsPolicy: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepoActionsPolicy",
 }));
 
 export type CreateRepoVariableError = GithubOpError;
@@ -4497,6 +4555,8 @@ export const createRepoVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepoVariable",
 }));
 
 export type CreateSelfHostedRunnerGroupForOrgError = GithubOpError;
@@ -4512,6 +4572,8 @@ export const createSelfHostedRunnerGroupForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSelfHostedRunnerGroupForOrg",
 }));
 
 export type CreateWorkflowDispatchError = GithubOpError;
@@ -4527,6 +4589,8 @@ export const createWorkflowDispatch: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowDispatch",
 }));
 
 export type DeleteActionsCacheByIdError = GithubOpError;
@@ -4542,6 +4606,8 @@ export const deleteActionsCacheById: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActionsCacheById",
 }));
 
 export type DeleteActionsCacheByKeyError = GithubOpError;
@@ -4557,6 +4623,8 @@ export const deleteActionsCacheByKey: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteActionsCacheByKey",
 }));
 
 export type DeleteArtifactError = GithubOpError;
@@ -4572,6 +4640,8 @@ export const deleteArtifact: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteArtifact",
 }));
 
 export type DeleteCustomImageFromOrgError = GithubOpError;
@@ -4587,6 +4657,8 @@ export const deleteCustomImageFromOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomImageFromOrg",
 }));
 
 export type DeleteCustomImageVersionFromOrgError = GithubOpError;
@@ -4602,6 +4674,8 @@ export const deleteCustomImageVersionFromOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomImageVersionFromOrg",
 }));
 
 export type DeleteEnvironmentSecretError = GithubOpError;
@@ -4617,6 +4691,8 @@ export const deleteEnvironmentSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentSecret",
 }));
 
 export type DeleteEnvironmentVariableError = GithubOpError;
@@ -4632,6 +4708,8 @@ export const deleteEnvironmentVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironmentVariable",
 }));
 
 export type DeleteHostedRunnerForOrgError = GithubOpError;
@@ -4647,6 +4725,8 @@ export const deleteHostedRunnerForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostedRunnerForOrg",
 }));
 
 export type DeleteOrgActionsPolicyError = NotFound | GithubOpError;
@@ -4662,6 +4742,8 @@ export const deleteOrgActionsPolicy: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgActionsPolicy",
 }));
 
 export type DeleteOrgSecretError = GithubOpError;
@@ -4677,6 +4759,8 @@ export const deleteOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgSecret",
 }));
 
 export type DeleteOrgVariableError = GithubOpError;
@@ -4692,6 +4776,8 @@ export const deleteOrgVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgVariable",
 }));
 
 export type DeleteRepoActionsPolicyError = NotFound | GithubOpError;
@@ -4707,6 +4793,8 @@ export const deleteRepoActionsPolicy: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoActionsPolicy",
 }));
 
 export type DeleteRepoSecretError = GithubOpError;
@@ -4722,6 +4810,8 @@ export const deleteRepoSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoSecret",
 }));
 
 export type DeleteRepoVariableError = GithubOpError;
@@ -4737,6 +4827,8 @@ export const deleteRepoVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoVariable",
 }));
 
 export type DeleteSelfHostedRunnerFromOrgError = UnprocessableEntity | GithubOpError;
@@ -4752,6 +4844,8 @@ export const deleteSelfHostedRunnerFromOrg: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSelfHostedRunnerFromOrg",
 }));
 
 export type DeleteSelfHostedRunnerFromRepoError = UnprocessableEntity | GithubOpError;
@@ -4767,6 +4861,8 @@ export const deleteSelfHostedRunnerFromRepo: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSelfHostedRunnerFromRepo",
 }));
 
 export type DeleteSelfHostedRunnerGroupFromOrgError = GithubOpError;
@@ -4782,6 +4878,8 @@ export const deleteSelfHostedRunnerGroupFromOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSelfHostedRunnerGroupFromOrg",
 }));
 
 export type DeleteWorkflowRunError = GithubOpError;
@@ -4797,6 +4895,8 @@ export const deleteWorkflowRun: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowRun",
 }));
 
 export type DeleteWorkflowRunLogsError = Forbidden | GithubOpError;
@@ -4812,6 +4912,8 @@ export const deleteWorkflowRunLogs: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowRunLogs",
 }));
 
 export type DisableSelectedRepositoryGithubActionsOrganizationError = GithubOpError;
@@ -4835,6 +4937,8 @@ export const disableSelectedRepositoryGithubActionsOrganization: API.OperationMe
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableSelectedRepositoryGithubActionsOrganization",
 }));
 
 export type DisableSelectedRepositorySelfHostedRunnersOrganizationError =
@@ -4863,6 +4967,8 @@ export const disableSelectedRepositorySelfHostedRunnersOrganization: API.Operati
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableSelectedRepositorySelfHostedRunnersOrganization",
 }));
 
 export type DisableWorkflowError = GithubOpError;
@@ -4878,6 +4984,8 @@ export const disableWorkflow: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableWorkflow",
 }));
 
 export type DownloadArtifactError = Gone | GithubOpError;
@@ -4893,6 +5001,8 @@ export const downloadArtifact: API.OperationMethod<
   errors: [Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadArtifact",
 }));
 
 export type DownloadJobLogsForWorkflowRunError = GithubOpError;
@@ -4908,6 +5018,8 @@ export const downloadJobLogsForWorkflowRun: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadJobLogsForWorkflowRun",
 }));
 
 export type DownloadStepLogsForWorkflowRunJobError = GithubOpError;
@@ -4923,6 +5035,8 @@ export const downloadStepLogsForWorkflowRunJob: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadStepLogsForWorkflowRunJob",
 }));
 
 export type DownloadWorkflowRunAttemptLogsError = GithubOpError;
@@ -4938,6 +5052,8 @@ export const downloadWorkflowRunAttemptLogs: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadWorkflowRunAttemptLogs",
 }));
 
 export type DownloadWorkflowRunLogsError = GithubOpError;
@@ -4953,6 +5069,8 @@ export const downloadWorkflowRunLogs: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadWorkflowRunLogs",
 }));
 
 export type EnableSelectedRepositoryGithubActionsOrganizationError = GithubOpError;
@@ -4976,6 +5094,8 @@ export const enableSelectedRepositoryGithubActionsOrganization: API.OperationMet
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableSelectedRepositoryGithubActionsOrganization",
 }));
 
 export type EnableSelectedRepositorySelfHostedRunnersOrganizationError =
@@ -5004,6 +5124,8 @@ export const enableSelectedRepositorySelfHostedRunnersOrganization: API.Operatio
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableSelectedRepositorySelfHostedRunnersOrganization",
 }));
 
 export type EnableWorkflowError = GithubOpError;
@@ -5019,6 +5141,8 @@ export const enableWorkflow: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableWorkflow",
 }));
 
 export type ForceCancelWorkflowRunError = Conflict | GithubOpError;
@@ -5034,6 +5158,8 @@ export const forceCancelWorkflowRun: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForceCancelWorkflowRun",
 }));
 
 export type GenerateRunnerJitconfigForOrgError =
@@ -5053,6 +5179,8 @@ export const generateRunnerJitconfigForOrg: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateRunnerJitconfigForOrg",
 }));
 
 export type GenerateRunnerJitconfigForRepoError =
@@ -5072,6 +5200,8 @@ export const generateRunnerJitconfigForRepo: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateRunnerJitconfigForRepo",
 }));
 
 export type GetActionsCacheListError = GithubOpError;
@@ -5087,6 +5217,8 @@ export const getActionsCacheList: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheList",
 }));
 
 export type GetActionsCacheRetentionLimitForEnterpriseError = Forbidden | NotFound | GithubOpError;
@@ -5102,6 +5234,8 @@ export const getActionsCacheRetentionLimitForEnterprise: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheRetentionLimitForEnterprise",
 }));
 
 export type GetActionsCacheRetentionLimitForOrganizationError =
@@ -5124,6 +5258,8 @@ export const getActionsCacheRetentionLimitForOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheRetentionLimitForOrganization",
 }));
 
 export type GetActionsCacheRetentionLimitForRepositoryError = Forbidden | NotFound | GithubOpError;
@@ -5139,6 +5275,8 @@ export const getActionsCacheRetentionLimitForRepository: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheRetentionLimitForRepository",
 }));
 
 export type GetActionsCacheStorageLimitForEnterpriseError = Forbidden | NotFound | GithubOpError;
@@ -5154,6 +5292,8 @@ export const getActionsCacheStorageLimitForEnterprise: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheStorageLimitForEnterprise",
 }));
 
 export type GetActionsCacheStorageLimitForOrganizationError = Forbidden | NotFound | GithubOpError;
@@ -5169,6 +5309,8 @@ export const getActionsCacheStorageLimitForOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheStorageLimitForOrganization",
 }));
 
 export type GetActionsCacheStorageLimitForRepositoryError = Forbidden | NotFound | GithubOpError;
@@ -5184,6 +5326,8 @@ export const getActionsCacheStorageLimitForRepository: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheStorageLimitForRepository",
 }));
 
 export type GetActionsCacheUsageError = GithubOpError;
@@ -5199,6 +5343,8 @@ export const getActionsCacheUsage: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheUsage",
 }));
 
 export type GetActionsCacheUsageByRepoForOrgError = GithubOpError;
@@ -5214,6 +5360,8 @@ export const getActionsCacheUsageByRepoForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheUsageByRepoForOrg",
 }));
 
 export type GetActionsCacheUsageForOrgError = GithubOpError;
@@ -5229,6 +5377,8 @@ export const getActionsCacheUsageForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActionsCacheUsageForOrg",
 }));
 
 export type GetAllowedActionsOrganizationError = GithubOpError;
@@ -5244,6 +5394,8 @@ export const getAllowedActionsOrganization: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllowedActionsOrganization",
 }));
 
 export type GetAllowedActionsRepositoryError = GithubOpError;
@@ -5259,6 +5411,8 @@ export const getAllowedActionsRepository: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllowedActionsRepository",
 }));
 
 export type GetArtifactError = GithubOpError;
@@ -5274,6 +5428,8 @@ export const getArtifact: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArtifact",
 }));
 
 export type GetArtifactAndLogRetentionSettingsOrganizationError =
@@ -5296,6 +5452,8 @@ export const getArtifactAndLogRetentionSettingsOrganization: API.OperationMethod
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArtifactAndLogRetentionSettingsOrganization",
 }));
 
 export type GetArtifactAndLogRetentionSettingsRepositoryError = NotFound | GithubOpError;
@@ -5315,6 +5473,8 @@ export const getArtifactAndLogRetentionSettingsRepository: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArtifactAndLogRetentionSettingsRepository",
 }));
 
 export type GetConcurrencyGroupForRepositoryError = NotFound | UnprocessableEntity | GithubOpError;
@@ -5330,6 +5490,8 @@ export const getConcurrencyGroupForRepository: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConcurrencyGroupForRepository",
 }));
 
 export type GetCustomImageForOrgError = GithubOpError;
@@ -5345,6 +5507,8 @@ export const getCustomImageForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomImageForOrg",
 }));
 
 export type GetCustomImageVersionForOrgError = GithubOpError;
@@ -5360,6 +5524,8 @@ export const getCustomImageVersionForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomImageVersionForOrg",
 }));
 
 export type GetCustomOidcSubClaimForRepoError = BadRequest | NotFound | GithubOpError;
@@ -5375,6 +5541,8 @@ export const getCustomOidcSubClaimForRepo: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomOidcSubClaimForRepo",
 }));
 
 export type GetEnvironmentPublicKeyError = GithubOpError;
@@ -5390,6 +5558,8 @@ export const getEnvironmentPublicKey: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentPublicKey",
 }));
 
 export type GetEnvironmentSecretError = GithubOpError;
@@ -5405,6 +5575,8 @@ export const getEnvironmentSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentSecret",
 }));
 
 export type GetEnvironmentVariableError = GithubOpError;
@@ -5420,6 +5592,8 @@ export const getEnvironmentVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironmentVariable",
 }));
 
 export type GetForkPrContributorApprovalPermissionsOrganizationError = NotFound | GithubOpError;
@@ -5439,6 +5613,8 @@ export const getForkPrContributorApprovalPermissionsOrganization: API.OperationM
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForkPrContributorApprovalPermissionsOrganization",
 }));
 
 export type GetForkPrContributorApprovalPermissionsRepositoryError = NotFound | GithubOpError;
@@ -5458,6 +5634,8 @@ export const getForkPrContributorApprovalPermissionsRepository: API.OperationMet
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetForkPrContributorApprovalPermissionsRepository",
 }));
 
 export type GetGithubActionsDefaultWorkflowPermissionsOrganizationError = GithubOpError;
@@ -5477,6 +5655,8 @@ export const getGithubActionsDefaultWorkflowPermissionsOrganization: API.Operati
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubActionsDefaultWorkflowPermissionsOrganization",
 }));
 
 export type GetGithubActionsDefaultWorkflowPermissionsRepositoryError = GithubOpError;
@@ -5496,6 +5676,8 @@ export const getGithubActionsDefaultWorkflowPermissionsRepository: API.Operation
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubActionsDefaultWorkflowPermissionsRepository",
 }));
 
 export type GetGithubActionsPermissionsOrganizationError = GithubOpError;
@@ -5511,6 +5693,8 @@ export const getGithubActionsPermissionsOrganization: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubActionsPermissionsOrganization",
 }));
 
 export type GetGithubActionsPermissionsRepositoryError = GithubOpError;
@@ -5526,6 +5710,8 @@ export const getGithubActionsPermissionsRepository: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGithubActionsPermissionsRepository",
 }));
 
 export type GetHostedRunnerForOrgError = GithubOpError;
@@ -5541,6 +5727,8 @@ export const getHostedRunnerForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostedRunnerForOrg",
 }));
 
 export type GetHostedRunnersGithubOwnedImagesForOrgError = GithubOpError;
@@ -5556,6 +5744,8 @@ export const getHostedRunnersGithubOwnedImagesForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostedRunnersGithubOwnedImagesForOrg",
 }));
 
 export type GetHostedRunnersLimitsForOrgError = GithubOpError;
@@ -5571,6 +5761,8 @@ export const getHostedRunnersLimitsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostedRunnersLimitsForOrg",
 }));
 
 export type GetHostedRunnersMachineSpecsForOrgError = GithubOpError;
@@ -5586,6 +5778,8 @@ export const getHostedRunnersMachineSpecsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostedRunnersMachineSpecsForOrg",
 }));
 
 export type GetHostedRunnersPartnerImagesForOrgError = GithubOpError;
@@ -5601,6 +5795,8 @@ export const getHostedRunnersPartnerImagesForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostedRunnersPartnerImagesForOrg",
 }));
 
 export type GetHostedRunnersPlatformsForOrgError = GithubOpError;
@@ -5616,6 +5812,8 @@ export const getHostedRunnersPlatformsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostedRunnersPlatformsForOrg",
 }));
 
 export type GetJobForWorkflowRunError = GithubOpError;
@@ -5631,6 +5829,8 @@ export const getJobForWorkflowRun: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobForWorkflowRun",
 }));
 
 export type GetOrgActionsPoliciesError = NotFound | GithubOpError;
@@ -5646,6 +5846,8 @@ export const getOrgActionsPolicies: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgActionsPolicies",
 }));
 
 export type GetOrgActionsPolicyError = NotFound | GithubOpError;
@@ -5661,6 +5863,8 @@ export const getOrgActionsPolicy: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgActionsPolicy",
 }));
 
 export type GetOrgPublicKeyError = GithubOpError;
@@ -5676,6 +5880,8 @@ export const getOrgPublicKey: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgPublicKey",
 }));
 
 export type GetOrgSecretError = GithubOpError;
@@ -5691,6 +5897,8 @@ export const getOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgSecret",
 }));
 
 export type GetOrgVariableError = GithubOpError;
@@ -5706,6 +5914,8 @@ export const getOrgVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgVariable",
 }));
 
 export type GetPendingDeploymentsForRunError = GithubOpError;
@@ -5721,6 +5931,8 @@ export const getPendingDeploymentsForRun: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPendingDeploymentsForRun",
 }));
 
 export type GetPrivateRepoForkPrWorkflowsSettingsOrganizationError =
@@ -5743,6 +5955,8 @@ export const getPrivateRepoForkPrWorkflowsSettingsOrganization: API.OperationMet
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateRepoForkPrWorkflowsSettingsOrganization",
 }));
 
 export type GetPrivateRepoForkPrWorkflowsSettingsRepositoryError =
@@ -5765,6 +5979,8 @@ export const getPrivateRepoForkPrWorkflowsSettingsRepository: API.OperationMetho
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateRepoForkPrWorkflowsSettingsRepository",
 }));
 
 export type GetRepoActionsPoliciesError = NotFound | GithubOpError;
@@ -5780,6 +5996,8 @@ export const getRepoActionsPolicies: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoActionsPolicies",
 }));
 
 export type GetRepoActionsPolicyError = NotFound | GithubOpError;
@@ -5795,6 +6013,8 @@ export const getRepoActionsPolicy: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoActionsPolicy",
 }));
 
 export type GetRepoPublicKeyError = GithubOpError;
@@ -5810,6 +6030,8 @@ export const getRepoPublicKey: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoPublicKey",
 }));
 
 export type GetRepoSecretError = GithubOpError;
@@ -5825,6 +6047,8 @@ export const getRepoSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoSecret",
 }));
 
 export type GetRepoVariableError = GithubOpError;
@@ -5840,6 +6064,8 @@ export const getRepoVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepoVariable",
 }));
 
 export type GetReviewsForRunError = GithubOpError;
@@ -5855,6 +6081,8 @@ export const getReviewsForRun: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReviewsForRun",
 }));
 
 export type GetRunnerVersionDeprecationForOrgError = GithubOpError;
@@ -5870,6 +6098,8 @@ export const getRunnerVersionDeprecationForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunnerVersionDeprecationForOrg",
 }));
 
 export type GetRunnerVersionDeprecationForRepoError = GithubOpError;
@@ -5885,6 +6115,8 @@ export const getRunnerVersionDeprecationForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunnerVersionDeprecationForRepo",
 }));
 
 export type GetSelfHostedRunnerForOrgError = GithubOpError;
@@ -5900,6 +6132,8 @@ export const getSelfHostedRunnerForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSelfHostedRunnerForOrg",
 }));
 
 export type GetSelfHostedRunnerForRepoError = GithubOpError;
@@ -5915,6 +6149,8 @@ export const getSelfHostedRunnerForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSelfHostedRunnerForRepo",
 }));
 
 export type GetSelfHostedRunnerGroupForOrgError = GithubOpError;
@@ -5930,6 +6166,8 @@ export const getSelfHostedRunnerGroupForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSelfHostedRunnerGroupForOrg",
 }));
 
 export type GetSelfHostedRunnersPermissionsOrganizationError = Forbidden | NotFound | GithubOpError;
@@ -5945,6 +6183,8 @@ export const getSelfHostedRunnersPermissionsOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSelfHostedRunnersPermissionsOrganization",
 }));
 
 export type GetWorkflowError = GithubOpError;
@@ -5960,6 +6200,8 @@ export const getWorkflow: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowAccessToRepositoryError = GithubOpError;
@@ -5975,6 +6217,8 @@ export const getWorkflowAccessToRepository: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowAccessToRepository",
 }));
 
 export type GetWorkflowRunError = GithubOpError;
@@ -5990,6 +6234,8 @@ export const getWorkflowRun: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRun",
 }));
 
 export type GetWorkflowRunAttemptError = GithubOpError;
@@ -6005,6 +6251,8 @@ export const getWorkflowRunAttempt: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRunAttempt",
 }));
 
 export type GetWorkflowRunUsageError = GithubOpError;
@@ -6020,6 +6268,8 @@ export const getWorkflowRunUsage: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRunUsage",
 }));
 
 export type GetWorkflowUsageError = GithubOpError;
@@ -6035,6 +6285,8 @@ export const getWorkflowUsage: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowUsage",
 }));
 
 export type ListArtifactsForRepoError = GithubOpError;
@@ -6050,6 +6302,8 @@ export const listArtifactsForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArtifactsForRepo",
 }));
 
 export type ListConcurrencyGroupsForRepositoryError = UnprocessableEntity | GithubOpError;
@@ -6065,6 +6319,8 @@ export const listConcurrencyGroupsForRepository: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConcurrencyGroupsForRepository",
 }));
 
 export type ListConcurrencyGroupsForWorkflowRunError =
@@ -6083,6 +6339,8 @@ export const listConcurrencyGroupsForWorkflowRun: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConcurrencyGroupsForWorkflowRun",
 }));
 
 export type ListCustomImagesForOrgError = GithubOpError;
@@ -6098,6 +6356,8 @@ export const listCustomImagesForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomImagesForOrg",
 }));
 
 export type ListCustomImageVersionsForOrgError = GithubOpError;
@@ -6113,6 +6373,8 @@ export const listCustomImageVersionsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomImageVersionsForOrg",
 }));
 
 export type ListEnvironmentSecretsError = GithubOpError;
@@ -6128,6 +6390,8 @@ export const listEnvironmentSecrets: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentSecrets",
 }));
 
 export type ListEnvironmentVariablesError = GithubOpError;
@@ -6143,6 +6407,8 @@ export const listEnvironmentVariables: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentVariables",
 }));
 
 export type ListGithubHostedRunnersInGroupForOrgError = GithubOpError;
@@ -6158,6 +6424,8 @@ export const listGithubHostedRunnersInGroupForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGithubHostedRunnersInGroupForOrg",
 }));
 
 export type ListHostedRunnersForOrgError = GithubOpError;
@@ -6173,6 +6441,8 @@ export const listHostedRunnersForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostedRunnersForOrg",
 }));
 
 export type ListJobsForWorkflowRunError = GithubOpError;
@@ -6188,6 +6458,8 @@ export const listJobsForWorkflowRun: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobsForWorkflowRun",
 }));
 
 export type ListJobsForWorkflowRunAttemptError = NotFound | GithubOpError;
@@ -6203,6 +6475,8 @@ export const listJobsForWorkflowRunAttempt: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJobsForWorkflowRunAttempt",
 }));
 
 export type ListLabelsForSelfHostedRunnerForOrgError = NotFound | GithubOpError;
@@ -6218,6 +6492,8 @@ export const listLabelsForSelfHostedRunnerForOrg: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabelsForSelfHostedRunnerForOrg",
 }));
 
 export type ListLabelsForSelfHostedRunnerForRepoError = NotFound | GithubOpError;
@@ -6233,6 +6509,8 @@ export const listLabelsForSelfHostedRunnerForRepo: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLabelsForSelfHostedRunnerForRepo",
 }));
 
 export type ListOrgSecretsError = GithubOpError;
@@ -6248,6 +6526,8 @@ export const listOrgSecrets: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgSecrets",
 }));
 
 export type ListOrgVariablesError = GithubOpError;
@@ -6263,6 +6543,8 @@ export const listOrgVariables: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgVariables",
 }));
 
 export type ListRepoAccessToSelfHostedRunnerGroupInOrgError = GithubOpError;
@@ -6278,6 +6560,8 @@ export const listRepoAccessToSelfHostedRunnerGroupInOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoAccessToSelfHostedRunnerGroupInOrg",
 }));
 
 export type ListRepoOrganizationSecretsError = GithubOpError;
@@ -6293,6 +6577,8 @@ export const listRepoOrganizationSecrets: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoOrganizationSecrets",
 }));
 
 export type ListRepoOrganizationVariablesError = GithubOpError;
@@ -6308,6 +6594,8 @@ export const listRepoOrganizationVariables: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoOrganizationVariables",
 }));
 
 export type ListRepoSecretsError = GithubOpError;
@@ -6323,6 +6611,8 @@ export const listRepoSecrets: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoSecrets",
 }));
 
 export type ListRepoVariablesError = GithubOpError;
@@ -6338,6 +6628,8 @@ export const listRepoVariables: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoVariables",
 }));
 
 export type ListRepoWorkflowsError = GithubOpError;
@@ -6353,6 +6645,8 @@ export const listRepoWorkflows: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoWorkflows",
 }));
 
 export type ListRunnerApplicationsForOrgError = GithubOpError;
@@ -6368,6 +6662,8 @@ export const listRunnerApplicationsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRunnerApplicationsForOrg",
 }));
 
 export type ListRunnerApplicationsForRepoError = GithubOpError;
@@ -6383,6 +6679,8 @@ export const listRunnerApplicationsForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRunnerApplicationsForRepo",
 }));
 
 export type ListSelectedReposForOrgSecretError = GithubOpError;
@@ -6398,6 +6696,8 @@ export const listSelectedReposForOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelectedReposForOrgSecret",
 }));
 
 export type ListSelectedReposForOrgVariableError = Conflict | GithubOpError;
@@ -6413,6 +6713,8 @@ export const listSelectedReposForOrgVariable: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelectedReposForOrgVariable",
 }));
 
 export type ListSelectedRepositoriesEnabledGithubActionsOrganizationError = GithubOpError;
@@ -6436,6 +6738,8 @@ export const listSelectedRepositoriesEnabledGithubActionsOrganization: API.Opera
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelectedRepositoriesEnabledGithubActionsOrganization",
 }));
 
 export type ListSelectedRepositoriesSelfHostedRunnersOrganizationError =
@@ -6462,6 +6766,8 @@ export const listSelectedRepositoriesSelfHostedRunnersOrganization: API.Operatio
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelectedRepositoriesSelfHostedRunnersOrganization",
 }));
 
 export type ListSelfHostedRunnerGroupsForOrgError = GithubOpError;
@@ -6477,6 +6783,8 @@ export const listSelfHostedRunnerGroupsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelfHostedRunnerGroupsForOrg",
 }));
 
 export type ListSelfHostedRunnersForOrgError = GithubOpError;
@@ -6492,6 +6800,8 @@ export const listSelfHostedRunnersForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelfHostedRunnersForOrg",
 }));
 
 export type ListSelfHostedRunnersForRepoError = GithubOpError;
@@ -6507,6 +6817,8 @@ export const listSelfHostedRunnersForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelfHostedRunnersForRepo",
 }));
 
 export type ListSelfHostedRunnersInGroupForOrgError = GithubOpError;
@@ -6522,6 +6834,8 @@ export const listSelfHostedRunnersInGroupForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSelfHostedRunnersInGroupForOrg",
 }));
 
 export type ListWorkflowRunArtifactsError = GithubOpError;
@@ -6537,6 +6851,8 @@ export const listWorkflowRunArtifacts: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRunArtifacts",
 }));
 
 export type ListWorkflowRunsError = GithubOpError;
@@ -6552,6 +6868,8 @@ export const listWorkflowRuns: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRuns",
 }));
 
 export type ListWorkflowRunsForRepoError = GithubOpError;
@@ -6567,6 +6885,8 @@ export const listWorkflowRunsForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRunsForRepo",
 }));
 
 export type RemoveAllCustomLabelsFromSelfHostedRunnerForOrgError = NotFound | GithubOpError;
@@ -6590,6 +6910,8 @@ export const removeAllCustomLabelsFromSelfHostedRunnerForOrg: API.OperationMetho
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAllCustomLabelsFromSelfHostedRunnerForOrg",
 }));
 
 export type RemoveAllCustomLabelsFromSelfHostedRunnerForRepoError = NotFound | GithubOpError;
@@ -6613,6 +6935,8 @@ export const removeAllCustomLabelsFromSelfHostedRunnerForRepo: API.OperationMeth
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAllCustomLabelsFromSelfHostedRunnerForRepo",
 }));
 
 export type RemoveCustomLabelFromSelfHostedRunnerForOrgError =
@@ -6635,6 +6959,8 @@ export const removeCustomLabelFromSelfHostedRunnerForOrg: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCustomLabelFromSelfHostedRunnerForOrg",
 }));
 
 export type RemoveCustomLabelFromSelfHostedRunnerForRepoError =
@@ -6661,6 +6987,8 @@ export const removeCustomLabelFromSelfHostedRunnerForRepo: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCustomLabelFromSelfHostedRunnerForRepo",
 }));
 
 export type RemoveRepoAccessToSelfHostedRunnerGroupInOrgError = GithubOpError;
@@ -6684,6 +7012,8 @@ export const removeRepoAccessToSelfHostedRunnerGroupInOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRepoAccessToSelfHostedRunnerGroupInOrg",
 }));
 
 export type RemoveSelectedRepoFromOrgSecretError = Conflict | GithubOpError;
@@ -6699,6 +7029,8 @@ export const removeSelectedRepoFromOrgSecret: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSelectedRepoFromOrgSecret",
 }));
 
 export type RemoveSelectedRepoFromOrgVariableError = Conflict | GithubOpError;
@@ -6714,6 +7046,8 @@ export const removeSelectedRepoFromOrgVariable: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSelectedRepoFromOrgVariable",
 }));
 
 export type RemoveSelfHostedRunnerFromGroupForOrgError = GithubOpError;
@@ -6729,6 +7063,8 @@ export const removeSelfHostedRunnerFromGroupForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSelfHostedRunnerFromGroupForOrg",
 }));
 
 export type ReRunWorkflowError = GithubOpError;
@@ -6744,6 +7080,8 @@ export const reRunWorkflow: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReRunWorkflow",
 }));
 
 export type ReRunWorkflowFailedJobsError = GithubOpError;
@@ -6759,6 +7097,8 @@ export const reRunWorkflowFailedJobs: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReRunWorkflowFailedJobs",
 }));
 
 export type ReviewCustomGatesForRunError = GithubOpError;
@@ -6774,6 +7114,8 @@ export const reviewCustomGatesForRun: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewCustomGatesForRun",
 }));
 
 export type ReviewPendingDeploymentsForRunError = GithubOpError;
@@ -6789,6 +7131,8 @@ export const reviewPendingDeploymentsForRun: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewPendingDeploymentsForRun",
 }));
 
 export type RunReRunJobForWorkflowError = Forbidden | GithubOpError;
@@ -6804,6 +7148,8 @@ export const runReRunJobForWorkflow: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunReRunJobForWorkflow",
 }));
 
 export type SetActionsCacheRetentionLimitForEnterpriseError =
@@ -6827,6 +7173,8 @@ export const setActionsCacheRetentionLimitForEnterprise: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetActionsCacheRetentionLimitForEnterprise",
 }));
 
 export type SetActionsCacheRetentionLimitForOrganizationError =
@@ -6854,6 +7202,8 @@ export const setActionsCacheRetentionLimitForOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetActionsCacheRetentionLimitForOrganization",
 }));
 
 export type SetActionsCacheRetentionLimitForRepositoryError =
@@ -6877,6 +7227,8 @@ export const setActionsCacheRetentionLimitForRepository: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetActionsCacheRetentionLimitForRepository",
 }));
 
 export type SetActionsCacheStorageLimitForEnterpriseError =
@@ -6896,6 +7248,8 @@ export const setActionsCacheStorageLimitForEnterprise: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetActionsCacheStorageLimitForEnterprise",
 }));
 
 export type SetActionsCacheStorageLimitForOrganizationError =
@@ -6919,6 +7273,8 @@ export const setActionsCacheStorageLimitForOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetActionsCacheStorageLimitForOrganization",
 }));
 
 export type SetActionsCacheStorageLimitForRepositoryError =
@@ -6938,6 +7294,8 @@ export const setActionsCacheStorageLimitForRepository: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetActionsCacheStorageLimitForRepository",
 }));
 
 export type SetAllowedActionsOrganizationError = GithubOpError;
@@ -6953,6 +7311,8 @@ export const setAllowedActionsOrganization: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAllowedActionsOrganization",
 }));
 
 export type SetAllowedActionsRepositoryError = GithubOpError;
@@ -6968,6 +7328,8 @@ export const setAllowedActionsRepository: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAllowedActionsRepository",
 }));
 
 export type SetArtifactAndLogRetentionSettingsOrganizationError =
@@ -6996,6 +7358,8 @@ export const setArtifactAndLogRetentionSettingsOrganization: API.OperationMethod
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetArtifactAndLogRetentionSettingsOrganization",
 }));
 
 export type SetArtifactAndLogRetentionSettingsRepositoryError =
@@ -7022,6 +7386,8 @@ export const setArtifactAndLogRetentionSettingsRepository: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetArtifactAndLogRetentionSettingsRepository",
 }));
 
 export type SetCustomLabelsForSelfHostedRunnerForOrgError =
@@ -7040,6 +7406,8 @@ export const setCustomLabelsForSelfHostedRunnerForOrg: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCustomLabelsForSelfHostedRunnerForOrg",
 }));
 
 export type SetCustomLabelsForSelfHostedRunnerForRepoError =
@@ -7062,6 +7430,8 @@ export const setCustomLabelsForSelfHostedRunnerForRepo: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCustomLabelsForSelfHostedRunnerForRepo",
 }));
 
 export type SetCustomOidcSubClaimForRepoError =
@@ -7081,6 +7451,8 @@ export const setCustomOidcSubClaimForRepo: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCustomOidcSubClaimForRepo",
 }));
 
 export type SetForkPrContributorApprovalPermissionsOrganizationError =
@@ -7107,6 +7479,8 @@ export const setForkPrContributorApprovalPermissionsOrganization: API.OperationM
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetForkPrContributorApprovalPermissionsOrganization",
 }));
 
 export type SetForkPrContributorApprovalPermissionsRepositoryError =
@@ -7133,6 +7507,8 @@ export const setForkPrContributorApprovalPermissionsRepository: API.OperationMet
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetForkPrContributorApprovalPermissionsRepository",
 }));
 
 export type SetGithubActionsDefaultWorkflowPermissionsOrganizationError = GithubOpError;
@@ -7156,6 +7532,8 @@ export const setGithubActionsDefaultWorkflowPermissionsOrganization: API.Operati
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetGithubActionsDefaultWorkflowPermissionsOrganization",
 }));
 
 export type SetGithubActionsDefaultWorkflowPermissionsRepositoryError = Conflict | GithubOpError;
@@ -7179,6 +7557,8 @@ export const setGithubActionsDefaultWorkflowPermissionsRepository: API.Operation
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetGithubActionsDefaultWorkflowPermissionsRepository",
 }));
 
 export type SetGithubActionsPermissionsOrganizationError = GithubOpError;
@@ -7194,6 +7574,8 @@ export const setGithubActionsPermissionsOrganization: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetGithubActionsPermissionsOrganization",
 }));
 
 export type SetGithubActionsPermissionsRepositoryError = GithubOpError;
@@ -7209,6 +7591,8 @@ export const setGithubActionsPermissionsRepository: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetGithubActionsPermissionsRepository",
 }));
 
 export type SetPrivateRepoForkPrWorkflowsSettingsOrganizationError =
@@ -7236,6 +7620,8 @@ export const setPrivateRepoForkPrWorkflowsSettingsOrganization: API.OperationMet
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPrivateRepoForkPrWorkflowsSettingsOrganization",
 }));
 
 export type SetPrivateRepoForkPrWorkflowsSettingsRepositoryError =
@@ -7262,6 +7648,8 @@ export const setPrivateRepoForkPrWorkflowsSettingsRepository: API.OperationMetho
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPrivateRepoForkPrWorkflowsSettingsRepository",
 }));
 
 export type SetRepoAccessToSelfHostedRunnerGroupInOrgError = GithubOpError;
@@ -7281,6 +7669,8 @@ export const setRepoAccessToSelfHostedRunnerGroupInOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetRepoAccessToSelfHostedRunnerGroupInOrg",
 }));
 
 export type SetSelectedReposForOrgSecretError = GithubOpError;
@@ -7296,6 +7686,8 @@ export const setSelectedReposForOrgSecret: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSelectedReposForOrgSecret",
 }));
 
 export type SetSelectedReposForOrgVariableError = Conflict | GithubOpError;
@@ -7311,6 +7703,8 @@ export const setSelectedReposForOrgVariable: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSelectedReposForOrgVariable",
 }));
 
 export type SetSelectedRepositoriesEnabledGithubActionsOrganizationError = GithubOpError;
@@ -7334,6 +7728,8 @@ export const setSelectedRepositoriesEnabledGithubActionsOrganization: API.Operat
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSelectedRepositoriesEnabledGithubActionsOrganization",
 }));
 
 export type SetSelectedRepositoriesSelfHostedRunnersOrganizationError =
@@ -7361,6 +7757,8 @@ export const setSelectedRepositoriesSelfHostedRunnersOrganization: API.Operation
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSelectedRepositoriesSelfHostedRunnersOrganization",
 }));
 
 export type SetSelfHostedRunnersInGroupForOrgError = GithubOpError;
@@ -7376,6 +7774,8 @@ export const setSelfHostedRunnersInGroupForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSelfHostedRunnersInGroupForOrg",
 }));
 
 export type SetSelfHostedRunnersPermissionsOrganizationError =
@@ -7404,6 +7804,8 @@ export const setSelfHostedRunnersPermissionsOrganization: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSelfHostedRunnersPermissionsOrganization",
 }));
 
 export type SetWorkflowAccessToRepositoryError = GithubOpError;
@@ -7419,6 +7821,8 @@ export const setWorkflowAccessToRepository: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetWorkflowAccessToRepository",
 }));
 
 export type UpdateEnvironmentVariableError = GithubOpError;
@@ -7434,6 +7838,8 @@ export const updateEnvironmentVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentVariable",
 }));
 
 export type UpdateHostedRunnerForOrgError = GithubOpError;
@@ -7449,6 +7855,8 @@ export const updateHostedRunnerForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHostedRunnerForOrg",
 }));
 
 export type UpdateOrgActionsPolicyError = NotFound | UnprocessableEntity | GithubOpError;
@@ -7464,6 +7872,8 @@ export const updateOrgActionsPolicy: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgActionsPolicy",
 }));
 
 export type UpdateOrgVariableError = GithubOpError;
@@ -7479,6 +7889,8 @@ export const updateOrgVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgVariable",
 }));
 
 export type UpdateRepoActionsPolicyError = NotFound | UnprocessableEntity | GithubOpError;
@@ -7494,6 +7906,8 @@ export const updateRepoActionsPolicy: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepoActionsPolicy",
 }));
 
 export type UpdateRepoVariableError = GithubOpError;
@@ -7509,6 +7923,8 @@ export const updateRepoVariable: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepoVariable",
 }));
 
 export type UpdateSelfHostedRunnerGroupForOrgError = GithubOpError;
@@ -7524,6 +7940,8 @@ export const updateSelfHostedRunnerGroupForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSelfHostedRunnerGroupForOrg",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

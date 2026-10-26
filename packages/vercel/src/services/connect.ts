@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Connect",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2087,6 +2101,8 @@ export const createConnector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateConnectorAuthorizationRequestError =
@@ -2108,6 +2124,8 @@ export const createConnectorAuthorizationRequest: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConnectorAuthorizationRequest",
 }));
 
 export type DeleteConnectorError =
@@ -2129,6 +2147,8 @@ export const deleteConnector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteConnectorProjectConnectionError =
@@ -2149,6 +2169,8 @@ export const deleteConnectorProjectConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConnectorProjectConnection",
 }));
 
 export type GetConnectorError =
@@ -2170,6 +2192,8 @@ export const getConnector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetConnectorProjectConnectionError =
@@ -2190,6 +2214,8 @@ export const getConnectorProjectConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectorProjectConnection",
 }));
 
 export type GetConnectorTokenError =
@@ -2211,6 +2237,8 @@ export const getConnectorToken: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConnectorToken",
 }));
 
 export type ListConnectorProjectConnectionsError =
@@ -2231,6 +2259,8 @@ export const listConnectorProjectConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectorProjectConnections",
 }));
 
 export type ListConnectorsError =
@@ -2252,6 +2282,8 @@ export const listConnectors: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 }));
 
 export type ListProjectConnectorConnectionsError =
@@ -2271,6 +2303,8 @@ export const listProjectConnectorConnections: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectConnectorConnections",
 }));
 
 export type ReplaceConnectorTriggerDestinationsError =
@@ -2292,6 +2326,8 @@ export const replaceConnectorTriggerDestinations: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceConnectorTriggerDestinations",
 }));
 
 export type UpdateConnectorError =
@@ -2313,6 +2349,8 @@ export const updateConnector: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConnector",
 }));
 
 export type UpsertConnectorProjectConnectionError =
@@ -2333,6 +2371,8 @@ export const upsertConnectorProjectConnection: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertConnectorProjectConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

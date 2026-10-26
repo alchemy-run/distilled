@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DataShare" },
+  prefix: "Datashare",
+  service: "Datashare",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface ActivateEmailRegistrationEmailRequest {
   /** Location of the activation. */
   location: string;
@@ -1959,6 +1979,8 @@ export const ActivateEmailRegistrationEmail: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateEmailRegistrationEmail",
 }));
 
 export type CancelShareSubscriptionSynchronizationError = AzureOpError;
@@ -1974,6 +1996,8 @@ export const CancelShareSubscriptionSynchronization: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelShareSubscriptionSynchronization",
 }));
 
 export type CreateAccountError = AzureOpError;
@@ -1989,6 +2013,8 @@ export const CreateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccount",
 }));
 
 export type CreateDataSetError = AzureOpError;
@@ -2004,6 +2030,8 @@ export const CreateDataSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataSet",
 }));
 
 export type CreateDataSetMappingError = AzureOpError;
@@ -2019,6 +2047,8 @@ export const CreateDataSetMapping: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataSetMapping",
 }));
 
 export type CreateInvitationError = AzureOpError;
@@ -2034,6 +2064,8 @@ export const CreateInvitation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInvitation",
 }));
 
 export type CreateShareError = AzureOpError;
@@ -2049,6 +2081,8 @@ export const CreateShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShare",
 }));
 
 export type CreateShareSubscriptionError = AzureOpError;
@@ -2064,6 +2098,8 @@ export const CreateShareSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShareSubscription",
 }));
 
 export type CreateSynchronizationSettingsError = AzureOpError;
@@ -2079,6 +2115,8 @@ export const CreateSynchronizationSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSynchronizationSettings",
 }));
 
 export type CreateTriggerError = AzureOpError;
@@ -2094,6 +2132,8 @@ export const CreateTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrigger",
 }));
 
 export type DeleteAccountError = AzureOpError;
@@ -2109,6 +2149,8 @@ export const DeleteAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type DeleteDataSetError = AzureOpError;
@@ -2124,6 +2166,8 @@ export const DeleteDataSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataSet",
 }));
 
 export type DeleteDataSetMappingError = AzureOpError;
@@ -2139,6 +2183,8 @@ export const DeleteDataSetMapping: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataSetMapping",
 }));
 
 export type DeleteInvitationError = AzureOpError;
@@ -2154,6 +2200,8 @@ export const DeleteInvitation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvitation",
 }));
 
 export type DeleteShareError = AzureOpError;
@@ -2169,6 +2217,8 @@ export const DeleteShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteShare",
 }));
 
 export type DeleteShareSubscriptionError = AzureOpError;
@@ -2184,6 +2234,8 @@ export const DeleteShareSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteShareSubscription",
 }));
 
 export type DeleteSynchronizationSettingsError = AzureOpError;
@@ -2199,6 +2251,8 @@ export const DeleteSynchronizationSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSynchronizationSettings",
 }));
 
 export type DeleteTriggerError = AzureOpError;
@@ -2214,6 +2268,8 @@ export const DeleteTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrigger",
 }));
 
 export type GetAccountError = AzureOpError;
@@ -2229,6 +2285,8 @@ export const GetAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetConsumerInvitationError = AzureOpError;
@@ -2244,6 +2302,8 @@ export const GetConsumerInvitation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConsumerInvitation",
 }));
 
 export type GetDataSetError = AzureOpError;
@@ -2259,6 +2319,8 @@ export const GetDataSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataSet",
 }));
 
 export type GetDataSetMappingError = AzureOpError;
@@ -2274,6 +2336,8 @@ export const GetDataSetMapping: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataSetMapping",
 }));
 
 export type GetInvitationError = AzureOpError;
@@ -2289,6 +2353,8 @@ export const GetInvitation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvitation",
 }));
 
 export type GetProviderShareSubscriptionByShareError = AzureOpError;
@@ -2304,6 +2370,8 @@ export const GetProviderShareSubscriptionByShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderShareSubscriptionByShare",
 }));
 
 export type GetShareError = AzureOpError;
@@ -2319,6 +2387,8 @@ export const GetShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShare",
 }));
 
 export type GetShareSubscriptionError = AzureOpError;
@@ -2334,6 +2404,8 @@ export const GetShareSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetShareSubscription",
 }));
 
 export type GetSynchronizationSettingsError = AzureOpError;
@@ -2349,6 +2421,8 @@ export const GetSynchronizationSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSynchronizationSettings",
 }));
 
 export type GetTriggerError = AzureOpError;
@@ -2364,6 +2438,8 @@ export const GetTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrigger",
 }));
 
 export type ListAccountByResourceGroupError = AzureOpError;
@@ -2379,6 +2455,8 @@ export const ListAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountByResourceGroup",
 }));
 
 export type ListAccountBySubscriptionError = AzureOpError;
@@ -2394,6 +2472,8 @@ export const ListAccountBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountBySubscription",
 }));
 
 export type ListConsumerInvitationInvitationsError = AzureOpError;
@@ -2409,6 +2489,8 @@ export const ListConsumerInvitationInvitations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConsumerInvitationInvitations",
 }));
 
 export type ListConsumerSourceDataSetByShareSubscriptionError = AzureOpError;
@@ -2424,6 +2506,8 @@ export const ListConsumerSourceDataSetByShareSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConsumerSourceDataSetByShareSubscription",
 }));
 
 export type ListDataSetByShareError = AzureOpError;
@@ -2439,6 +2523,8 @@ export const ListDataSetByShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataSetByShare",
 }));
 
 export type ListDataSetMappingByShareSubscriptionError = AzureOpError;
@@ -2454,6 +2540,8 @@ export const ListDataSetMappingByShareSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataSetMappingByShareSubscription",
 }));
 
 export type ListInvitationByShareError = AzureOpError;
@@ -2469,6 +2557,8 @@ export const ListInvitationByShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvitationByShare",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2484,6 +2574,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProviderShareSubscriptionByShareError = AzureOpError;
@@ -2499,6 +2591,8 @@ export const ListProviderShareSubscriptionByShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderShareSubscriptionByShare",
 }));
 
 export type ListShareByAccountError = AzureOpError;
@@ -2514,6 +2608,8 @@ export const ListShareByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShareByAccount",
 }));
 
 export type ListShareSubscriptionByAccountError = AzureOpError;
@@ -2529,6 +2625,8 @@ export const ListShareSubscriptionByAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShareSubscriptionByAccount",
 }));
 
 export type ListShareSubscriptionSourceShareSynchronizationSettingsError = AzureOpError;
@@ -2548,6 +2646,8 @@ export const ListShareSubscriptionSourceShareSynchronizationSettings: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShareSubscriptionSourceShareSynchronizationSettings",
 }));
 
 export type ListShareSubscriptionSynchronizationDetailsError = AzureOpError;
@@ -2563,6 +2663,8 @@ export const ListShareSubscriptionSynchronizationDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShareSubscriptionSynchronizationDetails",
 }));
 
 export type ListShareSubscriptionSynchronizationsError = AzureOpError;
@@ -2578,6 +2680,8 @@ export const ListShareSubscriptionSynchronizations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShareSubscriptionSynchronizations",
 }));
 
 export type ListShareSynchronizationDetailsError = AzureOpError;
@@ -2593,6 +2697,8 @@ export const ListShareSynchronizationDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShareSynchronizationDetails",
 }));
 
 export type ListShareSynchronizationsError = AzureOpError;
@@ -2608,6 +2714,8 @@ export const ListShareSynchronizations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListShareSynchronizations",
 }));
 
 export type ListSynchronizationSettingsByShareError = AzureOpError;
@@ -2623,6 +2731,8 @@ export const ListSynchronizationSettingsByShare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSynchronizationSettingsByShare",
 }));
 
 export type ListTriggerByShareSubscriptionError = AzureOpError;
@@ -2638,6 +2748,8 @@ export const ListTriggerByShareSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggerByShareSubscription",
 }));
 
 export type ProviderShareSubscriptionsAdjustError = AzureOpError;
@@ -2653,6 +2765,8 @@ export const ProviderShareSubscriptionsAdjust: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProviderShareSubscriptionsAdjust",
 }));
 
 export type ProviderShareSubscriptionsReinstateError = AzureOpError;
@@ -2668,6 +2782,8 @@ export const ProviderShareSubscriptionsReinstate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProviderShareSubscriptionsReinstate",
 }));
 
 export type RegisterEmailRegistrationEmailError = AzureOpError;
@@ -2683,6 +2799,8 @@ export const RegisterEmailRegistrationEmail: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterEmailRegistrationEmail",
 }));
 
 export type RejectConsumerInvitationInvitationError = AzureOpError;
@@ -2698,6 +2816,8 @@ export const RejectConsumerInvitationInvitation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RejectConsumerInvitationInvitation",
 }));
 
 export type RevokeProviderShareSubscriptionError = AzureOpError;
@@ -2713,6 +2833,8 @@ export const RevokeProviderShareSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeProviderShareSubscription",
 }));
 
 export type ShareSubscriptionsSynchronizeError = AzureOpError;
@@ -2728,6 +2850,8 @@ export const ShareSubscriptionsSynchronize: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShareSubscriptionsSynchronize",
 }));
 
 export type UpdateAccountError = AzureOpError;
@@ -2743,6 +2867,8 @@ export const UpdateAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

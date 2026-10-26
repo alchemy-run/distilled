@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -83,6 +84,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://dms.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DatabaseMigrationService",
+  service: "DatabaseMigrationService",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedFault
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedFault>()("AccessDeniedFault", {
@@ -2809,6 +2825,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type ApplyPendingMaintenanceActionError = ResourceNotFoundFault | CommonErrors;
@@ -2828,6 +2846,8 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
+  telemetry: TELEMETRY,
+  span: "ApplyPendingMaintenanceAction",
 }));
 
 export type BatchStartRecommendationsError =
@@ -2858,6 +2878,8 @@ export const batchStartRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStartRecommendations",
+  telemetry: TELEMETRY,
+  span: "BatchStartRecommendations",
 }));
 
 export type CancelMetadataModelConversionError =
@@ -2884,6 +2906,8 @@ export const cancelMetadataModelConversion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMetadataModelConversion",
+  telemetry: TELEMETRY,
+  span: "CancelMetadataModelConversion",
 }));
 
 export type CancelMetadataModelCreationError =
@@ -2910,6 +2934,8 @@ export const cancelMetadataModelCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMetadataModelCreation",
+  telemetry: TELEMETRY,
+  span: "CancelMetadataModelCreation",
 }));
 
 export type CancelReplicationTaskAssessmentRunError =
@@ -2936,6 +2962,8 @@ export const cancelReplicationTaskAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelReplicationTaskAssessmentRun",
+  telemetry: TELEMETRY,
+  span: "CancelReplicationTaskAssessmentRun",
 }));
 
 export type CreateDataMigrationError =
@@ -2966,6 +2994,8 @@ export const createDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataMigration",
+  telemetry: TELEMETRY,
+  span: "CreateDataMigration",
 }));
 
 export type CreateDataProviderError =
@@ -2999,6 +3029,8 @@ export const createDataProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProvider",
+  telemetry: TELEMETRY,
+  span: "CreateDataProvider",
 }));
 
 export type CreateEndpointError =
@@ -3040,6 +3072,8 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateEndpoint",
 }));
 
 export type CreateEventSubscriptionError =
@@ -3095,6 +3129,8 @@ export const createEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateEventSubscription",
 }));
 
 export type CreateFleetAdvisorCollectorError =
@@ -3127,6 +3163,8 @@ export const createFleetAdvisorCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleetAdvisorCollector",
+  telemetry: TELEMETRY,
+  span: "CreateFleetAdvisorCollector",
 }));
 
 export type CreateInstanceProfileError =
@@ -3169,6 +3207,8 @@ export const createInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "CreateInstanceProfile",
 }));
 
 export type CreateMigrationProjectError =
@@ -3210,6 +3250,8 @@ export const createMigrationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMigrationProject",
+  telemetry: TELEMETRY,
+  span: "CreateMigrationProject",
 }));
 
 export type CreateReplicationConfigError =
@@ -3248,6 +3290,8 @@ export const createReplicationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfig",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationConfig",
 }));
 
 export type CreateReplicationInstanceError =
@@ -3301,6 +3345,8 @@ export const createReplicationInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationInstance",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationInstance",
 }));
 
 export type CreateReplicationSubnetGroupError =
@@ -3343,6 +3389,8 @@ export const createReplicationSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationSubnetGroup",
 }));
 
 export type CreateReplicationTaskError =
@@ -3375,6 +3423,8 @@ export const createReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationTask",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationTask",
 }));
 
 export type DeleteCertificateError =
@@ -3396,6 +3446,8 @@ export const deleteCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
+  telemetry: TELEMETRY,
+  span: "DeleteCertificate",
 }));
 
 export type DeleteConnectionError =
@@ -3418,6 +3470,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteDataMigrationError =
@@ -3440,6 +3494,8 @@ export const deleteDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataMigration",
+  telemetry: TELEMETRY,
+  span: "DeleteDataMigration",
 }));
 
 export type DeleteDataProviderError =
@@ -3475,6 +3531,8 @@ export const deleteDataProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataProvider",
+  telemetry: TELEMETRY,
+  span: "DeleteDataProvider",
 }));
 
 export type DeleteEndpointError = InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors;
@@ -3496,6 +3554,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeleteEventSubscriptionError =
@@ -3518,6 +3578,8 @@ export const deleteEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteEventSubscription",
 }));
 
 export type DeleteFleetAdvisorCollectorError =
@@ -3542,6 +3604,8 @@ export const deleteFleetAdvisorCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleetAdvisorCollector",
+  telemetry: TELEMETRY,
+  span: "DeleteFleetAdvisorCollector",
 }));
 
 export type DeleteFleetAdvisorDatabasesError =
@@ -3566,6 +3630,8 @@ export const deleteFleetAdvisorDatabases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleetAdvisorDatabases",
+  telemetry: TELEMETRY,
+  span: "DeleteFleetAdvisorDatabases",
 }));
 
 export type DeleteInstanceProfileError =
@@ -3601,6 +3667,8 @@ export const deleteInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteInstanceProfile",
 }));
 
 export type DeleteMigrationProjectError =
@@ -3635,6 +3703,8 @@ export const deleteMigrationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMigrationProject",
+  telemetry: TELEMETRY,
+  span: "DeleteMigrationProject",
 }));
 
 export type DeleteReplicationConfigError =
@@ -3660,6 +3730,8 @@ export const deleteReplicationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationConfig",
 }));
 
 export type DeleteReplicationInstanceError =
@@ -3684,6 +3756,8 @@ export const deleteReplicationInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationInstance",
 }));
 
 export type DeleteReplicationSubnetGroupError =
@@ -3706,6 +3780,8 @@ export const deleteReplicationSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationSubnetGroup",
 }));
 
 export type DeleteReplicationTaskError =
@@ -3727,6 +3803,8 @@ export const deleteReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationTask",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationTask",
 }));
 
 export type DeleteReplicationTaskAssessmentRunError =
@@ -3753,6 +3831,8 @@ export const deleteReplicationTaskAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationTaskAssessmentRun",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationTaskAssessmentRun",
 }));
 
 export type DescribeAccountAttributesError = CommonErrors;
@@ -3778,6 +3858,8 @@ export const describeAccountAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountAttributes",
 }));
 
 export type DescribeApplicableIndividualAssessmentsError =
@@ -3820,6 +3902,8 @@ export const describeApplicableIndividualAssessments: API.PaginatedOperationMeth
   retry: Retry,
   operationName: "DescribeApplicableIndividualAssessments",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeApplicableIndividualAssessments",
 })) as any;
 
 export type DescribeCertificatesError = ResourceNotFoundFault | CommonErrors;
@@ -3840,6 +3924,8 @@ export const describeCertificates: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeCertificates",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCertificates",
 })) as any;
 
 export type DescribeConnectionsError = ResourceNotFoundFault | CommonErrors;
@@ -3861,6 +3947,8 @@ export const describeConnections: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeConnections",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeConnections",
 })) as any;
 
 export type DescribeConversionConfigurationError = ResourceNotFoundFault | CommonErrors;
@@ -3883,6 +3971,8 @@ export const describeConversionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConversionConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeConversionConfiguration",
 }));
 
 export type DescribeDataMigrationsError =
@@ -3912,6 +4002,8 @@ export const describeDataMigrations: API.PaginatedOperationMethod<
     items: "DataMigrations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDataMigrations",
 })) as any;
 
 export type DescribeDataProvidersError =
@@ -3941,6 +4033,8 @@ export const describeDataProviders: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeDataProviders",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDataProviders",
 })) as any;
 
 export type DescribeEndpointsError = ResourceNotFoundFault | CommonErrors;
@@ -3961,6 +4055,8 @@ export const describeEndpoints: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEndpoints",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEndpoints",
 })) as any;
 
 export type DescribeEndpointSettingsError = CommonErrors;
@@ -3982,6 +4078,8 @@ export const describeEndpointSettings: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEndpointSettings",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEndpointSettings",
 })) as any;
 
 export type DescribeEndpointTypesError = CommonErrors;
@@ -4002,6 +4100,8 @@ export const describeEndpointTypes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEndpointTypes",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEndpointTypes",
 })) as any;
 
 export type DescribeEngineVersionsError = CommonErrors;
@@ -4022,6 +4122,8 @@ export const describeEngineVersions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEngineVersions",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEngineVersions",
 })) as any;
 
 export type DescribeEventCategoriesError = CommonErrors;
@@ -4042,6 +4144,8 @@ export const describeEventCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventCategories",
+  telemetry: TELEMETRY,
+  span: "DescribeEventCategories",
 }));
 
 export type DescribeEventsError = CommonErrors;
@@ -4064,6 +4168,8 @@ export const describeEvents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEvents",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeEventSubscriptionsError = ResourceNotFoundFault | CommonErrors;
@@ -4090,6 +4196,8 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEventSubscriptions",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventSubscriptions",
 })) as any;
 
 export type DescribeExtensionPackAssociationsError = CommonErrors;
@@ -4116,6 +4224,8 @@ export const describeExtensionPackAssociations: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeExtensionPackAssociations",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeExtensionPackAssociations",
 })) as any;
 
 export type DescribeFleetAdvisorCollectorsError = InvalidResourceStateFault | CommonErrors;
@@ -4142,6 +4252,8 @@ export const describeFleetAdvisorCollectors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetAdvisorCollectors",
 })) as any;
 
 export type DescribeFleetAdvisorDatabasesError = InvalidResourceStateFault | CommonErrors;
@@ -4168,6 +4280,8 @@ export const describeFleetAdvisorDatabases: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetAdvisorDatabases",
 })) as any;
 
 export type DescribeFleetAdvisorLsaAnalysisError = InvalidResourceStateFault | CommonErrors;
@@ -4195,6 +4309,8 @@ export const describeFleetAdvisorLsaAnalysis: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetAdvisorLsaAnalysis",
 })) as any;
 
 export type DescribeFleetAdvisorSchemaObjectSummaryError = InvalidResourceStateFault | CommonErrors;
@@ -4222,6 +4338,8 @@ export const describeFleetAdvisorSchemaObjectSummary: API.PaginatedOperationMeth
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetAdvisorSchemaObjectSummary",
 })) as any;
 
 export type DescribeFleetAdvisorSchemasError = InvalidResourceStateFault | CommonErrors;
@@ -4248,6 +4366,8 @@ export const describeFleetAdvisorSchemas: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetAdvisorSchemas",
 })) as any;
 
 export type DescribeInstanceProfilesError =
@@ -4277,6 +4397,8 @@ export const describeInstanceProfiles: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeInstanceProfiles",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceProfiles",
 })) as any;
 
 export type DescribeMetadataModelError = AccessDeniedFault | ResourceNotFoundFault | CommonErrors;
@@ -4299,6 +4421,8 @@ export const describeMetadataModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetadataModel",
+  telemetry: TELEMETRY,
+  span: "DescribeMetadataModel",
 }));
 
 export type DescribeMetadataModelAssessmentsError = ResourceNotFoundFault | CommonErrors;
@@ -4325,6 +4449,8 @@ export const describeMetadataModelAssessments: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelAssessments",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMetadataModelAssessments",
 })) as any;
 
 export type DescribeMetadataModelChildrenError =
@@ -4357,6 +4483,8 @@ export const describeMetadataModelChildren: API.PaginatedOperationMethod<
     items: "MetadataModelChildren",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMetadataModelChildren",
 })) as any;
 
 export type DescribeMetadataModelConversionsError = ResourceNotFoundFault | CommonErrors;
@@ -4386,6 +4514,8 @@ export const describeMetadataModelConversions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelConversions",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMetadataModelConversions",
 })) as any;
 
 export type DescribeMetadataModelCreationsError =
@@ -4423,6 +4553,8 @@ export const describeMetadataModelCreations: API.PaginatedOperationMethod<
     items: "Requests",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMetadataModelCreations",
 })) as any;
 
 export type DescribeMetadataModelExportsAsScriptError = ResourceNotFoundFault | CommonErrors;
@@ -4449,6 +4581,8 @@ export const describeMetadataModelExportsAsScript: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelExportsAsScript",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMetadataModelExportsAsScript",
 })) as any;
 
 export type DescribeMetadataModelExportsToTargetError = ResourceNotFoundFault | CommonErrors;
@@ -4475,6 +4609,8 @@ export const describeMetadataModelExportsToTarget: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelExportsToTarget",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMetadataModelExportsToTarget",
 })) as any;
 
 export type DescribeMetadataModelImportsError = ResourceNotFoundFault | CommonErrors;
@@ -4501,6 +4637,8 @@ export const describeMetadataModelImports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelImports",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMetadataModelImports",
 })) as any;
 
 export type DescribeMigrationProjectsError =
@@ -4530,6 +4668,8 @@ export const describeMigrationProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMigrationProjects",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMigrationProjects",
 })) as any;
 
 export type DescribeOrderableReplicationInstancesError = CommonErrors;
@@ -4551,6 +4691,8 @@ export const describeOrderableReplicationInstances: API.PaginatedOperationMethod
   retry: Retry,
   operationName: "DescribeOrderableReplicationInstances",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrderableReplicationInstances",
 })) as any;
 
 export type DescribePendingMaintenanceActionsError = ResourceNotFoundFault | CommonErrors;
@@ -4572,6 +4714,8 @@ export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribePendingMaintenanceActions",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePendingMaintenanceActions",
 })) as any;
 
 export type DescribeRecommendationLimitationsError =
@@ -4602,6 +4746,8 @@ export const describeRecommendationLimitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRecommendationLimitations",
 })) as any;
 
 export type DescribeRecommendationsError =
@@ -4632,6 +4778,8 @@ export const describeRecommendations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRecommendations",
 })) as any;
 
 export type DescribeRefreshSchemasStatusError =
@@ -4653,6 +4801,8 @@ export const describeRefreshSchemasStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRefreshSchemasStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeRefreshSchemasStatus",
 }));
 
 export type DescribeReplicationConfigsError = ResourceNotFoundFault | CommonErrors;
@@ -4674,6 +4824,8 @@ export const describeReplicationConfigs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationConfigs",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationConfigs",
 })) as any;
 
 export type DescribeReplicationInstancesError = ResourceNotFoundFault | CommonErrors;
@@ -4695,6 +4847,8 @@ export const describeReplicationInstances: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationInstances",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationInstances",
 })) as any;
 
 export type DescribeReplicationInstanceTaskLogsError =
@@ -4718,6 +4872,8 @@ export const describeReplicationInstanceTaskLogs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationInstanceTaskLogs",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationInstanceTaskLogs",
 })) as any;
 
 export type DescribeReplicationsError = ResourceNotFoundFault | CommonErrors;
@@ -4739,6 +4895,8 @@ export const describeReplications: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplications",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplications",
 })) as any;
 
 export type DescribeReplicationSubnetGroupsError = ResourceNotFoundFault | CommonErrors;
@@ -4759,6 +4917,8 @@ export const describeReplicationSubnetGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationSubnetGroups",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationSubnetGroups",
 })) as any;
 
 export type DescribeReplicationTableStatisticsError =
@@ -4783,6 +4943,8 @@ export const describeReplicationTableStatistics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationTableStatistics",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationTableStatistics",
 })) as any;
 
 export type DescribeReplicationTaskAssessmentResultsError = ResourceNotFoundFault | CommonErrors;
@@ -4807,6 +4969,8 @@ export const describeReplicationTaskAssessmentResults: API.PaginatedOperationMet
   retry: Retry,
   operationName: "DescribeReplicationTaskAssessmentResults",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationTaskAssessmentResults",
 })) as any;
 
 export type DescribeReplicationTaskAssessmentRunsError = ResourceNotFoundFault | CommonErrors;
@@ -4835,6 +4999,8 @@ export const describeReplicationTaskAssessmentRuns: API.PaginatedOperationMethod
   retry: Retry,
   operationName: "DescribeReplicationTaskAssessmentRuns",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationTaskAssessmentRuns",
 })) as any;
 
 export type DescribeReplicationTaskIndividualAssessmentsError =
@@ -4864,6 +5030,8 @@ export const describeReplicationTaskIndividualAssessments: API.PaginatedOperatio
   retry: Retry,
   operationName: "DescribeReplicationTaskIndividualAssessments",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationTaskIndividualAssessments",
 })) as any;
 
 export type DescribeReplicationTasksError = ResourceNotFoundFault | CommonErrors;
@@ -4885,6 +5053,8 @@ export const describeReplicationTasks: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationTasks",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationTasks",
 })) as any;
 
 export type DescribeSchemasError = InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors;
@@ -4905,6 +5075,8 @@ export const describeSchemas: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeSchemas",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSchemas",
 })) as any;
 
 export type DescribeTableStatisticsError =
@@ -4934,6 +5106,8 @@ export const describeTableStatistics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeTableStatistics",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTableStatistics",
 })) as any;
 
 export type ExportMetadataModelAssessmentError = ResourceNotFoundFault | CommonErrors;
@@ -4957,6 +5131,8 @@ export const exportMetadataModelAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportMetadataModelAssessment",
+  telemetry: TELEMETRY,
+  span: "ExportMetadataModelAssessment",
 }));
 
 export type GetTargetSelectionRulesError =
@@ -4983,6 +5159,8 @@ export const getTargetSelectionRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetSelectionRules",
+  telemetry: TELEMETRY,
+  span: "GetTargetSelectionRules",
 }));
 
 export type ImportCertificateError =
@@ -5011,6 +5189,8 @@ export const importCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificate",
+  telemetry: TELEMETRY,
+  span: "ImportCertificate",
 }));
 
 export type ListTagsForResourceError =
@@ -5036,6 +5216,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ModifyConversionConfigurationError =
@@ -5061,6 +5243,8 @@ export const modifyConversionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyConversionConfiguration",
+  telemetry: TELEMETRY,
+  span: "ModifyConversionConfiguration",
 }));
 
 export type ModifyDataMigrationError =
@@ -5083,6 +5267,8 @@ export const modifyDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDataMigration",
+  telemetry: TELEMETRY,
+  span: "ModifyDataMigration",
 }));
 
 export type ModifyDataProviderError =
@@ -5118,6 +5304,8 @@ export const modifyDataProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDataProvider",
+  telemetry: TELEMETRY,
+  span: "ModifyDataProvider",
 }));
 
 export type ModifyEndpointError =
@@ -5155,6 +5343,8 @@ export const modifyEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEndpoint",
+  telemetry: TELEMETRY,
+  span: "ModifyEndpoint",
 }));
 
 export type ModifyEventSubscriptionError =
@@ -5195,6 +5385,8 @@ export const modifyEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEventSubscription",
+  telemetry: TELEMETRY,
+  span: "ModifyEventSubscription",
 }));
 
 export type ModifyInstanceProfileError =
@@ -5236,6 +5428,8 @@ export const modifyInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceProfile",
+  telemetry: TELEMETRY,
+  span: "ModifyInstanceProfile",
 }));
 
 export type ModifyMigrationProjectError =
@@ -5274,6 +5468,8 @@ export const modifyMigrationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyMigrationProject",
+  telemetry: TELEMETRY,
+  span: "ModifyMigrationProject",
 }));
 
 export type ModifyReplicationConfigError =
@@ -5314,6 +5510,8 @@ export const modifyReplicationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationConfig",
+  telemetry: TELEMETRY,
+  span: "ModifyReplicationConfig",
 }));
 
 export type ModifyReplicationInstanceError =
@@ -5355,6 +5553,8 @@ export const modifyReplicationInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationInstance",
+  telemetry: TELEMETRY,
+  span: "ModifyReplicationInstance",
 }));
 
 export type ModifyReplicationSubnetGroupError =
@@ -5387,6 +5587,8 @@ export const modifyReplicationSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyReplicationSubnetGroup",
 }));
 
 export type ModifyReplicationTaskError =
@@ -5420,6 +5622,8 @@ export const modifyReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationTask",
+  telemetry: TELEMETRY,
+  span: "ModifyReplicationTask",
 }));
 
 export type MoveReplicationTaskError =
@@ -5452,6 +5656,8 @@ export const moveReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MoveReplicationTask",
+  telemetry: TELEMETRY,
+  span: "MoveReplicationTask",
 }));
 
 export type RebootReplicationInstanceError =
@@ -5474,6 +5680,8 @@ export const rebootReplicationInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootReplicationInstance",
+  telemetry: TELEMETRY,
+  span: "RebootReplicationInstance",
 }));
 
 export type RefreshSchemasError =
@@ -5504,6 +5712,8 @@ export const refreshSchemas: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RefreshSchemas",
+  telemetry: TELEMETRY,
+  span: "RefreshSchemas",
 }));
 
 export type ReloadReplicationTablesError =
@@ -5529,6 +5739,8 @@ export const reloadReplicationTables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReloadReplicationTables",
+  telemetry: TELEMETRY,
+  span: "ReloadReplicationTables",
 }));
 
 export type ReloadTablesError = InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors;
@@ -5550,6 +5762,8 @@ export const reloadTables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReloadTables",
+  telemetry: TELEMETRY,
+  span: "ReloadTables",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -5575,6 +5789,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 export type RunFleetAdvisorLsaAnalysisError =
@@ -5598,6 +5814,8 @@ export const runFleetAdvisorLsaAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunFleetAdvisorLsaAnalysis",
+  telemetry: TELEMETRY,
+  span: "RunFleetAdvisorLsaAnalysis",
 }));
 
 export type StartDataMigrationError =
@@ -5628,6 +5846,8 @@ export const startDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataMigration",
+  telemetry: TELEMETRY,
+  span: "StartDataMigration",
 }));
 
 export type StartExtensionPackAssociationError =
@@ -5680,6 +5900,8 @@ export const startExtensionPackAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExtensionPackAssociation",
+  telemetry: TELEMETRY,
+  span: "StartExtensionPackAssociation",
 }));
 
 export type StartMetadataModelAssessmentError =
@@ -5735,6 +5957,8 @@ export const startMetadataModelAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelAssessment",
+  telemetry: TELEMETRY,
+  span: "StartMetadataModelAssessment",
 }));
 
 export type StartMetadataModelConversionError =
@@ -5812,6 +6036,8 @@ export const startMetadataModelConversion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelConversion",
+  telemetry: TELEMETRY,
+  span: "StartMetadataModelConversion",
 }));
 
 export type StartMetadataModelCreationError =
@@ -5869,6 +6095,8 @@ export const startMetadataModelCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelCreation",
+  telemetry: TELEMETRY,
+  span: "StartMetadataModelCreation",
 }));
 
 export type StartMetadataModelExportAsScriptError =
@@ -5921,6 +6149,8 @@ export const startMetadataModelExportAsScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelExportAsScript",
+  telemetry: TELEMETRY,
+  span: "StartMetadataModelExportAsScript",
 }));
 
 export type StartMetadataModelExportToTargetError =
@@ -5979,6 +6209,8 @@ export const startMetadataModelExportToTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelExportToTarget",
+  telemetry: TELEMETRY,
+  span: "StartMetadataModelExportToTarget",
 }));
 
 export type StartMetadataModelImportError =
@@ -6026,6 +6258,8 @@ export const startMetadataModelImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelImport",
+  telemetry: TELEMETRY,
+  span: "StartMetadataModelImport",
 }));
 
 export type StartRecommendationsError =
@@ -6053,6 +6287,8 @@ export const startRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommendations",
+  telemetry: TELEMETRY,
+  span: "StartRecommendations",
 }));
 
 export type StartReplicationError =
@@ -6079,6 +6315,8 @@ export const startReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplication",
+  telemetry: TELEMETRY,
+  span: "StartReplication",
 }));
 
 export type StartReplicationTaskError =
@@ -6104,6 +6342,8 @@ export const startReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplicationTask",
+  telemetry: TELEMETRY,
+  span: "StartReplicationTask",
 }));
 
 export type StartReplicationTaskAssessmentError =
@@ -6138,6 +6378,8 @@ export const startReplicationTaskAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplicationTaskAssessment",
+  telemetry: TELEMETRY,
+  span: "StartReplicationTaskAssessment",
 }));
 
 export type StartReplicationTaskAssessmentRunError =
@@ -6189,6 +6431,8 @@ export const startReplicationTaskAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplicationTaskAssessmentRun",
+  telemetry: TELEMETRY,
+  span: "StartReplicationTaskAssessmentRun",
 }));
 
 export type StopDataMigrationError =
@@ -6211,6 +6455,8 @@ export const stopDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataMigration",
+  telemetry: TELEMETRY,
+  span: "StopDataMigration",
 }));
 
 export type StopReplicationError =
@@ -6235,6 +6481,8 @@ export const stopReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplication",
+  telemetry: TELEMETRY,
+  span: "StopReplication",
 }));
 
 export type StopReplicationTaskError =
@@ -6256,6 +6504,8 @@ export const stopReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplicationTask",
+  telemetry: TELEMETRY,
+  span: "StopReplicationTask",
 }));
 
 export type TestConnectionError =
@@ -6286,6 +6536,8 @@ export const testConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnection",
+  telemetry: TELEMETRY,
+  span: "TestConnection",
 }));
 
 export type UpdateSubscriptionsToEventBridgeError =
@@ -6318,6 +6570,8 @@ export const updateSubscriptionsToEventBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionsToEventBridge",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriptionsToEventBridge",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

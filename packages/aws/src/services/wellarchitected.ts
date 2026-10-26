@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -131,6 +132,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://wellarchitected.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WellArchitected",
+  service: "WellArchitected",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2236,6 +2251,8 @@ export const associateLenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLenses",
+  telemetry: TELEMETRY,
+  span: "AssociateLenses",
 }));
 
 export type AssociateProfilesError =
@@ -2268,6 +2285,8 @@ export const associateProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProfiles",
+  telemetry: TELEMETRY,
+  span: "AssociateProfiles",
 }));
 
 export type CreateAgentContextError =
@@ -2302,6 +2321,8 @@ export const createAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentContext",
+  telemetry: TELEMETRY,
+  span: "CreateAgentContext",
 }));
 
 export type CreateAgentGoalError =
@@ -2336,6 +2357,8 @@ export const createAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentGoal",
+  telemetry: TELEMETRY,
+  span: "CreateAgentGoal",
 }));
 
 export type CreateAgentProfileError =
@@ -2368,6 +2391,8 @@ export const createAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentProfile",
+  telemetry: TELEMETRY,
+  span: "CreateAgentProfile",
 }));
 
 export type CreateLensShareError =
@@ -2414,6 +2439,8 @@ export const createLensShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLensShare",
+  telemetry: TELEMETRY,
+  span: "CreateLensShare",
 }));
 
 export type CreateLensVersionError =
@@ -2452,6 +2479,8 @@ export const createLensVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLensVersion",
+  telemetry: TELEMETRY,
+  span: "CreateLensVersion",
 }));
 
 export type CreateMilestoneError =
@@ -2486,6 +2515,8 @@ export const createMilestone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMilestone",
+  telemetry: TELEMETRY,
+  span: "CreateMilestone",
 }));
 
 export type CreateProfileError =
@@ -2518,6 +2549,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type CreateProfileShareError =
@@ -2552,6 +2585,8 @@ export const createProfileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfileShare",
+  telemetry: TELEMETRY,
+  span: "CreateProfileShare",
 }));
 
 export type CreateReviewTemplateError =
@@ -2590,6 +2625,8 @@ export const createReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReviewTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateReviewTemplate",
 }));
 
 export type CreateTemplateShareError =
@@ -2634,6 +2671,8 @@ export const createTemplateShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateShare",
+  telemetry: TELEMETRY,
+  span: "CreateTemplateShare",
 }));
 
 export type CreateWorkloadError =
@@ -2686,6 +2725,8 @@ export const createWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkload",
+  telemetry: TELEMETRY,
+  span: "CreateWorkload",
 }));
 
 export type CreateWorkloadShareError =
@@ -2726,6 +2767,8 @@ export const createWorkloadShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadShare",
+  telemetry: TELEMETRY,
+  span: "CreateWorkloadShare",
 }));
 
 export type DeleteAgentContextError =
@@ -2756,6 +2799,8 @@ export const deleteAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentContext",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentContext",
 }));
 
 export type DeleteAgentGoalError =
@@ -2786,6 +2831,8 @@ export const deleteAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentGoal",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentGoal",
 }));
 
 export type DeleteAgentProfileError =
@@ -2818,6 +2865,8 @@ export const deleteAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentProfile",
 }));
 
 export type DeleteLensError =
@@ -2856,6 +2905,8 @@ export const deleteLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLens",
+  telemetry: TELEMETRY,
+  span: "DeleteLens",
 }));
 
 export type DeleteLensShareError =
@@ -2894,6 +2945,8 @@ export const deleteLensShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLensShare",
+  telemetry: TELEMETRY,
+  span: "DeleteLensShare",
 }));
 
 export type DeleteProfileError =
@@ -2930,6 +2983,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DeleteProfileShareError =
@@ -2962,6 +3017,8 @@ export const deleteProfileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileShare",
+  telemetry: TELEMETRY,
+  span: "DeleteProfileShare",
 }));
 
 export type DeleteReviewTemplateError =
@@ -2998,6 +3055,8 @@ export const deleteReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReviewTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteReviewTemplate",
 }));
 
 export type DeleteTemplateShareError =
@@ -3032,6 +3091,8 @@ export const deleteTemplateShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateShare",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplateShare",
 }));
 
 export type DeleteWorkloadError =
@@ -3064,6 +3125,8 @@ export const deleteWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkload",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkload",
 }));
 
 export type DeleteWorkloadShareError =
@@ -3096,6 +3159,8 @@ export const deleteWorkloadShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadShare",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkloadShare",
 }));
 
 export type DisassociateLensesError =
@@ -3132,6 +3197,8 @@ export const disassociateLenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLenses",
+  telemetry: TELEMETRY,
+  span: "DisassociateLenses",
 }));
 
 export type DisassociateProfilesError =
@@ -3164,6 +3231,8 @@ export const disassociateProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProfiles",
+  telemetry: TELEMETRY,
+  span: "DisassociateProfiles",
 }));
 
 export type ExportLensError =
@@ -3202,6 +3271,8 @@ export const exportLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportLens",
+  telemetry: TELEMETRY,
+  span: "ExportLens",
 }));
 
 export type GetAgentContextError =
@@ -3232,6 +3303,8 @@ export const getAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentContext",
+  telemetry: TELEMETRY,
+  span: "GetAgentContext",
 }));
 
 export type GetAgentGoalError =
@@ -3262,6 +3335,8 @@ export const getAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentGoal",
+  telemetry: TELEMETRY,
+  span: "GetAgentGoal",
 }));
 
 export type GetAgentProfileError =
@@ -3292,6 +3367,8 @@ export const getAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentProfile",
+  telemetry: TELEMETRY,
+  span: "GetAgentProfile",
 }));
 
 export type GetAgentRecommendationError =
@@ -3322,6 +3399,8 @@ export const getAgentRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRecommendation",
+  telemetry: TELEMETRY,
+  span: "GetAgentRecommendation",
 }));
 
 export type GetAgentRecommendationGenerationError =
@@ -3352,6 +3431,8 @@ export const getAgentRecommendationGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRecommendationGeneration",
+  telemetry: TELEMETRY,
+  span: "GetAgentRecommendationGeneration",
 }));
 
 export type GetAnswerError =
@@ -3382,6 +3463,8 @@ export const getAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnswer",
+  telemetry: TELEMETRY,
+  span: "GetAnswer",
 }));
 
 export type GetConsolidatedReportError =
@@ -3420,6 +3503,8 @@ export const getConsolidatedReport: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetConsolidatedReport",
 })) as any;
 
 export type GetGlobalSettingsError =
@@ -3448,6 +3533,8 @@ export const getGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "GetGlobalSettings",
 }));
 
 export type GetLensError =
@@ -3478,6 +3565,8 @@ export const getLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLens",
+  telemetry: TELEMETRY,
+  span: "GetLens",
 }));
 
 export type GetLensReviewError =
@@ -3508,6 +3597,8 @@ export const getLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLensReview",
+  telemetry: TELEMETRY,
+  span: "GetLensReview",
 }));
 
 export type GetLensReviewReportError =
@@ -3538,6 +3629,8 @@ export const getLensReviewReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLensReviewReport",
+  telemetry: TELEMETRY,
+  span: "GetLensReviewReport",
 }));
 
 export type GetLensVersionDifferenceError =
@@ -3568,6 +3661,8 @@ export const getLensVersionDifference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLensVersionDifference",
+  telemetry: TELEMETRY,
+  span: "GetLensVersionDifference",
 }));
 
 export type GetMilestoneError =
@@ -3598,6 +3693,8 @@ export const getMilestone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMilestone",
+  telemetry: TELEMETRY,
+  span: "GetMilestone",
 }));
 
 export type GetProfileError =
@@ -3628,6 +3725,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetProfileTemplateError =
@@ -3658,6 +3757,8 @@ export const getProfileTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileTemplate",
+  telemetry: TELEMETRY,
+  span: "GetProfileTemplate",
 }));
 
 export type GetReviewTemplateError =
@@ -3688,6 +3789,8 @@ export const getReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReviewTemplate",
+  telemetry: TELEMETRY,
+  span: "GetReviewTemplate",
 }));
 
 export type GetReviewTemplateAnswerError =
@@ -3718,6 +3821,8 @@ export const getReviewTemplateAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReviewTemplateAnswer",
+  telemetry: TELEMETRY,
+  span: "GetReviewTemplateAnswer",
 }));
 
 export type GetReviewTemplateLensReviewError =
@@ -3748,6 +3853,8 @@ export const getReviewTemplateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReviewTemplateLensReview",
+  telemetry: TELEMETRY,
+  span: "GetReviewTemplateLensReview",
 }));
 
 export type GetWorkloadError =
@@ -3778,6 +3885,8 @@ export const getWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkload",
+  telemetry: TELEMETRY,
+  span: "GetWorkload",
 }));
 
 export type ImportLensError =
@@ -3824,6 +3933,8 @@ export const importLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportLens",
+  telemetry: TELEMETRY,
+  span: "ImportLens",
 }));
 
 export type ListAgentContextsError =
@@ -3859,6 +3970,8 @@ export const listAgentContexts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentContexts",
 })) as any;
 
 export type ListAgentGoalsError =
@@ -3894,6 +4007,8 @@ export const listAgentGoals: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentGoals",
 })) as any;
 
 export type ListAgentProfilesError =
@@ -3929,6 +4044,8 @@ export const listAgentProfiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentProfiles",
 })) as any;
 
 export type ListAgentRecommendationGenerationsError =
@@ -3966,6 +4083,8 @@ export const listAgentRecommendationGenerations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentRecommendationGenerations",
 })) as any;
 
 export type ListAgentRecommendationItemsError =
@@ -4003,6 +4122,8 @@ export const listAgentRecommendationItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentRecommendationItems",
 })) as any;
 
 export type ListAgentRecommendationsError =
@@ -4040,6 +4161,8 @@ export const listAgentRecommendations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentRecommendations",
 })) as any;
 
 export type ListAnswersError =
@@ -4076,6 +4199,8 @@ export const listAnswers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAnswers",
 })) as any;
 
 export type ListCheckDetailsError =
@@ -4112,6 +4237,8 @@ export const listCheckDetails: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCheckDetails",
 })) as any;
 
 export type ListCheckSummariesError =
@@ -4148,6 +4275,8 @@ export const listCheckSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCheckSummaries",
 })) as any;
 
 export type ListLensesError =
@@ -4182,6 +4311,8 @@ export const listLenses: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLenses",
 })) as any;
 
 export type ListLensReviewImprovementsError =
@@ -4218,6 +4349,8 @@ export const listLensReviewImprovements: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLensReviewImprovements",
 })) as any;
 
 export type ListLensReviewsError =
@@ -4254,6 +4387,8 @@ export const listLensReviews: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLensReviews",
 })) as any;
 
 export type ListLensSharesError =
@@ -4290,6 +4425,8 @@ export const listLensShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLensShares",
 })) as any;
 
 export type ListMilestonesError =
@@ -4326,6 +4463,8 @@ export const listMilestones: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMilestones",
 })) as any;
 
 export type ListNotificationsError =
@@ -4360,6 +4499,8 @@ export const listNotifications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotifications",
 })) as any;
 
 export type ListProfileNotificationsError =
@@ -4394,6 +4535,8 @@ export const listProfileNotifications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileNotifications",
 })) as any;
 
 export type ListProfilesError =
@@ -4428,6 +4571,8 @@ export const listProfiles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfiles",
 })) as any;
 
 export type ListProfileSharesError =
@@ -4464,6 +4609,8 @@ export const listProfileShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileShares",
 })) as any;
 
 export type ListReviewTemplateAnswersError =
@@ -4500,6 +4647,8 @@ export const listReviewTemplateAnswers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReviewTemplateAnswers",
 })) as any;
 
 export type ListReviewTemplatesError =
@@ -4534,6 +4683,8 @@ export const listReviewTemplates: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReviewTemplates",
 })) as any;
 
 export type ListShareInvitationsError =
@@ -4570,6 +4721,8 @@ export const listShareInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListShareInvitations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4593,6 +4746,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplateSharesError =
@@ -4629,6 +4784,8 @@ export const listTemplateShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateShares",
 })) as any;
 
 export type ListWorkloadsError =
@@ -4663,6 +4820,8 @@ export const listWorkloads: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloads",
 })) as any;
 
 export type ListWorkloadSharesError =
@@ -4699,6 +4858,8 @@ export const listWorkloadShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkloadShares",
 })) as any;
 
 export type PutAgentRecommendationFeedbackError =
@@ -4729,6 +4890,8 @@ export const putAgentRecommendationFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAgentRecommendationFeedback",
+  telemetry: TELEMETRY,
+  span: "PutAgentRecommendationFeedback",
 }));
 
 export type StartAgentRecommendationGenerationError =
@@ -4761,6 +4924,8 @@ export const startAgentRecommendationGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAgentRecommendationGeneration",
+  telemetry: TELEMETRY,
+  span: "StartAgentRecommendationGeneration",
 }));
 
 export type TagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -4781,6 +4946,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -4805,6 +4972,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentContextError =
@@ -4835,6 +5004,8 @@ export const updateAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentContext",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentContext",
 }));
 
 export type UpdateAgentGoalError =
@@ -4865,6 +5036,8 @@ export const updateAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentGoal",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentGoal",
 }));
 
 export type UpdateAgentProfileError =
@@ -4895,6 +5068,8 @@ export const updateAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentProfile",
 }));
 
 export type UpdateAgentRecommendationStatusError =
@@ -4925,6 +5100,8 @@ export const updateAgentRecommendationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentRecommendationStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentRecommendationStatus",
 }));
 
 export type UpdateAnswerError =
@@ -4957,6 +5134,8 @@ export const updateAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnswer",
+  telemetry: TELEMETRY,
+  span: "UpdateAnswer",
 }));
 
 export type UpdateGlobalSettingsError =
@@ -4987,6 +5166,8 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalSettings",
 }));
 
 export type UpdateIntegrationError =
@@ -5019,6 +5200,8 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegration",
 }));
 
 export type UpdateLensReviewError =
@@ -5051,6 +5234,8 @@ export const updateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLensReview",
+  telemetry: TELEMETRY,
+  span: "UpdateLensReview",
 }));
 
 export type UpdateProfileError =
@@ -5083,6 +5268,8 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 export type UpdateReviewTemplateError =
@@ -5115,6 +5302,8 @@ export const updateReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReviewTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateReviewTemplate",
 }));
 
 export type UpdateReviewTemplateAnswerError =
@@ -5147,6 +5336,8 @@ export const updateReviewTemplateAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReviewTemplateAnswer",
+  telemetry: TELEMETRY,
+  span: "UpdateReviewTemplateAnswer",
 }));
 
 export type UpdateReviewTemplateLensReviewError =
@@ -5179,6 +5370,8 @@ export const updateReviewTemplateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReviewTemplateLensReview",
+  telemetry: TELEMETRY,
+  span: "UpdateReviewTemplateLensReview",
 }));
 
 export type UpdateShareInvitationError =
@@ -5213,6 +5406,8 @@ export const updateShareInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateShareInvitation",
+  telemetry: TELEMETRY,
+  span: "UpdateShareInvitation",
 }));
 
 export type UpdateWorkloadError =
@@ -5245,6 +5440,8 @@ export const updateWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkload",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkload",
 }));
 
 export type UpdateWorkloadShareError =
@@ -5277,6 +5474,8 @@ export const updateWorkloadShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadShare",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkloadShare",
 }));
 
 export type UpgradeLensReviewError =
@@ -5311,6 +5510,8 @@ export const upgradeLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeLensReview",
+  telemetry: TELEMETRY,
+  span: "UpgradeLensReview",
 }));
 
 export type UpgradeProfileVersionError =
@@ -5345,6 +5546,8 @@ export const upgradeProfileVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeProfileVersion",
+  telemetry: TELEMETRY,
+  span: "UpgradeProfileVersion",
 }));
 
 export type UpgradeReviewTemplateLensReviewError =
@@ -5377,6 +5580,8 @@ export const upgradeReviewTemplateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeReviewTemplateLensReview",
+  telemetry: TELEMETRY,
+  span: "UpgradeReviewTemplateLensReview",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Network" },
+  prefix: "Dns",
+  service: "Dns",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export type DeleteRecordSetRequestRecordType =
   | "A"
   | "AAAA"
@@ -593,6 +613,8 @@ export const DeleteRecordSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRecordSet",
 }));
 
 export type DeleteZoneError = AzureOpError;
@@ -608,6 +630,8 @@ export const DeleteZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteZone",
 }));
 
 export type GetDnsResourceReferenceByTargetResourcesError = AzureOpError;
@@ -623,6 +647,8 @@ export const GetDnsResourceReferenceByTargetResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDnsResourceReferenceByTargetResources",
 }));
 
 export type GetRecordSetError = AzureOpError;
@@ -638,6 +664,8 @@ export const GetRecordSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecordSet",
 }));
 
 export type GetZoneError = AzureOpError;
@@ -653,6 +681,8 @@ export const GetZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZone",
 }));
 
 export type ListRecordSetAllByDnsZoneError = AzureOpError;
@@ -668,6 +698,8 @@ export const ListRecordSetAllByDnsZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecordSetAllByDnsZone",
 }));
 
 export type ListRecordSetByDnsZoneError = AzureOpError;
@@ -683,6 +715,8 @@ export const ListRecordSetByDnsZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecordSetByDnsZone",
 }));
 
 export type ListRecordSetByTypeError = AzureOpError;
@@ -698,6 +732,8 @@ export const ListRecordSetByType: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecordSetByType",
 }));
 
 export type ListZoneByResourceGroupError = AzureOpError;
@@ -713,6 +749,8 @@ export const ListZoneByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListZoneByResourceGroup",
 }));
 
 export type ListZonesError = AzureOpError;
@@ -728,6 +766,8 @@ export const ListZones: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListZones",
 }));
 
 export type RecordSetsCreateOrUpdateError = AzureOpError;
@@ -743,6 +783,8 @@ export const RecordSetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordSetsCreateOrUpdate",
 }));
 
 export type UpdateRecordSetError = AzureOpError;
@@ -758,6 +800,8 @@ export const UpdateRecordSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRecordSet",
 }));
 
 export type UpdateZoneError = AzureOpError;
@@ -773,6 +817,8 @@ export const UpdateZone: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateZone",
 }));
 
 export type ZonesCreateOrUpdateError = AzureOpError;
@@ -788,6 +834,8 @@ export const ZonesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ZonesCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

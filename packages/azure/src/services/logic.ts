@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Logic" },
+  prefix: "Logic",
+  service: "Logic",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CancelWorkflowRunRequest {
   /** The subscription id. */
   subscriptionId: string;
@@ -5036,6 +5056,8 @@ export const CancelWorkflowRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelWorkflowRun",
 }));
 
 export type DeleteIntegrationAccountError = AzureOpError;
@@ -5051,6 +5073,8 @@ export const DeleteIntegrationAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAccount",
 }));
 
 export type DeleteIntegrationAccountAgreementError = AzureOpError;
@@ -5066,6 +5090,8 @@ export const DeleteIntegrationAccountAgreement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAccountAgreement",
 }));
 
 export type DeleteIntegrationAccountAssemblyError = AzureOpError;
@@ -5081,6 +5107,8 @@ export const DeleteIntegrationAccountAssembly: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAccountAssembly",
 }));
 
 export type DeleteIntegrationAccountBatchConfigurationError = AzureOpError;
@@ -5096,6 +5124,8 @@ export const DeleteIntegrationAccountBatchConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAccountBatchConfiguration",
 }));
 
 export type DeleteIntegrationAccountCertificateError = AzureOpError;
@@ -5111,6 +5141,8 @@ export const DeleteIntegrationAccountCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAccountCertificate",
 }));
 
 export type DeleteIntegrationAccountMapError = AzureOpError;
@@ -5126,6 +5158,8 @@ export const DeleteIntegrationAccountMap: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAccountMap",
 }));
 
 export type DeleteIntegrationAccountPartnerError = AzureOpError;
@@ -5141,6 +5175,8 @@ export const DeleteIntegrationAccountPartner: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAccountPartner",
 }));
 
 export type DeleteIntegrationAccountSchemaError = AzureOpError;
@@ -5156,6 +5192,8 @@ export const DeleteIntegrationAccountSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAccountSchema",
 }));
 
 export type DeleteIntegrationAccountSessionError = AzureOpError;
@@ -5171,6 +5209,8 @@ export const DeleteIntegrationAccountSession: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationAccountSession",
 }));
 
 export type DeleteIntegrationServiceEnvironmentError = AzureOpError;
@@ -5186,6 +5226,8 @@ export const DeleteIntegrationServiceEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationServiceEnvironment",
 }));
 
 export type DeleteIntegrationServiceEnvironmentManagedApisError = AzureOpError;
@@ -5209,6 +5251,8 @@ export const DeleteIntegrationServiceEnvironmentManagedApis: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationServiceEnvironmentManagedApis",
 }));
 
 export type DeleteWorkflowError = AzureOpError;
@@ -5224,6 +5268,8 @@ export const DeleteWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DisableWorkflowError = AzureOpError;
@@ -5239,6 +5285,8 @@ export const DisableWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableWorkflow",
 }));
 
 export type EnableWorkflowError = AzureOpError;
@@ -5254,6 +5302,8 @@ export const EnableWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableWorkflow",
 }));
 
 export type GenerateWorkflowUpgradedDefinitionError = AzureOpError;
@@ -5269,6 +5319,8 @@ export const GenerateWorkflowUpgradedDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateWorkflowUpgradedDefinition",
 }));
 
 export type GetIntegrationAccountError = AzureOpError;
@@ -5284,6 +5336,8 @@ export const GetIntegrationAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAccount",
 }));
 
 export type GetIntegrationAccountAgreementError = AzureOpError;
@@ -5299,6 +5353,8 @@ export const GetIntegrationAccountAgreement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAccountAgreement",
 }));
 
 export type GetIntegrationAccountAssemblyError = AzureOpError;
@@ -5314,6 +5370,8 @@ export const GetIntegrationAccountAssembly: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAccountAssembly",
 }));
 
 export type GetIntegrationAccountBatchConfigurationError = AzureOpError;
@@ -5329,6 +5387,8 @@ export const GetIntegrationAccountBatchConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAccountBatchConfiguration",
 }));
 
 export type GetIntegrationAccountCertificateError = AzureOpError;
@@ -5344,6 +5404,8 @@ export const GetIntegrationAccountCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAccountCertificate",
 }));
 
 export type GetIntegrationAccountMapError = AzureOpError;
@@ -5359,6 +5421,8 @@ export const GetIntegrationAccountMap: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAccountMap",
 }));
 
 export type GetIntegrationAccountPartnerError = AzureOpError;
@@ -5374,6 +5438,8 @@ export const GetIntegrationAccountPartner: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAccountPartner",
 }));
 
 export type GetIntegrationAccountSchemaError = AzureOpError;
@@ -5389,6 +5455,8 @@ export const GetIntegrationAccountSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAccountSchema",
 }));
 
 export type GetIntegrationAccountSessionError = AzureOpError;
@@ -5404,6 +5472,8 @@ export const GetIntegrationAccountSession: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationAccountSession",
 }));
 
 export type GetIntegrationServiceEnvironmentError = AzureOpError;
@@ -5419,6 +5489,8 @@ export const GetIntegrationServiceEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationServiceEnvironment",
 }));
 
 export type GetIntegrationServiceEnvironmentManagedApisError = AzureOpError;
@@ -5438,6 +5510,8 @@ export const GetIntegrationServiceEnvironmentManagedApis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationServiceEnvironmentManagedApis",
 }));
 
 export type GetIntegrationServiceEnvironmentNetworkHealthError = AzureOpError;
@@ -5461,6 +5535,8 @@ export const GetIntegrationServiceEnvironmentNetworkHealth: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationServiceEnvironmentNetworkHealth",
 }));
 
 export type GetWorkflowError = AzureOpError;
@@ -5476,6 +5552,8 @@ export const GetWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowRunError = AzureOpError;
@@ -5491,6 +5569,8 @@ export const GetWorkflowRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRun",
 }));
 
 export type GetWorkflowRunActionError = AzureOpError;
@@ -5506,6 +5586,8 @@ export const GetWorkflowRunAction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRunAction",
 }));
 
 export type GetWorkflowRunActionRepetitionError = AzureOpError;
@@ -5521,6 +5603,8 @@ export const GetWorkflowRunActionRepetition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRunActionRepetition",
 }));
 
 export type GetWorkflowRunActionRepetitionsRequestHistoryError = AzureOpError;
@@ -5544,6 +5628,8 @@ export const GetWorkflowRunActionRepetitionsRequestHistory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRunActionRepetitionsRequestHistory",
 }));
 
 export type GetWorkflowRunActionRequestHistoryError = AzureOpError;
@@ -5559,6 +5645,8 @@ export const GetWorkflowRunActionRequestHistory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRunActionRequestHistory",
 }));
 
 export type GetWorkflowRunActionScopeRepetitionError = AzureOpError;
@@ -5574,6 +5662,8 @@ export const GetWorkflowRunActionScopeRepetition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRunActionScopeRepetition",
 }));
 
 export type GetWorkflowRunOperationError = AzureOpError;
@@ -5589,6 +5679,8 @@ export const GetWorkflowRunOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRunOperation",
 }));
 
 export type GetWorkflowTriggerError = AzureOpError;
@@ -5604,6 +5696,8 @@ export const GetWorkflowTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowTrigger",
 }));
 
 export type GetWorkflowTriggerHistoryError = AzureOpError;
@@ -5619,6 +5713,8 @@ export const GetWorkflowTriggerHistory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowTriggerHistory",
 }));
 
 export type GetWorkflowTriggerSchemaJsonError = AzureOpError;
@@ -5634,6 +5730,8 @@ export const GetWorkflowTriggerSchemaJson: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowTriggerSchemaJson",
 }));
 
 export type GetWorkflowVersionError = AzureOpError;
@@ -5649,6 +5747,8 @@ export const GetWorkflowVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowVersion",
 }));
 
 export type IntegrationAccountAgreementsCreateOrUpdateError = AzureOpError;
@@ -5668,6 +5768,8 @@ export const IntegrationAccountAgreementsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountAgreementsCreateOrUpdate",
 }));
 
 export type IntegrationAccountAssembliesCreateOrUpdateError = AzureOpError;
@@ -5683,6 +5785,8 @@ export const IntegrationAccountAssembliesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountAssembliesCreateOrUpdate",
 }));
 
 export type IntegrationAccountBatchConfigurationsCreateOrUpdateError = AzureOpError;
@@ -5706,6 +5810,8 @@ export const IntegrationAccountBatchConfigurationsCreateOrUpdate: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountBatchConfigurationsCreateOrUpdate",
 }));
 
 export type IntegrationAccountCertificatesCreateOrUpdateError = AzureOpError;
@@ -5729,6 +5835,8 @@ export const IntegrationAccountCertificatesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountCertificatesCreateOrUpdate",
 }));
 
 export type IntegrationAccountMapsCreateOrUpdateError = AzureOpError;
@@ -5744,6 +5852,8 @@ export const IntegrationAccountMapsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountMapsCreateOrUpdate",
 }));
 
 export type IntegrationAccountPartnersCreateOrUpdateError = AzureOpError;
@@ -5759,6 +5869,8 @@ export const IntegrationAccountPartnersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountPartnersCreateOrUpdate",
 }));
 
 export type IntegrationAccountSchemasCreateOrUpdateError = AzureOpError;
@@ -5774,6 +5886,8 @@ export const IntegrationAccountSchemasCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountSchemasCreateOrUpdate",
 }));
 
 export type IntegrationAccountsCreateOrUpdateError = AzureOpError;
@@ -5789,6 +5903,8 @@ export const IntegrationAccountsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountsCreateOrUpdate",
 }));
 
 export type IntegrationAccountSessionsCreateOrUpdateError = AzureOpError;
@@ -5804,6 +5920,8 @@ export const IntegrationAccountSessionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountSessionsCreateOrUpdate",
 }));
 
 export type IntegrationAccountsLogTrackingEventsError = AzureOpError;
@@ -5819,6 +5937,8 @@ export const IntegrationAccountsLogTrackingEvents: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationAccountsLogTrackingEvents",
 }));
 
 export type IntegrationServiceEnvironmentsCreateOrUpdateError = AzureOpError;
@@ -5842,6 +5962,8 @@ export const IntegrationServiceEnvironmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntegrationServiceEnvironmentsCreateOrUpdate",
 }));
 
 export type ListIntegrationAccountAgreementContentCallbackUrlError = AzureOpError;
@@ -5861,6 +5983,8 @@ export const ListIntegrationAccountAgreementContentCallbackUrl: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountAgreementContentCallbackUrl",
 }));
 
 export type ListIntegrationAccountAgreementsError = AzureOpError;
@@ -5876,6 +6000,8 @@ export const ListIntegrationAccountAgreements: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountAgreements",
 }));
 
 export type ListIntegrationAccountAssembliesError = AzureOpError;
@@ -5891,6 +6017,8 @@ export const ListIntegrationAccountAssemblies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountAssemblies",
 }));
 
 export type ListIntegrationAccountAssemblyContentCallbackUrlError = AzureOpError;
@@ -5910,6 +6038,8 @@ export const ListIntegrationAccountAssemblyContentCallbackUrl: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountAssemblyContentCallbackUrl",
 }));
 
 export type ListIntegrationAccountBatchConfigurationsError = AzureOpError;
@@ -5925,6 +6055,8 @@ export const ListIntegrationAccountBatchConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountBatchConfigurations",
 }));
 
 export type ListIntegrationAccountByResourceGroupError = AzureOpError;
@@ -5940,6 +6072,8 @@ export const ListIntegrationAccountByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountByResourceGroup",
 }));
 
 export type ListIntegrationAccountBySubscriptionError = AzureOpError;
@@ -5955,6 +6089,8 @@ export const ListIntegrationAccountBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountBySubscription",
 }));
 
 export type ListIntegrationAccountCallbackUrlError = AzureOpError;
@@ -5970,6 +6106,8 @@ export const ListIntegrationAccountCallbackUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountCallbackUrl",
 }));
 
 export type ListIntegrationAccountCertificatesError = AzureOpError;
@@ -5985,6 +6123,8 @@ export const ListIntegrationAccountCertificates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountCertificates",
 }));
 
 export type ListIntegrationAccountKeyVaultKeysError = AzureOpError;
@@ -6000,6 +6140,8 @@ export const ListIntegrationAccountKeyVaultKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountKeyVaultKeys",
 }));
 
 export type ListIntegrationAccountMapContentCallbackUrlError = AzureOpError;
@@ -6019,6 +6161,8 @@ export const ListIntegrationAccountMapContentCallbackUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountMapContentCallbackUrl",
 }));
 
 export type ListIntegrationAccountMapsError = AzureOpError;
@@ -6034,6 +6178,8 @@ export const ListIntegrationAccountMaps: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountMaps",
 }));
 
 export type ListIntegrationAccountPartnerContentCallbackUrlError = AzureOpError;
@@ -6053,6 +6199,8 @@ export const ListIntegrationAccountPartnerContentCallbackUrl: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountPartnerContentCallbackUrl",
 }));
 
 export type ListIntegrationAccountPartnersError = AzureOpError;
@@ -6068,6 +6216,8 @@ export const ListIntegrationAccountPartners: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountPartners",
 }));
 
 export type ListIntegrationAccountSchemaContentCallbackUrlError = AzureOpError;
@@ -6087,6 +6237,8 @@ export const ListIntegrationAccountSchemaContentCallbackUrl: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountSchemaContentCallbackUrl",
 }));
 
 export type ListIntegrationAccountSchemasError = AzureOpError;
@@ -6102,6 +6254,8 @@ export const ListIntegrationAccountSchemas: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountSchemas",
 }));
 
 export type ListIntegrationAccountSessionsError = AzureOpError;
@@ -6117,6 +6271,8 @@ export const ListIntegrationAccountSessions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationAccountSessions",
 }));
 
 export type ListIntegrationServiceEnvironmentByResourceGroupError = AzureOpError;
@@ -6136,6 +6292,8 @@ export const ListIntegrationServiceEnvironmentByResourceGroup: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationServiceEnvironmentByResourceGroup",
 }));
 
 export type ListIntegrationServiceEnvironmentBySubscriptionError = AzureOpError;
@@ -6155,6 +6313,8 @@ export const ListIntegrationServiceEnvironmentBySubscription: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationServiceEnvironmentBySubscription",
 }));
 
 export type ListIntegrationServiceEnvironmentManagedApiOperationsError = AzureOpError;
@@ -6174,6 +6334,8 @@ export const ListIntegrationServiceEnvironmentManagedApiOperations: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationServiceEnvironmentManagedApiOperations",
 }));
 
 export type ListIntegrationServiceEnvironmentManagedApisError = AzureOpError;
@@ -6197,6 +6359,8 @@ export const ListIntegrationServiceEnvironmentManagedApis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationServiceEnvironmentManagedApis",
 }));
 
 export type ListIntegrationServiceEnvironmentSkusError = AzureOpError;
@@ -6212,6 +6376,8 @@ export const ListIntegrationServiceEnvironmentSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationServiceEnvironmentSkus",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -6227,6 +6393,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListWorkflowByResourceGroupError = AzureOpError;
@@ -6242,6 +6410,8 @@ export const ListWorkflowByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowByResourceGroup",
 }));
 
 export type ListWorkflowBySubscriptionError = AzureOpError;
@@ -6257,6 +6427,8 @@ export const ListWorkflowBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowBySubscription",
 }));
 
 export type ListWorkflowCallbackUrlError = AzureOpError;
@@ -6272,6 +6444,8 @@ export const ListWorkflowCallbackUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowCallbackUrl",
 }));
 
 export type ListWorkflowRunActionExpressionTracesError = AzureOpError;
@@ -6287,6 +6461,8 @@ export const ListWorkflowRunActionExpressionTraces: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRunActionExpressionTraces",
 }));
 
 export type ListWorkflowRunActionRepetitionExpressionTracesError = AzureOpError;
@@ -6306,6 +6482,8 @@ export const ListWorkflowRunActionRepetitionExpressionTraces: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRunActionRepetitionExpressionTraces",
 }));
 
 export type ListWorkflowRunActionRepetitionsError = AzureOpError;
@@ -6321,6 +6499,8 @@ export const ListWorkflowRunActionRepetitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRunActionRepetitions",
 }));
 
 export type ListWorkflowRunActionRepetitionsRequestHistoriesError = AzureOpError;
@@ -6340,6 +6520,8 @@ export const ListWorkflowRunActionRepetitionsRequestHistories: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRunActionRepetitionsRequestHistories",
 }));
 
 export type ListWorkflowRunActionRequestHistoriesError = AzureOpError;
@@ -6355,6 +6537,8 @@ export const ListWorkflowRunActionRequestHistories: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRunActionRequestHistories",
 }));
 
 export type ListWorkflowRunActionsError = AzureOpError;
@@ -6370,6 +6554,8 @@ export const ListWorkflowRunActions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRunActions",
 }));
 
 export type ListWorkflowRunActionScopeRepetitionsError = AzureOpError;
@@ -6385,6 +6571,8 @@ export const ListWorkflowRunActionScopeRepetitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRunActionScopeRepetitions",
 }));
 
 export type ListWorkflowRunsError = AzureOpError;
@@ -6400,6 +6588,8 @@ export const ListWorkflowRuns: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRuns",
 }));
 
 export type ListWorkflowSwaggerError = AzureOpError;
@@ -6415,6 +6605,8 @@ export const ListWorkflowSwagger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowSwagger",
 }));
 
 export type ListWorkflowTriggerCallbackUrlError = AzureOpError;
@@ -6430,6 +6622,8 @@ export const ListWorkflowTriggerCallbackUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowTriggerCallbackUrl",
 }));
 
 export type ListWorkflowTriggerHistoriesError = AzureOpError;
@@ -6445,6 +6639,8 @@ export const ListWorkflowTriggerHistories: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowTriggerHistories",
 }));
 
 export type ListWorkflowTriggersError = AzureOpError;
@@ -6460,6 +6656,8 @@ export const ListWorkflowTriggers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowTriggers",
 }));
 
 export type ListWorkflowVersionsError = AzureOpError;
@@ -6475,6 +6673,8 @@ export const ListWorkflowVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowVersions",
 }));
 
 export type ListWorkflowVersionTriggerCallbackUrlError = AzureOpError;
@@ -6490,6 +6690,8 @@ export const ListWorkflowVersionTriggerCallbackUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowVersionTriggerCallbackUrl",
 }));
 
 export type MoveWorkflowError = AzureOpError;
@@ -6505,6 +6707,8 @@ export const MoveWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveWorkflow",
 }));
 
 export type PutIntegrationServiceEnvironmentManagedApisError = AzureOpError;
@@ -6528,6 +6732,8 @@ export const PutIntegrationServiceEnvironmentManagedApis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutIntegrationServiceEnvironmentManagedApis",
 }));
 
 export type RegenerateIntegrationAccountAccessKeyError = AzureOpError;
@@ -6543,6 +6749,8 @@ export const RegenerateIntegrationAccountAccessKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateIntegrationAccountAccessKey",
 }));
 
 export type RegenerateWorkflowAccessKeyError = AzureOpError;
@@ -6558,6 +6766,8 @@ export const RegenerateWorkflowAccessKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateWorkflowAccessKey",
 }));
 
 export type ResetWorkflowTriggerError = AzureOpError;
@@ -6573,6 +6783,8 @@ export const ResetWorkflowTrigger: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetWorkflowTrigger",
 }));
 
 export type RestartIntegrationServiceEnvironmentError = AzureOpError;
@@ -6588,6 +6800,8 @@ export const RestartIntegrationServiceEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartIntegrationServiceEnvironment",
 }));
 
 export type SetWorkflowTriggerStateError = AzureOpError;
@@ -6603,6 +6817,8 @@ export const SetWorkflowTriggerState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetWorkflowTriggerState",
 }));
 
 export type TriggerRunWorkflowError = AzureOpError;
@@ -6618,6 +6834,8 @@ export const TriggerRunWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerRunWorkflow",
 }));
 
 export type UpdateIntegrationAccountError = AzureOpError;
@@ -6633,6 +6851,8 @@ export const UpdateIntegrationAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationAccount",
 }));
 
 export type UpdateIntegrationServiceEnvironmentError = AzureOpError;
@@ -6648,6 +6868,8 @@ export const UpdateIntegrationServiceEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationServiceEnvironment",
 }));
 
 export type UpdateWorkflowError = AzureOpError;
@@ -6663,6 +6885,8 @@ export const UpdateWorkflow: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflow",
 }));
 
 export type ValidateWorkflowByLocationError = AzureOpError;
@@ -6678,6 +6902,8 @@ export const ValidateWorkflowByLocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateWorkflowByLocation",
 }));
 
 export type ValidateWorkflowByResourceGroupError = AzureOpError;
@@ -6693,6 +6919,8 @@ export const ValidateWorkflowByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateWorkflowByResourceGroup",
 }));
 
 export type WorkflowsCreateOrUpdateError = AzureOpError;
@@ -6708,6 +6936,8 @@ export const WorkflowsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkflowsCreateOrUpdate",
 }));
 
 export type WorkflowTriggerHistoriesResubmitError = AzureOpError;
@@ -6723,6 +6953,8 @@ export const WorkflowTriggerHistoriesResubmit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkflowTriggerHistoriesResubmit",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

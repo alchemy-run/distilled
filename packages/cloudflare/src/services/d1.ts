@@ -49,6 +49,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   uploadUrl: "upload_url",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "D1",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class DatabaseAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DatabaseAlreadyExists>()("DatabaseAlreadyExists", {
@@ -672,6 +686,8 @@ export const createDatabase: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type DeleteDatabaseError =
@@ -697,6 +713,8 @@ export const deleteDatabase: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type ExportDatabaseError =
@@ -722,6 +740,8 @@ export const exportDatabase: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportDatabase",
 }));
 
 export type GetBookmarkDatabaseTimeTravelError =
@@ -749,6 +769,8 @@ export const getBookmarkDatabaseTimeTravel: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBookmarkDatabaseTimeTravel",
 }));
 
 export type GetDatabaseError =
@@ -774,6 +796,8 @@ export const getDatabase: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type ImportDatabaseError = InvalidObjectIdentifier | CloudflareOpError;
@@ -789,6 +813,8 @@ export const importDatabase: API.OperationMethod<
   errors: [InvalidObjectIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportDatabase",
 }));
 
 export type ListDatabasesError = CloudflareOpError;
@@ -806,6 +832,8 @@ export const listDatabases: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDatabases",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -840,6 +868,8 @@ export const patchDatabase: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDatabase",
 }));
 
 export type QueryDatabaseError = CloudflareOpError;
@@ -857,6 +887,8 @@ export const queryDatabase: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "QueryDatabase",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -877,6 +909,8 @@ export const rawDatabase: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "RawDatabase",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -907,6 +941,8 @@ export const restoreDatabaseTimeTravel: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreDatabaseTimeTravel",
 }));
 
 export type UndeleteDatabaseError = CloudflareOpError;
@@ -922,6 +958,8 @@ export const undeleteDatabase: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UndeleteDatabase",
 }));
 
 export type UpdateDatabaseError =
@@ -947,6 +985,8 @@ export const updateDatabase: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabase",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

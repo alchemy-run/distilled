@@ -62,7 +62,8 @@ const finalize = async (model: unknown, patches: Record<string, unknown[]> = {})
   for (const [name, ops] of Object.entries(patches)) {
     writeFileSync(join(root, "patches", "apps", name), JSON.stringify({ patches: ops }));
   }
-  await finalizeConvert({ root, operationNaming: "as-is" });
+  // Naming only: telemetry traits are covered by telemetry.test.ts.
+  await finalizeConvert({ root, operationNaming: "as-is", telemetry: false });
   return JSON.parse(readFileSync(join(root, ".generated-specs", "apps.json"), "utf8"));
 };
 
