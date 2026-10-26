@@ -31101,6 +31101,9 @@
           "target": "aws.patched#RequestLimitExceeded"
         },
         {
+          "target": "aws.patched#IdempotentParameterMismatch"
+        },
+        {
           "target": "aws.patched#InvalidZoneNotFound"
         },
         {
@@ -31108,6 +31111,9 @@
         },
         {
           "target": "aws.patched#UnauthorizedOperation"
+        },
+        {
+          "target": "aws.synthetic#IdempotentVolumeDeleted"
         }
       ]
     },
@@ -135220,6 +135226,9 @@
           "target": "aws.patched#RequestLimitExceeded"
         },
         {
+          "target": "aws.patched#IdempotentParameterMismatch"
+        },
+        {
           "target": "aws.patched#InvalidAMIIDMalformed"
         },
         {
@@ -156706,6 +156715,11 @@
       "members": {},
       "traits": {}
     },
+    "aws.patched#IdempotentParameterMismatch": {
+      "type": "structure",
+      "members": {},
+      "traits": {}
+    },
     "aws.patched#InvalidAMIIDMalformed": {
       "type": "structure",
       "members": {},
@@ -157073,6 +157087,18 @@
         "aws.codegen#errorTag": "InvalidZone.NotFound"
       }
     },
+    "aws.synthetic#IdempotentVolumeDeleted": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "IdempotentParameterMismatch",
+          "message": {
+            "includes": "associated with a resource that is already deleted"
+          }
+        }
+      }
+    },
     "aws.patched#InvalidHostConfiguration": {
       "type": "structure",
       "members": {},
@@ -157352,11 +157378,6 @@
       "traits": {
         "aws.codegen#errorTag": "InvalidRoute.Malformed"
       }
-    },
-    "aws.patched#IdempotentParameterMismatch": {
-      "type": "structure",
-      "members": {},
-      "traits": {}
     },
     "aws.patched#InvalidPublicIpv4PoolNotFound": {
       "type": "structure",
