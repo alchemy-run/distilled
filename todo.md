@@ -54,3 +54,11 @@
   - hostinger — distilled#338
   - discord — distilled#276
   - modrinth — distilled#287
+- upload converted specs on release to our own infra (R2), not GitHub
+  - once #933 stops committing `packages/*/.generated-specs/`, the few people
+    who read the converted models need another place to get them
+  - the release fetches the spec mirrors, runs each package's `convert`, and
+    uploads the result to R2 keyed by version; a small script downloads one
+    package's models into `packages/<pkg>/.generated-specs/`
+  - not GitHub Actions artifacts or a mirror repo; `pnpm convert <pkg>` stays
+    the local fallback

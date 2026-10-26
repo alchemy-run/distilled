@@ -5,10 +5,10 @@ import * as path from "node:path";
 import {
   convertGraphQLClient,
   validateGraphQLModel,
-} from "../../core/src/codegen/graphql-client.ts";
-import { writeModel } from "../../core/src/codegen/models.ts";
-import { applyRfc6902Files, listRfc6902PatchFiles } from "../../core/src/codegen/patches.ts";
-import { resolveSpecPath } from "../../core/src/codegen/spec-path.ts";
+} from "../../dev/src/codegen/graphql-client.ts";
+import { writeModel } from "../../dev/src/codegen/models.ts";
+import { applyRfc6902Files, listRfc6902PatchFiles } from "../../dev/src/codegen/patches.ts";
+import { resolveSpecPath } from "../../dev/src/codegen/spec-path.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
 const source = resolveSpecPath(root, "specs/spec-mirror-railway/specs/schema.json");

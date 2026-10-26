@@ -1,3 +1,4 @@
+import * as Effect from "effect/Effect";
 import * as Headers from "effect/http/Headers";
 import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -13,6 +14,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
  */
 import type * as AST from "effect/SchemaAST";
 import { debugHttp } from "./debug.ts";
+import { InvalidInput } from "./errors.ts";
 import { isOpaqueValue } from "./plain-values.ts";
 import {
   bodySymbol,
@@ -608,6 +610,27 @@ export const makeRequest = (
   );
 
 /**
+ * The refusal for a path label value that would address another resource,
+ * or `undefined`. The URL parser resolves a `.` or `..` segment,
+ * percent-encoded or not, so no encoding can carry one
+ * (`/projects/p1/branches/..` -> `/projects/p1/`). A greedy label keeps its
+ * `/`, so each of its segments counts.
+ */
+export const invalidLabel = (
+  member: string,
+  value: unknown,
+  greedy?: boolean,
+): InvalidInput | undefined => {
+  const text = String(value);
+  return (greedy ? text.split("/") : [text]).some((s) => s === "." || s === "..")
+    ? new InvalidInput({
+        member,
+        message: `Input member ${member} cannot be ${JSON.stringify(text)}: as a path label it would address another resource`,
+      })
+    : undefined;
+};
+
+/**
  * Build an HTTP request from an operation input and its schema, driven by
  * the trait annotations: `Http()` supplies method + URI template, `Label()`
  * members fill URI placeholders, `Header()`/`Query()` members bind to
@@ -619,19 +642,26 @@ export const makeRequest = (
  * The schema is read once per input schema (see `planFor`); later calls only
  * walk the input value.
  *
+ * Fails with {@link InvalidInput}, before anything is sent, when a label is
+ * `.` or `..` (for a greedy `{name+}` label, when any of its segments is).
  * Throws when the input schema is missing the `Http()` trait -- a codegen
- * bug -- and, before anything is sent, when a label is `.` or `..` (for a
- * greedy `{name+}` label, when any of its segments is). Each surfaces as a
- * defect by the calling protocol's Effect context.
+ * bug, which the calling protocol's Effect surfaces as a defect.
  */
-export const buildRequest = ({
+export const buildRequest = (
+  options: BuildRequestOptions,
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
+  const request = requestOrInvalid(options);
+  return request instanceof InvalidInput ? Effect.fail(request) : Effect.succeed(request);
+};
+
+const requestOrInvalid = ({
   input,
   inputAst,
   baseUrl,
   headers: baseHeaders,
   mapMemberHeader,
   unknownKeyToWire,
-}: BuildRequestOptions): HttpClientRequest.HttpClientRequest => {
+}: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput => {
   const inputObj = (input ?? {}) as Record<string, unknown>;
   const plan = planFor(inputAst);
   const { http, rootDict, members, known } = plan;
@@ -654,17 +684,8 @@ export const buildRequest = ({
     if (value === undefined) continue;
     switch (m.bind) {
       case "label": {
-        // The URL parser resolves a `.` or `..` segment, percent-encoded or
-        // not, so no encoding can carry one: it would address another path
-        // (`/projects/p1/branches/..` -> `/projects/p1/`). A greedy label keeps
-        // its `/`, so each of its segments counts.
-        if (
-          (m.greedy ? String(value).split("/") : [String(value)]).some(
-            (s) => s === "." || s === "..",
-          )
-        ) {
-          throw new Error(`invalid value for input HTTP label: ${m.key}`);
-        }
+        const invalid = invalidLabel(m.key, value, m.greedy);
+        if (invalid) return invalid;
         const encoded = encodeURIComponent(String(value));
         const preserve = m.preserve;
         const label =

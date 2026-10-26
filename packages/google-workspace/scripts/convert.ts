@@ -45,9 +45,9 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { clearModels, writeModel } from "@distilled.cloud/core/codegen/models";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 // =============================================================================
 // Discovery document types (the subset the converter reads)

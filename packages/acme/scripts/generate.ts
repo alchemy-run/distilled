@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the ACME Smithy model into the Effect ACME SDK.
  *
@@ -7,12 +7,12 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  *         RFC 8555 in the spec mirror (no vendor spec exists for a protocol).
  * Output: src/services/acme.ts  +  src/services/index.ts
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const spec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,

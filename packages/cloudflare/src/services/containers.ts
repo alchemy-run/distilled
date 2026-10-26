@@ -187,6 +187,8 @@ export interface CreateContainerApplicationRequest {
   durableObjects?: DurableObjectsRef;
   instances?: number;
   schedulingPolicy?: string;
+  /** Grace period, in seconds, an active instance is given before it is shut down during a rollout. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/CreateApplicationRequest.ts (2026-10-23). */
+  rolloutActiveGracePeriod?: number;
   constraints?: unknown;
   affinities?: unknown;
   jobs?: boolean;
@@ -372,6 +374,8 @@ export interface UpdateContainerApplicationRequest {
   configuration?: ContainerApplicationConfiguration;
   instances?: number;
   schedulingPolicy?: string;
+  /** Grace period, in seconds, an active instance is given before it is shut down during a rollout. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/ModifyApplicationRequestBody.ts (2026-10-23). */
+  rolloutActiveGracePeriod?: number;
   constraints?: unknown;
   affinities?: unknown;
   observability?: ContainerApplicationObservability;
@@ -848,6 +852,9 @@ function __c10(j: number): any {
           configuration: S.optional(__S(80, __c10, 0)),
           instances: S.optional(S.Number),
           schedulingPolicy: S.optional(S.String.pipe(T.Body("scheduling_policy"))),
+          rolloutActiveGracePeriod: S.optional(
+            S.Number.pipe(T.Body("rollout_active_grace_period")),
+          ),
           constraints: S.optional(S.Unknown),
           affinities: S.optional(S.Unknown),
           observability: S.optional(__S(28, __c3, 4)),
@@ -875,6 +882,9 @@ function __c11(j: number): any {
           durableObjects: S.optional(__S(136, __c17, 0).pipe(T.Body("durable_objects"))),
           instances: S.optional(S.Number),
           schedulingPolicy: S.optional(S.String.pipe(T.Body("scheduling_policy"))),
+          rolloutActiveGracePeriod: S.optional(
+            S.Number.pipe(T.Body("rollout_active_grace_period")),
+          ),
           constraints: S.optional(S.Unknown),
           affinities: S.optional(S.Unknown),
           jobs: S.optional(S.Boolean),

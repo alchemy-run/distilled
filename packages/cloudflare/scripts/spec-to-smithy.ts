@@ -38,9 +38,9 @@
  *   node --conditions=bun scripts/spec-to-smithy.ts --specs specs/spec-mirror-cloudflare/specs/api/resources --out .generated-specs
  */
 
-import { writeModel } from "@distilled.cloud/core/codegen/models";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect } from "effect";
 import { Flag } from "effect/cli";
@@ -2199,7 +2199,7 @@ const run = (config: ConvertConfig) =>
 
 /**
  * Convert the mirrored specs into the Smithy models under `.generated-specs`
- * — written through `@distilled.cloud/core/codegen/models`, so in memory
+ * — written through `@distilled.cloud/dev/codegen/models`, so in memory
  * when generate runs this, on disk when the CLI below does.
  */
 export const convert = (config: Partial<ConvertConfig> = {}): Promise<void> =>

@@ -1246,7 +1246,18 @@ const execute = (compiled: Compiled): Effect.Effect<unknown, ExecuteError, GqlTr
     const response = yield* transport.execute(compiled);
     const data = redactSelected(compiled.tree, response.data);
     const raw = response.errors ?? [];
-    if (raw.length === 0) return data;
+    if (raw.length === 0) {
+      // Without errors, a GraphQL response must carry a `data` object.
+      if (!isRecord(response.data)) {
+        return yield* Effect.fail(
+          new GraphQLTransportError({
+            message: "GraphQL response has no data object and no errors",
+            status: response.status,
+          }),
+        );
+      }
+      return data;
+    }
     const issues = raw.map((error) => classify(compiled, error, response));
     const [first, ...rest] = issues as [GraphQLIssue, ...GraphQLIssue[]];
     return yield* Effect.fail(
@@ -1294,13 +1305,34 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
  * declares (or the global errors for a path-less error). A tie between
  * different tags is ambiguous and stays {@link UnknownGraphQLError}.
  */
-const classify = (
-  compiled: Compiled,
-  raw: RawGraphQLError,
-  response: GraphQLResponse,
-): GraphQLIssue => {
-  const path = Array.isArray(raw.path) ? raw.path : undefined;
-  const root = typeof path?.[0] === "string" ? compiled.rootErrors.get(path[0]) : undefined;
+const classify = (compiled: Compiled, entry: unknown, response: GraphQLResponse): GraphQLIssue => {
+  // The entry comes from the wire: anything that is not an object (`null`,
+  // a bare string) is read as an error with only a message.
+  const raw: Partial<RawGraphQLError> = isRecord(entry)
+    ? (entry as Partial<RawGraphQLError>)
+    : {
+        message:
+          typeof entry === "string"
+            ? entry
+            : `malformed GraphQL error entry (${entry === null ? "null" : typeof entry})`,
+      };
+  const rawPath = Array.isArray(raw.path) ? (raw.path as ReadonlyArray<unknown>) : undefined;
+  const root = typeof rawPath?.[0] === "string" ? compiled.rootErrors.get(rawPath[0]) : undefined;
+  // The error classes validate `path` and `locations`, so a malformed value
+  // is left out instead of making the constructor throw.
+  const path = rawPath?.every((key) => typeof key === "string" || typeof key === "number")
+    ? (rawPath as ReadonlyArray<string | number>)
+    : undefined;
+  const locations =
+    Array.isArray(raw.locations) &&
+    raw.locations.every(
+      (location: unknown) =>
+        isRecord(location) &&
+        typeof location.line === "number" &&
+        typeof location.column === "number",
+    )
+      ? raw.locations
+      : undefined;
   const candidates = root
     ? root.errors
     : uniqueByTag(
@@ -1321,7 +1353,7 @@ const classify = (
     message,
     code,
     path,
-    locations: raw.locations,
+    locations,
     extensions: raw.extensions,
     traceId:
       typeof extensions.traceId === "string"

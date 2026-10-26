@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Redis
  * Cloud Effect SDK.
@@ -8,11 +8,11 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/redisCloud.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Redis Cloud's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Redis Cloud's provider spec.
  * Redis Cloud keeps the wire's camelCase member names on the TS surface, so
  * no member renaming or wire dictionaries appear here.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";

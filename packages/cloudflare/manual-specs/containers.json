@@ -377,6 +377,12 @@
         "scheduling_policy": {
           "target": "smithy.api#String"
         },
+        "rollout_active_grace_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Grace period, in seconds, an active instance is given before it is shut down during a rollout. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/CreateApplicationRequest.ts (2026-10-23)."
+          }
+        },
         "constraints": {
           "target": "smithy.api#Document"
         },
@@ -466,6 +472,12 @@
         },
         "scheduling_policy": {
           "target": "smithy.api#String"
+        },
+        "rollout_active_grace_period": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Grace period, in seconds, an active instance is given before it is shut down during a rollout. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/ModifyApplicationRequestBody.ts (2026-10-23)."
+          }
         },
         "constraints": {
           "target": "smithy.api#Document"

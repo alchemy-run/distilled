@@ -776,10 +776,24 @@ export interface AppAutoscalingSpecServiceMetricsCpu {
   /** The average target CPU utilization for the component. */
   percent?: number;
 }
+/** Settings for scaling the component based on requests per second. */
+export interface AppAutoscalingSpecServiceMetricsRequestsPerSecond {
+  /** The target number of requests per second per instance for the component. */
+  per_instance?: number;
+}
+/** Settings for scaling the component based on request duration. */
+export interface AppAutoscalingSpecServiceMetricsRequestDuration {
+  /** The p95 target request duration in milliseconds for the component. */
+  p95_milliseconds?: number;
+}
 /** The metrics that the component is scaled on. */
 export interface AppAutoscalingSpecServiceMetrics {
   /** Settings for scaling the component based on CPU utilization. */
   cpu?: AppAutoscalingSpecServiceMetricsCpu;
+  /** Settings for scaling the component based on requests per second. */
+  requests_per_second?: AppAutoscalingSpecServiceMetricsRequestsPerSecond;
+  /** Settings for scaling the component based on request duration. */
+  request_duration?: AppAutoscalingSpecServiceMetricsRequestDuration;
 }
 export interface AppAutoscalingSpecService {
   /** The minimum amount of instances for this component. */
@@ -1086,9 +1100,19 @@ export type AppWorkerSpecInstanceSizeSlug =
 /** Settings for scaling the component based on CPU utilization. */
 export type AppAutoscalingSpecMetricsCpu = AppAutoscalingSpecServiceMetricsCpu;
 /** The metrics that the component is scaled on. */
-export type AppAutoscalingSpecMetrics = AppAutoscalingSpecServiceMetrics;
+export interface AppAutoscalingSpecMetrics {
+  /** Settings for scaling the component based on CPU utilization. */
+  cpu?: AppAutoscalingSpecServiceMetricsCpu;
+}
 /** Configuration for automatically scaling this component based on metrics. */
-export type AppAutoscalingSpec = AppAutoscalingSpecService;
+export interface AppAutoscalingSpec {
+  /** The minimum amount of instances for this component. */
+  min_instance_count?: number;
+  /** The maximum amount of instances for this component. Maximum 250. Consider using a larger instance size if your application requires more than 250 instances. */
+  max_instance_count?: number;
+  /** The metrics that the component is scaled on. */
+  metrics?: AppAutoscalingSpecMetrics;
+}
 export type AppWorkerSpecTermination = AppJobSpecTermination;
 export interface AppWorkerSpec {
   /** The name. Must be unique across all components within the same app. */
@@ -1116,7 +1140,7 @@ export interface AppWorkerSpec {
   instance_count?: number;
   /** The instance size to use for this component. Default: `apps-s-1vcpu-0.5gb` */
   instance_size_slug?: AppWorkerSpecInstanceSizeSlug;
-  autoscaling?: AppAutoscalingSpecService;
+  autoscaling?: AppAutoscalingSpec;
   termination?: AppJobSpecTermination;
   liveness_health_check?: AppHealthCheckSpec;
 }
@@ -6625,6 +6649,37 @@ export interface NotificationChannelBinding {
   notify_on?: NotificationChannelBindingNotifyOnList;
 }
 /** Notification channels to notify when the rule fires. */
+export type CreateInsightAlertRuleRequestSpecNotificationChannelsList =
+  Array<NotificationChannelBinding>;
+/** Minimum wait before re-notifying a still-firing alert. Defaults to `RE_ALERT_DURATION_4H` on create when omitted. Allowed values: - `RE_ALERT_DURATION_30M` = `30m` - `RE_ALERT_DURATION_1H` = `1h` - `RE_ALERT_DURATION_4H` = `4h` - `RE_ALERT_DURATION_NEVER` = never */
+export type CreateInsightAlertRuleRequestSpecReAlertDuration =
+  | "RE_ALERT_DURATION_30M"
+  | "RE_ALERT_DURATION_1H"
+  | "RE_ALERT_DURATION_4H"
+  | "RE_ALERT_DURATION_NEVER";
+/** Spec for an Insights alert rule. On create, `name`, `query`, `thresholds`, and at least one `notification_channels` binding are required. On update, omit `notification_channels` to keep existing bindings; an explicit empty list is rejected. */
+export interface CreateInsightAlertRuleRequestSpec {
+  /** A human-readable name for the alert rule. */
+  name: string;
+  query: MetricsQuery;
+  condition?: AlertCondition;
+  thresholds: unknown;
+  /** Notification channels to notify when the rule fires. */
+  notification_channels: CreateInsightAlertRuleRequestSpecNotificationChannelsList;
+  /** Minimum wait before re-notifying a still-firing alert. Defaults to `RE_ALERT_DURATION_4H` on create when omitted. Allowed values: - `RE_ALERT_DURATION_30M` = `30m` - `RE_ALERT_DURATION_1H` = `1h` - `RE_ALERT_DURATION_4H` = `4h` - `RE_ALERT_DURATION_NEVER` = never */
+  re_alert_duration?: CreateInsightAlertRuleRequestSpecReAlertDuration | (string & {});
+}
+/** Desired alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
+export type CreateInsightAlertRuleRequestStatus =
+  | "ALERT_RULE_STATUS_ACTIVE"
+  | "ALERT_RULE_STATUS_PAUSED";
+export interface CreateInsightAlertRuleRequest {
+  /** Spec for an Insights alert rule. On create, `name`, `query`, `thresholds`, and at least one `notification_channels` binding are required. On update, omit `notification_channels` to keep existing bindings; an explicit empty list is rejected. */
+  spec: CreateInsightAlertRuleRequestSpec;
+  /** Desired alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
+  status?: CreateInsightAlertRuleRequestStatus | (string & {});
+}
+/** Notification channels to notify when the rule fires. */
 export type AlertRuleSpecNotificationChannelsList = Array<NotificationChannelBinding>;
 /** Minimum wait before re-notifying a still-firing alert. Defaults to `RE_ALERT_DURATION_4H` on create when omitted. Allowed values: - `RE_ALERT_DURATION_30M` = `30m` - `RE_ALERT_DURATION_1H` = `1h` - `RE_ALERT_DURATION_4H` = `4h` - `RE_ALERT_DURATION_NEVER` = never */
 export type AlertRuleSpecReAlertDuration =
@@ -6643,15 +6698,6 @@ export interface AlertRuleSpec {
   notification_channels?: AlertRuleSpecNotificationChannelsList;
   /** Minimum wait before re-notifying a still-firing alert. Defaults to `RE_ALERT_DURATION_4H` on create when omitted. Allowed values: - `RE_ALERT_DURATION_30M` = `30m` - `RE_ALERT_DURATION_1H` = `1h` - `RE_ALERT_DURATION_4H` = `4h` - `RE_ALERT_DURATION_NEVER` = never */
   re_alert_duration?: AlertRuleSpecReAlertDuration | (string & {});
-}
-/** Desired alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
-export type CreateInsightAlertRuleRequestStatus =
-  | "ALERT_RULE_STATUS_ACTIVE"
-  | "ALERT_RULE_STATUS_PAUSED";
-export interface CreateInsightAlertRuleRequest {
-  spec: AlertRuleSpec;
-  /** Desired alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
-  status?: CreateInsightAlertRuleRequestStatus | (string & {});
 }
 /** Current alert rule status. Allowed values: - `ALERT_RULE_STATUS_ACTIVE` = active - `ALERT_RULE_STATUS_PAUSED` = paused */
 export type AlertRuleStatus = "ALERT_RULE_STATUS_ACTIVE" | "ALERT_RULE_STATUS_PAUSED";
@@ -22624,7 +22670,7 @@ export const createInsightAlertRule: API.OperationMethod<
   CreateInsightAlertRuleError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31520, __c985, 0) as any as S.Schema<CreateInsightAlertRuleRequest>,
+  input: __S(31521, __c985, 1) as any as S.Schema<CreateInsightAlertRuleRequest>,
   output: __S(31584, __c987, 0) as any as S.Schema<CreateInsightAlertRuleResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -35327,7 +35373,7 @@ function __c163(j: number): any {
           phase_last_updated_at: S.optional(S.String),
           progress: S.optional(__S(5222, __c163, 6)),
           services: S.optional(__S(5217, __c163, 1)),
-          spec: S.optional(__S(5298, __c165, 18)),
+          spec: S.optional(__S(5302, __c165, 22)),
           static_sites: S.optional(__S(5217, __c163, 1)),
           tier_slug: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -35438,18 +35484,32 @@ function __c164(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
+          per_instance: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AppAutoscalingSpecServiceMetricsRequestsPerSecond" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          p95_milliseconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AppAutoscalingSpecServiceMetricsRequestDuration" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
           cpu: S.optional(__S(5261, __c164, 13)),
+          requests_per_second: S.optional(__S(5262, __c164, 14)),
+          request_duration: S.optional(__S(5263, __c164, 15)),
         }),
       ).annotate({ identifier: "AppAutoscalingSpecServiceMetrics" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           min_instance_count: S.optional(S.Number),
           max_instance_count: S.optional(S.Number),
-          metrics: S.optional(__S(5262, __c164, 14)),
+          metrics: S.optional(__S(5264, __c164, 16)),
         }),
       ).annotate({ identifier: "AppAutoscalingSpecService" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           exact: S.optional(S.NullOr(S.String)),
@@ -35457,12 +35517,12 @@ function __c164(j: number): any {
           regex: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppsStringMatch" });
-    case 17:
-      return S.Array(__S(5264, __c164, 16));
-    case 18:
+    case 19:
+      return S.Array(__S(5266, __c164, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          allow_origins: S.optional(__S(5265, __c164, 17)),
+          allow_origins: S.optional(__S(5267, __c164, 19)),
           allow_methods: S.optional(__S(31424, __c982, 0)),
           allow_headers: S.optional(__S(31424, __c982, 0)),
           expose_headers: S.optional(__S(31424, __c982, 0)),
@@ -35470,7 +35530,7 @@ function __c164(j: number): any {
           allow_credentials: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AppServiceSpecCors" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           failure_threshold: S.optional(S.Number),
@@ -35482,23 +35542,23 @@ function __c164(j: number): any {
           timeout_seconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AppServiceSpecHealthCheck" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           path: S.optional(S.String),
           preserve_path_prefix: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AppRouteSpec" });
-    case 21:
-      return S.Array(__S(5268, __c164, 20));
-    case 22:
+    case 23:
+      return S.Array(__S(5270, __c164, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           drain_seconds: S.optional(S.Number),
           grace_period_seconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AppServiceSpecTermination" });
-    case 23:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -35516,20 +35576,20 @@ function __c164(j: number): any {
           log_destinations: S.optional(__S(5260, __c164, 12)),
           instance_count: S.optional(S.Number),
           instance_size_slug: S.optional(S.Unknown),
-          autoscaling: S.optional(__S(5263, __c164, 15)),
-          cors: S.optional(__S(5266, __c164, 18)),
-          health_check: S.optional(__S(5267, __c164, 19)),
-          liveness_health_check: S.optional(__S(5267, __c164, 19)),
+          autoscaling: S.optional(__S(5265, __c164, 17)),
+          cors: S.optional(__S(5268, __c164, 20)),
+          health_check: S.optional(__S(5269, __c164, 21)),
+          liveness_health_check: S.optional(__S(5269, __c164, 21)),
           protocol: S.optional(S.String),
           http_port: S.optional(S.Number),
           internal_ports: S.optional(__S(32, __c1, 0)),
-          routes: S.optional(__S(5269, __c164, 21)),
-          termination: S.optional(__S(5270, __c164, 22)),
+          routes: S.optional(__S(5271, __c164, 23)),
+          termination: S.optional(__S(5272, __c164, 24)),
         }),
       ).annotate({ identifier: "AppServiceSpec" });
-    case 24:
-      return S.Array(__S(5271, __c164, 23));
-    case 25:
+    case 26:
+      return S.Array(__S(5273, __c164, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -35549,42 +35609,18 @@ function __c164(j: number): any {
           error_document: S.optional(S.String),
           catchall_document: S.optional(S.String),
           output_dir: S.optional(S.String),
-          cors: S.optional(__S(5266, __c164, 18)),
-          routes: S.optional(__S(5269, __c164, 21)),
+          cors: S.optional(__S(5268, __c164, 20)),
+          routes: S.optional(__S(5271, __c164, 23)),
         }),
       ).annotate({ identifier: "AppStaticSiteSpec" });
-    case 26:
-      return S.Array(__S(5273, __c164, 25));
-    case 27:
+    case 28:
+      return S.Array(__S(5275, __c164, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({
           grace_period_seconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AppJobSpecTermination" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          git: S.optional(__S(5250, __c164, 2)),
-          github: S.optional(__S(5251, __c164, 3)),
-          gitlab: S.optional(__S(5251, __c164, 3)),
-          bitbucket: S.optional(__S(5251, __c164, 3)),
-          image: S.optional(__S(5252, __c164, 4)),
-          dockerfile_path: S.optional(S.String),
-          build_command: S.optional(S.String),
-          run_command: S.optional(S.String),
-          source_dir: S.optional(S.String),
-          envs: S.optional(__S(5254, __c164, 6)),
-          environment_slug: S.optional(S.String),
-          log_destinations: S.optional(__S(5260, __c164, 12)),
-          instance_count: S.optional(S.Number),
-          instance_size_slug: S.optional(S.Unknown),
-          kind: S.optional(S.String),
-          termination: S.optional(__S(5275, __c164, 27)),
-        }),
-      ).annotate({ identifier: "AppJobSpec" });
-    case 29:
-      return S.Array(__S(5276, __c164, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
@@ -35603,11 +35639,10 @@ function __c164(j: number): any {
           log_destinations: S.optional(__S(5260, __c164, 12)),
           instance_count: S.optional(S.Number),
           instance_size_slug: S.optional(S.Unknown),
-          autoscaling: S.optional(__S(5263, __c164, 15)),
-          termination: S.optional(__S(5275, __c164, 27)),
-          liveness_health_check: S.optional(__S(5267, __c164, 19)),
+          kind: S.optional(S.String),
+          termination: S.optional(__S(5277, __c164, 29)),
         }),
-      ).annotate({ identifier: "AppWorkerSpec" });
+      ).annotate({ identifier: "AppJobSpec" });
     case 31:
       return S.Array(__S(5278, __c164, 30));
   }
@@ -35615,15 +35650,54 @@ function __c164(j: number): any {
 function __c165(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5152, __c161, 0));
+      return S.suspend(() =>
+        S.Struct({
+          cpu: S.optional(__S(5261, __c164, 13)),
+        }),
+      ).annotate({ identifier: "AppAutoscalingSpecMetrics" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cors: S.optional(__S(5266, __c164, 18)),
-          routes: S.optional(__S(5269, __c164, 21)),
+          min_instance_count: S.optional(S.Number),
+          max_instance_count: S.optional(S.Number),
+          metrics: S.optional(__S(5280, __c165, 0)),
+        }),
+      ).annotate({ identifier: "AppAutoscalingSpec" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          git: S.optional(__S(5250, __c164, 2)),
+          github: S.optional(__S(5251, __c164, 3)),
+          gitlab: S.optional(__S(5251, __c164, 3)),
+          bitbucket: S.optional(__S(5251, __c164, 3)),
+          image: S.optional(__S(5252, __c164, 4)),
+          dockerfile_path: S.optional(S.String),
+          build_command: S.optional(S.String),
+          run_command: S.optional(S.String),
+          source_dir: S.optional(S.String),
+          envs: S.optional(__S(5254, __c164, 6)),
+          environment_slug: S.optional(S.String),
+          log_destinations: S.optional(__S(5260, __c164, 12)),
+          instance_count: S.optional(S.Number),
+          instance_size_slug: S.optional(S.Unknown),
+          autoscaling: S.optional(__S(5281, __c165, 1)),
+          termination: S.optional(__S(5277, __c164, 29)),
+          liveness_health_check: S.optional(__S(5269, __c164, 21)),
+        }),
+      ).annotate({ identifier: "AppWorkerSpec" });
+    case 3:
+      return S.Array(__S(5282, __c165, 2));
+    case 4:
+      return S.Array(__S(5152, __c161, 0));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          cors: S.optional(__S(5268, __c164, 20)),
+          routes: S.optional(__S(5271, __c164, 23)),
           name: S.String,
           source_dir: S.optional(S.String),
-          alerts: S.optional(__S(5280, __c165, 0)),
+          alerts: S.optional(__S(5284, __c165, 4)),
           envs: S.optional(__S(5254, __c164, 6)),
           git: S.optional(__S(5250, __c164, 2)),
           github: S.optional(__S(5251, __c164, 3)),
@@ -35632,9 +35706,9 @@ function __c165(j: number): any {
           log_destinations: S.optional(__S(5260, __c164, 12)),
         }),
       ).annotate({ identifier: "AppFunctionsSpec" });
-    case 2:
-      return S.Array(__S(5281, __c165, 1));
-    case 3:
+    case 6:
+      return S.Array(__S(5285, __c165, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           cluster_name: S.optional(S.String),
@@ -35646,28 +35720,28 @@ function __c165(j: number): any {
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppDatabaseSpec" });
-    case 4:
-      return S.Array(__S(5283, __c165, 3));
-    case 5:
+    case 8:
+      return S.Array(__S(5287, __c165, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           prefix: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleStringMatchPrefix" });
-    case 6:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           exact: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleStringMatchExact" });
-    case 7:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          path: S.optional(__S(5285, __c165, 5)),
-          authority: S.optional(__S(5286, __c165, 6)),
+          path: S.optional(__S(5289, __c165, 9)),
+          authority: S.optional(__S(5290, __c165, 10)),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleMatch" });
-    case 8:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -35675,7 +35749,7 @@ function __c165(j: number): any {
           rewrite: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleRoutingComponent" });
-    case 9:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
@@ -35685,31 +35759,31 @@ function __c165(j: number): any {
           redirect_code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AppIngressSpecRuleRoutingRedirect" });
-    case 10:
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          match: S.optional(__S(5287, __c165, 7)),
-          cors: S.optional(__S(5266, __c164, 18)),
-          component: S.optional(__S(5288, __c165, 8)),
-          redirect: S.optional(__S(5289, __c165, 9)),
+          match: S.optional(__S(5291, __c165, 11)),
+          cors: S.optional(__S(5268, __c164, 20)),
+          component: S.optional(__S(5292, __c165, 12)),
+          redirect: S.optional(__S(5293, __c165, 13)),
         }),
       ).annotate({ identifier: "AppIngressSpecRule" });
-    case 11:
-      return S.Array(__S(5290, __c165, 10));
-    case 12:
+    case 15:
+      return S.Array(__S(5294, __c165, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(5291, __c165, 11)),
+          rules: S.optional(__S(5295, __c165, 15)),
           custom_error_page_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppIngressSpec" });
-    case 13:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppEgressSpec" });
-    case 14:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
@@ -35717,22 +35791,22 @@ function __c165(j: number): any {
           offline_page_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppMaintenanceSpec" });
-    case 15:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           ip: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppsVpcEgressIp" });
-    case 16:
-      return S.Array(__S(5295, __c165, 15));
-    case 17:
+    case 20:
+      return S.Array(__S(5299, __c165, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          egress_ips: S.optional(__S(5296, __c165, 16)),
+          egress_ips: S.optional(__S(5300, __c165, 20)),
         }),
       ).annotate({ identifier: "AppsVpc" });
-    case 18:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -35741,16 +35815,16 @@ function __c165(j: number): any {
           disable_email_obfuscation: S.optional(S.Boolean),
           enhanced_threat_control_enabled: S.optional(S.Boolean),
           domains: S.optional(__S(5249, __c164, 1)),
-          services: S.optional(__S(5272, __c164, 24)),
-          static_sites: S.optional(__S(5274, __c164, 26)),
-          jobs: S.optional(__S(5277, __c164, 29)),
-          workers: S.optional(__S(5279, __c164, 31)),
-          functions: S.optional(__S(5282, __c165, 2)),
-          databases: S.optional(__S(5284, __c165, 4)),
-          ingress: S.optional(__S(5292, __c165, 12)),
-          egress: S.optional(__S(5293, __c165, 13)),
-          maintenance: S.optional(__S(5294, __c165, 14)),
-          vpc: S.optional(__S(5297, __c165, 17)),
+          services: S.optional(__S(5274, __c164, 26)),
+          static_sites: S.optional(__S(5276, __c164, 28)),
+          jobs: S.optional(__S(5279, __c164, 31)),
+          workers: S.optional(__S(5283, __c165, 3)),
+          functions: S.optional(__S(5286, __c165, 6)),
+          databases: S.optional(__S(5288, __c165, 8)),
+          ingress: S.optional(__S(5296, __c165, 16)),
+          egress: S.optional(__S(5297, __c165, 17)),
+          maintenance: S.optional(__S(5298, __c165, 18)),
+          vpc: S.optional(__S(5301, __c165, 21)),
         }),
       ).annotate({ identifier: "AppSpec" });
   }
@@ -42179,12 +42253,12 @@ function __c473(j: number): any {
           pending_deployment: S.optional(__S(5223, __c163, 7)),
           project_id: S.optional(S.String),
           region: S.optional(__S(15104, __c472, 0)),
-          spec: __S(5298, __c165, 18),
+          spec: __S(5302, __c165, 22),
           tier_slug: S.optional(S.String),
           updated_at: S.optional(S.String),
           pinned_deployment: S.optional(__S(5223, __c163, 7)),
           dedicated_ips: S.optional(__S(15142, __c473, 6)),
-          vpc: S.optional(__S(5297, __c165, 17)),
+          vpc: S.optional(__S(5301, __c165, 21)),
         }),
       ).annotate({ identifier: "App" });
   }
@@ -42210,15 +42284,15 @@ function __c475(j: number): any {
           disable_email_obfuscation: S.optional(S.Boolean),
           enhanced_threat_control_enabled: S.optional(S.Boolean),
           domains: S.optional(__S(5249, __c164, 1)),
-          services: S.optional(__S(5272, __c164, 24)),
-          static_sites: S.optional(__S(5274, __c164, 26)),
-          jobs: S.optional(__S(5277, __c164, 29)),
-          workers: S.optional(__S(5279, __c164, 31)),
-          functions: S.optional(__S(5282, __c165, 2)),
-          databases: S.optional(__S(5284, __c165, 4)),
-          ingress: S.optional(__S(5292, __c165, 12)),
-          egress: S.optional(__S(5293, __c165, 13)),
-          maintenance: S.optional(__S(5294, __c165, 14)),
+          services: S.optional(__S(5274, __c164, 26)),
+          static_sites: S.optional(__S(5276, __c164, 28)),
+          jobs: S.optional(__S(5279, __c164, 31)),
+          workers: S.optional(__S(5283, __c165, 3)),
+          functions: S.optional(__S(5286, __c165, 6)),
+          databases: S.optional(__S(5288, __c165, 8)),
+          ingress: S.optional(__S(5296, __c165, 16)),
+          egress: S.optional(__S(5297, __c165, 17)),
+          maintenance: S.optional(__S(5298, __c165, 18)),
         }),
       ).annotate({ identifier: "AppSpecInput" });
   }
@@ -51887,7 +51961,7 @@ function __c946(j: number): any {
           app_name_available: S.optional(S.Boolean),
           app_name_suggestion: S.optional(S.String),
           existing_static_apps: S.optional(S.String),
-          spec: S.optional(__S(5298, __c165, 18)),
+          spec: S.optional(__S(5302, __c165, 22)),
           app_cost: S.optional(S.Number),
           app_tier_downgrade_cost: S.optional(S.Number),
         }),
@@ -52839,7 +52913,18 @@ function __c985(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spec: __S(31558, __c986, 6),
+          name: S.String,
+          query: __S(31554, __c986, 2),
+          condition: S.optional(__S(31555, __c986, 3)),
+          thresholds: S.Unknown,
+          notification_channels: __S(31557, __c986, 5),
+          re_alert_duration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateInsightAlertRuleRequestSpec" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          spec: __S(31520, __c985, 0),
           status: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/insights/alert-rules", code: 200 })),
       ).annotate({ identifier: "CreateInsightAlertRuleRequest" });

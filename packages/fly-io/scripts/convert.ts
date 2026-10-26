@@ -39,12 +39,12 @@ import {
   convertGraphQLToSmithy,
   PRELUDE,
   readIntrospection,
-} from "@distilled.cloud/core/codegen/graphql";
-import { writeModel } from "@distilled.cloud/core/codegen/models";
-import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/core/codegen/openapi";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+} from "@distilled.cloud/dev/codegen/graphql";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 import { selectAddons } from "./addons-selection.ts";
 import { selectBuilders } from "./builders-selection.ts";
 import { MACHINES_OPERATION_NAMES } from "./machines-operation-ids.ts";

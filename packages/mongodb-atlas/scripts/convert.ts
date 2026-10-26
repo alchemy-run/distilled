@@ -9,7 +9,7 @@
  * Output: .generated-specs/atlas.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Atlas's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Atlas's pipeline
  * config plus the one Atlas-specific wrinkle: date-versioned vendor media
  * types.
  *
@@ -33,8 +33,8 @@
  *    header at request time
  */
 import * as path from "node:path";
-import { readModel, writeModel } from "@distilled.cloud/core/codegen/models";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { readModel, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const root = path.resolve(import.meta.dirname, "..");
 

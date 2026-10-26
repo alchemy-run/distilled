@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Whop
  * Effect SDK.
@@ -10,7 +10,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/<tag>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Whop's provider spec: the
+ * `@distilled.cloud/dev/codegen`; this script is Whop's provider spec: the
  * `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses, error status matchers, sensitive strings), a passthrough union
  * style, the relay pagination profile, and the protocol/retry/error names.
@@ -21,7 +21,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * named after the tag slug (`checkout_configurations.ts`) while the barrel
  * exports them camelCased (`checkoutConfigurations.createPlan`).
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";

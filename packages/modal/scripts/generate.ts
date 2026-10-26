@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Modal
  * Effect SDK.
@@ -8,11 +8,11 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/<group>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Modal's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Modal's provider spec.
  * Wire names are proto3 JSON camelCase, which convert.ts already uses as
  * Smithy member names, so no renaming.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 

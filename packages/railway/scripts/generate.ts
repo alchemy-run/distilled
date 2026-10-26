@@ -7,10 +7,10 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import { stampGeneratedAt } from "../../core/src/codegen/generated-at.ts";
-import { generateGraphQLClient, type GraphQLModel } from "../../core/src/codegen/graphql-client.ts";
-import { toLatin1 } from "../../core/src/codegen/latin1.ts";
-import { collectModels } from "../../core/src/codegen/models.ts";
+import { stampGeneratedAt } from "../../dev/src/codegen/generated-at.ts";
+import { generateGraphQLClient, type GraphQLModel } from "../../dev/src/codegen/graphql-client.ts";
+import { toLatin1 } from "../../dev/src/codegen/latin1.ts";
+import { collectModels } from "../../dev/src/codegen/models.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
 const models = await collectModels(() => import("./convert.ts"));

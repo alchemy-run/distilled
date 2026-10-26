@@ -1,9 +1,9 @@
 import { spawnSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
-import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
+import { rolldown } from "rolldown";
 import { afterAll, describe, expect, it } from "vitest";
 import { lazyExports, lazyServices, stubTargets } from "./lazy-services.ts";
 
@@ -263,16 +263,6 @@ describe("lazy service modules", () => {
   });
 
   it("a bundler never reaches a stub", async () => {
-    const require = createRequire(
-      join(import.meta.dirname, "..", "packages", "core", "package.json"),
-    );
-    // Resolved from core, like lazy-services.ts does; the root has no rolldown types.
-    const { rolldown } = (await import(pathToFileURL(require.resolve("rolldown")).href)) as {
-      rolldown: (options: object) => Promise<{
-        generate: (o: object) => Promise<{ output: { type: string; moduleIds?: string[] }[] }>;
-        close: () => Promise<void>;
-      }>;
-    };
     const entry = join(dir, "entry.mjs");
     writeFileSync(
       entry,

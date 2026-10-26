@@ -28,7 +28,7 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { collectModels } from "@distilled.cloud/core/codegen/models";
+import { collectModels } from "@distilled.cloud/dev/codegen/models";
 import { convert } from "./spec-to-smithy.ts";
 
 const args = process.argv.slice(2);

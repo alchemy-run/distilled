@@ -1,5 +1,6 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { readFileSync } from "node:fs";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model scripts/convert.ts converts into the
  * Iceberg REST Catalog Effect SDK.
@@ -8,7 +9,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/catalog.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Iceberg's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is Iceberg's provider spec:
  * the `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses, error matchers), a passthrough union style, the token
  * pagination profile, and the protocol/retry/error names.
@@ -18,12 +19,12 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * snake_case (`metadata_location`) with a `jsonName` back to the wire,
  * which is also how PyIceberg names them.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 

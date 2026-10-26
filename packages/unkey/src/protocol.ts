@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * UnkeyProtocol -- hand-written.
@@ -37,7 +37,8 @@ export type UnkeyOpError =
   | UnknownUnkeyError
   | ConfigError
   | HttpClientError.HttpClientError
-  | UnkeyParseError;
+  | UnkeyParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Unkey operation. */
 export type UnkeyOpContext = Credentials | HttpClient.HttpClient;

@@ -43,7 +43,6 @@
       "types": "./lib/operations.d.ts",
       "bun": "./src/operations.ts",
       "worker": "./src/operations.ts",
-      "distilled-lazy": "./lib/operations.lazy.js",
       "default": "./lib/operations.js"
     },
     "./Pagination": {
@@ -90,6 +89,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {

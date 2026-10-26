@@ -256,8 +256,12 @@ export const makeAuthService = () =>
           Effect.flatMap((response) =>
             Effect.map(
               response.json,
-              (body) =>
-                ({ status: response.status, body }) as {
+              (json) =>
+                ({
+                  status: response.status,
+                  // A body that is not a JSON object carries no token.
+                  body: typeof json === "object" && json !== null ? json : {},
+                }) as {
                   status: number;
                   body: {
                     accessToken?: string;
@@ -269,27 +273,35 @@ export const makeAuthService = () =>
                 },
             ),
           ),
-          Effect.flatMap(({ status, body }) =>
-            status >= 200 && status < 300 && typeof body.accessToken === "string"
-              ? Effect.succeed({ ...body, accessToken: body.accessToken })
-              : Effect.fail(
-                  new Error(
-                    `SSO OIDC CreateToken failed (status=${status}${body.error ? `, ${body.error}` : ""}${body.error_description ? `: ${body.error_description}` : ""}).`,
-                  ),
+          Effect.flatMap(({ status, body }) => {
+            if (status < 200 || status >= 300 || typeof body.accessToken !== "string") {
+              return Effect.fail(
+                new Error(
+                  `SSO OIDC CreateToken failed (status=${status}${body.error ? `, ${body.error}` : ""}${body.error_description ? `: ${body.error_description}` : ""}).`,
                 ),
-          ),
+              );
+            }
+            // The OIDC default lifetime is one hour.
+            const expiresAt = new Date(Date.now() + (body.expiresIn ?? 3600) * 1000);
+            return Number.isNaN(expiresAt.getTime())
+              ? Effect.fail(
+                  new Error(
+                    `SSO OIDC CreateToken returned an invalid expiresIn (${String(body.expiresIn)}).`,
+                  ),
+                )
+              : Effect.succeed({ ...body, accessToken: body.accessToken, expiresAt });
+          }),
           Effect.result,
         );
       if (refreshed._tag === "Failure") {
         return yield* giveUp(refreshed.failure);
       }
 
-      const { accessToken, expiresIn, refreshToken: newRefreshToken } = refreshed.success;
+      const { accessToken, expiresAt, refreshToken: newRefreshToken } = refreshed.success;
       const updated: SSOToken = {
         ...ssoToken,
         accessToken,
-        // The OIDC default lifetime is one hour.
-        expiresAt: new Date(Date.now() + (expiresIn ?? 3600) * 1000).toISOString(),
+        expiresAt: expiresAt.toISOString(),
         refreshToken: newRefreshToken ?? refreshToken,
       };
       // Other processes (the AWS CLI, other SDKs) read the same file. A
@@ -406,9 +418,16 @@ export const makeAuthService = () =>
           // below -- without the wrap it surfaces as a fiber defect.
           Effect.flatMap((text) =>
             Effect.try({
-              try: () => JSON.parse(text) as SSOToken,
+              try: () => JSON.parse(text) as unknown,
               catch: (cause) => cause,
             }),
+          ),
+          // Valid JSON that is not an object (e.g. `null`) is as unusable
+          // as a partial file.
+          Effect.flatMap((parsed) =>
+            typeof parsed === "object" && parsed !== null
+              ? Effect.succeed(parsed as SSOToken)
+              : Effect.fail(parsed),
           ),
           Effect.catch(
             () =>
@@ -439,7 +458,9 @@ export const makeAuthService = () =>
           },
         );
 
-        const body = (yield* response.json) as {
+        const json = yield* response.json;
+        // A body that is not a JSON object carries no credentials.
+        const body = (typeof json === "object" && json !== null ? json : {}) as {
           roleCredentials?: {
             accessKeyId: string;
             secretAccessKey: string;

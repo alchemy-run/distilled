@@ -14,6 +14,60 @@
   "type": "module",
   "sideEffects": false,
   "module": "src/index.ts",
+  "browser": {
+    "./lib/_bundle/sdk.js": "./lib/_browser/_bundle/sdk.js",
+    "./lib/auth.browser.js": "./lib/_browser/auth.browser.js",
+    "./lib/client/protocol.js": "./lib/_browser/client/protocol.js",
+    "./lib/client/request-builder.js": "./lib/_browser/client/request-builder.js",
+    "./lib/client/response-parser.js": "./lib/_browser/client/response-parser.js",
+    "./lib/client/stream-parser.js": "./lib/_browser/client/stream-parser.js",
+    "./lib/customizations/api-gateway.js": "./lib/_browser/customizations/api-gateway.js",
+    "./lib/customizations/glacier.js": "./lib/_browser/customizations/glacier.js",
+    "./lib/eventstream/parser.js": "./lib/_browser/eventstream/parser.js",
+    "./lib/eventstream/serializer.js": "./lib/_browser/eventstream/serializer.js",
+    "./lib/hash/crc32-portable.js": "./lib/_browser/hash/crc32-portable.js",
+    "./lib/hash/crc32.browser.js": "./lib/_browser/hash/crc32.browser.js",
+    "./lib/hash/md5.browser.js": "./lib/_browser/hash/md5.browser.js",
+    "./lib/middleware/checksum.js": "./lib/_browser/middleware/checksum.js",
+    "./lib/middleware/middleware.js": "./lib/_browser/middleware/middleware.js",
+    "./lib/middleware/streaming-body.js": "./lib/_browser/middleware/streaming-body.js",
+    "./lib/presign.js": "./lib/_browser/presign.js",
+    "./lib/protocols/aws-json.js": "./lib/_browser/protocols/aws-json.js",
+    "./lib/protocols/aws-query.js": "./lib/_browser/protocols/aws-query.js",
+    "./lib/protocols/ec2-query.js": "./lib/_browser/protocols/ec2-query.js",
+    "./lib/protocols/rest-json.js": "./lib/_browser/protocols/rest-json.js",
+    "./lib/protocols/rest-xml.js": "./lib/_browser/protocols/rest-xml.js",
+    "./lib/rules-engine/aws-functions.js": "./lib/_browser/rules-engine/aws-functions.js",
+    "./lib/rules-engine/endpoint-resolver.js": "./lib/_browser/rules-engine/endpoint-resolver.js",
+    "./lib/rules-engine/standard-functions.js": "./lib/_browser/rules-engine/standard-functions.js",
+    "./lib/util/codec.js": "./lib/_browser/util/codec.js",
+    "./lib/util/query-params.js": "./lib/_browser/util/query-params.js",
+    "./lib/util/serialize-input.js": "./lib/_browser/util/serialize-input.js",
+    "./lib/util/xml.js": "./lib/_browser/util/xml.js"
+  },
+  "imports": {
+    "#crc32": {
+      "types": "./src/hash/crc32.ts",
+      "bun": "./src/hash/crc32.ts",
+      "worker": "./src/hash/crc32.ts",
+      "browser": "./lib/hash/crc32.browser.js",
+      "default": "./lib/hash/crc32.js"
+    },
+    "#md5": {
+      "types": "./src/hash/md5.ts",
+      "bun": "./src/hash/md5.ts",
+      "worker": "./src/hash/md5.ts",
+      "browser": "./lib/hash/md5.browser.js",
+      "default": "./lib/hash/md5.js"
+    },
+    "#utf8": {
+      "types": "./src/hash/utf8.ts",
+      "bun": "./src/hash/utf8.ts",
+      "worker": "./src/hash/utf8.ts",
+      "browser": "./lib/hash/utf8.browser.js",
+      "default": "./lib/hash/utf8.js"
+    }
+  },
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -180,6 +234,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {

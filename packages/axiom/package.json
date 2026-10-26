@@ -55,14 +55,12 @@
       "types": "./lib/edge-ingest.d.ts",
       "bun": "./src/edge-ingest.ts",
       "worker": "./src/edge-ingest.ts",
-      "distilled-lazy": "./lib/edge-ingest.lazy.js",
       "default": "./lib/edge-ingest.js"
     },
     "./edge-query": {
       "types": "./lib/edge-query.d.ts",
       "bun": "./src/edge-query.ts",
       "worker": "./src/edge-query.ts",
-      "distilled-lazy": "./lib/edge-query.lazy.js",
       "default": "./lib/edge-query.js"
     },
     "./*": {
@@ -85,6 +83,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {

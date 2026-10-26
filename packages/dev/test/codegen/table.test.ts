@@ -24,6 +24,34 @@ describe("tableSchemas", () => {
     expect(out.indexOf("const __s")).toBeLessThan(out.indexOf("export const op"));
   });
 
+  test("removes adjacent declarations with the newlines after them", () => {
+    const code = [
+      header,
+      `const A = /*@__PURE__*/ __L.at(__c0, 0);`,
+      `const B = A;`,
+      ``,
+      `const C = S.Number;`,
+      `export const op = API.make(() => ({ input: B, output: C }));`,
+      ``,
+      `function __c0(j: number): any { switch (j) { case 0: return S.Struct({ c: C }); } }`,
+    ].join("\n");
+    expect(tableSchemas(code).code).toBe(
+      [
+        header,
+        `// Schema table, filled on first reach (see __S at the end).`,
+        `const __s: any[] = [];`,
+        `export const op = API.make(() => ({ input: __S(0, __c0, 0), output: S.Number }));`,
+        ``,
+        `function __c0(j: number): any { switch (j) { case 0: return S.Struct({ c: S.Number }); } }`,
+        `// Schema table: entry i is schema j of builder f, made on first reach.`,
+        `function __S(i: number, f: (j: number) => unknown, j: number): any {`,
+        `  return (__s[i] ??= __L.at(f, j));`,
+        `}`,
+        ``,
+      ].join("\n"),
+    );
+  });
+
   test("leaves names that are also bound in nested scopes, imports and object keys alone", () => {
     const code = [
       header,

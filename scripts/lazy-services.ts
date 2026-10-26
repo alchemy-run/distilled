@@ -37,15 +37,10 @@ import {
   statSync,
   writeFileSync,
 } from "node:fs";
-import { createRequire } from "node:module";
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
-import { pathToFileURL } from "node:url";
+import { parseAst } from "rolldown/parseAst";
 
 const ROOT = join(import.meta.dirname, "..");
-const require = createRequire(join(ROOT, "packages", "core", "package.json"));
-const { parseAst } = (await import(pathToFileURL(require.resolve("rolldown/parseAst")).href)) as {
-  parseAst: (code: string, options: object, filename: string) => any;
-};
 
 const LAZY = ".lazy";
 /** The export condition that opts a Node process in to the stubs. */
@@ -164,13 +159,13 @@ const groupKinds = (file: string): Map<string, string> => {
   for (const n of ast.body)
     if (n.type === "ImportDeclaration" && n.source.value === CORE_BASE)
       for (const s of n.specifiers)
-        if (s.type === "ImportSpecifier" && KIND[s.imported.name])
-          local.set(s.local.name, KIND[s.imported.name]!);
+        if (s.type === "ImportSpecifier" && KIND[idOf(s.imported)])
+          local.set(s.local.name, KIND[idOf(s.imported)]!);
   for (const n of ast.body)
     if (n.type === "ExportNamedDeclaration" && !n.source)
       for (const s of n.specifiers) {
-        const k = local.get(s.local.name);
-        if (k) out.set(s.exported.name ?? s.exported.value, k);
+        const k = local.get(idOf(s.local));
+        if (k) out.set(idOf(s.exported), k);
       }
   return out;
 };

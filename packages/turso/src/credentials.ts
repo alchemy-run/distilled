@@ -21,7 +21,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("TursoCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "TursoCredentials",
+  ) {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.String("TURSO_API_KEY"),
@@ -40,6 +42,5 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       apiKey: Redacted.make(apiKey),
       apiBaseUrl: DEFAULT_API_BASE_URL,
     })),
-    Effect.orDie,
   ),
 );

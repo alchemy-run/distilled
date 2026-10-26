@@ -59,7 +59,7 @@ patches the new spec has absorbed, and nothing else. Always name the
 package. To check what one patch you just wrote or edited does, read the
 generated diff instead (`distilled-sdk-patch`, step 5).
 
-The audit (`@distilled.cloud/core/codegen/patch-audit`) builds the model
+The audit (`@distilled.cloud/dev/codegen/patch-audit`) builds the model
 once with every patch, then once per patch with that patch left out, and
 diffs the result. It runs `convert` on scratch copies of the package
 (`packages/.audit-<pkg>-<n>`, removed on exit; the package itself is never

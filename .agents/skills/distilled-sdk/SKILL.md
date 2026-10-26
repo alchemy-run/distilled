@@ -118,7 +118,7 @@ Create `packages/<pkg>/` from the closest existing package. In `convert.ts`,
 declare the **production** spec path and resolve it:
 
 ```ts
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const specPath = resolveSpecPath(root, "specs/spec-mirror-<pkg>/specs/openapi.json");
 ```
@@ -128,6 +128,10 @@ OpenAPI package gets it for free — just declare the mirror path.
 
 Then register the package: `pnpm-workspace.yaml` needs nothing (it globs
 `packages/*`), but add both tsconfig references to the root `tsconfig.json`.
+The generator is the unpublished `@distilled.cloud/dev` package: the new
+package lists it in `devDependencies` (`"workspace:*"`) and its
+`tsconfig.scripts.json` references `../dev`. Copying an existing package
+carries both.
 
 Public surface: re-export the generated barrel at the package root
 (`export * from "./services/index.ts"`) so callers write `Pkg.vms.createVm`,
@@ -220,7 +224,8 @@ a new enum member, and in `strict` an undocumented field) as a
 default.
 
 Do not add tests to a generated SDK. Generated code is tested once, through
-the generator and the protocols in `packages/core`. `packages/core/test/sdks.test.ts`
+the generator in `packages/dev` and the protocols in `packages/core`.
+`packages/core/test/sdks.test.ts`
 runs against every package and checks the glue a new SDK hand-writes: its
 `<Pkg>OpError` union reaches `<Pkg>ParseError` (so `catchTag` on a strict
 call typechecks), something outside `src/services/` constructs it, and
@@ -298,7 +303,7 @@ leaves anything already verb-first or ambiguous (`WatchPodList`,
 `AppGetOrCreate`, `accountById`) unchanged. Irregulars go in
 `operationNames` (lookup by `"METHOD path"`, then operationId) — PUT vs
 PATCH that share an upstream id need the path key. Cases live in
-`packages/core/test/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
+`packages/dev/test/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
 one before changing the heuristic. Do not rename operations with a patch.
 Patch the model, not the generated TypeScript. Writing and checking a
 patch is the `distilled-sdk-patch` skill

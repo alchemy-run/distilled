@@ -11,12 +11,14 @@ import {
   Locked,
   NotFound,
   UnprocessableEntity,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
   getAnn,
   getProps,
   hasPropAnn,
+  invalidLabel,
   makeRequest,
   mapKeys,
   mapsVerbatim,
@@ -181,7 +183,8 @@ export type StripeOpError =
   | Locked
   | CoreDefaultErrors
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Stripe operation. */
 export type StripeOpContext = Credentials | HttpClient.HttpClient;
@@ -349,7 +352,7 @@ const requestFor = (
   options: StripeRequestOptions | undefined,
   input: unknown,
   inputAst: AST.AST,
-): HttpClientRequest.HttpClientRequest => {
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
   const { http, members, known } = requestPlanFor(inputAst);
 
   const baseHeaders: Record<string, string> = {
@@ -382,9 +385,12 @@ const requestFor = (
     const value = inputObj[m.key];
     if (value === undefined) continue;
     switch (m.bind) {
-      case "label":
+      case "label": {
+        const invalid = invalidLabel(m.key, value);
+        if (invalid) return Effect.fail(invalid);
         uri = uri.replace(`{${m.name}}`, encodeURIComponent(String(value)));
         break;
+      }
       case "header":
         headers[m.name] = String(value);
         break;
@@ -428,13 +434,15 @@ const requestFor = (
   }
 
   const request = makeRequest(http.method, url, headers);
-  if (bodyless || bodyKeys === 0) return request;
-  return HttpClientRequest.setBody(
-    request,
-    http.contentType === "form-urlencoded"
-      ? HttpBody.text(buildFormUrlEncoded(body), "application/x-www-form-urlencoded")
-      : // The /v2/* operations are plain JSON.
-        HttpBody.jsonUnsafe(body),
+  if (bodyless || bodyKeys === 0) return Effect.succeed(request);
+  return Effect.succeed(
+    HttpClientRequest.setBody(
+      request,
+      http.contentType === "form-urlencoded"
+        ? HttpBody.text(buildFormUrlEncoded(body), "application/x-www-form-urlencoded")
+        : // The /v2/* operations are plain JSON.
+          HttpBody.jsonUnsafe(body),
+    ),
   );
 };
 
@@ -455,9 +463,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
   Effect.withFiber((fiber) => {
     const context = fiber.context as Context.Context<any>;
     return withCredentials(context, (creds) =>
-      Effect.succeed(
-        requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, inputAst),
-      ),
+      requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, inputAst),
     );
   });
 
@@ -587,7 +593,7 @@ const decodeResponse = (
   errorClasses: ReadonlyArray<unknown>,
 ): Effect.Effect<unknown> =>
   Effect.matchEffect(response.text, {
-    onFailure: Effect.die,
+    onFailure: fail,
     onSuccess: (read): Effect.Effect<unknown> => {
       // Read as text and parse tolerantly -- error pages can be non-JSON.
       const text = read ?? "";
@@ -647,15 +653,13 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
   Effect.withFiber((fiber) => {
     const context = fiber.context as Context.Context<any>;
     return withCredentials(context, (creds) => {
-      const request = requestFor(
-        creds,
-        Context.getOrUndefined(context, RequestOptions),
-        input,
-        op.inputAst,
-      );
       const client = Context.get(context, HttpClient.HttpClient);
-      return Effect.flatMap(client.execute(request), (response) =>
-        decodeResponse(context, response, op.outputAst, op.errors),
+      return Effect.flatMap(
+        requestFor(creds, Context.getOrUndefined(context, RequestOptions), input, op.inputAst),
+        (request) =>
+          Effect.flatMap(client.execute(request), (response) =>
+            decodeResponse(context, response, op.outputAst, op.errors),
+          ),
       );
     });
   }) as Effect.Effect<unknown>;

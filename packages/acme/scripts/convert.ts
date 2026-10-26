@@ -25,10 +25,10 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { writeModel } from "@distilled.cloud/core/codegen/models";
-import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const root = path.resolve(import.meta.dirname, "..");
 const rfcPath = resolveSpecPath(root, "specs/spec-mirror-acme/specs/rfc8555.txt");

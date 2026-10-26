@@ -7,11 +7,11 @@
  * Output: .generated-specs/trigger-dev.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Trigger.dev's
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Trigger.dev's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),

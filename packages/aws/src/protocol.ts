@@ -53,7 +53,7 @@ import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/r
 import type { Response } from "./client/response.ts";
 import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
-import { ParseError } from "./errors.ts";
+import { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
 import * as SigV4 from "./sigv4.ts";
@@ -225,7 +225,7 @@ const toHttpRequest = (
       region,
       request,
     });
-    if (resolved instanceof Error) return Effect.fail(resolved);
+    if (resolved instanceof EndpointError) return Effect.fail(resolved);
     endpoint = resolved.endpoint.url;
     resolvedRequest = resolved.request;
 
@@ -291,7 +291,17 @@ const toHttpRequest = (
 
   const fullPath = queryString ? `${resolvedRequest.path}?${queryString}` : resolvedRequest.path;
 
-  if (sigv2) return sigv2.sign(resolvedRequest, endpoint, fullPath, credentials);
+  if (sigv2) {
+    // The SigV2 signer parses this URL synchronously; fail an unparseable
+    // one (e.g. a malformed custom endpoint) as SigV4 does.
+    const url = `${endpoint}${fullPath}`;
+    try {
+      void new URL(url);
+    } catch (cause) {
+      return Effect.fail(new SigV4.InvalidSigningUrl({ url, cause }));
+    }
+    return sigv2.sign(resolvedRequest, endpoint, fullPath, credentials);
+  }
 
   // For streaming bodies (ReadableStream), we can't compute a hash
   // so we use UNSIGNED-PAYLOAD and don't pass the body to the signer
@@ -397,7 +407,8 @@ const httpRequestOf = (
     // Convert ReadableStream to Effect Stream for HttpClient
     const effectStream = Stream.fromReadableStream({
       evaluate: () => body as ReadableStream<Uint8Array>,
-      onError: (error) => new Error(String(error)),
+      onError: (error) =>
+        error instanceof Error ? error : new Error(String(error), { cause: error }),
     });
     httpBody = HttpBody.stream(effectStream, contentType);
   } else if (body === undefined) {

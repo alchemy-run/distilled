@@ -80,8 +80,10 @@ const walk = (n: unknown, visit: (n: Node) => boolean): void => {
     return;
   }
   if (!isNode(n) || !visit(n)) return;
-  for (const [key, v] of Object.entries(n))
+  for (const key in n) {
+    const v = (n as any)[key];
     if (key !== "type" && v !== null && typeof v === "object") walk(v, visit);
+  }
 };
 
 const IDENT = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
@@ -855,9 +857,16 @@ export const datafyOperations = (
       return false;
     });
 
-  edits.sort((a, b) => b[0] - a[0]);
-  let out = code;
-  for (const [s, e, t] of edits) out = out.slice(0, s) + t + out.slice(e);
+  edits.sort((a, b) => a[0] - b[0]);
+  const parts: string[] = [];
+  let pos = 0;
+  for (const [s, e, t] of edits) {
+    if (s < pos) throw new Error("datafy: overlapping edits");
+    parts.push(code.slice(pos, s), t);
+    pos = e;
+  }
+  parts.push(code.slice(pos));
+  let out = parts.join("");
   out = out.replace(/\n*$/, "\n").replace(/^\/\/ Schema table, filled on first reach.*\n/m, "");
   if (shared.size)
     out +=

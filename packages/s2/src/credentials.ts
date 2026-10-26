@@ -44,7 +44,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("S2Credentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "S2Credentials",
+  ) {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `S2_ACCESS_TOKEN` / `S2_BASIN` are what the official `s2` CLI reads.
@@ -73,7 +75,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       accountBaseUrl,
       basinBaseUrl,
     })),
-    Effect.orDie,
   ),
 );
 

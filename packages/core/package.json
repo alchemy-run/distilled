@@ -32,10 +32,8 @@
     "build": "tsrs -b"
   },
   "devDependencies": {
-    "@effect/platform-node": "catalog:",
     "@types/node": "catalog:",
     "effect": "catalog:",
-    "rolldown": "catalog:",
     "vitest": "catalog:"
   },
   "peerDependencies": {

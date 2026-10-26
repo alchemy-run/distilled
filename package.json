@@ -36,6 +36,7 @@
     "husky": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
+    "rolldown": "catalog:",
     "tsrs": "catalog:",
     "vitest": "catalog:"
   },

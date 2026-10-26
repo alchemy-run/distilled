@@ -55,7 +55,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("WhopCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "WhopCredentials",
+  ) {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `WHOP_API_KEY` is what Whop's dashboard, CLI and app templates emit.
@@ -82,7 +84,6 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
       apiBaseUrl,
       apiVersionDate,
     })),
-    Effect.orDie,
   ),
 );
 

@@ -8,12 +8,12 @@
  * Output: .generated-specs/chronosphere.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Chronosphere's
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Chronosphere's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { readModel, writeModel } from "@distilled.cloud/core/codegen/models";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { readModel, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const root = path.resolve(import.meta.dirname, "..");
 const modelPath = path.join(root, ".generated-specs", "chronosphere.json");
