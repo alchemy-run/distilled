@@ -1,4 +1,5 @@
 import * as S from "@distilled.cloud/core/schema-lite-typed";
+import type { SourceError } from "effect/ConfigProvider";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Category from "./category.ts";
 import type * as Credentials from "./credentials-service.ts";
@@ -233,6 +234,8 @@ export type CommonAwsError =
  * operation's error channel (the request can fail before any AWS response
  * exists -- DNS, TLS, connection reset). Leaving it out made each generated
  * operation's declared type narrower than what it can actually fail with.
+ * `SourceError` is a provided `ConfigProvider` that cannot read its source,
+ * from `Region.fromEnv()` / `Endpoint.fromEnv()`.
  */
 export type CommonErrors =
   | UnknownAwsError
@@ -242,4 +245,5 @@ export type CommonErrors =
   | NoMatchingRuleError
   | SigV4.SigningError
   | Credentials.CredentialsError
+  | SourceError
   | HttpClientError.HttpClientError;

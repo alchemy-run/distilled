@@ -45,6 +45,7 @@ import {
  *             are populated at catch sites. Unmatched statuses ->
  *             `UnknownGCPError`.
  */
+import type { SourceError } from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
@@ -71,6 +72,7 @@ export type GcpOpError =
   | UnknownGCPError
   | GCPParseError
   | GCPCredentialsError
+  | SourceError
   | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated GCP operation. */
