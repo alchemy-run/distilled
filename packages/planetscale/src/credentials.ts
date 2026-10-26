@@ -51,7 +51,7 @@ export interface OAuthConfig {
 export type Config = ServiceTokenConfig | OAuthConfig;
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "PlanetScaleCredentials",
   ) {}
 
@@ -93,21 +93,19 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
 
 export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  /*@__PURE__*/ envConfig
-    .pipe(
-      /*@__PURE__*/ Effect.mapError(
-        () =>
-          new ConfigError({
-            message:
-              "PLANETSCALE_API_TOKEN_ID, PLANETSCALE_API_TOKEN, and PLANETSCALE_ORGANIZATION environment variables are required",
-          }),
-      ),
-      /*@__PURE__*/ Effect.map(({ tokenId, token, organization }) => ({
-        tokenId,
-        token,
-        organization,
-        apiBaseUrl: DEFAULT_API_BASE_URL,
-      })),
-    )
-    .pipe(Effect.orDie),
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
+      () =>
+        new ConfigError({
+          message:
+            "PLANETSCALE_API_TOKEN_ID, PLANETSCALE_API_TOKEN, and PLANETSCALE_ORGANIZATION environment variables are required",
+        }),
+    ),
+    /*@__PURE__*/ Effect.map(({ tokenId, token, organization }) => ({
+      tokenId,
+      token,
+      organization,
+      apiBaseUrl: DEFAULT_API_BASE_URL,
+    })),
+  ),
 );

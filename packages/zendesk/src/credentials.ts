@@ -25,7 +25,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
     "ZendeskCredentials",
   ) {}
 
@@ -53,10 +53,10 @@ const bearerToken = (accessToken: Redacted.Redacted<string>): Redacted.Redacted<
 const resolveBaseUrl = (config: {
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
-}): string => {
-  if (config.apiBaseUrl) return stripTrailingSlash(config.apiBaseUrl);
-  if (config.subdomain) return originFromSubdomain(config.subdomain);
-  throw new Error("subdomain or apiBaseUrl is required");
+}): Effect.Effect<string, ConfigError> => {
+  if (config.apiBaseUrl) return Effect.succeed(stripTrailingSlash(config.apiBaseUrl));
+  if (config.subdomain) return Effect.succeed(originFromSubdomain(config.subdomain));
+  return Effect.fail(new ConfigError({ message: "Zendesk subdomain or apiBaseUrl is required" }));
 };
 
 /** Layer from an API token (`{email}/token`) + subdomain. */
@@ -68,10 +68,10 @@ export const fromApiToken = (config: {
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
-    Effect.succeed({
+    Effect.map(resolveBaseUrl(config), (apiBaseUrl) => ({
       authorization: basicToken(config.email, config.apiToken),
-      apiBaseUrl: resolveBaseUrl(config),
-    }),
+      apiBaseUrl,
+    })),
   );
 
 /** Layer from an OAuth access token + subdomain. */
@@ -82,10 +82,10 @@ export const fromAccessToken = (config: {
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
-    Effect.succeed({
+    Effect.map(resolveBaseUrl(config), (apiBaseUrl) => ({
       authorization: bearerToken(config.accessToken),
-      apiBaseUrl: resolveBaseUrl(config),
-    }),
+      apiBaseUrl,
+    })),
   );
 
 /**
@@ -129,5 +129,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       authorization: basicToken(email, apiToken),
       apiBaseUrl: origin,
     };
-  }).pipe(Effect.orDie),
+  }),
 );
