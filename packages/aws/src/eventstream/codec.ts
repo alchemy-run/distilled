@@ -506,6 +506,12 @@ export const decodeMessage = (
     const headersLength = view.getUint32(4, false);
     const preludeCrc = view.getUint32(8, false);
 
+    if (totalLength < MIN_MESSAGE_LENGTH) {
+      return yield* new EventStreamDecodeError({
+        message: `Message length ${totalLength} is below the ${MIN_MESSAGE_LENGTH}-byte minimum`,
+      });
+    }
+
     if (data.length < totalLength) {
       return yield* new EventStreamDecodeError({
         message: `Incomplete message: have ${data.length}, need ${totalLength}`,
