@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -89,6 +90,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://runtime.lex.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LexRuntimeService",
+  service: "LexRuntimeService",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadGatewayException
   extends /*@__PURE__*/ S.TaggedError<BadGatewayException>()(
@@ -406,6 +421,8 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type GetSessionError =
@@ -435,6 +452,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type PostContentError =
@@ -535,6 +554,8 @@ export const postContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostContent",
+  telemetry: TELEMETRY,
+  span: "PostContent",
 }));
 
 export type PostTextError =
@@ -626,6 +647,8 @@ export const postText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostText",
+  telemetry: TELEMETRY,
+  span: "PostText",
 }));
 
 export type PutSessionError =
@@ -667,6 +690,8 @@ export const putSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSession",
+  telemetry: TELEMETRY,
+  span: "PutSession",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

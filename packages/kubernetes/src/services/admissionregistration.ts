@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Admissionregistration",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -3186,6 +3199,8 @@ export const createAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Ope
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1alpha1MutatingAdmissionPolicy",
 }));
 
 export type CreateAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
@@ -3212,6 +3227,8 @@ export const createAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: 
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding",
 }));
 
 export type CreateAdmissionregistrationV1beta1MutatingAdmissionPolicyError =
@@ -3238,6 +3255,8 @@ export const createAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Oper
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1beta1MutatingAdmissionPolicy",
 }));
 
 export type CreateAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
@@ -3264,6 +3283,8 @@ export const createAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: A
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding",
 }));
 
 export type CreateAdmissionregistrationV1MutatingAdmissionPolicyError =
@@ -3290,6 +3311,8 @@ export const createAdmissionregistrationV1MutatingAdmissionPolicy: API.Operation
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1MutatingAdmissionPolicy",
 }));
 
 export type CreateAdmissionregistrationV1MutatingAdmissionPolicyBindingError =
@@ -3316,6 +3339,8 @@ export const createAdmissionregistrationV1MutatingAdmissionPolicyBinding: API.Op
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1MutatingAdmissionPolicyBinding",
 }));
 
 export type CreateAdmissionregistrationV1MutatingWebhookConfigurationError =
@@ -3342,6 +3367,8 @@ export const createAdmissionregistrationV1MutatingWebhookConfiguration: API.Oper
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1MutatingWebhookConfiguration",
 }));
 
 export type CreateAdmissionregistrationV1ValidatingAdmissionPolicyError =
@@ -3368,6 +3395,8 @@ export const createAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operati
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1ValidatingAdmissionPolicy",
 }));
 
 export type CreateAdmissionregistrationV1ValidatingAdmissionPolicyBindingError =
@@ -3394,6 +3423,8 @@ export const createAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API.
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1ValidatingAdmissionPolicyBinding",
 }));
 
 export type CreateAdmissionregistrationV1ValidatingWebhookConfigurationError =
@@ -3420,6 +3451,8 @@ export const createAdmissionregistrationV1ValidatingWebhookConfiguration: API.Op
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAdmissionregistrationV1ValidatingWebhookConfiguration",
 }));
 
 export type DeleteAdmissionregistrationV1alpha1CollectionMutatingAdmissionPolicyError =
@@ -3440,6 +3473,8 @@ export const deleteAdmissionregistrationV1alpha1CollectionMutatingAdmissionPolic
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1alpha1CollectionMutatingAdmissionPolicy",
 }));
 
 export type DeleteAdmissionregistrationV1alpha1CollectionMutatingAdmissionPolicyBindingError =
@@ -3460,6 +3495,8 @@ export const deleteAdmissionregistrationV1alpha1CollectionMutatingAdmissionPolic
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1alpha1CollectionMutatingAdmissionPolicyBinding",
 }));
 
 export type DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyError =
@@ -3482,6 +3519,8 @@ export const deleteAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Ope
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicy",
 }));
 
 export type DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
@@ -3504,6 +3543,8 @@ export const deleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: 
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding",
 }));
 
 export type DeleteAdmissionregistrationV1beta1CollectionMutatingAdmissionPolicyError =
@@ -3524,6 +3565,8 @@ export const deleteAdmissionregistrationV1beta1CollectionMutatingAdmissionPolicy
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1beta1CollectionMutatingAdmissionPolicy",
 }));
 
 export type DeleteAdmissionregistrationV1beta1CollectionMutatingAdmissionPolicyBindingError =
@@ -3544,6 +3587,8 @@ export const deleteAdmissionregistrationV1beta1CollectionMutatingAdmissionPolicy
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1beta1CollectionMutatingAdmissionPolicyBinding",
 }));
 
 export type DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicyError =
@@ -3566,6 +3611,8 @@ export const deleteAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Oper
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicy",
 }));
 
 export type DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
@@ -3588,6 +3635,8 @@ export const deleteAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: A
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding",
 }));
 
 export type DeleteAdmissionregistrationV1CollectionMutatingAdmissionPolicyError = KubernetesOpError;
@@ -3607,6 +3656,8 @@ export const deleteAdmissionregistrationV1CollectionMutatingAdmissionPolicy: API
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1CollectionMutatingAdmissionPolicy",
 }));
 
 export type DeleteAdmissionregistrationV1CollectionMutatingAdmissionPolicyBindingError =
@@ -3627,6 +3678,8 @@ export const deleteAdmissionregistrationV1CollectionMutatingAdmissionPolicyBindi
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1CollectionMutatingAdmissionPolicyBinding",
 }));
 
 export type DeleteAdmissionregistrationV1CollectionMutatingWebhookConfigurationError =
@@ -3647,6 +3700,8 @@ export const deleteAdmissionregistrationV1CollectionMutatingWebhookConfiguration
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1CollectionMutatingWebhookConfiguration",
 }));
 
 export type DeleteAdmissionregistrationV1CollectionValidatingAdmissionPolicyError =
@@ -3667,6 +3722,8 @@ export const deleteAdmissionregistrationV1CollectionValidatingAdmissionPolicy: A
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1CollectionValidatingAdmissionPolicy",
 }));
 
 export type DeleteAdmissionregistrationV1CollectionValidatingAdmissionPolicyBindingError =
@@ -3687,6 +3744,8 @@ export const deleteAdmissionregistrationV1CollectionValidatingAdmissionPolicyBin
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1CollectionValidatingAdmissionPolicyBinding",
 }));
 
 export type DeleteAdmissionregistrationV1CollectionValidatingWebhookConfigurationError =
@@ -3707,6 +3766,8 @@ export const deleteAdmissionregistrationV1CollectionValidatingWebhookConfigurati
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1CollectionValidatingWebhookConfiguration",
 }));
 
 export type DeleteAdmissionregistrationV1MutatingAdmissionPolicyError =
@@ -3729,6 +3790,8 @@ export const deleteAdmissionregistrationV1MutatingAdmissionPolicy: API.Operation
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1MutatingAdmissionPolicy",
 }));
 
 export type DeleteAdmissionregistrationV1MutatingAdmissionPolicyBindingError =
@@ -3751,6 +3814,8 @@ export const deleteAdmissionregistrationV1MutatingAdmissionPolicyBinding: API.Op
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1MutatingAdmissionPolicyBinding",
 }));
 
 export type DeleteAdmissionregistrationV1MutatingWebhookConfigurationError =
@@ -3773,6 +3838,8 @@ export const deleteAdmissionregistrationV1MutatingWebhookConfiguration: API.Oper
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1MutatingWebhookConfiguration",
 }));
 
 export type DeleteAdmissionregistrationV1ValidatingAdmissionPolicyError =
@@ -3795,6 +3862,8 @@ export const deleteAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operati
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1ValidatingAdmissionPolicy",
 }));
 
 export type DeleteAdmissionregistrationV1ValidatingAdmissionPolicyBindingError =
@@ -3817,6 +3886,8 @@ export const deleteAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API.
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1ValidatingAdmissionPolicyBinding",
 }));
 
 export type DeleteAdmissionregistrationV1ValidatingWebhookConfigurationError =
@@ -3839,6 +3910,8 @@ export const deleteAdmissionregistrationV1ValidatingWebhookConfiguration: API.Op
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAdmissionregistrationV1ValidatingWebhookConfiguration",
 }));
 
 export type GetAdmissionregistrationAPIGroupError = KubernetesOpError;
@@ -3854,6 +3927,8 @@ export const getAdmissionregistrationAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdmissionregistrationAPIGroup",
 }));
 
 export type GetAdmissionregistrationV1alpha1APIResourcesError = KubernetesOpError;
@@ -3869,6 +3944,8 @@ export const getAdmissionregistrationV1alpha1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdmissionregistrationV1alpha1APIResources",
 }));
 
 export type GetAdmissionregistrationV1APIResourcesError = KubernetesOpError;
@@ -3884,6 +3961,8 @@ export const getAdmissionregistrationV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdmissionregistrationV1APIResources",
 }));
 
 export type GetAdmissionregistrationV1beta1APIResourcesError = KubernetesOpError;
@@ -3899,6 +3978,8 @@ export const getAdmissionregistrationV1beta1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAdmissionregistrationV1beta1APIResources",
 }));
 
 export type ListAdmissionregistrationV1alpha1MutatingAdmissionPolicyError = KubernetesOpError;
@@ -3922,6 +4003,8 @@ export const listAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1alpha1MutatingAdmissionPolicy",
 }));
 
 export type ListAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
@@ -3946,6 +4029,8 @@ export const listAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: AP
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding",
 }));
 
 export type ListAdmissionregistrationV1beta1MutatingAdmissionPolicyError = KubernetesOpError;
@@ -3969,6 +4054,8 @@ export const listAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1beta1MutatingAdmissionPolicy",
 }));
 
 export type ListAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError = KubernetesOpError;
@@ -3992,6 +4079,8 @@ export const listAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: API
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding",
 }));
 
 export type ListAdmissionregistrationV1MutatingAdmissionPolicyError = KubernetesOpError;
@@ -4015,6 +4104,8 @@ export const listAdmissionregistrationV1MutatingAdmissionPolicy: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1MutatingAdmissionPolicy",
 }));
 
 export type ListAdmissionregistrationV1MutatingAdmissionPolicyBindingError = KubernetesOpError;
@@ -4038,6 +4129,8 @@ export const listAdmissionregistrationV1MutatingAdmissionPolicyBinding: API.Oper
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1MutatingAdmissionPolicyBinding",
 }));
 
 export type ListAdmissionregistrationV1MutatingWebhookConfigurationError = KubernetesOpError;
@@ -4061,6 +4154,8 @@ export const listAdmissionregistrationV1MutatingWebhookConfiguration: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1MutatingWebhookConfiguration",
 }));
 
 export type ListAdmissionregistrationV1ValidatingAdmissionPolicyError = KubernetesOpError;
@@ -4084,6 +4179,8 @@ export const listAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1ValidatingAdmissionPolicy",
 }));
 
 export type ListAdmissionregistrationV1ValidatingAdmissionPolicyBindingError = KubernetesOpError;
@@ -4107,6 +4204,8 @@ export const listAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API.Op
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1ValidatingAdmissionPolicyBinding",
 }));
 
 export type ListAdmissionregistrationV1ValidatingWebhookConfigurationError = KubernetesOpError;
@@ -4130,6 +4229,8 @@ export const listAdmissionregistrationV1ValidatingWebhookConfiguration: API.Oper
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAdmissionregistrationV1ValidatingWebhookConfiguration",
 }));
 
 export type PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyError =
@@ -4157,6 +4258,8 @@ export const patchAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Oper
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicy",
 }));
 
 export type PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
@@ -4184,6 +4287,8 @@ export const patchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: A
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding",
 }));
 
 export type PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyError =
@@ -4211,6 +4316,8 @@ export const patchAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Opera
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1beta1MutatingAdmissionPolicy",
 }));
 
 export type PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
@@ -4238,6 +4345,8 @@ export const patchAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: AP
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding",
 }));
 
 export type PatchAdmissionregistrationV1MutatingAdmissionPolicyError =
@@ -4265,6 +4374,8 @@ export const patchAdmissionregistrationV1MutatingAdmissionPolicy: API.OperationM
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1MutatingAdmissionPolicy",
 }));
 
 export type PatchAdmissionregistrationV1MutatingAdmissionPolicyBindingError =
@@ -4292,6 +4403,8 @@ export const patchAdmissionregistrationV1MutatingAdmissionPolicyBinding: API.Ope
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1MutatingAdmissionPolicyBinding",
 }));
 
 export type PatchAdmissionregistrationV1MutatingWebhookConfigurationError =
@@ -4319,6 +4432,8 @@ export const patchAdmissionregistrationV1MutatingWebhookConfiguration: API.Opera
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1MutatingWebhookConfiguration",
 }));
 
 export type PatchAdmissionregistrationV1ValidatingAdmissionPolicyError =
@@ -4346,6 +4461,8 @@ export const patchAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operatio
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1ValidatingAdmissionPolicy",
 }));
 
 export type PatchAdmissionregistrationV1ValidatingAdmissionPolicyBindingError =
@@ -4373,6 +4490,8 @@ export const patchAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API.O
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1ValidatingAdmissionPolicyBinding",
 }));
 
 export type PatchAdmissionregistrationV1ValidatingAdmissionPolicyStatusError =
@@ -4400,6 +4519,8 @@ export const patchAdmissionregistrationV1ValidatingAdmissionPolicyStatus: API.Op
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1ValidatingAdmissionPolicyStatus",
 }));
 
 export type PatchAdmissionregistrationV1ValidatingWebhookConfigurationError =
@@ -4427,6 +4548,8 @@ export const patchAdmissionregistrationV1ValidatingWebhookConfiguration: API.Ope
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAdmissionregistrationV1ValidatingWebhookConfiguration",
 }));
 
 export type ReadAdmissionregistrationV1alpha1MutatingAdmissionPolicyError =
@@ -4452,6 +4575,8 @@ export const readAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Opera
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1alpha1MutatingAdmissionPolicy",
 }));
 
 export type ReadAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
@@ -4477,6 +4602,8 @@ export const readAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: AP
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding",
 }));
 
 export type ReadAdmissionregistrationV1beta1MutatingAdmissionPolicyError =
@@ -4502,6 +4629,8 @@ export const readAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Operat
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1beta1MutatingAdmissionPolicy",
 }));
 
 export type ReadAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
@@ -4527,6 +4656,8 @@ export const readAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: API
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding",
 }));
 
 export type ReadAdmissionregistrationV1MutatingAdmissionPolicyError = NotFound | KubernetesOpError;
@@ -4550,6 +4681,8 @@ export const readAdmissionregistrationV1MutatingAdmissionPolicy: API.OperationMe
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1MutatingAdmissionPolicy",
 }));
 
 export type ReadAdmissionregistrationV1MutatingAdmissionPolicyBindingError =
@@ -4575,6 +4708,8 @@ export const readAdmissionregistrationV1MutatingAdmissionPolicyBinding: API.Oper
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1MutatingAdmissionPolicyBinding",
 }));
 
 export type ReadAdmissionregistrationV1MutatingWebhookConfigurationError =
@@ -4600,6 +4735,8 @@ export const readAdmissionregistrationV1MutatingWebhookConfiguration: API.Operat
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1MutatingWebhookConfiguration",
 }));
 
 export type ReadAdmissionregistrationV1ValidatingAdmissionPolicyError =
@@ -4625,6 +4762,8 @@ export const readAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operation
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1ValidatingAdmissionPolicy",
 }));
 
 export type ReadAdmissionregistrationV1ValidatingAdmissionPolicyBindingError =
@@ -4650,6 +4789,8 @@ export const readAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API.Op
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1ValidatingAdmissionPolicyBinding",
 }));
 
 export type ReadAdmissionregistrationV1ValidatingAdmissionPolicyStatusError =
@@ -4675,6 +4816,8 @@ export const readAdmissionregistrationV1ValidatingAdmissionPolicyStatus: API.Ope
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1ValidatingAdmissionPolicyStatus",
 }));
 
 export type ReadAdmissionregistrationV1ValidatingWebhookConfigurationError =
@@ -4700,6 +4843,8 @@ export const readAdmissionregistrationV1ValidatingWebhookConfiguration: API.Oper
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadAdmissionregistrationV1ValidatingWebhookConfiguration",
 }));
 
 export type ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyError =
@@ -4727,6 +4872,8 @@ export const replaceAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Op
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicy",
 }));
 
 export type ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
@@ -4754,6 +4901,8 @@ export const replaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding:
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding",
 }));
 
 export type ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicyError =
@@ -4781,6 +4930,8 @@ export const replaceAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Ope
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicy",
 }));
 
 export type ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
@@ -4808,6 +4959,8 @@ export const replaceAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: 
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding",
 }));
 
 export type ReplaceAdmissionregistrationV1MutatingAdmissionPolicyError =
@@ -4835,6 +4988,8 @@ export const replaceAdmissionregistrationV1MutatingAdmissionPolicy: API.Operatio
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1MutatingAdmissionPolicy",
 }));
 
 export type ReplaceAdmissionregistrationV1MutatingAdmissionPolicyBindingError =
@@ -4862,6 +5017,8 @@ export const replaceAdmissionregistrationV1MutatingAdmissionPolicyBinding: API.O
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1MutatingAdmissionPolicyBinding",
 }));
 
 export type ReplaceAdmissionregistrationV1MutatingWebhookConfigurationError =
@@ -4889,6 +5046,8 @@ export const replaceAdmissionregistrationV1MutatingWebhookConfiguration: API.Ope
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1MutatingWebhookConfiguration",
 }));
 
 export type ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyError =
@@ -4916,6 +5075,8 @@ export const replaceAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operat
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1ValidatingAdmissionPolicy",
 }));
 
 export type ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyBindingError =
@@ -4943,6 +5104,8 @@ export const replaceAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyBinding",
 }));
 
 export type ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyStatusError =
@@ -4970,6 +5133,8 @@ export const replaceAdmissionregistrationV1ValidatingAdmissionPolicyStatus: API.
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1ValidatingAdmissionPolicyStatus",
 }));
 
 export type ReplaceAdmissionregistrationV1ValidatingWebhookConfigurationError =
@@ -4997,6 +5162,8 @@ export const replaceAdmissionregistrationV1ValidatingWebhookConfiguration: API.O
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceAdmissionregistrationV1ValidatingWebhookConfiguration",
 }));
 
 export type WatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyError = KubernetesOpError;
@@ -5016,6 +5183,8 @@ export const watchAdmissionregistrationV1alpha1MutatingAdmissionPolicy: API.Oper
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1alpha1MutatingAdmissionPolicy",
 }));
 
 export type WatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingError =
@@ -5036,6 +5205,8 @@ export const watchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding: A
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBinding",
 }));
 
 export type WatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingListError =
@@ -5056,6 +5227,8 @@ export const watchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingLis
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyBindingList",
 }));
 
 export type WatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyListError = KubernetesOpError;
@@ -5075,6 +5248,8 @@ export const watchAdmissionregistrationV1alpha1MutatingAdmissionPolicyList: API.
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1alpha1MutatingAdmissionPolicyList",
 }));
 
 export type WatchAdmissionregistrationV1beta1MutatingAdmissionPolicyError = KubernetesOpError;
@@ -5094,6 +5269,8 @@ export const watchAdmissionregistrationV1beta1MutatingAdmissionPolicy: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1beta1MutatingAdmissionPolicy",
 }));
 
 export type WatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingError =
@@ -5114,6 +5291,8 @@ export const watchAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding: AP
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBinding",
 }));
 
 export type WatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingListError =
@@ -5134,6 +5313,8 @@ export const watchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingList
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1beta1MutatingAdmissionPolicyBindingList",
 }));
 
 export type WatchAdmissionregistrationV1beta1MutatingAdmissionPolicyListError = KubernetesOpError;
@@ -5153,6 +5334,8 @@ export const watchAdmissionregistrationV1beta1MutatingAdmissionPolicyList: API.O
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1beta1MutatingAdmissionPolicyList",
 }));
 
 export type WatchAdmissionregistrationV1MutatingAdmissionPolicyError = KubernetesOpError;
@@ -5172,6 +5355,8 @@ export const watchAdmissionregistrationV1MutatingAdmissionPolicy: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1MutatingAdmissionPolicy",
 }));
 
 export type WatchAdmissionregistrationV1MutatingAdmissionPolicyBindingError = KubernetesOpError;
@@ -5191,6 +5376,8 @@ export const watchAdmissionregistrationV1MutatingAdmissionPolicyBinding: API.Ope
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1MutatingAdmissionPolicyBinding",
 }));
 
 export type WatchAdmissionregistrationV1MutatingAdmissionPolicyBindingListError = KubernetesOpError;
@@ -5210,6 +5397,8 @@ export const watchAdmissionregistrationV1MutatingAdmissionPolicyBindingList: API
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1MutatingAdmissionPolicyBindingList",
 }));
 
 export type WatchAdmissionregistrationV1MutatingAdmissionPolicyListError = KubernetesOpError;
@@ -5229,6 +5418,8 @@ export const watchAdmissionregistrationV1MutatingAdmissionPolicyList: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1MutatingAdmissionPolicyList",
 }));
 
 export type WatchAdmissionregistrationV1MutatingWebhookConfigurationError = KubernetesOpError;
@@ -5248,6 +5439,8 @@ export const watchAdmissionregistrationV1MutatingWebhookConfiguration: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1MutatingWebhookConfiguration",
 }));
 
 export type WatchAdmissionregistrationV1MutatingWebhookConfigurationListError = KubernetesOpError;
@@ -5267,6 +5460,8 @@ export const watchAdmissionregistrationV1MutatingWebhookConfigurationList: API.O
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1MutatingWebhookConfigurationList",
 }));
 
 export type WatchAdmissionregistrationV1ValidatingAdmissionPolicyError = KubernetesOpError;
@@ -5286,6 +5481,8 @@ export const watchAdmissionregistrationV1ValidatingAdmissionPolicy: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1ValidatingAdmissionPolicy",
 }));
 
 export type WatchAdmissionregistrationV1ValidatingAdmissionPolicyBindingError = KubernetesOpError;
@@ -5305,6 +5502,8 @@ export const watchAdmissionregistrationV1ValidatingAdmissionPolicyBinding: API.O
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1ValidatingAdmissionPolicyBinding",
 }));
 
 export type WatchAdmissionregistrationV1ValidatingAdmissionPolicyBindingListError =
@@ -5325,6 +5524,8 @@ export const watchAdmissionregistrationV1ValidatingAdmissionPolicyBindingList: A
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1ValidatingAdmissionPolicyBindingList",
 }));
 
 export type WatchAdmissionregistrationV1ValidatingAdmissionPolicyListError = KubernetesOpError;
@@ -5344,6 +5545,8 @@ export const watchAdmissionregistrationV1ValidatingAdmissionPolicyList: API.Oper
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1ValidatingAdmissionPolicyList",
 }));
 
 export type WatchAdmissionregistrationV1ValidatingWebhookConfigurationError = KubernetesOpError;
@@ -5363,6 +5566,8 @@ export const watchAdmissionregistrationV1ValidatingWebhookConfiguration: API.Ope
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1ValidatingWebhookConfiguration",
 }));
 
 export type WatchAdmissionregistrationV1ValidatingWebhookConfigurationListError = KubernetesOpError;
@@ -5382,6 +5587,8 @@ export const watchAdmissionregistrationV1ValidatingWebhookConfigurationList: API
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchAdmissionregistrationV1ValidatingWebhookConfigurationList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

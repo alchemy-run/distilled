@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * IntercomProtocol -- hand-written.
@@ -37,7 +37,8 @@ export type IntercomOpError =
   | UnknownIntercomError
   | ConfigError
   | HttpClientError.HttpClientError
-  | IntercomParseError;
+  | IntercomParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Intercom operation. */
 export type IntercomOpContext = Credentials | HttpClient.HttpClient;

@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DeviceRegistry" },
+  prefix: "Deviceregistry",
+  service: "Deviceregistry",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface ActivateCertificateAuthorityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -4425,6 +4445,8 @@ export const ActivateCertificateAuthority: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateCertificateAuthority",
 }));
 
 export type AssetEndpointProfilesCreateOrReplaceError = AzureOpError;
@@ -4440,6 +4462,8 @@ export const AssetEndpointProfilesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssetEndpointProfilesCreateOrReplace",
 }));
 
 export type AssetsCreateOrReplaceError = AzureOpError;
@@ -4455,6 +4479,8 @@ export const AssetsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssetsCreateOrReplace",
 }));
 
 export type CertificateAuthoritiesCreateOrReplaceError = AzureOpError;
@@ -4470,6 +4496,8 @@ export const CertificateAuthoritiesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CertificateAuthoritiesCreateOrReplace",
 }));
 
 export type CertificateAuthoritiesRevokeAndRotateError = AzureOpError;
@@ -4485,6 +4513,8 @@ export const CertificateAuthoritiesRevokeAndRotate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CertificateAuthoritiesRevokeAndRotate",
 }));
 
 export type CertificatePoliciesCreateOrReplaceError = AzureOpError;
@@ -4500,6 +4530,8 @@ export const CertificatePoliciesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CertificatePoliciesCreateOrReplace",
 }));
 
 export type DeleteAssetError = AzureOpError;
@@ -4515,6 +4547,8 @@ export const DeleteAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAsset",
 }));
 
 export type DeleteAssetEndpointProfileError = AzureOpError;
@@ -4530,6 +4564,8 @@ export const DeleteAssetEndpointProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAssetEndpointProfile",
 }));
 
 export type DeleteCertificateAuthorityError = AzureOpError;
@@ -4545,6 +4581,8 @@ export const DeleteCertificateAuthority: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificateAuthority",
 }));
 
 export type DeleteCertificatePolicyError = AzureOpError;
@@ -4560,6 +4598,8 @@ export const DeleteCertificatePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatePolicy",
 }));
 
 export type DeleteNamespaceError = AzureOpError;
@@ -4575,6 +4615,8 @@ export const DeleteNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespace",
 }));
 
 export type DeleteNamespaceAssetError = AzureOpError;
@@ -4590,6 +4632,8 @@ export const DeleteNamespaceAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespaceAsset",
 }));
 
 export type DeleteNamespaceDeviceError = AzureOpError;
@@ -4605,6 +4649,8 @@ export const DeleteNamespaceDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespaceDevice",
 }));
 
 export type DeleteNamespaceDiscoveredAssetError = AzureOpError;
@@ -4620,6 +4666,8 @@ export const DeleteNamespaceDiscoveredAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespaceDiscoveredAsset",
 }));
 
 export type DeleteNamespaceDiscoveredDeviceError = AzureOpError;
@@ -4635,6 +4683,8 @@ export const DeleteNamespaceDiscoveredDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNamespaceDiscoveredDevice",
 }));
 
 export type DeleteRegistryDeviceError = AzureOpError;
@@ -4650,6 +4700,8 @@ export const DeleteRegistryDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistryDevice",
 }));
 
 export type DeleteSchemaError = AzureOpError;
@@ -4665,6 +4717,8 @@ export const DeleteSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchema",
 }));
 
 export type DeleteSchemaRegistryError = AzureOpError;
@@ -4680,6 +4734,8 @@ export const DeleteSchemaRegistry: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchemaRegistry",
 }));
 
 export type DeleteSchemaVersionError = AzureOpError;
@@ -4695,6 +4751,8 @@ export const DeleteSchemaVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchemaVersion",
 }));
 
 export type ExecuteNamespaceAssetActionError = AzureOpError;
@@ -4710,6 +4768,8 @@ export const ExecuteNamespaceAssetAction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteNamespaceAssetAction",
 }));
 
 export type GetAssetError = AzureOpError;
@@ -4725,6 +4785,8 @@ export const GetAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAsset",
 }));
 
 export type GetAssetEndpointProfileError = AzureOpError;
@@ -4740,6 +4802,8 @@ export const GetAssetEndpointProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssetEndpointProfile",
 }));
 
 export type GetAsyncOperationStatusError = AzureOpError;
@@ -4755,6 +4819,8 @@ export const GetAsyncOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAsyncOperationStatus",
 }));
 
 export type GetBillingContainerError = AzureOpError;
@@ -4770,6 +4836,8 @@ export const GetBillingContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingContainer",
 }));
 
 export type GetCertificateAuthorityError = AzureOpError;
@@ -4785,6 +4853,8 @@ export const GetCertificateAuthority: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateAuthority",
 }));
 
 export type GetCertificatePolicyError = AzureOpError;
@@ -4800,6 +4870,8 @@ export const GetCertificatePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificatePolicy",
 }));
 
 export type GetNamespaceError = AzureOpError;
@@ -4815,6 +4887,8 @@ export const GetNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespace",
 }));
 
 export type GetNamespaceAssetError = AzureOpError;
@@ -4830,6 +4904,8 @@ export const GetNamespaceAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceAsset",
 }));
 
 export type GetNamespaceDeviceError = AzureOpError;
@@ -4845,6 +4921,8 @@ export const GetNamespaceDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceDevice",
 }));
 
 export type GetNamespaceDiscoveredAssetError = AzureOpError;
@@ -4860,6 +4938,8 @@ export const GetNamespaceDiscoveredAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceDiscoveredAsset",
 }));
 
 export type GetNamespaceDiscoveredDeviceError = AzureOpError;
@@ -4875,6 +4955,8 @@ export const GetNamespaceDiscoveredDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNamespaceDiscoveredDevice",
 }));
 
 export type GetOperationStatusError = AzureOpError;
@@ -4890,6 +4972,8 @@ export const GetOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationStatus",
 }));
 
 export type GetRegistryDeviceError = AzureOpError;
@@ -4905,6 +4989,8 @@ export const GetRegistryDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistryDevice",
 }));
 
 export type GetSchemaError = AzureOpError;
@@ -4920,6 +5006,8 @@ export const GetSchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchema",
 }));
 
 export type GetSchemaRegistryError = AzureOpError;
@@ -4935,6 +5023,8 @@ export const GetSchemaRegistry: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchemaRegistry",
 }));
 
 export type GetSchemaVersionError = AzureOpError;
@@ -4950,6 +5040,8 @@ export const GetSchemaVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchemaVersion",
 }));
 
 export type ListAssetByResourceGroupError = AzureOpError;
@@ -4965,6 +5057,8 @@ export const ListAssetByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssetByResourceGroup",
 }));
 
 export type ListAssetBySubscriptionError = AzureOpError;
@@ -4980,6 +5074,8 @@ export const ListAssetBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssetBySubscription",
 }));
 
 export type ListAssetEndpointProfileByResourceGroupError = AzureOpError;
@@ -4995,6 +5091,8 @@ export const ListAssetEndpointProfileByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssetEndpointProfileByResourceGroup",
 }));
 
 export type ListAssetEndpointProfileBySubscriptionError = AzureOpError;
@@ -5010,6 +5108,8 @@ export const ListAssetEndpointProfileBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssetEndpointProfileBySubscription",
 }));
 
 export type ListBillingContainerBySubscriptionError = AzureOpError;
@@ -5025,6 +5125,8 @@ export const ListBillingContainerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingContainerBySubscription",
 }));
 
 export type ListCertificateAuthorityByNamespaceError = AzureOpError;
@@ -5040,6 +5142,8 @@ export const ListCertificateAuthorityByNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateAuthorityByNamespace",
 }));
 
 export type ListCertificatePolicyByCertificateAuthorityError = AzureOpError;
@@ -5055,6 +5159,8 @@ export const ListCertificatePolicyByCertificateAuthority: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificatePolicyByCertificateAuthority",
 }));
 
 export type ListNamespaceAssetByNamespaceError = AzureOpError;
@@ -5070,6 +5176,8 @@ export const ListNamespaceAssetByNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceAssetByNamespace",
 }));
 
 export type ListNamespaceByResourceGroupError = AzureOpError;
@@ -5085,6 +5193,8 @@ export const ListNamespaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceByResourceGroup",
 }));
 
 export type ListNamespaceBySubscriptionError = AzureOpError;
@@ -5100,6 +5210,8 @@ export const ListNamespaceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceBySubscription",
 }));
 
 export type ListNamespaceDeviceByNamespaceError = AzureOpError;
@@ -5115,6 +5227,8 @@ export const ListNamespaceDeviceByNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceDeviceByNamespace",
 }));
 
 export type ListNamespaceDiscoveredAssetByNamespaceError = AzureOpError;
@@ -5130,6 +5244,8 @@ export const ListNamespaceDiscoveredAssetByNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceDiscoveredAssetByNamespace",
 }));
 
 export type ListNamespaceDiscoveredDeviceByNamespaceError = AzureOpError;
@@ -5145,6 +5261,8 @@ export const ListNamespaceDiscoveredDeviceByNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaceDiscoveredDeviceByNamespace",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -5160,6 +5278,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListRegistryDeviceByNamespaceError = AzureOpError;
@@ -5175,6 +5295,8 @@ export const ListRegistryDeviceByNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistryDeviceByNamespace",
 }));
 
 export type ListSchemaBySchemaRegistryError = AzureOpError;
@@ -5190,6 +5312,8 @@ export const ListSchemaBySchemaRegistry: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchemaBySchemaRegistry",
 }));
 
 export type ListSchemaRegistryByResourceGroupError = AzureOpError;
@@ -5205,6 +5329,8 @@ export const ListSchemaRegistryByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchemaRegistryByResourceGroup",
 }));
 
 export type ListSchemaRegistryBySubscriptionError = AzureOpError;
@@ -5220,6 +5346,8 @@ export const ListSchemaRegistryBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchemaRegistryBySubscription",
 }));
 
 export type ListSchemaVersionBySchemaError = AzureOpError;
@@ -5235,6 +5363,8 @@ export const ListSchemaVersionBySchema: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchemaVersionBySchema",
 }));
 
 export type MigrateNamespaceError = AzureOpError;
@@ -5250,6 +5380,8 @@ export const MigrateNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateNamespace",
 }));
 
 export type NamespaceAssetsCreateOrReplaceError = AzureOpError;
@@ -5265,6 +5397,8 @@ export const NamespaceAssetsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespaceAssetsCreateOrReplace",
 }));
 
 export type NamespaceDevicesCreateOrReplaceError = AzureOpError;
@@ -5280,6 +5414,8 @@ export const NamespaceDevicesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespaceDevicesCreateOrReplace",
 }));
 
 export type NamespaceDiscoveredAssetsCreateOrReplaceError = AzureOpError;
@@ -5295,6 +5431,8 @@ export const NamespaceDiscoveredAssetsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespaceDiscoveredAssetsCreateOrReplace",
 }));
 
 export type NamespaceDiscoveredDevicesCreateOrReplaceError = AzureOpError;
@@ -5314,6 +5452,8 @@ export const NamespaceDiscoveredDevicesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespaceDiscoveredDevicesCreateOrReplace",
 }));
 
 export type NamespacesCreateOrReplaceError = AzureOpError;
@@ -5329,6 +5469,8 @@ export const NamespacesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NamespacesCreateOrReplace",
 }));
 
 export type RegistryDevicesCreateOrReplaceError = AzureOpError;
@@ -5344,6 +5486,8 @@ export const RegistryDevicesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegistryDevicesCreateOrReplace",
 }));
 
 export type SchemaRegistriesCreateOrReplaceError = AzureOpError;
@@ -5359,6 +5503,8 @@ export const SchemaRegistriesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SchemaRegistriesCreateOrReplace",
 }));
 
 export type SchemasCreateOrReplaceError = AzureOpError;
@@ -5374,6 +5520,8 @@ export const SchemasCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SchemasCreateOrReplace",
 }));
 
 export type SchemaVersionsCreateOrReplaceError = AzureOpError;
@@ -5389,6 +5537,8 @@ export const SchemaVersionsCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SchemaVersionsCreateOrReplace",
 }));
 
 export type UpdateAssetError = AzureOpError;
@@ -5404,6 +5554,8 @@ export const UpdateAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAsset",
 }));
 
 export type UpdateAssetEndpointProfileError = AzureOpError;
@@ -5419,6 +5571,8 @@ export const UpdateAssetEndpointProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAssetEndpointProfile",
 }));
 
 export type UpdateCertificateAuthorityError = AzureOpError;
@@ -5434,6 +5588,8 @@ export const UpdateCertificateAuthority: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertificateAuthority",
 }));
 
 export type UpdateCertificatePolicyError = AzureOpError;
@@ -5449,6 +5605,8 @@ export const UpdateCertificatePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCertificatePolicy",
 }));
 
 export type UpdateNamespaceError = AzureOpError;
@@ -5464,6 +5622,8 @@ export const UpdateNamespace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespace",
 }));
 
 export type UpdateNamespaceAssetError = AzureOpError;
@@ -5479,6 +5639,8 @@ export const UpdateNamespaceAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespaceAsset",
 }));
 
 export type UpdateNamespaceDeviceError = AzureOpError;
@@ -5494,6 +5656,8 @@ export const UpdateNamespaceDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespaceDevice",
 }));
 
 export type UpdateNamespaceDiscoveredAssetError = AzureOpError;
@@ -5509,6 +5673,8 @@ export const UpdateNamespaceDiscoveredAsset: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespaceDiscoveredAsset",
 }));
 
 export type UpdateNamespaceDiscoveredDeviceError = AzureOpError;
@@ -5524,6 +5690,8 @@ export const UpdateNamespaceDiscoveredDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespaceDiscoveredDevice",
 }));
 
 export type UpdateRegistryDeviceError = AzureOpError;
@@ -5539,6 +5707,8 @@ export const UpdateRegistryDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRegistryDevice",
 }));
 
 export type UpdateSchemaRegistryError = AzureOpError;
@@ -5554,6 +5724,8 @@ export const UpdateSchemaRegistry: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSchemaRegistry",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

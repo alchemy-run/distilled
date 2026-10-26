@@ -30,6 +30,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "CustomPages",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export interface CreateAssetForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
@@ -293,6 +307,8 @@ export const createAssetForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAssetForAccount",
 }));
 
 export type CreateAssetForZoneError = CloudflareOpError;
@@ -308,6 +324,8 @@ export const createAssetForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAssetForZone",
 }));
 
 export type DeleteAssetForAccountError = CloudflareOpError;
@@ -323,6 +341,8 @@ export const deleteAssetForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAssetForAccount",
 }));
 
 export type DeleteAssetForZoneError = CloudflareOpError;
@@ -338,6 +358,8 @@ export const deleteAssetForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAssetForZone",
 }));
 
 export type GetAssetForAccountError = CloudflareOpError;
@@ -353,6 +375,8 @@ export const getAssetForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssetForAccount",
 }));
 
 export type GetAssetForZoneError = CloudflareOpError;
@@ -368,6 +392,8 @@ export const getAssetForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssetForZone",
 }));
 
 export type GetCustomPageForAccountError = CloudflareOpError;
@@ -383,6 +409,8 @@ export const getCustomPageForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomPageForAccount",
 }));
 
 export type GetCustomPageForZoneError = CloudflareOpError;
@@ -398,6 +426,8 @@ export const getCustomPageForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomPageForZone",
 }));
 
 export type ListAssetsForAccountError = CloudflareOpError;
@@ -415,6 +445,8 @@ export const listAssetsForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAssetsForAccount",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -441,6 +473,8 @@ export const listAssetsForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAssetsForZone",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -467,6 +501,8 @@ export const listCustomPagesForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomPagesForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -487,6 +523,8 @@ export const listCustomPagesForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListCustomPagesForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -505,6 +543,8 @@ export const putCustomPageForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCustomPageForAccount",
 }));
 
 export type PutCustomPageForZoneError = CloudflareOpError;
@@ -520,6 +560,8 @@ export const putCustomPageForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutCustomPageForZone",
 }));
 
 export type UpdateAssetForAccountError = CloudflareOpError;
@@ -535,6 +577,8 @@ export const updateAssetForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAssetForAccount",
 }));
 
 export type UpdateAssetForZoneError = CloudflareOpError;
@@ -550,6 +594,8 @@ export const updateAssetForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAssetForZone",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

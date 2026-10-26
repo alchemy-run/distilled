@@ -72,13 +72,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
+    "generatedAt": "2026-10-26",
     "specUpdatedAt": "2026-10-04"
   }
 }

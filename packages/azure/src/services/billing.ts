@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Billing" },
+  prefix: "Billing",
+  service: "Billing",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The type of product that is transferred. */
 export type ProductType =
   | "AzureSubscription"
@@ -7398,6 +7418,8 @@ export const AcceptRecipientTransfer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptRecipientTransfer",
 }));
 
 export type AddBillingAccountPaymentTermsError = AzureOpError;
@@ -7413,6 +7435,8 @@ export const AddBillingAccountPaymentTerms: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddBillingAccountPaymentTerms",
 }));
 
 export type AssociatedTenantsCreateOrUpdateError = AzureOpError;
@@ -7428,6 +7452,8 @@ export const AssociatedTenantsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssociatedTenantsCreateOrUpdate",
 }));
 
 export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionError = AzureOpError;
@@ -7447,6 +7473,8 @@ export const BillingAccountsListInvoiceSectionsByCreateSubscriptionPermission: A
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingAccountsListInvoiceSectionsByCreateSubscriptionPermission",
 }));
 
 export type BillingProfilesCreateOrUpdateError = AzureOpError;
@@ -7462,6 +7490,8 @@ export const BillingProfilesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingProfilesCreateOrUpdate",
 }));
 
 export type BillingProfilesValidateDeleteEligibilityError = AzureOpError;
@@ -7477,6 +7507,8 @@ export const BillingProfilesValidateDeleteEligibility: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingProfilesValidateDeleteEligibility",
 }));
 
 export type BillingRequestsCreateOrUpdateError = AzureOpError;
@@ -7492,6 +7524,8 @@ export const BillingRequestsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingRequestsCreateOrUpdate",
 }));
 
 export type BillingRoleAssignmentsCreateOrUpdateByBillingAccountError = AzureOpError;
@@ -7515,6 +7549,8 @@ export const BillingRoleAssignmentsCreateOrUpdateByBillingAccount: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingRoleAssignmentsCreateOrUpdateByBillingAccount",
 }));
 
 export type BillingRoleAssignmentsCreateOrUpdateByDepartmentError = AzureOpError;
@@ -7538,6 +7574,8 @@ export const BillingRoleAssignmentsCreateOrUpdateByDepartment: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingRoleAssignmentsCreateOrUpdateByDepartment",
 }));
 
 export type BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountError = AzureOpError;
@@ -7561,6 +7599,8 @@ export const BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccount: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccount",
 }));
 
 export type BillingRoleAssignmentsResolveByBillingAccountError = AzureOpError;
@@ -7584,6 +7624,8 @@ export const BillingRoleAssignmentsResolveByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingRoleAssignmentsResolveByBillingAccount",
 }));
 
 export type BillingRoleAssignmentsResolveByBillingProfileError = AzureOpError;
@@ -7607,6 +7649,8 @@ export const BillingRoleAssignmentsResolveByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingRoleAssignmentsResolveByBillingProfile",
 }));
 
 export type BillingRoleAssignmentsResolveByCustomerError = AzureOpError;
@@ -7622,6 +7666,8 @@ export const BillingRoleAssignmentsResolveByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingRoleAssignmentsResolveByCustomer",
 }));
 
 export type BillingRoleAssignmentsResolveByInvoiceSectionError = AzureOpError;
@@ -7645,6 +7691,8 @@ export const BillingRoleAssignmentsResolveByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingRoleAssignmentsResolveByInvoiceSection",
 }));
 
 export type BillingSubscriptionsAliasesCreateOrUpdateError = AzureOpError;
@@ -7660,6 +7708,8 @@ export const BillingSubscriptionsAliasesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingSubscriptionsAliasesCreateOrUpdate",
 }));
 
 export type BillingSubscriptionsSplitError = AzureOpError;
@@ -7675,6 +7725,8 @@ export const BillingSubscriptionsSplit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingSubscriptionsSplit",
 }));
 
 export type BillingSubscriptionsValidateMoveEligibilityError = AzureOpError;
@@ -7694,6 +7746,8 @@ export const BillingSubscriptionsValidateMoveEligibility: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BillingSubscriptionsValidateMoveEligibility",
 }));
 
 export type CancelBillingAccountPaymentTermsError = AzureOpError;
@@ -7709,6 +7763,8 @@ export const CancelBillingAccountPaymentTerms: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelBillingAccountPaymentTerms",
 }));
 
 export type CancelBillingSubscriptionError = AzureOpError;
@@ -7724,6 +7780,8 @@ export const CancelBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelBillingSubscription",
 }));
 
 export type CancelPartnerTransferError = AzureOpError;
@@ -7739,6 +7797,8 @@ export const CancelPartnerTransfer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelPartnerTransfer",
 }));
 
 export type CancelTransferError = AzureOpError;
@@ -7754,6 +7814,8 @@ export const CancelTransfer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTransfer",
 }));
 
 export type CheckBillingPermissionsAccessByBillingAccountError = AzureOpError;
@@ -7777,6 +7839,8 @@ export const CheckBillingPermissionsAccessByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBillingPermissionsAccessByBillingAccount",
 }));
 
 export type CheckBillingPermissionsAccessByBillingProfileError = AzureOpError;
@@ -7800,6 +7864,8 @@ export const CheckBillingPermissionsAccessByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBillingPermissionsAccessByBillingProfile",
 }));
 
 export type CheckBillingPermissionsAccessByCustomerError = AzureOpError;
@@ -7815,6 +7881,8 @@ export const CheckBillingPermissionsAccessByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBillingPermissionsAccessByCustomer",
 }));
 
 export type CheckBillingPermissionsAccessByDepartmentError = AzureOpError;
@@ -7834,6 +7902,8 @@ export const CheckBillingPermissionsAccessByDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBillingPermissionsAccessByDepartment",
 }));
 
 export type CheckBillingPermissionsAccessByEnrollmentAccountError = AzureOpError;
@@ -7857,6 +7927,8 @@ export const CheckBillingPermissionsAccessByEnrollmentAccount: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBillingPermissionsAccessByEnrollmentAccount",
 }));
 
 export type CheckBillingPermissionsAccessByInvoiceSectionError = AzureOpError;
@@ -7880,6 +7952,8 @@ export const CheckBillingPermissionsAccessByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckBillingPermissionsAccessByInvoiceSection",
 }));
 
 export type ConfirmBillingAccountTransitionError = AzureOpError;
@@ -7895,6 +7969,8 @@ export const ConfirmBillingAccountTransition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmBillingAccountTransition",
 }));
 
 export type CreateBillingRoleAssignmentByBillingAccountError = AzureOpError;
@@ -7918,6 +7994,8 @@ export const CreateBillingRoleAssignmentByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingRoleAssignmentByBillingAccount",
 }));
 
 export type CreateBillingRoleAssignmentByBillingProfileError = AzureOpError;
@@ -7941,6 +8019,8 @@ export const CreateBillingRoleAssignmentByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingRoleAssignmentByBillingProfile",
 }));
 
 export type CreateBillingRoleAssignmentByCustomerError = AzureOpError;
@@ -7956,6 +8036,8 @@ export const CreateBillingRoleAssignmentByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingRoleAssignmentByCustomer",
 }));
 
 export type CreateBillingRoleAssignmentByInvoiceSectionError = AzureOpError;
@@ -7979,6 +8061,8 @@ export const CreateBillingRoleAssignmentByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBillingRoleAssignmentByInvoiceSection",
 }));
 
 export type DeleteAssociatedTenantError = AzureOpError;
@@ -7994,6 +8078,8 @@ export const DeleteAssociatedTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAssociatedTenant",
 }));
 
 export type DeleteBillingProfileError = AzureOpError;
@@ -8009,6 +8095,8 @@ export const DeleteBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingProfile",
 }));
 
 export type DeleteBillingRoleAssignmentByBillingAccountError = AzureOpError;
@@ -8032,6 +8120,8 @@ export const DeleteBillingRoleAssignmentByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingRoleAssignmentByBillingAccount",
 }));
 
 export type DeleteBillingRoleAssignmentByBillingProfileError = AzureOpError;
@@ -8055,6 +8145,8 @@ export const DeleteBillingRoleAssignmentByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingRoleAssignmentByBillingProfile",
 }));
 
 export type DeleteBillingRoleAssignmentByCustomerError = AzureOpError;
@@ -8070,6 +8162,8 @@ export const DeleteBillingRoleAssignmentByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingRoleAssignmentByCustomer",
 }));
 
 export type DeleteBillingRoleAssignmentByDepartmentError = AzureOpError;
@@ -8085,6 +8179,8 @@ export const DeleteBillingRoleAssignmentByDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingRoleAssignmentByDepartment",
 }));
 
 export type DeleteBillingRoleAssignmentByEnrollmentAccountError = AzureOpError;
@@ -8108,6 +8204,8 @@ export const DeleteBillingRoleAssignmentByEnrollmentAccount: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingRoleAssignmentByEnrollmentAccount",
 }));
 
 export type DeleteBillingRoleAssignmentByInvoiceSectionError = AzureOpError;
@@ -8131,6 +8229,8 @@ export const DeleteBillingRoleAssignmentByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingRoleAssignmentByInvoiceSection",
 }));
 
 export type DeleteBillingSubscriptionError = AzureOpError;
@@ -8146,6 +8246,8 @@ export const DeleteBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBillingSubscription",
 }));
 
 export type DeleteInvoiceSectionError = AzureOpError;
@@ -8161,6 +8263,8 @@ export const DeleteInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInvoiceSection",
 }));
 
 export type DeletePaymentMethodByUserError = AzureOpError;
@@ -8176,6 +8280,8 @@ export const DeletePaymentMethodByUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePaymentMethodByUser",
 }));
 
 export type DownloadInvoiceByBillingAccountError = AzureOpError;
@@ -8191,6 +8297,8 @@ export const DownloadInvoiceByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadInvoiceByBillingAccount",
 }));
 
 export type DownloadInvoiceByBillingSubscriptionError = AzureOpError;
@@ -8206,6 +8314,8 @@ export const DownloadInvoiceByBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadInvoiceByBillingSubscription",
 }));
 
 export type DownloadInvoiceDocumentsByBillingAccountError = AzureOpError;
@@ -8221,6 +8331,8 @@ export const DownloadInvoiceDocumentsByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadInvoiceDocumentsByBillingAccount",
 }));
 
 export type DownloadInvoiceDocumentsByBillingSubscriptionError = AzureOpError;
@@ -8240,6 +8352,8 @@ export const DownloadInvoiceDocumentsByBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadInvoiceDocumentsByBillingSubscription",
 }));
 
 export type DownloadInvoiceSummaryByBillingAccountError = AzureOpError;
@@ -8255,6 +8369,8 @@ export const DownloadInvoiceSummaryByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadInvoiceSummaryByBillingAccount",
 }));
 
 export type GetAgreementError = AzureOpError;
@@ -8270,6 +8386,8 @@ export const GetAgreement: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAgreement",
 }));
 
 export type GetAssociatedTenantError = AzureOpError;
@@ -8285,6 +8403,8 @@ export const GetAssociatedTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssociatedTenant",
 }));
 
 export type GetAvailableBalanceByBillingAccountError = AzureOpError;
@@ -8300,6 +8420,8 @@ export const GetAvailableBalanceByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAvailableBalanceByBillingAccount",
 }));
 
 export type GetAvailableBalanceByBillingProfileError = AzureOpError;
@@ -8315,6 +8437,8 @@ export const GetAvailableBalanceByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAvailableBalanceByBillingProfile",
 }));
 
 export type GetBillingAccountError = AzureOpError;
@@ -8330,6 +8454,8 @@ export const GetBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingAccount",
 }));
 
 export type GetBillingProfileError = AzureOpError;
@@ -8345,6 +8471,8 @@ export const GetBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingProfile",
 }));
 
 export type GetBillingPropertyError = AzureOpError;
@@ -8360,6 +8488,8 @@ export const GetBillingProperty: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingProperty",
 }));
 
 export type GetBillingRequestError = AzureOpError;
@@ -8375,6 +8505,8 @@ export const GetBillingRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRequest",
 }));
 
 export type GetBillingRoleAssignmentByBillingAccountError = AzureOpError;
@@ -8390,6 +8522,8 @@ export const GetBillingRoleAssignmentByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleAssignmentByBillingAccount",
 }));
 
 export type GetBillingRoleAssignmentByBillingProfileError = AzureOpError;
@@ -8405,6 +8539,8 @@ export const GetBillingRoleAssignmentByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleAssignmentByBillingProfile",
 }));
 
 export type GetBillingRoleAssignmentByCustomerError = AzureOpError;
@@ -8420,6 +8556,8 @@ export const GetBillingRoleAssignmentByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleAssignmentByCustomer",
 }));
 
 export type GetBillingRoleAssignmentByDepartmentError = AzureOpError;
@@ -8435,6 +8573,8 @@ export const GetBillingRoleAssignmentByDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleAssignmentByDepartment",
 }));
 
 export type GetBillingRoleAssignmentByEnrollmentAccountError = AzureOpError;
@@ -8458,6 +8598,8 @@ export const GetBillingRoleAssignmentByEnrollmentAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleAssignmentByEnrollmentAccount",
 }));
 
 export type GetBillingRoleAssignmentByInvoiceSectionError = AzureOpError;
@@ -8473,6 +8615,8 @@ export const GetBillingRoleAssignmentByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleAssignmentByInvoiceSection",
 }));
 
 export type GetBillingRoleDefinitionByBillingAccountError = AzureOpError;
@@ -8488,6 +8632,8 @@ export const GetBillingRoleDefinitionByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleDefinitionByBillingAccount",
 }));
 
 export type GetBillingRoleDefinitionByBillingProfileError = AzureOpError;
@@ -8503,6 +8649,8 @@ export const GetBillingRoleDefinitionByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleDefinitionByBillingProfile",
 }));
 
 export type GetBillingRoleDefinitionByCustomerError = AzureOpError;
@@ -8518,6 +8666,8 @@ export const GetBillingRoleDefinitionByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleDefinitionByCustomer",
 }));
 
 export type GetBillingRoleDefinitionByDepartmentError = AzureOpError;
@@ -8533,6 +8683,8 @@ export const GetBillingRoleDefinitionByDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleDefinitionByDepartment",
 }));
 
 export type GetBillingRoleDefinitionByEnrollmentAccountError = AzureOpError;
@@ -8556,6 +8708,8 @@ export const GetBillingRoleDefinitionByEnrollmentAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleDefinitionByEnrollmentAccount",
 }));
 
 export type GetBillingRoleDefinitionByInvoiceSectionError = AzureOpError;
@@ -8571,6 +8725,8 @@ export const GetBillingRoleDefinitionByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingRoleDefinitionByInvoiceSection",
 }));
 
 export type GetBillingSubscriptionError = AzureOpError;
@@ -8586,6 +8742,8 @@ export const GetBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSubscription",
 }));
 
 export type GetBillingSubscriptionByBillingProfileError = AzureOpError;
@@ -8601,6 +8759,8 @@ export const GetBillingSubscriptionByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSubscriptionByBillingProfile",
 }));
 
 export type GetBillingSubscriptionsAliasError = AzureOpError;
@@ -8616,6 +8776,8 @@ export const GetBillingSubscriptionsAlias: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBillingSubscriptionsAlias",
 }));
 
 export type GetCustomerError = AzureOpError;
@@ -8631,6 +8793,8 @@ export const GetCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomer",
 }));
 
 export type GetCustomerByBillingAccountError = AzureOpError;
@@ -8646,6 +8810,8 @@ export const GetCustomerByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomerByBillingAccount",
 }));
 
 export type GetDepartmentError = AzureOpError;
@@ -8661,6 +8827,8 @@ export const GetDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDepartment",
 }));
 
 export type GetEnrollmentAccountError = AzureOpError;
@@ -8676,6 +8844,8 @@ export const GetEnrollmentAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnrollmentAccount",
 }));
 
 export type GetEnrollmentAccountByDepartmentError = AzureOpError;
@@ -8691,6 +8861,8 @@ export const GetEnrollmentAccountByDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnrollmentAccountByDepartment",
 }));
 
 export type GetInvoiceError = AzureOpError;
@@ -8706,6 +8878,8 @@ export const GetInvoice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoice",
 }));
 
 export type GetInvoiceByBillingAccountError = AzureOpError;
@@ -8721,6 +8895,8 @@ export const GetInvoiceByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceByBillingAccount",
 }));
 
 export type GetInvoiceByBillingSubscriptionError = AzureOpError;
@@ -8736,6 +8912,8 @@ export const GetInvoiceByBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceByBillingSubscription",
 }));
 
 export type GetInvoiceSectionError = AzureOpError;
@@ -8751,6 +8929,8 @@ export const GetInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvoiceSection",
 }));
 
 export type GetPartnerTransferError = AzureOpError;
@@ -8766,6 +8946,8 @@ export const GetPartnerTransfer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerTransfer",
 }));
 
 export type GetPaymentMethodByBillingAccountError = AzureOpError;
@@ -8781,6 +8963,8 @@ export const GetPaymentMethodByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethodByBillingAccount",
 }));
 
 export type GetPaymentMethodByBillingProfileError = AzureOpError;
@@ -8796,6 +8980,8 @@ export const GetPaymentMethodByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethodByBillingProfile",
 }));
 
 export type GetPaymentMethodByUserError = AzureOpError;
@@ -8811,6 +8997,8 @@ export const GetPaymentMethodByUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentMethodByUser",
 }));
 
 export type GetPolicyByBillingAccountError = AzureOpError;
@@ -8826,6 +9014,8 @@ export const GetPolicyByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyByBillingAccount",
 }));
 
 export type GetPolicyByBillingProfileError = AzureOpError;
@@ -8841,6 +9031,8 @@ export const GetPolicyByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyByBillingProfile",
 }));
 
 export type GetPolicyByCustomerError = AzureOpError;
@@ -8856,6 +9048,8 @@ export const GetPolicyByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyByCustomer",
 }));
 
 export type GetPolicyByCustomerAtBillingAccountError = AzureOpError;
@@ -8871,6 +9065,8 @@ export const GetPolicyByCustomerAtBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyByCustomerAtBillingAccount",
 }));
 
 export type GetPolicyBySubscriptionError = AzureOpError;
@@ -8886,6 +9082,8 @@ export const GetPolicyBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyBySubscription",
 }));
 
 export type GetProductError = AzureOpError;
@@ -8901,6 +9099,8 @@ export const GetProduct: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProduct",
 }));
 
 export type GetRecipientTransferError = AzureOpError;
@@ -8916,6 +9116,8 @@ export const GetRecipientTransfer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecipientTransfer",
 }));
 
 export type GetReservationByReservationOrderError = AzureOpError;
@@ -8931,6 +9133,8 @@ export const GetReservationByReservationOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReservationByReservationOrder",
 }));
 
 export type GetReservationOrderByBillingAccountError = AzureOpError;
@@ -8946,6 +9150,8 @@ export const GetReservationOrderByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReservationOrderByBillingAccount",
 }));
 
 export type GetSavingsPlanByBillingAccountError = AzureOpError;
@@ -8961,6 +9167,8 @@ export const GetSavingsPlanByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlanByBillingAccount",
 }));
 
 export type GetSavingsPlanOrderByBillingAccountError = AzureOpError;
@@ -8976,6 +9184,8 @@ export const GetSavingsPlanOrderByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavingsPlanOrderByBillingAccount",
 }));
 
 export type GetTransactionTransactionSummaryByInvoiceError = AzureOpError;
@@ -8991,6 +9201,8 @@ export const GetTransactionTransactionSummaryByInvoice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactionTransactionSummaryByInvoice",
 }));
 
 export type GetTransferError = AzureOpError;
@@ -9006,6 +9218,8 @@ export const GetTransfer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransfer",
 }));
 
 export type InvoicesAmendError = AzureOpError;
@@ -9021,6 +9235,8 @@ export const InvoicesAmend: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoicesAmend",
 }));
 
 export type InvoiceSectionsCreateOrUpdateError = AzureOpError;
@@ -9036,6 +9252,8 @@ export const InvoiceSectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoiceSectionsCreateOrUpdate",
 }));
 
 export type InvoiceSectionsValidateDeleteEligibilityError = AzureOpError;
@@ -9051,6 +9269,8 @@ export const InvoiceSectionsValidateDeleteEligibility: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvoiceSectionsValidateDeleteEligibility",
 }));
 
 export type ListAgreementByBillingAccountError = AzureOpError;
@@ -9066,6 +9286,8 @@ export const ListAgreementByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAgreementByBillingAccount",
 }));
 
 export type ListAssociatedTenantByBillingAccountError = AzureOpError;
@@ -9081,6 +9303,8 @@ export const ListAssociatedTenantByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssociatedTenantByBillingAccount",
 }));
 
 export type ListBillingAccountsError = AzureOpError;
@@ -9096,6 +9320,8 @@ export const ListBillingAccounts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingAccounts",
 }));
 
 export type ListBillingPermissionsByBillingAccountError = AzureOpError;
@@ -9111,6 +9337,8 @@ export const ListBillingPermissionsByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingPermissionsByBillingAccount",
 }));
 
 export type ListBillingPermissionsByBillingProfileError = AzureOpError;
@@ -9126,6 +9354,8 @@ export const ListBillingPermissionsByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingPermissionsByBillingProfile",
 }));
 
 export type ListBillingPermissionsByCustomerError = AzureOpError;
@@ -9141,6 +9371,8 @@ export const ListBillingPermissionsByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingPermissionsByCustomer",
 }));
 
 export type ListBillingPermissionsByCustomerAtBillingAccountError = AzureOpError;
@@ -9160,6 +9392,8 @@ export const ListBillingPermissionsByCustomerAtBillingAccount: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingPermissionsByCustomerAtBillingAccount",
 }));
 
 export type ListBillingPermissionsByDepartmentError = AzureOpError;
@@ -9175,6 +9409,8 @@ export const ListBillingPermissionsByDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingPermissionsByDepartment",
 }));
 
 export type ListBillingPermissionsByEnrollmentAccountError = AzureOpError;
@@ -9190,6 +9426,8 @@ export const ListBillingPermissionsByEnrollmentAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingPermissionsByEnrollmentAccount",
 }));
 
 export type ListBillingPermissionsByInvoiceSectionError = AzureOpError;
@@ -9205,6 +9443,8 @@ export const ListBillingPermissionsByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingPermissionsByInvoiceSection",
 }));
 
 export type ListBillingProfileByBillingAccountError = AzureOpError;
@@ -9220,6 +9460,8 @@ export const ListBillingProfileByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingProfileByBillingAccount",
 }));
 
 export type ListBillingRequestByBillingAccountError = AzureOpError;
@@ -9235,6 +9477,8 @@ export const ListBillingRequestByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRequestByBillingAccount",
 }));
 
 export type ListBillingRequestByBillingProfileError = AzureOpError;
@@ -9250,6 +9494,8 @@ export const ListBillingRequestByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRequestByBillingProfile",
 }));
 
 export type ListBillingRequestByCustomerError = AzureOpError;
@@ -9265,6 +9511,8 @@ export const ListBillingRequestByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRequestByCustomer",
 }));
 
 export type ListBillingRequestByInvoiceSectionError = AzureOpError;
@@ -9280,6 +9528,8 @@ export const ListBillingRequestByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRequestByInvoiceSection",
 }));
 
 export type ListBillingRequestByUserError = AzureOpError;
@@ -9295,6 +9545,8 @@ export const ListBillingRequestByUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRequestByUser",
 }));
 
 export type ListBillingRoleAssignmentByBillingAccountError = AzureOpError;
@@ -9310,6 +9562,8 @@ export const ListBillingRoleAssignmentByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleAssignmentByBillingAccount",
 }));
 
 export type ListBillingRoleAssignmentByBillingProfileError = AzureOpError;
@@ -9325,6 +9579,8 @@ export const ListBillingRoleAssignmentByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleAssignmentByBillingProfile",
 }));
 
 export type ListBillingRoleAssignmentByCustomerError = AzureOpError;
@@ -9340,6 +9596,8 @@ export const ListBillingRoleAssignmentByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleAssignmentByCustomer",
 }));
 
 export type ListBillingRoleAssignmentByDepartmentError = AzureOpError;
@@ -9355,6 +9613,8 @@ export const ListBillingRoleAssignmentByDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleAssignmentByDepartment",
 }));
 
 export type ListBillingRoleAssignmentByEnrollmentAccountError = AzureOpError;
@@ -9370,6 +9630,8 @@ export const ListBillingRoleAssignmentByEnrollmentAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleAssignmentByEnrollmentAccount",
 }));
 
 export type ListBillingRoleAssignmentByInvoiceSectionError = AzureOpError;
@@ -9385,6 +9647,8 @@ export const ListBillingRoleAssignmentByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleAssignmentByInvoiceSection",
 }));
 
 export type ListBillingRoleDefinitionByBillingAccountError = AzureOpError;
@@ -9400,6 +9664,8 @@ export const ListBillingRoleDefinitionByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleDefinitionByBillingAccount",
 }));
 
 export type ListBillingRoleDefinitionByBillingProfileError = AzureOpError;
@@ -9415,6 +9681,8 @@ export const ListBillingRoleDefinitionByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleDefinitionByBillingProfile",
 }));
 
 export type ListBillingRoleDefinitionByCustomerError = AzureOpError;
@@ -9430,6 +9698,8 @@ export const ListBillingRoleDefinitionByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleDefinitionByCustomer",
 }));
 
 export type ListBillingRoleDefinitionByDepartmentError = AzureOpError;
@@ -9445,6 +9715,8 @@ export const ListBillingRoleDefinitionByDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleDefinitionByDepartment",
 }));
 
 export type ListBillingRoleDefinitionByEnrollmentAccountError = AzureOpError;
@@ -9460,6 +9732,8 @@ export const ListBillingRoleDefinitionByEnrollmentAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleDefinitionByEnrollmentAccount",
 }));
 
 export type ListBillingRoleDefinitionByInvoiceSectionError = AzureOpError;
@@ -9475,6 +9749,8 @@ export const ListBillingRoleDefinitionByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingRoleDefinitionByInvoiceSection",
 }));
 
 export type ListBillingSubscriptionByBillingAccountError = AzureOpError;
@@ -9490,6 +9766,8 @@ export const ListBillingSubscriptionByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingSubscriptionByBillingAccount",
 }));
 
 export type ListBillingSubscriptionByBillingProfileError = AzureOpError;
@@ -9505,6 +9783,8 @@ export const ListBillingSubscriptionByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingSubscriptionByBillingProfile",
 }));
 
 export type ListBillingSubscriptionByCustomerError = AzureOpError;
@@ -9520,6 +9800,8 @@ export const ListBillingSubscriptionByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingSubscriptionByCustomer",
 }));
 
 export type ListBillingSubscriptionByCustomerAtBillingAccountError = AzureOpError;
@@ -9539,6 +9821,8 @@ export const ListBillingSubscriptionByCustomerAtBillingAccount: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingSubscriptionByCustomerAtBillingAccount",
 }));
 
 export type ListBillingSubscriptionByEnrollmentAccountError = AzureOpError;
@@ -9554,6 +9838,8 @@ export const ListBillingSubscriptionByEnrollmentAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingSubscriptionByEnrollmentAccount",
 }));
 
 export type ListBillingSubscriptionByInvoiceSectionError = AzureOpError;
@@ -9569,6 +9855,8 @@ export const ListBillingSubscriptionByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingSubscriptionByInvoiceSection",
 }));
 
 export type ListBillingSubscriptionsAliasByBillingAccountError = AzureOpError;
@@ -9588,6 +9876,8 @@ export const ListBillingSubscriptionsAliasByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBillingSubscriptionsAliasByBillingAccount",
 }));
 
 export type ListCustomerByBillingAccountError = AzureOpError;
@@ -9603,6 +9893,8 @@ export const ListCustomerByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomerByBillingAccount",
 }));
 
 export type ListCustomerByBillingProfileError = AzureOpError;
@@ -9618,6 +9910,8 @@ export const ListCustomerByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomerByBillingProfile",
 }));
 
 export type ListDepartmentByBillingAccountError = AzureOpError;
@@ -9633,6 +9927,8 @@ export const ListDepartmentByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDepartmentByBillingAccount",
 }));
 
 export type ListEnrollmentAccountByBillingAccountError = AzureOpError;
@@ -9648,6 +9944,8 @@ export const ListEnrollmentAccountByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnrollmentAccountByBillingAccount",
 }));
 
 export type ListEnrollmentAccountByDepartmentError = AzureOpError;
@@ -9663,6 +9961,8 @@ export const ListEnrollmentAccountByDepartment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnrollmentAccountByDepartment",
 }));
 
 export type ListInvoiceByBillingAccountError = AzureOpError;
@@ -9678,6 +9978,8 @@ export const ListInvoiceByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoiceByBillingAccount",
 }));
 
 export type ListInvoiceByBillingProfileError = AzureOpError;
@@ -9693,6 +9995,8 @@ export const ListInvoiceByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoiceByBillingProfile",
 }));
 
 export type ListInvoiceByBillingSubscriptionError = AzureOpError;
@@ -9708,6 +10012,8 @@ export const ListInvoiceByBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoiceByBillingSubscription",
 }));
 
 export type ListInvoiceSectionByBillingProfileError = AzureOpError;
@@ -9723,6 +10029,8 @@ export const ListInvoiceSectionByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInvoiceSectionByBillingProfile",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -9738,6 +10046,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPartnerTransfersError = AzureOpError;
@@ -9753,6 +10063,8 @@ export const ListPartnerTransfers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPartnerTransfers",
 }));
 
 export type ListPaymentMethodByBillingAccountError = AzureOpError;
@@ -9768,6 +10080,8 @@ export const ListPaymentMethodByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentMethodByBillingAccount",
 }));
 
 export type ListPaymentMethodByBillingProfileError = AzureOpError;
@@ -9783,6 +10097,8 @@ export const ListPaymentMethodByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentMethodByBillingProfile",
 }));
 
 export type ListPaymentMethodByUserError = AzureOpError;
@@ -9798,6 +10114,8 @@ export const ListPaymentMethodByUser: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentMethodByUser",
 }));
 
 export type ListProductByBillingAccountError = AzureOpError;
@@ -9813,6 +10131,8 @@ export const ListProductByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductByBillingAccount",
 }));
 
 export type ListProductByBillingProfileError = AzureOpError;
@@ -9828,6 +10148,8 @@ export const ListProductByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductByBillingProfile",
 }));
 
 export type ListProductByCustomerError = AzureOpError;
@@ -9843,6 +10165,8 @@ export const ListProductByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductByCustomer",
 }));
 
 export type ListProductByInvoiceSectionError = AzureOpError;
@@ -9858,6 +10182,8 @@ export const ListProductByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductByInvoiceSection",
 }));
 
 export type ListRecipientTransfersError = AzureOpError;
@@ -9873,6 +10199,8 @@ export const ListRecipientTransfers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRecipientTransfers",
 }));
 
 export type ListReservationByBillingAccountError = AzureOpError;
@@ -9888,6 +10216,8 @@ export const ListReservationByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationByBillingAccount",
 }));
 
 export type ListReservationByBillingProfileError = AzureOpError;
@@ -9903,6 +10233,8 @@ export const ListReservationByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationByBillingProfile",
 }));
 
 export type ListReservationByReservationOrderError = AzureOpError;
@@ -9918,6 +10250,8 @@ export const ListReservationByReservationOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationByReservationOrder",
 }));
 
 export type ListReservationOrderByBillingAccountError = AzureOpError;
@@ -9933,6 +10267,8 @@ export const ListReservationOrderByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReservationOrderByBillingAccount",
 }));
 
 export type ListSavingsPlanByBillingAccountError = AzureOpError;
@@ -9948,6 +10284,8 @@ export const ListSavingsPlanByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavingsPlanByBillingAccount",
 }));
 
 export type ListSavingsPlanBySavingsPlanOrderError = AzureOpError;
@@ -9963,6 +10301,8 @@ export const ListSavingsPlanBySavingsPlanOrder: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavingsPlanBySavingsPlanOrder",
 }));
 
 export type ListSavingsPlanOrderByBillingAccountError = AzureOpError;
@@ -9978,6 +10318,8 @@ export const ListSavingsPlanOrderByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavingsPlanOrderByBillingAccount",
 }));
 
 export type ListTransactionByBillingProfileError = AzureOpError;
@@ -9993,6 +10335,8 @@ export const ListTransactionByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransactionByBillingProfile",
 }));
 
 export type ListTransactionByCustomerError = AzureOpError;
@@ -10008,6 +10352,8 @@ export const ListTransactionByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransactionByCustomer",
 }));
 
 export type ListTransactionByInvoiceError = AzureOpError;
@@ -10023,6 +10369,8 @@ export const ListTransactionByInvoice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransactionByInvoice",
 }));
 
 export type ListTransactionByInvoiceSectionError = AzureOpError;
@@ -10038,6 +10386,8 @@ export const ListTransactionByInvoiceSection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransactionByInvoiceSection",
 }));
 
 export type ListTransfersError = AzureOpError;
@@ -10053,6 +10403,8 @@ export const ListTransfers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransfers",
 }));
 
 export type MergeBillingSubscriptionError = AzureOpError;
@@ -10068,6 +10420,8 @@ export const MergeBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MergeBillingSubscription",
 }));
 
 export type MoveBillingSubscriptionError = AzureOpError;
@@ -10083,6 +10437,8 @@ export const MoveBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveBillingSubscription",
 }));
 
 export type MoveProductError = AzureOpError;
@@ -10098,6 +10454,8 @@ export const MoveProduct: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveProduct",
 }));
 
 export type PartnerTransfersInitiateError = AzureOpError;
@@ -10113,6 +10471,8 @@ export const PartnerTransfersInitiate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PartnerTransfersInitiate",
 }));
 
 export type PoliciesCreateOrUpdateByBillingAccountError = AzureOpError;
@@ -10128,6 +10488,8 @@ export const PoliciesCreateOrUpdateByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoliciesCreateOrUpdateByBillingAccount",
 }));
 
 export type PoliciesCreateOrUpdateByBillingProfileError = AzureOpError;
@@ -10143,6 +10505,8 @@ export const PoliciesCreateOrUpdateByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoliciesCreateOrUpdateByBillingProfile",
 }));
 
 export type PoliciesCreateOrUpdateByCustomerError = AzureOpError;
@@ -10158,6 +10522,8 @@ export const PoliciesCreateOrUpdateByCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoliciesCreateOrUpdateByCustomer",
 }));
 
 export type PoliciesCreateOrUpdateByCustomerAtBillingAccountError = AzureOpError;
@@ -10181,6 +10547,8 @@ export const PoliciesCreateOrUpdateByCustomerAtBillingAccount: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoliciesCreateOrUpdateByCustomerAtBillingAccount",
 }));
 
 export type ProductsValidateMoveEligibilityError = AzureOpError;
@@ -10196,6 +10564,8 @@ export const ProductsValidateMoveEligibility: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductsValidateMoveEligibility",
 }));
 
 export type RecipientTransfersDeclineError = AzureOpError;
@@ -10211,6 +10581,8 @@ export const RecipientTransfersDecline: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecipientTransfersDecline",
 }));
 
 export type SavingsPlansValidateUpdateByBillingAccountError = AzureOpError;
@@ -10226,6 +10598,8 @@ export const SavingsPlansValidateUpdateByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SavingsPlansValidateUpdateByBillingAccount",
 }));
 
 export type TransactionsTransactionsDownloadByInvoiceError = AzureOpError;
@@ -10241,6 +10615,8 @@ export const TransactionsTransactionsDownloadByInvoice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransactionsTransactionsDownloadByInvoice",
 }));
 
 export type TransfersInitiateError = AzureOpError;
@@ -10256,6 +10632,8 @@ export const TransfersInitiate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransfersInitiate",
 }));
 
 export type UpdateBillingAccountError = AzureOpError;
@@ -10271,6 +10649,8 @@ export const UpdateBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingAccount",
 }));
 
 export type UpdateBillingPropertyError = AzureOpError;
@@ -10286,6 +10666,8 @@ export const UpdateBillingProperty: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingProperty",
 }));
 
 export type UpdateBillingSubscriptionError = AzureOpError;
@@ -10301,6 +10683,8 @@ export const UpdateBillingSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBillingSubscription",
 }));
 
 export type UpdateProductError = AzureOpError;
@@ -10316,6 +10700,8 @@ export const UpdateProduct: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProduct",
 }));
 
 export type UpdateReservationByBillingAccountError = AzureOpError;
@@ -10331,6 +10717,8 @@ export const UpdateReservationByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReservationByBillingAccount",
 }));
 
 export type UpdateSavingsPlanByBillingAccountError = AzureOpError;
@@ -10346,6 +10734,8 @@ export const UpdateSavingsPlanByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSavingsPlanByBillingAccount",
 }));
 
 export type ValidateAddressError = AzureOpError;
@@ -10361,6 +10751,8 @@ export const ValidateAddress: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateAddress",
 }));
 
 export type ValidateBillingAccountPaymentTermsError = AzureOpError;
@@ -10376,6 +10768,8 @@ export const ValidateBillingAccountPaymentTerms: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateBillingAccountPaymentTerms",
 }));
 
 export type ValidateRecipientTransferError = AzureOpError;
@@ -10391,6 +10785,8 @@ export const ValidateRecipientTransfer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateRecipientTransfer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

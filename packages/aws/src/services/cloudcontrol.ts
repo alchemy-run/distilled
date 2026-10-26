@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudcontrolapi.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudControl",
+  service: "CloudControl",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()(
@@ -443,6 +459,8 @@ export const cancelResourceRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelResourceRequest",
+  telemetry: TELEMETRY,
+  span: "CancelResourceRequest",
 }));
 
 export type CreateResourceError =
@@ -506,6 +524,8 @@ export const createResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResource",
+  telemetry: TELEMETRY,
+  span: "CreateResource",
 }));
 
 export type DeleteResourceError =
@@ -569,6 +589,8 @@ export const deleteResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResource",
+  telemetry: TELEMETRY,
+  span: "DeleteResource",
 }));
 
 export type GetResourceError =
@@ -627,6 +649,8 @@ export const getResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResource",
+  telemetry: TELEMETRY,
+  span: "GetResource",
 }));
 
 export type GetResourceRequestStatusError = RequestTokenNotFoundException | CommonErrors;
@@ -647,6 +671,8 @@ export const getResourceRequestStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceRequestStatus",
+  telemetry: TELEMETRY,
+  span: "GetResourceRequestStatus",
 }));
 
 export type ListResourceRequestsError = CommonErrors;
@@ -676,6 +702,8 @@ export const listResourceRequests: API.PaginatedOperationMethod<
     items: "ResourceRequestStatusSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceRequests",
 })) as any;
 
 export type ListResourcesError =
@@ -740,6 +768,8 @@ export const listResources: API.PaginatedOperationMethod<
     items: "ResourceDescriptions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResources",
 })) as any;
 
 export type UpdateResourceError =
@@ -813,6 +843,8 @@ export const updateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
+  telemetry: TELEMETRY,
+  span: "UpdateResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

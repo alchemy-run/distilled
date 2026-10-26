@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://macie2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Macie2",
+  service: "Macie2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1919,6 +1934,8 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
+  telemetry: TELEMETRY,
+  span: "AcceptInvitation",
 }));
 
 export type BatchGetCustomDataIdentifiersError =
@@ -1953,6 +1970,8 @@ export const batchGetCustomDataIdentifiers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCustomDataIdentifiers",
+  telemetry: TELEMETRY,
+  span: "BatchGetCustomDataIdentifiers",
 }));
 
 export type BatchUpdateAutomatedDiscoveryAccountsError =
@@ -1983,6 +2002,8 @@ export const batchUpdateAutomatedDiscoveryAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateAutomatedDiscoveryAccounts",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateAutomatedDiscoveryAccounts",
 }));
 
 export type CreateAllowListError =
@@ -2019,6 +2040,8 @@ export const createAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAllowList",
+  telemetry: TELEMETRY,
+  span: "CreateAllowList",
 }));
 
 export type CreateClassificationJobError =
@@ -2055,6 +2078,8 @@ export const createClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClassificationJob",
+  telemetry: TELEMETRY,
+  span: "CreateClassificationJob",
 }));
 
 export type CreateCustomDataIdentifierError =
@@ -2091,6 +2116,8 @@ export const createCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDataIdentifier",
+  telemetry: TELEMETRY,
+  span: "CreateCustomDataIdentifier",
 }));
 
 export type CreateFindingsFilterError =
@@ -2127,6 +2154,8 @@ export const createFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFindingsFilter",
+  telemetry: TELEMETRY,
+  span: "CreateFindingsFilter",
 }));
 
 export type CreateInvitationsError =
@@ -2161,6 +2190,8 @@ export const createInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvitations",
+  telemetry: TELEMETRY,
+  span: "CreateInvitations",
 }));
 
 export type CreateMemberError =
@@ -2195,6 +2226,8 @@ export const createMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMember",
+  telemetry: TELEMETRY,
+  span: "CreateMember",
 }));
 
 export type CreateSampleFindingsError =
@@ -2229,6 +2262,8 @@ export const createSampleFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSampleFindings",
+  telemetry: TELEMETRY,
+  span: "CreateSampleFindings",
 }));
 
 export type DeclineInvitationsError =
@@ -2263,6 +2298,8 @@ export const declineInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineInvitations",
+  telemetry: TELEMETRY,
+  span: "DeclineInvitations",
 }));
 
 export type DeleteAllowListError =
@@ -2293,6 +2330,8 @@ export const deleteAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAllowList",
+  telemetry: TELEMETRY,
+  span: "DeleteAllowList",
 }));
 
 export type DeleteCustomDataIdentifierError =
@@ -2327,6 +2366,8 @@ export const deleteCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDataIdentifier",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDataIdentifier",
 }));
 
 export type DeleteFindingsFilterError =
@@ -2361,6 +2402,8 @@ export const deleteFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFindingsFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteFindingsFilter",
 }));
 
 export type DeleteInvitationsError =
@@ -2395,6 +2438,8 @@ export const deleteInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvitations",
+  telemetry: TELEMETRY,
+  span: "DeleteInvitations",
 }));
 
 export type DeleteMemberError =
@@ -2429,6 +2474,8 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
+  telemetry: TELEMETRY,
+  span: "DeleteMember",
 }));
 
 export type DescribeBucketsError =
@@ -2470,6 +2517,8 @@ export const describeBuckets: API.PaginatedOperationMethod<
     items: "buckets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBuckets",
 })) as any;
 
 export type DescribeClassificationJobError =
@@ -2504,6 +2553,8 @@ export const describeClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClassificationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeClassificationJob",
 }));
 
 export type DescribeOrganizationConfigurationError =
@@ -2538,6 +2589,8 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeOrganizationConfiguration",
 }));
 
 export type DisableMacieError =
@@ -2572,6 +2625,8 @@ export const disableMacie: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableMacie",
+  telemetry: TELEMETRY,
+  span: "DisableMacie",
 }));
 
 export type DisableOrganizationAdminAccountError =
@@ -2606,6 +2661,8 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "DisableOrganizationAdminAccount",
 }));
 
 export type DisassociateFromAdministratorAccountError =
@@ -2640,6 +2697,8 @@ export const disassociateFromAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromAdministratorAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromAdministratorAccount",
 }));
 
 export type DisassociateFromMasterAccountError =
@@ -2674,6 +2733,8 @@ export const disassociateFromMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromMasterAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromMasterAccount",
 }));
 
 export type DisassociateMemberError =
@@ -2708,6 +2769,8 @@ export const disassociateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMember",
+  telemetry: TELEMETRY,
+  span: "DisassociateMember",
 }));
 
 export type EnableMacieError =
@@ -2742,6 +2805,8 @@ export const enableMacie: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMacie",
+  telemetry: TELEMETRY,
+  span: "EnableMacie",
 }));
 
 export type EnableOrganizationAdminAccountError =
@@ -2776,6 +2841,8 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
+  telemetry: TELEMETRY,
+  span: "EnableOrganizationAdminAccount",
 }));
 
 export type GetAdministratorAccountError =
@@ -2810,6 +2877,8 @@ export const getAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdministratorAccount",
+  telemetry: TELEMETRY,
+  span: "GetAdministratorAccount",
 }));
 
 export type GetAllowListError =
@@ -2840,6 +2909,8 @@ export const getAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAllowList",
+  telemetry: TELEMETRY,
+  span: "GetAllowList",
 }));
 
 export type GetAutomatedDiscoveryConfigurationError =
@@ -2868,6 +2939,8 @@ export const getAutomatedDiscoveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedDiscoveryConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetAutomatedDiscoveryConfiguration",
 }));
 
 export type GetBucketStatisticsError =
@@ -2902,6 +2975,8 @@ export const getBucketStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketStatistics",
+  telemetry: TELEMETRY,
+  span: "GetBucketStatistics",
 }));
 
 export type GetClassificationExportConfigurationError =
@@ -2936,6 +3011,8 @@ export const getClassificationExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClassificationExportConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetClassificationExportConfiguration",
 }));
 
 export type GetClassificationScopeError =
@@ -2966,6 +3043,8 @@ export const getClassificationScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClassificationScope",
+  telemetry: TELEMETRY,
+  span: "GetClassificationScope",
 }));
 
 export type GetCustomDataIdentifierError =
@@ -3000,6 +3079,8 @@ export const getCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDataIdentifier",
+  telemetry: TELEMETRY,
+  span: "GetCustomDataIdentifier",
 }));
 
 export type GetFindingsError =
@@ -3034,6 +3115,8 @@ export const getFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindings",
+  telemetry: TELEMETRY,
+  span: "GetFindings",
 }));
 
 export type GetFindingsFilterError =
@@ -3068,6 +3151,8 @@ export const getFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsFilter",
+  telemetry: TELEMETRY,
+  span: "GetFindingsFilter",
 }));
 
 export type GetFindingsPublicationConfigurationError =
@@ -3102,6 +3187,8 @@ export const getFindingsPublicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsPublicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetFindingsPublicationConfiguration",
 }));
 
 export type GetFindingStatisticsError =
@@ -3136,6 +3223,8 @@ export const getFindingStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingStatistics",
+  telemetry: TELEMETRY,
+  span: "GetFindingStatistics",
 }));
 
 export type GetInvitationsCountError =
@@ -3170,6 +3259,8 @@ export const getInvitationsCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvitationsCount",
+  telemetry: TELEMETRY,
+  span: "GetInvitationsCount",
 }));
 
 export type GetMacieSessionError =
@@ -3204,6 +3295,8 @@ export const getMacieSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMacieSession",
+  telemetry: TELEMETRY,
+  span: "GetMacieSession",
 }));
 
 export type GetMasterAccountError =
@@ -3238,6 +3331,8 @@ export const getMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMasterAccount",
+  telemetry: TELEMETRY,
+  span: "GetMasterAccount",
 }));
 
 export type GetMemberError =
@@ -3272,6 +3367,8 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
+  telemetry: TELEMETRY,
+  span: "GetMember",
 }));
 
 export type GetResourceProfileError =
@@ -3304,6 +3401,8 @@ export const getResourceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceProfile",
+  telemetry: TELEMETRY,
+  span: "GetResourceProfile",
 }));
 
 export type GetRevealConfigurationError =
@@ -3332,6 +3431,8 @@ export const getRevealConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevealConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetRevealConfiguration",
 }));
 
 export type GetSensitiveDataOccurrencesError =
@@ -3364,6 +3465,8 @@ export const getSensitiveDataOccurrences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSensitiveDataOccurrences",
+  telemetry: TELEMETRY,
+  span: "GetSensitiveDataOccurrences",
 }));
 
 export type GetSensitiveDataOccurrencesAvailabilityError =
@@ -3392,6 +3495,8 @@ export const getSensitiveDataOccurrencesAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSensitiveDataOccurrencesAvailability",
+  telemetry: TELEMETRY,
+  span: "GetSensitiveDataOccurrencesAvailability",
 }));
 
 export type GetSensitivityInspectionTemplateError =
@@ -3422,6 +3527,8 @@ export const getSensitivityInspectionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSensitivityInspectionTemplate",
+  telemetry: TELEMETRY,
+  span: "GetSensitivityInspectionTemplate",
 }));
 
 export type GetUsageStatisticsError =
@@ -3463,6 +3570,8 @@ export const getUsageStatistics: API.PaginatedOperationMethod<
     items: "records",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUsageStatistics",
 })) as any;
 
 export type GetUsageTotalsError =
@@ -3497,6 +3606,8 @@ export const getUsageTotals: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsageTotals",
+  telemetry: TELEMETRY,
+  span: "GetUsageTotals",
 }));
 
 export type ListAllowListsError =
@@ -3532,6 +3643,8 @@ export const listAllowLists: API.PaginatedOperationMethod<
     items: "allowLists",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAllowLists",
 })) as any;
 
 export type ListAutomatedDiscoveryAccountsError =
@@ -3569,6 +3682,8 @@ export const listAutomatedDiscoveryAccounts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomatedDiscoveryAccounts",
 })) as any;
 
 export type ListClassificationJobsError =
@@ -3610,6 +3725,8 @@ export const listClassificationJobs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClassificationJobs",
 })) as any;
 
 export type ListClassificationScopesError =
@@ -3644,6 +3761,8 @@ export const listClassificationScopes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "classificationScopes",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClassificationScopes",
 })) as any;
 
 export type ListCustomDataIdentifiersError =
@@ -3685,6 +3804,8 @@ export const listCustomDataIdentifiers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomDataIdentifiers",
 })) as any;
 
 export type ListFindingsError =
@@ -3726,6 +3847,8 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findingIds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindings",
 })) as any;
 
 export type ListFindingsFiltersError =
@@ -3767,6 +3890,8 @@ export const listFindingsFilters: API.PaginatedOperationMethod<
     items: "findingsFilterListItems",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindingsFilters",
 })) as any;
 
 export type ListInvitationsError =
@@ -3808,6 +3933,8 @@ export const listInvitations: API.PaginatedOperationMethod<
     items: "invitations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvitations",
 })) as any;
 
 export type ListManagedDataIdentifiersError = CommonErrors;
@@ -3828,6 +3955,8 @@ export const listManagedDataIdentifiers: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListManagedDataIdentifiers",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "items" } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedDataIdentifiers",
 })) as any;
 
 export type ListMembersError =
@@ -3869,6 +3998,8 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMembers",
 })) as any;
 
 export type ListOrganizationAdminAccountsError =
@@ -3910,6 +4041,8 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     items: "adminAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAdminAccounts",
 })) as any;
 
 export type ListResourceProfileArtifactsError =
@@ -3942,6 +4075,8 @@ export const listResourceProfileArtifacts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListResourceProfileArtifacts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "artifacts" } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceProfileArtifacts",
 })) as any;
 
 export type ListResourceProfileDetectionsError =
@@ -3981,6 +4116,8 @@ export const listResourceProfileDetections: API.PaginatedOperationMethod<
     items: "detections",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceProfileDetections",
 })) as any;
 
 export type ListSensitivityInspectionTemplatesError =
@@ -4018,6 +4155,8 @@ export const listSensitivityInspectionTemplates: API.PaginatedOperationMethod<
     items: "sensitivityInspectionTemplates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSensitivityInspectionTemplates",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -4036,6 +4175,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutClassificationExportConfigurationError =
@@ -4070,6 +4211,8 @@ export const putClassificationExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClassificationExportConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutClassificationExportConfiguration",
 }));
 
 export type PutFindingsPublicationConfigurationError =
@@ -4104,6 +4247,8 @@ export const putFindingsPublicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFindingsPublicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutFindingsPublicationConfiguration",
 }));
 
 export type SearchResourcesError =
@@ -4145,6 +4290,8 @@ export const searchResources: API.PaginatedOperationMethod<
     items: "matchingResources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchResources",
 })) as any;
 
 export type TagResourceError = CommonErrors;
@@ -4163,6 +4310,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestCustomDataIdentifierError =
@@ -4197,6 +4346,8 @@ export const testCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestCustomDataIdentifier",
+  telemetry: TELEMETRY,
+  span: "TestCustomDataIdentifier",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -4215,6 +4366,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAllowListError =
@@ -4245,6 +4398,8 @@ export const updateAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAllowList",
+  telemetry: TELEMETRY,
+  span: "UpdateAllowList",
 }));
 
 export type UpdateAutomatedDiscoveryConfigurationError =
@@ -4273,6 +4428,8 @@ export const updateAutomatedDiscoveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomatedDiscoveryConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateAutomatedDiscoveryConfiguration",
 }));
 
 export type UpdateClassificationJobError =
@@ -4307,6 +4464,8 @@ export const updateClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClassificationJob",
+  telemetry: TELEMETRY,
+  span: "UpdateClassificationJob",
 }));
 
 export type UpdateClassificationScopeError =
@@ -4337,6 +4496,8 @@ export const updateClassificationScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClassificationScope",
+  telemetry: TELEMETRY,
+  span: "UpdateClassificationScope",
 }));
 
 export type UpdateFindingsFilterError =
@@ -4371,6 +4532,8 @@ export const updateFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindingsFilter",
+  telemetry: TELEMETRY,
+  span: "UpdateFindingsFilter",
 }));
 
 export type UpdateMacieSessionError =
@@ -4405,6 +4568,8 @@ export const updateMacieSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMacieSession",
+  telemetry: TELEMETRY,
+  span: "UpdateMacieSession",
 }));
 
 export type UpdateMemberSessionError =
@@ -4439,6 +4604,8 @@ export const updateMemberSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMemberSession",
+  telemetry: TELEMETRY,
+  span: "UpdateMemberSession",
 }));
 
 export type UpdateOrganizationConfigurationError =
@@ -4473,6 +4640,8 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateOrganizationConfiguration",
 }));
 
 export type UpdateResourceProfileError =
@@ -4505,6 +4674,8 @@ export const updateResourceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceProfile",
 }));
 
 export type UpdateResourceProfileDetectionsError =
@@ -4537,6 +4708,8 @@ export const updateResourceProfileDetections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceProfileDetections",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceProfileDetections",
 }));
 
 export type UpdateRevealConfigurationError =
@@ -4565,6 +4738,8 @@ export const updateRevealConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRevealConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateRevealConfiguration",
 }));
 
 export type UpdateSensitivityInspectionTemplateError =
@@ -4595,6 +4770,8 @@ export const updateSensitivityInspectionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSensitivityInspectionTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateSensitivityInspectionTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

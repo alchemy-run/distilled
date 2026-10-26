@@ -1,4 +1,5 @@
 import * as S from "@distilled.cloud/core/schema-lite-typed";
+import type { SourceError } from "effect/ConfigProvider";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Category from "./category.ts";
 import type * as Credentials from "./credentials-service.ts";
@@ -167,11 +168,15 @@ export class InternalError
     message: ErrorMessage,
   }).pipe(Category.withServerError) {}
 
-/** Error when endpoint resolution fails due to a rule error */
+/**
+ * The endpoint rules reject the call's parameters (e.g. a region that is not
+ * a valid DNS name, a malformed ARN). A configuration error: retrying
+ * cannot succeed.
+ */
 export class EndpointError
   extends /*@__PURE__*/ S.TaggedError<EndpointError>()("EndpointError", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withConfigurationError) {}
 
 /** Error when no rule matches in the ruleset */
 export class NoMatchingRuleError
@@ -233,6 +238,8 @@ export type CommonAwsError =
  * operation's error channel (the request can fail before any AWS response
  * exists -- DNS, TLS, connection reset). Leaving it out made each generated
  * operation's declared type narrower than what it can actually fail with.
+ * `SourceError` is a provided `ConfigProvider` that cannot read its source,
+ * from `Region.fromEnv()` / `Endpoint.fromEnv()`.
  */
 export type CommonErrors =
   | UnknownAwsError
@@ -242,4 +249,5 @@ export type CommonErrors =
   | NoMatchingRuleError
   | SigV4.SigningError
   | Credentials.CredentialsError
+  | SourceError
   | HttpClientError.HttpClientError;

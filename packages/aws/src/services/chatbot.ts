@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -76,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://chatbot.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "chatbot",
+  service: "chatbot",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -731,6 +746,8 @@ export const associateToConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateToConfiguration",
+  telemetry: TELEMETRY,
+  span: "AssociateToConfiguration",
 }));
 
 export type CreateChimeWebhookConfigurationError =
@@ -761,6 +778,8 @@ export const createChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChimeWebhookConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateChimeWebhookConfiguration",
 }));
 
 export type CreateCustomActionError =
@@ -791,6 +810,8 @@ export const createCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomAction",
+  telemetry: TELEMETRY,
+  span: "CreateCustomAction",
 }));
 
 export type CreateMicrosoftTeamsChannelConfigurationError =
@@ -823,6 +844,8 @@ export const createMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateMicrosoftTeamsChannelConfiguration",
 }));
 
 export type CreateSlackChannelConfigurationError =
@@ -855,6 +878,8 @@ export const createSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateSlackChannelConfiguration",
 }));
 
 export type DeleteChimeWebhookConfigurationError =
@@ -883,6 +908,8 @@ export const deleteChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChimeWebhookConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteChimeWebhookConfiguration",
 }));
 
 export type DeleteCustomActionError =
@@ -911,6 +938,8 @@ export const deleteCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomAction",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomAction",
 }));
 
 export type DeleteMicrosoftTeamsChannelConfigurationError =
@@ -939,6 +968,8 @@ export const deleteMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftTeamsChannelConfiguration",
 }));
 
 export type DeleteMicrosoftTeamsConfiguredTeamError =
@@ -965,6 +996,8 @@ export const deleteMicrosoftTeamsConfiguredTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsConfiguredTeam",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftTeamsConfiguredTeam",
 }));
 
 export type DeleteMicrosoftTeamsUserIdentityError =
@@ -991,6 +1024,8 @@ export const deleteMicrosoftTeamsUserIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrosoftTeamsUserIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteMicrosoftTeamsUserIdentity",
 }));
 
 export type DeleteSlackChannelConfigurationError =
@@ -1019,6 +1054,8 @@ export const deleteSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackChannelConfiguration",
 }));
 
 export type DeleteSlackUserIdentityError =
@@ -1041,6 +1078,8 @@ export const deleteSlackUserIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackUserIdentity",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackUserIdentity",
 }));
 
 export type DeleteSlackWorkspaceAuthorizationError =
@@ -1062,6 +1101,8 @@ export const deleteSlackWorkspaceAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackWorkspaceAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteSlackWorkspaceAuthorization",
 }));
 
 export type DescribeChimeWebhookConfigurationsError =
@@ -1095,6 +1136,8 @@ export const describeChimeWebhookConfigurations: API.PaginatedOperationMethod<
     items: "WebhookConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeChimeWebhookConfigurations",
 })) as any;
 
 export type DescribeSlackChannelConfigurationsError =
@@ -1128,6 +1171,8 @@ export const describeSlackChannelConfigurations: API.PaginatedOperationMethod<
     items: "SlackChannelConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSlackChannelConfigurations",
 })) as any;
 
 export type DescribeSlackUserIdentitiesError =
@@ -1161,6 +1206,8 @@ export const describeSlackUserIdentities: API.PaginatedOperationMethod<
     items: "SlackUserIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSlackUserIdentities",
 })) as any;
 
 export type DescribeSlackWorkspacesError =
@@ -1190,6 +1237,8 @@ export const describeSlackWorkspaces: API.PaginatedOperationMethod<
     items: "SlackWorkspaces",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSlackWorkspaces",
 })) as any;
 
 export type DisassociateFromConfigurationError =
@@ -1218,6 +1267,8 @@ export const disassociateFromConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromConfiguration",
+  telemetry: TELEMETRY,
+  span: "DisassociateFromConfiguration",
 }));
 
 export type GetAccountPreferencesError =
@@ -1239,6 +1290,8 @@ export const getAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "GetAccountPreferences",
 }));
 
 export type GetCustomActionError =
@@ -1267,6 +1320,8 @@ export const getCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomAction",
+  telemetry: TELEMETRY,
+  span: "GetCustomAction",
 }));
 
 export type GetMicrosoftTeamsChannelConfigurationError =
@@ -1295,6 +1350,8 @@ export const getMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetMicrosoftTeamsChannelConfiguration",
 }));
 
 export type ListAssociationsError = InvalidRequestException | CommonErrors;
@@ -1320,6 +1377,8 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociations",
 })) as any;
 
 export type ListCustomActionsError =
@@ -1349,6 +1408,8 @@ export const listCustomActions: API.PaginatedOperationMethod<
     items: "CustomActions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomActions",
 })) as any;
 
 export type ListMicrosoftTeamsChannelConfigurationsError =
@@ -1382,6 +1443,8 @@ export const listMicrosoftTeamsChannelConfigurations: API.PaginatedOperationMeth
     items: "TeamChannelConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftTeamsChannelConfigurations",
 })) as any;
 
 export type ListMicrosoftTeamsConfiguredTeamsError =
@@ -1415,6 +1478,8 @@ export const listMicrosoftTeamsConfiguredTeams: API.PaginatedOperationMethod<
     items: "ConfiguredTeams",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftTeamsConfiguredTeams",
 })) as any;
 
 export type ListMicrosoftTeamsUserIdentitiesError =
@@ -1448,6 +1513,8 @@ export const listMicrosoftTeamsUserIdentities: API.PaginatedOperationMethod<
     items: "TeamsUserIdentities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMicrosoftTeamsUserIdentities",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1470,6 +1537,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1498,6 +1567,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1520,6 +1591,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountPreferencesError =
@@ -1542,6 +1615,8 @@ export const updateAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountPreferences",
 }));
 
 export type UpdateChimeWebhookConfigurationError =
@@ -1570,6 +1645,8 @@ export const updateChimeWebhookConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChimeWebhookConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateChimeWebhookConfiguration",
 }));
 
 export type UpdateCustomActionError =
@@ -1598,6 +1675,8 @@ export const updateCustomAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomAction",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomAction",
 }));
 
 export type UpdateMicrosoftTeamsChannelConfigurationError =
@@ -1626,6 +1705,8 @@ export const updateMicrosoftTeamsChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrosoftTeamsChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMicrosoftTeamsChannelConfiguration",
 }));
 
 export type UpdateSlackChannelConfigurationError =
@@ -1654,6 +1735,8 @@ export const updateSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlackChannelConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSlackChannelConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Discord
  * Effect SDK.
@@ -9,7 +9,7 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/discord.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Discord's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Discord's provider spec.
  *
  * Surface choices:
  *   • Wire names are the spec's own (snake_case) names — `channel_id`,
@@ -22,12 +22,12 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  *     array — there is no next-token in the response body to drive an
  *     auto-paginator, so the cursor params stay raw input fields.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 /** Stamped by patches/discord/001-form-data-files.json — see that file. */
@@ -98,6 +98,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Discord Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   spec: () => spec,
 });

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.HealthBot" },
+  prefix: "Healthbot",
+  service: "Healthbot",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CreateBotRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of the key vault. */
@@ -355,6 +375,8 @@ export const CreateBot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBot",
 }));
 
 export type DeleteBotError = AzureOpError;
@@ -370,6 +392,8 @@ export const DeleteBot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBot",
 }));
 
 export type GetBotError = AzureOpError;
@@ -385,6 +409,8 @@ export const GetBot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBot",
 }));
 
 export type ListBotByResourceGroupError = AzureOpError;
@@ -400,6 +426,8 @@ export const ListBotByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBotByResourceGroup",
 }));
 
 export type ListBotsError = AzureOpError;
@@ -415,6 +443,8 @@ export const ListBots: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBots",
 }));
 
 export type ListBotSecretsError = AzureOpError;
@@ -430,6 +460,8 @@ export const ListBotSecrets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBotSecrets",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -445,6 +477,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type RegenerateBotApiJwtSecretError = AzureOpError;
@@ -460,6 +494,8 @@ export const RegenerateBotApiJwtSecret: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateBotApiJwtSecret",
 }));
 
 export type UpdateBotError = AzureOpError;
@@ -475,6 +511,8 @@ export const UpdateBot: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBot",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Files",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -158,6 +171,8 @@ export const completeFile: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteFile",
 }));
 
 export type CreateFileError = BadRequest | Conflict | WhopOpError;
@@ -173,6 +188,8 @@ export const createFile: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFile",
 }));
 
 export type GetFileError = NotFound | WhopOpError;
@@ -184,6 +201,8 @@ export const getFile: API.OperationMethod<GetFileRequest, File, GetFileError, Wh
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetFile",
   }));
 
 export type ListFilesError = BadRequest | WhopOpError;
@@ -201,6 +220,8 @@ export const listFiles: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListFiles",
     pagination: {
       mode: "relay",
       inputToken: "after",

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Relationships" },
+  prefix: "Relationships",
+  service: "Relationships",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteDependencyOfRelationshipRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
@@ -438,6 +458,13 @@ export const DeleteDependencyOfRelationship: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteDependencyOfRelationship",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}",
+    },
+  },
 }));
 
 export type DeleteDependencyOfRelationshipsByServiceGroupError = AzureOpError;
@@ -453,6 +480,8 @@ export const DeleteDependencyOfRelationshipsByServiceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDependencyOfRelationshipsByServiceGroup",
 }));
 
 export type DeleteServiceGroupMemberRelationshipError = AzureOpError;
@@ -468,6 +497,13 @@ export const DeleteServiceGroupMemberRelationship: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteServiceGroupMemberRelationship",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
+    },
+  },
 }));
 
 export type DependencyOfRelationshipsByServiceGroupCreateOrUpdateError = AzureOpError;
@@ -491,6 +527,8 @@ export const DependencyOfRelationshipsByServiceGroupCreateOrUpdate: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DependencyOfRelationshipsByServiceGroupCreateOrUpdate",
 }));
 
 export type DependencyOfRelationshipsCreateOrUpdateError = AzureOpError;
@@ -506,6 +544,13 @@ export const DependencyOfRelationshipsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DependencyOfRelationshipsCreateOrUpdate",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}",
+    },
+  },
 }));
 
 export type GetDependencyOfRelationshipError = AzureOpError;
@@ -521,6 +566,13 @@ export const GetDependencyOfRelationship: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDependencyOfRelationship",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}",
+    },
+  },
 }));
 
 export type GetDependencyOfRelationshipsByServiceGroupError = AzureOpError;
@@ -536,6 +588,8 @@ export const GetDependencyOfRelationshipsByServiceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDependencyOfRelationshipsByServiceGroup",
 }));
 
 export type GetServiceGroupMemberRelationshipError = AzureOpError;
@@ -551,6 +605,13 @@ export const GetServiceGroupMemberRelationship: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetServiceGroupMemberRelationship",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
+    },
+  },
 }));
 
 export type ListContainsRelationshipByResourceGroupError = AzureOpError;
@@ -566,6 +627,8 @@ export const ListContainsRelationshipByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContainsRelationshipByResourceGroup",
 }));
 
 export type ListContainsRelationshipBySubscriptionError = AzureOpError;
@@ -581,6 +644,8 @@ export const ListContainsRelationshipBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContainsRelationshipBySubscription",
 }));
 
 export type ListDependencyOfRelationshipByParentError = AzureOpError;
@@ -596,6 +661,11 @@ export const ListDependencyOfRelationshipByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDependencyOfRelationshipByParent",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf" },
+  },
 }));
 
 export type ListDependencyOfRelationshipsByServiceGroupError = AzureOpError;
@@ -611,6 +681,8 @@ export const ListDependencyOfRelationshipsByServiceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDependencyOfRelationshipsByServiceGroup",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -626,6 +698,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListServiceGroupMemberRelationshipByParentError = AzureOpError;
@@ -641,6 +715,13 @@ export const ListServiceGroupMemberRelationshipByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListServiceGroupMemberRelationshipByParent",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember",
+    },
+  },
 }));
 
 export type ServiceGroupMemberRelationshipsCreateOrUpdateError = AzureOpError;
@@ -660,6 +741,13 @@ export const ServiceGroupMemberRelationshipsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ServiceGroupMemberRelationshipsCreateOrUpdate",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

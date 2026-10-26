@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Workloads" },
+  prefix: "Workloads",
+  service: "Workloads",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CreateMonitorRequestTagsMap = { [key: string]: string | undefined };
 /** Type of managed service identity (only None, UserAssigned types are allowed). */
@@ -3666,6 +3686,8 @@ export const CreateMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type CreateProviderInstanceError = AzureOpError;
@@ -3681,6 +3703,8 @@ export const CreateProviderInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProviderInstance",
 }));
 
 export type CreateSapApplicationServerInstanceError = AzureOpError;
@@ -3696,6 +3720,8 @@ export const CreateSapApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSapApplicationServerInstance",
 }));
 
 export type CreateSAPApplicationServerInstanceError = AzureOpError;
@@ -3711,6 +3737,8 @@ export const CreateSAPApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSAPApplicationServerInstance",
 }));
 
 export type CreateSAPCentralInstanceError = AzureOpError;
@@ -3726,6 +3754,8 @@ export const CreateSAPCentralInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSAPCentralInstance",
 }));
 
 export type CreateSapCentralServerInstanceError = AzureOpError;
@@ -3741,6 +3771,8 @@ export const CreateSapCentralServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSapCentralServerInstance",
 }));
 
 export type CreateSapDatabaseInstanceError = AzureOpError;
@@ -3756,6 +3788,8 @@ export const CreateSapDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSapDatabaseInstance",
 }));
 
 export type CreateSAPDatabaseInstanceError = AzureOpError;
@@ -3771,6 +3805,8 @@ export const CreateSAPDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSAPDatabaseInstance",
 }));
 
 export type CreateSapLandscapeMonitorError = AzureOpError;
@@ -3786,6 +3822,8 @@ export const CreateSapLandscapeMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSapLandscapeMonitor",
 }));
 
 export type CreateSapVirtualInstanceError = AzureOpError;
@@ -3801,6 +3839,8 @@ export const CreateSapVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSapVirtualInstance",
 }));
 
 export type CreateSAPVirtualInstanceError = AzureOpError;
@@ -3816,6 +3856,8 @@ export const CreateSAPVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSAPVirtualInstance",
 }));
 
 export type DeleteMonitorError = AzureOpError;
@@ -3831,6 +3873,8 @@ export const DeleteMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeleteProviderInstanceError = AzureOpError;
@@ -3846,6 +3890,8 @@ export const DeleteProviderInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProviderInstance",
 }));
 
 export type DeleteSapApplicationServerInstanceError = AzureOpError;
@@ -3861,6 +3907,8 @@ export const DeleteSapApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSapApplicationServerInstance",
 }));
 
 export type DeleteSAPApplicationServerInstanceError = AzureOpError;
@@ -3876,6 +3924,8 @@ export const DeleteSAPApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSAPApplicationServerInstance",
 }));
 
 export type DeleteSAPCentralInstanceError = AzureOpError;
@@ -3891,6 +3941,8 @@ export const DeleteSAPCentralInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSAPCentralInstance",
 }));
 
 export type DeleteSapCentralServerInstanceError = AzureOpError;
@@ -3906,6 +3958,8 @@ export const DeleteSapCentralServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSapCentralServerInstance",
 }));
 
 export type DeleteSapDatabaseInstanceError = AzureOpError;
@@ -3921,6 +3975,8 @@ export const DeleteSapDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSapDatabaseInstance",
 }));
 
 export type DeleteSAPDatabaseInstanceError = AzureOpError;
@@ -3936,6 +3992,8 @@ export const DeleteSAPDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSAPDatabaseInstance",
 }));
 
 export type DeleteSapLandscapeMonitorError = AzureOpError;
@@ -3951,6 +4009,8 @@ export const DeleteSapLandscapeMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSapLandscapeMonitor",
 }));
 
 export type DeleteSapVirtualInstanceError = AzureOpError;
@@ -3966,6 +4026,8 @@ export const DeleteSapVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSapVirtualInstance",
 }));
 
 export type DeleteSAPVirtualInstanceError = AzureOpError;
@@ -3981,6 +4043,8 @@ export const DeleteSAPVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSAPVirtualInstance",
 }));
 
 export type GetMonitorError = AzureOpError;
@@ -3996,6 +4060,8 @@ export const GetMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMonitor",
 }));
 
 export type GetProviderInstanceError = AzureOpError;
@@ -4011,6 +4077,8 @@ export const GetProviderInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderInstance",
 }));
 
 export type GetSapApplicationServerInstanceError = AzureOpError;
@@ -4026,6 +4094,8 @@ export const GetSapApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSapApplicationServerInstance",
 }));
 
 export type GetSAPApplicationServerInstanceError = AzureOpError;
@@ -4041,6 +4111,8 @@ export const GetSAPApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSAPApplicationServerInstance",
 }));
 
 export type GetSAPCentralInstanceError = AzureOpError;
@@ -4056,6 +4128,8 @@ export const GetSAPCentralInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSAPCentralInstance",
 }));
 
 export type GetSapCentralServerInstanceError = AzureOpError;
@@ -4071,6 +4145,8 @@ export const GetSapCentralServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSapCentralServerInstance",
 }));
 
 export type GetSapDatabaseInstanceError = AzureOpError;
@@ -4086,6 +4162,8 @@ export const GetSapDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSapDatabaseInstance",
 }));
 
 export type GetSAPDatabaseInstanceError = AzureOpError;
@@ -4101,6 +4179,8 @@ export const GetSAPDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSAPDatabaseInstance",
 }));
 
 export type GetSapLandscapeMonitorError = AzureOpError;
@@ -4116,6 +4196,8 @@ export const GetSapLandscapeMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSapLandscapeMonitor",
 }));
 
 export type GetSapVirtualInstanceError = AzureOpError;
@@ -4131,6 +4213,8 @@ export const GetSapVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSapVirtualInstance",
 }));
 
 export type GetSAPVirtualInstanceError = AzureOpError;
@@ -4146,6 +4230,8 @@ export const GetSAPVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSAPVirtualInstance",
 }));
 
 export type InvokeSapVirtualInstanceAvailabilityZoneDetailsError = AzureOpError;
@@ -4165,6 +4251,8 @@ export const InvokeSapVirtualInstanceAvailabilityZoneDetails: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeSapVirtualInstanceAvailabilityZoneDetails",
 }));
 
 export type InvokeSapVirtualInstanceDiskConfigurationsError = AzureOpError;
@@ -4180,6 +4268,8 @@ export const InvokeSapVirtualInstanceDiskConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeSapVirtualInstanceDiskConfigurations",
 }));
 
 export type InvokeSapVirtualInstanceSapSupportedSkuError = AzureOpError;
@@ -4195,6 +4285,8 @@ export const InvokeSapVirtualInstanceSapSupportedSku: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeSapVirtualInstanceSapSupportedSku",
 }));
 
 export type InvokeSapVirtualInstanceSizingRecommendationsError = AzureOpError;
@@ -4214,6 +4306,8 @@ export const InvokeSapVirtualInstanceSizingRecommendations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeSapVirtualInstanceSizingRecommendations",
 }));
 
 export type ListMonitorByResourceGroupError = AzureOpError;
@@ -4229,6 +4323,8 @@ export const ListMonitorByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitorByResourceGroup",
 }));
 
 export type ListMonitorsError = AzureOpError;
@@ -4244,6 +4340,8 @@ export const ListMonitors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -4259,6 +4357,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProviderInstancesError = AzureOpError;
@@ -4274,6 +4374,8 @@ export const ListProviderInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderInstances",
 }));
 
 export type ListSapApplicationServerInstancesError = AzureOpError;
@@ -4289,6 +4391,8 @@ export const ListSapApplicationServerInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSapApplicationServerInstances",
 }));
 
 export type ListSAPApplicationServerInstancesError = AzureOpError;
@@ -4304,6 +4408,8 @@ export const ListSAPApplicationServerInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSAPApplicationServerInstances",
 }));
 
 export type ListSAPCentralInstancesError = AzureOpError;
@@ -4319,6 +4425,8 @@ export const ListSAPCentralInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSAPCentralInstances",
 }));
 
 export type ListSapCentralServerInstancesError = AzureOpError;
@@ -4334,6 +4442,8 @@ export const ListSapCentralServerInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSapCentralServerInstances",
 }));
 
 export type ListSapDatabaseInstancesError = AzureOpError;
@@ -4349,6 +4459,8 @@ export const ListSapDatabaseInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSapDatabaseInstances",
 }));
 
 export type ListSAPDatabaseInstancesError = AzureOpError;
@@ -4364,6 +4476,8 @@ export const ListSAPDatabaseInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSAPDatabaseInstances",
 }));
 
 export type ListSapLandscapeMonitorError = AzureOpError;
@@ -4379,6 +4493,8 @@ export const ListSapLandscapeMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSapLandscapeMonitor",
 }));
 
 export type ListSapVirtualInstanceByResourceGroupError = AzureOpError;
@@ -4394,6 +4510,8 @@ export const ListSapVirtualInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSapVirtualInstanceByResourceGroup",
 }));
 
 export type ListSAPVirtualInstanceByResourceGroupError = AzureOpError;
@@ -4409,6 +4527,8 @@ export const ListSAPVirtualInstanceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSAPVirtualInstanceByResourceGroup",
 }));
 
 export type ListSapVirtualInstanceBySubscriptionError = AzureOpError;
@@ -4424,6 +4544,8 @@ export const ListSapVirtualInstanceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSapVirtualInstanceBySubscription",
 }));
 
 export type ListSAPVirtualInstanceBySubscriptionError = AzureOpError;
@@ -4439,6 +4561,8 @@ export const ListSAPVirtualInstanceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSAPVirtualInstanceBySubscription",
 }));
 
 export type SAPAvailabilityZoneDetailsError = AzureOpError;
@@ -4454,6 +4578,8 @@ export const SAPAvailabilityZoneDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SAPAvailabilityZoneDetails",
 }));
 
 export type SAPDiskConfigurationsError = AzureOpError;
@@ -4469,6 +4595,8 @@ export const SAPDiskConfigurations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SAPDiskConfigurations",
 }));
 
 export type SAPSizingRecommendationsError = AzureOpError;
@@ -4484,6 +4612,8 @@ export const SAPSizingRecommendations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SAPSizingRecommendations",
 }));
 
 export type SAPSupportedSku2Error = AzureOpError;
@@ -4499,6 +4629,8 @@ export const SAPSupportedSku2: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SAPSupportedSku2",
 }));
 
 export type StartSapApplicationServerInstanceError = AzureOpError;
@@ -4514,6 +4646,8 @@ export const StartSapApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSapApplicationServerInstance",
 }));
 
 export type StartSAPApplicationServerInstanceInstanceError = AzureOpError;
@@ -4529,6 +4663,8 @@ export const StartSAPApplicationServerInstanceInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSAPApplicationServerInstanceInstance",
 }));
 
 export type StartSAPCentralInstanceInstanceError = AzureOpError;
@@ -4544,6 +4680,8 @@ export const StartSAPCentralInstanceInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSAPCentralInstanceInstance",
 }));
 
 export type StartSapCentralServerInstanceError = AzureOpError;
@@ -4559,6 +4697,8 @@ export const StartSapCentralServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSapCentralServerInstance",
 }));
 
 export type StartSapDatabaseInstanceError = AzureOpError;
@@ -4574,6 +4714,8 @@ export const StartSapDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSapDatabaseInstance",
 }));
 
 export type StartSAPDatabaseInstanceInstanceError = AzureOpError;
@@ -4589,6 +4731,8 @@ export const StartSAPDatabaseInstanceInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSAPDatabaseInstanceInstance",
 }));
 
 export type StartSapVirtualInstanceError = AzureOpError;
@@ -4604,6 +4748,8 @@ export const StartSapVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSapVirtualInstance",
 }));
 
 export type StartSAPVirtualInstanceError = AzureOpError;
@@ -4619,6 +4765,8 @@ export const StartSAPVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartSAPVirtualInstance",
 }));
 
 export type StopSapApplicationServerInstanceError = AzureOpError;
@@ -4634,6 +4782,8 @@ export const StopSapApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSapApplicationServerInstance",
 }));
 
 export type StopSAPApplicationServerInstanceInstanceError = AzureOpError;
@@ -4649,6 +4799,8 @@ export const StopSAPApplicationServerInstanceInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSAPApplicationServerInstanceInstance",
 }));
 
 export type StopSAPCentralInstanceInstanceError = AzureOpError;
@@ -4664,6 +4816,8 @@ export const StopSAPCentralInstanceInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSAPCentralInstanceInstance",
 }));
 
 export type StopSapCentralServerInstanceError = AzureOpError;
@@ -4679,6 +4833,8 @@ export const StopSapCentralServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSapCentralServerInstance",
 }));
 
 export type StopSapDatabaseInstanceError = AzureOpError;
@@ -4694,6 +4850,8 @@ export const StopSapDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSapDatabaseInstance",
 }));
 
 export type StopSAPDatabaseInstanceInstanceError = AzureOpError;
@@ -4709,6 +4867,8 @@ export const StopSAPDatabaseInstanceInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSAPDatabaseInstanceInstance",
 }));
 
 export type StopSapVirtualInstanceError = AzureOpError;
@@ -4724,6 +4884,8 @@ export const StopSapVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSapVirtualInstance",
 }));
 
 export type StopSAPVirtualInstanceError = AzureOpError;
@@ -4739,6 +4901,8 @@ export const StopSAPVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopSAPVirtualInstance",
 }));
 
 export type UpdateMonitorError = AzureOpError;
@@ -4754,6 +4918,8 @@ export const UpdateMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMonitor",
 }));
 
 export type UpdateSapApplicationServerInstanceError = AzureOpError;
@@ -4769,6 +4935,8 @@ export const UpdateSapApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSapApplicationServerInstance",
 }));
 
 export type UpdateSAPApplicationServerInstanceError = AzureOpError;
@@ -4784,6 +4952,8 @@ export const UpdateSAPApplicationServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSAPApplicationServerInstance",
 }));
 
 export type UpdateSAPCentralInstanceError = AzureOpError;
@@ -4799,6 +4969,8 @@ export const UpdateSAPCentralInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSAPCentralInstance",
 }));
 
 export type UpdateSapCentralServerInstanceError = AzureOpError;
@@ -4814,6 +4986,8 @@ export const UpdateSapCentralServerInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSapCentralServerInstance",
 }));
 
 export type UpdateSapDatabaseInstanceError = AzureOpError;
@@ -4829,6 +5003,8 @@ export const UpdateSapDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSapDatabaseInstance",
 }));
 
 export type UpdateSAPDatabaseInstanceError = AzureOpError;
@@ -4844,6 +5020,8 @@ export const UpdateSAPDatabaseInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSAPDatabaseInstance",
 }));
 
 export type UpdateSapLandscapeMonitorError = AzureOpError;
@@ -4859,6 +5037,8 @@ export const UpdateSapLandscapeMonitor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSapLandscapeMonitor",
 }));
 
 export type UpdateSapVirtualInstanceError = AzureOpError;
@@ -4874,6 +5054,8 @@ export const UpdateSapVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSapVirtualInstance",
 }));
 
 export type UpdateSAPVirtualInstanceError = AzureOpError;
@@ -4889,6 +5071,8 @@ export const UpdateSAPVirtualInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSAPVirtualInstance",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

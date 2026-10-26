@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * TursoProtocol -- hand-written.
@@ -31,7 +31,11 @@ import { UnknownTursoError, type DefaultErrors, TursoParseError } from "./errors
  * TursoOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type TursoOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type TursoOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Turso operation. */
 export type TursoOpContext = Credentials | HttpClient.HttpClient;

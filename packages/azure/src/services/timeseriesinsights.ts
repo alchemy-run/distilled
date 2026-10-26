@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.TimeSeriesInsights" },
+  prefix: "Timeseriesinsights",
+  service: "Timeseriesinsights",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** A role defining the data plane operations that a principal can perform on a Time Series Insights client. */
 export type AccessPolicyResourcePropertiesRolesItem = "Reader" | "Contributor";
 /** The list of roles the principal is assigned on the environment. */
@@ -740,6 +760,8 @@ export const AccessPoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccessPoliciesCreateOrUpdate",
 }));
 
 export type DeleteAccessPolicyError = AzureOpError;
@@ -755,6 +777,8 @@ export const DeleteAccessPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicy",
 }));
 
 export type DeleteEnvironmentError = AzureOpError;
@@ -770,6 +794,8 @@ export const DeleteEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteEventSourceError = AzureOpError;
@@ -785,6 +811,8 @@ export const DeleteEventSource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEventSource",
 }));
 
 export type DeleteReferenceDataSetError = AzureOpError;
@@ -800,6 +828,8 @@ export const DeleteReferenceDataSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReferenceDataSet",
 }));
 
 export type EnvironmentsCreateOrUpdateError = AzureOpError;
@@ -815,6 +845,8 @@ export const EnvironmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnvironmentsCreateOrUpdate",
 }));
 
 export type EventSourcesCreateOrUpdateError = AzureOpError;
@@ -830,6 +862,8 @@ export const EventSourcesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EventSourcesCreateOrUpdate",
 }));
 
 export type GetAccessPolicyError = AzureOpError;
@@ -845,6 +879,8 @@ export const GetAccessPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPolicy",
 }));
 
 export type GetEnvironmentError = AzureOpError;
@@ -860,6 +896,8 @@ export const GetEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetEventSourceError = AzureOpError;
@@ -875,6 +913,8 @@ export const GetEventSource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventSource",
 }));
 
 export type GetReferenceDataSetError = AzureOpError;
@@ -890,6 +930,8 @@ export const GetReferenceDataSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReferenceDataSet",
 }));
 
 export type ListAccessPolicyByEnvironmentError = AzureOpError;
@@ -905,6 +947,8 @@ export const ListAccessPolicyByEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicyByEnvironment",
 }));
 
 export type ListEnvironmentByResourceGroupError = AzureOpError;
@@ -920,6 +964,8 @@ export const ListEnvironmentByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentByResourceGroup",
 }));
 
 export type ListEnvironmentBySubscriptionError = AzureOpError;
@@ -935,6 +981,8 @@ export const ListEnvironmentBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentBySubscription",
 }));
 
 export type ListEventSourceByEnvironmentError = AzureOpError;
@@ -950,6 +998,8 @@ export const ListEventSourceByEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEventSourceByEnvironment",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -965,6 +1015,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListReferenceDataSetByEnvironmentError = AzureOpError;
@@ -980,6 +1032,8 @@ export const ListReferenceDataSetByEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReferenceDataSetByEnvironment",
 }));
 
 export type ReferenceDataSetsCreateOrUpdateError = AzureOpError;
@@ -995,6 +1049,8 @@ export const ReferenceDataSetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReferenceDataSetsCreateOrUpdate",
 }));
 
 export type UpdateAccessPolicyError = AzureOpError;
@@ -1010,6 +1066,8 @@ export const UpdateAccessPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccessPolicy",
 }));
 
 export type UpdateEnvironmentError = AzureOpError;
@@ -1025,6 +1083,8 @@ export const UpdateEnvironment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateEventSourceError = AzureOpError;
@@ -1040,6 +1100,8 @@ export const UpdateEventSource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventSource",
 }));
 
 export type UpdateReferenceDataSetError = AzureOpError;
@@ -1055,6 +1117,8 @@ export const UpdateReferenceDataSet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReferenceDataSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

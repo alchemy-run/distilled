@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.PolicyInsights" },
+  prefix: "Policyinsights",
+  service: "Policyinsights",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The compliance state that should be set on the resource. */
 export type ComplianceState = "Compliant" | "NonCompliant" | "Unknown";
 /** A piece of evidence supporting the compliance state set in the attestation. */
@@ -2409,6 +2429,14 @@ export const AttestationsCreateOrUpdateAtResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AttestationsCreateOrUpdateAtResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+    },
+  },
 }));
 
 export type AttestationsCreateOrUpdateAtResourceGroupError = AzureOpError;
@@ -2424,6 +2452,8 @@ export const AttestationsCreateOrUpdateAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttestationsCreateOrUpdateAtResourceGroup",
 }));
 
 export type AttestationsCreateOrUpdateAtSubscriptionError = AzureOpError;
@@ -2439,6 +2469,8 @@ export const AttestationsCreateOrUpdateAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttestationsCreateOrUpdateAtSubscription",
 }));
 
 export type CancelRemediationAtManagementGroupError = AzureOpError;
@@ -2454,6 +2486,8 @@ export const CancelRemediationAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelRemediationAtManagementGroup",
 }));
 
 export type CancelRemediationAtResourceError = AzureOpError;
@@ -2469,6 +2503,14 @@ export const CancelRemediationAtResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CancelRemediationAtResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
+    },
+  },
 }));
 
 export type CancelRemediationAtResourceGroupError = AzureOpError;
@@ -2484,6 +2526,8 @@ export const CancelRemediationAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelRemediationAtResourceGroup",
 }));
 
 export type CancelRemediationAtSubscriptionError = AzureOpError;
@@ -2499,6 +2543,8 @@ export const CancelRemediationAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelRemediationAtSubscription",
 }));
 
 export type CheckPolicyRestrictionAtManagementGroupScopeError = AzureOpError;
@@ -2518,6 +2564,8 @@ export const CheckPolicyRestrictionAtManagementGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPolicyRestrictionAtManagementGroupScope",
 }));
 
 export type CheckPolicyRestrictionAtResourceGroupScopeError = AzureOpError;
@@ -2533,6 +2581,8 @@ export const CheckPolicyRestrictionAtResourceGroupScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPolicyRestrictionAtResourceGroupScope",
 }));
 
 export type CheckPolicyRestrictionAtSubscriptionScopeError = AzureOpError;
@@ -2548,6 +2598,8 @@ export const CheckPolicyRestrictionAtSubscriptionScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckPolicyRestrictionAtSubscriptionScope",
 }));
 
 export type DeleteAttestationAtResourceError = AzureOpError;
@@ -2563,6 +2615,14 @@ export const DeleteAttestationAtResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteAttestationAtResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+    },
+  },
 }));
 
 export type DeleteAttestationAtResourceGroupError = AzureOpError;
@@ -2578,6 +2638,8 @@ export const DeleteAttestationAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationAtResourceGroup",
 }));
 
 export type DeleteAttestationAtSubscriptionError = AzureOpError;
@@ -2593,6 +2655,8 @@ export const DeleteAttestationAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttestationAtSubscription",
 }));
 
 export type DeleteRemediationAtManagementGroupError = AzureOpError;
@@ -2608,6 +2672,8 @@ export const DeleteRemediationAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRemediationAtManagementGroup",
 }));
 
 export type DeleteRemediationAtResourceError = AzureOpError;
@@ -2623,6 +2689,14 @@ export const DeleteRemediationAtResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteRemediationAtResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+    },
+  },
 }));
 
 export type DeleteRemediationAtResourceGroupError = AzureOpError;
@@ -2638,6 +2712,8 @@ export const DeleteRemediationAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRemediationAtResourceGroup",
 }));
 
 export type DeleteRemediationAtSubscriptionError = AzureOpError;
@@ -2653,6 +2729,8 @@ export const DeleteRemediationAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRemediationAtSubscription",
 }));
 
 export type GetAttestationAtResourceError = AzureOpError;
@@ -2668,6 +2746,14 @@ export const GetAttestationAtResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAttestationAtResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+    },
+  },
 }));
 
 export type GetAttestationAtResourceGroupError = AzureOpError;
@@ -2683,6 +2769,8 @@ export const GetAttestationAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttestationAtResourceGroup",
 }));
 
 export type GetAttestationAtSubscriptionError = AzureOpError;
@@ -2698,6 +2786,8 @@ export const GetAttestationAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttestationAtSubscription",
 }));
 
 export type GetPolicyMetadataResourceError = AzureOpError;
@@ -2713,6 +2803,8 @@ export const GetPolicyMetadataResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicyMetadataResource",
 }));
 
 export type GetRemediationAtManagementGroupError = AzureOpError;
@@ -2728,6 +2820,8 @@ export const GetRemediationAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRemediationAtManagementGroup",
 }));
 
 export type GetRemediationAtResourceError = AzureOpError;
@@ -2743,6 +2837,14 @@ export const GetRemediationAtResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRemediationAtResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+    },
+  },
 }));
 
 export type GetRemediationAtResourceGroupError = AzureOpError;
@@ -2758,6 +2860,8 @@ export const GetRemediationAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRemediationAtResourceGroup",
 }));
 
 export type GetRemediationAtSubscriptionError = AzureOpError;
@@ -2773,6 +2877,8 @@ export const GetRemediationAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRemediationAtSubscription",
 }));
 
 export type ListAttestationForResourceError = AzureOpError;
@@ -2788,6 +2894,11 @@ export const ListAttestationForResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAttestationForResource",
+    attributes: { "url.template": "/{resourceId}/providers/Microsoft.PolicyInsights/attestations" },
+  },
 }));
 
 export type ListAttestationForResourceGroupError = AzureOpError;
@@ -2803,6 +2914,8 @@ export const ListAttestationForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationForResourceGroup",
 }));
 
 export type ListAttestationForSubscriptionError = AzureOpError;
@@ -2818,6 +2931,8 @@ export const ListAttestationForSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttestationForSubscription",
 }));
 
 export type ListComponentPolicyStateQueryResultsForPolicyDefinitionError = AzureOpError;
@@ -2837,6 +2952,8 @@ export const ListComponentPolicyStateQueryResultsForPolicyDefinition: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComponentPolicyStateQueryResultsForPolicyDefinition",
 }));
 
 export type ListComponentPolicyStateQueryResultsForResourceError = AzureOpError;
@@ -2856,6 +2973,14 @@ export const ListComponentPolicyStateQueryResultsForResource: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListComponentPolicyStateQueryResultsForResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
+    },
+  },
 }));
 
 export type ListComponentPolicyStateQueryResultsForResourceGroupError = AzureOpError;
@@ -2875,6 +3000,8 @@ export const ListComponentPolicyStateQueryResultsForResourceGroup: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComponentPolicyStateQueryResultsForResourceGroup",
 }));
 
 export type ListComponentPolicyStateQueryResultsForResourceGroupLevelPolicyAssignmentError =
@@ -2895,6 +3022,8 @@ export const ListComponentPolicyStateQueryResultsForResourceGroupLevelPolicyAssi
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComponentPolicyStateQueryResultsForResourceGroupLevelPolicyAssignment",
 }));
 
 export type ListComponentPolicyStateQueryResultsForSubscriptionError = AzureOpError;
@@ -2914,6 +3043,8 @@ export const ListComponentPolicyStateQueryResultsForSubscription: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComponentPolicyStateQueryResultsForSubscription",
 }));
 
 export type ListComponentPolicyStateQueryResultsForSubscriptionLevelPolicyAssignmentError =
@@ -2934,6 +3065,8 @@ export const ListComponentPolicyStateQueryResultsForSubscriptionLevelPolicyAssig
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComponentPolicyStateQueryResultsForSubscriptionLevelPolicyAssignment",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2949,6 +3082,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPolicyEventQueryResultsForManagementGroupError = AzureOpError;
@@ -2968,6 +3103,8 @@ export const ListPolicyEventQueryResultsForManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyEventQueryResultsForManagementGroup",
 }));
 
 export type ListPolicyEventQueryResultsForPolicyDefinitionError = AzureOpError;
@@ -2987,6 +3124,8 @@ export const ListPolicyEventQueryResultsForPolicyDefinition: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyEventQueryResultsForPolicyDefinition",
 }));
 
 export type ListPolicyEventQueryResultsForPolicySetDefinitionError = AzureOpError;
@@ -3006,6 +3145,8 @@ export const ListPolicyEventQueryResultsForPolicySetDefinition: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyEventQueryResultsForPolicySetDefinition",
 }));
 
 export type ListPolicyEventQueryResultsForResourceError = AzureOpError;
@@ -3021,6 +3162,14 @@ export const ListPolicyEventQueryResultsForResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyEventQueryResultsForResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+    },
+  },
 }));
 
 export type ListPolicyEventQueryResultsForResourceGroupError = AzureOpError;
@@ -3036,6 +3185,8 @@ export const ListPolicyEventQueryResultsForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyEventQueryResultsForResourceGroup",
 }));
 
 export type ListPolicyEventQueryResultsForResourceGroupLevelPolicyAssignmentError = AzureOpError;
@@ -3055,6 +3206,8 @@ export const ListPolicyEventQueryResultsForResourceGroupLevelPolicyAssignment: A
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyEventQueryResultsForResourceGroupLevelPolicyAssignment",
 }));
 
 export type ListPolicyEventQueryResultsForSubscriptionError = AzureOpError;
@@ -3070,6 +3223,8 @@ export const ListPolicyEventQueryResultsForSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyEventQueryResultsForSubscription",
 }));
 
 export type ListPolicyEventQueryResultsForSubscriptionLevelPolicyAssignmentError = AzureOpError;
@@ -3089,6 +3244,8 @@ export const ListPolicyEventQueryResultsForSubscriptionLevelPolicyAssignment: AP
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyEventQueryResultsForSubscriptionLevelPolicyAssignment",
 }));
 
 export type ListPolicyMetadataError = AzureOpError;
@@ -3104,6 +3261,8 @@ export const ListPolicyMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyMetadata",
 }));
 
 export type ListPolicyStateQueryResultsForManagementGroupError = AzureOpError;
@@ -3123,6 +3282,8 @@ export const ListPolicyStateQueryResultsForManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStateQueryResultsForManagementGroup",
 }));
 
 export type ListPolicyStateQueryResultsForPolicyDefinitionError = AzureOpError;
@@ -3142,6 +3303,8 @@ export const ListPolicyStateQueryResultsForPolicyDefinition: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStateQueryResultsForPolicyDefinition",
 }));
 
 export type ListPolicyStateQueryResultsForPolicySetDefinitionError = AzureOpError;
@@ -3161,6 +3324,8 @@ export const ListPolicyStateQueryResultsForPolicySetDefinition: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStateQueryResultsForPolicySetDefinition",
 }));
 
 export type ListPolicyStateQueryResultsForResourceError = AzureOpError;
@@ -3176,6 +3341,14 @@ export const ListPolicyStateQueryResultsForResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPolicyStateQueryResultsForResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+    },
+  },
 }));
 
 export type ListPolicyStateQueryResultsForResourceGroupError = AzureOpError;
@@ -3191,6 +3364,8 @@ export const ListPolicyStateQueryResultsForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStateQueryResultsForResourceGroup",
 }));
 
 export type ListPolicyStateQueryResultsForResourceGroupLevelPolicyAssignmentError = AzureOpError;
@@ -3210,6 +3385,8 @@ export const ListPolicyStateQueryResultsForResourceGroupLevelPolicyAssignment: A
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStateQueryResultsForResourceGroupLevelPolicyAssignment",
 }));
 
 export type ListPolicyStateQueryResultsForSubscriptionError = AzureOpError;
@@ -3225,6 +3402,8 @@ export const ListPolicyStateQueryResultsForSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStateQueryResultsForSubscription",
 }));
 
 export type ListPolicyStateQueryResultsForSubscriptionLevelPolicyAssignmentError = AzureOpError;
@@ -3244,6 +3423,8 @@ export const ListPolicyStateQueryResultsForSubscriptionLevelPolicyAssignment: AP
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyStateQueryResultsForSubscriptionLevelPolicyAssignment",
 }));
 
 export type ListRemediationDeploymentsAtManagementGroupError = AzureOpError;
@@ -3259,6 +3440,8 @@ export const ListRemediationDeploymentsAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRemediationDeploymentsAtManagementGroup",
 }));
 
 export type ListRemediationDeploymentsAtResourceError = AzureOpError;
@@ -3274,6 +3457,14 @@ export const ListRemediationDeploymentsAtResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListRemediationDeploymentsAtResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
+    },
+  },
 }));
 
 export type ListRemediationDeploymentsAtResourceGroupError = AzureOpError;
@@ -3289,6 +3480,8 @@ export const ListRemediationDeploymentsAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRemediationDeploymentsAtResourceGroup",
 }));
 
 export type ListRemediationDeploymentsAtSubscriptionError = AzureOpError;
@@ -3304,6 +3497,8 @@ export const ListRemediationDeploymentsAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRemediationDeploymentsAtSubscription",
 }));
 
 export type ListRemediationForManagementGroupError = AzureOpError;
@@ -3319,6 +3514,8 @@ export const ListRemediationForManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRemediationForManagementGroup",
 }));
 
 export type ListRemediationForResourceError = AzureOpError;
@@ -3334,6 +3531,11 @@ export const ListRemediationForResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListRemediationForResource",
+    attributes: { "url.template": "/{resourceId}/providers/Microsoft.PolicyInsights/remediations" },
+  },
 }));
 
 export type ListRemediationForResourceGroupError = AzureOpError;
@@ -3349,6 +3551,8 @@ export const ListRemediationForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRemediationForResourceGroup",
 }));
 
 export type ListRemediationForSubscriptionError = AzureOpError;
@@ -3364,6 +3568,8 @@ export const ListRemediationForSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRemediationForSubscription",
 }));
 
 export type PolicyStatesSummarizeForManagementGroupError = AzureOpError;
@@ -3379,6 +3585,8 @@ export const PolicyStatesSummarizeForManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PolicyStatesSummarizeForManagementGroup",
 }));
 
 export type PolicyStatesSummarizeForPolicyDefinitionError = AzureOpError;
@@ -3394,6 +3602,8 @@ export const PolicyStatesSummarizeForPolicyDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PolicyStatesSummarizeForPolicyDefinition",
 }));
 
 export type PolicyStatesSummarizeForPolicySetDefinitionError = AzureOpError;
@@ -3409,6 +3619,8 @@ export const PolicyStatesSummarizeForPolicySetDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PolicyStatesSummarizeForPolicySetDefinition",
 }));
 
 export type PolicyStatesSummarizeForResourceError = AzureOpError;
@@ -3424,6 +3636,14 @@ export const PolicyStatesSummarizeForResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PolicyStatesSummarizeForResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+    },
+  },
 }));
 
 export type PolicyStatesSummarizeForResourceGroupError = AzureOpError;
@@ -3439,6 +3659,8 @@ export const PolicyStatesSummarizeForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PolicyStatesSummarizeForResourceGroup",
 }));
 
 export type PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentError = AzureOpError;
@@ -3458,6 +3680,8 @@ export const PolicyStatesSummarizeForResourceGroupLevelPolicyAssignment: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PolicyStatesSummarizeForResourceGroupLevelPolicyAssignment",
 }));
 
 export type PolicyStatesSummarizeForSubscriptionError = AzureOpError;
@@ -3473,6 +3697,8 @@ export const PolicyStatesSummarizeForSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PolicyStatesSummarizeForSubscription",
 }));
 
 export type PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentError = AzureOpError;
@@ -3492,6 +3718,8 @@ export const PolicyStatesSummarizeForSubscriptionLevelPolicyAssignment: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PolicyStatesSummarizeForSubscriptionLevelPolicyAssignment",
 }));
 
 export type RemediationsCreateOrUpdateAtManagementGroupError = AzureOpError;
@@ -3511,6 +3739,8 @@ export const RemediationsCreateOrUpdateAtManagementGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemediationsCreateOrUpdateAtManagementGroup",
 }));
 
 export type RemediationsCreateOrUpdateAtResourceError = AzureOpError;
@@ -3526,6 +3756,14 @@ export const RemediationsCreateOrUpdateAtResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RemediationsCreateOrUpdateAtResource",
+    attributes: {
+      "url.template":
+        "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+    },
+  },
 }));
 
 export type RemediationsCreateOrUpdateAtResourceGroupError = AzureOpError;
@@ -3541,6 +3779,8 @@ export const RemediationsCreateOrUpdateAtResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemediationsCreateOrUpdateAtResourceGroup",
 }));
 
 export type RemediationsCreateOrUpdateAtSubscriptionError = AzureOpError;
@@ -3556,6 +3796,8 @@ export const RemediationsCreateOrUpdateAtSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemediationsCreateOrUpdateAtSubscription",
 }));
 
 export type TriggerPolicyStateResourceGroupEvaluationError = AzureOpError;
@@ -3571,6 +3813,8 @@ export const TriggerPolicyStateResourceGroupEvaluation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerPolicyStateResourceGroupEvaluation",
 }));
 
 export type TriggerPolicyStateSubscriptionEvaluationError = AzureOpError;
@@ -3586,6 +3830,8 @@ export const TriggerPolicyStateSubscriptionEvaluation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerPolicyStateSubscriptionEvaluation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

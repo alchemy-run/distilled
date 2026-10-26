@@ -10,6 +10,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
 import type { Request } from "./client/request.ts";
 import type { ResolvedCredentials } from "./credentials-service.ts";
+import { toBase64 } from "./util/base64.ts";
 
 /**
  * Legacy Signature Version 2 (SimpleDB is the sole remaining SigV2-only
@@ -72,7 +73,7 @@ export const signV2 = (
       return crypto.subtle.sign("HMAC", key, new TextEncoder().encode(stringToSign));
     }),
     (signatureBytes) => {
-      const signature = Buffer.from(signatureBytes).toString("base64");
+      const signature = toBase64(new Uint8Array(signatureBytes));
       const signedBody = `${canonical}&Signature=${rfc3986(signature)}`;
       const contentTypeV2 =
         resolvedRequest.headers["Content-Type"] ??

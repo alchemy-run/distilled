@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Packages",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -782,6 +800,8 @@ export const deletePackageForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePackageForAuthenticatedUser",
 }));
 
 export type DeletePackageForOrgError = Forbidden | NotFound | GithubOpError;
@@ -797,6 +817,8 @@ export const deletePackageForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePackageForOrg",
 }));
 
 export type DeletePackageForUserError = Forbidden | NotFound | GithubOpError;
@@ -812,6 +834,8 @@ export const deletePackageForUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePackageForUser",
 }));
 
 export type DeletePackageVersionForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -827,6 +851,8 @@ export const deletePackageVersionForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePackageVersionForAuthenticatedUser",
 }));
 
 export type DeletePackageVersionForOrgError = Forbidden | NotFound | GithubOpError;
@@ -842,6 +868,8 @@ export const deletePackageVersionForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePackageVersionForOrg",
 }));
 
 export type DeletePackageVersionForUserError = Forbidden | NotFound | GithubOpError;
@@ -857,6 +885,8 @@ export const deletePackageVersionForUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePackageVersionForUser",
 }));
 
 export type GetAllPackageVersionsForPackageOwnedByAuthenticatedUserError =
@@ -883,6 +913,8 @@ export const getAllPackageVersionsForPackageOwnedByAuthenticatedUser: API.Operat
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllPackageVersionsForPackageOwnedByAuthenticatedUser",
 }));
 
 export type GetAllPackageVersionsForPackageOwnedByOrgError = Forbidden | NotFound | GithubOpError;
@@ -898,6 +930,8 @@ export const getAllPackageVersionsForPackageOwnedByOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllPackageVersionsForPackageOwnedByOrg",
 }));
 
 export type GetAllPackageVersionsForPackageOwnedByUserError = Forbidden | NotFound | GithubOpError;
@@ -913,6 +947,8 @@ export const getAllPackageVersionsForPackageOwnedByUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllPackageVersionsForPackageOwnedByUser",
 }));
 
 export type GetPackageForAuthenticatedUserError = GithubOpError;
@@ -928,6 +964,8 @@ export const getPackageForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackageForAuthenticatedUser",
 }));
 
 export type GetPackageForOrganizationError = GithubOpError;
@@ -943,6 +981,8 @@ export const getPackageForOrganization: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackageForOrganization",
 }));
 
 export type GetPackageForUserError = GithubOpError;
@@ -958,6 +998,8 @@ export const getPackageForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackageForUser",
 }));
 
 export type GetPackageVersionForAuthenticatedUserError = GithubOpError;
@@ -973,6 +1015,8 @@ export const getPackageVersionForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionForAuthenticatedUser",
 }));
 
 export type GetPackageVersionForOrganizationError = GithubOpError;
@@ -988,6 +1032,8 @@ export const getPackageVersionForOrganization: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionForOrganization",
 }));
 
 export type GetPackageVersionForUserError = GithubOpError;
@@ -1003,6 +1049,8 @@ export const getPackageVersionForUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionForUser",
 }));
 
 export type ListDockerMigrationConflictingPackagesForAuthenticatedUserError = GithubOpError;
@@ -1026,6 +1074,8 @@ export const listDockerMigrationConflictingPackagesForAuthenticatedUser: API.Ope
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDockerMigrationConflictingPackagesForAuthenticatedUser",
 }));
 
 export type ListDockerMigrationConflictingPackagesForOrganizationError = Forbidden | GithubOpError;
@@ -1049,6 +1099,8 @@ export const listDockerMigrationConflictingPackagesForOrganization: API.Operatio
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDockerMigrationConflictingPackagesForOrganization",
 }));
 
 export type ListDockerMigrationConflictingPackagesForUserError = Forbidden | GithubOpError;
@@ -1072,6 +1124,8 @@ export const listDockerMigrationConflictingPackagesForUser: API.OperationMethod<
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDockerMigrationConflictingPackagesForUser",
 }));
 
 export type ListPackagesForAuthenticatedUserError = BadRequest | GithubOpError;
@@ -1087,6 +1141,8 @@ export const listPackagesForAuthenticatedUser: API.OperationMethod<
   errors: [BadRequest],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackagesForAuthenticatedUser",
 }));
 
 export type ListPackagesForOrganizationError = BadRequest | Forbidden | GithubOpError;
@@ -1102,6 +1158,8 @@ export const listPackagesForOrganization: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackagesForOrganization",
 }));
 
 export type ListPackagesForUserError = BadRequest | Forbidden | GithubOpError;
@@ -1117,6 +1175,8 @@ export const listPackagesForUser: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPackagesForUser",
 }));
 
 export type RestorePackageForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1132,6 +1192,8 @@ export const restorePackageForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestorePackageForAuthenticatedUser",
 }));
 
 export type RestorePackageForOrgError = Forbidden | NotFound | GithubOpError;
@@ -1147,6 +1209,8 @@ export const restorePackageForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestorePackageForOrg",
 }));
 
 export type RestorePackageForUserError = Forbidden | NotFound | GithubOpError;
@@ -1162,6 +1226,8 @@ export const restorePackageForUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestorePackageForUser",
 }));
 
 export type RestorePackageVersionForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1177,6 +1243,8 @@ export const restorePackageVersionForAuthenticatedUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestorePackageVersionForAuthenticatedUser",
 }));
 
 export type RestorePackageVersionForOrgError = Forbidden | NotFound | GithubOpError;
@@ -1192,6 +1260,8 @@ export const restorePackageVersionForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestorePackageVersionForOrg",
 }));
 
 export type RestorePackageVersionForUserError = Forbidden | NotFound | GithubOpError;
@@ -1207,6 +1277,8 @@ export const restorePackageVersionForUser: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestorePackageVersionForUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

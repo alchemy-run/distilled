@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -112,6 +113,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "billingconductor",
+  service: "billingconductor",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1027,6 +1042,8 @@ export const associateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAccounts",
+  telemetry: TELEMETRY,
+  span: "AssociateAccounts",
 }));
 
 export type AssociatePricingRulesError =
@@ -1061,6 +1078,8 @@ export const associatePricingRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePricingRules",
+  telemetry: TELEMETRY,
+  span: "AssociatePricingRules",
 }));
 
 export type BatchAssociateResourcesToCustomLineItemError =
@@ -1095,6 +1114,8 @@ export const batchAssociateResourcesToCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateResourcesToCustomLineItem",
+  telemetry: TELEMETRY,
+  span: "BatchAssociateResourcesToCustomLineItem",
 }));
 
 export type BatchDisassociateResourcesFromCustomLineItemError =
@@ -1127,6 +1148,8 @@ export const batchDisassociateResourcesFromCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateResourcesFromCustomLineItem",
+  telemetry: TELEMETRY,
+  span: "BatchDisassociateResourcesFromCustomLineItem",
 }));
 
 export type CreateBillingGroupError =
@@ -1159,6 +1182,8 @@ export const createBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillingGroup",
+  telemetry: TELEMETRY,
+  span: "CreateBillingGroup",
 }));
 
 export type CreateCustomLineItemError =
@@ -1191,6 +1216,8 @@ export const createCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomLineItem",
+  telemetry: TELEMETRY,
+  span: "CreateCustomLineItem",
 }));
 
 export type CreatePricingPlanError =
@@ -1225,6 +1252,8 @@ export const createPricingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePricingPlan",
+  telemetry: TELEMETRY,
+  span: "CreatePricingPlan",
 }));
 
 export type CreatePricingRuleError =
@@ -1257,6 +1286,8 @@ export const createPricingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePricingRule",
+  telemetry: TELEMETRY,
+  span: "CreatePricingRule",
 }));
 
 export type DeleteBillingGroupError =
@@ -1285,6 +1316,8 @@ export const deleteBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillingGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteBillingGroup",
 }));
 
 export type DeleteCustomLineItemError =
@@ -1315,6 +1348,8 @@ export const deleteCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomLineItem",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomLineItem",
 }));
 
 export type DeletePricingPlanError =
@@ -1345,6 +1380,8 @@ export const deletePricingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePricingPlan",
+  telemetry: TELEMETRY,
+  span: "DeletePricingPlan",
 }));
 
 export type DeletePricingRuleError =
@@ -1375,6 +1412,8 @@ export const deletePricingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePricingRule",
+  telemetry: TELEMETRY,
+  span: "DeletePricingRule",
 }));
 
 export type DisassociateAccountsError =
@@ -1407,6 +1446,8 @@ export const disassociateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAccounts",
+  telemetry: TELEMETRY,
+  span: "DisassociateAccounts",
 }));
 
 export type DisassociatePricingRulesError =
@@ -1439,6 +1480,8 @@ export const disassociatePricingRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePricingRules",
+  telemetry: TELEMETRY,
+  span: "DisassociatePricingRules",
 }));
 
 export type GetBillingGroupCostReportError =
@@ -1476,6 +1519,8 @@ export const getBillingGroupCostReport: API.PaginatedOperationMethod<
     items: "BillingGroupCostReportResults",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetBillingGroupCostReport",
 })) as any;
 
 export type GetBillingTransferPreferenceError =
@@ -1506,6 +1551,8 @@ export const getBillingTransferPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillingTransferPreference",
+  telemetry: TELEMETRY,
+  span: "GetBillingTransferPreference",
 }));
 
 export type ListAccountAssociationsError =
@@ -1542,6 +1589,8 @@ export const listAccountAssociations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "LinkedAccounts",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccountAssociations",
 })) as any;
 
 export type ListBillingGroupCostReportsError =
@@ -1579,6 +1628,8 @@ export const listBillingGroupCostReports: API.PaginatedOperationMethod<
     items: "BillingGroupCostReports",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillingGroupCostReports",
 })) as any;
 
 export type ListBillingGroupsError =
@@ -1616,6 +1667,8 @@ export const listBillingGroups: API.PaginatedOperationMethod<
     items: "BillingGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBillingGroups",
 })) as any;
 
 export type ListCustomLineItemsError =
@@ -1653,6 +1706,8 @@ export const listCustomLineItems: API.PaginatedOperationMethod<
     items: "CustomLineItems",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomLineItems",
 })) as any;
 
 export type ListCustomLineItemVersionsError =
@@ -1688,6 +1743,8 @@ export const listCustomLineItemVersions: API.PaginatedOperationMethod<
     items: "CustomLineItemVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCustomLineItemVersions",
 })) as any;
 
 export type ListPricingPlansError =
@@ -1723,6 +1780,8 @@ export const listPricingPlans: API.PaginatedOperationMethod<
     items: "PricingPlans",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPricingPlans",
 })) as any;
 
 export type ListPricingPlansAssociatedWithPricingRuleError =
@@ -1760,6 +1819,8 @@ export const listPricingPlansAssociatedWithPricingRule: API.PaginatedOperationMe
     items: "PricingPlanArns",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPricingPlansAssociatedWithPricingRule",
 })) as any;
 
 export type ListPricingRulesError =
@@ -1795,6 +1856,8 @@ export const listPricingRules: API.PaginatedOperationMethod<
     items: "PricingRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPricingRules",
 })) as any;
 
 export type ListPricingRulesAssociatedToPricingPlanError =
@@ -1832,6 +1895,8 @@ export const listPricingRulesAssociatedToPricingPlan: API.PaginatedOperationMeth
     items: "PricingRuleArns",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPricingRulesAssociatedToPricingPlan",
 })) as any;
 
 export type ListResourcesAssociatedToCustomLineItemError =
@@ -1869,6 +1934,8 @@ export const listResourcesAssociatedToCustomLineItem: API.PaginatedOperationMeth
     items: "AssociatedResources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcesAssociatedToCustomLineItem",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1899,6 +1966,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1929,6 +1998,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1959,6 +2030,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBillingGroupError =
@@ -1991,6 +2064,8 @@ export const updateBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillingGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateBillingGroup",
 }));
 
 export type UpdateBillingTransferPreferenceError =
@@ -2025,6 +2100,8 @@ export const updateBillingTransferPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillingTransferPreference",
+  telemetry: TELEMETRY,
+  span: "UpdateBillingTransferPreference",
 }));
 
 export type UpdateCustomLineItemError =
@@ -2057,6 +2134,8 @@ export const updateCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomLineItem",
+  telemetry: TELEMETRY,
+  span: "UpdateCustomLineItem",
 }));
 
 export type UpdatePricingPlanError =
@@ -2089,6 +2168,8 @@ export const updatePricingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePricingPlan",
+  telemetry: TELEMETRY,
+  span: "UpdatePricingPlan",
 }));
 
 export type UpdatePricingRuleError =
@@ -2121,6 +2202,8 @@ export const updatePricingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePricingRule",
+  telemetry: TELEMETRY,
+  span: "UpdatePricingRule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

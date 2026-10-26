@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { S2OpError, S2OpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "s2-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "S2",
+  service: "Locations",
+  propagate: "w3c",
+} as const;
+
 export interface GetDefaultLocationRequest {}
 /** [Storage classes](https://s2.dev/docs/storage-classes) available to the account in this location. */
 export type LocationInfoStorageClassesList = Array<string>;
@@ -43,6 +55,8 @@ export const getDefaultLocation: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDefaultLocation",
 }));
 
 export type ListLocationsError = S2OpError;
@@ -58,6 +72,8 @@ export const listLocations: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocations",
 }));
 
 export type SetDefaultLocationError = S2OpError;
@@ -73,6 +89,8 @@ export const setDefaultLocation: API.OperationMethod<
   errors: [UnknownS2Error],
   protocol: S2Protocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetDefaultLocation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

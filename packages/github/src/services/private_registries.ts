@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "PrivateRegistries",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -421,6 +439,8 @@ export const createOrgPrivateRegistry: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrgPrivateRegistry",
 }));
 
 export type DeleteOrgPrivateRegistryError = BadRequest | NotFound | GithubOpError;
@@ -436,6 +456,8 @@ export const deleteOrgPrivateRegistry: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOrgPrivateRegistry",
 }));
 
 export type GetOrgPrivateRegistryError = NotFound | GithubOpError;
@@ -451,6 +473,8 @@ export const getOrgPrivateRegistry: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgPrivateRegistry",
 }));
 
 export type GetOrgPublicKeyError = NotFound | GithubOpError;
@@ -466,6 +490,8 @@ export const getOrgPublicKey: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOrgPublicKey",
 }));
 
 export type ListOrgPrivateRegistriesError = BadRequest | NotFound | GithubOpError;
@@ -481,6 +507,8 @@ export const listOrgPrivateRegistries: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrgPrivateRegistries",
 }));
 
 export type UpdateOrgPrivateRegistryError = NotFound | UnprocessableEntity | GithubOpError;
@@ -496,6 +524,8 @@ export const updateOrgPrivateRegistry: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOrgPrivateRegistry",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

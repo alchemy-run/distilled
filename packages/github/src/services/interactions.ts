@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Interactions",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -240,6 +258,8 @@ export const getPullRequestBypassListForRepo: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPullRequestBypassListForRepo",
 }));
 
 export type GetPullRequestCreationCapForOrgError = Forbidden | NotFound | GithubOpError;
@@ -255,6 +275,8 @@ export const getPullRequestCreationCapForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPullRequestCreationCapForOrg",
 }));
 
 export type GetPullRequestCreationCapForRepoError = Forbidden | NotFound | GithubOpError;
@@ -270,6 +292,8 @@ export const getPullRequestCreationCapForRepo: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPullRequestCreationCapForRepo",
 }));
 
 export type GetRestrictionsForAuthenticatedUserError = GithubOpError;
@@ -285,6 +309,8 @@ export const getRestrictionsForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRestrictionsForAuthenticatedUser",
 }));
 
 export type GetRestrictionsForOrgError = GithubOpError;
@@ -300,6 +326,8 @@ export const getRestrictionsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRestrictionsForOrg",
 }));
 
 export type GetRestrictionsForRepoError = GithubOpError;
@@ -315,6 +343,8 @@ export const getRestrictionsForRepo: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRestrictionsForRepo",
 }));
 
 export type RemovePullRequestBypassListForRepoError =
@@ -334,6 +364,8 @@ export const removePullRequestBypassListForRepo: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePullRequestBypassListForRepo",
 }));
 
 export type RemoveRestrictionsForAuthenticatedUserError = GithubOpError;
@@ -349,6 +381,8 @@ export const removeRestrictionsForAuthenticatedUser: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRestrictionsForAuthenticatedUser",
 }));
 
 export type RemoveRestrictionsForOrgError = GithubOpError;
@@ -364,6 +398,8 @@ export const removeRestrictionsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRestrictionsForOrg",
 }));
 
 export type RemoveRestrictionsForRepoError = Conflict | GithubOpError;
@@ -379,6 +415,8 @@ export const removeRestrictionsForRepo: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveRestrictionsForRepo",
 }));
 
 export type SetPullRequestBypassListForRepoError =
@@ -398,6 +436,8 @@ export const setPullRequestBypassListForRepo: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPullRequestBypassListForRepo",
 }));
 
 export type SetRestrictionsForAuthenticatedUserError = UnprocessableEntity | GithubOpError;
@@ -413,6 +453,8 @@ export const setRestrictionsForAuthenticatedUser: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetRestrictionsForAuthenticatedUser",
 }));
 
 export type SetRestrictionsForOrgError = UnprocessableEntity | GithubOpError;
@@ -428,6 +470,8 @@ export const setRestrictionsForOrg: API.OperationMethod<
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetRestrictionsForOrg",
 }));
 
 export type SetRestrictionsForRepoError = Conflict | GithubOpError;
@@ -443,6 +487,8 @@ export const setRestrictionsForRepo: API.OperationMethod<
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetRestrictionsForRepo",
 }));
 
 export type UpdatePullRequestCreationCapForOrgError =
@@ -462,6 +508,8 @@ export const updatePullRequestCreationCapForOrg: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestCreationCapForOrg",
 }));
 
 export type UpdatePullRequestCreationCapForRepoError =
@@ -481,6 +529,8 @@ export const updatePullRequestCreationCapForRepo: API.OperationMethod<
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePullRequestCreationCapForRepo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

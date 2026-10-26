@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -131,6 +132,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: FIPS is not supported with CloudFront-KeyValueStore.");
 });
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudFrontKeyValueStore",
+  service: "CloudFrontKeyValueStore",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -280,6 +295,8 @@ export const deleteKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKey",
+  telemetry: TELEMETRY,
+  span: "DeleteKey",
 }));
 
 export type DescribeKeyValueStoreError =
@@ -308,6 +325,8 @@ export const describeKeyValueStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyValueStore",
+  telemetry: TELEMETRY,
+  span: "DescribeKeyValueStore",
 }));
 
 export type GetKeyError =
@@ -336,6 +355,8 @@ export const getKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKey",
+  telemetry: TELEMETRY,
+  span: "GetKey",
 }));
 
 export type ListKeysError =
@@ -373,6 +394,8 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeys",
 })) as any;
 
 export type PutKeyError =
@@ -405,6 +428,8 @@ export const putKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKey",
+  telemetry: TELEMETRY,
+  span: "PutKey",
 }));
 
 export type UpdateKeysError =
@@ -437,6 +462,8 @@ export const updateKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeys",
+  telemetry: TELEMETRY,
+  span: "UpdateKeys",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

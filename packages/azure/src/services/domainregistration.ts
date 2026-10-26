@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DomainRegistration" },
+  prefix: "Domainregistration",
+  service: "Domainregistration",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckDomainAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -796,6 +816,8 @@ export const CheckDomainAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDomainAvailability",
 }));
 
 export type DeleteDomainError = AzureOpError;
@@ -811,6 +833,8 @@ export const DeleteDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteDomainOwnershipIdentifierError = AzureOpError;
@@ -826,6 +850,8 @@ export const DeleteDomainOwnershipIdentifier: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomainOwnershipIdentifier",
 }));
 
 export type DomainsCreateOrUpdateError = AzureOpError;
@@ -841,6 +867,8 @@ export const DomainsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsCreateOrUpdate",
 }));
 
 export type DomainsCreateOrUpdateOwnershipIdentifierError = AzureOpError;
@@ -856,6 +884,8 @@ export const DomainsCreateOrUpdateOwnershipIdentifier: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainsCreateOrUpdateOwnershipIdentifier",
 }));
 
 export type GetDomainError = AzureOpError;
@@ -871,6 +901,8 @@ export const GetDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainControlCenterSsoRequestError = AzureOpError;
@@ -886,6 +918,8 @@ export const GetDomainControlCenterSsoRequest: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainControlCenterSsoRequest",
 }));
 
 export type GetDomainOwnershipIdentifierError = AzureOpError;
@@ -901,6 +935,8 @@ export const GetDomainOwnershipIdentifier: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainOwnershipIdentifier",
 }));
 
 export type GetTopLevelDomainError = AzureOpError;
@@ -916,6 +952,8 @@ export const GetTopLevelDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTopLevelDomain",
 }));
 
 export type ListDomainByResourceGroupError = AzureOpError;
@@ -931,6 +969,8 @@ export const ListDomainByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainByResourceGroup",
 }));
 
 export type ListDomainOwnershipIdentifiersError = AzureOpError;
@@ -946,6 +986,8 @@ export const ListDomainOwnershipIdentifiers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainOwnershipIdentifiers",
 }));
 
 export type ListDomainRecommendationsError = AzureOpError;
@@ -961,6 +1003,8 @@ export const ListDomainRecommendations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainRecommendations",
 }));
 
 export type ListDomainRegistrationProviderOperationsError = AzureOpError;
@@ -976,6 +1020,8 @@ export const ListDomainRegistrationProviderOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomainRegistrationProviderOperations",
 }));
 
 export type ListDomainsError = AzureOpError;
@@ -991,6 +1037,8 @@ export const ListDomains: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 }));
 
 export type ListTopLevelDomainAgreementsError = AzureOpError;
@@ -1006,6 +1054,8 @@ export const ListTopLevelDomainAgreements: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTopLevelDomainAgreements",
 }));
 
 export type ListTopLevelDomainsError = AzureOpError;
@@ -1021,6 +1071,8 @@ export const ListTopLevelDomains: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTopLevelDomains",
 }));
 
 export type RenewDomainError = AzureOpError;
@@ -1036,6 +1088,8 @@ export const RenewDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewDomain",
 }));
 
 export type TransferDomainOutError = AzureOpError;
@@ -1051,6 +1105,8 @@ export const TransferDomainOut: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferDomainOut",
 }));
 
 export type UpdateDomainError = AzureOpError;
@@ -1066,6 +1122,8 @@ export const UpdateDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateDomainOwnershipIdentifierError = AzureOpError;
@@ -1081,6 +1139,8 @@ export const UpdateDomainOwnershipIdentifier: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomainOwnershipIdentifier",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

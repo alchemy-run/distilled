@@ -5831,7 +5831,7 @@ export interface ForkEventForkee {
   open_issues: number;
   open_issues_count: number;
   organization?: string;
-  owner: ForkEventForkeeOwner | null;
+  owner: ForkEventForkeeOwner;
   permissions?: ForkEventForkeePermissions;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -6884,7 +6884,7 @@ export interface IssueCommentCreatedEventIssue {
   updated_at: string;
   /** URL for the issue */
   url: string;
-  user: IssueCommentCreatedEventIssueUser | null;
+  user: IssueCommentCreatedEventIssueUser;
 }
 export interface IssueCommentCreatedEvent {
   action: IssueCommentCreatedEventAction;
@@ -7377,7 +7377,7 @@ export interface IssueCommentDeletedEventIssue {
   updated_at: string;
   /** URL for the issue */
   url: string;
-  user: IssueCommentDeletedEventIssueUser | null;
+  user: IssueCommentDeletedEventIssueUser;
 }
 export interface IssueCommentDeletedEvent {
   action: IssueCommentDeletedEventAction;
@@ -7814,7 +7814,7 @@ export interface IssueCommentEditedEventIssue {
   updated_at: string;
   /** URL for the issue */
   url: string;
-  user: IssueCommentEditedEventIssueUser | null;
+  user: IssueCommentEditedEventIssueUser;
 }
 export interface IssueCommentEditedEvent {
   action: IssueCommentEditedEventAction;
@@ -8245,7 +8245,7 @@ export interface IssueCommentPinnedEventIssue {
   updated_at: string;
   /** URL for the issue */
   url: string;
-  user: IssueCommentPinnedEventIssueUser | null;
+  user: IssueCommentPinnedEventIssueUser;
 }
 export interface IssueCommentPinnedEvent {
   action: IssueCommentPinnedEventAction;
@@ -8690,7 +8690,7 @@ export interface IssueCommentUnpinnedEventIssue {
   updated_at: string;
   /** URL for the issue */
   url: string;
-  user: IssueCommentUnpinnedEventIssueUser | null;
+  user: IssueCommentUnpinnedEventIssueUser;
 }
 export interface IssueCommentUnpinnedEvent {
   action: IssueCommentUnpinnedEventAction;
@@ -9703,7 +9703,7 @@ export interface IssuesClosedEventIssue {
   updated_at: string;
   /** URL for the issue */
   url: string;
-  user: IssuesClosedEventIssueUser | null;
+  user: IssuesClosedEventIssueUser;
 }
 export interface IssuesClosedEvent {
   /** The action that was performed. */

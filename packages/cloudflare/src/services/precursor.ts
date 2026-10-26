@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Precursor",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export type GetRequestCloudflareVersion = "1.0";
 export interface GetRequest {
   /** Identifier. */
@@ -91,6 +105,8 @@ export const get: API.OperationMethod<GetRequest, GetResponse, GetError, Cloudfl
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type UpdateError = CloudflareOpError;
@@ -106,6 +122,8 @@ export const update: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Update",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

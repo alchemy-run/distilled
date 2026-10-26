@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "ApiKeys",
+  labels: "daytona",
+  propagate: "w3c",
+} as const;
+
 export type CreateApiKeyRequestPermissionsItem =
   | "write:registries"
   | "delete:registries"
@@ -166,6 +179,8 @@ export const createApiKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiKey",
 }));
 
 export type DeleteApiKeyError = DaytonaOpError;
@@ -181,6 +196,8 @@ export const deleteApiKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiKey",
 }));
 
 export type DeleteApiKeyForUserError = DaytonaOpError;
@@ -196,6 +213,8 @@ export const deleteApiKeyForUser: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiKeyForUser",
 }));
 
 export type GetApiKeyError = DaytonaOpError;
@@ -211,6 +230,8 @@ export const getApiKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApiKey",
 }));
 
 export type GetCurrentApiKeyError = DaytonaOpError;
@@ -226,6 +247,8 @@ export const getCurrentApiKey: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentApiKey",
 }));
 
 export type ListApiKeysError = DaytonaOpError;
@@ -241,6 +264,8 @@ export const listApiKeys: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApiKeys",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

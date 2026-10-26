@@ -34,3 +34,8 @@ packages/.audit-*/
 
 # Declaration output of packages/*/tsconfig.test.json (type-check only).
 .test-types/
+
+# Converted Smithy models. `generate` keeps them in memory; `pnpm convert`
+# writes them here only for you to read (patch authoring, patches:audit).
+packages/*/.generated-specs/
+packages/railway/.generated-graphql/

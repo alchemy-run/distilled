@@ -1,4 +1,4 @@
-import { mockHttpClient } from "@distilled.cloud/core/testing";
+import { mockHttpClient } from "@distilled.cloud/dev/testing";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";

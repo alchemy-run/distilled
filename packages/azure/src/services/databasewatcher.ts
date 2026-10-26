@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DatabaseWatcher" },
+  prefix: "Databasewatcher",
+  service: "Databasewatcher",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The properties with which the alert rule resource was created. */
 export type AlertRuleCreationProperties = "CreatedWithActionGroup" | "None";
 /** The generic properties of the alert rule proxy resource. */
@@ -926,6 +946,8 @@ export const AlertRuleResourcesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AlertRuleResourcesCreateOrUpdate",
 }));
 
 export type CreateSharedPrivateLinkResourceError = AzureOpError;
@@ -941,6 +963,8 @@ export const CreateSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSharedPrivateLinkResource",
 }));
 
 export type DeleteAlertRuleResourceError = AzureOpError;
@@ -956,6 +980,8 @@ export const DeleteAlertRuleResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlertRuleResource",
 }));
 
 export type DeleteSharedPrivateLinkResourceError = AzureOpError;
@@ -971,6 +997,8 @@ export const DeleteSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSharedPrivateLinkResource",
 }));
 
 export type DeleteTargetError = AzureOpError;
@@ -986,6 +1014,8 @@ export const DeleteTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTarget",
 }));
 
 export type DeleteWatcherError = AzureOpError;
@@ -1001,6 +1031,8 @@ export const DeleteWatcher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWatcher",
 }));
 
 export type GetAlertRuleResourceError = AzureOpError;
@@ -1016,6 +1048,8 @@ export const GetAlertRuleResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlertRuleResource",
 }));
 
 export type GetHealthValidationError = AzureOpError;
@@ -1031,6 +1065,8 @@ export const GetHealthValidation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealthValidation",
 }));
 
 export type GetSharedPrivateLinkResourceError = AzureOpError;
@@ -1046,6 +1082,8 @@ export const GetSharedPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSharedPrivateLinkResource",
 }));
 
 export type GetTargetError = AzureOpError;
@@ -1061,6 +1099,8 @@ export const GetTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTarget",
 }));
 
 export type GetWatcherError = AzureOpError;
@@ -1076,6 +1116,8 @@ export const GetWatcher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWatcher",
 }));
 
 export type ListAlertRuleResourceByParentError = AzureOpError;
@@ -1091,6 +1133,8 @@ export const ListAlertRuleResourceByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertRuleResourceByParent",
 }));
 
 export type ListHealthValidationByParentError = AzureOpError;
@@ -1106,6 +1150,8 @@ export const ListHealthValidationByParent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHealthValidationByParent",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1121,6 +1167,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSharedPrivateLinkResourceByWatcherError = AzureOpError;
@@ -1136,6 +1184,8 @@ export const ListSharedPrivateLinkResourceByWatcher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharedPrivateLinkResourceByWatcher",
 }));
 
 export type ListTargetByWatcherError = AzureOpError;
@@ -1151,6 +1201,8 @@ export const ListTargetByWatcher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTargetByWatcher",
 }));
 
 export type ListWatcherByResourceGroupError = AzureOpError;
@@ -1166,6 +1218,8 @@ export const ListWatcherByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatcherByResourceGroup",
 }));
 
 export type ListWatcherBySubscriptionError = AzureOpError;
@@ -1181,6 +1235,8 @@ export const ListWatcherBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatcherBySubscription",
 }));
 
 export type StartHealthValidationValidationError = AzureOpError;
@@ -1196,6 +1252,8 @@ export const StartHealthValidationValidation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartHealthValidationValidation",
 }));
 
 export type StartWatcherError = AzureOpError;
@@ -1211,6 +1269,8 @@ export const StartWatcher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartWatcher",
 }));
 
 export type StopWatcherError = AzureOpError;
@@ -1226,6 +1286,8 @@ export const StopWatcher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopWatcher",
 }));
 
 export type TargetsCreateOrUpdateError = AzureOpError;
@@ -1241,6 +1303,8 @@ export const TargetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TargetsCreateOrUpdate",
 }));
 
 export type UpdateWatcherError = AzureOpError;
@@ -1256,6 +1320,8 @@ export const UpdateWatcher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWatcher",
 }));
 
 export type WatchersCreateOrUpdateError = AzureOpError;
@@ -1271,6 +1337,8 @@ export const WatchersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchersCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

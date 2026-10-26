@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -169,6 +170,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Budgets",
+  service: "Budgets",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -845,6 +861,8 @@ export const createBudget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBudget",
+  telemetry: TELEMETRY,
+  span: "CreateBudget",
 }));
 
 export type CreateBudgetActionError =
@@ -881,6 +899,8 @@ export const createBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBudgetAction",
+  telemetry: TELEMETRY,
+  span: "CreateBudgetAction",
 }));
 
 export type CreateNotificationError =
@@ -915,6 +935,8 @@ export const createNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotification",
+  telemetry: TELEMETRY,
+  span: "CreateNotification",
 }));
 
 export type CreateSubscriberError =
@@ -949,6 +971,8 @@ export const createSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriber",
+  telemetry: TELEMETRY,
+  span: "CreateSubscriber",
 }));
 
 export type DeleteBudgetError =
@@ -981,6 +1005,8 @@ export const deleteBudget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBudget",
+  telemetry: TELEMETRY,
+  span: "DeleteBudget",
 }));
 
 export type DeleteBudgetActionError =
@@ -1013,6 +1039,8 @@ export const deleteBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBudgetAction",
+  telemetry: TELEMETRY,
+  span: "DeleteBudgetAction",
 }));
 
 export type DeleteNotificationError =
@@ -1045,6 +1073,8 @@ export const deleteNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotification",
+  telemetry: TELEMETRY,
+  span: "DeleteNotification",
 }));
 
 export type DeleteSubscriberError =
@@ -1077,6 +1107,8 @@ export const deleteSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriber",
+  telemetry: TELEMETRY,
+  span: "DeleteSubscriber",
 }));
 
 export type DescribeBudgetError =
@@ -1110,6 +1142,8 @@ export const describeBudget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBudget",
+  telemetry: TELEMETRY,
+  span: "DescribeBudget",
 }));
 
 export type DescribeBudgetActionError =
@@ -1140,6 +1174,8 @@ export const describeBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBudgetAction",
+  telemetry: TELEMETRY,
+  span: "DescribeBudgetAction",
 }));
 
 export type DescribeBudgetActionHistoriesError =
@@ -1179,6 +1215,8 @@ export const describeBudgetActionHistories: API.PaginatedOperationMethod<
     items: "ActionHistories",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBudgetActionHistories",
 })) as any;
 
 export type DescribeBudgetActionsForAccountError =
@@ -1216,6 +1254,8 @@ export const describeBudgetActionsForAccount: API.PaginatedOperationMethod<
     items: "Actions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBudgetActionsForAccount",
 })) as any;
 
 export type DescribeBudgetActionsForBudgetError =
@@ -1255,6 +1295,8 @@ export const describeBudgetActionsForBudget: API.PaginatedOperationMethod<
     items: "Actions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBudgetActionsForBudget",
 })) as any;
 
 export type DescribeBudgetNotificationsForAccountError =
@@ -1296,6 +1338,8 @@ export const describeBudgetNotificationsForAccount: API.PaginatedOperationMethod
     items: "BudgetNotificationsForAccount",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBudgetNotificationsForAccount",
 })) as any;
 
 export type DescribeBudgetPerformanceHistoryError =
@@ -1338,6 +1382,8 @@ export const describeBudgetPerformanceHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBudgetPerformanceHistory",
 })) as any;
 
 export type DescribeBudgetsError =
@@ -1382,6 +1428,8 @@ export const describeBudgets: API.PaginatedOperationMethod<
     items: "Budgets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBudgets",
 })) as any;
 
 export type DescribeNotificationsForBudgetError =
@@ -1423,6 +1471,8 @@ export const describeNotificationsForBudget: API.PaginatedOperationMethod<
     items: "Notifications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeNotificationsForBudget",
 })) as any;
 
 export type DescribeSubscribersForNotificationError =
@@ -1464,6 +1514,8 @@ export const describeSubscribersForNotification: API.PaginatedOperationMethod<
     items: "Subscribers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSubscribersForNotification",
 })) as any;
 
 export type ExecuteBudgetActionError =
@@ -1496,6 +1548,8 @@ export const executeBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteBudgetAction",
+  telemetry: TELEMETRY,
+  span: "ExecuteBudgetAction",
 }));
 
 export type ListTagsForResourceError =
@@ -1526,6 +1580,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1558,6 +1614,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1588,6 +1646,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBudgetError =
@@ -1634,6 +1694,8 @@ export const updateBudget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBudget",
+  telemetry: TELEMETRY,
+  span: "UpdateBudget",
 }));
 
 export type UpdateBudgetActionError =
@@ -1666,6 +1728,8 @@ export const updateBudgetAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBudgetAction",
+  telemetry: TELEMETRY,
+  span: "UpdateBudgetAction",
 }));
 
 export type UpdateNotificationError =
@@ -1698,6 +1762,8 @@ export const updateNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotification",
+  telemetry: TELEMETRY,
+  span: "UpdateNotification",
 }));
 
 export type UpdateSubscriberError =
@@ -1730,6 +1796,8 @@ export const updateSubscriber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriber",
+  telemetry: TELEMETRY,
+  span: "UpdateSubscriber",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

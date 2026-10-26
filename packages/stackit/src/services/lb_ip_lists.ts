@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { StackitOpError, StackitOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "stackit-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "STACKIT",
+  service: "LbIpLists",
+  labels: "stackit",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -141,6 +154,8 @@ export const deleteIPList: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIPList",
 }));
 
 export type GetIPListError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -156,6 +171,8 @@ export const getIPList: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIPList",
 }));
 
 export type GetQuotaError = BadRequest | Forbidden | StackitOpError;
@@ -171,6 +188,8 @@ export const getQuota: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuota",
 }));
 
 export type ListIPListsError = BadRequest | Forbidden | StackitOpError;
@@ -186,6 +205,8 @@ export const listIPLists: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIPLists",
 }));
 
 export type UploadIPListError = BadRequest | Forbidden | UnprocessableEntity | StackitOpError;
@@ -201,6 +222,8 @@ export const uploadIPList: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadIPList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

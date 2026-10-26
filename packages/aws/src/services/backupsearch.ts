@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BackupSearch",
+  service: "BackupSearch",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -387,6 +402,8 @@ export const getSearchJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchJob",
+  telemetry: TELEMETRY,
+  span: "GetSearchJob",
 }));
 
 export type GetSearchResultExportJobError = ResourceNotFoundException | CommonErrors;
@@ -409,6 +426,8 @@ export const getSearchResultExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchResultExportJob",
+  telemetry: TELEMETRY,
+  span: "GetSearchResultExportJob",
 }));
 
 export type ListSearchJobBackupsError = ResourceNotFoundException | CommonErrors;
@@ -438,6 +457,8 @@ export const listSearchJobBackups: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSearchJobBackups",
 })) as any;
 
 export type ListSearchJobResultsError = ResourceNotFoundException | CommonErrors;
@@ -463,6 +484,8 @@ export const listSearchJobResults: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSearchJobResults",
 })) as any;
 
 export type ListSearchJobsError = CommonErrors;
@@ -488,6 +511,8 @@ export const listSearchJobs: API.PaginatedOperationMethod<
     items: "SearchJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSearchJobs",
 })) as any;
 
 export type ListSearchResultExportJobsError =
@@ -516,6 +541,8 @@ export const listSearchResultExportJobs: API.PaginatedOperationMethod<
     items: "ExportJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSearchResultExportJobs",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -534,6 +561,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartSearchJobError =
@@ -558,6 +587,8 @@ export const startSearchJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchJob",
+  telemetry: TELEMETRY,
+  span: "StartSearchJob",
 }));
 
 export type StartSearchResultExportJobError =
@@ -580,6 +611,8 @@ export const startSearchResultExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSearchResultExportJob",
+  telemetry: TELEMETRY,
+  span: "StartSearchResultExportJob",
 }));
 
 export type StopSearchJobError = ConflictException | ResourceNotFoundException | CommonErrors;
@@ -600,6 +633,8 @@ export const stopSearchJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSearchJob",
+  telemetry: TELEMETRY,
+  span: "StopSearchJob",
 }));
 
 export type TagResourceError = ResourceNotFoundException | CommonErrors;
@@ -618,6 +653,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -636,6 +673,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

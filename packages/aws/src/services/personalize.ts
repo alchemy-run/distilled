@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://personalize.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Personalize",
+  service: "Personalize",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
@@ -1361,6 +1377,8 @@ export const createBatchInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchInferenceJob",
+  telemetry: TELEMETRY,
+  span: "CreateBatchInferenceJob",
 }));
 
 export type CreateBatchSegmentJobError =
@@ -1395,6 +1413,8 @@ export const createBatchSegmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchSegmentJob",
+  telemetry: TELEMETRY,
+  span: "CreateBatchSegmentJob",
 }));
 
 export type CreateCampaignError =
@@ -1481,6 +1501,8 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  telemetry: TELEMETRY,
+  span: "CreateCampaign",
 }));
 
 export type CreateDataDeletionJobError =
@@ -1547,6 +1569,8 @@ export const createDataDeletionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataDeletionJob",
+  telemetry: TELEMETRY,
+  span: "CreateDataDeletionJob",
 }));
 
 export type CreateDatasetError =
@@ -1616,6 +1640,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDatasetExportJobError =
@@ -1664,6 +1690,8 @@ export const createDatasetExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetExportJob",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetExportJob",
 }));
 
 export type CreateDatasetGroupError =
@@ -1746,6 +1774,8 @@ export const createDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetGroup",
 }));
 
 export type CreateDatasetImportJobError =
@@ -1815,6 +1845,8 @@ export const createDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetImportJob",
 }));
 
 export type CreateEventTrackerError =
@@ -1876,6 +1908,8 @@ export const createEventTracker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventTracker",
+  telemetry: TELEMETRY,
+  span: "CreateEventTracker",
 }));
 
 export type CreateFilterError =
@@ -1906,6 +1940,8 @@ export const createFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFilter",
+  telemetry: TELEMETRY,
+  span: "CreateFilter",
 }));
 
 export type CreateMetricAttributionError =
@@ -1938,6 +1974,8 @@ export const createMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMetricAttribution",
+  telemetry: TELEMETRY,
+  span: "CreateMetricAttribution",
 }));
 
 export type CreateRecommenderError =
@@ -2023,6 +2061,8 @@ export const createRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommender",
+  telemetry: TELEMETRY,
+  span: "CreateRecommender",
 }));
 
 export type CreateSchemaError =
@@ -2059,6 +2099,8 @@ export const createSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
+  telemetry: TELEMETRY,
+  span: "CreateSchema",
 }));
 
 export type CreateSolutionError =
@@ -2147,6 +2189,8 @@ export const createSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolution",
+  telemetry: TELEMETRY,
+  span: "CreateSolution",
 }));
 
 export type CreateSolutionVersionError =
@@ -2218,6 +2262,8 @@ export const createSolutionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolutionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateSolutionVersion",
 }));
 
 export type DeleteCampaignError =
@@ -2245,6 +2291,8 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaign",
 }));
 
 export type DeleteDatasetError =
@@ -2270,6 +2318,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteDatasetGroupError =
@@ -2299,6 +2349,8 @@ export const deleteDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetGroup",
 }));
 
 export type DeleteEventTrackerError =
@@ -2323,6 +2375,8 @@ export const deleteEventTracker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventTracker",
+  telemetry: TELEMETRY,
+  span: "DeleteEventTracker",
 }));
 
 export type DeleteFilterError =
@@ -2345,6 +2399,8 @@ export const deleteFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteFilter",
 }));
 
 export type DeleteMetricAttributionError =
@@ -2367,6 +2423,8 @@ export const deleteMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricAttribution",
+  telemetry: TELEMETRY,
+  span: "DeleteMetricAttribution",
 }));
 
 export type DeleteRecommenderError =
@@ -2390,6 +2448,8 @@ export const deleteRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommender",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommender",
 }));
 
 export type DeleteSchemaError =
@@ -2414,6 +2474,8 @@ export const deleteSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
+  telemetry: TELEMETRY,
+  span: "DeleteSchema",
 }));
 
 export type DeleteSolutionError =
@@ -2442,6 +2504,8 @@ export const deleteSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolution",
+  telemetry: TELEMETRY,
+  span: "DeleteSolution",
 }));
 
 export type DescribeAlgorithmError =
@@ -2463,6 +2527,8 @@ export const describeAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlgorithm",
+  telemetry: TELEMETRY,
+  span: "DescribeAlgorithm",
 }));
 
 export type DescribeBatchInferenceJobError =
@@ -2486,6 +2552,8 @@ export const describeBatchInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchInferenceJob",
+  telemetry: TELEMETRY,
+  span: "DescribeBatchInferenceJob",
 }));
 
 export type DescribeBatchSegmentJobError =
@@ -2509,6 +2577,8 @@ export const describeBatchSegmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchSegmentJob",
+  telemetry: TELEMETRY,
+  span: "DescribeBatchSegmentJob",
 }));
 
 export type DescribeCampaignError =
@@ -2541,6 +2611,8 @@ export const describeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCampaign",
+  telemetry: TELEMETRY,
+  span: "DescribeCampaign",
 }));
 
 export type DescribeDataDeletionJobError =
@@ -2562,6 +2634,8 @@ export const describeDataDeletionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataDeletionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDataDeletionJob",
 }));
 
 export type DescribeDatasetError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2581,6 +2655,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeDatasetExportJobError =
@@ -2602,6 +2678,8 @@ export const describeDatasetExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetExportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetExportJob",
 }));
 
 export type DescribeDatasetGroupError =
@@ -2624,6 +2702,8 @@ export const describeDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetGroup",
 }));
 
 export type DescribeDatasetImportJobError =
@@ -2645,6 +2725,8 @@ export const describeDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetImportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetImportJob",
 }));
 
 export type DescribeEventTrackerError =
@@ -2668,6 +2750,8 @@ export const describeEventTracker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventTracker",
+  telemetry: TELEMETRY,
+  span: "DescribeEventTracker",
 }));
 
 export type DescribeFeatureTransformationError =
@@ -2689,6 +2773,8 @@ export const describeFeatureTransformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeatureTransformation",
+  telemetry: TELEMETRY,
+  span: "DescribeFeatureTransformation",
 }));
 
 export type DescribeFilterError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2707,6 +2793,8 @@ export const describeFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFilter",
+  telemetry: TELEMETRY,
+  span: "DescribeFilter",
 }));
 
 export type DescribeMetricAttributionError =
@@ -2728,6 +2816,8 @@ export const describeMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricAttribution",
+  telemetry: TELEMETRY,
+  span: "DescribeMetricAttribution",
 }));
 
 export type DescribeRecipeError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2761,6 +2851,8 @@ export const describeRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecipe",
+  telemetry: TELEMETRY,
+  span: "DescribeRecipe",
 }));
 
 export type DescribeRecommenderError =
@@ -2798,6 +2890,8 @@ export const describeRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecommender",
+  telemetry: TELEMETRY,
+  span: "DescribeRecommender",
 }));
 
 export type DescribeSchemaError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2817,6 +2911,8 @@ export const describeSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchema",
+  telemetry: TELEMETRY,
+  span: "DescribeSchema",
 }));
 
 export type DescribeSolutionError =
@@ -2839,6 +2935,8 @@ export const describeSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSolution",
+  telemetry: TELEMETRY,
+  span: "DescribeSolution",
 }));
 
 export type DescribeSolutionVersionError =
@@ -2860,6 +2958,8 @@ export const describeSolutionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSolutionVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeSolutionVersion",
 }));
 
 export type GetSolutionMetricsError =
@@ -2882,6 +2982,8 @@ export const getSolutionMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolutionMetrics",
+  telemetry: TELEMETRY,
+  span: "GetSolutionMetrics",
 }));
 
 export type ListBatchInferenceJobsError =
@@ -2911,6 +3013,8 @@ export const listBatchInferenceJobs: API.PaginatedOperationMethod<
     items: "batchInferenceJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchInferenceJobs",
 })) as any;
 
 export type ListBatchSegmentJobsError =
@@ -2940,6 +3044,8 @@ export const listBatchSegmentJobs: API.PaginatedOperationMethod<
     items: "batchSegmentJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchSegmentJobs",
 })) as any;
 
 export type ListCampaignsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -2968,6 +3074,8 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaigns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCampaigns",
 })) as any;
 
 export type ListDataDeletionJobsError =
@@ -2995,6 +3103,8 @@ export const listDataDeletionJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataDeletionJobs",
+  telemetry: TELEMETRY,
+  span: "ListDataDeletionJobs",
 }));
 
 export type ListDatasetExportJobsError =
@@ -3028,6 +3138,8 @@ export const listDatasetExportJobs: API.PaginatedOperationMethod<
     items: "datasetExportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetExportJobs",
 })) as any;
 
 export type ListDatasetGroupsError = InvalidNextTokenException | CommonErrors;
@@ -3055,6 +3167,8 @@ export const listDatasetGroups: API.PaginatedOperationMethod<
     items: "datasetGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetGroups",
 })) as any;
 
 export type ListDatasetImportJobsError =
@@ -3088,6 +3202,8 @@ export const listDatasetImportJobs: API.PaginatedOperationMethod<
     items: "datasetImportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetImportJobs",
 })) as any;
 
 export type ListDatasetsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3115,6 +3231,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListEventTrackersError =
@@ -3146,6 +3264,8 @@ export const listEventTrackers: API.PaginatedOperationMethod<
     items: "eventTrackers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventTrackers",
 })) as any;
 
 export type ListFiltersError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3171,6 +3291,8 @@ export const listFilters: API.PaginatedOperationMethod<
     items: "Filters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFilters",
 })) as any;
 
 export type ListMetricAttributionMetricsError =
@@ -3199,6 +3321,8 @@ export const listMetricAttributionMetrics: API.PaginatedOperationMethod<
     items: "metrics",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetricAttributionMetrics",
 })) as any;
 
 export type ListMetricAttributionsError =
@@ -3227,6 +3351,8 @@ export const listMetricAttributions: API.PaginatedOperationMethod<
     items: "metricAttributions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMetricAttributions",
 })) as any;
 
 export type ListRecipesError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3253,6 +3379,8 @@ export const listRecipes: API.PaginatedOperationMethod<
     items: "recipes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecipes",
 })) as any;
 
 export type ListRecommendersError =
@@ -3284,6 +3412,8 @@ export const listRecommenders: API.PaginatedOperationMethod<
     items: "recommenders",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenders",
 })) as any;
 
 export type ListSchemasError = InvalidNextTokenException | CommonErrors;
@@ -3311,6 +3441,8 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "schemas",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchemas",
 })) as any;
 
 export type ListSolutionsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3339,6 +3471,8 @@ export const listSolutions: API.PaginatedOperationMethod<
     items: "solutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolutions",
 })) as any;
 
 export type ListSolutionVersionsError =
@@ -3370,6 +3504,8 @@ export const listSolutionVersions: API.PaginatedOperationMethod<
     items: "solutionVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSolutionVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3392,6 +3528,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartRecommenderError =
@@ -3415,6 +3553,8 @@ export const startRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommender",
+  telemetry: TELEMETRY,
+  span: "StartRecommender",
 }));
 
 export type StopRecommenderError =
@@ -3437,6 +3577,8 @@ export const stopRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRecommender",
+  telemetry: TELEMETRY,
+  span: "StopRecommender",
 }));
 
 export type StopSolutionVersionCreationError =
@@ -3470,6 +3612,8 @@ export const stopSolutionVersionCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSolutionVersionCreation",
+  telemetry: TELEMETRY,
+  span: "StopSolutionVersionCreation",
 }));
 
 export type TagResourceError =
@@ -3500,6 +3644,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3528,6 +3674,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCampaignError =
@@ -3567,6 +3715,8 @@ export const updateCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaign",
 }));
 
 export type UpdateDatasetError =
@@ -3589,6 +3739,8 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateMetricAttributionError =
@@ -3617,6 +3769,8 @@ export const updateMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMetricAttribution",
+  telemetry: TELEMETRY,
+  span: "UpdateMetricAttribution",
 }));
 
 export type UpdateRecommenderError =
@@ -3645,6 +3799,8 @@ export const updateRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommender",
+  telemetry: TELEMETRY,
+  span: "UpdateRecommender",
 }));
 
 export type UpdateSolutionError =
@@ -3685,6 +3841,8 @@ export const updateSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSolution",
+  telemetry: TELEMETRY,
+  span: "UpdateSolution",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

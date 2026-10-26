@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
+  prefix: "Authorization",
+  service: "Authorization",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The principal type of the assigned principal ID. */
 export type RoleAssignmentPropertiesInputPrincipalType =
   | "User"
@@ -643,6 +663,14 @@ export const CreateRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateRoleAssignment",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+    },
+  },
 }));
 
 export type CreateRoleAssignmentByIdError = AzureOpError;
@@ -658,6 +686,14 @@ export const CreateRoleAssignmentById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateRoleAssignmentById",
+    attributes: {
+      "url.template": "/{roleAssignmentId}",
+      "azure.resource_provider.namespace": null,
+    },
+  },
 }));
 
 export type DeleteRoleAssignmentError = AzureOpError;
@@ -673,6 +709,14 @@ export const DeleteRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteRoleAssignment",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+    },
+  },
 }));
 
 export type DeleteRoleAssignmentByIdError = AzureOpError;
@@ -688,6 +732,14 @@ export const DeleteRoleAssignmentById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteRoleAssignmentById",
+    attributes: {
+      "url.template": "/{roleAssignmentId}",
+      "azure.resource_provider.namespace": null,
+    },
+  },
 }));
 
 export type DeleteRoleDefinitionError = AzureOpError;
@@ -703,6 +755,14 @@ export const DeleteRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteRoleDefinition",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+    },
+  },
 }));
 
 export type GetDenyAssignmentError = AzureOpError;
@@ -718,6 +778,14 @@ export const GetDenyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDenyAssignment",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId}",
+    },
+  },
 }));
 
 export type GetDenyAssignmentByIdError = AzureOpError;
@@ -733,6 +801,14 @@ export const GetDenyAssignmentById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDenyAssignmentById",
+    attributes: {
+      "url.template": "/{denyAssignmentId}",
+      "azure.resource_provider.namespace": null,
+    },
+  },
 }));
 
 export type GetProviderOperationsMetadataError = AzureOpError;
@@ -748,6 +824,8 @@ export const GetProviderOperationsMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProviderOperationsMetadata",
 }));
 
 export type GetRoleAssignmentError = AzureOpError;
@@ -763,6 +841,14 @@ export const GetRoleAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRoleAssignment",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+    },
+  },
 }));
 
 export type GetRoleAssignmentByIdError = AzureOpError;
@@ -778,6 +864,14 @@ export const GetRoleAssignmentById: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRoleAssignmentById",
+    attributes: {
+      "url.template": "/{roleAssignmentId}",
+      "azure.resource_provider.namespace": null,
+    },
+  },
 }));
 
 export type GetRoleDefinitionError = AzureOpError;
@@ -793,6 +887,14 @@ export const GetRoleDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRoleDefinition",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+    },
+  },
 }));
 
 export type ListDenyAssignmentForResourceError = AzureOpError;
@@ -808,6 +910,8 @@ export const ListDenyAssignmentForResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDenyAssignmentForResource",
 }));
 
 export type ListDenyAssignmentForResourceGroupError = AzureOpError;
@@ -823,6 +927,8 @@ export const ListDenyAssignmentForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDenyAssignmentForResourceGroup",
 }));
 
 export type ListDenyAssignmentForScopeError = AzureOpError;
@@ -838,6 +944,11 @@ export const ListDenyAssignmentForScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDenyAssignmentForScope",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Authorization/denyAssignments" },
+  },
 }));
 
 export type ListDenyAssignmentsError = AzureOpError;
@@ -853,6 +964,8 @@ export const ListDenyAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDenyAssignments",
 }));
 
 export type ListPermissionsForResourceError = AzureOpError;
@@ -868,6 +981,8 @@ export const ListPermissionsForResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPermissionsForResource",
 }));
 
 export type ListPermissionsForResourceGroupError = AzureOpError;
@@ -883,6 +998,8 @@ export const ListPermissionsForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPermissionsForResourceGroup",
 }));
 
 export type ListProviderOperationsMetadataError = AzureOpError;
@@ -898,6 +1015,8 @@ export const ListProviderOperationsMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProviderOperationsMetadata",
 }));
 
 export type ListRoleAssignmentForResourceError = AzureOpError;
@@ -913,6 +1032,8 @@ export const ListRoleAssignmentForResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoleAssignmentForResource",
 }));
 
 export type ListRoleAssignmentForResourceGroupError = AzureOpError;
@@ -928,6 +1049,8 @@ export const ListRoleAssignmentForResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoleAssignmentForResourceGroup",
 }));
 
 export type ListRoleAssignmentForScopeError = AzureOpError;
@@ -943,6 +1066,11 @@ export const ListRoleAssignmentForScope: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListRoleAssignmentForScope",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Authorization/roleAssignments" },
+  },
 }));
 
 export type ListRoleAssignmentForSubscriptionError = AzureOpError;
@@ -958,6 +1086,8 @@ export const ListRoleAssignmentForSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoleAssignmentForSubscription",
 }));
 
 export type ListRoleDefinitionsError = AzureOpError;
@@ -973,6 +1103,11 @@ export const ListRoleDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListRoleDefinitions",
+    attributes: { "url.template": "/{scope}/providers/Microsoft.Authorization/roleDefinitions" },
+  },
 }));
 
 export type RoleDefinitionsCreateOrUpdateError = AzureOpError;
@@ -988,6 +1123,14 @@ export const RoleDefinitionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RoleDefinitionsCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

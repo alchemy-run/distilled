@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Community" },
+  prefix: "Communitytraining",
+  service: "Communitytraining",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type CreateCommunityTrainingRequestTagsMap = { [key: string]: string | undefined };
 /** Details of the Community CommunityTraining Identity Configuration */
@@ -352,6 +372,8 @@ export const CreateCommunityTraining: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCommunityTraining",
 }));
 
 export type DeleteCommunityTrainingError = AzureOpError;
@@ -367,6 +389,8 @@ export const DeleteCommunityTraining: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCommunityTraining",
 }));
 
 export type GetCommunityTrainingError = AzureOpError;
@@ -382,6 +406,8 @@ export const GetCommunityTraining: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCommunityTraining",
 }));
 
 export type ListCommunityTrainingByResourceGroupError = AzureOpError;
@@ -397,6 +423,8 @@ export const ListCommunityTrainingByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunityTrainingByResourceGroup",
 }));
 
 export type ListCommunityTrainingBySubscriptionError = AzureOpError;
@@ -412,6 +440,8 @@ export const ListCommunityTrainingBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCommunityTrainingBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -427,6 +457,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateCommunityTrainingError = AzureOpError;
@@ -442,6 +474,8 @@ export const UpdateCommunityTraining: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCommunityTraining",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

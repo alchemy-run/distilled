@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AzureSphere" },
+  prefix: "Sphere",
+  service: "Sphere",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CatalogsCountDevicesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1365,6 +1385,8 @@ export const CatalogsCountDevices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatalogsCountDevices",
 }));
 
 export type CatalogsCreateOrUpdateError = AzureOpError;
@@ -1380,6 +1402,8 @@ export const CatalogsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CatalogsCreateOrUpdate",
 }));
 
 export type ClaimDeviceGroupDevicesError = AzureOpError;
@@ -1395,6 +1419,8 @@ export const ClaimDeviceGroupDevices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimDeviceGroupDevices",
 }));
 
 export type DeleteCatalogError = AzureOpError;
@@ -1410,6 +1436,8 @@ export const DeleteCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCatalog",
 }));
 
 export type DeleteDeploymentError = AzureOpError;
@@ -1425,6 +1453,8 @@ export const DeleteDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DeleteDeviceError = AzureOpError;
@@ -1440,6 +1470,8 @@ export const DeleteDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevice",
 }));
 
 export type DeleteDeviceGroupError = AzureOpError;
@@ -1455,6 +1487,8 @@ export const DeleteDeviceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeviceGroup",
 }));
 
 export type DeleteImageError = AzureOpError;
@@ -1470,6 +1504,8 @@ export const DeleteImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImage",
 }));
 
 export type DeleteProductError = AzureOpError;
@@ -1485,6 +1521,8 @@ export const DeleteProduct: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProduct",
 }));
 
 export type DeploymentsCreateOrUpdateError = AzureOpError;
@@ -1500,6 +1538,8 @@ export const DeploymentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeploymentsCreateOrUpdate",
 }));
 
 export type DeviceGroupsCountDevicesError = AzureOpError;
@@ -1515,6 +1555,8 @@ export const DeviceGroupsCountDevices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeviceGroupsCountDevices",
 }));
 
 export type DeviceGroupsCreateOrUpdateError = AzureOpError;
@@ -1530,6 +1572,8 @@ export const DeviceGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeviceGroupsCreateOrUpdate",
 }));
 
 export type DevicesCreateOrUpdateError = AzureOpError;
@@ -1545,6 +1589,8 @@ export const DevicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DevicesCreateOrUpdate",
 }));
 
 export type GenerateDeviceCapabilityImageError = AzureOpError;
@@ -1560,6 +1606,8 @@ export const GenerateDeviceCapabilityImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateDeviceCapabilityImage",
 }));
 
 export type GenerateProductDefaultDeviceGroupsError = AzureOpError;
@@ -1575,6 +1623,8 @@ export const GenerateProductDefaultDeviceGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateProductDefaultDeviceGroups",
 }));
 
 export type GetCatalogError = AzureOpError;
@@ -1590,6 +1640,8 @@ export const GetCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCatalog",
 }));
 
 export type GetCertificateError = AzureOpError;
@@ -1605,6 +1657,8 @@ export const GetCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificate",
 }));
 
 export type GetCertificateCertChainError = AzureOpError;
@@ -1620,6 +1674,8 @@ export const GetCertificateCertChain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateCertChain",
 }));
 
 export type GetCertificateProofOfPossessionNonceError = AzureOpError;
@@ -1635,6 +1691,8 @@ export const GetCertificateProofOfPossessionNonce: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificateProofOfPossessionNonce",
 }));
 
 export type GetDeploymentError = AzureOpError;
@@ -1650,6 +1708,8 @@ export const GetDeployment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeviceError = AzureOpError;
@@ -1665,6 +1725,8 @@ export const GetDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevice",
 }));
 
 export type GetDeviceGroupError = AzureOpError;
@@ -1680,6 +1742,8 @@ export const GetDeviceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeviceGroup",
 }));
 
 export type GetImageError = AzureOpError;
@@ -1695,6 +1759,8 @@ export const GetImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImage",
 }));
 
 export type GetProductError = AzureOpError;
@@ -1710,6 +1776,8 @@ export const GetProduct: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProduct",
 }));
 
 export type ImagesCreateOrUpdateError = AzureOpError;
@@ -1725,6 +1793,8 @@ export const ImagesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImagesCreateOrUpdate",
 }));
 
 export type ListCatalogByResourceGroupError = AzureOpError;
@@ -1740,6 +1810,8 @@ export const ListCatalogByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCatalogByResourceGroup",
 }));
 
 export type ListCatalogBySubscriptionError = AzureOpError;
@@ -1755,6 +1827,8 @@ export const ListCatalogBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCatalogBySubscription",
 }));
 
 export type ListCatalogDeploymentsError = AzureOpError;
@@ -1770,6 +1844,8 @@ export const ListCatalogDeployments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCatalogDeployments",
 }));
 
 export type ListCatalogDeviceGroupsError = AzureOpError;
@@ -1785,6 +1861,8 @@ export const ListCatalogDeviceGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCatalogDeviceGroups",
 }));
 
 export type ListCatalogDeviceInsightsError = AzureOpError;
@@ -1800,6 +1878,8 @@ export const ListCatalogDeviceInsights: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCatalogDeviceInsights",
 }));
 
 export type ListCatalogDevicesError = AzureOpError;
@@ -1815,6 +1895,8 @@ export const ListCatalogDevices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCatalogDevices",
 }));
 
 export type ListCertificateByCatalogError = AzureOpError;
@@ -1830,6 +1912,8 @@ export const ListCertificateByCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateByCatalog",
 }));
 
 export type ListDeploymentByDeviceGroupError = AzureOpError;
@@ -1845,6 +1929,8 @@ export const ListDeploymentByDeviceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentByDeviceGroup",
 }));
 
 export type ListDeviceByDeviceGroupError = AzureOpError;
@@ -1860,6 +1946,8 @@ export const ListDeviceByDeviceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeviceByDeviceGroup",
 }));
 
 export type ListDeviceGroupByProductError = AzureOpError;
@@ -1875,6 +1963,8 @@ export const ListDeviceGroupByProduct: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeviceGroupByProduct",
 }));
 
 export type ListImageByCatalogError = AzureOpError;
@@ -1890,6 +1980,8 @@ export const ListImageByCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImageByCatalog",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1905,6 +1997,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProductByCatalogError = AzureOpError;
@@ -1920,6 +2014,8 @@ export const ListProductByCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductByCatalog",
 }));
 
 export type ProductsCountDevicesError = AzureOpError;
@@ -1935,6 +2031,8 @@ export const ProductsCountDevices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductsCountDevices",
 }));
 
 export type ProductsCreateOrUpdateError = AzureOpError;
@@ -1950,6 +2048,8 @@ export const ProductsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProductsCreateOrUpdate",
 }));
 
 export type UpdateCatalogError = AzureOpError;
@@ -1965,6 +2065,8 @@ export const UpdateCatalog: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCatalog",
 }));
 
 export type UpdateDeviceError = AzureOpError;
@@ -1980,6 +2082,8 @@ export const UpdateDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDevice",
 }));
 
 export type UpdateDeviceGroupError = AzureOpError;
@@ -1995,6 +2099,8 @@ export const UpdateDeviceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDeviceGroup",
 }));
 
 export type UpdateProductError = AzureOpError;
@@ -2010,6 +2116,8 @@ export const UpdateProduct: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProduct",
 }));
 
 export type UploadCatalogImageError = AzureOpError;
@@ -2025,6 +2133,8 @@ export const UploadCatalogImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadCatalogImage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

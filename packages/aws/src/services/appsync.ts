@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -74,6 +75,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://appsync.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppSync",
+  service: "AppSync",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1351,6 +1366,8 @@ export const associateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApi",
+  telemetry: TELEMETRY,
+  span: "AssociateApi",
 }));
 
 export type AssociateMergedGraphqlApiError =
@@ -1384,6 +1401,8 @@ export const associateMergedGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMergedGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "AssociateMergedGraphqlApi",
 }));
 
 export type AssociateSourceGraphqlApiError =
@@ -1417,6 +1436,8 @@ export const associateSourceGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "AssociateSourceGraphqlApi",
 }));
 
 export type CreateApiError =
@@ -1449,6 +1470,8 @@ export const createApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApi",
+  telemetry: TELEMETRY,
+  span: "CreateApi",
 }));
 
 export type CreateApiCacheError =
@@ -1479,6 +1502,8 @@ export const createApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiCache",
+  telemetry: TELEMETRY,
+  span: "CreateApiCache",
 }));
 
 export type CreateApiKeyError =
@@ -1513,6 +1538,8 @@ export const createApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKey",
+  telemetry: TELEMETRY,
+  span: "CreateApiKey",
 }));
 
 export type CreateChannelNamespaceError =
@@ -1547,6 +1574,8 @@ export const createChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelNamespace",
+  telemetry: TELEMETRY,
+  span: "CreateChannelNamespace",
 }));
 
 export type CreateDataSourceError =
@@ -1577,6 +1606,8 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
+  telemetry: TELEMETRY,
+  span: "CreateDataSource",
 }));
 
 export type CreateDomainNameError =
@@ -1599,6 +1630,8 @@ export const createDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainName",
+  telemetry: TELEMETRY,
+  span: "CreateDomainName",
 }));
 
 export type CreateFunctionError =
@@ -1632,6 +1665,8 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
+  telemetry: TELEMETRY,
+  span: "CreateFunction",
 }));
 
 export type CreateGraphqlApiError =
@@ -1664,6 +1699,8 @@ export const createGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "CreateGraphqlApi",
 }));
 
 export type CreateResolverError =
@@ -1697,6 +1734,8 @@ export const createResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolver",
+  telemetry: TELEMETRY,
+  span: "CreateResolver",
 }));
 
 export type CreateTypeError =
@@ -1727,6 +1766,8 @@ export const createType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateType",
+  telemetry: TELEMETRY,
+  span: "CreateType",
 }));
 
 export type DeleteApiError =
@@ -1759,6 +1800,8 @@ export const deleteApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApi",
+  telemetry: TELEMETRY,
+  span: "DeleteApi",
 }));
 
 export type DeleteApiCacheError =
@@ -1789,6 +1832,8 @@ export const deleteApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiCache",
+  telemetry: TELEMETRY,
+  span: "DeleteApiCache",
 }));
 
 export type DeleteApiKeyError =
@@ -1812,6 +1857,8 @@ export const deleteApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKey",
+  telemetry: TELEMETRY,
+  span: "DeleteApiKey",
 }));
 
 export type DeleteChannelNamespaceError =
@@ -1844,6 +1891,8 @@ export const deleteChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelNamespace",
+  telemetry: TELEMETRY,
+  span: "DeleteChannelNamespace",
 }));
 
 export type DeleteDataSourceError =
@@ -1874,6 +1923,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteDomainNameError =
@@ -1904,6 +1955,8 @@ export const deleteDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainName",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainName",
 }));
 
 export type DeleteFunctionError =
@@ -1934,6 +1987,8 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
+  telemetry: TELEMETRY,
+  span: "DeleteFunction",
 }));
 
 export type DeleteGraphqlApiError =
@@ -1966,6 +2021,8 @@ export const deleteGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "DeleteGraphqlApi",
 }));
 
 export type DeleteResolverError =
@@ -1996,6 +2053,8 @@ export const deleteResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolver",
+  telemetry: TELEMETRY,
+  span: "DeleteResolver",
 }));
 
 export type DeleteTypeError =
@@ -2026,6 +2085,8 @@ export const deleteType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteType",
+  telemetry: TELEMETRY,
+  span: "DeleteType",
 }));
 
 export type DisassociateApiError =
@@ -2056,6 +2117,8 @@ export const disassociateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApi",
+  telemetry: TELEMETRY,
+  span: "DisassociateApi",
 }));
 
 export type DisassociateMergedGraphqlApiError =
@@ -2087,6 +2150,8 @@ export const disassociateMergedGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMergedGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "DisassociateMergedGraphqlApi",
 }));
 
 export type DisassociateSourceGraphqlApiError =
@@ -2118,6 +2183,8 @@ export const disassociateSourceGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "DisassociateSourceGraphqlApi",
 }));
 
 export type EvaluateCodeError =
@@ -2145,6 +2212,8 @@ export const evaluateCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateCode",
+  telemetry: TELEMETRY,
+  span: "EvaluateCode",
 }));
 
 export type EvaluateMappingTemplateError =
@@ -2175,6 +2244,8 @@ export const evaluateMappingTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateMappingTemplate",
+  telemetry: TELEMETRY,
+  span: "EvaluateMappingTemplate",
 }));
 
 export type FlushApiCacheError =
@@ -2205,6 +2276,8 @@ export const flushApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushApiCache",
+  telemetry: TELEMETRY,
+  span: "FlushApiCache",
 }));
 
 export type GetApiError =
@@ -2235,6 +2308,8 @@ export const getApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApi",
+  telemetry: TELEMETRY,
+  span: "GetApi",
 }));
 
 export type GetApiAssociationError =
@@ -2258,6 +2333,8 @@ export const getApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiAssociation",
+  telemetry: TELEMETRY,
+  span: "GetApiAssociation",
 }));
 
 export type GetApiCacheError =
@@ -2288,6 +2365,8 @@ export const getApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiCache",
+  telemetry: TELEMETRY,
+  span: "GetApiCache",
 }));
 
 export type GetChannelNamespaceError =
@@ -2318,6 +2397,8 @@ export const getChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelNamespace",
+  telemetry: TELEMETRY,
+  span: "GetChannelNamespace",
 }));
 
 export type GetDataSourceError =
@@ -2348,6 +2429,8 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetDataSourceIntrospectionError =
@@ -2372,6 +2455,8 @@ export const getDataSourceIntrospection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSourceIntrospection",
+  telemetry: TELEMETRY,
+  span: "GetDataSourceIntrospection",
 }));
 
 export type GetDomainNameError =
@@ -2395,6 +2480,8 @@ export const getDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainName",
+  telemetry: TELEMETRY,
+  span: "GetDomainName",
 }));
 
 export type GetFunctionError =
@@ -2417,6 +2504,8 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
+  telemetry: TELEMETRY,
+  span: "GetFunction",
 }));
 
 export type GetGraphqlApiError =
@@ -2447,6 +2536,8 @@ export const getGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "GetGraphqlApi",
 }));
 
 export type GetGraphqlApiEnvironmentVariablesError =
@@ -2478,6 +2569,8 @@ export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphqlApiEnvironmentVariables",
+  telemetry: TELEMETRY,
+  span: "GetGraphqlApiEnvironmentVariables",
 }));
 
 export type GetIntrospectionSchemaError =
@@ -2506,6 +2599,8 @@ export const getIntrospectionSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntrospectionSchema",
+  telemetry: TELEMETRY,
+  span: "GetIntrospectionSchema",
 }));
 
 export type GetResolverError =
@@ -2528,6 +2623,8 @@ export const getResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolver",
+  telemetry: TELEMETRY,
+  span: "GetResolver",
 }));
 
 export type GetSchemaCreationStatusError =
@@ -2551,6 +2648,8 @@ export const getSchemaCreationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaCreationStatus",
+  telemetry: TELEMETRY,
+  span: "GetSchemaCreationStatus",
 }));
 
 export type GetSourceApiAssociationError =
@@ -2574,6 +2673,8 @@ export const getSourceApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceApiAssociation",
+  telemetry: TELEMETRY,
+  span: "GetSourceApiAssociation",
 }));
 
 export type GetTypeError =
@@ -2604,6 +2705,8 @@ export const getType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetType",
+  telemetry: TELEMETRY,
+  span: "GetType",
 }));
 
 export type ListApiKeysError =
@@ -2639,6 +2742,8 @@ export const listApiKeys: API.PaginatedOperationMethod<
     items: "apiKeys",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApiKeys",
 })) as any;
 
 export type ListApisError =
@@ -2671,6 +2776,8 @@ export const listApis: API.PaginatedOperationMethod<
     items: "apis",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApis",
 })) as any;
 
 export type ListChannelNamespacesError =
@@ -2704,6 +2811,8 @@ export const listChannelNamespaces: API.PaginatedOperationMethod<
     items: "channelNamespaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannelNamespaces",
 })) as any;
 
 export type ListDataSourcesError =
@@ -2734,6 +2843,8 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "dataSources",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSources",
 })) as any;
 
 export type ListDomainNamesError =
@@ -2763,6 +2874,8 @@ export const listDomainNames: API.PaginatedOperationMethod<
     items: "domainNameConfigs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainNames",
 })) as any;
 
 export type ListFunctionsError =
@@ -2793,6 +2906,8 @@ export const listFunctions: API.PaginatedOperationMethod<
     items: "functions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFunctions",
 })) as any;
 
 export type ListGraphqlApisError =
@@ -2822,6 +2937,8 @@ export const listGraphqlApis: API.PaginatedOperationMethod<
     items: "graphqlApis",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGraphqlApis",
 })) as any;
 
 export type ListResolversError =
@@ -2852,6 +2969,8 @@ export const listResolvers: API.PaginatedOperationMethod<
     items: "resolvers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolvers",
 })) as any;
 
 export type ListResolversByFunctionError =
@@ -2882,6 +3001,8 @@ export const listResolversByFunction: API.PaginatedOperationMethod<
     items: "resolvers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResolversByFunction",
 })) as any;
 
 export type ListSourceApiAssociationsError =
@@ -2912,6 +3033,8 @@ export const listSourceApiAssociations: API.PaginatedOperationMethod<
     items: "sourceApiAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSourceApiAssociations",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2944,6 +3067,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTypesError =
@@ -2981,6 +3106,8 @@ export const listTypes: API.PaginatedOperationMethod<
     items: "types",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypes",
 })) as any;
 
 export type ListTypesByAssociationError =
@@ -3018,6 +3145,8 @@ export const listTypesByAssociation: API.PaginatedOperationMethod<
     items: "types",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTypesByAssociation",
 })) as any;
 
 export type PutGraphqlApiEnvironmentVariablesError =
@@ -3086,6 +3215,8 @@ export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGraphqlApiEnvironmentVariables",
+  telemetry: TELEMETRY,
+  span: "PutGraphqlApiEnvironmentVariables",
 }));
 
 export type StartDataSourceIntrospectionError =
@@ -3110,6 +3241,8 @@ export const startDataSourceIntrospection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceIntrospection",
+  telemetry: TELEMETRY,
+  span: "StartDataSourceIntrospection",
 }));
 
 export type StartSchemaCreationError =
@@ -3143,6 +3276,8 @@ export const startSchemaCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaCreation",
+  telemetry: TELEMETRY,
+  span: "StartSchemaCreation",
 }));
 
 export type StartSchemaMergeError =
@@ -3174,6 +3309,8 @@ export const startSchemaMerge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaMerge",
+  telemetry: TELEMETRY,
+  span: "StartSchemaMerge",
 }));
 
 export type TagResourceError =
@@ -3206,6 +3343,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3238,6 +3377,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApiError =
@@ -3270,6 +3411,8 @@ export const updateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApi",
+  telemetry: TELEMETRY,
+  span: "UpdateApi",
 }));
 
 export type UpdateApiCacheError =
@@ -3300,6 +3443,8 @@ export const updateApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiCache",
+  telemetry: TELEMETRY,
+  span: "UpdateApiCache",
 }));
 
 export type UpdateApiKeyError =
@@ -3332,6 +3477,8 @@ export const updateApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKey",
+  telemetry: TELEMETRY,
+  span: "UpdateApiKey",
 }));
 
 export type UpdateChannelNamespaceError =
@@ -3364,6 +3511,8 @@ export const updateChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelNamespace",
+  telemetry: TELEMETRY,
+  span: "UpdateChannelNamespace",
 }));
 
 export type UpdateDataSourceError =
@@ -3394,6 +3543,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateDomainNameError =
@@ -3424,6 +3575,8 @@ export const updateDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainName",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainName",
 }));
 
 export type UpdateFunctionError =
@@ -3454,6 +3607,8 @@ export const updateFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunction",
+  telemetry: TELEMETRY,
+  span: "UpdateFunction",
 }));
 
 export type UpdateGraphqlApiError =
@@ -3486,6 +3641,8 @@ export const updateGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGraphqlApi",
+  telemetry: TELEMETRY,
+  span: "UpdateGraphqlApi",
 }));
 
 export type UpdateResolverError =
@@ -3516,6 +3673,8 @@ export const updateResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolver",
+  telemetry: TELEMETRY,
+  span: "UpdateResolver",
 }));
 
 export type UpdateSourceApiAssociationError =
@@ -3546,6 +3705,8 @@ export const updateSourceApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceApiAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateSourceApiAssociation",
 }));
 
 export type UpdateTypeError =
@@ -3576,6 +3737,8 @@ export const updateType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateType",
+  telemetry: TELEMETRY,
+  span: "UpdateType",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

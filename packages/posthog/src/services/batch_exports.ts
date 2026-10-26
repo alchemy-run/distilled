@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "BatchExports",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1829,6 +1842,8 @@ export const batchExportsBackfillsCancelCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchExportsBackfillsCancelCreate",
 }));
 
 export type BatchExportsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -1843,6 +1858,8 @@ export const batchExportsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchExportsDestroy",
 }));
 
 export type BatchExportsRunsCancelCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1858,6 +1875,8 @@ export const batchExportsRunsCancelCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchExportsRunsCancelCreate",
 }));
 
 export type BatchExportsRunsRetryCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1873,6 +1892,8 @@ export const batchExportsRunsRetryCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchExportsRunsRetryCreate",
 }));
 
 export type BatchExportsUnpauseCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1888,6 +1909,8 @@ export const batchExportsUnpauseCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchExportsUnpauseCreate",
 }));
 
 export type CreateBatchExportError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1902,6 +1925,8 @@ export const createBatchExport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBatchExport",
 }));
 
 export type CreateBatchExportsBackfillError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1917,6 +1942,8 @@ export const createBatchExportsBackfill: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBatchExportsBackfill",
 }));
 
 export type CreateBatchExportsPauseError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1932,6 +1959,8 @@ export const createBatchExportsPause: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBatchExportsPause",
 }));
 
 export type CreateBatchExportsRunTestStepError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -1946,6 +1975,8 @@ export const createBatchExportsRunTestStep: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBatchExportsRunTestStep",
 }));
 
 export type CreateBatchExportsRunTestStepNewError =
@@ -1964,6 +1995,8 @@ export const createBatchExportsRunTestStepNew: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBatchExportsRunTestStepNew",
 }));
 
 export type FileDownloadBatchExportsCancelCreateError = PosthogOpError;
@@ -1979,6 +2012,8 @@ export const fileDownloadBatchExportsCancelCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileDownloadBatchExportsCancelCreate",
 }));
 
 export type FileDownloadBatchExportsCountRowsCreateError = BadRequest | Forbidden | PosthogOpError;
@@ -1994,6 +2029,8 @@ export const fileDownloadBatchExportsCountRowsCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileDownloadBatchExportsCountRowsCreate",
 }));
 
 export type FileDownloadBatchExportsCreateError = PosthogOpError;
@@ -2009,6 +2046,8 @@ export const fileDownloadBatchExportsCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileDownloadBatchExportsCreate",
 }));
 
 export type FileDownloadBatchExportsDownloadRetrieveError = PosthogOpError;
@@ -2024,6 +2063,8 @@ export const fileDownloadBatchExportsDownloadRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileDownloadBatchExportsDownloadRetrieve",
 }));
 
 export type FileDownloadBatchExportsListError = PosthogOpError;
@@ -2038,6 +2079,8 @@ export const fileDownloadBatchExportsList: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileDownloadBatchExportsList",
 }));
 
 export type FileDownloadBatchExportsLogsRetrieveError = PosthogOpError;
@@ -2052,6 +2095,8 @@ export const fileDownloadBatchExportsLogsRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileDownloadBatchExportsLogsRetrieve",
 }));
 
 export type FileDownloadBatchExportsRetrieveError = PosthogOpError;
@@ -2067,6 +2112,8 @@ export const fileDownloadBatchExportsRetrieve: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FileDownloadBatchExportsRetrieve",
 }));
 
 export type GetBatchExportError = Forbidden | NotFound | PosthogOpError;
@@ -2081,6 +2128,8 @@ export const getBatchExport: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchExport",
 }));
 
 export type GetBatchExportsBackfillError = Forbidden | NotFound | PosthogOpError;
@@ -2096,6 +2145,8 @@ export const getBatchExportsBackfill: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchExportsBackfill",
 }));
 
 export type GetBatchExportsLogError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2110,6 +2161,8 @@ export const getBatchExportsLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchExportsLog",
 }));
 
 export type GetBatchExportsRunError = Forbidden | NotFound | PosthogOpError;
@@ -2124,6 +2177,8 @@ export const getBatchExportsRun: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchExportsRun",
 }));
 
 export type GetBatchExportsRunsLogError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2138,6 +2193,8 @@ export const getBatchExportsRunsLog: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchExportsRunsLog",
 }));
 
 export type GetBatchExportsTestError = Forbidden | NotFound | PosthogOpError;
@@ -2152,6 +2209,8 @@ export const getBatchExportsTest: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchExportsTest",
 }));
 
 export type ListBatchExportsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2166,6 +2225,8 @@ export const listBatchExports: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchExports",
 }));
 
 export type ListBatchExportsBackfillsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2181,6 +2242,8 @@ export const listBatchExportsBackfills: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchExportsBackfills",
 }));
 
 export type ListBatchExportsRunsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2195,6 +2258,8 @@ export const listBatchExportsRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchExportsRuns",
 }));
 
 export type UpdateBatchExportError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2209,6 +2274,8 @@ export const updateBatchExport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBatchExport",
 }));
 
 export type UpdateBatchExportsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2223,6 +2290,8 @@ export const updateBatchExportsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBatchExportsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

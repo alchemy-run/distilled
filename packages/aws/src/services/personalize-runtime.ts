@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://personalize-runtime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PersonalizeRuntime",
+  service: "PersonalizeRuntime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
@@ -201,6 +216,8 @@ export const getActionRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActionRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetActionRecommendations",
 }));
 
 export type GetPersonalizedRankingError =
@@ -226,6 +243,8 @@ export const getPersonalizedRanking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPersonalizedRanking",
+  telemetry: TELEMETRY,
+  span: "GetPersonalizedRanking",
 }));
 
 export type GetRecommendationsError =
@@ -258,6 +277,8 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetRecommendations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

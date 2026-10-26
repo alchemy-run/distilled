@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "workstations" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Workstations",
+  service: "workstations",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -928,6 +947,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelProjectsLocationsOperations",
 }));
 
 export type CreateProjectsLocationsWorkstationClustersError =
@@ -948,6 +969,8 @@ export const createProjectsLocationsWorkstationClusters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsWorkstationClusters",
 }));
 
 export type CreateProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -972,6 +995,8 @@ export const createProjectsLocationsWorkstationClustersWorkstationConfigs: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsWorkstationClustersWorkstationConfigs",
 }));
 
 export type CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -996,6 +1021,8 @@ export const createProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -1016,6 +1043,8 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsOperations",
 }));
 
 export type DeleteProjectsLocationsWorkstationClustersError =
@@ -1036,6 +1065,8 @@ export const deleteProjectsLocationsWorkstationClusters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsWorkstationClusters",
 }));
 
 export type DeleteProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -1060,6 +1091,8 @@ export const deleteProjectsLocationsWorkstationClustersWorkstationConfigs: API.O
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsWorkstationClustersWorkstationConfigs",
 }));
 
 export type DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1084,6 +1117,8 @@ export const deleteProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1108,6 +1143,8 @@ export const generateAccessTokenProjectsLocationsWorkstationClustersWorkstationC
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -1130,6 +1167,8 @@ export const getIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigs:
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigs",
 }));
 
 export type GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1152,6 +1191,8 @@ export const getIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsW
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1167,6 +1208,8 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocations",
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1182,6 +1225,8 @@ export const getProjectsLocationsOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsOperations",
 }));
 
 export type GetProjectsLocationsWorkstationClustersError = NotFound | Forbidden | GcpOpError;
@@ -1197,6 +1242,8 @@ export const getProjectsLocationsWorkstationClusters: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsWorkstationClusters",
 }));
 
 export type GetProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -1219,6 +1266,8 @@ export const getProjectsLocationsWorkstationClustersWorkstationConfigs: API.Oper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsWorkstationClustersWorkstationConfigs",
 }));
 
 export type GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1241,6 +1290,8 @@ export const getProjectsLocationsWorkstationClustersWorkstationConfigsWorkstatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1257,6 +1308,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1274,6 +1327,8 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1291,6 +1346,8 @@ export const listProjectsLocationsWorkstationClusters: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsWorkstationClusters",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1315,6 +1372,8 @@ export const listProjectsLocationsWorkstationClustersWorkstationConfigs: API.Pag
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsWorkstationClustersWorkstationConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1339,6 +1398,8 @@ export const listProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1363,6 +1424,8 @@ export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigs: A
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsableProjectsLocationsWorkstationClustersWorkstationConfigs",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1387,6 +1450,8 @@ export const listUsableProjectsLocationsWorkstationClustersWorkstationConfigsWor
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsableProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1408,6 +1473,8 @@ export const patchProjectsLocationsWorkstationClusters: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsWorkstationClusters",
 }));
 
 export type PatchProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -1432,6 +1499,8 @@ export const patchProjectsLocationsWorkstationClustersWorkstationConfigs: API.Op
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsWorkstationClustersWorkstationConfigs",
 }));
 
 export type PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1456,6 +1525,8 @@ export const patchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -1480,6 +1551,8 @@ export const setIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigs:
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigs",
 }));
 
 export type SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1504,6 +1577,8 @@ export const setIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsW
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1528,6 +1603,8 @@ export const startProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1552,6 +1629,8 @@ export const stopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1576,6 +1655,8 @@ export const suspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkst
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 export type TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -1600,6 +1681,8 @@ export const testIamPermissionsProjectsLocationsWorkstationClustersWorkstationCo
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigs",
 }));
 
 export type TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1624,6 +1707,8 @@ export const testIamPermissionsProjectsLocationsWorkstationClustersWorkstationCo
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "MountService",
+  propagate: "w3c",
+} as const;
+
 export type StringList = Array<string>;
 export interface MountBatchedCheckExistenceRequest {
   sha256HexHashes?: StringList;
@@ -74,6 +86,8 @@ export const mountBatchedCheckExistence: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MountBatchedCheckExistence",
 }));
 
 export type MountGetOrCreateError = ModalOpError;
@@ -88,6 +102,8 @@ export const mountGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MountGetOrCreate",
 }));
 
 export type MountPutFileError = ModalOpError;
@@ -102,6 +118,8 @@ export const mountPutFile: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MountPutFile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

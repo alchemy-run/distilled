@@ -573,6 +573,51 @@ describe("makeRestProtocol success decoding", () => {
   });
 });
 
+describe("makeRestProtocol body read failures", () => {
+  // A body that errors mid-read, like a connection reset after the headers.
+  const brokenBody = (status: number) =>
+    new Response(
+      new ReadableStream({
+        start: (controller) => controller.error(new Error("socket reset")),
+      }),
+      { status, headers: { "content-type": "application/json" } },
+    );
+
+  test.each([200, 500])("a %i body read failure fails with HttpClientError", async (status) => {
+    const error = await failOn(() => brokenBody(status));
+    expect(error._tag).toBe("HttpClientError");
+    expect(error.reason._tag).toBe("DecodeError");
+  });
+
+  test("a BinaryResponse body read failure fails with HttpClientError", async () => {
+    const binaryOp = API.make(() => ({
+      input: ThingInput,
+      output: S.Unknown.pipe(BinaryResponse()),
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+    const error = await failOn(() => brokenBody(200), binaryOp);
+    expect(error._tag).toBe("HttpClientError");
+    expect(error.reason._tag).toBe("DecodeError");
+  });
+});
+
+describe("makeRestProtocol label refusals", () => {
+  test("a `..` label fails with InvalidInput and sends nothing", async () => {
+    let sent = 0;
+    const error = await failWith(
+      createThingWithErrors({ id: ".." }),
+      fakeClient(() => {
+        sent++;
+        return json({});
+      }),
+      creds(),
+    );
+    expect(error._tag).toBe("InvalidInput");
+    expect(error.member).toBe("id");
+    expect(sent).toBe(0);
+  });
+});
+
 // =============================================================================
 // Error responses
 // =============================================================================

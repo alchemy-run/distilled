@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { CustomerioOpError, CustomerioOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "customerio-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "CustomerIo",
+  service: "Customerio",
+  labels: "customerio",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -17213,6 +17226,8 @@ export const addCollection: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddCollection",
 }));
 
 export type BroadcastActionLinksError = BadRequest | NotFound | CustomerioOpError;
@@ -17228,6 +17243,8 @@ export const broadcastActionLinks: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BroadcastActionLinks",
 }));
 
 export type BroadcastActionMetricsError = BadRequest | NotFound | CustomerioOpError;
@@ -17243,6 +17260,8 @@ export const broadcastActionMetrics: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BroadcastActionMetrics",
 }));
 
 export type BroadcastActionsError = BadRequest | NotFound | CustomerioOpError;
@@ -17258,6 +17277,8 @@ export const broadcastActions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BroadcastActions",
 }));
 
 export type BroadcastErrorsError = BadRequest | NotFound | CustomerioOpError;
@@ -17273,6 +17294,8 @@ export const broadcastErrors: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BroadcastErrors",
 }));
 
 export type BroadcastLinksError = BadRequest | NotFound | CustomerioOpError;
@@ -17288,6 +17311,8 @@ export const broadcastLinks: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BroadcastLinks",
 }));
 
 export type BroadcastMessagesError = BadRequest | NotFound | CustomerioOpError;
@@ -17303,6 +17328,8 @@ export const broadcastMessages: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BroadcastMessages",
 }));
 
 export type BroadcastMetricsError = BadRequest | NotFound | CustomerioOpError;
@@ -17318,6 +17345,8 @@ export const broadcastMetrics: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BroadcastMetrics",
 }));
 
 export type BroadcastStatusError = BadRequest | NotFound | CustomerioOpError;
@@ -17333,6 +17362,8 @@ export const broadcastStatus: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BroadcastStatus",
 }));
 
 export type CampaignActionLinksError = BadRequest | NotFound | CustomerioOpError;
@@ -17348,6 +17379,8 @@ export const campaignActionLinks: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CampaignActionLinks",
 }));
 
 export type CampaignActionMetricsError = BadRequest | NotFound | CustomerioOpError;
@@ -17363,6 +17396,8 @@ export const campaignActionMetrics: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CampaignActionMetrics",
 }));
 
 export type CampaignJourneyMetricsError = BadRequest | NotFound | CustomerioOpError;
@@ -17378,6 +17413,8 @@ export const campaignJourneyMetrics: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CampaignJourneyMetrics",
 }));
 
 export type CampaignLinkMetricsError = BadRequest | NotFound | CustomerioOpError;
@@ -17393,6 +17430,8 @@ export const campaignLinkMetrics: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CampaignLinkMetrics",
 }));
 
 export type CampaignMetricsError = BadRequest | NotFound | CustomerioOpError;
@@ -17408,6 +17447,8 @@ export const campaignMetrics: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CampaignMetrics",
 }));
 
 export type CancelBroadcastTriggerError = BadRequest | NotFound | Conflict | CustomerioOpError;
@@ -17423,6 +17464,8 @@ export const cancelBroadcastTrigger: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelBroadcastTrigger",
 }));
 
 export type CheckUnpublishedChangesError = BadRequest | NotFound | CustomerioOpError;
@@ -17438,6 +17481,8 @@ export const checkUnpublishedChanges: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckUnpublishedChanges",
 }));
 
 export type CreateAssetError = BadRequest | NotFound | Conflict | CustomerioOpError;
@@ -17453,6 +17498,8 @@ export const createAsset: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAsset",
 }));
 
 export type CreateAssetFolderError = BadRequest | NotFound | Conflict | CustomerioOpError;
@@ -17468,6 +17515,8 @@ export const createAssetFolder: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAssetFolder",
 }));
 
 export type CreateComponentError = BadRequest | NotFound | Conflict | CustomerioOpError;
@@ -17483,6 +17532,8 @@ export const createComponent: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateComponent",
 }));
 
 export type CreateEmailError = BadRequest | NotFound | CustomerioOpError;
@@ -17498,6 +17549,8 @@ export const createEmail: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmail",
 }));
 
 export type CreateEmailTranslationError = BadRequest | NotFound | Conflict | CustomerioOpError;
@@ -17513,6 +17566,8 @@ export const createEmailTranslation: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailTranslation",
 }));
 
 export type CreateFolderError = BadRequest | NotFound | CustomerioOpError;
@@ -17528,6 +17583,8 @@ export const createFolder: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFolder",
 }));
 
 export type CreateManSegmentError = BadRequest | CustomerioOpError;
@@ -17543,6 +17600,8 @@ export const createManSegment: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManSegment",
 }));
 
 export type CreateNewsletterError = BadRequest | UnprocessableEntity | CustomerioOpError;
@@ -17558,6 +17617,8 @@ export const createNewsletter: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNewsletter",
 }));
 
 export type CreateNewsletterLanguageVariantError =
@@ -17577,6 +17638,8 @@ export const createNewsletterLanguageVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNewsletterLanguageVariant",
 }));
 
 export type CreateNewsletterTestGroupError = BadRequest | NotFound | CustomerioOpError;
@@ -17592,6 +17655,8 @@ export const createNewsletterTestGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNewsletterTestGroup",
 }));
 
 export type CreateNewsletterTestLanguageVariantError =
@@ -17611,6 +17676,8 @@ export const createNewsletterTestLanguageVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNewsletterTestLanguageVariant",
 }));
 
 export type CreateSnippetError = UnprocessableEntity | CustomerioOpError;
@@ -17626,6 +17693,8 @@ export const createSnippet: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSnippet",
 }));
 
 export type CreateWebhookError = BadRequest | CustomerioOpError;
@@ -17641,6 +17710,8 @@ export const createWebhook: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteAssetError = BadRequest | NotFound | CustomerioOpError;
@@ -17656,6 +17727,8 @@ export const deleteAsset: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAsset",
 }));
 
 export type DeleteAssetFolderError = BadRequest | NotFound | CustomerioOpError;
@@ -17671,6 +17744,8 @@ export const deleteAssetFolder: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAssetFolder",
 }));
 
 export type DeleteCollectionError = NotFound | CustomerioOpError;
@@ -17686,6 +17761,8 @@ export const deleteCollection: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteComponentError = NotFound | CustomerioOpError;
@@ -17701,6 +17778,8 @@ export const deleteComponent: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteComponent",
 }));
 
 export type DeleteEmailError = NotFound | Conflict | CustomerioOpError;
@@ -17716,6 +17795,8 @@ export const deleteEmail: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmail",
 }));
 
 export type DeleteEmailTranslationError = NotFound | Conflict | CustomerioOpError;
@@ -17731,6 +17812,8 @@ export const deleteEmailTranslation: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEmailTranslation",
 }));
 
 export type DeleteFolderError = NotFound | Conflict | CustomerioOpError;
@@ -17746,6 +17829,8 @@ export const deleteFolder: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFolder",
 }));
 
 export type DeleteManSegmentError = NotFound | UnprocessableEntity | CustomerioOpError;
@@ -17761,6 +17846,8 @@ export const deleteManSegment: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManSegment",
 }));
 
 export type DeleteNewsletterLanguageVariantError = BadRequest | NotFound | CustomerioOpError;
@@ -17776,6 +17863,8 @@ export const deleteNewsletterLanguageVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNewsletterLanguageVariant",
 }));
 
 export type DeleteNewslettersError = NotFound | CustomerioOpError;
@@ -17791,6 +17880,8 @@ export const deleteNewsletters: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNewsletters",
 }));
 
 export type DeleteNewsletterTestLanguageVariantError = BadRequest | NotFound | CustomerioOpError;
@@ -17806,6 +17897,8 @@ export const deleteNewsletterTestLanguageVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNewsletterTestLanguageVariant",
 }));
 
 export type DeleteSnippetError = BadRequest | NotFound | CustomerioOpError;
@@ -17821,6 +17914,8 @@ export const deleteSnippet: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSnippet",
 }));
 
 export type DeleteSuppressionError = CustomerioOpError;
@@ -17836,6 +17931,8 @@ export const deleteSuppression: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSuppression",
 }));
 
 export type DeleteVersionError = NotFound | Conflict | CustomerioOpError;
@@ -17851,6 +17948,8 @@ export const deleteVersion: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVersion",
 }));
 
 export type DeleteWebhookError = NotFound | CustomerioOpError;
@@ -17866,6 +17965,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DownloadExportError = NotFound | CustomerioOpError;
@@ -17881,6 +17982,8 @@ export const downloadExport: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadExport",
 }));
 
 export type EndLiveNotificationError = BadRequest | NotFound | CustomerioOpError;
@@ -17896,6 +17999,8 @@ export const endLiveNotification: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndLiveNotification",
 }));
 
 export type ExportDeliveriesDataError = BadRequest | CustomerioOpError;
@@ -17911,6 +18016,8 @@ export const exportDeliveriesData: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportDeliveriesData",
 }));
 
 export type ExportPeopleDataError = BadRequest | CustomerioOpError;
@@ -17926,6 +18033,8 @@ export const exportPeopleData: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportPeopleData",
 }));
 
 export type GetArchivedMessageError = NotFound | CustomerioOpError;
@@ -17941,6 +18050,8 @@ export const getArchivedMessage: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArchivedMessage",
 }));
 
 export type GetAssetError = BadRequest | NotFound | CustomerioOpError;
@@ -17956,6 +18067,8 @@ export const getAsset: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAsset",
 }));
 
 export type GetAssetFolderError = BadRequest | NotFound | CustomerioOpError;
@@ -17971,6 +18084,8 @@ export const getAssetFolder: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssetFolder",
 }));
 
 export type GetBroadcastError = BadRequest | NotFound | CustomerioOpError;
@@ -17986,6 +18101,8 @@ export const getBroadcast: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBroadcast",
 }));
 
 export type GetBroadcastActionError = BadRequest | NotFound | CustomerioOpError;
@@ -18001,6 +18118,8 @@ export const getBroadcastAction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBroadcastAction",
 }));
 
 export type GetBroadcastActionLanguageError = BadRequest | NotFound | CustomerioOpError;
@@ -18016,6 +18135,8 @@ export const getBroadcastActionLanguage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBroadcastActionLanguage",
 }));
 
 export type GetCampaignActionError = BadRequest | NotFound | CustomerioOpError;
@@ -18031,6 +18152,8 @@ export const getCampaignAction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCampaignAction",
 }));
 
 export type GetCampaignActionTranslationError = BadRequest | NotFound | CustomerioOpError;
@@ -18046,6 +18169,8 @@ export const getCampaignActionTranslation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCampaignActionTranslation",
 }));
 
 export type GetCampaignMessagesError = BadRequest | NotFound | CustomerioOpError;
@@ -18061,6 +18186,8 @@ export const getCampaignMessages: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCampaignMessages",
 }));
 
 export type GetCampaignsError = BadRequest | NotFound | CustomerioOpError;
@@ -18076,6 +18203,8 @@ export const getCampaigns: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCampaigns",
 }));
 
 export type GetChannelsError = CustomerioOpError;
@@ -18091,6 +18220,8 @@ export const getChannels: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChannels",
 }));
 
 export type GetCioAllowlistError = CustomerioOpError;
@@ -18106,6 +18237,8 @@ export const getCioAllowlist: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCioAllowlist",
 }));
 
 export type GetCollectionError = NotFound | CustomerioOpError;
@@ -18121,6 +18254,8 @@ export const getCollection: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollection",
 }));
 
 export type GetCollectionContentsError = NotFound | CustomerioOpError;
@@ -18136,6 +18271,8 @@ export const getCollectionContents: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollectionContents",
 }));
 
 export type GetCollectionsError = CustomerioOpError;
@@ -18151,6 +18288,8 @@ export const getCollections: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCollections",
 }));
 
 export type GetComponentError = NotFound | CustomerioOpError;
@@ -18166,6 +18305,8 @@ export const getComponent: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetComponent",
 }));
 
 export type GetDomainSuppressionsByTypeError = CustomerioOpError;
@@ -18181,6 +18322,8 @@ export const getDomainSuppressionsByType: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainSuppressionsByType",
 }));
 
 export type GetEmailError = NotFound | CustomerioOpError;
@@ -18196,6 +18339,8 @@ export const getEmail: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmail",
 }));
 
 export type GetEmailTranslationError = NotFound | CustomerioOpError;
@@ -18211,6 +18356,8 @@ export const getEmailTranslation: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailTranslation",
 }));
 
 export type GetExportError = NotFound | CustomerioOpError;
@@ -18226,6 +18373,8 @@ export const getExport: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExport",
 }));
 
 export type GetFolderError = NotFound | CustomerioOpError;
@@ -18241,6 +18390,8 @@ export const getFolder: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFolder",
 }));
 
 export type GetImportError = CustomerioOpError;
@@ -18256,6 +18407,8 @@ export const getImport: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImport",
 }));
 
 export type GetInboxPreviewCaptureError = BadRequest | NotFound | CustomerioOpError;
@@ -18271,6 +18424,8 @@ export const getInboxPreviewCapture: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInboxPreviewCapture",
 }));
 
 export type GetInboxPreviewCreditsError = NotFound | CustomerioOpError;
@@ -18286,6 +18441,8 @@ export const getInboxPreviewCredits: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInboxPreviewCredits",
 }));
 
 export type GetInboxPreviewJobError = NotFound | CustomerioOpError;
@@ -18301,6 +18458,8 @@ export const getInboxPreviewJob: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInboxPreviewJob",
 }));
 
 export type GetLiveNotificationError = BadRequest | NotFound | CustomerioOpError;
@@ -18316,6 +18475,8 @@ export const getLiveNotification: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLiveNotification",
 }));
 
 export type GetMessageError = NotFound | CustomerioOpError;
@@ -18331,6 +18492,8 @@ export const getMessage: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMessage",
 }));
 
 export type GetNewsletterLinksError = NotFound | CustomerioOpError;
@@ -18346,6 +18509,8 @@ export const getNewsletterLinks: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsletterLinks",
 }));
 
 export type GetNewsletterMetricsError = NotFound | CustomerioOpError;
@@ -18361,6 +18526,8 @@ export const getNewsletterMetrics: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsletterMetrics",
 }));
 
 export type GetNewsletterMsgMetaError = NotFound | CustomerioOpError;
@@ -18376,6 +18543,8 @@ export const getNewsletterMsgMeta: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsletterMsgMeta",
 }));
 
 export type GetNewslettersError = NotFound | CustomerioOpError;
@@ -18391,6 +18560,8 @@ export const getNewsletters: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsletters",
 }));
 
 export type GetNewsletterTestGroupsError = NotFound | CustomerioOpError;
@@ -18406,6 +18577,8 @@ export const getNewsletterTestGroups: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsletterTestGroups",
 }));
 
 export type GetNewsletterVariantError = NotFound | CustomerioOpError;
@@ -18421,6 +18594,8 @@ export const getNewsletterVariant: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsletterVariant",
 }));
 
 export type GetNewsletterVariantTranslationError = BadRequest | NotFound | CustomerioOpError;
@@ -18436,6 +18611,8 @@ export const getNewsletterVariantTranslation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsletterVariantTranslation",
 }));
 
 export type GetNewsletterVariantTranslationTestError = BadRequest | NotFound | CustomerioOpError;
@@ -18451,6 +18628,8 @@ export const getNewsletterVariantTranslationTest: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNewsletterVariantTranslationTest",
 }));
 
 export type GetObjectAttributesError = CustomerioOpError;
@@ -18466,6 +18645,8 @@ export const getObjectAttributes: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjectAttributes",
 }));
 
 export type GetObjectRelationshipsError = CustomerioOpError;
@@ -18481,6 +18662,8 @@ export const getObjectRelationships: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjectRelationships",
 }));
 
 export type GetObjectsFilterError = CustomerioOpError;
@@ -18496,6 +18679,8 @@ export const getObjectsFilter: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjectsFilter",
 }));
 
 export type GetObjectTypesError = CustomerioOpError;
@@ -18511,6 +18696,8 @@ export const getObjectTypes: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetObjectTypes",
 }));
 
 export type GetOptoutsError = CustomerioOpError;
@@ -18526,6 +18713,8 @@ export const getOptouts: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOptouts",
 }));
 
 export type GetPeopleByIdError = BadRequest | CustomerioOpError;
@@ -18541,6 +18730,8 @@ export const getPeopleById: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPeopleById",
 }));
 
 export type GetPeopleEmailError = CustomerioOpError;
@@ -18556,6 +18747,8 @@ export const getPeopleEmail: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPeopleEmail",
 }));
 
 export type GetPeopleFilterError = CustomerioOpError;
@@ -18571,6 +18764,8 @@ export const getPeopleFilter: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPeopleFilter",
 }));
 
 export type GetPersonActivitiesError = BadRequest | NotFound | CustomerioOpError;
@@ -18586,6 +18781,8 @@ export const getPersonActivities: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonActivities",
 }));
 
 export type GetPersonAttributesError = NotFound | CustomerioOpError;
@@ -18601,6 +18798,8 @@ export const getPersonAttributes: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonAttributes",
 }));
 
 export type GetPersonMessagesError = NotFound | CustomerioOpError;
@@ -18616,6 +18815,8 @@ export const getPersonMessages: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonMessages",
 }));
 
 export type GetPersonOptoutsError = NotFound | CustomerioOpError;
@@ -18631,6 +18832,8 @@ export const getPersonOptouts: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonOptouts",
 }));
 
 export type GetPersonRelationshipsError = NotFound | CustomerioOpError;
@@ -18646,6 +18849,8 @@ export const getPersonRelationships: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonRelationships",
 }));
 
 export type GetPersonSegmentsError = NotFound | CustomerioOpError;
@@ -18661,6 +18866,8 @@ export const getPersonSegments: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonSegments",
 }));
 
 export type GetPersonSubscriptionPreferencesError = BadRequest | NotFound | CustomerioOpError;
@@ -18676,6 +18883,8 @@ export const getPersonSubscriptionPreferences: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPersonSubscriptionPreferences",
 }));
 
 export type GetPublishStatusError =
@@ -18696,6 +18905,8 @@ export const getPublishStatus: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPublishStatus",
 }));
 
 export type GetSegmentError = NotFound | CustomerioOpError;
@@ -18711,6 +18922,8 @@ export const getSegment: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegment",
 }));
 
 export type GetSegmentCountError = NotFound | CustomerioOpError;
@@ -18726,6 +18939,8 @@ export const getSegmentCount: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegmentCount",
 }));
 
 export type GetSegmentDependenciesError = NotFound | CustomerioOpError;
@@ -18741,6 +18956,8 @@ export const getSegmentDependencies: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegmentDependencies",
 }));
 
 export type GetSegmentMembershipError = NotFound | CustomerioOpError;
@@ -18756,6 +18973,8 @@ export const getSegmentMembership: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegmentMembership",
 }));
 
 export type GetSenderError = NotFound | CustomerioOpError;
@@ -18771,6 +18990,8 @@ export const getSender: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSender",
 }));
 
 export type GetSenderUsageError = NotFound | CustomerioOpError;
@@ -18786,6 +19007,8 @@ export const getSenderUsage: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSenderUsage",
 }));
 
 export type GetSubscriptionCenterTokenError = BadRequest | CustomerioOpError;
@@ -18801,6 +19024,8 @@ export const getSubscriptionCenterToken: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionCenterToken",
 }));
 
 export type GetSuppressionError = CustomerioOpError;
@@ -18816,6 +19041,8 @@ export const getSuppression: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuppression",
 }));
 
 export type GetSuppressionByTypeError = CustomerioOpError;
@@ -18831,6 +19058,8 @@ export const getSuppressionByType: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuppressionByType",
 }));
 
 export type GetTopicsError = CustomerioOpError;
@@ -18846,6 +19075,8 @@ export const getTopics: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTopics",
 }));
 
 export type GetTransactionalError = NotFound | CustomerioOpError;
@@ -18861,6 +19092,8 @@ export const getTransactional: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactional",
 }));
 
 export type GetTransactionalTranslationByIdError = BadRequest | NotFound | CustomerioOpError;
@@ -18876,6 +19109,8 @@ export const getTransactionalTranslationById: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactionalTranslationById",
 }));
 
 export type GetTransactionalVariantError = BadRequest | NotFound | CustomerioOpError;
@@ -18891,6 +19126,8 @@ export const getTransactionalVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactionalVariant",
 }));
 
 export type GetVariantLinksError = NotFound | CustomerioOpError;
@@ -18906,6 +19143,8 @@ export const getVariantLinks: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVariantLinks",
 }));
 
 export type GetVariantMetricsError = NotFound | CustomerioOpError;
@@ -18921,6 +19160,8 @@ export const getVariantMetrics: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVariantMetrics",
 }));
 
 export type GetVersionError = BadRequest | NotFound | CustomerioOpError;
@@ -18936,6 +19177,8 @@ export const getVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersion",
 }));
 
 export type GetWebhookError = NotFound | CustomerioOpError;
@@ -18951,6 +19194,8 @@ export const getWebhook: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type ImportError = CustomerioOpError;
@@ -18966,6 +19211,8 @@ export const Import: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "Import",
 }));
 
 export type LinkEmailError = BadRequest | NotFound | Conflict | CustomerioOpError;
@@ -18981,6 +19228,8 @@ export const linkEmail: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkEmail",
 }));
 
 export type ListActivitiesError = CustomerioOpError;
@@ -18996,6 +19245,8 @@ export const listActivities: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActivities",
 }));
 
 export type ListAssetFoldersError = BadRequest | NotFound | CustomerioOpError;
@@ -19011,6 +19262,8 @@ export const listAssetFolders: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssetFolders",
 }));
 
 export type ListAssetsError = BadRequest | NotFound | CustomerioOpError;
@@ -19026,6 +19279,8 @@ export const listAssets: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssets",
 }));
 
 export type ListBroadcastsError = CustomerioOpError;
@@ -19041,6 +19296,8 @@ export const listBroadcasts: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBroadcasts",
 }));
 
 export type ListBroadcastTriggersError = BadRequest | NotFound | CustomerioOpError;
@@ -19056,6 +19313,8 @@ export const listBroadcastTriggers: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBroadcastTriggers",
 }));
 
 export type ListCampaignActionsError = BadRequest | NotFound | CustomerioOpError;
@@ -19071,6 +19330,8 @@ export const listCampaignActions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCampaignActions",
 }));
 
 export type ListCampaignsError = CustomerioOpError;
@@ -19086,6 +19347,8 @@ export const listCampaigns: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCampaigns",
 }));
 
 export type ListComponentsError = BadRequest | NotFound | CustomerioOpError;
@@ -19101,6 +19364,8 @@ export const listComponents: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListComponents",
 }));
 
 export type ListEmailsError = BadRequest | NotFound | CustomerioOpError;
@@ -19116,6 +19381,8 @@ export const listEmails: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmails",
 }));
 
 export type ListEmailTranslationsError = NotFound | CustomerioOpError;
@@ -19131,6 +19398,8 @@ export const listEmailTranslations: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmailTranslations",
 }));
 
 export type ListExportsError = CustomerioOpError;
@@ -19146,6 +19415,8 @@ export const listExports: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExports",
 }));
 
 export type ListFoldersError = BadRequest | NotFound | CustomerioOpError;
@@ -19161,6 +19432,8 @@ export const listFolders: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFolders",
 }));
 
 export type ListInboxPreviewClientsError = NotFound | CustomerioOpError;
@@ -19176,6 +19449,8 @@ export const listInboxPreviewClients: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInboxPreviewClients",
 }));
 
 export type ListInboxPreviewJobsError = BadRequest | NotFound | CustomerioOpError;
@@ -19191,6 +19466,8 @@ export const listInboxPreviewJobs: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInboxPreviewJobs",
 }));
 
 export type ListMessagesError = BadRequest | CustomerioOpError;
@@ -19206,6 +19483,8 @@ export const listMessages: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMessages",
 }));
 
 export type ListNewslettersError = CustomerioOpError;
@@ -19221,6 +19500,8 @@ export const listNewsletters: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNewsletters",
 }));
 
 export type ListNewsletterVariantsError = NotFound | CustomerioOpError;
@@ -19236,6 +19517,8 @@ export const listNewsletterVariants: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNewsletterVariants",
 }));
 
 export type ListSegmentsError = CustomerioOpError;
@@ -19251,6 +19534,8 @@ export const listSegments: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSegments",
 }));
 
 export type ListSendersError = CustomerioOpError;
@@ -19266,6 +19551,8 @@ export const listSenders: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSenders",
 }));
 
 export type ListSnippetsError = CustomerioOpError;
@@ -19281,6 +19568,8 @@ export const listSnippets: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnippets",
 }));
 
 export type ListTransactionalError = CustomerioOpError;
@@ -19296,6 +19585,8 @@ export const listTransactional: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransactional",
 }));
 
 export type ListTransactionalVariantsError = BadRequest | NotFound | CustomerioOpError;
@@ -19311,6 +19602,8 @@ export const listTransactionalVariants: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransactionalVariants",
 }));
 
 export type ListVersionsError = BadRequest | NotFound | CustomerioOpError;
@@ -19326,6 +19619,8 @@ export const listVersions: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVersions",
 }));
 
 export type ListWebhooksError = CustomerioOpError;
@@ -19341,6 +19636,8 @@ export const listWebhooks: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type ListWorkspacesError = CustomerioOpError;
@@ -19356,6 +19653,8 @@ export const listWorkspaces: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 }));
 
 export type PostSuppressionError = CustomerioOpError;
@@ -19371,6 +19670,8 @@ export const postSuppression: API.OperationMethod<
   errors: [UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostSuppression",
 }));
 
 export type PreviewEmailError = BadRequest | NotFound | CustomerioOpError;
@@ -19386,6 +19687,8 @@ export const previewEmail: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewEmail",
 }));
 
 export type PublishEmailError =
@@ -19406,6 +19709,8 @@ export const publishEmail: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishEmail",
 }));
 
 export type RenderEmailError = BadRequest | NotFound | CustomerioOpError;
@@ -19421,6 +19726,8 @@ export const renderEmail: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenderEmail",
 }));
 
 export type RestoreVersionError = BadRequest | NotFound | CustomerioOpError;
@@ -19436,6 +19743,8 @@ export const restoreVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreVersion",
 }));
 
 export type ReviewEmailError = BadRequest | NotFound | CustomerioOpError;
@@ -19451,6 +19760,8 @@ export const reviewEmail: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReviewEmail",
 }));
 
 export type SaveVersionError = BadRequest | NotFound | CustomerioOpError;
@@ -19466,6 +19777,8 @@ export const saveVersion: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SaveVersion",
 }));
 
 export type ScheduleNewsletterError =
@@ -19485,6 +19798,8 @@ export const scheduleNewsletter: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScheduleNewsletter",
 }));
 
 export type SendEmailError = BadRequest | Forbidden | CustomerioOpError;
@@ -19500,6 +19815,8 @@ export const sendEmail: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendEmail",
 }));
 
 export type SendInAppError = BadRequest | Forbidden | CustomerioOpError;
@@ -19515,6 +19832,8 @@ export const sendInApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendInApp",
 }));
 
 export type SendInboxMessageError = BadRequest | Forbidden | CustomerioOpError;
@@ -19530,6 +19849,8 @@ export const sendInboxMessage: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendInboxMessage",
 }));
 
 export type SendNewsletterError = BadRequest | NotFound | UnprocessableEntity | CustomerioOpError;
@@ -19545,6 +19866,8 @@ export const sendNewsletter: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendNewsletter",
 }));
 
 export type SendPushError = BadRequest | Forbidden | CustomerioOpError;
@@ -19560,6 +19883,8 @@ export const sendPush: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendPush",
 }));
 
 export type SendSMSError = BadRequest | Forbidden | CustomerioOpError;
@@ -19575,6 +19900,8 @@ export const sendSMS: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendSMS",
 }));
 
 export type SendWhatsAppError = BadRequest | Forbidden | CustomerioOpError;
@@ -19590,6 +19917,8 @@ export const sendWhatsApp: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendWhatsApp",
 }));
 
 export type StartLiveNotificationError = BadRequest | NotFound | CustomerioOpError;
@@ -19605,6 +19934,8 @@ export const startLiveNotification: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartLiveNotification",
 }));
 
 export type SubmitInboxPreviewError =
@@ -19626,6 +19957,8 @@ export const submitInboxPreview: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitInboxPreview",
 }));
 
 export type TestSendEmailError = BadRequest | NotFound | UnprocessableEntity | CustomerioOpError;
@@ -19641,6 +19974,8 @@ export const testSendEmail: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestSendEmail",
 }));
 
 export type TransactionalLinksError = NotFound | CustomerioOpError;
@@ -19656,6 +19991,8 @@ export const transactionalLinks: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransactionalLinks",
 }));
 
 export type TransactionalMessagesError = NotFound | CustomerioOpError;
@@ -19671,6 +20008,8 @@ export const transactionalMessages: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransactionalMessages",
 }));
 
 export type TransactionalMetricsError = NotFound | CustomerioOpError;
@@ -19686,6 +20025,8 @@ export const transactionalMetrics: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransactionalMetrics",
 }));
 
 export type TriggerBroadcastError = NotFound | UnprocessableEntity | CustomerioOpError;
@@ -19701,6 +20042,8 @@ export const triggerBroadcast: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerBroadcast",
 }));
 
 export type UpdateAssetError = BadRequest | NotFound | Conflict | CustomerioOpError;
@@ -19716,6 +20059,8 @@ export const updateAsset: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAsset",
 }));
 
 export type UpdateAssetFolderError = BadRequest | NotFound | Conflict | CustomerioOpError;
@@ -19731,6 +20076,8 @@ export const updateAssetFolder: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAssetFolder",
 }));
 
 export type UpdateAttributeMetadataError = BadRequest | UnprocessableEntity | CustomerioOpError;
@@ -19746,6 +20093,8 @@ export const updateAttributeMetadata: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAttributeMetadata",
 }));
 
 export type UpdateBroadcastActionError = BadRequest | NotFound | CustomerioOpError;
@@ -19761,6 +20110,8 @@ export const updateBroadcastAction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBroadcastAction",
 }));
 
 export type UpdateBroadcastActionLanguageError = BadRequest | NotFound | CustomerioOpError;
@@ -19776,6 +20127,8 @@ export const updateBroadcastActionLanguage: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBroadcastActionLanguage",
 }));
 
 export type UpdateCampaignActionError = BadRequest | NotFound | CustomerioOpError;
@@ -19791,6 +20144,8 @@ export const updateCampaignAction: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignAction",
 }));
 
 export type UpdateCampaignActionTranslationError = BadRequest | NotFound | CustomerioOpError;
@@ -19806,6 +20161,8 @@ export const updateCampaignActionTranslation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCampaignActionTranslation",
 }));
 
 export type UpdateCollectionError = BadRequest | CustomerioOpError;
@@ -19821,6 +20178,8 @@ export const updateCollection: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCollection",
 }));
 
 export type UpdateCollectionContentsError = NotFound | CustomerioOpError;
@@ -19836,6 +20195,8 @@ export const updateCollectionContents: API.OperationMethod<
   errors: [NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCollectionContents",
 }));
 
 export type UpdateComponentError = BadRequest | NotFound | Conflict | CustomerioOpError;
@@ -19851,6 +20212,8 @@ export const updateComponent: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateComponent",
 }));
 
 export type UpdateEmailError = BadRequest | NotFound | CustomerioOpError;
@@ -19866,6 +20229,8 @@ export const updateEmail: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmail",
 }));
 
 export type UpdateEmailTranslationError = BadRequest | NotFound | CustomerioOpError;
@@ -19881,6 +20246,8 @@ export const updateEmailTranslation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmailTranslation",
 }));
 
 export type UpdateEventMetadataError = BadRequest | UnprocessableEntity | CustomerioOpError;
@@ -19896,6 +20263,8 @@ export const updateEventMetadata: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventMetadata",
 }));
 
 export type UpdateFolderError = BadRequest | NotFound | CustomerioOpError;
@@ -19911,6 +20280,8 @@ export const updateFolder: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFolder",
 }));
 
 export type UpdateLiveNotificationError = BadRequest | NotFound | CustomerioOpError;
@@ -19926,6 +20297,8 @@ export const updateLiveNotification: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLiveNotification",
 }));
 
 export type UpdateNewsletterTestTranslationError = BadRequest | NotFound | CustomerioOpError;
@@ -19941,6 +20314,8 @@ export const updateNewsletterTestTranslation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNewsletterTestTranslation",
 }));
 
 export type UpdateNewsletterVariantError = BadRequest | NotFound | CustomerioOpError;
@@ -19956,6 +20331,8 @@ export const updateNewsletterVariant: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNewsletterVariant",
 }));
 
 export type UpdateNewsletterVariantTranslationError = BadRequest | NotFound | CustomerioOpError;
@@ -19971,6 +20348,8 @@ export const updateNewsletterVariantTranslation: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNewsletterVariantTranslation",
 }));
 
 export type UpdatePersonOptoutsError = BadRequest | NotFound | CustomerioOpError;
@@ -19986,6 +20365,8 @@ export const updatePersonOptouts: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePersonOptouts",
 }));
 
 export type UpdateSnippetsError = BadRequest | CustomerioOpError;
@@ -20001,6 +20382,8 @@ export const updateSnippets: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSnippets",
 }));
 
 export type UpdateTransactionalError = BadRequest | NotFound | CustomerioOpError;
@@ -20016,6 +20399,8 @@ export const updateTransactional: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransactional",
 }));
 
 export type UpdateTransactionalVariantError = BadRequest | CustomerioOpError;
@@ -20031,6 +20416,8 @@ export const updateTransactionalVariant: API.OperationMethod<
   errors: [BadRequest, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransactionalVariant",
 }));
 
 export type UpdateWebhookError = BadRequest | NotFound | CustomerioOpError;
@@ -20046,6 +20433,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownCustomerioError],
   protocol: CustomerioProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

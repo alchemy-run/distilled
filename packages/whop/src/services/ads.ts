@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Ads",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -980,6 +993,8 @@ export const createAd: API.OperationMethod<CreateAdRequest, Ad, CreateAdError, W
     errors: [BadRequest, NotFound, Conflict],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateAd",
   }));
 
 export type DeleteAdError = NotFound | WhopOpError;
@@ -995,6 +1010,8 @@ export const deleteAd: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAd",
 }));
 
 export type DuplicateAdError = BadRequest | NotFound | Conflict | WhopOpError;
@@ -1010,6 +1027,8 @@ export const duplicateAd: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateAd",
 }));
 
 export type GetAdError = NotFound | WhopOpError;
@@ -1021,6 +1040,8 @@ export const getAd: API.OperationMethod<GetAdRequest, Ad, GetAdError, WhopOpCont
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetAd",
   }));
 
 export type ListAdsError = BadRequest | WhopOpError;
@@ -1038,6 +1059,8 @@ export const listAds: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAds",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1059,6 +1082,8 @@ export const pauseAd: API.OperationMethod<PauseAdRequest, Ad, PauseAdError, Whop
     errors: [Conflict],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PauseAd",
   }));
 
 export type UnpauseAdError = Conflict | WhopOpError;
@@ -1070,6 +1095,8 @@ export const unpauseAd: API.OperationMethod<UnpauseAdRequest, Ad, UnpauseAdError
     errors: [Conflict],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UnpauseAd",
   }));
 
 export type UpdateAdError = WhopOpError;
@@ -1081,6 +1108,8 @@ export const updateAd: API.OperationMethod<UpdateAdRequest, Ad, UpdateAdError, W
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UpdateAd",
   }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -301,6 +301,52 @@ importers:
         specifier: 8.3.0
         version: 8.3.0(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1)
 
+  benches/otel-lab:
+    dependencies:
+      '@distilled.cloud/aws':
+        specifier: workspace:*
+        version: link:../../packages/aws
+      '@distilled.cloud/azure':
+        specifier: workspace:*
+        version: link:../../packages/azure
+      '@distilled.cloud/cloudflare':
+        specifier: workspace:*
+        version: link:../../packages/cloudflare
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@distilled.cloud/fly-io':
+        specifier: workspace:*
+        version: link:../../packages/fly-io
+      '@distilled.cloud/gcp':
+        specifier: workspace:*
+        version: link:../../packages/gcp
+      '@distilled.cloud/github':
+        specifier: workspace:*
+        version: link:../../packages/github
+      '@distilled.cloud/neon':
+        specifier: workspace:*
+        version: link:../../packages/neon
+      '@distilled.cloud/railway':
+        specifier: workspace:*
+        version: link:../../packages/railway
+      '@distilled.cloud/slack':
+        specifier: workspace:*
+        version: link:../../packages/slack
+      '@distilled.cloud/stripe':
+        specifier: workspace:*
+        version: link:../../packages/stripe
+      '@distilled.cloud/vercel':
+        specifier: workspace:*
+        version: link:../../packages/vercel
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.5
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+
   benches/runtime:
     dependencies:
       '@distilled.cloud/aws':
@@ -355,6 +401,10 @@ importers:
       zod:
         specifier: 4.1.12
         version: 4.1.12
+    devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../../packages/dev
 
   benches/sdks:
     dependencies:
@@ -417,6 +467,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -430,6 +483,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -443,6 +499,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -456,6 +515,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -469,6 +531,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -482,6 +547,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -498,6 +566,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -527,6 +598,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -540,6 +614,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -553,6 +630,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -566,6 +646,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -579,6 +662,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -592,6 +678,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -605,6 +694,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@effect/platform-node':
         specifier: 'catalog:'
         version: 4.0.5(effect@4.0.5)(redis@6.2.1)
@@ -621,6 +713,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -637,24 +732,21 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
 
   packages/core:
     devDependencies:
-      '@effect/platform-node':
-        specifier: 'catalog:'
-        version: 4.0.5(effect@4.0.5)(redis@6.2.1)
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
       effect:
         specifier: 'catalog:'
         version: 4.0.5
-      rolldown:
-        specifier: 'catalog:'
-        version: 1.2.13
       vitest:
         specifier: 'catalog:'
         version: 5.0.4(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1))
@@ -668,6 +760,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -681,6 +776,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -694,9 +792,34 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
+
+  packages/dev:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      '@effect/platform-node':
+        specifier: 'catalog:'
+        version: 4.0.5(effect@4.0.5)(redis@6.2.1)
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.5
+      rolldown:
+        specifier: 'catalog:'
+        version: 1.2.13
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.4(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/digitalocean:
     dependencies:
@@ -707,6 +830,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -720,6 +846,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -733,6 +862,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -746,6 +878,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -759,6 +894,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -772,6 +910,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -785,6 +926,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -798,6 +942,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -811,6 +958,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -824,6 +974,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -837,6 +990,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -850,6 +1006,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -863,6 +1022,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -876,6 +1038,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -889,6 +1054,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -902,6 +1070,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -915,6 +1086,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -928,6 +1102,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -944,6 +1121,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -957,6 +1137,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -970,6 +1153,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -983,6 +1169,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -996,6 +1185,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1009,6 +1201,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1022,6 +1217,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1035,6 +1233,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1048,6 +1249,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1061,6 +1265,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1074,6 +1281,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1087,6 +1297,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1100,6 +1313,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1113,6 +1329,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1126,6 +1345,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1139,6 +1361,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1152,6 +1377,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1165,6 +1393,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1178,6 +1409,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1194,6 +1428,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1207,6 +1444,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1220,6 +1460,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1233,6 +1476,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1246,6 +1492,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1259,6 +1508,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1272,6 +1524,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1285,6 +1540,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1298,6 +1556,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1311,6 +1572,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1324,6 +1588,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1337,6 +1604,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1350,6 +1620,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@effect/platform-node':
         specifier: 'catalog:'
         version: 4.0.5(effect@4.0.5)(redis@6.2.1)
@@ -1366,6 +1639,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1379,6 +1655,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1392,6 +1671,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1405,6 +1687,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1418,6 +1703,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1431,6 +1719,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1444,6 +1735,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1457,6 +1751,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1470,6 +1767,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1483,6 +1783,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1496,6 +1799,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1512,6 +1818,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1525,6 +1834,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1538,6 +1850,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1551,6 +1866,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@effect/platform-node':
         specifier: 'catalog:'
         version: 4.0.5(effect@4.0.5)(redis@6.2.1)
@@ -1567,6 +1885,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1583,6 +1904,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1596,6 +1920,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
@@ -1609,6 +1936,9 @@ importers:
         specifier: 'catalog:'
         version: 4.0.5
     devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5

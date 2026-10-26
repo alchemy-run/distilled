@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://databrew.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DataBrew",
+  service: "DataBrew",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1140,6 +1155,8 @@ export const batchDeleteRecipeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteRecipeVersion",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteRecipeVersion",
 }));
 
 export type CreateDatasetError =
@@ -1170,6 +1187,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateProfileJobError =
@@ -1204,6 +1223,8 @@ export const createProfileJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfileJob",
+  telemetry: TELEMETRY,
+  span: "CreateProfileJob",
 }));
 
 export type CreateProjectError =
@@ -1236,6 +1257,8 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateRecipeError =
@@ -1264,6 +1287,8 @@ export const createRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecipe",
+  telemetry: TELEMETRY,
+  span: "CreateRecipe",
 }));
 
 export type CreateRecipeJobError =
@@ -1298,6 +1323,8 @@ export const createRecipeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecipeJob",
+  telemetry: TELEMETRY,
+  span: "CreateRecipeJob",
 }));
 
 export type CreateRulesetError =
@@ -1327,6 +1354,8 @@ export const createRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleset",
+  telemetry: TELEMETRY,
+  span: "CreateRuleset",
 }));
 
 export type CreateScheduleError =
@@ -1356,6 +1385,8 @@ export const createSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchedule",
+  telemetry: TELEMETRY,
+  span: "CreateSchedule",
 }));
 
 export type DeleteDatasetError =
@@ -1384,6 +1415,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteJobError =
@@ -1412,6 +1445,8 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteProjectError =
@@ -1440,6 +1475,8 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteRecipeVersionError =
@@ -1468,6 +1505,8 @@ export const deleteRecipeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecipeVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteRecipeVersion",
 }));
 
 export type DeleteRulesetError =
@@ -1496,6 +1535,8 @@ export const deleteRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleset",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleset",
 }));
 
 export type DeleteScheduleError =
@@ -1518,6 +1559,8 @@ export const deleteSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedule",
+  telemetry: TELEMETRY,
+  span: "DeleteSchedule",
 }));
 
 export type DescribeDatasetError =
@@ -1540,6 +1583,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeJobError =
@@ -1562,6 +1607,8 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
+  telemetry: TELEMETRY,
+  span: "DescribeJob",
 }));
 
 export type DescribeJobRunError =
@@ -1584,6 +1631,8 @@ export const describeJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobRun",
+  telemetry: TELEMETRY,
+  span: "DescribeJobRun",
 }));
 
 export type DescribeProjectError =
@@ -1606,6 +1655,8 @@ export const describeProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProject",
+  telemetry: TELEMETRY,
+  span: "DescribeProject",
 }));
 
 export type DescribeRecipeError =
@@ -1629,6 +1680,8 @@ export const describeRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecipe",
+  telemetry: TELEMETRY,
+  span: "DescribeRecipe",
 }));
 
 export type DescribeRulesetError =
@@ -1651,6 +1704,8 @@ export const describeRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleset",
+  telemetry: TELEMETRY,
+  span: "DescribeRuleset",
 }));
 
 export type DescribeScheduleError =
@@ -1673,6 +1728,8 @@ export const describeSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchedule",
+  telemetry: TELEMETRY,
+  span: "DescribeSchedule",
 }));
 
 export type ListDatasetsError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1698,6 +1755,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "Datasets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListJobRunsError =
@@ -1727,6 +1786,8 @@ export const listJobRuns: API.PaginatedOperationMethod<
     items: "JobRuns",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobRuns",
 })) as any;
 
 export type ListJobsError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1752,6 +1813,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListProjectsError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1777,6 +1840,8 @@ export const listProjects: API.PaginatedOperationMethod<
     items: "Projects",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 })) as any;
 
 export type ListRecipesError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1802,6 +1867,8 @@ export const listRecipes: API.PaginatedOperationMethod<
     items: "Recipes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecipes",
 })) as any;
 
 export type ListRecipeVersionsError =
@@ -1832,6 +1899,8 @@ export const listRecipeVersions: API.PaginatedOperationMethod<
     items: "Recipes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecipeVersions",
 })) as any;
 
 export type ListRulesetsError =
@@ -1862,6 +1931,8 @@ export const listRulesets: API.PaginatedOperationMethod<
     items: "Rulesets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRulesets",
 })) as any;
 
 export type ListSchedulesError = ValidationException | TooManyRequestsException | CommonErrors;
@@ -1887,6 +1958,8 @@ export const listSchedules: API.PaginatedOperationMethod<
     items: "Schedules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSchedules",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1915,6 +1988,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PublishRecipeError =
@@ -1943,6 +2018,8 @@ export const publishRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishRecipe",
+  telemetry: TELEMETRY,
+  span: "PublishRecipe",
 }));
 
 export type SendProjectSessionActionError =
@@ -1966,6 +2043,8 @@ export const sendProjectSessionAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendProjectSessionAction",
+  telemetry: TELEMETRY,
+  span: "SendProjectSessionAction",
 }));
 
 export type StartJobRunError =
@@ -1996,6 +2075,8 @@ export const startJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
+  telemetry: TELEMETRY,
+  span: "StartJobRun",
 }));
 
 export type StartProjectSessionError =
@@ -2025,6 +2106,8 @@ export const startProjectSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProjectSession",
+  telemetry: TELEMETRY,
+  span: "StartProjectSession",
 }));
 
 export type StopJobRunError =
@@ -2047,6 +2130,8 @@ export const stopJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJobRun",
+  telemetry: TELEMETRY,
+  span: "StopJobRun",
 }));
 
 export type TagResourceError =
@@ -2076,6 +2161,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2104,6 +2191,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDatasetError =
@@ -2132,6 +2221,8 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
+  telemetry: TELEMETRY,
+  span: "UpdateDataset",
 }));
 
 export type UpdateProfileJobError =
@@ -2162,6 +2253,8 @@ export const updateProfileJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfileJob",
+  telemetry: TELEMETRY,
+  span: "UpdateProfileJob",
 }));
 
 export type UpdateProjectError =
@@ -2190,6 +2283,8 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateRecipeError =
@@ -2213,6 +2308,8 @@ export const updateRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecipe",
+  telemetry: TELEMETRY,
+  span: "UpdateRecipe",
 }));
 
 export type UpdateRecipeJobError =
@@ -2243,6 +2340,8 @@ export const updateRecipeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecipeJob",
+  telemetry: TELEMETRY,
+  span: "UpdateRecipeJob",
 }));
 
 export type UpdateRulesetError =
@@ -2265,6 +2364,8 @@ export const updateRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleset",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleset",
 }));
 
 export type UpdateScheduleError =
@@ -2293,6 +2394,8 @@ export const updateSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchedule",
+  telemetry: TELEMETRY,
+  span: "UpdateSchedule",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

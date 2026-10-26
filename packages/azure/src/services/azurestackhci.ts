@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AzureStackHCI" },
+  prefix: "Azurestackhci",
+  service: "Azurestackhci",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface ArcSettingsConsentAndInstallDefaultExtensionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -9037,6 +9057,8 @@ export const ArcSettingsConsentAndInstallDefaultExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArcSettingsConsentAndInstallDefaultExtensions",
 }));
 
 export type ArcSettingsInitializeDisableProcessError = AzureOpError;
@@ -9052,6 +9074,8 @@ export const ArcSettingsInitializeDisableProcess: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArcSettingsInitializeDisableProcess",
 }));
 
 export type ArcSettingsReconcileError = AzureOpError;
@@ -9067,6 +9091,8 @@ export const ArcSettingsReconcile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArcSettingsReconcile",
 }));
 
 export type CheckUpdateSummariesOperationGroupHealthError = AzureOpError;
@@ -9082,6 +9108,8 @@ export const CheckUpdateSummariesOperationGroupHealth: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckUpdateSummariesOperationGroupHealth",
 }));
 
 export type CheckUpdateSummariesOperationGroupUpdatesError = AzureOpError;
@@ -9101,6 +9129,8 @@ export const CheckUpdateSummariesOperationGroupUpdates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckUpdateSummariesOperationGroupUpdates",
 }));
 
 export type ClusterJobsCreateOrUpdateError = AzureOpError;
@@ -9116,6 +9146,8 @@ export const ClusterJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterJobsCreateOrUpdate",
 }));
 
 export type ClustersConfigureRemoteSupportError = AzureOpError;
@@ -9131,6 +9163,8 @@ export const ClustersConfigureRemoteSupport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClustersConfigureRemoteSupport",
 }));
 
 export type CreateArcSettingsError = AzureOpError;
@@ -9146,6 +9180,8 @@ export const CreateArcSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArcSettings",
 }));
 
 export type CreateArcSettingsIdentityError = AzureOpError;
@@ -9161,6 +9197,8 @@ export const CreateArcSettingsIdentity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateArcSettingsIdentity",
 }));
 
 export type CreateClusterError = AzureOpError;
@@ -9176,6 +9214,8 @@ export const CreateCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateClusterIdentityError = AzureOpError;
@@ -9191,6 +9231,8 @@ export const CreateClusterIdentity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClusterIdentity",
 }));
 
 export type CreateExtensionError = AzureOpError;
@@ -9206,6 +9248,8 @@ export const CreateExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExtension",
 }));
 
 export type CreateGuestAgentError = AzureOpError;
@@ -9221,6 +9265,14 @@ export const CreateGuestAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateGuestAgent",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+    },
+  },
 }));
 
 export type DeleteArcSettingsError = AzureOpError;
@@ -9236,6 +9288,8 @@ export const DeleteArcSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteArcSettings",
 }));
 
 export type DeleteClusterError = AzureOpError;
@@ -9251,6 +9305,8 @@ export const DeleteCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteClusterJobError = AzureOpError;
@@ -9266,6 +9322,8 @@ export const DeleteClusterJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClusterJob",
 }));
 
 export type DeleteDeploymentSettingsError = AzureOpError;
@@ -9281,6 +9339,8 @@ export const DeleteDeploymentSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDeploymentSettings",
 }));
 
 export type DeleteEdgeDeviceError = AzureOpError;
@@ -9296,6 +9356,14 @@ export const DeleteEdgeDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteEdgeDevice",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
+    },
+  },
 }));
 
 export type DeleteEdgeDeviceJobError = AzureOpError;
@@ -9311,6 +9379,14 @@ export const DeleteEdgeDeviceJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteEdgeDeviceJob",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
+    },
+  },
 }));
 
 export type DeleteEdgeMachineError = AzureOpError;
@@ -9326,6 +9402,8 @@ export const DeleteEdgeMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeMachine",
 }));
 
 export type DeleteEdgeMachineDeploymentSettingsError = AzureOpError;
@@ -9341,6 +9419,8 @@ export const DeleteEdgeMachineDeploymentSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeMachineDeploymentSettings",
 }));
 
 export type DeleteEdgeMachineDiskError = AzureOpError;
@@ -9356,6 +9436,8 @@ export const DeleteEdgeMachineDisk: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeMachineDisk",
 }));
 
 export type DeleteEdgeMachineDiskJobError = AzureOpError;
@@ -9371,6 +9453,8 @@ export const DeleteEdgeMachineDiskJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeMachineDiskJob",
 }));
 
 export type DeleteEdgeMachineDiskPrivilegedJobError = AzureOpError;
@@ -9386,6 +9470,8 @@ export const DeleteEdgeMachineDiskPrivilegedJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeMachineDiskPrivilegedJob",
 }));
 
 export type DeleteEdgeMachineJobError = AzureOpError;
@@ -9401,6 +9487,8 @@ export const DeleteEdgeMachineJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeMachineJob",
 }));
 
 export type DeleteEdgeMachineNetworkAdapterJobError = AzureOpError;
@@ -9416,6 +9504,8 @@ export const DeleteEdgeMachineNetworkAdapterJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeMachineNetworkAdapterJob",
 }));
 
 export type DeleteEdgeMachineSecuritySettingsOperationError = AzureOpError;
@@ -9435,6 +9525,8 @@ export const DeleteEdgeMachineSecuritySettingsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeMachineSecuritySettingsOperation",
 }));
 
 export type DeleteEdgeMachineVolumeError = AzureOpError;
@@ -9450,6 +9542,8 @@ export const DeleteEdgeMachineVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEdgeMachineVolume",
 }));
 
 export type DeleteExtensionError = AzureOpError;
@@ -9465,6 +9559,8 @@ export const DeleteExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExtension",
 }));
 
 export type DeleteGalleryImageError = AzureOpError;
@@ -9480,6 +9576,8 @@ export const DeleteGalleryImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGalleryImage",
 }));
 
 export type DeleteGuestAgentError = AzureOpError;
@@ -9495,6 +9593,14 @@ export const DeleteGuestAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteGuestAgent",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+    },
+  },
 }));
 
 export type DeleteLogicalNetworkError = AzureOpError;
@@ -9510,6 +9616,8 @@ export const DeleteLogicalNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLogicalNetwork",
 }));
 
 export type DeleteMarketplaceGalleryImageError = AzureOpError;
@@ -9525,6 +9633,8 @@ export const DeleteMarketplaceGalleryImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMarketplaceGalleryImage",
 }));
 
 export type DeleteNetworkInterfaceError = AzureOpError;
@@ -9540,6 +9650,8 @@ export const DeleteNetworkInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkInterface",
 }));
 
 export type DeleteSecuritySettingsError = AzureOpError;
@@ -9555,6 +9667,8 @@ export const DeleteSecuritySettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecuritySettings",
 }));
 
 export type DeleteStorageContainerError = AzureOpError;
@@ -9570,6 +9684,8 @@ export const DeleteStorageContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageContainer",
 }));
 
 export type DeleteUpdateError = AzureOpError;
@@ -9585,6 +9701,8 @@ export const DeleteUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUpdate",
 }));
 
 export type DeleteUpdateRunError = AzureOpError;
@@ -9600,6 +9718,8 @@ export const DeleteUpdateRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUpdateRun",
 }));
 
 export type DeleteUpdateSummaryError = AzureOpError;
@@ -9615,6 +9735,8 @@ export const DeleteUpdateSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUpdateSummary",
 }));
 
 export type DeleteVirtualHardDiskError = AzureOpError;
@@ -9630,6 +9752,8 @@ export const DeleteVirtualHardDisk: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualHardDisk",
 }));
 
 export type DeleteVirtualMachineInstanceError = AzureOpError;
@@ -9645,6 +9769,14 @@ export const DeleteVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
+    },
+  },
 }));
 
 export type DeploymentSettingsCreateOrUpdateError = AzureOpError;
@@ -9660,6 +9792,8 @@ export const DeploymentSettingsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeploymentSettingsCreateOrUpdate",
 }));
 
 export type EdgeDeviceJobsCreateOrUpdateError = AzureOpError;
@@ -9675,6 +9809,14 @@ export const EdgeDeviceJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EdgeDeviceJobsCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
+    },
+  },
 }));
 
 export type EdgeDevicesCreateOrUpdateError = AzureOpError;
@@ -9690,6 +9832,14 @@ export const EdgeDevicesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "EdgeDevicesCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
+    },
+  },
 }));
 
 export type EdgeMachineDeploymentSettingsCreateOrUpdateError = AzureOpError;
@@ -9713,6 +9863,8 @@ export const EdgeMachineDeploymentSettingsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeMachineDeploymentSettingsCreateOrUpdate",
 }));
 
 export type EdgeMachineDiskJobsCreateOrUpdateError = AzureOpError;
@@ -9728,6 +9880,8 @@ export const EdgeMachineDiskJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeMachineDiskJobsCreateOrUpdate",
 }));
 
 export type EdgeMachineDiskPrivilegedJobsCreateOrUpdateError = AzureOpError;
@@ -9751,6 +9905,8 @@ export const EdgeMachineDiskPrivilegedJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeMachineDiskPrivilegedJobsCreateOrUpdate",
 }));
 
 export type EdgeMachineDisksCreateOrUpdateError = AzureOpError;
@@ -9766,6 +9922,8 @@ export const EdgeMachineDisksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeMachineDisksCreateOrUpdate",
 }));
 
 export type EdgeMachineJobsCreateOrUpdateError = AzureOpError;
@@ -9781,6 +9939,8 @@ export const EdgeMachineJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeMachineJobsCreateOrUpdate",
 }));
 
 export type EdgeMachineNetworkAdapterJobsCreateOrUpdateError = AzureOpError;
@@ -9804,6 +9964,8 @@ export const EdgeMachineNetworkAdapterJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeMachineNetworkAdapterJobsCreateOrUpdate",
 }));
 
 export type EdgeMachinesCreateOrUpdateError = AzureOpError;
@@ -9819,6 +9981,8 @@ export const EdgeMachinesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeMachinesCreateOrUpdate",
 }));
 
 export type EdgeMachineSecuritySettingsOperationsCreateOrUpdateError = AzureOpError;
@@ -9842,6 +10006,8 @@ export const EdgeMachineSecuritySettingsOperationsCreateOrUpdate: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeMachineSecuritySettingsOperationsCreateOrUpdate",
 }));
 
 export type EdgeMachineVolumesCreateOrUpdateError = AzureOpError;
@@ -9857,6 +10023,8 @@ export const EdgeMachineVolumesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EdgeMachineVolumesCreateOrUpdate",
 }));
 
 export type ExtendClusterSoftwareAssuranceBenefitError = AzureOpError;
@@ -9872,6 +10040,8 @@ export const ExtendClusterSoftwareAssuranceBenefit: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendClusterSoftwareAssuranceBenefit",
 }));
 
 export type ExtensionsUpgradeError = AzureOpError;
@@ -9887,6 +10057,8 @@ export const ExtensionsUpgrade: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtensionsUpgrade",
 }));
 
 export type GalleryImagesCreateOrUpdateError = AzureOpError;
@@ -9902,6 +10074,8 @@ export const GalleryImagesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GalleryImagesCreateOrUpdate",
 }));
 
 export type GenerateArcSettingsPasswordError = AzureOpError;
@@ -9917,6 +10091,8 @@ export const GenerateArcSettingsPassword: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateArcSettingsPassword",
 }));
 
 export type GetArcSettingsError = AzureOpError;
@@ -9932,6 +10108,8 @@ export const GetArcSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetArcSettings",
 }));
 
 export type GetClusterError = AzureOpError;
@@ -9947,6 +10125,8 @@ export const GetCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetClusterJobError = AzureOpError;
@@ -9962,6 +10142,8 @@ export const GetClusterJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClusterJob",
 }));
 
 export type GetDeploymentSettingsError = AzureOpError;
@@ -9977,6 +10159,8 @@ export const GetDeploymentSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentSettings",
 }));
 
 export type GetEdgeDeviceError = AzureOpError;
@@ -9992,6 +10176,14 @@ export const GetEdgeDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetEdgeDevice",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}",
+    },
+  },
 }));
 
 export type GetEdgeDeviceJobError = AzureOpError;
@@ -10007,6 +10199,14 @@ export const GetEdgeDeviceJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetEdgeDeviceJob",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs/{jobsName}",
+    },
+  },
 }));
 
 export type GetEdgeMachineError = AzureOpError;
@@ -10022,6 +10222,8 @@ export const GetEdgeMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachine",
 }));
 
 export type GetEdgeMachineDeploymentSettingsError = AzureOpError;
@@ -10037,6 +10239,8 @@ export const GetEdgeMachineDeploymentSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachineDeploymentSettings",
 }));
 
 export type GetEdgeMachineDiskError = AzureOpError;
@@ -10052,6 +10256,8 @@ export const GetEdgeMachineDisk: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachineDisk",
 }));
 
 export type GetEdgeMachineDiskJobError = AzureOpError;
@@ -10067,6 +10273,8 @@ export const GetEdgeMachineDiskJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachineDiskJob",
 }));
 
 export type GetEdgeMachineDiskPrivilegedJobError = AzureOpError;
@@ -10082,6 +10290,8 @@ export const GetEdgeMachineDiskPrivilegedJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachineDiskPrivilegedJob",
 }));
 
 export type GetEdgeMachineJobError = AzureOpError;
@@ -10097,6 +10307,8 @@ export const GetEdgeMachineJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachineJob",
 }));
 
 export type GetEdgeMachineNetworkAdapterError = AzureOpError;
@@ -10112,6 +10324,8 @@ export const GetEdgeMachineNetworkAdapter: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachineNetworkAdapter",
 }));
 
 export type GetEdgeMachineNetworkAdapterJobError = AzureOpError;
@@ -10127,6 +10341,8 @@ export const GetEdgeMachineNetworkAdapterJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachineNetworkAdapterJob",
 }));
 
 export type GetEdgeMachineSecuritySettingsOperationError = AzureOpError;
@@ -10142,6 +10358,8 @@ export const GetEdgeMachineSecuritySettingsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachineSecuritySettingsOperation",
 }));
 
 export type GetEdgeMachineVolumeError = AzureOpError;
@@ -10157,6 +10375,8 @@ export const GetEdgeMachineVolume: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEdgeMachineVolume",
 }));
 
 export type GetExtensionError = AzureOpError;
@@ -10172,6 +10392,8 @@ export const GetExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExtension",
 }));
 
 export type GetGalleryImageError = AzureOpError;
@@ -10187,6 +10409,8 @@ export const GetGalleryImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGalleryImage",
 }));
 
 export type GetGuestAgentError = AzureOpError;
@@ -10202,6 +10426,14 @@ export const GetGuestAgent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetGuestAgent",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents/default",
+    },
+  },
 }));
 
 export type GetHybridIdentityMetadataError = AzureOpError;
@@ -10217,6 +10449,14 @@ export const GetHybridIdentityMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetHybridIdentityMetadata",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata/default",
+    },
+  },
 }));
 
 export type GetLogicalNetworkError = AzureOpError;
@@ -10231,6 +10471,8 @@ export const GetLogicalNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLogicalNetwork",
 }));
 
 export type GetMarketplaceGalleryImageError = AzureOpError;
@@ -10246,6 +10488,8 @@ export const GetMarketplaceGalleryImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketplaceGalleryImage",
 }));
 
 export type GetNetworkInterfaceError = AzureOpError;
@@ -10261,6 +10505,8 @@ export const GetNetworkInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkInterface",
 }));
 
 export type GetOfferError = AzureOpError;
@@ -10276,6 +10522,8 @@ export const GetOffer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOffer",
 }));
 
 export type GetOsImageError = AzureOpError;
@@ -10291,6 +10539,8 @@ export const GetOsImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOsImage",
 }));
 
 export type GetSecuritySettingsError = AzureOpError;
@@ -10306,6 +10556,8 @@ export const GetSecuritySettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecuritySettings",
 }));
 
 export type GetSkusError = AzureOpError;
@@ -10321,6 +10573,8 @@ export const GetSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSkus",
 }));
 
 export type GetStorageContainerError = AzureOpError;
@@ -10336,6 +10590,8 @@ export const GetStorageContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageContainer",
 }));
 
 export type GetUpdateError = AzureOpError;
@@ -10351,6 +10607,8 @@ export const GetUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUpdate",
 }));
 
 export type GetUpdateRunError = AzureOpError;
@@ -10366,6 +10624,8 @@ export const GetUpdateRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUpdateRun",
 }));
 
 export type GetUpdateSummaryError = AzureOpError;
@@ -10381,6 +10641,8 @@ export const GetUpdateSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUpdateSummary",
 }));
 
 export type GetValidatedSolutionRecipeError = AzureOpError;
@@ -10396,6 +10658,8 @@ export const GetValidatedSolutionRecipe: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetValidatedSolutionRecipe",
 }));
 
 export type GetVirtualHardDiskError = AzureOpError;
@@ -10411,6 +10675,8 @@ export const GetVirtualHardDisk: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualHardDisk",
 }));
 
 export type GetVirtualMachineInstanceError = AzureOpError;
@@ -10426,6 +10692,14 @@ export const GetVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
+    },
+  },
 }));
 
 export type ListArcSettingsByClusterError = AzureOpError;
@@ -10441,6 +10715,8 @@ export const ListArcSettingsByCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArcSettingsByCluster",
 }));
 
 export type ListClusterByResourceGroupError = AzureOpError;
@@ -10456,6 +10732,8 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterByResourceGroup",
 }));
 
 export type ListClusterBySubscriptionError = AzureOpError;
@@ -10471,6 +10749,8 @@ export const ListClusterBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterBySubscription",
 }));
 
 export type ListClusterJobsError = AzureOpError;
@@ -10486,6 +10766,8 @@ export const ListClusterJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterJobs",
 }));
 
 export type ListDeploymentSettingsByClustersError = AzureOpError;
@@ -10501,6 +10783,8 @@ export const ListDeploymentSettingsByClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentSettingsByClusters",
 }));
 
 export type ListEdgeDeviceJobByEdgeDeviceError = AzureOpError;
@@ -10516,6 +10800,14 @@ export const ListEdgeDeviceJobByEdgeDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListEdgeDeviceJobByEdgeDevice",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs",
+    },
+  },
 }));
 
 export type ListEdgeDevicesError = AzureOpError;
@@ -10531,6 +10823,11 @@ export const ListEdgeDevices: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListEdgeDevices",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices" },
+  },
 }));
 
 export type ListEdgeMachineByResourceGroupError = AzureOpError;
@@ -10546,6 +10843,8 @@ export const ListEdgeMachineByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineByResourceGroup",
 }));
 
 export type ListEdgeMachineBySubscriptionError = AzureOpError;
@@ -10561,6 +10860,8 @@ export const ListEdgeMachineBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineBySubscription",
 }));
 
 export type ListEdgeMachineDeploymentSettingsByEdgeMachineError = AzureOpError;
@@ -10580,6 +10881,8 @@ export const ListEdgeMachineDeploymentSettingsByEdgeMachine: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineDeploymentSettingsByEdgeMachine",
 }));
 
 export type ListEdgeMachineDiskJobsError = AzureOpError;
@@ -10595,6 +10898,8 @@ export const ListEdgeMachineDiskJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineDiskJobs",
 }));
 
 export type ListEdgeMachineDiskPrivilegedJobsError = AzureOpError;
@@ -10610,6 +10915,8 @@ export const ListEdgeMachineDiskPrivilegedJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineDiskPrivilegedJobs",
 }));
 
 export type ListEdgeMachineDisksError = AzureOpError;
@@ -10625,6 +10932,8 @@ export const ListEdgeMachineDisks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineDisks",
 }));
 
 export type ListEdgeMachineJobsError = AzureOpError;
@@ -10640,6 +10949,8 @@ export const ListEdgeMachineJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineJobs",
 }));
 
 export type ListEdgeMachineNetworkAdapterJobsError = AzureOpError;
@@ -10655,6 +10966,8 @@ export const ListEdgeMachineNetworkAdapterJobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineNetworkAdapterJobs",
 }));
 
 export type ListEdgeMachineNetworkAdaptersError = AzureOpError;
@@ -10670,6 +10983,8 @@ export const ListEdgeMachineNetworkAdapters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineNetworkAdapters",
 }));
 
 export type ListEdgeMachineSecuritySettingsOperationByEdgeMachineError = AzureOpError;
@@ -10689,6 +11004,8 @@ export const ListEdgeMachineSecuritySettingsOperationByEdgeMachine: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineSecuritySettingsOperationByEdgeMachine",
 }));
 
 export type ListEdgeMachineVolumesError = AzureOpError;
@@ -10704,6 +11021,8 @@ export const ListEdgeMachineVolumes: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeMachineVolumes",
 }));
 
 export type ListExtensionByArcSettingError = AzureOpError;
@@ -10719,6 +11038,8 @@ export const ListExtensionByArcSetting: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExtensionByArcSetting",
 }));
 
 export type ListGalleryImageAllError = AzureOpError;
@@ -10734,6 +11055,8 @@ export const ListGalleryImageAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGalleryImageAll",
 }));
 
 export type ListGalleryImagesError = AzureOpError;
@@ -10749,6 +11072,8 @@ export const ListGalleryImages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGalleryImages",
 }));
 
 export type ListGuestAgentsError = AzureOpError;
@@ -10764,6 +11089,14 @@ export const ListGuestAgents: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListGuestAgents",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
+    },
+  },
 }));
 
 export type ListHybridIdentityMetadataError = AzureOpError;
@@ -10779,6 +11112,14 @@ export const ListHybridIdentityMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListHybridIdentityMetadata",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata",
+    },
+  },
 }));
 
 export type ListLogicalNetworkAllError = AzureOpError;
@@ -10794,6 +11135,8 @@ export const ListLogicalNetworkAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogicalNetworkAll",
 }));
 
 export type ListLogicalNetworksError = AzureOpError;
@@ -10809,6 +11152,8 @@ export const ListLogicalNetworks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogicalNetworks",
 }));
 
 export type ListMarketplaceGalleryImageAllError = AzureOpError;
@@ -10824,6 +11169,8 @@ export const ListMarketplaceGalleryImageAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketplaceGalleryImageAll",
 }));
 
 export type ListMarketplaceGalleryImagesError = AzureOpError;
@@ -10839,6 +11186,8 @@ export const ListMarketplaceGalleryImages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketplaceGalleryImages",
 }));
 
 export type ListNetworkInterfaceAllError = AzureOpError;
@@ -10854,6 +11203,8 @@ export const ListNetworkInterfaceAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkInterfaceAll",
 }));
 
 export type ListNetworkInterfacesError = AzureOpError;
@@ -10869,6 +11220,8 @@ export const ListNetworkInterfaces: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkInterfaces",
 }));
 
 export type ListOfferByClusterError = AzureOpError;
@@ -10884,6 +11237,8 @@ export const ListOfferByCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOfferByCluster",
 }));
 
 export type ListOfferByPublisherError = AzureOpError;
@@ -10899,6 +11254,8 @@ export const ListOfferByPublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOfferByPublisher",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -10914,6 +11271,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListOsImageBySubscriptionLocationResourceError = AzureOpError;
@@ -10929,6 +11288,8 @@ export const ListOsImageBySubscriptionLocationResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOsImageBySubscriptionLocationResource",
 }));
 
 export type ListSecuritySettingsByClustersError = AzureOpError;
@@ -10944,6 +11305,8 @@ export const ListSecuritySettingsByClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecuritySettingsByClusters",
 }));
 
 export type ListSkusByOfferError = AzureOpError;
@@ -10959,6 +11322,8 @@ export const ListSkusByOffer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkusByOffer",
 }));
 
 export type ListStorageContainerAllError = AzureOpError;
@@ -10974,6 +11339,8 @@ export const ListStorageContainerAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageContainerAll",
 }));
 
 export type ListStorageContainersError = AzureOpError;
@@ -10989,6 +11356,8 @@ export const ListStorageContainers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageContainers",
 }));
 
 export type ListUpdateRunsError = AzureOpError;
@@ -11004,6 +11373,8 @@ export const ListUpdateRuns: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUpdateRuns",
 }));
 
 export type ListUpdatesError = AzureOpError;
@@ -11019,6 +11390,8 @@ export const ListUpdates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUpdates",
 }));
 
 export type ListUpdateSummariesError = AzureOpError;
@@ -11034,6 +11407,8 @@ export const ListUpdateSummaries: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUpdateSummaries",
 }));
 
 export type ListValidatedSolutionRecipeBySubscriptionLocationResourceError = AzureOpError;
@@ -11053,6 +11428,8 @@ export const ListValidatedSolutionRecipeBySubscriptionLocationResource: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListValidatedSolutionRecipeBySubscriptionLocationResource",
 }));
 
 export type ListVirtualHardDiskAllError = AzureOpError;
@@ -11068,6 +11445,8 @@ export const ListVirtualHardDiskAll: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualHardDiskAll",
 }));
 
 export type ListVirtualHardDisksError = AzureOpError;
@@ -11083,6 +11462,8 @@ export const ListVirtualHardDisks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualHardDisks",
 }));
 
 export type ListVirtualMachineInstancesError = AzureOpError;
@@ -11098,6 +11479,13 @@ export const ListVirtualMachineInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListVirtualMachineInstances",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances",
+    },
+  },
 }));
 
 export type LogicalNetworksCreateOrUpdateError = AzureOpError;
@@ -11113,6 +11501,8 @@ export const LogicalNetworksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LogicalNetworksCreateOrUpdate",
 }));
 
 export type MarketplaceGalleryImagesCreateOrUpdateError = AzureOpError;
@@ -11128,6 +11518,8 @@ export const MarketplaceGalleryImagesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarketplaceGalleryImagesCreateOrUpdate",
 }));
 
 export type NetworkInterfacesCreateOrUpdateError = AzureOpError;
@@ -11143,6 +11535,8 @@ export const NetworkInterfacesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkInterfacesCreateOrUpdate",
 }));
 
 export type PostUpdateError = AzureOpError;
@@ -11158,6 +11552,8 @@ export const PostUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostUpdate",
 }));
 
 export type PutUpdateError = AzureOpError;
@@ -11173,6 +11569,8 @@ export const PutUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUpdate",
 }));
 
 export type PutUpdateRunError = AzureOpError;
@@ -11188,6 +11586,8 @@ export const PutUpdateRun: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUpdateRun",
 }));
 
 export type PutUpdateSummaryError = AzureOpError;
@@ -11203,6 +11603,8 @@ export const PutUpdateSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutUpdateSummary",
 }));
 
 export type RefreshEdgeMachineApplicableUpdatesError = AzureOpError;
@@ -11218,6 +11620,8 @@ export const RefreshEdgeMachineApplicableUpdates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshEdgeMachineApplicableUpdates",
 }));
 
 export type RefreshEdgeMachineSecuritySettingsError = AzureOpError;
@@ -11233,6 +11637,8 @@ export const RefreshEdgeMachineSecuritySettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshEdgeMachineSecuritySettings",
 }));
 
 export type RestartVirtualMachineInstanceError = AzureOpError;
@@ -11248,6 +11654,14 @@ export const RestartVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RestartVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/restart",
+    },
+  },
 }));
 
 export type SecuritySettingsCreateOrUpdateError = AzureOpError;
@@ -11263,6 +11677,8 @@ export const SecuritySettingsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecuritySettingsCreateOrUpdate",
 }));
 
 export type StartVirtualMachineInstanceError = AzureOpError;
@@ -11278,6 +11694,14 @@ export const StartVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "StartVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/start",
+    },
+  },
 }));
 
 export type StopVirtualMachineInstanceError = AzureOpError;
@@ -11293,6 +11717,14 @@ export const StopVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "StopVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/stop",
+    },
+  },
 }));
 
 export type StorageContainersCreateOrUpdateError = AzureOpError;
@@ -11308,6 +11740,8 @@ export const StorageContainersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageContainersCreateOrUpdate",
 }));
 
 export type TriggerClusterLogCollectionError = AzureOpError;
@@ -11323,6 +11757,8 @@ export const TriggerClusterLogCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerClusterLogCollection",
 }));
 
 export type UpdateArcSettingsError = AzureOpError;
@@ -11338,6 +11774,8 @@ export const UpdateArcSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateArcSettings",
 }));
 
 export type UpdateClusterError = AzureOpError;
@@ -11353,6 +11791,8 @@ export const UpdateCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateClusterSecretsLocationsError = AzureOpError;
@@ -11368,6 +11808,8 @@ export const UpdateClusterSecretsLocations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateClusterSecretsLocations",
 }));
 
 export type UpdateEdgeMachineError = AzureOpError;
@@ -11383,6 +11825,8 @@ export const UpdateEdgeMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEdgeMachine",
 }));
 
 export type UpdateExtensionError = AzureOpError;
@@ -11398,6 +11842,8 @@ export const UpdateExtension: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExtension",
 }));
 
 export type UpdateGalleryImageError = AzureOpError;
@@ -11413,6 +11859,8 @@ export const UpdateGalleryImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGalleryImage",
 }));
 
 export type UpdateLogicalNetworkError = AzureOpError;
@@ -11428,6 +11876,8 @@ export const UpdateLogicalNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLogicalNetwork",
 }));
 
 export type UpdateMarketplaceGalleryImageError = AzureOpError;
@@ -11443,6 +11893,8 @@ export const UpdateMarketplaceGalleryImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMarketplaceGalleryImage",
 }));
 
 export type UpdateNetworkInterfaceError = AzureOpError;
@@ -11458,6 +11910,8 @@ export const UpdateNetworkInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkInterface",
 }));
 
 export type UpdatesPrepareError = AzureOpError;
@@ -11473,6 +11927,8 @@ export const UpdatesPrepare: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatesPrepare",
 }));
 
 export type UpdateStorageContainerError = AzureOpError;
@@ -11488,6 +11944,8 @@ export const UpdateStorageContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateStorageContainer",
 }));
 
 export type UpdateVirtualHardDiskError = AzureOpError;
@@ -11503,6 +11961,8 @@ export const UpdateVirtualHardDisk: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualHardDisk",
 }));
 
 export type UpdateVirtualMachineInstanceError = AzureOpError;
@@ -11518,6 +11978,14 @@ export const UpdateVirtualMachineInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateVirtualMachineInstance",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
+    },
+  },
 }));
 
 export type UploadClusterCertificateError = AzureOpError;
@@ -11533,6 +12001,8 @@ export const UploadClusterCertificate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadClusterCertificate",
 }));
 
 export type ValidateEdgeDeviceError = AzureOpError;
@@ -11548,6 +12018,14 @@ export const ValidateEdgeDevice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidateEdgeDevice",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/validate",
+    },
+  },
 }));
 
 export type ValidateEdgeMachineError = AzureOpError;
@@ -11563,6 +12041,8 @@ export const ValidateEdgeMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateEdgeMachine",
 }));
 
 export type ValidateOwnershipVoucherError = AzureOpError;
@@ -11578,6 +12058,8 @@ export const ValidateOwnershipVoucher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateOwnershipVoucher",
 }));
 
 export type VirtualHardDisksCreateOrUpdateError = AzureOpError;
@@ -11593,6 +12075,8 @@ export const VirtualHardDisksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualHardDisksCreateOrUpdate",
 }));
 
 export type VirtualMachineInstancesCreateOrUpdateError = AzureOpError;
@@ -11608,6 +12092,14 @@ export const VirtualMachineInstancesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "VirtualMachineInstancesCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default",
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

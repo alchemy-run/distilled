@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://codeguru-profiler.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CodeGuruProfiler",
+  service: "CodeGuruProfiler",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -487,6 +502,8 @@ export const addNotificationChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddNotificationChannels",
+  telemetry: TELEMETRY,
+  span: "AddNotificationChannels",
 }));
 
 export type BatchGetFrameMetricDataError =
@@ -516,6 +533,8 @@ export const batchGetFrameMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFrameMetricData",
+  telemetry: TELEMETRY,
+  span: "BatchGetFrameMetricData",
 }));
 
 export type ConfigureAgentError =
@@ -546,6 +565,8 @@ export const configureAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureAgent",
+  telemetry: TELEMETRY,
+  span: "ConfigureAgent",
 }));
 
 export type CreateProfilingGroupError =
@@ -576,6 +597,8 @@ export const createProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfilingGroup",
+  telemetry: TELEMETRY,
+  span: "CreateProfilingGroup",
 }));
 
 export type DeleteProfilingGroupError =
@@ -606,6 +629,8 @@ export const deleteProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfilingGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteProfilingGroup",
 }));
 
 export type DescribeProfilingGroupError =
@@ -637,6 +662,8 @@ export const describeProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProfilingGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeProfilingGroup",
 }));
 
 export type GetFindingsReportAccountSummaryError =
@@ -669,6 +696,8 @@ export const getFindingsReportAccountSummary: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetFindingsReportAccountSummary",
 })) as any;
 
 export type GetNotificationConfigurationError =
@@ -697,6 +726,8 @@ export const getNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetNotificationConfiguration",
 }));
 
 export type GetPolicyError =
@@ -719,6 +750,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetProfileError =
@@ -786,6 +819,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetRecommendationsError =
@@ -823,6 +858,8 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetRecommendations",
 }));
 
 export type ListFindingsReportsError =
@@ -857,6 +894,8 @@ export const listFindingsReports: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFindingsReports",
 })) as any;
 
 export type ListProfileTimesError =
@@ -893,6 +932,8 @@ export const listProfileTimes: API.PaginatedOperationMethod<
     items: "profileTimes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfileTimes",
 })) as any;
 
 export type ListProfilingGroupsError = InternalServerException | ThrottlingException | CommonErrors;
@@ -921,6 +962,8 @@ export const listProfilingGroups: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfilingGroups",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -943,6 +986,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PostAgentProfileError =
@@ -975,6 +1020,8 @@ export const postAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostAgentProfile",
+  telemetry: TELEMETRY,
+  span: "PostAgentProfile",
 }));
 
 export type PutPermissionError =
@@ -1024,6 +1071,8 @@ export const putPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermission",
+  telemetry: TELEMETRY,
+  span: "PutPermission",
 }));
 
 export type RemoveNotificationChannelError =
@@ -1052,6 +1101,8 @@ export const removeNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveNotificationChannel",
+  telemetry: TELEMETRY,
+  span: "RemoveNotificationChannel",
 }));
 
 export type RemovePermissionError =
@@ -1090,6 +1141,8 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  telemetry: TELEMETRY,
+  span: "RemovePermission",
 }));
 
 export type SubmitFeedbackError =
@@ -1119,6 +1172,8 @@ export const submitFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitFeedback",
+  telemetry: TELEMETRY,
+  span: "SubmitFeedback",
 }));
 
 export type TagResourceError =
@@ -1141,6 +1196,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1163,6 +1220,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateProfilingGroupError =
@@ -1193,6 +1252,8 @@ export const updateProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfilingGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateProfilingGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

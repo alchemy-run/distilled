@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Automanage" },
+  prefix: "Automanage",
+  service: "Automanage",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Automanage configuration profile assignment properties. */
 export interface ConfigurationProfileAssignmentPropertiesInput {
   /** The Automanage configurationProfile ARM Resource URI. */
@@ -1383,6 +1403,8 @@ export const ConfigurationProfileAssignmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationProfileAssignmentsCreateOrUpdate",
 }));
 
 export type ConfigurationProfileHCIAssignmentsCreateOrUpdateError = AzureOpError;
@@ -1406,6 +1428,8 @@ export const ConfigurationProfileHCIAssignmentsCreateOrUpdate: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationProfileHCIAssignmentsCreateOrUpdate",
 }));
 
 export type ConfigurationProfileHCRPAssignmentsCreateOrUpdateError = AzureOpError;
@@ -1429,6 +1453,8 @@ export const ConfigurationProfileHCRPAssignmentsCreateOrUpdate: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationProfileHCRPAssignmentsCreateOrUpdate",
 }));
 
 export type ConfigurationProfilesCreateOrUpdateError = AzureOpError;
@@ -1444,6 +1470,8 @@ export const ConfigurationProfilesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationProfilesCreateOrUpdate",
 }));
 
 export type ConfigurationProfilesVersionsCreateOrUpdateError = AzureOpError;
@@ -1463,6 +1491,8 @@ export const ConfigurationProfilesVersionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfigurationProfilesVersionsCreateOrUpdate",
 }));
 
 export type DeleteConfigurationProfileError = AzureOpError;
@@ -1478,6 +1508,8 @@ export const DeleteConfigurationProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationProfile",
 }));
 
 export type DeleteConfigurationProfileAssignmentError = AzureOpError;
@@ -1493,6 +1525,8 @@ export const DeleteConfigurationProfileAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationProfileAssignment",
 }));
 
 export type DeleteConfigurationProfileHCIAssignmentError = AzureOpError;
@@ -1508,6 +1542,8 @@ export const DeleteConfigurationProfileHCIAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationProfileHCIAssignment",
 }));
 
 export type DeleteConfigurationProfileHCRPAssignmentError = AzureOpError;
@@ -1523,6 +1559,8 @@ export const DeleteConfigurationProfileHCRPAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationProfileHCRPAssignment",
 }));
 
 export type DeleteConfigurationProfilesVersionError = AzureOpError;
@@ -1538,6 +1576,8 @@ export const DeleteConfigurationProfilesVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationProfilesVersion",
 }));
 
 export type GetBestPracticeError = AzureOpError;
@@ -1553,6 +1593,8 @@ export const GetBestPractice: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBestPractice",
 }));
 
 export type GetBestPracticesVersionError = AzureOpError;
@@ -1568,6 +1610,8 @@ export const GetBestPracticesVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBestPracticesVersion",
 }));
 
 export type GetConfigurationProfileError = AzureOpError;
@@ -1583,6 +1627,8 @@ export const GetConfigurationProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationProfile",
 }));
 
 export type GetConfigurationProfileAssignmentError = AzureOpError;
@@ -1598,6 +1644,8 @@ export const GetConfigurationProfileAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationProfileAssignment",
 }));
 
 export type GetConfigurationProfileHCIAssignmentError = AzureOpError;
@@ -1613,6 +1661,8 @@ export const GetConfigurationProfileHCIAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationProfileHCIAssignment",
 }));
 
 export type GetConfigurationProfileHCRPAssignmentError = AzureOpError;
@@ -1628,6 +1678,8 @@ export const GetConfigurationProfileHCRPAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationProfileHCRPAssignment",
 }));
 
 export type GetConfigurationProfilesVersionError = AzureOpError;
@@ -1643,6 +1695,8 @@ export const GetConfigurationProfilesVersion: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConfigurationProfilesVersion",
 }));
 
 export type GetHCIReportError = AzureOpError;
@@ -1658,6 +1712,8 @@ export const GetHCIReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHCIReport",
 }));
 
 export type GetHCRPReportError = AzureOpError;
@@ -1673,6 +1729,8 @@ export const GetHCRPReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHCRPReport",
 }));
 
 export type GetReportError = AzureOpError;
@@ -1688,6 +1746,8 @@ export const GetReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReport",
 }));
 
 export type GetServicePrincipalError = AzureOpError;
@@ -1703,6 +1763,8 @@ export const GetServicePrincipal: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServicePrincipal",
 }));
 
 export type ListBestPracticeByTenantError = AzureOpError;
@@ -1718,6 +1780,8 @@ export const ListBestPracticeByTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBestPracticeByTenant",
 }));
 
 export type ListBestPracticesVersionByTenantError = AzureOpError;
@@ -1733,6 +1797,8 @@ export const ListBestPracticesVersionByTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBestPracticesVersionByTenant",
 }));
 
 export type ListConfigurationProfileAssignmentByClusterNameError = AzureOpError;
@@ -1752,6 +1818,8 @@ export const ListConfigurationProfileAssignmentByClusterName: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfileAssignmentByClusterName",
 }));
 
 export type ListConfigurationProfileAssignmentByMachineNameError = AzureOpError;
@@ -1771,6 +1839,8 @@ export const ListConfigurationProfileAssignmentByMachineName: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfileAssignmentByMachineName",
 }));
 
 export type ListConfigurationProfileAssignmentBySubscriptionError = AzureOpError;
@@ -1790,6 +1860,8 @@ export const ListConfigurationProfileAssignmentBySubscription: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfileAssignmentBySubscription",
 }));
 
 export type ListConfigurationProfileAssignmentByVirtualMachinesError = AzureOpError;
@@ -1809,6 +1881,8 @@ export const ListConfigurationProfileAssignmentByVirtualMachines: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfileAssignmentByVirtualMachines",
 }));
 
 export type ListConfigurationProfileAssignmentsError = AzureOpError;
@@ -1824,6 +1898,8 @@ export const ListConfigurationProfileAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfileAssignments",
 }));
 
 export type ListConfigurationProfileByResourceGroupError = AzureOpError;
@@ -1839,6 +1915,8 @@ export const ListConfigurationProfileByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfileByResourceGroup",
 }));
 
 export type ListConfigurationProfileBySubscriptionError = AzureOpError;
@@ -1854,6 +1932,8 @@ export const ListConfigurationProfileBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfileBySubscription",
 }));
 
 export type ListConfigurationProfilesVersionChildResourcesError = AzureOpError;
@@ -1873,6 +1953,8 @@ export const ListConfigurationProfilesVersionChildResources: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfilesVersionChildResources",
 }));
 
 export type ListHCIReportByConfigurationProfileAssignmentsError = AzureOpError;
@@ -1892,6 +1974,8 @@ export const ListHCIReportByConfigurationProfileAssignments: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHCIReportByConfigurationProfileAssignments",
 }));
 
 export type ListHCRPReportByConfigurationProfileAssignmentsError = AzureOpError;
@@ -1911,6 +1995,8 @@ export const ListHCRPReportByConfigurationProfileAssignments: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHCRPReportByConfigurationProfileAssignments",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1926,6 +2012,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListReportByConfigurationProfileAssignmentsError = AzureOpError;
@@ -1941,6 +2029,8 @@ export const ListReportByConfigurationProfileAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListReportByConfigurationProfileAssignments",
 }));
 
 export type ListServicePrincipalBySubscriptionError = AzureOpError;
@@ -1956,6 +2046,8 @@ export const ListServicePrincipalBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServicePrincipalBySubscription",
 }));
 
 export type UpdateConfigurationProfileError = AzureOpError;
@@ -1971,6 +2063,8 @@ export const UpdateConfigurationProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationProfile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

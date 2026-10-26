@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "RollingRelease",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -834,6 +848,8 @@ export const approveRollingReleaseStage: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveRollingReleaseStage",
 }));
 
 export type CompleteRollingReleaseError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -849,6 +865,8 @@ export const completeRollingRelease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteRollingRelease",
 }));
 
 export type DeleteRollingReleaseConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -864,6 +882,8 @@ export const deleteRollingReleaseConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRollingReleaseConfig",
 }));
 
 export type GetRollingReleaseError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -879,6 +899,8 @@ export const getRollingRelease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRollingRelease",
 }));
 
 export type GetRollingReleaseBillingStatusError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -894,6 +916,8 @@ export const getRollingReleaseBillingStatus: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRollingReleaseBillingStatus",
 }));
 
 export type GetRollingReleaseConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -909,6 +933,8 @@ export const getRollingReleaseConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRollingReleaseConfig",
 }));
 
 export type StartRollingReleaseError =
@@ -930,6 +956,8 @@ export const startRollingRelease: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartRollingRelease",
 }));
 
 export type UpdateRollingReleaseConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -945,6 +973,8 @@ export const updateRollingReleaseConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRollingReleaseConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ConnectedCache" },
+  prefix: "Connectedcache",
+  service: "Connectedcache",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteEnterpriseMccCacheNodesOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1712,6 +1732,8 @@ export const DeleteEnterpriseMccCacheNodesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnterpriseMccCacheNodesOperation",
 }));
 
 export type DeleteEnterpriseMccCustomerError = AzureOpError;
@@ -1727,6 +1749,8 @@ export const DeleteEnterpriseMccCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnterpriseMccCustomer",
 }));
 
 export type DeleteIspCacheNodesOperationError = AzureOpError;
@@ -1742,6 +1766,8 @@ export const DeleteIspCacheNodesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIspCacheNodesOperation",
 }));
 
 export type DeleteIspCustomerError = AzureOpError;
@@ -1757,6 +1783,8 @@ export const DeleteIspCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIspCustomer",
 }));
 
 export type EnterpriseMccCacheNodesOperationsCreateOrUpdateError = AzureOpError;
@@ -1780,6 +1808,8 @@ export const EnterpriseMccCacheNodesOperationsCreateOrUpdate: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnterpriseMccCacheNodesOperationsCreateOrUpdate",
 }));
 
 export type EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryError = AzureOpError;
@@ -1803,6 +1833,8 @@ export const EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistory: API
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistory",
 }));
 
 export type EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsError = AzureOpError;
@@ -1826,6 +1858,8 @@ export const EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetails: API.Op
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetails",
 }));
 
 export type EnterpriseMccCustomersCreateOrUpdateError = AzureOpError;
@@ -1841,6 +1875,8 @@ export const EnterpriseMccCustomersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnterpriseMccCustomersCreateOrUpdate",
 }));
 
 export type GetEnterpriseMccCacheNodesOperationError = AzureOpError;
@@ -1856,6 +1892,8 @@ export const GetEnterpriseMccCacheNodesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterpriseMccCacheNodesOperation",
 }));
 
 export type GetEnterpriseMccCacheNodesOperationCacheNodeMccIssueDetailsHistoryError = AzureOpError;
@@ -1879,6 +1917,8 @@ export const GetEnterpriseMccCacheNodesOperationCacheNodeMccIssueDetailsHistory:
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterpriseMccCacheNodesOperationCacheNodeMccIssueDetailsHistory",
 }));
 
 export type GetEnterpriseMccCacheNodesOperationCacheNodeTlsCertificateHistoryError = AzureOpError;
@@ -1902,6 +1942,8 @@ export const GetEnterpriseMccCacheNodesOperationCacheNodeTlsCertificateHistory: 
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterpriseMccCacheNodesOperationCacheNodeTlsCertificateHistory",
 }));
 
 export type GetEnterpriseMccCustomerError = AzureOpError;
@@ -1917,6 +1959,8 @@ export const GetEnterpriseMccCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnterpriseMccCustomer",
 }));
 
 export type GetIspCacheNodesOperationError = AzureOpError;
@@ -1932,6 +1976,8 @@ export const GetIspCacheNodesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIspCacheNodesOperation",
 }));
 
 export type GetIspCacheNodesOperationBgpCidrsError = AzureOpError;
@@ -1947,6 +1993,8 @@ export const GetIspCacheNodesOperationBgpCidrs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIspCacheNodesOperationBgpCidrs",
 }));
 
 export type GetIspCacheNodesOperationCacheNodeMccIssueDetailsHistoryError = AzureOpError;
@@ -1970,6 +2018,8 @@ export const GetIspCacheNodesOperationCacheNodeMccIssueDetailsHistory: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIspCacheNodesOperationCacheNodeMccIssueDetailsHistory",
 }));
 
 export type GetIspCustomerError = AzureOpError;
@@ -1985,6 +2035,8 @@ export const GetIspCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIspCustomer",
 }));
 
 export type IspCacheNodesOperationsCreateOrUpdateError = AzureOpError;
@@ -2000,6 +2052,8 @@ export const IspCacheNodesOperationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IspCacheNodesOperationsCreateOrUpdate",
 }));
 
 export type IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryError = AzureOpError;
@@ -2023,6 +2077,8 @@ export const IspCacheNodesOperationsGetCacheNodeAutoUpdateHistory: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IspCacheNodesOperationsGetCacheNodeAutoUpdateHistory",
 }));
 
 export type IspCacheNodesOperationsGetCacheNodeInstallDetailsError = AzureOpError;
@@ -2046,6 +2102,8 @@ export const IspCacheNodesOperationsGetCacheNodeInstallDetails: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IspCacheNodesOperationsGetCacheNodeInstallDetails",
 }));
 
 export type IspCustomersCreateOrUpdateError = AzureOpError;
@@ -2061,6 +2119,8 @@ export const IspCustomersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IspCustomersCreateOrUpdate",
 }));
 
 export type ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResourceError = AzureOpError;
@@ -2080,6 +2140,8 @@ export const ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResource
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterpriseMccCacheNodesOperationByEnterpriseMccCustomerResource",
 }));
 
 export type ListEnterpriseMccCustomerByResourceGroupError = AzureOpError;
@@ -2095,6 +2157,8 @@ export const ListEnterpriseMccCustomerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterpriseMccCustomerByResourceGroup",
 }));
 
 export type ListEnterpriseMccCustomerBySubscriptionError = AzureOpError;
@@ -2110,6 +2174,8 @@ export const ListEnterpriseMccCustomerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnterpriseMccCustomerBySubscription",
 }));
 
 export type ListIspCacheNodesOperationByIspCustomerResourceError = AzureOpError;
@@ -2129,6 +2195,8 @@ export const ListIspCacheNodesOperationByIspCustomerResource: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIspCacheNodesOperationByIspCustomerResource",
 }));
 
 export type ListIspCustomerByResourceGroupError = AzureOpError;
@@ -2144,6 +2212,8 @@ export const ListIspCustomerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIspCustomerByResourceGroup",
 }));
 
 export type ListIspCustomerBySubscriptionError = AzureOpError;
@@ -2159,6 +2229,8 @@ export const ListIspCustomerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIspCustomerBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2174,6 +2246,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type UpdateEnterpriseMccCacheNodesOperationError = AzureOpError;
@@ -2189,6 +2263,8 @@ export const UpdateEnterpriseMccCacheNodesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnterpriseMccCacheNodesOperation",
 }));
 
 export type UpdateEnterpriseMccCustomerError = AzureOpError;
@@ -2204,6 +2280,8 @@ export const UpdateEnterpriseMccCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnterpriseMccCustomer",
 }));
 
 export type UpdateIspCacheNodesOperationError = AzureOpError;
@@ -2219,6 +2297,8 @@ export const UpdateIspCacheNodesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIspCacheNodesOperation",
 }));
 
 export type UpdateIspCustomerError = AzureOpError;
@@ -2234,6 +2314,8 @@ export const UpdateIspCustomer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIspCustomer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

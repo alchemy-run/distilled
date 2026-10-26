@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -64,6 +65,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "S3Vectors",
+  service: "S3Vectors",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -423,6 +438,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateVectorBucketError =
@@ -451,6 +468,8 @@ export const createVectorBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVectorBucket",
+  telemetry: TELEMETRY,
+  span: "CreateVectorBucket",
 }));
 
 export type DeleteIndexError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -473,6 +492,8 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeleteVectorBucketError =
@@ -499,6 +520,8 @@ export const deleteVectorBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorBucket",
+  telemetry: TELEMETRY,
+  span: "DeleteVectorBucket",
 }));
 
 export type DeleteVectorBucketPolicyError =
@@ -524,6 +547,8 @@ export const deleteVectorBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteVectorBucketPolicy",
 }));
 
 export type DeleteVectorsError =
@@ -562,6 +587,8 @@ export const deleteVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectors",
+  telemetry: TELEMETRY,
+  span: "DeleteVectors",
 }));
 
 export type GetIndexError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -584,6 +611,8 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetVectorBucketError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -606,6 +635,8 @@ export const getVectorBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorBucket",
+  telemetry: TELEMETRY,
+  span: "GetVectorBucket",
 }));
 
 export type GetVectorBucketPolicyError =
@@ -631,6 +662,8 @@ export const getVectorBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "GetVectorBucketPolicy",
 }));
 
 export type GetVectorsError =
@@ -667,6 +700,8 @@ export const getVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectors",
+  telemetry: TELEMETRY,
+  span: "GetVectors",
 }));
 
 export type ListIndexesError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -696,6 +731,8 @@ export const listIndexes: API.PaginatedOperationMethod<
     items: "indexes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndexes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -723,6 +760,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVectorBucketsError = ServiceUnavailableException | CommonErrors;
@@ -752,6 +791,8 @@ export const listVectorBuckets: API.PaginatedOperationMethod<
     items: "vectorBuckets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVectorBuckets",
 })) as any;
 
 export type ListVectorsError =
@@ -791,6 +832,8 @@ export const listVectors: API.PaginatedOperationMethod<
     items: "vectors",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVectors",
 })) as any;
 
 export type PutVectorBucketDefaultIndexModeError =
@@ -816,6 +859,8 @@ export const putVectorBucketDefaultIndexMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectorBucketDefaultIndexMode",
+  telemetry: TELEMETRY,
+  span: "PutVectorBucketDefaultIndexMode",
 }));
 
 export type PutVectorBucketPolicyError =
@@ -841,6 +886,8 @@ export const putVectorBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectorBucketPolicy",
+  telemetry: TELEMETRY,
+  span: "PutVectorBucketPolicy",
 }));
 
 export type PutVectorsError =
@@ -885,6 +932,8 @@ export const putVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectors",
+  telemetry: TELEMETRY,
+  span: "PutVectors",
 }));
 
 export type QueryVectorsError =
@@ -929,6 +978,8 @@ export const queryVectors: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "QueryVectors",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "vectors" } as const,
+  telemetry: TELEMETRY,
+  span: "QueryVectors",
 })) as any;
 
 export type TagResourceError =
@@ -957,6 +1008,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -985,6 +1038,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIndexModeError = NotFoundException | ServiceUnavailableException | CommonErrors;
@@ -1007,6 +1062,8 @@ export const updateIndexMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexMode",
+  telemetry: TELEMETRY,
+  span: "UpdateIndexMode",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

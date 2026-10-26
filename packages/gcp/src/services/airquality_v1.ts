@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "airquality" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Airquality",
+  service: "airquality",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -386,6 +405,8 @@ export const lookupCurrentConditions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupCurrentConditions",
 }));
 
 export type LookupForecastError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -401,6 +422,8 @@ export const lookupForecast: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupForecast",
 }));
 
 export type LookupHeatmapTileMapTypesHeatmapTilesError = NotFound | Forbidden | GcpOpError;
@@ -416,6 +439,8 @@ export const lookupHeatmapTileMapTypesHeatmapTiles: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupHeatmapTileMapTypesHeatmapTiles",
 }));
 
 export type LookupHistoryError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -431,6 +456,8 @@ export const lookupHistory: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupHistory",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

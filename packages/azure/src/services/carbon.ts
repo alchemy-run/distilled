@@ -11,6 +11,25 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Carbon" },
+  prefix: "Carbon",
+  service: "Carbon",
+  propagate: "w3c",
+} as const;
+
 export interface CarbonServiceQueryCarbonEmissionDataAvailableDateRangeRequest {}
 /** Response for available date range of carbon emission data */
 export interface CarbonEmissionDataAvailableDateRange {
@@ -168,6 +187,8 @@ export const CarbonServiceQueryCarbonEmissionDataAvailableDateRange: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CarbonServiceQueryCarbonEmissionDataAvailableDateRange",
 }));
 
 export type CarbonServiceQueryCarbonEmissionReportsError = AzureOpError;
@@ -183,6 +204,8 @@ export const CarbonServiceQueryCarbonEmissionReports: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CarbonServiceQueryCarbonEmissionReports",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -198,6 +221,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DurableTask" },
+  prefix: "Durabletask",
+  service: "Durabletask",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteRetentionPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -802,6 +822,8 @@ export const DeleteRetentionPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRetentionPolicy",
 }));
 
 export type DeleteSchedulerError = AzureOpError;
@@ -817,6 +839,8 @@ export const DeleteScheduler: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScheduler",
 }));
 
 export type DeleteSchedulerPrivateEndpointConnectionError = AzureOpError;
@@ -832,6 +856,8 @@ export const DeleteSchedulerPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulerPrivateEndpointConnection",
 }));
 
 export type DeleteTaskHubError = AzureOpError;
@@ -847,6 +873,8 @@ export const DeleteTaskHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTaskHub",
 }));
 
 export type GetRetentionPolicyError = AzureOpError;
@@ -862,6 +890,8 @@ export const GetRetentionPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRetentionPolicy",
 }));
 
 export type GetSchedulerError = AzureOpError;
@@ -877,6 +907,8 @@ export const GetScheduler: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScheduler",
 }));
 
 export type GetSchedulerPrivateEndpointConnectionError = AzureOpError;
@@ -892,6 +924,8 @@ export const GetSchedulerPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchedulerPrivateEndpointConnection",
 }));
 
 export type GetSchedulerPrivateLinkError = AzureOpError;
@@ -907,6 +941,8 @@ export const GetSchedulerPrivateLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchedulerPrivateLink",
 }));
 
 export type GetTaskHubError = AzureOpError;
@@ -922,6 +958,8 @@ export const GetTaskHub: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskHub",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -937,6 +975,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListRetentionPolicyBySchedulerError = AzureOpError;
@@ -952,6 +992,8 @@ export const ListRetentionPolicyByScheduler: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRetentionPolicyByScheduler",
 }));
 
 export type ListSchedulerByResourceGroupError = AzureOpError;
@@ -967,6 +1009,8 @@ export const ListSchedulerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulerByResourceGroup",
 }));
 
 export type ListSchedulerBySubscriptionError = AzureOpError;
@@ -982,6 +1026,8 @@ export const ListSchedulerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulerBySubscription",
 }));
 
 export type ListSchedulerPrivateEndpointConnectionsError = AzureOpError;
@@ -997,6 +1043,8 @@ export const ListSchedulerPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulerPrivateEndpointConnections",
 }));
 
 export type ListSchedulerPrivateLinksError = AzureOpError;
@@ -1012,6 +1060,8 @@ export const ListSchedulerPrivateLinks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulerPrivateLinks",
 }));
 
 export type ListTaskHubBySchedulerError = AzureOpError;
@@ -1027,6 +1077,8 @@ export const ListTaskHubByScheduler: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTaskHubByScheduler",
 }));
 
 export type RetentionPoliciesCreateOrReplaceError = AzureOpError;
@@ -1042,6 +1094,8 @@ export const RetentionPoliciesCreateOrReplace: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetentionPoliciesCreateOrReplace",
 }));
 
 export type SchedulersCreateOrUpdateError = AzureOpError;
@@ -1057,6 +1111,8 @@ export const SchedulersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SchedulersCreateOrUpdate",
 }));
 
 export type SchedulersCreateOrUpdatePrivateEndpointConnectionError = AzureOpError;
@@ -1080,6 +1136,8 @@ export const SchedulersCreateOrUpdatePrivateEndpointConnection: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SchedulersCreateOrUpdatePrivateEndpointConnection",
 }));
 
 export type TaskHubsCreateOrUpdateError = AzureOpError;
@@ -1095,6 +1153,8 @@ export const TaskHubsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskHubsCreateOrUpdate",
 }));
 
 export type UpdateRetentionPolicyError = AzureOpError;
@@ -1110,6 +1170,8 @@ export const UpdateRetentionPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRetentionPolicy",
 }));
 
 export type UpdateSchedulerError = AzureOpError;
@@ -1125,6 +1187,8 @@ export const UpdateScheduler: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScheduler",
 }));
 
 export type UpdateSchedulerPrivateEndpointConnectionError = AzureOpError;
@@ -1140,6 +1204,8 @@ export const UpdateSchedulerPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSchedulerPrivateEndpointConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "WebAnalyticsBotRules",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface WebAnalyticsBotCondition {
   /** Stable id for the condition. Generated when omitted. */
   id?: string;
@@ -73,6 +86,8 @@ export const createWebAnalyticsBotRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebAnalyticsBotRule",
 }));
 
 export type ListWebAnalyticsBotRulesError = PosthogOpError;
@@ -88,6 +103,8 @@ export const listWebAnalyticsBotRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebAnalyticsBotRules",
 }));
 
 export type WebAnalyticsBotRulesDestroyError = PosthogOpError;
@@ -103,6 +120,8 @@ export const webAnalyticsBotRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsBotRulesDestroy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

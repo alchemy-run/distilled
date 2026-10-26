@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "firebasedynamiclinks" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Firebasedynamiclinks",
+  service: "firebasedynamiclinks",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -472,6 +491,8 @@ export const createManagedShortLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManagedShortLinks",
 }));
 
 export type CreateShortLinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -487,6 +508,8 @@ export const createShortLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateShortLinks",
 }));
 
 export type GetLinkStatsV1Error = NotFound | Forbidden | GcpOpError;
@@ -502,6 +525,8 @@ export const getLinkStatsV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLinkStatsV1",
 }));
 
 export type InstallAttributionV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -517,6 +542,8 @@ export const installAttributionV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallAttributionV1",
 }));
 
 export type ReopenAttributionV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -532,6 +559,8 @@ export const reopenAttributionV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReopenAttributionV1",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

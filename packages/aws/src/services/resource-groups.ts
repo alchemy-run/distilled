@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://resource-groups.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ResourceGroups",
+  service: "ResourceGroups",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -561,6 +576,8 @@ export const cancelTagSyncTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTagSyncTask",
+  telemetry: TELEMETRY,
+  span: "CancelTagSyncTask",
 }));
 
 export type CreateGroupError =
@@ -603,6 +620,8 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type DeleteGroupError =
@@ -642,6 +661,8 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGroup",
 }));
 
 export type GetAccountSettingsError =
@@ -672,6 +693,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetGroupError =
@@ -710,6 +733,8 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
+  telemetry: TELEMETRY,
+  span: "GetGroup",
 }));
 
 export type GetGroupConfigurationError =
@@ -749,6 +774,8 @@ export const getGroupConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetGroupConfiguration",
 }));
 
 export type GetGroupQueryError =
@@ -789,6 +816,8 @@ export const getGroupQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupQuery",
+  telemetry: TELEMETRY,
+  span: "GetGroupQuery",
 }));
 
 export type GetTagsError =
@@ -828,6 +857,8 @@ export const getTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
+  telemetry: TELEMETRY,
+  span: "GetTags",
 }));
 
 export type GetTagSyncTaskError =
@@ -868,6 +899,8 @@ export const getTagSyncTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTagSyncTask",
+  telemetry: TELEMETRY,
+  span: "GetTagSyncTask",
 }));
 
 export type GroupResourcesError =
@@ -917,6 +950,8 @@ export const groupResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GroupResources",
+  telemetry: TELEMETRY,
+  span: "GroupResources",
 }));
 
 export type ListGroupingStatusesError =
@@ -957,6 +992,8 @@ export const listGroupingStatuses: API.PaginatedOperationMethod<
     items: "GroupingStatuses",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupingStatuses",
 })) as any;
 
 export type ListGroupResourcesError =
@@ -1011,6 +1048,8 @@ export const listGroupResources: API.PaginatedOperationMethod<
     items: "ResourceIdentifiers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroupResources",
 })) as any;
 
 export type ListGroupsError =
@@ -1054,6 +1093,8 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "GroupIdentifiers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 })) as any;
 
 export type ListTagSyncTasksError =
@@ -1100,6 +1141,8 @@ export const listTagSyncTasks: API.PaginatedOperationMethod<
     items: "TagSyncTasks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagSyncTasks",
 })) as any;
 
 export type PutGroupConfigurationError =
@@ -1140,6 +1183,8 @@ export const putGroupConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutGroupConfiguration",
 }));
 
 export type SearchResourcesError =
@@ -1193,6 +1238,8 @@ export const searchResources: API.PaginatedOperationMethod<
     items: "ResourceIdentifiers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchResources",
 })) as any;
 
 export type StartTagSyncTaskError =
@@ -1243,6 +1290,8 @@ export const startTagSyncTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTagSyncTask",
+  telemetry: TELEMETRY,
+  span: "StartTagSyncTask",
 }));
 
 export type TagError =
@@ -1287,6 +1336,8 @@ export const tag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Tag",
+  telemetry: TELEMETRY,
+  span: "Tag",
 }));
 
 export type UngroupResourcesError =
@@ -1328,6 +1379,8 @@ export const ungroupResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UngroupResources",
+  telemetry: TELEMETRY,
+  span: "UngroupResources",
 }));
 
 export type UntagError =
@@ -1366,6 +1419,8 @@ export const untag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Untag",
+  telemetry: TELEMETRY,
+  span: "Untag",
 }));
 
 export type UpdateAccountSettingsError =
@@ -1401,6 +1456,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateGroupError =
@@ -1440,6 +1497,8 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGroup",
 }));
 
 export type UpdateGroupQueryError =
@@ -1479,6 +1538,8 @@ export const updateGroupQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupQuery",
+  telemetry: TELEMETRY,
+  span: "UpdateGroupQuery",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

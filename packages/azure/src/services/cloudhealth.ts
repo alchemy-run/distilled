@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.CloudHealth" },
+  prefix: "Cloudhealth",
+  service: "Cloudhealth",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Annotation details as a dynamic key-value pair bag. Service-enforced limits: a maximum of 10 entries per annotation and a maximum value length of 256 characters. Requests exceeding these limits will be rejected with a 400 response. */
 export type AddEntityDataAnnotationRequestAnnotationDetailsMap = {
   [key: string]: string | undefined;
@@ -1819,6 +1839,8 @@ export const AddEntityDataAnnotation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddEntityDataAnnotation",
 }));
 
 export type AuthenticationSettingsCreateOrUpdateError = AzureOpError;
@@ -1834,6 +1856,8 @@ export const AuthenticationSettingsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthenticationSettingsCreateOrUpdate",
 }));
 
 export type CreateHealthModelError = AzureOpError;
@@ -1849,6 +1873,8 @@ export const CreateHealthModel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHealthModel",
 }));
 
 export type DeleteAuthenticationSettingsError = AzureOpError;
@@ -1864,6 +1890,8 @@ export const DeleteAuthenticationSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAuthenticationSettings",
 }));
 
 export type DeleteDiscoveryRuleError = AzureOpError;
@@ -1879,6 +1907,8 @@ export const DeleteDiscoveryRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDiscoveryRule",
 }));
 
 export type DeleteEntityError = AzureOpError;
@@ -1894,6 +1924,8 @@ export const DeleteEntity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEntity",
 }));
 
 export type DeleteHealthModelError = AzureOpError;
@@ -1909,6 +1941,8 @@ export const DeleteHealthModel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHealthModel",
 }));
 
 export type DeleteRelationshipError = AzureOpError;
@@ -1924,6 +1958,8 @@ export const DeleteRelationship: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRelationship",
 }));
 
 export type DeleteSignalDefinitionError = AzureOpError;
@@ -1939,6 +1975,8 @@ export const DeleteSignalDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSignalDefinition",
 }));
 
 export type DiscoveryRulesCreateOrUpdateError = AzureOpError;
@@ -1954,6 +1992,8 @@ export const DiscoveryRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiscoveryRulesCreateOrUpdate",
 }));
 
 export type EntitiesCreateOrUpdateError = AzureOpError;
@@ -1969,6 +2009,8 @@ export const EntitiesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EntitiesCreateOrUpdate",
 }));
 
 export type EntitiesIngestHealthReportError = AzureOpError;
@@ -1984,6 +2026,8 @@ export const EntitiesIngestHealthReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EntitiesIngestHealthReport",
 }));
 
 export type GetAuthenticationSettingsError = AzureOpError;
@@ -1999,6 +2043,8 @@ export const GetAuthenticationSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticationSettings",
 }));
 
 export type GetDiscoveryRuleError = AzureOpError;
@@ -2014,6 +2060,8 @@ export const GetDiscoveryRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiscoveryRule",
 }));
 
 export type GetEntityError = AzureOpError;
@@ -2029,6 +2077,8 @@ export const GetEntity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntity",
 }));
 
 export type GetEntityDataAnnotationsError = AzureOpError;
@@ -2044,6 +2094,8 @@ export const GetEntityDataAnnotations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntityDataAnnotations",
 }));
 
 export type GetEntityHistoryError = AzureOpError;
@@ -2059,6 +2111,8 @@ export const GetEntityHistory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntityHistory",
 }));
 
 export type GetEntitySignalHistoryError = AzureOpError;
@@ -2074,6 +2128,8 @@ export const GetEntitySignalHistory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitySignalHistory",
 }));
 
 export type GetEntitySignalRecommendationsError = AzureOpError;
@@ -2089,6 +2145,8 @@ export const GetEntitySignalRecommendations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEntitySignalRecommendations",
 }));
 
 export type GetHealthModelError = AzureOpError;
@@ -2104,6 +2162,8 @@ export const GetHealthModel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHealthModel",
 }));
 
 export type GetRelationshipError = AzureOpError;
@@ -2119,6 +2179,8 @@ export const GetRelationship: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRelationship",
 }));
 
 export type GetSignalDefinitionError = AzureOpError;
@@ -2134,6 +2196,8 @@ export const GetSignalDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSignalDefinition",
 }));
 
 export type ListAuthenticationSettingsByHealthModelError = AzureOpError;
@@ -2149,6 +2213,8 @@ export const ListAuthenticationSettingsByHealthModel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAuthenticationSettingsByHealthModel",
 }));
 
 export type ListDiscoveryRuleByHealthModelError = AzureOpError;
@@ -2164,6 +2230,8 @@ export const ListDiscoveryRuleByHealthModel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDiscoveryRuleByHealthModel",
 }));
 
 export type ListEntityByHealthModelError = AzureOpError;
@@ -2179,6 +2247,8 @@ export const ListEntityByHealthModel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEntityByHealthModel",
 }));
 
 export type ListHealthModelByResourceGroupError = AzureOpError;
@@ -2194,6 +2264,8 @@ export const ListHealthModelByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHealthModelByResourceGroup",
 }));
 
 export type ListHealthModelBySubscriptionError = AzureOpError;
@@ -2209,6 +2281,8 @@ export const ListHealthModelBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHealthModelBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2224,6 +2298,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListRelationshipByHealthModelError = AzureOpError;
@@ -2239,6 +2315,8 @@ export const ListRelationshipByHealthModel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRelationshipByHealthModel",
 }));
 
 export type ListSignalDefinitionByHealthModelError = AzureOpError;
@@ -2254,6 +2332,8 @@ export const ListSignalDefinitionByHealthModel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSignalDefinitionByHealthModel",
 }));
 
 export type RelationshipsCreateOrUpdateError = AzureOpError;
@@ -2269,6 +2349,8 @@ export const RelationshipsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RelationshipsCreateOrUpdate",
 }));
 
 export type SignalDefinitionsCreateOrUpdateError = AzureOpError;
@@ -2284,6 +2366,8 @@ export const SignalDefinitionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalDefinitionsCreateOrUpdate",
 }));
 
 export type UpdateHealthModelError = AzureOpError;
@@ -2299,6 +2383,8 @@ export const UpdateHealthModel: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHealthModel",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

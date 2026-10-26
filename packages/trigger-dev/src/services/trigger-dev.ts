@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { TriggerDevOpError, TriggerDevOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "trigger-dev-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "TriggerDev",
+  service: "TriggerDev",
+  labels: "trigger_dev",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2145,6 +2158,8 @@ export const activateScheduleV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActivateScheduleV1",
 }));
 
 export type AddRunTagsV1Error = BadRequest | UnprocessableEntity | TriggerDevOpError;
@@ -2160,6 +2175,8 @@ export const addRunTagsV1: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddRunTagsV1",
 }));
 
 export type BulkAbortActionV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2175,6 +2192,8 @@ export const bulkAbortActionV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BulkAbortActionV1",
 }));
 
 export type CancelRunV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2190,6 +2209,8 @@ export const cancelRunV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelRunV1",
 }));
 
 export type CloseSessionV1Error = NotFound | TriggerDevOpError;
@@ -2205,6 +2226,8 @@ export const closeSessionV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloseSessionV1",
 }));
 
 export type CompleteWaitpointTokenCallbackV1Error = NotFound | TriggerDevOpError;
@@ -2220,6 +2243,8 @@ export const completeWaitpointTokenCallbackV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteWaitpointTokenCallbackV1",
 }));
 
 export type CompleteWaitpointTokenV1Error = NotFound | TriggerDevOpError;
@@ -2235,6 +2260,8 @@ export const completeWaitpointTokenV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteWaitpointTokenV1",
 }));
 
 export type CreateBulkActionV1Error = BadRequest | UnprocessableEntity | TriggerDevOpError;
@@ -2250,6 +2277,8 @@ export const createBulkActionV1: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBulkActionV1",
 }));
 
 export type CreateProjectEnvvarV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2265,6 +2294,8 @@ export const createProjectEnvvarV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectEnvvarV1",
 }));
 
 export type CreateScheduleV1Error = BadRequest | UnprocessableEntity | TriggerDevOpError;
@@ -2280,6 +2311,8 @@ export const createScheduleV1: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScheduleV1",
 }));
 
 export type CreateSessionV1Error = Conflict | UnprocessableEntity | TriggerDevOpError;
@@ -2295,6 +2328,8 @@ export const createSessionV1: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionV1",
 }));
 
 export type CreateWaitpointTokenV1Error = UnprocessableEntity | TriggerDevOpError;
@@ -2310,6 +2345,8 @@ export const createWaitpointTokenV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWaitpointTokenV1",
 }));
 
 export type DeactivateScheduleV1Error = NotFound | TriggerDevOpError;
@@ -2325,6 +2362,8 @@ export const deactivateScheduleV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateScheduleV1",
 }));
 
 export type DeleteProjectEnvvarV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2340,6 +2379,8 @@ export const deleteProjectEnvvarV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectEnvvarV1",
 }));
 
 export type DeleteScheduleV1Error = NotFound | TriggerDevOpError;
@@ -2355,6 +2396,8 @@ export const deleteScheduleV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScheduleV1",
 }));
 
 export type ExecuteQueryV1Error = BadRequest | TriggerDevOpError;
@@ -2370,6 +2413,8 @@ export const executeQueryV1: API.OperationMethod<
   errors: [BadRequest, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteQueryV1",
 }));
 
 export type GetBatchResultsV1Error = NotFound | TriggerDevOpError;
@@ -2385,6 +2430,8 @@ export const getBatchResultsV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchResultsV1",
 }));
 
 export type GetBatchV1Error = NotFound | TriggerDevOpError;
@@ -2400,6 +2447,8 @@ export const getBatchV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBatchV1",
 }));
 
 export type GetBulkActionV1Error = NotFound | TriggerDevOpError;
@@ -2415,6 +2464,8 @@ export const getBulkActionV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBulkActionV1",
 }));
 
 export type GetConcurrencyLimitV1Error = NotFound | TriggerDevOpError;
@@ -2430,6 +2481,8 @@ export const getConcurrencyLimitV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConcurrencyLimitV1",
 }));
 
 export type GetDeploymentV1Error = NotFound | TriggerDevOpError;
@@ -2445,6 +2498,8 @@ export const getDeploymentV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentV1",
 }));
 
 export type GetErrorV1Error = NotFound | TriggerDevOpError;
@@ -2460,6 +2515,8 @@ export const getErrorV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetErrorV1",
 }));
 
 export type GetLatestDeploymentV1Error = NotFound | TriggerDevOpError;
@@ -2475,6 +2532,8 @@ export const getLatestDeploymentV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLatestDeploymentV1",
 }));
 
 export type GetProjectEnvvarV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2490,6 +2549,8 @@ export const getProjectEnvvarV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectEnvvarV1",
 }));
 
 export type GetQuerySchemaV1Error = TriggerDevOpError;
@@ -2505,6 +2566,8 @@ export const getQuerySchemaV1: API.OperationMethod<
   errors: [UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQuerySchemaV1",
 }));
 
 export type GetQueueV1Error = NotFound | TriggerDevOpError;
@@ -2520,6 +2583,8 @@ export const getQueueV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetQueueV1",
 }));
 
 export type GetRunEventsV1Error = NotFound | TriggerDevOpError;
@@ -2535,6 +2600,8 @@ export const getRunEventsV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunEventsV1",
 }));
 
 export type GetRunResultV1Error = NotFound | TriggerDevOpError;
@@ -2550,6 +2617,8 @@ export const getRunResultV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunResultV1",
 }));
 
 export type GetRunTraceV1Error = NotFound | TriggerDevOpError;
@@ -2565,6 +2634,8 @@ export const getRunTraceV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunTraceV1",
 }));
 
 export type GetRunV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2580,6 +2651,8 @@ export const getRunV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunV1",
 }));
 
 export type GetScheduleV1Error = NotFound | TriggerDevOpError;
@@ -2595,6 +2668,8 @@ export const getScheduleV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScheduleV1",
 }));
 
 export type GetSessionV1Error = NotFound | TriggerDevOpError;
@@ -2610,6 +2685,8 @@ export const getSessionV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionV1",
 }));
 
 export type GetTimezonesV1Error = TriggerDevOpError;
@@ -2625,6 +2702,8 @@ export const getTimezonesV1: API.OperationMethod<
   errors: [UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimezonesV1",
 }));
 
 export type GetWaitpointTokenV1Error = NotFound | TriggerDevOpError;
@@ -2640,6 +2719,8 @@ export const getWaitpointTokenV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWaitpointTokenV1",
 }));
 
 export type IgnoreErrorV1Error = NotFound | TriggerDevOpError;
@@ -2655,6 +2736,8 @@ export const ignoreErrorV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IgnoreErrorV1",
 }));
 
 export type ListBulkActionsV1Error = BadRequest | TriggerDevOpError;
@@ -2670,6 +2753,8 @@ export const listBulkActionsV1: API.OperationMethod<
   errors: [BadRequest, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBulkActionsV1",
 }));
 
 export type ListConcurrencyLimitsV1Error = TriggerDevOpError;
@@ -2685,6 +2770,8 @@ export const listConcurrencyLimitsV1: API.OperationMethod<
   errors: [UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConcurrencyLimitsV1",
 }));
 
 export type ListDashboardsV1Error = TriggerDevOpError;
@@ -2700,6 +2787,8 @@ export const listDashboardsV1: API.OperationMethod<
   errors: [UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardsV1",
 }));
 
 export type ListDeploymentsV1Error = TriggerDevOpError;
@@ -2715,6 +2804,8 @@ export const listDeploymentsV1: API.OperationMethod<
   errors: [UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentsV1",
 }));
 
 export type ListErrorsV1Error = BadRequest | TriggerDevOpError;
@@ -2730,6 +2821,8 @@ export const listErrorsV1: API.OperationMethod<
   errors: [BadRequest, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListErrorsV1",
 }));
 
 export type ListProjectEnvvarsV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2745,6 +2838,8 @@ export const listProjectEnvvarsV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectEnvvarsV1",
 }));
 
 export type ListProjectRunsV1Error = BadRequest | TriggerDevOpError;
@@ -2760,6 +2855,8 @@ export const listProjectRunsV1: API.OperationMethod<
   errors: [BadRequest, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectRunsV1",
 }));
 
 export type ListQueuesV1Error = TriggerDevOpError;
@@ -2775,6 +2872,8 @@ export const listQueuesV1: API.OperationMethod<
   errors: [UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListQueuesV1",
 }));
 
 export type ListRunsV1Error = BadRequest | TriggerDevOpError;
@@ -2790,6 +2889,8 @@ export const listRunsV1: API.OperationMethod<
   errors: [BadRequest, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRunsV1",
 }));
 
 export type ListSchedulesV1Error = TriggerDevOpError;
@@ -2805,6 +2906,8 @@ export const listSchedulesV1: API.OperationMethod<
   errors: [UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulesV1",
 }));
 
 export type ListSessionsV1Error = BadRequest | TriggerDevOpError;
@@ -2820,6 +2923,8 @@ export const listSessionsV1: API.OperationMethod<
   errors: [BadRequest, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSessionsV1",
 }));
 
 export type ListWaitpointTokensV1Error = UnprocessableEntity | TriggerDevOpError;
@@ -2835,6 +2940,8 @@ export const listWaitpointTokensV1: API.OperationMethod<
   errors: [UnprocessableEntity, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWaitpointTokensV1",
 }));
 
 export type OverrideConcurrencyLimitV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
@@ -2850,6 +2957,8 @@ export const overrideConcurrencyLimitV1: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OverrideConcurrencyLimitV1",
 }));
 
 export type OverrideQueueConcurrencyV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2865,6 +2974,8 @@ export const overrideQueueConcurrencyV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OverrideQueueConcurrencyV1",
 }));
 
 export type PauseConcurrencyLimitV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
@@ -2880,6 +2991,8 @@ export const pauseConcurrencyLimitV1: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseConcurrencyLimitV1",
 }));
 
 export type PauseQueueV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2895,6 +3008,8 @@ export const pauseQueueV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseQueueV1",
 }));
 
 export type PromoteDeploymentV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2910,6 +3025,8 @@ export const promoteDeploymentV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PromoteDeploymentV1",
 }));
 
 export type ResetConcurrencyLimitV1Error = BadRequest | NotFound | Conflict | TriggerDevOpError;
@@ -2925,6 +3042,8 @@ export const resetConcurrencyLimitV1: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetConcurrencyLimitV1",
 }));
 
 export type ResetQueueConcurrencyV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2940,6 +3059,8 @@ export const resetQueueConcurrencyV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetQueueConcurrencyV1",
 }));
 
 export type ResolveErrorV1Error = NotFound | TriggerDevOpError;
@@ -2955,6 +3076,8 @@ export const resolveErrorV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResolveErrorV1",
 }));
 
 export type RunReplayV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2970,6 +3093,8 @@ export const runReplayV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunReplayV1",
 }));
 
 export type RunRescheduleV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -2985,6 +3110,8 @@ export const runRescheduleV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunRescheduleV1",
 }));
 
 export type TriggerBatchTaskByIdV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -3000,6 +3127,8 @@ export const triggerBatchTaskByIdV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerBatchTaskByIdV1",
 }));
 
 export type TriggerBatchTaskV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -3015,6 +3144,8 @@ export const triggerBatchTaskV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerBatchTaskV1",
 }));
 
 export type TriggerTaskV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -3030,6 +3161,8 @@ export const triggerTaskV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerTaskV1",
 }));
 
 export type UnresolveErrorV1Error = NotFound | TriggerDevOpError;
@@ -3045,6 +3178,8 @@ export const unresolveErrorV1: API.OperationMethod<
   errors: [NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnresolveErrorV1",
 }));
 
 export type UpdateProjectEnvvarV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -3060,6 +3195,8 @@ export const updateProjectEnvvarV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectEnvvarV1",
 }));
 
 export type UpdateRunMetadataV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -3075,6 +3212,8 @@ export const updateRunMetadataV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRunMetadataV1",
 }));
 
 export type UpdateScheduleV1Error = BadRequest | NotFound | UnprocessableEntity | TriggerDevOpError;
@@ -3090,6 +3229,8 @@ export const updateScheduleV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScheduleV1",
 }));
 
 export type UpdateSessionV1Error = NotFound | UnprocessableEntity | TriggerDevOpError;
@@ -3105,6 +3246,8 @@ export const updateSessionV1: API.OperationMethod<
   errors: [NotFound, UnprocessableEntity, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSessionV1",
 }));
 
 export type UploadProjectEnvvarsV1Error = BadRequest | NotFound | TriggerDevOpError;
@@ -3120,6 +3263,8 @@ export const uploadProjectEnvvarsV1: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownTriggerDevError],
   protocol: TriggerDevProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadProjectEnvvarsV1",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

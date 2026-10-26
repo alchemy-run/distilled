@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Cache" },
+  prefix: "Redis",
+  service: "Redis",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Provisioning state of an access policy assignment set */
 export type AccessPolicyAssignmentProvisioningState =
   | "Updating"
@@ -1545,6 +1565,8 @@ export const AccessPolicyAssignmentCreateUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccessPolicyAssignmentCreateUpdate",
 }));
 
 export type AccessPolicyCreateUpdateError = AzureOpError;
@@ -1560,6 +1582,8 @@ export const AccessPolicyCreateUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccessPolicyCreateUpdate",
 }));
 
 export type CheckRedisNameAvailabilityError = AzureOpError;
@@ -1575,6 +1599,8 @@ export const CheckRedisNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckRedisNameAvailability",
 }));
 
 export type CreateLinkedServerError = AzureOpError;
@@ -1590,6 +1616,8 @@ export const CreateLinkedServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLinkedServer",
 }));
 
 export type CreateRedisError = AzureOpError;
@@ -1605,6 +1633,8 @@ export const CreateRedis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRedis",
 }));
 
 export type DeleteAccessPolicyError = AzureOpError;
@@ -1620,6 +1650,8 @@ export const DeleteAccessPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicy",
 }));
 
 export type DeleteAccessPolicyAssignmentError = AzureOpError;
@@ -1635,6 +1667,8 @@ export const DeleteAccessPolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicyAssignment",
 }));
 
 export type DeleteFirewallRuleError = AzureOpError;
@@ -1650,6 +1684,8 @@ export const DeleteFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFirewallRule",
 }));
 
 export type DeleteLinkedServerError = AzureOpError;
@@ -1665,6 +1701,8 @@ export const DeleteLinkedServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteLinkedServer",
 }));
 
 export type DeletePatchScheduleError = AzureOpError;
@@ -1680,6 +1718,8 @@ export const DeletePatchSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePatchSchedule",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1695,6 +1735,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteRedisError = AzureOpError;
@@ -1710,6 +1752,8 @@ export const DeleteRedis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRedis",
 }));
 
 export type ExportRedisDataError = AzureOpError;
@@ -1725,6 +1769,8 @@ export const ExportRedisData: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportRedisData",
 }));
 
 export type FirewallRulesCreateOrUpdateError = AzureOpError;
@@ -1740,6 +1786,8 @@ export const FirewallRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FirewallRulesCreateOrUpdate",
 }));
 
 export type FlushRedisCacheError = AzureOpError;
@@ -1755,6 +1803,8 @@ export const FlushRedisCache: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlushRedisCache",
 }));
 
 export type GetAccessPolicyError = AzureOpError;
@@ -1770,6 +1820,8 @@ export const GetAccessPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPolicy",
 }));
 
 export type GetAccessPolicyAssignmentError = AzureOpError;
@@ -1785,6 +1837,8 @@ export const GetAccessPolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccessPolicyAssignment",
 }));
 
 export type GetAsyncOperationStatusError = AzureOpError;
@@ -1800,6 +1854,8 @@ export const GetAsyncOperationStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAsyncOperationStatus",
 }));
 
 export type GetFirewallRuleError = AzureOpError;
@@ -1815,6 +1871,8 @@ export const GetFirewallRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFirewallRule",
 }));
 
 export type GetLinkedServerError = AzureOpError;
@@ -1830,6 +1888,8 @@ export const GetLinkedServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLinkedServer",
 }));
 
 export type GetPatchScheduleError = AzureOpError;
@@ -1845,6 +1905,8 @@ export const GetPatchSchedule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPatchSchedule",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1860,6 +1922,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetRedisError = AzureOpError;
@@ -1875,6 +1939,8 @@ export const GetRedis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRedis",
 }));
 
 export type ImportRedisDataError = AzureOpError;
@@ -1890,6 +1956,8 @@ export const ImportRedisData: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportRedisData",
 }));
 
 export type ListAccessPolicyError = AzureOpError;
@@ -1905,6 +1973,8 @@ export const ListAccessPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicy",
 }));
 
 export type ListAccessPolicyAssignmentError = AzureOpError;
@@ -1920,6 +1990,8 @@ export const ListAccessPolicyAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicyAssignment",
 }));
 
 export type ListFirewallRulesError = AzureOpError;
@@ -1935,6 +2007,8 @@ export const ListFirewallRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFirewallRules",
 }));
 
 export type ListLinkedServerError = AzureOpError;
@@ -1950,6 +2024,8 @@ export const ListLinkedServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLinkedServer",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1965,6 +2041,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPatchScheduleByRedisResourceError = AzureOpError;
@@ -1980,6 +2058,8 @@ export const ListPatchScheduleByRedisResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPatchScheduleByRedisResource",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -1995,6 +2075,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourceByRedisCacheError = AzureOpError;
@@ -2010,6 +2092,8 @@ export const ListPrivateLinkResourceByRedisCache: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByRedisCache",
 }));
 
 export type ListRedisByResourceGroupError = AzureOpError;
@@ -2025,6 +2109,8 @@ export const ListRedisByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisByResourceGroup",
 }));
 
 export type ListRedisBySubscriptionError = AzureOpError;
@@ -2040,6 +2126,8 @@ export const ListRedisBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisBySubscription",
 }));
 
 export type ListRedisKeysError = AzureOpError;
@@ -2055,6 +2143,8 @@ export const ListRedisKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisKeys",
 }));
 
 export type ListRedisUpgradeNotificationsError = AzureOpError;
@@ -2070,6 +2160,8 @@ export const ListRedisUpgradeNotifications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRedisUpgradeNotifications",
 }));
 
 export type PatchSchedulesCreateOrUpdateError = AzureOpError;
@@ -2085,6 +2177,8 @@ export const PatchSchedulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulesCreateOrUpdate",
 }));
 
 export type PutPrivateEndpointConnectionError = AzureOpError;
@@ -2100,6 +2194,8 @@ export const PutPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPrivateEndpointConnection",
 }));
 
 export type RebootRedisForceError = AzureOpError;
@@ -2115,6 +2211,8 @@ export const RebootRedisForce: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RebootRedisForce",
 }));
 
 export type RegenerateRedisKeyError = AzureOpError;
@@ -2130,6 +2228,8 @@ export const RegenerateRedisKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateRedisKey",
 }));
 
 export type UpdateRedisError = AzureOpError;
@@ -2145,6 +2245,8 @@ export const UpdateRedis: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRedis",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

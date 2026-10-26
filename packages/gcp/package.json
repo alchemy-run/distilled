@@ -13,6 +13,9 @@
   ],
   "type": "module",
   "sideEffects": false,
+  "browser": {
+    "./lib/_bundle/sdk.js": "./lib/_browser/_bundle/sdk.js"
+  },
   "exports": {
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
@@ -82,7 +85,7 @@
   "scripts": {
     "build": "tsrs -b",
     "convert": "node --conditions=bun scripts/convert.ts",
-    "generate": "node --conditions=bun scripts/generate.ts && node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services",
+    "generate": "node --conditions=bun scripts/generate.ts",
     "typecheck": "tsrs -p tsconfig.json",
     "typecheck:strict": "tsrs -p tsconfig.strict.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-gcp",
@@ -92,13 +95,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
     "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-20",
+    "generatedAt": "2026-10-25",
     "specUpdatedAt": "2026-10-08"
   }
 }

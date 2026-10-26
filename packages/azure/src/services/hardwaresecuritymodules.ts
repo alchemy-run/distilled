@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.HardwareSecurityModules" },
+  prefix: "Hardwaresecuritymodules",
+  service: "Hardwaresecuritymodules",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CloudHsmClustersBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1113,6 +1133,8 @@ export const CloudHsmClustersBackup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudHsmClustersBackup",
 }));
 
 export type CloudHsmClustersCreateOrUpdateError = AzureOpError;
@@ -1128,6 +1150,8 @@ export const CloudHsmClustersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudHsmClustersCreateOrUpdate",
 }));
 
 export type CloudHsmClustersValidateRestorePropertiesError = AzureOpError;
@@ -1143,6 +1167,8 @@ export const CloudHsmClustersValidateRestoreProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CloudHsmClustersValidateRestoreProperties",
 }));
 
 export type CreateCloudHsmClusterPrivateEndpointConnectionError = AzureOpError;
@@ -1166,6 +1192,8 @@ export const CreateCloudHsmClusterPrivateEndpointConnection: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCloudHsmClusterPrivateEndpointConnection",
 }));
 
 export type DedicatedHsmCreateOrUpdateError = AzureOpError;
@@ -1181,6 +1209,8 @@ export const DedicatedHsmCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DedicatedHsmCreateOrUpdate",
 }));
 
 export type DeleteCloudHsmClusterError = AzureOpError;
@@ -1196,6 +1226,8 @@ export const DeleteCloudHsmCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudHsmCluster",
 }));
 
 export type DeleteCloudHsmClusterPrivateEndpointConnectionError = AzureOpError;
@@ -1219,6 +1251,8 @@ export const DeleteCloudHsmClusterPrivateEndpointConnection: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCloudHsmClusterPrivateEndpointConnection",
 }));
 
 export type DeleteDedicatedHsmError = AzureOpError;
@@ -1234,6 +1268,8 @@ export const DeleteDedicatedHsm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedHsm",
 }));
 
 export type GetCloudHsmClusterError = AzureOpError;
@@ -1249,6 +1285,8 @@ export const GetCloudHsmCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudHsmCluster",
 }));
 
 export type GetCloudHsmClusterBackupStatusError = AzureOpError;
@@ -1264,6 +1302,8 @@ export const GetCloudHsmClusterBackupStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudHsmClusterBackupStatus",
 }));
 
 export type GetCloudHsmClusterPrivateEndpointConnectionError = AzureOpError;
@@ -1279,6 +1319,8 @@ export const GetCloudHsmClusterPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudHsmClusterPrivateEndpointConnection",
 }));
 
 export type GetCloudHsmClusterRestoreStatusError = AzureOpError;
@@ -1294,6 +1336,8 @@ export const GetCloudHsmClusterRestoreStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCloudHsmClusterRestoreStatus",
 }));
 
 export type GetDedicatedHsmError = AzureOpError;
@@ -1309,6 +1353,8 @@ export const GetDedicatedHsm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedHsm",
 }));
 
 export type ListCloudHsmClusterByResourceGroupError = AzureOpError;
@@ -1324,6 +1370,8 @@ export const ListCloudHsmClusterByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudHsmClusterByResourceGroup",
 }));
 
 export type ListCloudHsmClusterBySubscriptionError = AzureOpError;
@@ -1339,6 +1387,8 @@ export const ListCloudHsmClusterBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudHsmClusterBySubscription",
 }));
 
 export type ListCloudHsmClusterPrivateLinkResourceByCloudHsmClusterError = AzureOpError;
@@ -1362,6 +1412,8 @@ export const ListCloudHsmClusterPrivateLinkResourceByCloudHsmCluster: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCloudHsmClusterPrivateLinkResourceByCloudHsmCluster",
 }));
 
 export type ListDedicatedHsmByResourceGroupError = AzureOpError;
@@ -1377,6 +1429,8 @@ export const ListDedicatedHsmByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedHsmByResourceGroup",
 }));
 
 export type ListDedicatedHsmBySubscriptionError = AzureOpError;
@@ -1392,6 +1446,8 @@ export const ListDedicatedHsmBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedHsmBySubscription",
 }));
 
 export type ListDedicatedHsmOutboundNetworkDependenciesEndpointsError = AzureOpError;
@@ -1411,6 +1467,8 @@ export const ListDedicatedHsmOutboundNetworkDependenciesEndpoints: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedHsmOutboundNetworkDependenciesEndpoints",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1426,6 +1484,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionByCloudHsmClusterError = AzureOpError;
@@ -1445,6 +1505,8 @@ export const ListPrivateEndpointConnectionByCloudHsmCluster: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByCloudHsmCluster",
 }));
 
 export type RestoreCloudHsmClusterError = AzureOpError;
@@ -1460,6 +1522,8 @@ export const RestoreCloudHsmCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreCloudHsmCluster",
 }));
 
 export type UpdateCloudHsmClusterError = AzureOpError;
@@ -1475,6 +1539,8 @@ export const UpdateCloudHsmCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCloudHsmCluster",
 }));
 
 export type UpdateDedicatedHsmError = AzureOpError;
@@ -1490,6 +1556,8 @@ export const UpdateDedicatedHsm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDedicatedHsm",
 }));
 
 export type ValidateCloudHsmClusterBackupPropertiesError = AzureOpError;
@@ -1505,6 +1573,8 @@ export const ValidateCloudHsmClusterBackupProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateCloudHsmClusterBackupProperties",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

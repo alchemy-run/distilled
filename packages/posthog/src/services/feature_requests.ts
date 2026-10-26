@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "FeatureRequests",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** One or more active product area IDs. Duplicate IDs are ignored. */
 export type CreateFeatureRequestRequestProductAreaIdsList = Array<string>;
 /** Uploaded image IDs from this project to attach in display order. */
@@ -572,6 +585,8 @@ export const createFeatureRequest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureRequest",
 }));
 
 export type CreateFeatureRequestsLinkGithubError = PosthogOpError;
@@ -586,6 +601,8 @@ export const createFeatureRequestsLinkGithub: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureRequestsLinkGithub",
 }));
 
 export type CreateFeatureRequestsPauseGithubError = PosthogOpError;
@@ -600,6 +617,8 @@ export const createFeatureRequestsPauseGithub: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeatureRequestsPauseGithub",
 }));
 
 export type FeatureRequestsAddAccountCreateError = PosthogOpError;
@@ -614,6 +633,8 @@ export const featureRequestsAddAccountCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureRequestsAddAccountCreate",
 }));
 
 export type FeatureRequestsAddEvidenceCreateError = PosthogOpError;
@@ -628,6 +649,8 @@ export const featureRequestsAddEvidenceCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureRequestsAddEvidenceCreate",
 }));
 
 export type FeatureRequestsArchiveCreateError = PosthogOpError;
@@ -642,6 +665,8 @@ export const featureRequestsArchiveCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureRequestsArchiveCreate",
 }));
 
 export type FeatureRequestsRemoveEvidenceCreateError = PosthogOpError;
@@ -656,6 +681,8 @@ export const featureRequestsRemoveEvidenceCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureRequestsRemoveEvidenceCreate",
 }));
 
 export type FeatureRequestsRestoreCreateError = PosthogOpError;
@@ -670,6 +697,8 @@ export const featureRequestsRestoreCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureRequestsRestoreCreate",
 }));
 
 export type FeatureRequestsResumeGithubCreateError = PosthogOpError;
@@ -684,6 +713,8 @@ export const featureRequestsResumeGithubCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureRequestsResumeGithubCreate",
 }));
 
 export type FeatureRequestsUnlinkGithubCreateError = PosthogOpError;
@@ -698,6 +729,8 @@ export const featureRequestsUnlinkGithubCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureRequestsUnlinkGithubCreate",
 }));
 
 export type FeatureRequestsUpdateEvidenceCreateError = PosthogOpError;
@@ -712,6 +745,8 @@ export const featureRequestsUpdateEvidenceCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FeatureRequestsUpdateEvidenceCreate",
 }));
 
 export type GetFeatureRequestError = PosthogOpError;
@@ -726,6 +761,8 @@ export const getFeatureRequest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFeatureRequest",
 }));
 
 export type ListFeatureRequestsError = PosthogOpError;
@@ -740,6 +777,8 @@ export const listFeatureRequests: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureRequests",
 }));
 
 export type ListFeatureRequestsHistoryError = PosthogOpError;
@@ -754,6 +793,8 @@ export const listFeatureRequestsHistory: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureRequestsHistory",
 }));
 
 export type ListFeatureRequestsStatusHistoryError = PosthogOpError;
@@ -768,6 +809,8 @@ export const listFeatureRequestsStatusHistory: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeatureRequestsStatusHistory",
 }));
 
 export type UpdateFeatureRequestError = PosthogOpError;
@@ -782,6 +825,8 @@ export const updateFeatureRequest: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureRequest",
 }));
 
 export type UpdateFeatureRequestsPartialError = PosthogOpError;
@@ -796,6 +841,8 @@ export const updateFeatureRequestsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFeatureRequestsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

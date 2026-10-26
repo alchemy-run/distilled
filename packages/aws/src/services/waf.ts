@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -106,6 +107,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "WAF",
+  service: "WAF",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class WAFBadRequestException
   extends /*@__PURE__*/ S.TaggedError<WAFBadRequestException>()("WAFBadRequestException", {
@@ -1496,6 +1512,8 @@ export const createByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateByteMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateByteMatchSet",
 }));
 
 export type CreateGeoMatchSetError =
@@ -1551,6 +1569,8 @@ export const createGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGeoMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateGeoMatchSet",
 }));
 
 export type CreateIPSetError =
@@ -1611,6 +1631,8 @@ export const createIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIPSet",
+  telemetry: TELEMETRY,
+  span: "CreateIPSet",
 }));
 
 export type CreateRateBasedRuleError =
@@ -1721,6 +1743,8 @@ export const createRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRateBasedRule",
+  telemetry: TELEMETRY,
+  span: "CreateRateBasedRule",
 }));
 
 export type CreateRegexMatchSetError =
@@ -1775,6 +1799,8 @@ export const createRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegexMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateRegexMatchSet",
 }));
 
 export type CreateRegexPatternSetError =
@@ -1825,6 +1851,8 @@ export const createRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "CreateRegexPatternSet",
 }));
 
 export type CreateRuleError =
@@ -1901,6 +1929,8 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
+  telemetry: TELEMETRY,
+  span: "CreateRule",
 }));
 
 export type CreateRuleGroupError =
@@ -1953,6 +1983,8 @@ export const createRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroup",
+  telemetry: TELEMETRY,
+  span: "CreateRuleGroup",
 }));
 
 export type CreateSizeConstraintSetError =
@@ -2011,6 +2043,8 @@ export const createSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSizeConstraintSet",
+  telemetry: TELEMETRY,
+  span: "CreateSizeConstraintSet",
 }));
 
 export type CreateSqlInjectionMatchSetError =
@@ -2067,6 +2101,8 @@ export const createSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSqlInjectionMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateSqlInjectionMatchSet",
 }));
 
 export type CreateWebACLError =
@@ -2138,6 +2174,8 @@ export const createWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebACL",
+  telemetry: TELEMETRY,
+  span: "CreateWebACL",
 }));
 
 export type CreateWebACLMigrationStackError =
@@ -2176,6 +2214,8 @@ export const createWebACLMigrationStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebACLMigrationStack",
+  telemetry: TELEMETRY,
+  span: "CreateWebACLMigrationStack",
 }));
 
 export type CreateXssMatchSetError =
@@ -2232,6 +2272,8 @@ export const createXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateXssMatchSet",
+  telemetry: TELEMETRY,
+  span: "CreateXssMatchSet",
 }));
 
 export type DeleteByteMatchSetError =
@@ -2283,6 +2325,8 @@ export const deleteByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteByteMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteByteMatchSet",
 }));
 
 export type DeleteGeoMatchSetError =
@@ -2334,6 +2378,8 @@ export const deleteGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGeoMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteGeoMatchSet",
 }));
 
 export type DeleteIPSetError =
@@ -2385,6 +2431,8 @@ export const deleteIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIPSet",
+  telemetry: TELEMETRY,
+  span: "DeleteIPSet",
 }));
 
 export type DeleteLoggingConfigurationError =
@@ -2415,6 +2463,8 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLoggingConfiguration",
 }));
 
 export type DeletePermissionPolicyError =
@@ -2446,6 +2496,8 @@ export const deletePermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionPolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePermissionPolicy",
 }));
 
 export type DeleteRateBasedRuleError =
@@ -2505,6 +2557,8 @@ export const deleteRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRateBasedRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRateBasedRule",
 }));
 
 export type DeleteRegexMatchSetError =
@@ -2556,6 +2610,8 @@ export const deleteRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegexMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteRegexMatchSet",
 }));
 
 export type DeleteRegexPatternSetError =
@@ -2596,6 +2652,8 @@ export const deleteRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "DeleteRegexPatternSet",
 }));
 
 export type DeleteRuleError =
@@ -2651,6 +2709,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DeleteRuleGroupError =
@@ -2706,6 +2766,8 @@ export const deleteRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteRuleGroup",
 }));
 
 export type DeleteSizeConstraintSetError =
@@ -2757,6 +2819,8 @@ export const deleteSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSizeConstraintSet",
+  telemetry: TELEMETRY,
+  span: "DeleteSizeConstraintSet",
 }));
 
 export type DeleteSqlInjectionMatchSetError =
@@ -2809,6 +2873,8 @@ export const deleteSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSqlInjectionMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteSqlInjectionMatchSet",
 }));
 
 export type DeleteWebACLError =
@@ -2861,6 +2927,8 @@ export const deleteWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebACL",
+  telemetry: TELEMETRY,
+  span: "DeleteWebACL",
 }));
 
 export type DeleteXssMatchSetError =
@@ -2913,6 +2981,8 @@ export const deleteXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteXssMatchSet",
+  telemetry: TELEMETRY,
+  span: "DeleteXssMatchSet",
 }));
 
 export type GetByteMatchSetError =
@@ -2942,6 +3012,8 @@ export const getByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetByteMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetByteMatchSet",
 }));
 
 export type GetChangeTokenError = WAFInternalErrorException | CommonErrors;
@@ -2975,6 +3047,8 @@ export const getChangeToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChangeToken",
+  telemetry: TELEMETRY,
+  span: "GetChangeToken",
 }));
 
 export type GetChangeTokenStatusError =
@@ -3011,6 +3085,8 @@ export const getChangeTokenStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChangeTokenStatus",
+  telemetry: TELEMETRY,
+  span: "GetChangeTokenStatus",
 }));
 
 export type GetGeoMatchSetError =
@@ -3040,6 +3116,8 @@ export const getGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeoMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetGeoMatchSet",
 }));
 
 export type GetIPSetError =
@@ -3069,6 +3147,8 @@ export const getIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIPSet",
+  telemetry: TELEMETRY,
+  span: "GetIPSet",
 }));
 
 export type GetLoggingConfigurationError =
@@ -3097,6 +3177,8 @@ export const getLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLoggingConfiguration",
 }));
 
 export type GetPermissionPolicyError =
@@ -3125,6 +3207,8 @@ export const getPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPermissionPolicy",
 }));
 
 export type GetRateBasedRuleError =
@@ -3156,6 +3240,8 @@ export const getRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRateBasedRule",
+  telemetry: TELEMETRY,
+  span: "GetRateBasedRule",
 }));
 
 export type GetRateBasedRuleManagedKeysError =
@@ -3193,6 +3279,8 @@ export const getRateBasedRuleManagedKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRateBasedRuleManagedKeys",
+  telemetry: TELEMETRY,
+  span: "GetRateBasedRuleManagedKeys",
 }));
 
 export type GetRegexMatchSetError =
@@ -3222,6 +3310,8 @@ export const getRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegexMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetRegexMatchSet",
 }));
 
 export type GetRegexPatternSetError =
@@ -3251,6 +3341,8 @@ export const getRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "GetRegexPatternSet",
 }));
 
 export type GetRuleError =
@@ -3280,6 +3372,8 @@ export const getRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
+  telemetry: TELEMETRY,
+  span: "GetRule",
 }));
 
 export type GetRuleGroupError =
@@ -3310,6 +3404,8 @@ export const getRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleGroup",
+  telemetry: TELEMETRY,
+  span: "GetRuleGroup",
 }));
 
 export type GetSampledRequestsError =
@@ -3342,6 +3438,8 @@ export const getSampledRequests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSampledRequests",
+  telemetry: TELEMETRY,
+  span: "GetSampledRequests",
 }));
 
 export type GetSizeConstraintSetError =
@@ -3371,6 +3469,8 @@ export const getSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSizeConstraintSet",
+  telemetry: TELEMETRY,
+  span: "GetSizeConstraintSet",
 }));
 
 export type GetSqlInjectionMatchSetError =
@@ -3400,6 +3500,8 @@ export const getSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSqlInjectionMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetSqlInjectionMatchSet",
 }));
 
 export type GetWebACLError =
@@ -3429,6 +3531,8 @@ export const getWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACL",
+  telemetry: TELEMETRY,
+  span: "GetWebACL",
 }));
 
 export type GetXssMatchSetError =
@@ -3458,6 +3562,8 @@ export const getXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetXssMatchSet",
+  telemetry: TELEMETRY,
+  span: "GetXssMatchSet",
 }));
 
 export type ListActivatedRulesInRuleGroupError =
@@ -3487,6 +3593,8 @@ export const listActivatedRulesInRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListActivatedRulesInRuleGroup",
+  telemetry: TELEMETRY,
+  span: "ListActivatedRulesInRuleGroup",
 }));
 
 export type ListByteMatchSetsError =
@@ -3515,6 +3623,8 @@ export const listByteMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListByteMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListByteMatchSets",
 }));
 
 export type ListGeoMatchSetsError =
@@ -3543,6 +3653,8 @@ export const listGeoMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGeoMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListGeoMatchSets",
 }));
 
 export type ListIPSetsError = WAFInternalErrorException | WAFInvalidAccountException | CommonErrors;
@@ -3568,6 +3680,8 @@ export const listIPSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIPSets",
+  telemetry: TELEMETRY,
+  span: "ListIPSets",
 }));
 
 export type ListLoggingConfigurationsError =
@@ -3597,6 +3711,8 @@ export const listLoggingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggingConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListLoggingConfigurations",
 }));
 
 export type ListRateBasedRulesError =
@@ -3625,6 +3741,8 @@ export const listRateBasedRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRateBasedRules",
+  telemetry: TELEMETRY,
+  span: "ListRateBasedRules",
 }));
 
 export type ListRegexMatchSetsError =
@@ -3653,6 +3771,8 @@ export const listRegexMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegexMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListRegexMatchSets",
 }));
 
 export type ListRegexPatternSetsError =
@@ -3681,6 +3801,8 @@ export const listRegexPatternSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegexPatternSets",
+  telemetry: TELEMETRY,
+  span: "ListRegexPatternSets",
 }));
 
 export type ListRuleGroupsError = WAFInternalErrorException | CommonErrors;
@@ -3706,6 +3828,8 @@ export const listRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleGroups",
+  telemetry: TELEMETRY,
+  span: "ListRuleGroups",
 }));
 
 export type ListRulesError = WAFInternalErrorException | WAFInvalidAccountException | CommonErrors;
@@ -3731,6 +3855,8 @@ export const listRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRules",
+  telemetry: TELEMETRY,
+  span: "ListRules",
 }));
 
 export type ListSizeConstraintSetsError =
@@ -3759,6 +3885,8 @@ export const listSizeConstraintSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSizeConstraintSets",
+  telemetry: TELEMETRY,
+  span: "ListSizeConstraintSets",
 }));
 
 export type ListSqlInjectionMatchSetsError =
@@ -3787,6 +3915,8 @@ export const listSqlInjectionMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSqlInjectionMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListSqlInjectionMatchSets",
 }));
 
 export type ListSubscribedRuleGroupsError =
@@ -3815,6 +3945,8 @@ export const listSubscribedRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscribedRuleGroups",
+  telemetry: TELEMETRY,
+  span: "ListSubscribedRuleGroups",
 }));
 
 export type ListTagsForResourceError =
@@ -3856,6 +3988,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWebACLsError =
@@ -3884,6 +4018,8 @@ export const listWebACLs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebACLs",
+  telemetry: TELEMETRY,
+  span: "ListWebACLs",
 }));
 
 export type ListXssMatchSetsError =
@@ -3912,6 +4048,8 @@ export const listXssMatchSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListXssMatchSets",
+  telemetry: TELEMETRY,
+  span: "ListXssMatchSets",
 }));
 
 export type PutLoggingConfigurationError =
@@ -3961,6 +4099,8 @@ export const putLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLoggingConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutLoggingConfiguration",
 }));
 
 export type PutPermissionPolicyError =
@@ -4018,6 +4158,8 @@ export const putPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermissionPolicy",
+  telemetry: TELEMETRY,
+  span: "PutPermissionPolicy",
 }));
 
 export type TagResourceError =
@@ -4061,6 +4203,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4098,6 +4242,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateByteMatchSetError =
@@ -4170,6 +4316,8 @@ export const updateByteMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateByteMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateByteMatchSet",
 }));
 
 export type UpdateGeoMatchSetError =
@@ -4237,6 +4385,8 @@ export const updateGeoMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGeoMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateGeoMatchSet",
 }));
 
 export type UpdateIPSetError =
@@ -4338,6 +4488,8 @@ export const updateIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIPSet",
+  telemetry: TELEMETRY,
+  span: "UpdateIPSet",
 }));
 
 export type UpdateRateBasedRuleError =
@@ -4420,6 +4572,8 @@ export const updateRateBasedRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRateBasedRule",
+  telemetry: TELEMETRY,
+  span: "UpdateRateBasedRule",
 }));
 
 export type UpdateRegexMatchSetError =
@@ -4489,6 +4643,8 @@ export const updateRegexMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegexMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateRegexMatchSet",
 }));
 
 export type UpdateRegexPatternSetError =
@@ -4559,6 +4715,8 @@ export const updateRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegexPatternSet",
+  telemetry: TELEMETRY,
+  span: "UpdateRegexPatternSet",
 }));
 
 export type UpdateRuleError =
@@ -4637,6 +4795,8 @@ export const updateRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRule",
+  telemetry: TELEMETRY,
+  span: "UpdateRule",
 }));
 
 export type UpdateRuleGroupError =
@@ -4699,6 +4859,8 @@ export const updateRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateRuleGroup",
 }));
 
 export type UpdateSizeConstraintSetError =
@@ -4778,6 +4940,8 @@ export const updateSizeConstraintSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSizeConstraintSet",
+  telemetry: TELEMETRY,
+  span: "UpdateSizeConstraintSet",
 }));
 
 export type UpdateSqlInjectionMatchSetError =
@@ -4853,6 +5017,8 @@ export const updateSqlInjectionMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSqlInjectionMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateSqlInjectionMatchSet",
 }));
 
 export type UpdateWebACLError =
@@ -4961,6 +5127,8 @@ export const updateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebACL",
+  telemetry: TELEMETRY,
+  span: "UpdateWebACL",
 }));
 
 export type UpdateXssMatchSetError =
@@ -5038,6 +5206,8 @@ export const updateXssMatchSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateXssMatchSet",
+  telemetry: TELEMETRY,
+  span: "UpdateXssMatchSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

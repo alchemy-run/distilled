@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ContainerInstance" },
+  prefix: "Containerinstance",
+  service: "Containerinstance",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface AttachContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2290,6 +2310,8 @@ export const AttachContainer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachContainer",
 }));
 
 export type CGProfileCreateOrUpdateError = AzureOpError;
@@ -2305,6 +2327,8 @@ export const CGProfileCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CGProfileCreateOrUpdate",
 }));
 
 export type ConnectSandboxGroupError = AzureOpError;
@@ -2320,6 +2344,8 @@ export const ConnectSandboxGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectSandboxGroup",
 }));
 
 export type ContainerGroupsCreateOrUpdateError = AzureOpError;
@@ -2335,6 +2361,8 @@ export const ContainerGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ContainerGroupsCreateOrUpdate",
 }));
 
 export type DeleteCGProfileError = AzureOpError;
@@ -2350,6 +2378,8 @@ export const DeleteCGProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCGProfile",
 }));
 
 export type DeleteContainerGroupError = AzureOpError;
@@ -2365,6 +2395,8 @@ export const DeleteContainerGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContainerGroup",
 }));
 
 export type DeleteNGroupError = AzureOpError;
@@ -2380,6 +2412,8 @@ export const DeleteNGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNGroup",
 }));
 
 export type DeleteSandboxGroupError = AzureOpError;
@@ -2395,6 +2429,8 @@ export const DeleteSandboxGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandboxGroup",
 }));
 
 export type DeleteSubnetServiceAssociationLinkError = AzureOpError;
@@ -2410,6 +2446,8 @@ export const DeleteSubnetServiceAssociationLink: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubnetServiceAssociationLink",
 }));
 
 export type ExecuteContainerCommandError = AzureOpError;
@@ -2425,6 +2463,8 @@ export const ExecuteContainerCommand: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteContainerCommand",
 }));
 
 export type GetCGProfileError = AzureOpError;
@@ -2440,6 +2480,8 @@ export const GetCGProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCGProfile",
 }));
 
 export type GetCGProfileByRevisionNumberError = AzureOpError;
@@ -2455,6 +2497,8 @@ export const GetCGProfileByRevisionNumber: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCGProfileByRevisionNumber",
 }));
 
 export type GetContainerGroupError = AzureOpError;
@@ -2470,6 +2514,8 @@ export const GetContainerGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContainerGroup",
 }));
 
 export type GetContainerGroupOutboundNetworkDependenciesEndpointsError = AzureOpError;
@@ -2493,6 +2539,8 @@ export const GetContainerGroupOutboundNetworkDependenciesEndpoints: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContainerGroupOutboundNetworkDependenciesEndpoints",
 }));
 
 export type GetNGroupError = AzureOpError;
@@ -2508,6 +2556,8 @@ export const GetNGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNGroup",
 }));
 
 export type GetSandboxGroupError = AzureOpError;
@@ -2523,6 +2573,8 @@ export const GetSandboxGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxGroup",
 }));
 
 export type ListCGProfileAllRevisionsError = AzureOpError;
@@ -2538,6 +2590,8 @@ export const ListCGProfileAllRevisions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCGProfileAllRevisions",
 }));
 
 export type ListCGProfileByResourceGroupError = AzureOpError;
@@ -2553,6 +2607,8 @@ export const ListCGProfileByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCGProfileByResourceGroup",
 }));
 
 export type ListCGProfileBySubscriptionError = AzureOpError;
@@ -2568,6 +2624,8 @@ export const ListCGProfileBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCGProfileBySubscription",
 }));
 
 export type ListContainerGroupByResourceGroupError = AzureOpError;
@@ -2583,6 +2641,8 @@ export const ListContainerGroupByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContainerGroupByResourceGroup",
 }));
 
 export type ListContainerGroupsError = AzureOpError;
@@ -2598,6 +2658,8 @@ export const ListContainerGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContainerGroups",
 }));
 
 export type ListContainerLogsError = AzureOpError;
@@ -2613,6 +2675,8 @@ export const ListContainerLogs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContainerLogs",
 }));
 
 export type ListLocationCachedImagesError = AzureOpError;
@@ -2628,6 +2692,8 @@ export const ListLocationCachedImages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocationCachedImages",
 }));
 
 export type ListLocationCapabilitiesError = AzureOpError;
@@ -2643,6 +2709,8 @@ export const ListLocationCapabilities: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocationCapabilities",
 }));
 
 export type ListLocationUsageError = AzureOpError;
@@ -2658,6 +2726,8 @@ export const ListLocationUsage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLocationUsage",
 }));
 
 export type ListNGroupByResourceGroupError = AzureOpError;
@@ -2673,6 +2743,8 @@ export const ListNGroupByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNGroupByResourceGroup",
 }));
 
 export type ListNGroupsError = AzureOpError;
@@ -2688,6 +2760,8 @@ export const ListNGroups: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNGroups",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2703,6 +2777,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListSandboxGroupByResourceGroupError = AzureOpError;
@@ -2718,6 +2794,8 @@ export const ListSandboxGroupByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxGroupByResourceGroup",
 }));
 
 export type ListSandboxGroupBySubscriptionError = AzureOpError;
@@ -2733,6 +2811,8 @@ export const ListSandboxGroupBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxGroupBySubscription",
 }));
 
 export type NGroupsCreateOrUpdateError = AzureOpError;
@@ -2748,6 +2828,8 @@ export const NGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NGroupsCreateOrUpdate",
 }));
 
 export type RestartContainerGroupError = AzureOpError;
@@ -2763,6 +2845,8 @@ export const RestartContainerGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartContainerGroup",
 }));
 
 export type RestartNGroupError = AzureOpError;
@@ -2778,6 +2862,8 @@ export const RestartNGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartNGroup",
 }));
 
 export type SandboxGroupsCreateOrUpdateError = AzureOpError;
@@ -2793,6 +2879,8 @@ export const SandboxGroupsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGroupsCreateOrUpdate",
 }));
 
 export type StartContainerGroupError = AzureOpError;
@@ -2808,6 +2896,8 @@ export const StartContainerGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartContainerGroup",
 }));
 
 export type StartNGroupError = AzureOpError;
@@ -2823,6 +2913,8 @@ export const StartNGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartNGroup",
 }));
 
 export type StopContainerGroupError = AzureOpError;
@@ -2838,6 +2930,8 @@ export const StopContainerGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopContainerGroup",
 }));
 
 export type StopNGroupError = AzureOpError;
@@ -2853,6 +2947,8 @@ export const StopNGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopNGroup",
 }));
 
 export type UpdateCGProfileError = AzureOpError;
@@ -2868,6 +2964,8 @@ export const UpdateCGProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCGProfile",
 }));
 
 export type UpdateContainerGroupError = AzureOpError;
@@ -2883,6 +2981,8 @@ export const UpdateContainerGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContainerGroup",
 }));
 
 export type UpdateNGroupError = AzureOpError;
@@ -2898,6 +2998,8 @@ export const UpdateNGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNGroup",
 }));
 
 export type UpdateSandboxGroupError = AzureOpError;
@@ -2913,6 +3015,8 @@ export const UpdateSandboxGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandboxGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

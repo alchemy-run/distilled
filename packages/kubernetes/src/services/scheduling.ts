@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Scheduling",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -2557,6 +2570,8 @@ export const createSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchedulingV1alpha3NamespacedCompositePodGroup",
 }));
 
 export type CreateSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
@@ -2572,6 +2587,8 @@ export const createSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchedulingV1alpha3NamespacedPodGroup",
 }));
 
 export type CreateSchedulingV1alpha3NamespacedWorkloadError = KubernetesOpError;
@@ -2587,6 +2604,8 @@ export const createSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchedulingV1alpha3NamespacedWorkload",
 }));
 
 export type CreateSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -2602,6 +2621,8 @@ export const createSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchedulingV1beta1NamespacedPodGroup",
 }));
 
 export type CreateSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
@@ -2617,6 +2638,8 @@ export const createSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchedulingV1beta1NamespacedWorkload",
 }));
 
 export type CreateSchedulingV1PriorityClassError =
@@ -2635,6 +2658,8 @@ export const createSchedulingV1PriorityClass: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchedulingV1PriorityClass",
 }));
 
 export type DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroupError = KubernetesOpError;
@@ -2654,6 +2679,8 @@ export const deleteSchedulingV1alpha3CollectionNamespacedCompositePodGroup: API.
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1alpha3CollectionNamespacedCompositePodGroup",
 }));
 
 export type DeleteSchedulingV1alpha3CollectionNamespacedPodGroupError = KubernetesOpError;
@@ -2673,6 +2700,8 @@ export const deleteSchedulingV1alpha3CollectionNamespacedPodGroup: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1alpha3CollectionNamespacedPodGroup",
 }));
 
 export type DeleteSchedulingV1alpha3CollectionNamespacedWorkloadError = KubernetesOpError;
@@ -2692,6 +2721,8 @@ export const deleteSchedulingV1alpha3CollectionNamespacedWorkload: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1alpha3CollectionNamespacedWorkload",
 }));
 
 export type DeleteSchedulingV1alpha3NamespacedCompositePodGroupError = KubernetesOpError;
@@ -2711,6 +2742,8 @@ export const deleteSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1alpha3NamespacedCompositePodGroup",
 }));
 
 export type DeleteSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
@@ -2726,6 +2759,8 @@ export const deleteSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1alpha3NamespacedPodGroup",
 }));
 
 export type DeleteSchedulingV1alpha3NamespacedWorkloadError = KubernetesOpError;
@@ -2741,6 +2776,8 @@ export const deleteSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1alpha3NamespacedWorkload",
 }));
 
 export type DeleteSchedulingV1beta1CollectionNamespacedPodGroupError = KubernetesOpError;
@@ -2760,6 +2797,8 @@ export const deleteSchedulingV1beta1CollectionNamespacedPodGroup: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1beta1CollectionNamespacedPodGroup",
 }));
 
 export type DeleteSchedulingV1beta1CollectionNamespacedWorkloadError = KubernetesOpError;
@@ -2779,6 +2818,8 @@ export const deleteSchedulingV1beta1CollectionNamespacedWorkload: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1beta1CollectionNamespacedWorkload",
 }));
 
 export type DeleteSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -2794,6 +2835,8 @@ export const deleteSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1beta1NamespacedPodGroup",
 }));
 
 export type DeleteSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
@@ -2809,6 +2852,8 @@ export const deleteSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1beta1NamespacedWorkload",
 }));
 
 export type DeleteSchedulingV1CollectionPriorityClassError = KubernetesOpError;
@@ -2824,6 +2869,8 @@ export const deleteSchedulingV1CollectionPriorityClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1CollectionPriorityClass",
 }));
 
 export type DeleteSchedulingV1PriorityClassError = NotFound | Conflict | KubernetesOpError;
@@ -2839,6 +2886,8 @@ export const deleteSchedulingV1PriorityClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedulingV1PriorityClass",
 }));
 
 export type GetSchedulingAPIGroupError = KubernetesOpError;
@@ -2854,6 +2903,8 @@ export const getSchedulingAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchedulingAPIGroup",
 }));
 
 export type GetSchedulingV1alpha3APIResourcesError = KubernetesOpError;
@@ -2869,6 +2920,8 @@ export const getSchedulingV1alpha3APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchedulingV1alpha3APIResources",
 }));
 
 export type GetSchedulingV1APIResourcesError = KubernetesOpError;
@@ -2884,6 +2937,8 @@ export const getSchedulingV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchedulingV1APIResources",
 }));
 
 export type GetSchedulingV1beta1APIResourcesError = KubernetesOpError;
@@ -2899,6 +2954,8 @@ export const getSchedulingV1beta1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSchedulingV1beta1APIResources",
 }));
 
 export type ListSchedulingV1alpha3CompositePodGroupForAllNamespacesError = KubernetesOpError;
@@ -2918,6 +2975,8 @@ export const listSchedulingV1alpha3CompositePodGroupForAllNamespaces: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1alpha3CompositePodGroupForAllNamespaces",
 }));
 
 export type ListSchedulingV1alpha3NamespacedCompositePodGroupError = KubernetesOpError;
@@ -2937,6 +2996,8 @@ export const listSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1alpha3NamespacedCompositePodGroup",
 }));
 
 export type ListSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
@@ -2952,6 +3013,8 @@ export const listSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1alpha3NamespacedPodGroup",
 }));
 
 export type ListSchedulingV1alpha3NamespacedWorkloadError = KubernetesOpError;
@@ -2967,6 +3030,8 @@ export const listSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1alpha3NamespacedWorkload",
 }));
 
 export type ListSchedulingV1alpha3PodGroupForAllNamespacesError = KubernetesOpError;
@@ -2986,6 +3051,8 @@ export const listSchedulingV1alpha3PodGroupForAllNamespaces: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1alpha3PodGroupForAllNamespaces",
 }));
 
 export type ListSchedulingV1alpha3WorkloadForAllNamespacesError = KubernetesOpError;
@@ -3005,6 +3072,8 @@ export const listSchedulingV1alpha3WorkloadForAllNamespaces: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1alpha3WorkloadForAllNamespaces",
 }));
 
 export type ListSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3020,6 +3089,8 @@ export const listSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1beta1NamespacedPodGroup",
 }));
 
 export type ListSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
@@ -3035,6 +3106,8 @@ export const listSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1beta1NamespacedWorkload",
 }));
 
 export type ListSchedulingV1beta1PodGroupForAllNamespacesError = KubernetesOpError;
@@ -3054,6 +3127,8 @@ export const listSchedulingV1beta1PodGroupForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1beta1PodGroupForAllNamespaces",
 }));
 
 export type ListSchedulingV1beta1WorkloadForAllNamespacesError = KubernetesOpError;
@@ -3073,6 +3148,8 @@ export const listSchedulingV1beta1WorkloadForAllNamespaces: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1beta1WorkloadForAllNamespaces",
 }));
 
 export type ListSchedulingV1PriorityClassError = KubernetesOpError;
@@ -3088,6 +3165,8 @@ export const listSchedulingV1PriorityClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedulingV1PriorityClass",
 }));
 
 export type PatchSchedulingV1alpha3NamespacedCompositePodGroupError = KubernetesOpError;
@@ -3107,6 +3186,8 @@ export const patchSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1alpha3NamespacedCompositePodGroup",
 }));
 
 export type PatchSchedulingV1alpha3NamespacedCompositePodGroupStatusError = KubernetesOpError;
@@ -3126,6 +3207,8 @@ export const patchSchedulingV1alpha3NamespacedCompositePodGroupStatus: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1alpha3NamespacedCompositePodGroupStatus",
 }));
 
 export type PatchSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
@@ -3141,6 +3224,8 @@ export const patchSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1alpha3NamespacedPodGroup",
 }));
 
 export type PatchSchedulingV1alpha3NamespacedPodGroupStatusError = KubernetesOpError;
@@ -3160,6 +3245,8 @@ export const patchSchedulingV1alpha3NamespacedPodGroupStatus: API.OperationMetho
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1alpha3NamespacedPodGroupStatus",
 }));
 
 export type PatchSchedulingV1alpha3NamespacedWorkloadError = KubernetesOpError;
@@ -3175,6 +3262,8 @@ export const patchSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1alpha3NamespacedWorkload",
 }));
 
 export type PatchSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3190,6 +3279,8 @@ export const patchSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1beta1NamespacedPodGroup",
 }));
 
 export type PatchSchedulingV1beta1NamespacedPodGroupStatusError = KubernetesOpError;
@@ -3209,6 +3300,8 @@ export const patchSchedulingV1beta1NamespacedPodGroupStatus: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1beta1NamespacedPodGroupStatus",
 }));
 
 export type PatchSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
@@ -3224,6 +3317,8 @@ export const patchSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1beta1NamespacedWorkload",
 }));
 
 export type PatchSchedulingV1PriorityClassError =
@@ -3243,6 +3338,8 @@ export const patchSchedulingV1PriorityClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedulingV1PriorityClass",
 }));
 
 export type ReadSchedulingV1alpha3NamespacedCompositePodGroupError = KubernetesOpError;
@@ -3262,6 +3359,8 @@ export const readSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1alpha3NamespacedCompositePodGroup",
 }));
 
 export type ReadSchedulingV1alpha3NamespacedCompositePodGroupStatusError = KubernetesOpError;
@@ -3281,6 +3380,8 @@ export const readSchedulingV1alpha3NamespacedCompositePodGroupStatus: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1alpha3NamespacedCompositePodGroupStatus",
 }));
 
 export type ReadSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
@@ -3296,6 +3397,8 @@ export const readSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1alpha3NamespacedPodGroup",
 }));
 
 export type ReadSchedulingV1alpha3NamespacedPodGroupStatusError = KubernetesOpError;
@@ -3315,6 +3418,8 @@ export const readSchedulingV1alpha3NamespacedPodGroupStatus: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1alpha3NamespacedPodGroupStatus",
 }));
 
 export type ReadSchedulingV1alpha3NamespacedWorkloadError = KubernetesOpError;
@@ -3330,6 +3435,8 @@ export const readSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1alpha3NamespacedWorkload",
 }));
 
 export type ReadSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3345,6 +3452,8 @@ export const readSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1beta1NamespacedPodGroup",
 }));
 
 export type ReadSchedulingV1beta1NamespacedPodGroupStatusError = KubernetesOpError;
@@ -3364,6 +3473,8 @@ export const readSchedulingV1beta1NamespacedPodGroupStatus: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1beta1NamespacedPodGroupStatus",
 }));
 
 export type ReadSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
@@ -3379,6 +3490,8 @@ export const readSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1beta1NamespacedWorkload",
 }));
 
 export type ReadSchedulingV1PriorityClassError = NotFound | KubernetesOpError;
@@ -3394,6 +3507,8 @@ export const readSchedulingV1PriorityClass: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadSchedulingV1PriorityClass",
 }));
 
 export type ReplaceSchedulingV1alpha3NamespacedCompositePodGroupError = KubernetesOpError;
@@ -3413,6 +3528,8 @@ export const replaceSchedulingV1alpha3NamespacedCompositePodGroup: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1alpha3NamespacedCompositePodGroup",
 }));
 
 export type ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatusError = KubernetesOpError;
@@ -3432,6 +3549,8 @@ export const replaceSchedulingV1alpha3NamespacedCompositePodGroupStatus: API.Ope
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1alpha3NamespacedCompositePodGroupStatus",
 }));
 
 export type ReplaceSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
@@ -3447,6 +3566,8 @@ export const replaceSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1alpha3NamespacedPodGroup",
 }));
 
 export type ReplaceSchedulingV1alpha3NamespacedPodGroupStatusError = KubernetesOpError;
@@ -3466,6 +3587,8 @@ export const replaceSchedulingV1alpha3NamespacedPodGroupStatus: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1alpha3NamespacedPodGroupStatus",
 }));
 
 export type ReplaceSchedulingV1alpha3NamespacedWorkloadError = KubernetesOpError;
@@ -3481,6 +3604,8 @@ export const replaceSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1alpha3NamespacedWorkload",
 }));
 
 export type ReplaceSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3496,6 +3621,8 @@ export const replaceSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1beta1NamespacedPodGroup",
 }));
 
 export type ReplaceSchedulingV1beta1NamespacedPodGroupStatusError = KubernetesOpError;
@@ -3515,6 +3642,8 @@ export const replaceSchedulingV1beta1NamespacedPodGroupStatus: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1beta1NamespacedPodGroupStatus",
 }));
 
 export type ReplaceSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
@@ -3530,6 +3659,8 @@ export const replaceSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1beta1NamespacedWorkload",
 }));
 
 export type ReplaceSchedulingV1PriorityClassError =
@@ -3549,6 +3680,8 @@ export const replaceSchedulingV1PriorityClass: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceSchedulingV1PriorityClass",
 }));
 
 export type WatchSchedulingV1alpha3CompositePodGroupListForAllNamespacesError = KubernetesOpError;
@@ -3568,6 +3701,8 @@ export const watchSchedulingV1alpha3CompositePodGroupListForAllNamespaces: API.O
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1alpha3CompositePodGroupListForAllNamespaces",
 }));
 
 export type WatchSchedulingV1alpha3NamespacedCompositePodGroupError = KubernetesOpError;
@@ -3587,6 +3722,8 @@ export const watchSchedulingV1alpha3NamespacedCompositePodGroup: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1alpha3NamespacedCompositePodGroup",
 }));
 
 export type WatchSchedulingV1alpha3NamespacedCompositePodGroupListError = KubernetesOpError;
@@ -3606,6 +3743,8 @@ export const watchSchedulingV1alpha3NamespacedCompositePodGroupList: API.Operati
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1alpha3NamespacedCompositePodGroupList",
 }));
 
 export type WatchSchedulingV1alpha3NamespacedPodGroupError = KubernetesOpError;
@@ -3621,6 +3760,8 @@ export const watchSchedulingV1alpha3NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1alpha3NamespacedPodGroup",
 }));
 
 export type WatchSchedulingV1alpha3NamespacedPodGroupListError = KubernetesOpError;
@@ -3640,6 +3781,8 @@ export const watchSchedulingV1alpha3NamespacedPodGroupList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1alpha3NamespacedPodGroupList",
 }));
 
 export type WatchSchedulingV1alpha3NamespacedWorkloadError = KubernetesOpError;
@@ -3655,6 +3798,8 @@ export const watchSchedulingV1alpha3NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1alpha3NamespacedWorkload",
 }));
 
 export type WatchSchedulingV1alpha3NamespacedWorkloadListError = KubernetesOpError;
@@ -3674,6 +3819,8 @@ export const watchSchedulingV1alpha3NamespacedWorkloadList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1alpha3NamespacedWorkloadList",
 }));
 
 export type WatchSchedulingV1alpha3PodGroupListForAllNamespacesError = KubernetesOpError;
@@ -3693,6 +3840,8 @@ export const watchSchedulingV1alpha3PodGroupListForAllNamespaces: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1alpha3PodGroupListForAllNamespaces",
 }));
 
 export type WatchSchedulingV1alpha3WorkloadListForAllNamespacesError = KubernetesOpError;
@@ -3712,6 +3861,8 @@ export const watchSchedulingV1alpha3WorkloadListForAllNamespaces: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1alpha3WorkloadListForAllNamespaces",
 }));
 
 export type WatchSchedulingV1beta1NamespacedPodGroupError = KubernetesOpError;
@@ -3727,6 +3878,8 @@ export const watchSchedulingV1beta1NamespacedPodGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1beta1NamespacedPodGroup",
 }));
 
 export type WatchSchedulingV1beta1NamespacedPodGroupListError = KubernetesOpError;
@@ -3742,6 +3895,8 @@ export const watchSchedulingV1beta1NamespacedPodGroupList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1beta1NamespacedPodGroupList",
 }));
 
 export type WatchSchedulingV1beta1NamespacedWorkloadError = KubernetesOpError;
@@ -3757,6 +3912,8 @@ export const watchSchedulingV1beta1NamespacedWorkload: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1beta1NamespacedWorkload",
 }));
 
 export type WatchSchedulingV1beta1NamespacedWorkloadListError = KubernetesOpError;
@@ -3772,6 +3929,8 @@ export const watchSchedulingV1beta1NamespacedWorkloadList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1beta1NamespacedWorkloadList",
 }));
 
 export type WatchSchedulingV1beta1PodGroupListForAllNamespacesError = KubernetesOpError;
@@ -3791,6 +3950,8 @@ export const watchSchedulingV1beta1PodGroupListForAllNamespaces: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1beta1PodGroupListForAllNamespaces",
 }));
 
 export type WatchSchedulingV1beta1WorkloadListForAllNamespacesError = KubernetesOpError;
@@ -3810,6 +3971,8 @@ export const watchSchedulingV1beta1WorkloadListForAllNamespaces: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1beta1WorkloadListForAllNamespaces",
 }));
 
 export type WatchSchedulingV1PriorityClassError = KubernetesOpError;
@@ -3825,6 +3988,8 @@ export const watchSchedulingV1PriorityClass: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1PriorityClass",
 }));
 
 export type WatchSchedulingV1PriorityClassListError = KubernetesOpError;
@@ -3840,6 +4005,8 @@ export const watchSchedulingV1PriorityClassList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSchedulingV1PriorityClassList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

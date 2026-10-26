@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.AnalysisServices" },
+  prefix: "Analysisservices",
+  service: "Analysisservices",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckServerNameAvailabilityRequest {
   /** A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
@@ -566,6 +586,8 @@ export const CheckServerNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckServerNameAvailability",
 }));
 
 export type CreateServerError = AzureOpError;
@@ -581,6 +603,8 @@ export const CreateServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServer",
 }));
 
 export type DeleteServerError = AzureOpError;
@@ -596,6 +620,8 @@ export const DeleteServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServer",
 }));
 
 export type GetServerDetailsError = AzureOpError;
@@ -611,6 +637,8 @@ export const GetServerDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerDetails",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -626,6 +654,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListServerByResourceGroupError = AzureOpError;
@@ -641,6 +671,8 @@ export const ListServerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerByResourceGroup",
 }));
 
 export type ListServerGatewayStatusError = AzureOpError;
@@ -656,6 +688,8 @@ export const ListServerGatewayStatus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerGatewayStatus",
 }));
 
 export type ListServerOperationResultsError = AzureOpError;
@@ -671,6 +705,8 @@ export const ListServerOperationResults: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerOperationResults",
 }));
 
 export type ListServerOperationStatusesError = AzureOpError;
@@ -686,6 +722,8 @@ export const ListServerOperationStatuses: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerOperationStatuses",
 }));
 
 export type ListServersError = AzureOpError;
@@ -701,6 +739,8 @@ export const ListServers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServers",
 }));
 
 export type ListServerSkusForExistingError = AzureOpError;
@@ -716,6 +756,8 @@ export const ListServerSkusForExisting: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerSkusForExisting",
 }));
 
 export type ListServerSkusForNewError = AzureOpError;
@@ -731,6 +773,8 @@ export const ListServerSkusForNew: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerSkusForNew",
 }));
 
 export type ResumeServerError = AzureOpError;
@@ -746,6 +790,8 @@ export const ResumeServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeServer",
 }));
 
 export type ServersDissociateGatewayError = AzureOpError;
@@ -761,6 +807,8 @@ export const ServersDissociateGateway: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServersDissociateGateway",
 }));
 
 export type SuspendServerError = AzureOpError;
@@ -776,6 +824,8 @@ export const SuspendServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendServer",
 }));
 
 export type UpdateServerError = AzureOpError;
@@ -791,6 +841,8 @@ export const UpdateServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

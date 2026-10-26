@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Effect
  * SDK.
@@ -9,12 +9,12 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  * Output: src/services/eas.ts  +  services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Expo EAS's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is Expo EAS's provider spec:
  * the GraphQL trait vocabulary (`com.expo.graphql#operation` →
  * `T.GraphQLOp`, `#responsePath` → `T.ResponsePath`, `#nullable` /
  * `#nullableItems` / `#payload`), protocol/retry names, and error classes.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const OP_TRAIT = "com.expo.graphql#operation";
 const RESPONSE_PATH_TRAIT = "com.expo.graphql#responsePath";
@@ -100,6 +100,7 @@ const makeEasSpec = (model: any): SdkSpec => ({
 
 runGeneratorCli({
   description: "Generate the Expo EAS Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   spec: makeEasSpec,
 });

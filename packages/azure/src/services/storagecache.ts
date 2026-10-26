@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.StorageCache" },
+  prefix: "Storagecache",
+  service: "Storagecache",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface AmlFilesystemsCancelArchiveRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -3000,6 +3020,8 @@ export const AmlFilesystemsCancelArchive: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AmlFilesystemsCancelArchive",
 }));
 
 export type AmlFilesystemsCreateOrUpdateError = AzureOpError;
@@ -3015,6 +3037,8 @@ export const AmlFilesystemsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AmlFilesystemsCreateOrUpdate",
 }));
 
 export type ArchiveAmlFilesystemError = AzureOpError;
@@ -3030,6 +3054,8 @@ export const ArchiveAmlFilesystem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveAmlFilesystem",
 }));
 
 export type AutoExportJobsCreateOrUpdateError = AzureOpError;
@@ -3045,6 +3071,8 @@ export const AutoExportJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoExportJobsCreateOrUpdate",
 }));
 
 export type AutoImportJobsCreateOrUpdateError = AzureOpError;
@@ -3060,6 +3088,8 @@ export const AutoImportJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoImportJobsCreateOrUpdate",
 }));
 
 export type CachesCreateOrUpdateError = AzureOpError;
@@ -3075,6 +3105,8 @@ export const CachesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CachesCreateOrUpdate",
 }));
 
 export type CachesDebugInfoError = AzureOpError;
@@ -3090,6 +3122,8 @@ export const CachesDebugInfo: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CachesDebugInfo",
 }));
 
 export type CachesSpaceAllocationError = AzureOpError;
@@ -3105,6 +3139,8 @@ export const CachesSpaceAllocation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CachesSpaceAllocation",
 }));
 
 export type CachesUpgradeFirmwareError = AzureOpError;
@@ -3120,6 +3156,8 @@ export const CachesUpgradeFirmware: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CachesUpgradeFirmware",
 }));
 
 export type CheckAmlFSSubnetsError = AzureOpError;
@@ -3135,6 +3173,8 @@ export const CheckAmlFSSubnets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAmlFSSubnets",
 }));
 
 export type DeleteAmlFilesystemError = AzureOpError;
@@ -3150,6 +3190,8 @@ export const DeleteAmlFilesystem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAmlFilesystem",
 }));
 
 export type DeleteAutoExportJobError = AzureOpError;
@@ -3165,6 +3207,8 @@ export const DeleteAutoExportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoExportJob",
 }));
 
 export type DeleteAutoImportJobError = AzureOpError;
@@ -3180,6 +3224,8 @@ export const DeleteAutoImportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoImportJob",
 }));
 
 export type DeleteCachError = AzureOpError;
@@ -3195,6 +3241,8 @@ export const DeleteCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCach",
 }));
 
 export type DeleteExpansionJobError = AzureOpError;
@@ -3210,6 +3258,8 @@ export const DeleteExpansionJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExpansionJob",
 }));
 
 export type DeleteImportJobError = AzureOpError;
@@ -3225,6 +3275,8 @@ export const DeleteImportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImportJob",
 }));
 
 export type DeleteRebalanceJobError = AzureOpError;
@@ -3240,6 +3292,8 @@ export const DeleteRebalanceJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRebalanceJob",
 }));
 
 export type DeleteStorageTargetError = AzureOpError;
@@ -3255,6 +3309,8 @@ export const DeleteStorageTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteStorageTarget",
 }));
 
 export type ExpansionJobsCreateOrUpdateError = AzureOpError;
@@ -3270,6 +3326,8 @@ export const ExpansionJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExpansionJobsCreateOrUpdate",
 }));
 
 export type FlushCachError = AzureOpError;
@@ -3285,6 +3343,8 @@ export const FlushCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlushCach",
 }));
 
 export type FlushStorageTargetError = AzureOpError;
@@ -3300,6 +3360,8 @@ export const FlushStorageTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FlushStorageTarget",
 }));
 
 export type GetAmlFilesystemError = AzureOpError;
@@ -3315,6 +3377,8 @@ export const GetAmlFilesystem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAmlFilesystem",
 }));
 
 export type GetAscOperationError = AzureOpError;
@@ -3330,6 +3394,8 @@ export const GetAscOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAscOperation",
 }));
 
 export type GetAutoExportJobError = AzureOpError;
@@ -3345,6 +3411,8 @@ export const GetAutoExportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoExportJob",
 }));
 
 export type GetAutoImportJobError = AzureOpError;
@@ -3360,6 +3428,8 @@ export const GetAutoImportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoImportJob",
 }));
 
 export type GetCachError = AzureOpError;
@@ -3375,6 +3445,8 @@ export const GetCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCach",
 }));
 
 export type GetExpansionJobError = AzureOpError;
@@ -3390,6 +3462,8 @@ export const GetExpansionJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExpansionJob",
 }));
 
 export type GetImportJobError = AzureOpError;
@@ -3405,6 +3479,8 @@ export const GetImportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImportJob",
 }));
 
 export type GetRebalanceJobError = AzureOpError;
@@ -3420,6 +3496,8 @@ export const GetRebalanceJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRebalanceJob",
 }));
 
 export type GetRequiredAmlFSSubnetsSizeError = AzureOpError;
@@ -3435,6 +3513,8 @@ export const GetRequiredAmlFSSubnetsSize: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRequiredAmlFSSubnetsSize",
 }));
 
 export type GetStorageTargetError = AzureOpError;
@@ -3450,6 +3530,8 @@ export const GetStorageTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStorageTarget",
 }));
 
 export type ImportJobsCreateOrUpdateError = AzureOpError;
@@ -3465,6 +3547,8 @@ export const ImportJobsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportJobsCreateOrUpdate",
 }));
 
 export type InvalidateStorageTargetError = AzureOpError;
@@ -3480,6 +3564,8 @@ export const InvalidateStorageTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateStorageTarget",
 }));
 
 export type ListAmlFilesystemByResourceGroupError = AzureOpError;
@@ -3495,6 +3581,8 @@ export const ListAmlFilesystemByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAmlFilesystemByResourceGroup",
 }));
 
 export type ListAmlFilesystemsError = AzureOpError;
@@ -3510,6 +3598,8 @@ export const ListAmlFilesystems: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAmlFilesystems",
 }));
 
 export type ListAscUsagesError = AzureOpError;
@@ -3525,6 +3615,8 @@ export const ListAscUsages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAscUsages",
 }));
 
 export type ListAutoExportJobByAmlFilesystemError = AzureOpError;
@@ -3540,6 +3632,8 @@ export const ListAutoExportJobByAmlFilesystem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoExportJobByAmlFilesystem",
 }));
 
 export type ListAutoImportJobByAmlFilesystemError = AzureOpError;
@@ -3555,6 +3649,8 @@ export const ListAutoImportJobByAmlFilesystem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoImportJobByAmlFilesystem",
 }));
 
 export type ListCachByResourceGroupError = AzureOpError;
@@ -3570,6 +3666,8 @@ export const ListCachByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCachByResourceGroup",
 }));
 
 export type ListCachesError = AzureOpError;
@@ -3585,6 +3683,8 @@ export const ListCaches: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCaches",
 }));
 
 export type ListExpansionJobByAmlFilesystemError = AzureOpError;
@@ -3600,6 +3700,8 @@ export const ListExpansionJobByAmlFilesystem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExpansionJobByAmlFilesystem",
 }));
 
 export type ListImportJobByAmlFilesystemError = AzureOpError;
@@ -3615,6 +3717,8 @@ export const ListImportJobByAmlFilesystem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImportJobByAmlFilesystem",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -3630,6 +3734,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListRebalanceJobByAmlFilesystemError = AzureOpError;
@@ -3645,6 +3751,8 @@ export const ListRebalanceJobByAmlFilesystem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRebalanceJobByAmlFilesystem",
 }));
 
 export type ListSkusError = AzureOpError;
@@ -3660,6 +3768,8 @@ export const ListSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkus",
 }));
 
 export type ListStorageTargetByCacheError = AzureOpError;
@@ -3675,6 +3785,8 @@ export const ListStorageTargetByCache: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStorageTargetByCache",
 }));
 
 export type ListUsageModelsError = AzureOpError;
@@ -3690,6 +3802,8 @@ export const ListUsageModels: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListUsageModels",
 }));
 
 export type PauseCachPrimingJobError = AzureOpError;
@@ -3705,6 +3819,8 @@ export const PauseCachPrimingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseCachPrimingJob",
 }));
 
 export type RefreshStorageTargetsDnsError = AzureOpError;
@@ -3720,6 +3836,8 @@ export const RefreshStorageTargetsDns: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshStorageTargetsDns",
 }));
 
 export type RestoreStorageTargetDefaultsError = AzureOpError;
@@ -3735,6 +3853,8 @@ export const RestoreStorageTargetDefaults: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreStorageTargetDefaults",
 }));
 
 export type ResumeCachPrimingJobError = AzureOpError;
@@ -3750,6 +3870,8 @@ export const ResumeCachPrimingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeCachPrimingJob",
 }));
 
 export type ResumeStorageTargetError = AzureOpError;
@@ -3765,6 +3887,8 @@ export const ResumeStorageTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeStorageTarget",
 }));
 
 export type StartCachError = AzureOpError;
@@ -3780,6 +3904,8 @@ export const StartCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartCach",
 }));
 
 export type StartCachPrimingJobError = AzureOpError;
@@ -3795,6 +3921,8 @@ export const StartCachPrimingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartCachPrimingJob",
 }));
 
 export type StopCachError = AzureOpError;
@@ -3810,6 +3938,8 @@ export const StopCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopCach",
 }));
 
 export type StopCachPrimingJobError = AzureOpError;
@@ -3825,6 +3955,8 @@ export const StopCachPrimingJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopCachPrimingJob",
 }));
 
 export type StorageTargetsCreateOrUpdateError = AzureOpError;
@@ -3840,6 +3972,8 @@ export const StorageTargetsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StorageTargetsCreateOrUpdate",
 }));
 
 export type SuspendStorageTargetError = AzureOpError;
@@ -3855,6 +3989,8 @@ export const SuspendStorageTarget: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendStorageTarget",
 }));
 
 export type UpdateAmlFilesystemError = AzureOpError;
@@ -3870,6 +4006,8 @@ export const UpdateAmlFilesystem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAmlFilesystem",
 }));
 
 export type UpdateAutoExportJobError = AzureOpError;
@@ -3885,6 +4023,8 @@ export const UpdateAutoExportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoExportJob",
 }));
 
 export type UpdateAutoImportJobError = AzureOpError;
@@ -3900,6 +4040,8 @@ export const UpdateAutoImportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoImportJob",
 }));
 
 export type UpdateCachError = AzureOpError;
@@ -3915,6 +4057,8 @@ export const UpdateCach: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCach",
 }));
 
 export type UpdateExpansionJobError = AzureOpError;
@@ -3930,6 +4074,8 @@ export const UpdateExpansionJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExpansionJob",
 }));
 
 export type UpdateImportJobError = AzureOpError;
@@ -3945,6 +4091,8 @@ export const UpdateImportJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateImportJob",
 }));
 
 export type UpdateRebalanceJobError = AzureOpError;
@@ -3960,6 +4108,8 @@ export const UpdateRebalanceJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRebalanceJob",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

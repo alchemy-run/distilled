@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -81,6 +82,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://appconfig.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AppConfig",
+  service: "AppConfig",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -1012,6 +1027,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateConfigurationProfileError =
@@ -1068,6 +1085,8 @@ export const createConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationProfile",
+  telemetry: TELEMETRY,
+  span: "CreateConfigurationProfile",
 }));
 
 export type CreateDeploymentStrategyError =
@@ -1093,6 +1112,8 @@ export const createDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentStrategy",
+  telemetry: TELEMETRY,
+  span: "CreateDeploymentStrategy",
 }));
 
 export type CreateEnvironmentError =
@@ -1128,6 +1149,8 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateExperimentDefinitionError =
@@ -1158,6 +1181,8 @@ export const createExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperimentDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateExperimentDefinition",
 }));
 
 export type CreateExtensionError =
@@ -1206,6 +1231,8 @@ export const createExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtension",
+  telemetry: TELEMETRY,
+  span: "CreateExtension",
 }));
 
 export type CreateExtensionAssociationError =
@@ -1245,6 +1272,8 @@ export const createExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtensionAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateExtensionAssociation",
 }));
 
 export type CreateHostedConfigurationVersionError =
@@ -1280,6 +1309,8 @@ export const createHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHostedConfigurationVersion",
+  telemetry: TELEMETRY,
+  span: "CreateHostedConfigurationVersion",
 }));
 
 export type DeleteApplicationError =
@@ -1302,6 +1333,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteConfigurationProfileError =
@@ -1334,6 +1367,8 @@ export const deleteConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteConfigurationProfile",
 }));
 
 export type DeleteDeploymentStrategyError =
@@ -1356,6 +1391,8 @@ export const deleteDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeploymentStrategy",
+  telemetry: TELEMETRY,
+  span: "DeleteDeploymentStrategy",
 }));
 
 export type DeleteEnvironmentError =
@@ -1387,6 +1424,8 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteExperimentDefinitionError =
@@ -1415,6 +1454,8 @@ export const deleteExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperimentDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteExperimentDefinition",
 }));
 
 export type DeleteExtensionError =
@@ -1438,6 +1479,8 @@ export const deleteExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtension",
+  telemetry: TELEMETRY,
+  span: "DeleteExtension",
 }));
 
 export type DeleteExtensionAssociationError =
@@ -1461,6 +1504,8 @@ export const deleteExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtensionAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteExtensionAssociation",
 }));
 
 export type DeleteHostedConfigurationVersionError =
@@ -1484,6 +1529,8 @@ export const deleteHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHostedConfigurationVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteHostedConfigurationVersion",
 }));
 
 export type GetAccountSettingsError = BadRequestException | InternalServerException | CommonErrors;
@@ -1503,6 +1550,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetApplicationError =
@@ -1525,6 +1574,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetConfigurationError =
@@ -1555,6 +1606,8 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetConfiguration",
 }));
 
 export type GetConfigurationProfileError =
@@ -1577,6 +1630,8 @@ export const getConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationProfile",
+  telemetry: TELEMETRY,
+  span: "GetConfigurationProfile",
 }));
 
 export type GetDeploymentError =
@@ -1599,6 +1654,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentStrategyError =
@@ -1625,6 +1682,8 @@ export const getDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentStrategy",
+  telemetry: TELEMETRY,
+  span: "GetDeploymentStrategy",
 }));
 
 export type GetEnvironmentError =
@@ -1652,6 +1711,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetExperimentDefinitionError =
@@ -1674,6 +1735,8 @@ export const getExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentDefinition",
+  telemetry: TELEMETRY,
+  span: "GetExperimentDefinition",
 }));
 
 export type GetExperimentRunError =
@@ -1696,6 +1759,8 @@ export const getExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentRun",
+  telemetry: TELEMETRY,
+  span: "GetExperimentRun",
 }));
 
 export type GetExtensionError =
@@ -1718,6 +1783,8 @@ export const getExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtension",
+  telemetry: TELEMETRY,
+  span: "GetExtension",
 }));
 
 export type GetExtensionAssociationError =
@@ -1742,6 +1809,8 @@ export const getExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtensionAssociation",
+  telemetry: TELEMETRY,
+  span: "GetExtensionAssociation",
 }));
 
 export type GetHostedConfigurationVersionError =
@@ -1764,6 +1833,8 @@ export const getHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedConfigurationVersion",
+  telemetry: TELEMETRY,
+  span: "GetHostedConfigurationVersion",
 }));
 
 export type ListApplicationsError = BadRequestException | InternalServerException | CommonErrors;
@@ -1789,6 +1860,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListConfigurationProfilesError =
@@ -1818,6 +1891,8 @@ export const listConfigurationProfiles: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigurationProfiles",
 })) as any;
 
 export type ListDeploymentsError =
@@ -1847,6 +1922,8 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 })) as any;
 
 export type ListDeploymentStrategiesError =
@@ -1875,6 +1952,8 @@ export const listDeploymentStrategies: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDeploymentStrategies",
 })) as any;
 
 export type ListEnvironmentsError =
@@ -1904,6 +1983,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListExperimentDefinitionsError =
@@ -1933,6 +2014,8 @@ export const listExperimentDefinitions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentDefinitions",
 })) as any;
 
 export type ListExperimentRunEventsError =
@@ -1962,6 +2045,8 @@ export const listExperimentRunEvents: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentRunEvents",
 })) as any;
 
 export type ListExperimentRunsError =
@@ -1991,6 +2076,8 @@ export const listExperimentRuns: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExperimentRuns",
 })) as any;
 
 export type ListExtensionAssociationsError =
@@ -2021,6 +2108,8 @@ export const listExtensionAssociations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExtensionAssociations",
 })) as any;
 
 export type ListExtensionsError = BadRequestException | InternalServerException | CommonErrors;
@@ -2048,6 +2137,8 @@ export const listExtensions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExtensions",
 })) as any;
 
 export type ListHostedConfigurationVersionsError =
@@ -2078,6 +2169,8 @@ export const listHostedConfigurationVersions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListHostedConfigurationVersions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2100,6 +2193,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartDeploymentError =
@@ -2130,6 +2225,8 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  telemetry: TELEMETRY,
+  span: "StartDeployment",
 }));
 
 export type StartExperimentRunError =
@@ -2160,6 +2257,8 @@ export const startExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExperimentRun",
+  telemetry: TELEMETRY,
+  span: "StartExperimentRun",
 }));
 
 export type StopDeploymentError =
@@ -2187,6 +2286,8 @@ export const stopDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeployment",
+  telemetry: TELEMETRY,
+  span: "StopDeployment",
 }));
 
 export type StopExperimentRunError =
@@ -2215,6 +2316,8 @@ export const stopExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExperimentRun",
+  telemetry: TELEMETRY,
+  span: "StopExperimentRun",
 }));
 
 export type TagResourceError =
@@ -2239,6 +2342,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2261,6 +2366,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccountSettingsError =
@@ -2282,6 +2389,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateApplicationError =
@@ -2304,6 +2413,8 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
 }));
 
 export type UpdateConfigurationProfileError =
@@ -2326,6 +2437,8 @@ export const updateConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateConfigurationProfile",
 }));
 
 export type UpdateDeploymentStrategyError =
@@ -2348,6 +2461,8 @@ export const updateDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeploymentStrategy",
+  telemetry: TELEMETRY,
+  span: "UpdateDeploymentStrategy",
 }));
 
 export type UpdateEnvironmentError =
@@ -2370,6 +2485,8 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateExperimentDefinitionError =
@@ -2398,6 +2515,8 @@ export const updateExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentDefinition",
 }));
 
 export type UpdateExperimentRunError =
@@ -2426,6 +2545,8 @@ export const updateExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentRun",
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentRun",
 }));
 
 export type UpdateExtensionError =
@@ -2456,6 +2577,8 @@ export const updateExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtension",
+  telemetry: TELEMETRY,
+  span: "UpdateExtension",
 }));
 
 export type UpdateExtensionAssociationError =
@@ -2480,6 +2603,8 @@ export const updateExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtensionAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateExtensionAssociation",
 }));
 
 export type ValidateConfigurationError =
@@ -2502,6 +2627,8 @@ export const validateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateConfiguration",
+  telemetry: TELEMETRY,
+  span: "ValidateConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

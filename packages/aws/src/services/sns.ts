@@ -1,6 +1,9 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxMessage from "@distilled.cloud/core/telemetry-message-context";
+import * as TxName from "@distilled.cloud/core/telemetry-name-template";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -80,6 +83,22 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://sns.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  attributes: { "messaging.system": "aws.sns" },
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SNS",
+  service: "SNS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AuthorizationErrorException
   extends /*@__PURE__*/ S.TaggedError<AuthorizationErrorException>()(
@@ -834,6 +853,16 @@ export const addPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
+  telemetry: TELEMETRY,
+  span: {
+    op: "AddPermission",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type CheckIfPhoneNumberIsOptedOutError =
@@ -867,6 +896,8 @@ export const checkIfPhoneNumberIsOptedOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckIfPhoneNumberIsOptedOut",
+  telemetry: TELEMETRY,
+  span: "CheckIfPhoneNumberIsOptedOut",
 }));
 
 export type ConfirmSubscriptionError =
@@ -905,6 +936,16 @@ export const confirmSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmSubscription",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConfirmSubscription",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type CreatePlatformApplicationError =
@@ -964,6 +1005,8 @@ export const createPlatformApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformApplication",
+  telemetry: TELEMETRY,
+  span: "CreatePlatformApplication",
 }));
 
 export type CreatePlatformEndpointError =
@@ -1010,6 +1053,8 @@ export const createPlatformEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreatePlatformEndpoint",
 }));
 
 export type CreateSMSSandboxPhoneNumberError =
@@ -1052,6 +1097,8 @@ export const createSMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSMSSandboxPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "CreateSMSSandboxPhoneNumber",
 }));
 
 export type CreateTopicError =
@@ -1094,6 +1141,8 @@ export const createTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopic",
+  telemetry: TELEMETRY,
+  span: "CreateTopic",
 }));
 
 export type DeleteEndpointError =
@@ -1129,6 +1178,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeletePlatformApplicationError =
@@ -1162,6 +1213,8 @@ export const deletePlatformApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlatformApplication",
+  telemetry: TELEMETRY,
+  span: "DeletePlatformApplication",
 }));
 
 export type DeleteSMSSandboxPhoneNumberError =
@@ -1204,6 +1257,8 @@ export const deleteSMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSMSSandboxPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "DeleteSMSSandboxPhoneNumber",
 }));
 
 export type DeleteTopicError =
@@ -1247,6 +1302,16 @@ export const deleteTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopic",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteTopic",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type GetDataProtectionPolicyError =
@@ -1290,6 +1355,8 @@ export const getDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProtectionPolicy",
+  telemetry: TELEMETRY,
+  span: "GetDataProtectionPolicy",
 }));
 
 export type GetEndpointAttributesError =
@@ -1324,6 +1391,8 @@ export const getEndpointAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpointAttributes",
+  telemetry: TELEMETRY,
+  span: "GetEndpointAttributes",
 }));
 
 export type GetPlatformApplicationAttributesError =
@@ -1358,6 +1427,8 @@ export const getPlatformApplicationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlatformApplicationAttributes",
+  telemetry: TELEMETRY,
+  span: "GetPlatformApplicationAttributes",
 }));
 
 export type GetSMSAttributesError =
@@ -1388,6 +1459,8 @@ export const getSMSAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSMSAttributes",
+  telemetry: TELEMETRY,
+  span: "GetSMSAttributes",
 }));
 
 export type GetSMSSandboxAccountStatusError =
@@ -1420,6 +1493,8 @@ export const getSMSSandboxAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSMSSandboxAccountStatus",
+  telemetry: TELEMETRY,
+  span: "GetSMSSandboxAccountStatus",
 }));
 
 export type GetSubscriptionAttributesError =
@@ -1448,6 +1523,8 @@ export const getSubscriptionAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionAttributes",
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionAttributes",
 }));
 
 export type GetTopicAttributesError =
@@ -1483,6 +1560,16 @@ export const getTopicAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTopicAttributes",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetTopicAttributes",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type ListEndpointsByPlatformApplicationError =
@@ -1527,6 +1614,8 @@ export const listEndpointsByPlatformApplication: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEndpointsByPlatformApplication",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Endpoints" } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpointsByPlatformApplication",
 })) as any;
 
 export type ListOriginationNumbersError =
@@ -1566,6 +1655,8 @@ export const listOriginationNumbers: API.PaginatedOperationMethod<
     items: "PhoneNumbers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOriginationNumbers",
 })) as any;
 
 export type ListPhoneNumbersOptedOutError =
@@ -1604,6 +1695,8 @@ export const listPhoneNumbersOptedOut: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListPhoneNumbersOptedOut",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "phoneNumbers" } as const,
+  telemetry: TELEMETRY,
+  span: "ListPhoneNumbersOptedOut",
 })) as any;
 
 export type ListPlatformApplicationsError =
@@ -1642,6 +1735,8 @@ export const listPlatformApplications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PlatformApplications",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlatformApplications",
 })) as any;
 
 export type ListSMSSandboxPhoneNumbersError =
@@ -1689,6 +1784,8 @@ export const listSMSSandboxPhoneNumbers: API.PaginatedOperationMethod<
     items: "PhoneNumbers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSMSSandboxPhoneNumbers",
 })) as any;
 
 export type ListSubscriptionsError =
@@ -1722,6 +1819,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "Subscriptions",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubscriptions",
 })) as any;
 
 export type ListSubscriptionsByTopicError =
@@ -1765,6 +1864,16 @@ export const listSubscriptionsByTopic: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "Subscriptions",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSubscriptionsByTopic",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1800,6 +1909,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTopicsError =
@@ -1829,6 +1940,8 @@ export const listTopics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTopics",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Topics" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTopics",
 })) as any;
 
 export type OptInPhoneNumberError =
@@ -1860,6 +1973,8 @@ export const optInPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptInPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "OptInPhoneNumber",
 }));
 
 export type PublishError =
@@ -1934,6 +2049,22 @@ export const publish: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Publish",
+  telemetry: TELEMETRY,
+  span: {
+    op: "Publish",
+    kind: "producer",
+    attributes: { "messaging.operation.name": "send", "messaging.operation.type": "send" },
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+      TargetArn: [{ name: "messaging.destination.name", transform: "arnResource" }],
+    },
+    output: { MessageId: [{ name: "messaging.message.id" }] },
+    rename: TxName.nameTemplate("send {messaging.destination.name}"),
+    inject: TxMessage.injectAwsMessageAttributes({ member: "MessageAttributes" }),
+  },
 }));
 
 export type PublishBatchError =
@@ -2038,6 +2169,24 @@ export const publishBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishBatch",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PublishBatch",
+    kind: "producer",
+    attributes: { "messaging.operation.name": "send", "messaging.operation.type": "send" },
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+      PublishBatchRequestEntries: [{ name: "messaging.batch.message_count", transform: "count" }],
+    },
+    rename: TxName.nameTemplate("send {messaging.destination.name}"),
+    inject: TxMessage.injectAwsMessageAttributes({
+      list: "PublishBatchRequestEntries",
+      member: "MessageAttributes",
+    }),
+  },
 }));
 
 export type PutDataProtectionPolicyError =
@@ -2081,6 +2230,8 @@ export const putDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataProtectionPolicy",
+  telemetry: TELEMETRY,
+  span: "PutDataProtectionPolicy",
 }));
 
 export type RemovePermissionError =
@@ -2117,6 +2268,16 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RemovePermission",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type SetEndpointAttributesError =
@@ -2151,6 +2312,8 @@ export const setEndpointAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetEndpointAttributes",
+  telemetry: TELEMETRY,
+  span: "SetEndpointAttributes",
 }));
 
 export type SetPlatformApplicationAttributesError =
@@ -2187,6 +2350,8 @@ export const setPlatformApplicationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetPlatformApplicationAttributes",
+  telemetry: TELEMETRY,
+  span: "SetPlatformApplicationAttributes",
 }));
 
 export type SetSMSAttributesError =
@@ -2225,6 +2390,8 @@ export const setSMSAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSMSAttributes",
+  telemetry: TELEMETRY,
+  span: "SetSMSAttributes",
 }));
 
 export type SetSubscriptionAttributesError =
@@ -2258,6 +2425,8 @@ export const setSubscriptionAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSubscriptionAttributes",
+  telemetry: TELEMETRY,
+  span: "SetSubscriptionAttributes",
 }));
 
 export type SetTopicAttributesError =
@@ -2296,6 +2465,16 @@ export const setTopicAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTopicAttributes",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SetTopicAttributes",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type SubscribeError =
@@ -2343,6 +2522,16 @@ export const subscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Subscribe",
+  telemetry: TELEMETRY,
+  span: {
+    op: "Subscribe",
+    input: {
+      TopicArn: [
+        { name: "aws.sns.topic.arn" },
+        { name: "messaging.destination.name", transform: "arnResource" },
+      ],
+    },
+  },
 }));
 
 export type TagResourceError =
@@ -2397,6 +2586,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UnsubscribeError =
@@ -2434,6 +2625,8 @@ export const unsubscribe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Unsubscribe",
+  telemetry: TELEMETRY,
+  span: "Unsubscribe",
 }));
 
 export type UntagResourceError =
@@ -2473,6 +2666,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type VerifySMSSandboxPhoneNumberError =
@@ -2515,6 +2710,8 @@ export const verifySMSSandboxPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySMSSandboxPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "VerifySMSSandboxPhoneNumber",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

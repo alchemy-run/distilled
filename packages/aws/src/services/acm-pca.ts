@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -73,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://acm-pca.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ACMPCA",
+  service: "ACMPCA",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CertificateMismatchException
   extends /*@__PURE__*/ S.TaggedError<CertificateMismatchException>()(
@@ -637,6 +653,8 @@ export const createCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "CreateCertificateAuthority",
 }));
 
 export type CreateCertificateAuthorityAuditReportError =
@@ -675,6 +693,8 @@ export const createCertificateAuthorityAuditReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateAuthorityAuditReport",
+  telemetry: TELEMETRY,
+  span: "CreateCertificateAuthorityAuditReport",
 }));
 
 export type CreatePermissionError =
@@ -716,6 +736,8 @@ export const createPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermission",
+  telemetry: TELEMETRY,
+  span: "CreatePermission",
 }));
 
 export type DeleteCertificateAuthorityError =
@@ -754,6 +776,8 @@ export const deleteCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "DeleteCertificateAuthority",
 }));
 
 export type DeletePermissionError =
@@ -793,6 +817,8 @@ export const deletePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermission",
+  telemetry: TELEMETRY,
+  span: "DeletePermission",
 }));
 
 export type DeletePolicyError =
@@ -840,6 +866,8 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DescribeCertificateAuthorityError =
@@ -875,6 +903,8 @@ export const describeCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "DescribeCertificateAuthority",
 }));
 
 export type DescribeCertificateAuthorityAuditReportError =
@@ -897,6 +927,8 @@ export const describeCertificateAuthorityAuditReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateAuthorityAuditReport",
+  telemetry: TELEMETRY,
+  span: "DescribeCertificateAuthorityAuditReport",
 }));
 
 export type GetCertificateError =
@@ -927,6 +959,8 @@ export const getCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificate",
+  telemetry: TELEMETRY,
+  span: "GetCertificate",
 }));
 
 export type GetCertificateAuthorityCertificateError =
@@ -949,6 +983,8 @@ export const getCertificateAuthorityCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateAuthorityCertificate",
+  telemetry: TELEMETRY,
+  span: "GetCertificateAuthorityCertificate",
 }));
 
 export type GetCertificateAuthorityCsrError =
@@ -979,6 +1015,8 @@ export const getCertificateAuthorityCsr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateAuthorityCsr",
+  telemetry: TELEMETRY,
+  span: "GetCertificateAuthorityCsr",
 }));
 
 export type GetPolicyError =
@@ -1018,6 +1056,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type ImportCertificateAuthorityCertificateError =
@@ -1130,6 +1170,8 @@ export const importCertificateAuthorityCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificateAuthorityCertificate",
+  telemetry: TELEMETRY,
+  span: "ImportCertificateAuthorityCertificate",
 }));
 
 export type IssueCertificateError =
@@ -1164,6 +1206,8 @@ export const issueCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IssueCertificate",
+  telemetry: TELEMETRY,
+  span: "IssueCertificate",
 }));
 
 export type ListCertificateAuthoritiesError = InvalidNextTokenException | CommonErrors;
@@ -1189,6 +1233,8 @@ export const listCertificateAuthorities: API.PaginatedOperationMethod<
     items: "CertificateAuthorities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCertificateAuthorities",
 })) as any;
 
 export type ListPermissionsError =
@@ -1237,6 +1283,8 @@ export const listPermissions: API.PaginatedOperationMethod<
     items: "Permissions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPermissions",
 })) as any;
 
 export type ListTagsError =
@@ -1272,6 +1320,8 @@ export const listTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 })) as any;
 
 export type PutPolicyError =
@@ -1319,6 +1369,8 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
+  telemetry: TELEMETRY,
+  span: "PutPolicy",
 }));
 
 export type RestoreCertificateAuthorityError =
@@ -1341,6 +1393,8 @@ export const restoreCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "RestoreCertificateAuthority",
 }));
 
 export type RevokeCertificateError =
@@ -1385,6 +1439,8 @@ export const revokeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCertificate",
+  telemetry: TELEMETRY,
+  span: "RevokeCertificate",
 }));
 
 export type TagCertificateAuthorityError =
@@ -1417,6 +1473,8 @@ export const tagCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "TagCertificateAuthority",
 }));
 
 export type UntagCertificateAuthorityError =
@@ -1445,6 +1503,8 @@ export const untagCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "UntagCertificateAuthority",
 }));
 
 export type UpdateCertificateAuthorityError =
@@ -1479,6 +1539,8 @@ export const updateCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificateAuthority",
+  telemetry: TELEMETRY,
+  span: "UpdateCertificateAuthority",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "MessagingTemplates",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `liquid` - liquid */
 export type MessageTemplateContentTemplatingEnum = "liquid";
 /** Rows of {id, cells, columns[{id, contents[{id, type, values}], values}], values}. */
@@ -222,6 +235,8 @@ export const createMessagingTemplate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMessagingTemplate",
 }));
 
 export type GetMessagingTemplateError = PosthogOpError;
@@ -236,6 +251,8 @@ export const getMessagingTemplate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMessagingTemplate",
 }));
 
 export type ListMessagingTemplatesError = PosthogOpError;
@@ -250,6 +267,8 @@ export const listMessagingTemplates: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMessagingTemplates",
 }));
 
 export type MessagingTemplatesDestroyError = PosthogOpError;
@@ -265,6 +284,8 @@ export const messagingTemplatesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MessagingTemplatesDestroy",
 }));
 
 export type UpdateMessagingTemplateError = PosthogOpError;
@@ -279,6 +300,8 @@ export const updateMessagingTemplate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMessagingTemplate",
 }));
 
 export type UpdateMessagingTemplatesDesignPartialError = PosthogOpError;
@@ -293,6 +316,8 @@ export const updateMessagingTemplatesDesignPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMessagingTemplatesDesignPartial",
 }));
 
 export type UpdateMessagingTemplatesPartialError = PosthogOpError;
@@ -307,6 +332,8 @@ export const updateMessagingTemplatesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMessagingTemplatesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

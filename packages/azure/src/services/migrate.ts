@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.OffAzure" },
+  prefix: "Migrate",
+  service: "Migrate",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Data model of Assessment Scope Parameters. */
 export interface AssessmentScopeParameters {
   /** Gets or sets the server group id. */
@@ -15266,6 +15286,11 @@ export const CreateAksAssessmentOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateAksAssessmentOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateAssessmentProjectsOperationError = AzureOpError;
@@ -15281,6 +15306,11 @@ export const CreateAssessmentProjectsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateAssessmentProjectsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateAssessmentsOperationError = AzureOpError;
@@ -15296,6 +15326,11 @@ export const CreateAssessmentsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateAssessmentsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateAvsAssessmentsOperationError = AzureOpError;
@@ -15311,6 +15346,11 @@ export const CreateAvsAssessmentsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateAvsAssessmentsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateGroupsOperationError = AzureOpError;
@@ -15326,6 +15366,11 @@ export const CreateGroupsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateGroupsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateHypervClusterControllerClusterError = AzureOpError;
@@ -15341,6 +15386,8 @@ export const CreateHypervClusterControllerCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHypervClusterControllerCluster",
 }));
 
 export type CreateHypervCollectorsOperationError = AzureOpError;
@@ -15356,6 +15403,11 @@ export const CreateHypervCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateHypervCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateHypervHostControllerError = AzureOpError;
@@ -15371,6 +15423,8 @@ export const CreateHypervHostController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHypervHostController",
 }));
 
 export type CreateHypervSitesControllerError = AzureOpError;
@@ -15386,6 +15440,8 @@ export const CreateHypervSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHypervSitesController",
 }));
 
 export type CreateImportCollectorsOperationError = AzureOpError;
@@ -15401,6 +15457,11 @@ export const CreateImportCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateImportCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateImportSitesControllerError = AzureOpError;
@@ -15416,6 +15477,8 @@ export const CreateImportSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateImportSitesController",
 }));
 
 export type CreateMasterSitesControllerError = AzureOpError;
@@ -15431,6 +15494,8 @@ export const CreateMasterSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMasterSitesController",
 }));
 
 export type CreatePrivateEndpointConnectionControllerError = AzureOpError;
@@ -15446,6 +15511,8 @@ export const CreatePrivateEndpointConnectionController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnectionController",
 }));
 
 export type CreatePrivateEndpointConnectionProxyControllerError = AzureOpError;
@@ -15469,6 +15536,11 @@ export const CreatePrivateEndpointConnectionProxyController: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreatePrivateEndpointConnectionProxyController",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateServerCollectorsOperationError = AzureOpError;
@@ -15484,6 +15556,11 @@ export const CreateServerCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateServerCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateServerSitesControllerError = AzureOpError;
@@ -15499,6 +15576,8 @@ export const CreateServerSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServerSitesController",
 }));
 
 export type CreateSitesControllerError = AzureOpError;
@@ -15514,6 +15593,8 @@ export const CreateSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSitesController",
 }));
 
 export type CreateSolutionsControllerError = AzureOpError;
@@ -15529,6 +15610,11 @@ export const CreateSolutionsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateSolutionsController",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateSqlAssessmentV2OperationError = AzureOpError;
@@ -15544,6 +15630,11 @@ export const CreateSqlAssessmentV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateSqlAssessmentV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateSqlCollectorOperationError = AzureOpError;
@@ -15559,6 +15650,11 @@ export const CreateSqlCollectorOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateSqlCollectorOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateSqlDiscoverySiteDataSourceControllerError = AzureOpError;
@@ -15578,6 +15674,8 @@ export const CreateSqlDiscoverySiteDataSourceController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlDiscoverySiteDataSourceController",
 }));
 
 export type CreateSqlSitesControllerError = AzureOpError;
@@ -15593,6 +15691,8 @@ export const CreateSqlSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSqlSitesController",
 }));
 
 export type CreateVcenterControllerError = AzureOpError;
@@ -15608,6 +15708,8 @@ export const CreateVcenterController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVcenterController",
 }));
 
 export type CreateVmwareCollectorsOperationError = AzureOpError;
@@ -15623,6 +15725,11 @@ export const CreateVmwareCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateVmwareCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateWebAppAssessmentV2OperationError = AzureOpError;
@@ -15638,6 +15745,11 @@ export const CreateWebAppAssessmentV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateWebAppAssessmentV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateWebAppCollectorOperationError = AzureOpError;
@@ -15653,6 +15765,11 @@ export const CreateWebAppCollectorOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateWebAppCollectorOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type CreateWebAppDiscoverySiteDataSourcesControllerError = AzureOpError;
@@ -15676,6 +15793,8 @@ export const CreateWebAppDiscoverySiteDataSourcesController: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebAppDiscoverySiteDataSourcesController",
 }));
 
 export type CreateWebAppSitesControllerError = AzureOpError;
@@ -15691,6 +15810,8 @@ export const CreateWebAppSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebAppSitesController",
 }));
 
 export type DeleteAksAssessmentOperationError = AzureOpError;
@@ -15706,6 +15827,11 @@ export const DeleteAksAssessmentOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteAksAssessmentOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteAssessmentProjectsOperationError = AzureOpError;
@@ -15721,6 +15847,11 @@ export const DeleteAssessmentProjectsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteAssessmentProjectsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteAssessmentsOperationError = AzureOpError;
@@ -15736,6 +15867,11 @@ export const DeleteAssessmentsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteAssessmentsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteAvsAssessmentsOperationError = AzureOpError;
@@ -15751,6 +15887,11 @@ export const DeleteAvsAssessmentsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteAvsAssessmentsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteEventsControllerError = AzureOpError;
@@ -15766,6 +15907,11 @@ export const DeleteEventsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteEventsController",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteGroupsOperationError = AzureOpError;
@@ -15781,6 +15927,11 @@ export const DeleteGroupsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteGroupsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteHypervClusterControllerError = AzureOpError;
@@ -15796,6 +15947,8 @@ export const DeleteHypervClusterController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHypervClusterController",
 }));
 
 export type DeleteHypervCollectorsOperationError = AzureOpError;
@@ -15811,6 +15964,11 @@ export const DeleteHypervCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteHypervCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteHypervHostControllerError = AzureOpError;
@@ -15826,6 +15984,8 @@ export const DeleteHypervHostController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHypervHostController",
 }));
 
 export type DeleteHypervSitesControllerError = AzureOpError;
@@ -15841,6 +16001,8 @@ export const DeleteHypervSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHypervSitesController",
 }));
 
 export type DeleteImportCollectorsOperationError = AzureOpError;
@@ -15856,6 +16018,11 @@ export const DeleteImportCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteImportCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteImportMachinesControllerError = AzureOpError;
@@ -15871,6 +16038,8 @@ export const DeleteImportMachinesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImportMachinesController",
 }));
 
 export type DeleteImportSitesControllerError = AzureOpError;
@@ -15886,6 +16055,8 @@ export const DeleteImportSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImportSitesController",
 }));
 
 export type DeleteImportSitesControllerImportedMachinesError = AzureOpError;
@@ -15905,6 +16076,8 @@ export const DeleteImportSitesControllerImportedMachines: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteImportSitesControllerImportedMachines",
 }));
 
 export type DeleteMasterSitesControllerError = AzureOpError;
@@ -15920,6 +16093,8 @@ export const DeleteMasterSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMasterSitesController",
 }));
 
 export type DeletePrivateEndpointConnectionControllerError = AzureOpError;
@@ -15935,6 +16110,8 @@ export const DeletePrivateEndpointConnectionController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionController",
 }));
 
 export type DeletePrivateEndpointConnectionControllerPrivateEndpointConnectionError = AzureOpError;
@@ -15958,6 +16135,11 @@ export const DeletePrivateEndpointConnectionControllerPrivateEndpointConnection:
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePrivateEndpointConnectionControllerPrivateEndpointConnection",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeletePrivateEndpointConnectionOperationError = AzureOpError;
@@ -15973,6 +16155,11 @@ export const DeletePrivateEndpointConnectionOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePrivateEndpointConnectionOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeletePrivateEndpointConnectionProxyControllerError = AzureOpError;
@@ -15996,6 +16183,11 @@ export const DeletePrivateEndpointConnectionProxyController: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeletePrivateEndpointConnectionProxyController",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteServerCollectorsOperationError = AzureOpError;
@@ -16011,6 +16203,11 @@ export const DeleteServerCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteServerCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteServersControllerMachineError = AzureOpError;
@@ -16026,6 +16223,8 @@ export const DeleteServersControllerMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServersControllerMachine",
 }));
 
 export type DeleteServerSitesControllerError = AzureOpError;
@@ -16041,6 +16240,8 @@ export const DeleteServerSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteServerSitesController",
 }));
 
 export type DeleteSitesControllerError = AzureOpError;
@@ -16056,6 +16257,8 @@ export const DeleteSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSitesController",
 }));
 
 export type DeleteSolutionsControllerSolutionError = AzureOpError;
@@ -16071,6 +16274,11 @@ export const DeleteSolutionsControllerSolution: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteSolutionsControllerSolution",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteSqlAssessmentV2OperationError = AzureOpError;
@@ -16086,6 +16294,11 @@ export const DeleteSqlAssessmentV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteSqlAssessmentV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteSqlCollectorOperationError = AzureOpError;
@@ -16101,6 +16314,11 @@ export const DeleteSqlCollectorOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteSqlCollectorOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteSqlDiscoverySiteDataSourceControllerError = AzureOpError;
@@ -16124,6 +16342,8 @@ export const DeleteSqlDiscoverySiteDataSourceController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlDiscoverySiteDataSourceController",
 }));
 
 export type DeleteSqlSitesControllerError = AzureOpError;
@@ -16139,6 +16359,8 @@ export const DeleteSqlSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSqlSitesController",
 }));
 
 export type DeleteVcenterControllerError = AzureOpError;
@@ -16154,6 +16376,8 @@ export const DeleteVcenterController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVcenterController",
 }));
 
 export type DeleteVmwareCollectorsOperationError = AzureOpError;
@@ -16169,6 +16393,11 @@ export const DeleteVmwareCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteVmwareCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteWebAppAssessmentV2OperationError = AzureOpError;
@@ -16184,6 +16413,11 @@ export const DeleteWebAppAssessmentV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteWebAppAssessmentV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteWebAppCollectorOperationError = AzureOpError;
@@ -16199,6 +16433,11 @@ export const DeleteWebAppCollectorOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteWebAppCollectorOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DeleteWebAppDiscoverySiteDataSourcesControllerError = AzureOpError;
@@ -16222,6 +16461,8 @@ export const DeleteWebAppDiscoverySiteDataSourcesController: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebAppDiscoverySiteDataSourcesController",
 }));
 
 export type DeleteWebAppSitesControllerError = AzureOpError;
@@ -16237,6 +16478,8 @@ export const DeleteWebAppSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebAppSitesController",
 }));
 
 export type DependencyMapControllerClientGroupMembersError = AzureOpError;
@@ -16256,6 +16499,8 @@ export const DependencyMapControllerClientGroupMembers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DependencyMapControllerClientGroupMembers",
 }));
 
 export type DependencyMapControllerServerGroupMembersError = AzureOpError;
@@ -16275,6 +16520,8 @@ export const DependencyMapControllerServerGroupMembers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DependencyMapControllerServerGroupMembers",
 }));
 
 export type DownloadAksAssessmentOperationUrlError = AzureOpError;
@@ -16290,6 +16537,11 @@ export const DownloadAksAssessmentOperationUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DownloadAksAssessmentOperationUrl",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DownloadAssessmentsOperationUrlError = AzureOpError;
@@ -16305,6 +16557,11 @@ export const DownloadAssessmentsOperationUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DownloadAssessmentsOperationUrl",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DownloadAvsAssessmentsOperationUrlError = AzureOpError;
@@ -16320,6 +16577,11 @@ export const DownloadAvsAssessmentsOperationUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DownloadAvsAssessmentsOperationUrl",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DownloadSqlAssessmentV2OperationUrlError = AzureOpError;
@@ -16335,6 +16597,11 @@ export const DownloadSqlAssessmentV2OperationUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DownloadSqlAssessmentV2OperationUrl",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type DownloadWebAppAssessmentV2OperationUrlError = AzureOpError;
@@ -16350,6 +16617,11 @@ export const DownloadWebAppAssessmentV2OperationUrl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DownloadWebAppAssessmentV2OperationUrl",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ExportDependencyMapControllerDependenciesError = AzureOpError;
@@ -16369,6 +16641,8 @@ export const ExportDependencyMapControllerDependencies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportDependencyMapControllerDependencies",
 }));
 
 export type ExportHypervDependencyMapControllerDependenciesError = AzureOpError;
@@ -16392,6 +16666,8 @@ export const ExportHypervDependencyMapControllerDependencies: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportHypervDependencyMapControllerDependencies",
 }));
 
 export type ExportHypervSitesControllerApplicationsError = AzureOpError;
@@ -16407,6 +16683,8 @@ export const ExportHypervSitesControllerApplications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportHypervSitesControllerApplications",
 }));
 
 export type ExportHypervSitesControllerMachineErrorsError = AzureOpError;
@@ -16426,6 +16704,8 @@ export const ExportHypervSitesControllerMachineErrors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportHypervSitesControllerMachineErrors",
 }));
 
 export type ExportImportSitesControllerUriError = AzureOpError;
@@ -16441,6 +16721,8 @@ export const ExportImportSitesControllerUri: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportImportSitesControllerUri",
 }));
 
 export type ExportServerDependencyMapControllerDependenciesError = AzureOpError;
@@ -16464,6 +16746,8 @@ export const ExportServerDependencyMapControllerDependencies: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportServerDependencyMapControllerDependencies",
 }));
 
 export type ExportServerSitesControllerApplicationsError = AzureOpError;
@@ -16479,6 +16763,8 @@ export const ExportServerSitesControllerApplications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportServerSitesControllerApplications",
 }));
 
 export type ExportServerSitesControllerMachineErrorsError = AzureOpError;
@@ -16498,6 +16784,8 @@ export const ExportServerSitesControllerMachineErrors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportServerSitesControllerMachineErrors",
 }));
 
 export type ExportSitesControllerApplicationsError = AzureOpError;
@@ -16513,6 +16801,8 @@ export const ExportSitesControllerApplications: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSitesControllerApplications",
 }));
 
 export type ExportSitesControllerMachineErrorsError = AzureOpError;
@@ -16528,6 +16818,8 @@ export const ExportSitesControllerMachineErrors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSitesControllerMachineErrors",
 }));
 
 export type ExportSitesControllerMachinesError = AzureOpError;
@@ -16543,6 +16835,8 @@ export const ExportSitesControllerMachines: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSitesControllerMachines",
 }));
 
 export type ExportSqlSitesControllerSqlServerErrorsError = AzureOpError;
@@ -16558,6 +16852,8 @@ export const ExportSqlSitesControllerSqlServerErrors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSqlSitesControllerSqlServerErrors",
 }));
 
 export type ExportSqlSitesControllerSqlServersError = AzureOpError;
@@ -16573,6 +16869,8 @@ export const ExportSqlSitesControllerSqlServers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportSqlSitesControllerSqlServers",
 }));
 
 export type ExportWebAppSitesControllerInventoryError = AzureOpError;
@@ -16588,6 +16886,8 @@ export const ExportWebAppSitesControllerInventory: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportWebAppSitesControllerInventory",
 }));
 
 export type GenerateDependencyMapControllerCoarseMapError = AzureOpError;
@@ -16607,6 +16907,8 @@ export const GenerateDependencyMapControllerCoarseMap: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateDependencyMapControllerCoarseMap",
 }));
 
 export type GenerateDependencyMapControllerDetailedMapError = AzureOpError;
@@ -16630,6 +16932,8 @@ export const GenerateDependencyMapControllerDetailedMap: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateDependencyMapControllerDetailedMap",
 }));
 
 export type GenerateHypervDependencyMapControllerCoarseMapError = AzureOpError;
@@ -16653,6 +16957,8 @@ export const GenerateHypervDependencyMapControllerCoarseMap: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateHypervDependencyMapControllerCoarseMap",
 }));
 
 export type GenerateHypervDependencyMapControllerDetailedMapError = AzureOpError;
@@ -16676,6 +16982,8 @@ export const GenerateHypervDependencyMapControllerDetailedMap: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateHypervDependencyMapControllerDetailedMap",
 }));
 
 export type GenerateServerDependencyMapControllerCoarseMapError = AzureOpError;
@@ -16699,6 +17007,8 @@ export const GenerateServerDependencyMapControllerCoarseMap: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateServerDependencyMapControllerCoarseMap",
 }));
 
 export type GenerateServerDependencyMapControllerDetailedMapError = AzureOpError;
@@ -16722,6 +17032,8 @@ export const GenerateServerDependencyMapControllerDetailedMap: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateServerDependencyMapControllerDetailedMap",
 }));
 
 export type GetAksAssessmentOperationError = AzureOpError;
@@ -16737,6 +17049,11 @@ export const GetAksAssessmentOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAksAssessmentOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAksClusterOperationError = AzureOpError;
@@ -16752,6 +17069,11 @@ export const GetAksClusterOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAksClusterOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAksOptionsOperationError = AzureOpError;
@@ -16767,6 +17089,11 @@ export const GetAksOptionsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAksOptionsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAksSummaryOperationError = AzureOpError;
@@ -16782,6 +17109,11 @@ export const GetAksSummaryOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAksSummaryOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessedMachinesOperationError = AzureOpError;
@@ -16797,6 +17129,11 @@ export const GetAssessedMachinesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessedMachinesOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessedSqlDatabaseV2OperationError = AzureOpError;
@@ -16812,6 +17149,11 @@ export const GetAssessedSqlDatabaseV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessedSqlDatabaseV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessedSqlInstanceV2OperationError = AzureOpError;
@@ -16827,6 +17169,11 @@ export const GetAssessedSqlInstanceV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessedSqlInstanceV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessedSqlMachinesOperationError = AzureOpError;
@@ -16842,6 +17189,11 @@ export const GetAssessedSqlMachinesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessedSqlMachinesOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessedSqlRecommendedEntityOperationError = AzureOpError;
@@ -16861,6 +17213,11 @@ export const GetAssessedSqlRecommendedEntityOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessedSqlRecommendedEntityOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessedWebApplicationOperationError = AzureOpError;
@@ -16876,6 +17233,11 @@ export const GetAssessedWebApplicationOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessedWebApplicationOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessedWebAppV2OperationError = AzureOpError;
@@ -16891,6 +17253,11 @@ export const GetAssessedWebAppV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessedWebAppV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessmentOptionsOperationError = AzureOpError;
@@ -16906,6 +17273,11 @@ export const GetAssessmentOptionsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessmentOptionsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessmentProjectsOperationError = AzureOpError;
@@ -16921,6 +17293,11 @@ export const GetAssessmentProjectsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessmentProjectsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessmentProjectSummaryOperationError = AzureOpError;
@@ -16936,6 +17313,11 @@ export const GetAssessmentProjectSummaryOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessmentProjectSummaryOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAssessmentsOperationError = AzureOpError;
@@ -16951,6 +17333,11 @@ export const GetAssessmentsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAssessmentsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAvsAssessedMachinesOperationError = AzureOpError;
@@ -16966,6 +17353,11 @@ export const GetAvsAssessedMachinesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAvsAssessedMachinesOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAvsAssessmentOptionsOperationError = AzureOpError;
@@ -16981,6 +17373,11 @@ export const GetAvsAssessmentOptionsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAvsAssessmentOptionsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetAvsAssessmentsOperationError = AzureOpError;
@@ -16996,6 +17393,11 @@ export const GetAvsAssessmentsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAvsAssessmentsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetDatabaseInstancesControllerDatabaseInstanceError = AzureOpError;
@@ -17015,6 +17417,11 @@ export const GetDatabaseInstancesControllerDatabaseInstance: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDatabaseInstancesControllerDatabaseInstance",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetDatabasesControllerDatabaseError = AzureOpError;
@@ -17030,6 +17437,11 @@ export const GetDatabasesControllerDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetDatabasesControllerDatabase",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetEventsControllerEventError = AzureOpError;
@@ -17045,6 +17457,11 @@ export const GetEventsControllerEvent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetEventsControllerEvent",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetGroupsOperationError = AzureOpError;
@@ -17060,6 +17477,11 @@ export const GetGroupsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetGroupsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetHypervClusterControllerClusterError = AzureOpError;
@@ -17075,6 +17497,8 @@ export const GetHypervClusterControllerCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHypervClusterControllerCluster",
 }));
 
 export type GetHypervCollectorsOperationError = AzureOpError;
@@ -17090,6 +17514,11 @@ export const GetHypervCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetHypervCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetHypervHostControllerError = AzureOpError;
@@ -17105,6 +17534,8 @@ export const GetHypervHostController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHypervHostController",
 }));
 
 export type GetHypervJobError = AzureOpError;
@@ -17120,6 +17551,8 @@ export const GetHypervJob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHypervJob",
 }));
 
 export type GetHypervJobsControllerError = AzureOpError;
@@ -17135,6 +17568,8 @@ export const GetHypervJobsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHypervJobsController",
 }));
 
 export type GetHypervMachinesControllerError = AzureOpError;
@@ -17150,6 +17585,8 @@ export const GetHypervMachinesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHypervMachinesController",
 }));
 
 export type GetHypervOperationsStatusControllerHypervOperationsStatusError = AzureOpError;
@@ -17169,6 +17606,8 @@ export const GetHypervOperationsStatusControllerHypervOperationsStatus: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHypervOperationsStatusControllerHypervOperationsStatus",
 }));
 
 export type GetHypervRunAsAccountsControllerError = AzureOpError;
@@ -17184,6 +17623,8 @@ export const GetHypervRunAsAccountsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHypervRunAsAccountsController",
 }));
 
 export type GetHypervSitesControllerError = AzureOpError;
@@ -17199,6 +17640,8 @@ export const GetHypervSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHypervSitesController",
 }));
 
 export type GetHypervSoftwareInventoriesControllerMachineSoftwareInventoryError = AzureOpError;
@@ -17222,6 +17665,8 @@ export const GetHypervSoftwareInventoriesControllerMachineSoftwareInventory: API
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHypervSoftwareInventoriesControllerMachineSoftwareInventory",
 }));
 
 export type GetIisWebApplicationsControllerError = AzureOpError;
@@ -17237,6 +17682,8 @@ export const GetIisWebApplicationsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIisWebApplicationsController",
 }));
 
 export type GetIisWebServersControllerError = AzureOpError;
@@ -17252,6 +17699,8 @@ export const GetIisWebServersController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIisWebServersController",
 }));
 
 export type GetImportCollectorsOperationError = AzureOpError;
@@ -17267,6 +17716,11 @@ export const GetImportCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetImportCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetImportJobsControllerError = AzureOpError;
@@ -17282,6 +17736,8 @@ export const GetImportJobsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImportJobsController",
 }));
 
 export type GetImportJobsControllerDeletejobError = AzureOpError;
@@ -17297,6 +17753,8 @@ export const GetImportJobsControllerDeletejob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImportJobsControllerDeletejob",
 }));
 
 export type GetImportJobsControllerExportjobError = AzureOpError;
@@ -17312,6 +17770,8 @@ export const GetImportJobsControllerExportjob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImportJobsControllerExportjob",
 }));
 
 export type GetImportJobsControllerImportjobError = AzureOpError;
@@ -17327,6 +17787,8 @@ export const GetImportJobsControllerImportjob: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImportJobsControllerImportjob",
 }));
 
 export type GetImportMachinesControllerError = AzureOpError;
@@ -17342,6 +17804,8 @@ export const GetImportMachinesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImportMachinesController",
 }));
 
 export type GetImportSitesControllerError = AzureOpError;
@@ -17357,6 +17821,8 @@ export const GetImportSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImportSitesController",
 }));
 
 export type GetMachinesControllerError = AzureOpError;
@@ -17372,6 +17838,8 @@ export const GetMachinesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMachinesController",
 }));
 
 export type GetMachinesControllerMachineError = AzureOpError;
@@ -17387,6 +17855,11 @@ export const GetMachinesControllerMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetMachinesControllerMachine",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetMachinesOperationError = AzureOpError;
@@ -17402,6 +17875,11 @@ export const GetMachinesOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetMachinesOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetMasterSitesControllerError = AzureOpError;
@@ -17417,6 +17895,8 @@ export const GetMasterSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMasterSitesController",
 }));
 
 export type GetMasterSitesOperationsStatusControllerVmwareOperationStatusError = AzureOpError;
@@ -17436,6 +17916,8 @@ export const GetMasterSitesOperationsStatusControllerVmwareOperationStatus: API.
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMasterSitesOperationsStatusControllerVmwareOperationStatus",
 }));
 
 export type GetMigrateProjectsControllerToolRegistrationDetailsError = AzureOpError;
@@ -17454,6 +17936,11 @@ export const GetMigrateProjectsControllerToolRegistrationDetails: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetMigrateProjectsControllerToolRegistrationDetails",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetPrivateEndpointConnectionControllerError = AzureOpError;
@@ -17469,6 +17956,8 @@ export const GetPrivateEndpointConnectionController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionController",
 }));
 
 export type GetPrivateEndpointConnectionControllerPrivateEndpointConnectionError = AzureOpError;
@@ -17488,6 +17977,11 @@ export const GetPrivateEndpointConnectionControllerPrivateEndpointConnection: AP
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPrivateEndpointConnectionControllerPrivateEndpointConnection",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetPrivateEndpointConnectionOperationError = AzureOpError;
@@ -17503,6 +17997,11 @@ export const GetPrivateEndpointConnectionOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPrivateEndpointConnectionOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetPrivateEndpointConnectionProxyControllerError = AzureOpError;
@@ -17522,6 +18021,11 @@ export const GetPrivateEndpointConnectionProxyController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPrivateEndpointConnectionProxyController",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetPrivateEndpointConnectionsControllerPrivateEndpointConnectionsError = AzureOpError;
@@ -17541,6 +18045,11 @@ export const GetPrivateEndpointConnectionsControllerPrivateEndpointConnections: 
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPrivateEndpointConnectionsControllerPrivateEndpointConnections",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetPrivateLinkResourceControllerPrivateLinkResourceError = AzureOpError;
@@ -17560,6 +18069,11 @@ export const GetPrivateLinkResourceControllerPrivateLinkResource: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPrivateLinkResourceControllerPrivateLinkResource",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetPrivateLinkResourceControllerPrivateLinkResourcesError = AzureOpError;
@@ -17579,6 +18093,11 @@ export const GetPrivateLinkResourceControllerPrivateLinkResources: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPrivateLinkResourceControllerPrivateLinkResources",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetPrivateLinkResourceOperationError = AzureOpError;
@@ -17594,6 +18113,11 @@ export const GetPrivateLinkResourceOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPrivateLinkResourceOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetPrivateLinkResourcesControllerError = AzureOpError;
@@ -17609,6 +18133,8 @@ export const GetPrivateLinkResourcesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResourcesController",
 }));
 
 export type GetRunAsAccountsControllerError = AzureOpError;
@@ -17624,6 +18150,8 @@ export const GetRunAsAccountsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRunAsAccountsController",
 }));
 
 export type GetServerCollectorsOperationError = AzureOpError;
@@ -17639,6 +18167,11 @@ export const GetServerCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetServerCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetServerJobsControllerError = AzureOpError;
@@ -17654,6 +18187,8 @@ export const GetServerJobsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerJobsController",
 }));
 
 export type GetServerOperationsStatusControllerServerSiteOperationsStatusError = AzureOpError;
@@ -17673,6 +18208,8 @@ export const GetServerOperationsStatusControllerServerSiteOperationsStatus: API.
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerOperationsStatusControllerServerSiteOperationsStatus",
 }));
 
 export type GetServerRunAsAccountsControllerError = AzureOpError;
@@ -17688,6 +18225,8 @@ export const GetServerRunAsAccountsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerRunAsAccountsController",
 }));
 
 export type GetServersControllerMachineError = AzureOpError;
@@ -17703,6 +18242,8 @@ export const GetServersControllerMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServersControllerMachine",
 }));
 
 export type GetServerSitesControllerError = AzureOpError;
@@ -17718,6 +18259,8 @@ export const GetServerSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerSitesController",
 }));
 
 export type GetServerSoftwareInventoriesControllerMachineSoftwareInventoryError = AzureOpError;
@@ -17741,6 +18284,8 @@ export const GetServerSoftwareInventoriesControllerMachineSoftwareInventory: API
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerSoftwareInventoriesControllerMachineSoftwareInventory",
 }));
 
 export type GetSitesControllerError = AzureOpError;
@@ -17756,6 +18301,8 @@ export const GetSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSitesController",
 }));
 
 export type GetSolutionsControllerConfigError = AzureOpError;
@@ -17771,6 +18318,11 @@ export const GetSolutionsControllerConfig: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSolutionsControllerConfig",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetSolutionsControllerSolutionError = AzureOpError;
@@ -17786,6 +18338,11 @@ export const GetSolutionsControllerSolution: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSolutionsControllerSolution",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetSqlAssessmentOptionsOperationError = AzureOpError;
@@ -17801,6 +18358,11 @@ export const GetSqlAssessmentOptionsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSqlAssessmentOptionsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetSqlAssessmentV2OperationError = AzureOpError;
@@ -17816,6 +18378,11 @@ export const GetSqlAssessmentV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSqlAssessmentV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetSqlAssessmentV2SummaryOperationError = AzureOpError;
@@ -17831,6 +18398,11 @@ export const GetSqlAssessmentV2SummaryOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSqlAssessmentV2SummaryOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetSqlAvailabilityGroupsControllerError = AzureOpError;
@@ -17846,6 +18418,8 @@ export const GetSqlAvailabilityGroupsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlAvailabilityGroupsController",
 }));
 
 export type GetSqlCollectorOperationError = AzureOpError;
@@ -17861,6 +18435,11 @@ export const GetSqlCollectorOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetSqlCollectorOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetSqlDatabasesControllerError = AzureOpError;
@@ -17876,6 +18455,8 @@ export const GetSqlDatabasesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlDatabasesController",
 }));
 
 export type GetSqlDiscoverySiteDataSourceControllerError = AzureOpError;
@@ -17891,6 +18472,8 @@ export const GetSqlDiscoverySiteDataSourceController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlDiscoverySiteDataSourceController",
 }));
 
 export type GetSqlJobsControllerError = AzureOpError;
@@ -17906,6 +18489,8 @@ export const GetSqlJobsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlJobsController",
 }));
 
 export type GetSqlOperationsStatusControllerSqlOperationStatusError = AzureOpError;
@@ -17925,6 +18510,8 @@ export const GetSqlOperationsStatusControllerSqlOperationStatus: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlOperationsStatusControllerSqlOperationStatus",
 }));
 
 export type GetSqlRunAsAccountsControllerError = AzureOpError;
@@ -17940,6 +18527,8 @@ export const GetSqlRunAsAccountsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlRunAsAccountsController",
 }));
 
 export type GetSqlServersControllerError = AzureOpError;
@@ -17955,6 +18544,8 @@ export const GetSqlServersController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlServersController",
 }));
 
 export type GetSqlSitesControllerError = AzureOpError;
@@ -17970,6 +18561,8 @@ export const GetSqlSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSqlSitesController",
 }));
 
 export type GetTomcatWebApplicationsControllerError = AzureOpError;
@@ -17985,6 +18578,8 @@ export const GetTomcatWebApplicationsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTomcatWebApplicationsController",
 }));
 
 export type GetTomcatWebServersControllerError = AzureOpError;
@@ -18000,6 +18595,8 @@ export const GetTomcatWebServersController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTomcatWebServersController",
 }));
 
 export type GetVcenterControllerError = AzureOpError;
@@ -18015,6 +18612,8 @@ export const GetVcenterController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVcenterController",
 }));
 
 export type GetVirtualDesktopUserControllerVirtualDesktopUserError = AzureOpError;
@@ -18034,6 +18633,11 @@ export const GetVirtualDesktopUserControllerVirtualDesktopUser: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetVirtualDesktopUserControllerVirtualDesktopUser",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetVmwareCollectorsOperationError = AzureOpError;
@@ -18049,6 +18653,11 @@ export const GetVmwareCollectorsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetVmwareCollectorsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetVmwareHostControllerError = AzureOpError;
@@ -18064,6 +18673,8 @@ export const GetVmwareHostController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareHostController",
 }));
 
 export type GetVmwareOperationsStatusVmwareOperationStatusError = AzureOpError;
@@ -18083,6 +18694,8 @@ export const GetVmwareOperationsStatusVmwareOperationStatus: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareOperationsStatusVmwareOperationStatus",
 }));
 
 export type GetVmwareSoftwareInventoriesControllerMachineSoftwareInventoryError = AzureOpError;
@@ -18106,6 +18719,8 @@ export const GetVmwareSoftwareInventoriesControllerMachineSoftwareInventory: API
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVmwareSoftwareInventoriesControllerMachineSoftwareInventory",
 }));
 
 export type GetWebAppAssessmentOptionsOperationError = AzureOpError;
@@ -18121,6 +18736,11 @@ export const GetWebAppAssessmentOptionsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetWebAppAssessmentOptionsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetWebAppAssessmentV2OperationError = AzureOpError;
@@ -18136,6 +18756,11 @@ export const GetWebAppAssessmentV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetWebAppAssessmentV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetWebAppAssessmentV2SummaryOperationError = AzureOpError;
@@ -18151,6 +18776,11 @@ export const GetWebAppAssessmentV2SummaryOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetWebAppAssessmentV2SummaryOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetWebAppCollectorOperationError = AzureOpError;
@@ -18166,6 +18796,11 @@ export const GetWebAppCollectorOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetWebAppCollectorOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetWebAppDiscoverySiteDataSourcesControllerError = AzureOpError;
@@ -18189,6 +18824,8 @@ export const GetWebAppDiscoverySiteDataSourcesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebAppDiscoverySiteDataSourcesController",
 }));
 
 export type GetWebAppExtendedMachinesControllerError = AzureOpError;
@@ -18204,6 +18841,8 @@ export const GetWebAppExtendedMachinesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebAppExtendedMachinesController",
 }));
 
 export type GetWebAppRunAsAccountsControllerError = AzureOpError;
@@ -18219,6 +18858,8 @@ export const GetWebAppRunAsAccountsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebAppRunAsAccountsController",
 }));
 
 export type GetWebAppServicePlanV2OperationError = AzureOpError;
@@ -18234,6 +18875,11 @@ export const GetWebAppServicePlanV2Operation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetWebAppServicePlanV2Operation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetWebAppSitesControllerError = AzureOpError;
@@ -18249,6 +18895,8 @@ export const GetWebAppSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebAppSitesController",
 }));
 
 export type GetWebServersControllerWebServerError = AzureOpError;
@@ -18264,6 +18912,11 @@ export const GetWebServersControllerWebServer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetWebServersControllerWebServer",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type GetWebSitesControllerWebSiteError = AzureOpError;
@@ -18279,6 +18932,11 @@ export const GetWebSitesControllerWebSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetWebSitesControllerWebSite",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type HypervDependencyMapControllerClientGroupMembersError = AzureOpError;
@@ -18302,6 +18960,8 @@ export const HypervDependencyMapControllerClientGroupMembers: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HypervDependencyMapControllerClientGroupMembers",
 }));
 
 export type HypervDependencyMapControllerServerGroupMembersError = AzureOpError;
@@ -18325,6 +18985,8 @@ export const HypervDependencyMapControllerServerGroupMembers: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HypervDependencyMapControllerServerGroupMembers",
 }));
 
 export type HypervSitesControllerComputeErrorSummaryError = AzureOpError;
@@ -18340,6 +19002,8 @@ export const HypervSitesControllerComputeErrorSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HypervSitesControllerComputeErrorSummary",
 }));
 
 export type HypervSitesControllerComputeusageError = AzureOpError;
@@ -18355,6 +19019,8 @@ export const HypervSitesControllerComputeusage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HypervSitesControllerComputeusage",
 }));
 
 export type HypervSitesControllerSummaryError = AzureOpError;
@@ -18370,6 +19036,8 @@ export const HypervSitesControllerSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HypervSitesControllerSummary",
 }));
 
 export type ImportImportSitesControllerUriError = AzureOpError;
@@ -18385,6 +19053,8 @@ export const ImportImportSitesControllerUri: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportImportSitesControllerUri",
 }));
 
 export type ImportJobsControllerListByImportSiteError = AzureOpError;
@@ -18400,6 +19070,8 @@ export const ImportJobsControllerListByImportSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportJobsControllerListByImportSite",
 }));
 
 export type ImportMachinesControllerListByImportSiteError = AzureOpError;
@@ -18415,6 +19087,8 @@ export const ImportMachinesControllerListByImportSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportMachinesControllerListByImportSite",
 }));
 
 export type ListAksAssessmentOperationByAssessmentProjectError = AzureOpError;
@@ -18434,6 +19108,11 @@ export const ListAksAssessmentOperationByAssessmentProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAksAssessmentOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAksClusterOperationByAksAssessmentError = AzureOpError;
@@ -18449,6 +19128,11 @@ export const ListAksClusterOperationByAksAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAksClusterOperationByAksAssessment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAksCostDetailOperationByAksAssessmentError = AzureOpError;
@@ -18464,6 +19148,11 @@ export const ListAksCostDetailOperationByAksAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAksCostDetailOperationByAksAssessment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAksOptionsOperationByAssessmentProjectError = AzureOpError;
@@ -18479,6 +19168,11 @@ export const ListAksOptionsOperationByAssessmentProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAksOptionsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAksSummaryOperationByAksAssessmentError = AzureOpError;
@@ -18494,6 +19188,11 @@ export const ListAksSummaryOperationByAksAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAksSummaryOperationByAksAssessment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessedMachinesOperationByAssessmentError = AzureOpError;
@@ -18509,6 +19208,11 @@ export const ListAssessedMachinesOperationByAssessment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessedMachinesOperationByAssessment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessedSqlDatabaseV2OperationBySqlAssessmentV2Error = AzureOpError;
@@ -18528,6 +19232,11 @@ export const ListAssessedSqlDatabaseV2OperationBySqlAssessmentV2: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessedSqlDatabaseV2OperationBySqlAssessmentV2",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessedSqlInstanceV2OperationBySqlAssessmentV2Error = AzureOpError;
@@ -18547,6 +19256,11 @@ export const ListAssessedSqlInstanceV2OperationBySqlAssessmentV2: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessedSqlInstanceV2OperationBySqlAssessmentV2",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessedSqlMachinesOperationBySqlAssessmentV2Error = AzureOpError;
@@ -18566,6 +19280,11 @@ export const ListAssessedSqlMachinesOperationBySqlAssessmentV2: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessedSqlMachinesOperationBySqlAssessmentV2",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessedSqlRecommendedEntityOperationBySqlAssessmentV2Error = AzureOpError;
@@ -18585,6 +19304,11 @@ export const ListAssessedSqlRecommendedEntityOperationBySqlAssessmentV2: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessedSqlRecommendedEntityOperationBySqlAssessmentV2",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessedWebApplicationOperationByAksAssessmentError = AzureOpError;
@@ -18604,6 +19328,11 @@ export const ListAssessedWebApplicationOperationByAksAssessment: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessedWebApplicationOperationByAksAssessment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessedWebAppV2OperationByWebAppAssessmentV2Error = AzureOpError;
@@ -18623,6 +19352,11 @@ export const ListAssessedWebAppV2OperationByWebAppAssessmentV2: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessedWebAppV2OperationByWebAppAssessmentV2",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessmentOptionsOperationByAssessmentProjectError = AzureOpError;
@@ -18642,6 +19376,11 @@ export const ListAssessmentOptionsOperationByAssessmentProject: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessmentOptionsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessmentProjectsOperationByResourceGroupError = AzureOpError;
@@ -18661,6 +19400,11 @@ export const ListAssessmentProjectsOperationByResourceGroup: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessmentProjectsOperationByResourceGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessmentProjectsOperationBySubscriptionError = AzureOpError;
@@ -18680,6 +19424,11 @@ export const ListAssessmentProjectsOperationBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessmentProjectsOperationBySubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessmentProjectSummaryOperationByAssessmentProjectError = AzureOpError;
@@ -18699,6 +19448,11 @@ export const ListAssessmentProjectSummaryOperationByAssessmentProject: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessmentProjectSummaryOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAssessmentsOperationByGroupError = AzureOpError;
@@ -18714,6 +19468,11 @@ export const ListAssessmentsOperationByGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAssessmentsOperationByGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAvsAssessedMachinesOperationByAvsAssessmentError = AzureOpError;
@@ -18733,6 +19492,11 @@ export const ListAvsAssessedMachinesOperationByAvsAssessment: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAvsAssessedMachinesOperationByAvsAssessment",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAvsAssessmentOptionsOperationByAssessmentProjectError = AzureOpError;
@@ -18752,6 +19516,11 @@ export const ListAvsAssessmentOptionsOperationByAssessmentProject: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAvsAssessmentOptionsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListAvsAssessmentsOperationByGroupError = AzureOpError;
@@ -18767,6 +19536,11 @@ export const ListAvsAssessmentsOperationByGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAvsAssessmentsOperationByGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListDatabaseInstancesControllerDatabaseInstancesError = AzureOpError;
@@ -18786,6 +19560,11 @@ export const ListDatabaseInstancesControllerDatabaseInstances: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDatabaseInstancesControllerDatabaseInstances",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListDatabasesControllerDatabasesError = AzureOpError;
@@ -18801,6 +19580,11 @@ export const ListDatabasesControllerDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDatabasesControllerDatabases",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListEventsControllerEventsError = AzureOpError;
@@ -18816,6 +19600,11 @@ export const ListEventsControllerEvents: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListEventsControllerEvents",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListGroupsOperationByAssessmentProjectError = AzureOpError;
@@ -18831,6 +19620,11 @@ export const ListGroupsOperationByAssessmentProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListGroupsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListHypervClusterControllerByHypervSiteError = AzureOpError;
@@ -18846,6 +19640,8 @@ export const ListHypervClusterControllerByHypervSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervClusterControllerByHypervSite",
 }));
 
 export type ListHypervCollectorsOperationByAssessmentProjectError = AzureOpError;
@@ -18865,6 +19661,11 @@ export const ListHypervCollectorsOperationByAssessmentProject: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListHypervCollectorsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListHypervHostControllerByHypervSiteError = AzureOpError;
@@ -18880,6 +19681,8 @@ export const ListHypervHostControllerByHypervSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervHostControllerByHypervSite",
 }));
 
 export type ListHypervJobByHypervSiteError = AzureOpError;
@@ -18895,6 +19698,8 @@ export const ListHypervJobByHypervSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervJobByHypervSite",
 }));
 
 export type ListHypervJobsControllerByVmwareSiteError = AzureOpError;
@@ -18910,6 +19715,8 @@ export const ListHypervJobsControllerByVmwareSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervJobsControllerByVmwareSite",
 }));
 
 export type ListHypervMachinesControllerByHypervSiteError = AzureOpError;
@@ -18925,6 +19732,8 @@ export const ListHypervMachinesControllerByHypervSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervMachinesControllerByHypervSite",
 }));
 
 export type ListHypervRunAsAccountsControllerByHypervSiteError = AzureOpError;
@@ -18944,6 +19753,8 @@ export const ListHypervRunAsAccountsControllerByHypervSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervRunAsAccountsControllerByHypervSite",
 }));
 
 export type ListHypervSiteByResourceGroupError = AzureOpError;
@@ -18959,6 +19770,8 @@ export const ListHypervSiteByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervSiteByResourceGroup",
 }));
 
 export type ListHypervSiteBySubscriptionError = AzureOpError;
@@ -18974,6 +19787,8 @@ export const ListHypervSiteBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervSiteBySubscription",
 }));
 
 export type ListHypervSitesControllerHealthSummaryError = AzureOpError;
@@ -18989,6 +19804,8 @@ export const ListHypervSitesControllerHealthSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervSitesControllerHealthSummary",
 }));
 
 export type ListHypervSoftwareInventoriesControllerByHypervMachineError = AzureOpError;
@@ -19008,6 +19825,8 @@ export const ListHypervSoftwareInventoriesControllerByHypervMachine: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHypervSoftwareInventoriesControllerByHypervMachine",
 }));
 
 export type ListIisWebApplicationsControllerByWebAppSiteError = AzureOpError;
@@ -19027,6 +19846,8 @@ export const ListIisWebApplicationsControllerByWebAppSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIisWebApplicationsControllerByWebAppSite",
 }));
 
 export type ListIisWebServersControllerByWebAppSiteError = AzureOpError;
@@ -19042,6 +19863,8 @@ export const ListIisWebServersControllerByWebAppSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIisWebServersControllerByWebAppSite",
 }));
 
 export type ListImportCollectorsOperationByAssessmentProjectError = AzureOpError;
@@ -19061,6 +19884,11 @@ export const ListImportCollectorsOperationByAssessmentProject: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListImportCollectorsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListImportJobsControllerDeletejobsError = AzureOpError;
@@ -19076,6 +19904,8 @@ export const ListImportJobsControllerDeletejobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImportJobsControllerDeletejobs",
 }));
 
 export type ListImportJobsControllerExportjobsError = AzureOpError;
@@ -19091,6 +19921,8 @@ export const ListImportJobsControllerExportjobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImportJobsControllerExportjobs",
 }));
 
 export type ListImportJobsControllerImportjobsError = AzureOpError;
@@ -19106,6 +19938,8 @@ export const ListImportJobsControllerImportjobs: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImportJobsControllerImportjobs",
 }));
 
 export type ListImportSitesControllerByResourceGroupError = AzureOpError;
@@ -19121,6 +19955,8 @@ export const ListImportSitesControllerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImportSitesControllerByResourceGroup",
 }));
 
 export type ListImportSitesControllerBySubscriptionError = AzureOpError;
@@ -19136,6 +19972,8 @@ export const ListImportSitesControllerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListImportSitesControllerBySubscription",
 }));
 
 export type ListMachinesControllerByVmwareSiteError = AzureOpError;
@@ -19151,6 +19989,8 @@ export const ListMachinesControllerByVmwareSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMachinesControllerByVmwareSite",
 }));
 
 export type ListMachinesControllerMachinesError = AzureOpError;
@@ -19166,6 +20006,11 @@ export const ListMachinesControllerMachines: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListMachinesControllerMachines",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListMachinesOperationByAssessmentProjectError = AzureOpError;
@@ -19181,6 +20026,11 @@ export const ListMachinesOperationByAssessmentProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListMachinesOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListMasterSitesControllerByResourceGroupError = AzureOpError;
@@ -19196,6 +20046,8 @@ export const ListMasterSitesControllerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMasterSitesControllerByResourceGroup",
 }));
 
 export type ListMasterSitesControllerBySubscriptionError = AzureOpError;
@@ -19211,6 +20063,8 @@ export const ListMasterSitesControllerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMasterSitesControllerBySubscription",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -19226,6 +20080,11 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListOperations",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListPrivateEndpointConnectionControllerByMasterSiteError = AzureOpError;
@@ -19245,6 +20104,8 @@ export const ListPrivateEndpointConnectionControllerByMasterSite: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionControllerByMasterSite",
 }));
 
 export type ListPrivateEndpointConnectionOperationByAssessmentProjectError = AzureOpError;
@@ -19264,6 +20125,11 @@ export const ListPrivateEndpointConnectionOperationByAssessmentProject: API.Oper
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPrivateEndpointConnectionOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListPrivateEndpointConnectionProxyControllerPrivateEndpointConnectionProxiesError =
@@ -19284,6 +20150,11 @@ export const ListPrivateEndpointConnectionProxyControllerPrivateEndpointConnecti
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPrivateEndpointConnectionProxyControllerPrivateEndpointConnectionProxies",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListPrivateLinkResourceOperationByAssessmentProjectError = AzureOpError;
@@ -19303,6 +20174,11 @@ export const ListPrivateLinkResourceOperationByAssessmentProject: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPrivateLinkResourceOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListPrivateLinkResourcesControllerByMasterSiteError = AzureOpError;
@@ -19322,6 +20198,8 @@ export const ListPrivateLinkResourcesControllerByMasterSite: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourcesControllerByMasterSite",
 }));
 
 export type ListProjectBySubscriptionError = AzureOpError;
@@ -19337,6 +20215,11 @@ export const ListProjectBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListProjectBySubscription",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListProjectsError = AzureOpError;
@@ -19352,6 +20235,11 @@ export const ListProjects: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListProjects",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListRunAsAccountsControllerByVmwareSiteError = AzureOpError;
@@ -19367,6 +20255,8 @@ export const ListRunAsAccountsControllerByVmwareSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRunAsAccountsControllerByVmwareSite",
 }));
 
 export type ListServerCollectorsOperationByAssessmentProjectError = AzureOpError;
@@ -19386,6 +20276,11 @@ export const ListServerCollectorsOperationByAssessmentProject: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListServerCollectorsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListServerJobsControllerByServerSiteResourceError = AzureOpError;
@@ -19405,6 +20300,8 @@ export const ListServerJobsControllerByServerSiteResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerJobsControllerByServerSiteResource",
 }));
 
 export type ListServerRunAsAccountsControllerByServerSiteResourceError = AzureOpError;
@@ -19424,6 +20321,8 @@ export const ListServerRunAsAccountsControllerByServerSiteResource: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerRunAsAccountsControllerByServerSiteResource",
 }));
 
 export type ListServersControllerByServerSiteResourceError = AzureOpError;
@@ -19439,6 +20338,8 @@ export const ListServersControllerByServerSiteResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServersControllerByServerSiteResource",
 }));
 
 export type ListServerSitesControllerByResourceGroupError = AzureOpError;
@@ -19454,6 +20355,8 @@ export const ListServerSitesControllerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerSitesControllerByResourceGroup",
 }));
 
 export type ListServerSitesControllerBySubscriptionError = AzureOpError;
@@ -19469,6 +20372,8 @@ export const ListServerSitesControllerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerSitesControllerBySubscription",
 }));
 
 export type ListServerSitesControllerHealthSummaryError = AzureOpError;
@@ -19484,6 +20389,8 @@ export const ListServerSitesControllerHealthSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerSitesControllerHealthSummary",
 }));
 
 export type ListServerSoftwareInventoriesControllerByServerError = AzureOpError;
@@ -19503,6 +20410,8 @@ export const ListServerSoftwareInventoriesControllerByServer: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServerSoftwareInventoriesControllerByServer",
 }));
 
 export type ListSitesControllerByResourceGroupError = AzureOpError;
@@ -19518,6 +20427,8 @@ export const ListSitesControllerByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitesControllerByResourceGroup",
 }));
 
 export type ListSitesControllerBySubscriptionError = AzureOpError;
@@ -19533,6 +20444,8 @@ export const ListSitesControllerBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitesControllerBySubscription",
 }));
 
 export type ListSitesControllerHealthSummaryError = AzureOpError;
@@ -19548,6 +20461,8 @@ export const ListSitesControllerHealthSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSitesControllerHealthSummary",
 }));
 
 export type ListSolutionsControllerSolutionsError = AzureOpError;
@@ -19563,6 +20478,11 @@ export const ListSolutionsControllerSolutions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSolutionsControllerSolutions",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListSqlAssessmentOptionsOperationByAssessmentProjectError = AzureOpError;
@@ -19582,6 +20502,11 @@ export const ListSqlAssessmentOptionsOperationByAssessmentProject: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSqlAssessmentOptionsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListSqlAssessmentV2OperationByGroupError = AzureOpError;
@@ -19597,6 +20522,11 @@ export const ListSqlAssessmentV2OperationByGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSqlAssessmentV2OperationByGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListSqlAssessmentV2SummaryOperationBySqlAssessmentV2Error = AzureOpError;
@@ -19616,6 +20546,11 @@ export const ListSqlAssessmentV2SummaryOperationBySqlAssessmentV2: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSqlAssessmentV2SummaryOperationBySqlAssessmentV2",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListSqlAvailabilityGroupsControllerBySqlSiteError = AzureOpError;
@@ -19635,6 +20570,8 @@ export const ListSqlAvailabilityGroupsControllerBySqlSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlAvailabilityGroupsControllerBySqlSite",
 }));
 
 export type ListSqlCollectorOperationByAssessmentProjectError = AzureOpError;
@@ -19654,6 +20591,11 @@ export const ListSqlCollectorOperationByAssessmentProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListSqlCollectorOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListSqlDatabasesControllerBySqlSiteError = AzureOpError;
@@ -19669,6 +20611,8 @@ export const ListSqlDatabasesControllerBySqlSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlDatabasesControllerBySqlSite",
 }));
 
 export type ListSqlDiscoverySiteDataSourceControllerBySqlSiteError = AzureOpError;
@@ -19688,6 +20632,8 @@ export const ListSqlDiscoverySiteDataSourceControllerBySqlSite: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlDiscoverySiteDataSourceControllerBySqlSite",
 }));
 
 export type ListSqlJobsControllerBySqlSiteError = AzureOpError;
@@ -19703,6 +20649,8 @@ export const ListSqlJobsControllerBySqlSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlJobsControllerBySqlSite",
 }));
 
 export type ListSqlRunAsAccountsControllerBySqlSiteError = AzureOpError;
@@ -19718,6 +20666,8 @@ export const ListSqlRunAsAccountsControllerBySqlSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlRunAsAccountsControllerBySqlSite",
 }));
 
 export type ListSqlServersControllerBySqlSiteError = AzureOpError;
@@ -19733,6 +20683,8 @@ export const ListSqlServersControllerBySqlSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlServersControllerBySqlSite",
 }));
 
 export type ListSqlSitesControllerByMasterSiteError = AzureOpError;
@@ -19748,6 +20700,8 @@ export const ListSqlSitesControllerByMasterSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSqlSitesControllerByMasterSite",
 }));
 
 export type ListTomcatWebApplicationsControllerByWebAppSiteError = AzureOpError;
@@ -19767,6 +20721,8 @@ export const ListTomcatWebApplicationsControllerByWebAppSite: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTomcatWebApplicationsControllerByWebAppSite",
 }));
 
 export type ListTomcatWebServersControllerByWebAppSiteError = AzureOpError;
@@ -19786,6 +20742,8 @@ export const ListTomcatWebServersControllerByWebAppSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTomcatWebServersControllerByWebAppSite",
 }));
 
 export type ListVcenterControllerByVmwareSiteError = AzureOpError;
@@ -19801,6 +20759,8 @@ export const ListVcenterControllerByVmwareSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVcenterControllerByVmwareSite",
 }));
 
 export type ListVirtualDesktopUserControllerVirtualDesktopUsersError = AzureOpError;
@@ -19820,6 +20780,11 @@ export const ListVirtualDesktopUserControllerVirtualDesktopUsers: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListVirtualDesktopUserControllerVirtualDesktopUsers",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListVmwareCollectorsOperationByAssessmentProjectError = AzureOpError;
@@ -19839,6 +20804,11 @@ export const ListVmwareCollectorsOperationByAssessmentProject: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListVmwareCollectorsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListVmwareHostControllerByVmwareSiteError = AzureOpError;
@@ -19854,6 +20824,8 @@ export const ListVmwareHostControllerByVmwareSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareHostControllerByVmwareSite",
 }));
 
 export type ListVmwareSoftwareInventoriesControllerByMachineResourceError = AzureOpError;
@@ -19873,6 +20845,8 @@ export const ListVmwareSoftwareInventoriesControllerByMachineResource: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVmwareSoftwareInventoriesControllerByMachineResource",
 }));
 
 export type ListWebAppAssessmentOptionsOperationByAssessmentProjectError = AzureOpError;
@@ -19892,6 +20866,11 @@ export const ListWebAppAssessmentOptionsOperationByAssessmentProject: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListWebAppAssessmentOptionsOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListWebAppAssessmentV2OperationByGroupError = AzureOpError;
@@ -19907,6 +20886,11 @@ export const ListWebAppAssessmentV2OperationByGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListWebAppAssessmentV2OperationByGroup",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListWebAppAssessmentV2SummaryOperationByWebAppAssessmentV2Error = AzureOpError;
@@ -19926,6 +20910,11 @@ export const ListWebAppAssessmentV2SummaryOperationByWebAppAssessmentV2: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListWebAppAssessmentV2SummaryOperationByWebAppAssessmentV2",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListWebAppCollectorOperationByAssessmentProjectError = AzureOpError;
@@ -19945,6 +20934,11 @@ export const ListWebAppCollectorOperationByAssessmentProject: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListWebAppCollectorOperationByAssessmentProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListWebAppDiscoverySiteDataSourcesControllerByWebAppSiteError = AzureOpError;
@@ -19964,6 +20958,8 @@ export const ListWebAppDiscoverySiteDataSourcesControllerByWebAppSite: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebAppDiscoverySiteDataSourcesControllerByWebAppSite",
 }));
 
 export type ListWebAppExtendedMachinesControllerByWebAppSiteError = AzureOpError;
@@ -19983,6 +20979,8 @@ export const ListWebAppExtendedMachinesControllerByWebAppSite: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebAppExtendedMachinesControllerByWebAppSite",
 }));
 
 export type ListWebApplicationsControllerByWebAppSiteError = AzureOpError;
@@ -19998,6 +20996,8 @@ export const ListWebApplicationsControllerByWebAppSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebApplicationsControllerByWebAppSite",
 }));
 
 export type ListWebAppRunAsAccountsControllerByWebAppSiteError = AzureOpError;
@@ -20017,6 +21017,8 @@ export const ListWebAppRunAsAccountsControllerByWebAppSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebAppRunAsAccountsControllerByWebAppSite",
 }));
 
 export type ListWebAppServicePlanV2OperationByWebAppAssessmentV2Error = AzureOpError;
@@ -20036,6 +21038,11 @@ export const ListWebAppServicePlanV2OperationByWebAppAssessmentV2: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListWebAppServicePlanV2OperationByWebAppAssessmentV2",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListWebAppSitesControllerByMasterSiteError = AzureOpError;
@@ -20051,6 +21058,8 @@ export const ListWebAppSitesControllerByMasterSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebAppSitesControllerByMasterSite",
 }));
 
 export type ListWebServersControllerByWebAppSiteError = AzureOpError;
@@ -20066,6 +21075,8 @@ export const ListWebServersControllerByWebAppSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebServersControllerByWebAppSite",
 }));
 
 export type ListWebServersControllerWebServersError = AzureOpError;
@@ -20081,6 +21092,11 @@ export const ListWebServersControllerWebServers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListWebServersControllerWebServers",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ListWebSitesControllerWebSitesError = AzureOpError;
@@ -20096,6 +21112,11 @@ export const ListWebSitesControllerWebSites: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListWebSitesControllerWebSites",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type MasterSitesControllerErrorSummaryError = AzureOpError;
@@ -20111,6 +21132,8 @@ export const MasterSitesControllerErrorSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MasterSitesControllerErrorSummary",
 }));
 
 export type MigrateProjectsControllerDeleteMigrateProjectError = AzureOpError;
@@ -20134,6 +21157,11 @@ export const MigrateProjectsControllerDeleteMigrateProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "MigrateProjectsControllerDeleteMigrateProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type MigrateProjectsControllerGetMigrateProjectError = AzureOpError;
@@ -20153,6 +21181,11 @@ export const MigrateProjectsControllerGetMigrateProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "MigrateProjectsControllerGetMigrateProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type MigrateProjectsControllerPatchMigrateProjectError = AzureOpError;
@@ -20172,6 +21205,11 @@ export const MigrateProjectsControllerPatchMigrateProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "MigrateProjectsControllerPatchMigrateProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type MigrateProjectsControllerPutMigrateProjectError = AzureOpError;
@@ -20195,6 +21233,11 @@ export const MigrateProjectsControllerPutMigrateProject: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "MigrateProjectsControllerPutMigrateProject",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type PutPrivateEndpointConnectionControllerPrivateEndpointConnectionError = AzureOpError;
@@ -20218,6 +21261,11 @@ export const PutPrivateEndpointConnectionControllerPrivateEndpointConnection: AP
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutPrivateEndpointConnectionControllerPrivateEndpointConnection",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type RefreshMigrateProjectsControllerSummaryError = AzureOpError;
@@ -20233,6 +21281,11 @@ export const RefreshMigrateProjectsControllerSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RefreshMigrateProjectsControllerSummary",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type RefreshServerSitesControllerSiteError = AzureOpError;
@@ -20248,6 +21301,8 @@ export const RefreshServerSitesControllerSite: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshServerSitesControllerSite",
 }));
 
 export type RefreshSqlSitesControllerError = AzureOpError;
@@ -20263,6 +21318,8 @@ export const RefreshSqlSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshSqlSitesController",
 }));
 
 export type RefreshWebAppSitesControllerError = AzureOpError;
@@ -20278,6 +21335,8 @@ export const RefreshWebAppSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshWebAppSitesController",
 }));
 
 export type RegisterMigrateProjectsControllerToolError = AzureOpError;
@@ -20293,6 +21352,11 @@ export const RegisterMigrateProjectsControllerTool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "RegisterMigrateProjectsControllerTool",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type ServerDependencyMapControllerClientGroupMembersError = AzureOpError;
@@ -20316,6 +21380,8 @@ export const ServerDependencyMapControllerClientGroupMembers: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerDependencyMapControllerClientGroupMembers",
 }));
 
 export type ServerDependencyMapControllerServerGroupMembersError = AzureOpError;
@@ -20339,6 +21405,8 @@ export const ServerDependencyMapControllerServerGroupMembers: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerDependencyMapControllerServerGroupMembers",
 }));
 
 export type ServerSitesControllerComputeErrorSummaryError = AzureOpError;
@@ -20354,6 +21422,8 @@ export const ServerSitesControllerComputeErrorSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerSitesControllerComputeErrorSummary",
 }));
 
 export type ServerSitesControllerComputeusageError = AzureOpError;
@@ -20369,6 +21439,8 @@ export const ServerSitesControllerComputeusage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerSitesControllerComputeusage",
 }));
 
 export type ServerSitesControllerSummaryError = AzureOpError;
@@ -20384,6 +21456,8 @@ export const ServerSitesControllerSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerSitesControllerSummary",
 }));
 
 export type SitesControllerComputeErrorSummaryError = AzureOpError;
@@ -20399,6 +21473,8 @@ export const SitesControllerComputeErrorSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SitesControllerComputeErrorSummary",
 }));
 
 export type SitesControllerComputeusageError = AzureOpError;
@@ -20414,6 +21490,8 @@ export const SitesControllerComputeusage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SitesControllerComputeusage",
 }));
 
 export type SitesControllerSummaryError = AzureOpError;
@@ -20429,6 +21507,8 @@ export const SitesControllerSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SitesControllerSummary",
 }));
 
 export type SolutionsControllerCleanupDataError = AzureOpError;
@@ -20444,6 +21524,11 @@ export const SolutionsControllerCleanupData: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "SolutionsControllerCleanupData",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type SqlSitesControllerErrorSummaryError = AzureOpError;
@@ -20459,6 +21544,8 @@ export const SqlSitesControllerErrorSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlSitesControllerErrorSummary",
 }));
 
 export type SqlSitesControllerSummaryError = AzureOpError;
@@ -20474,6 +21561,8 @@ export const SqlSitesControllerSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SqlSitesControllerSummary",
 }));
 
 export type StartMachinesControllerError = AzureOpError;
@@ -20489,6 +21578,8 @@ export const StartMachinesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartMachinesController",
 }));
 
 export type StopMachinesControllerError = AzureOpError;
@@ -20504,6 +21595,8 @@ export const StopMachinesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopMachinesController",
 }));
 
 export type UpdateAssessmentProjectsOperationError = AzureOpError;
@@ -20519,6 +21612,11 @@ export const UpdateAssessmentProjectsOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateAssessmentProjectsOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type UpdateGroupsOperationMachinesError = AzureOpError;
@@ -20534,6 +21632,11 @@ export const UpdateGroupsOperationMachines: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateGroupsOperationMachines",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type UpdateHypervDependencyMapControllerDependencyMapStatusError = AzureOpError;
@@ -20557,6 +21660,8 @@ export const UpdateHypervDependencyMapControllerDependencyMapStatus: API.Operati
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHypervDependencyMapControllerDependencyMapStatus",
 }));
 
 export type UpdateHypervMachinesControllerError = AzureOpError;
@@ -20572,6 +21677,8 @@ export const UpdateHypervMachinesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHypervMachinesController",
 }));
 
 export type UpdateHypervMachinesControllerPropertiesError = AzureOpError;
@@ -20591,6 +21698,8 @@ export const UpdateHypervMachinesControllerProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHypervMachinesControllerProperties",
 }));
 
 export type UpdateHypervSitesControllerError = AzureOpError;
@@ -20606,6 +21715,8 @@ export const UpdateHypervSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHypervSitesController",
 }));
 
 export type UpdateIisWebApplicationsControllerError = AzureOpError;
@@ -20621,6 +21732,8 @@ export const UpdateIisWebApplicationsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIisWebApplicationsController",
 }));
 
 export type UpdateImportSitesControllerError = AzureOpError;
@@ -20636,6 +21749,8 @@ export const UpdateImportSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateImportSitesController",
 }));
 
 export type UpdateMachinesControllerError = AzureOpError;
@@ -20651,6 +21766,8 @@ export const UpdateMachinesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMachinesController",
 }));
 
 export type UpdateMasterSitesControllerError = AzureOpError;
@@ -20666,6 +21783,8 @@ export const UpdateMasterSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMasterSitesController",
 }));
 
 export type UpdatePrivateEndpointConnectionOperationError = AzureOpError;
@@ -20685,6 +21804,11 @@ export const UpdatePrivateEndpointConnectionOperation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdatePrivateEndpointConnectionOperation",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type UpdateServersControllerMachineError = AzureOpError;
@@ -20700,6 +21824,8 @@ export const UpdateServersControllerMachine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServersControllerMachine",
 }));
 
 export type UpdateServerSitesControllerError = AzureOpError;
@@ -20715,6 +21841,8 @@ export const UpdateServerSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerSitesController",
 }));
 
 export type UpdateServerSitesControllerDependencyMapStatusError = AzureOpError;
@@ -20738,6 +21866,8 @@ export const UpdateServerSitesControllerDependencyMapStatus: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerSitesControllerDependencyMapStatus",
 }));
 
 export type UpdateServerSitesControllerPropertiesError = AzureOpError;
@@ -20753,6 +21883,8 @@ export const UpdateServerSitesControllerProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerSitesControllerProperties",
 }));
 
 export type UpdateSitesControllerError = AzureOpError;
@@ -20768,6 +21900,8 @@ export const UpdateSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSitesController",
 }));
 
 export type UpdateSolutionsControllerError = AzureOpError;
@@ -20783,6 +21917,11 @@ export const UpdateSolutionsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateSolutionsController",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type UpdateSqlServersControllerError = AzureOpError;
@@ -20798,6 +21937,8 @@ export const UpdateSqlServersController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlServersController",
 }));
 
 export type UpdateSqlSitesControllerError = AzureOpError;
@@ -20813,6 +21954,8 @@ export const UpdateSqlSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSqlSitesController",
 }));
 
 export type UpdateTomcatWebApplicationsControllerError = AzureOpError;
@@ -20828,6 +21971,8 @@ export const UpdateTomcatWebApplicationsController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTomcatWebApplicationsController",
 }));
 
 export type UpdateVmwarePropertiesControllerDependencyMapStatusError = AzureOpError;
@@ -20851,6 +21996,8 @@ export const UpdateVmwarePropertiesControllerDependencyMapStatus: API.OperationM
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVmwarePropertiesControllerDependencyMapStatus",
 }));
 
 export type UpdateVmwarePropertiesControllerPropertiesError = AzureOpError;
@@ -20874,6 +22021,8 @@ export const UpdateVmwarePropertiesControllerProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVmwarePropertiesControllerProperties",
 }));
 
 export type UpdateVmwarePropertiesControllerRunAsAccountError = AzureOpError;
@@ -20897,6 +22046,8 @@ export const UpdateVmwarePropertiesControllerRunAsAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVmwarePropertiesControllerRunAsAccount",
 }));
 
 export type UpdateVmwarePropertiesControllerTagsError = AzureOpError;
@@ -20912,6 +22063,8 @@ export const UpdateVmwarePropertiesControllerTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVmwarePropertiesControllerTags",
 }));
 
 export type UpdateWebAppPropertiesControllerPropertiesError = AzureOpError;
@@ -20935,6 +22088,8 @@ export const UpdateWebAppPropertiesControllerProperties: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebAppPropertiesControllerProperties",
 }));
 
 export type UpdateWebAppSitesControllerError = AzureOpError;
@@ -20950,6 +22105,8 @@ export const UpdateWebAppSitesController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebAppSitesController",
 }));
 
 export type ValidatePrivateEndpointConnectionProxyControllerError = AzureOpError;
@@ -20969,6 +22126,11 @@ export const ValidatePrivateEndpointConnectionProxyController: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ValidatePrivateEndpointConnectionProxyController",
+    attributes: { "azure.resource_provider.namespace": "Microsoft.Migrate" },
+  },
 }));
 
 export type WebAppSitesControllerErrorSummaryError = AzureOpError;
@@ -20984,6 +22146,8 @@ export const WebAppSitesControllerErrorSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAppSitesControllerErrorSummary",
 }));
 
 export type WebAppSitesControllerSummaryError = AzureOpError;
@@ -20999,6 +22163,8 @@ export const WebAppSitesControllerSummary: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAppSitesControllerSummary",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

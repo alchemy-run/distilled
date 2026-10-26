@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -72,6 +73,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cloudhsm.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudHSM",
+  service: "CloudHSM",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class CloudHsmInternalException
   extends /*@__PURE__*/ S.TaggedError<CloudHsmInternalException>()("CloudHsmInternalException", {
@@ -345,6 +361,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type CreateHapgError =
@@ -379,6 +397,8 @@ export const createHapg: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHapg",
+  telemetry: TELEMETRY,
+  span: "CreateHapg",
 }));
 
 export type CreateHsmError =
@@ -421,6 +441,8 @@ export const createHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsm",
+  telemetry: TELEMETRY,
+  span: "CreateHsm",
 }));
 
 export type CreateLunaClientError =
@@ -454,6 +476,8 @@ export const createLunaClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLunaClient",
+  telemetry: TELEMETRY,
+  span: "CreateLunaClient",
 }));
 
 export type DeleteHapgError =
@@ -487,6 +511,8 @@ export const deleteHapg: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHapg",
+  telemetry: TELEMETRY,
+  span: "DeleteHapg",
 }));
 
 export type DeleteHsmError =
@@ -521,6 +547,8 @@ export const deleteHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsm",
+  telemetry: TELEMETRY,
+  span: "DeleteHsm",
 }));
 
 export type DeleteLunaClientError =
@@ -554,6 +582,8 @@ export const deleteLunaClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLunaClient",
+  telemetry: TELEMETRY,
+  span: "DeleteLunaClient",
 }));
 
 export type DescribeHapgError =
@@ -587,6 +617,8 @@ export const describeHapg: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHapg",
+  telemetry: TELEMETRY,
+  span: "DescribeHapg",
 }));
 
 export type DescribeHsmError =
@@ -621,6 +653,8 @@ export const describeHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHsm",
+  telemetry: TELEMETRY,
+  span: "DescribeHsm",
 }));
 
 export type DescribeLunaClientError =
@@ -654,6 +688,8 @@ export const describeLunaClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLunaClient",
+  telemetry: TELEMETRY,
+  span: "DescribeLunaClient",
 }));
 
 export type GetConfigError =
@@ -688,6 +724,8 @@ export const getConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfig",
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type ListAvailableZonesError =
@@ -721,6 +759,8 @@ export const listAvailableZones: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableZones",
+  telemetry: TELEMETRY,
+  span: "ListAvailableZones",
 }));
 
 export type ListHapgsError =
@@ -759,6 +799,8 @@ export const listHapgs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHapgs",
+  telemetry: TELEMETRY,
+  span: "ListHapgs",
 }));
 
 export type ListHsmsError =
@@ -798,6 +840,8 @@ export const listHsms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHsms",
+  telemetry: TELEMETRY,
+  span: "ListHsms",
 }));
 
 export type ListLunaClientsError =
@@ -836,6 +880,8 @@ export const listLunaClients: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLunaClients",
+  telemetry: TELEMETRY,
+  span: "ListLunaClients",
 }));
 
 export type ListTagsForResourceError =
@@ -869,6 +915,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ModifyHapgError =
@@ -902,6 +950,8 @@ export const modifyHapg: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyHapg",
+  telemetry: TELEMETRY,
+  span: "ModifyHapg",
 }));
 
 export type ModifyHsmError =
@@ -940,6 +990,8 @@ export const modifyHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyHsm",
+  telemetry: TELEMETRY,
+  span: "ModifyHsm",
 }));
 
 export type ModifyLunaClientError = CloudHsmServiceException | CommonErrors;
@@ -972,6 +1024,8 @@ export const modifyLunaClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLunaClient",
+  telemetry: TELEMETRY,
+  span: "ModifyLunaClient",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -1008,6 +1062,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

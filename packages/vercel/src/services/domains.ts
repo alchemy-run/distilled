@@ -11,6 +11,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Domains",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -491,6 +505,8 @@ export const claimDomainOwnership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimDomainOwnership",
 }));
 
 export type CreateOrTransferDomainError =
@@ -512,6 +528,8 @@ export const createOrTransferDomain: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOrTransferDomain",
 }));
 
 export type DeleteDomainError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -527,6 +545,8 @@ export const deleteDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type GetDomainError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -542,6 +562,8 @@ export const getDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainConfigError = BadRequest | Forbidden | VercelOpError;
@@ -557,6 +579,8 @@ export const getDomainConfig: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainConfig",
 }));
 
 export type GetDomainProjectDomainsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -572,6 +596,8 @@ export const getDomainProjectDomains: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainProjectDomains",
 }));
 
 export type GetDomainsError = BadRequest | Forbidden | Conflict | VercelOpError;
@@ -587,6 +613,8 @@ export const getDomains: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomains",
 }));
 
 export type GetDomainVerificationRecordError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -602,6 +630,8 @@ export const getDomainVerificationRecord: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomainVerificationRecord",
 }));
 
 export type UpdateDomainError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -617,6 +647,8 @@ export const updateDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Payments",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1376,6 +1389,8 @@ export const capturePayment: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CapturePayment",
 }));
 
 export type CreatePaymentError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -1391,6 +1406,8 @@ export const createPayment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePayment",
 }));
 
 export type GetPaymentError = Forbidden | NotFound | WhopOpError;
@@ -1406,6 +1423,8 @@ export const getPayment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPayment",
 }));
 
 export type GetStatusPaymentError = Forbidden | NotFound | WhopOpError;
@@ -1421,6 +1440,8 @@ export const getStatusPayment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStatusPayment",
 }));
 
 export type ListPaymentFeesError = NotFound | WhopOpError;
@@ -1436,6 +1457,8 @@ export const listPaymentFees: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentFees",
 }));
 
 export type ListPaymentsError = BadRequest | WhopOpError;
@@ -1453,6 +1476,8 @@ export const listPayments: API.PaginatedOperationMethod<
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPayments",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -1478,6 +1503,8 @@ export const refundPayment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefundPayment",
 }));
 
 export type ResumePaymentError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -1493,6 +1520,8 @@ export const resumePayment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumePayment",
 }));
 
 export type RetryPaymentError = NotFound | Conflict | WhopOpError;
@@ -1508,6 +1537,8 @@ export const retryPayment: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryPayment",
 }));
 
 export type UpdateReturnUrlPaymentError = BadRequest | WhopOpError;
@@ -1523,6 +1554,8 @@ export const updateReturnUrlPayment: API.OperationMethod<
   errors: [BadRequest],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateReturnUrlPayment",
 }));
 
 export type VoidPaymentError = NotFound | Conflict | WhopOpError;
@@ -1538,6 +1571,8 @@ export const voidPayment: API.OperationMethod<
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VoidPayment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

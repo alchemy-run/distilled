@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Groups",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -211,6 +224,8 @@ export const createGroup: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroup",
 }));
 
 export type GetGroupsActivityError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -225,6 +240,8 @@ export const getGroupsActivity: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupsActivity",
 }));
 
 export type GetGroupsFindError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -239,6 +256,8 @@ export const getGroupsFind: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupsFind",
 }));
 
 export type GetGroupsPropertyValueError = Forbidden | NotFound | PosthogOpError;
@@ -253,6 +272,8 @@ export const getGroupsPropertyValue: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupsPropertyValue",
 }));
 
 export type GroupsDeletePropertyCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -267,6 +288,8 @@ export const groupsDeletePropertyCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupsDeletePropertyCreate",
 }));
 
 export type GroupsUpdatePropertyCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -281,6 +304,8 @@ export const groupsUpdatePropertyCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GroupsUpdatePropertyCreate",
 }));
 
 export type ListGroupsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -296,6 +321,8 @@ export const listGroups: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
 }));
 
 export type ListGroupsRelatedError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -310,6 +337,8 @@ export const listGroupsRelated: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupsRelated",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

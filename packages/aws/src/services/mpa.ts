@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -67,6 +68,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MPA",
+  service: "MPA",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -622,6 +637,8 @@ export const cancelSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSession",
+  telemetry: TELEMETRY,
+  span: "CancelSession",
 }));
 
 export type CreateApprovalTeamError =
@@ -654,6 +671,8 @@ export const createApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "CreateApprovalTeam",
 }));
 
 export type CreateIdentitySourceError =
@@ -684,6 +703,8 @@ export const createIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentitySource",
+  telemetry: TELEMETRY,
+  span: "CreateIdentitySource",
 }));
 
 export type DeleteIdentitySourceError =
@@ -714,6 +735,8 @@ export const deleteIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentitySource",
+  telemetry: TELEMETRY,
+  span: "DeleteIdentitySource",
 }));
 
 export type DeleteInactiveApprovalTeamVersionError =
@@ -748,6 +771,8 @@ export const deleteInactiveApprovalTeamVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInactiveApprovalTeamVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteInactiveApprovalTeamVersion",
 }));
 
 export type GetApprovalTeamError =
@@ -778,6 +803,8 @@ export const getApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "GetApprovalTeam",
 }));
 
 export type GetIdentitySourceError =
@@ -808,6 +835,8 @@ export const getIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentitySource",
+  telemetry: TELEMETRY,
+  span: "GetIdentitySource",
 }));
 
 export type GetPolicyVersionError =
@@ -838,6 +867,8 @@ export const getPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyVersion",
+  telemetry: TELEMETRY,
+  span: "GetPolicyVersion",
 }));
 
 export type GetResourcePolicyError =
@@ -868,6 +899,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetSessionError =
@@ -898,6 +931,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type ListApprovalTeamsError =
@@ -933,6 +968,8 @@ export const listApprovalTeams: API.PaginatedOperationMethod<
     items: "ApprovalTeams",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApprovalTeams",
 })) as any;
 
 export type ListIdentitySourcesError =
@@ -968,6 +1005,8 @@ export const listIdentitySources: API.PaginatedOperationMethod<
     items: "IdentitySources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIdentitySources",
 })) as any;
 
 export type ListPoliciesError =
@@ -1003,6 +1042,8 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "Policies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 })) as any;
 
 export type ListPolicyVersionsError =
@@ -1040,6 +1081,8 @@ export const listPolicyVersions: API.PaginatedOperationMethod<
     items: "PolicyVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPolicyVersions",
 })) as any;
 
 export type ListResourcePoliciesError =
@@ -1077,6 +1120,8 @@ export const listResourcePolicies: API.PaginatedOperationMethod<
     items: "ResourcePolicies",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcePolicies",
 })) as any;
 
 export type ListSessionsError =
@@ -1114,6 +1159,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "Sessions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1144,6 +1191,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartActiveApprovalTeamDeletionError =
@@ -1180,6 +1229,8 @@ export const startActiveApprovalTeamDeletion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartActiveApprovalTeamDeletion",
+  telemetry: TELEMETRY,
+  span: "StartActiveApprovalTeamDeletion",
 }));
 
 export type StartApprovalTeamBaselineError =
@@ -1210,6 +1261,8 @@ export const startApprovalTeamBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApprovalTeamBaseline",
+  telemetry: TELEMETRY,
+  span: "StartApprovalTeamBaseline",
 }));
 
 export type TagResourceError =
@@ -1242,6 +1295,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1272,6 +1327,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApprovalTeamError =
@@ -1310,6 +1367,8 @@ export const updateApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalTeam",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

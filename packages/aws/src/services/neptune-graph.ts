@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -99,6 +100,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 });
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NeptuneGraph",
+  service: "NeptuneGraph",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -919,6 +934,8 @@ export const cancelExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportTask",
+  telemetry: TELEMETRY,
+  span: "CancelExportTask",
 }));
 
 export type CancelImportTaskError =
@@ -949,6 +966,8 @@ export const cancelImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImportTask",
+  telemetry: TELEMETRY,
+  span: "CancelImportTask",
 }));
 
 export type CancelQueryError =
@@ -980,6 +999,8 @@ export const cancelQuery: API.OperationMethod<
   retry: Retry,
   operationName: "CancelQuery",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "CancelQuery",
 }));
 
 export type CreateGraphError =
@@ -1010,6 +1031,8 @@ export const createGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraph",
+  telemetry: TELEMETRY,
+  span: "CreateGraph",
 }));
 
 export type CreateGraphSnapshotError =
@@ -1042,6 +1065,8 @@ export const createGraphSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateGraphSnapshot",
 }));
 
 export type CreateGraphUsingImportTaskError =
@@ -1074,6 +1099,8 @@ export const createGraphUsingImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphUsingImportTask",
+  telemetry: TELEMETRY,
+  span: "CreateGraphUsingImportTask",
 }));
 
 export type CreatePrivateGraphEndpointError =
@@ -1108,6 +1135,8 @@ export const createPrivateGraphEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateGraphEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreatePrivateGraphEndpoint",
 }));
 
 export type DeleteGraphError =
@@ -1138,6 +1167,8 @@ export const deleteGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraph",
+  telemetry: TELEMETRY,
+  span: "DeleteGraph",
 }));
 
 export type DeleteGraphSnapshotError =
@@ -1168,6 +1199,8 @@ export const deleteGraphSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraphSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteGraphSnapshot",
 }));
 
 export type DeletePrivateGraphEndpointError =
@@ -1198,6 +1231,8 @@ export const deletePrivateGraphEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivateGraphEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeletePrivateGraphEndpoint",
 }));
 
 export type ExecuteQueryError =
@@ -1239,6 +1274,8 @@ export const executeQuery: API.OperationMethod<
   retry: Retry,
   operationName: "ExecuteQuery",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "ExecuteQuery",
 }));
 
 export type GetExportTaskError =
@@ -1267,6 +1304,8 @@ export const getExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportTask",
+  telemetry: TELEMETRY,
+  span: "GetExportTask",
 }));
 
 export type GetGraphError =
@@ -1295,6 +1334,8 @@ export const getGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraph",
+  telemetry: TELEMETRY,
+  span: "GetGraph",
 }));
 
 export type GetGraphSnapshotError =
@@ -1323,6 +1364,8 @@ export const getGraphSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetGraphSnapshot",
 }));
 
 export type GetGraphSummaryError =
@@ -1354,6 +1397,8 @@ export const getGraphSummary: API.OperationMethod<
   retry: Retry,
   operationName: "GetGraphSummary",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "GetGraphSummary",
 }));
 
 export type GetImportTaskError =
@@ -1382,6 +1427,8 @@ export const getImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportTask",
+  telemetry: TELEMETRY,
+  span: "GetImportTask",
 }));
 
 export type GetPrivateGraphEndpointError =
@@ -1410,6 +1457,8 @@ export const getPrivateGraphEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrivateGraphEndpoint",
+  telemetry: TELEMETRY,
+  span: "GetPrivateGraphEndpoint",
 }));
 
 export type GetQueryError =
@@ -1443,6 +1492,8 @@ export const getQuery: API.OperationMethod<
   retry: Retry,
   operationName: "GetQuery",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "GetQuery",
 }));
 
 export type ListExportTasksError =
@@ -1478,6 +1529,8 @@ export const listExportTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExportTasks",
 })) as any;
 
 export type ListGraphsError =
@@ -1507,6 +1560,8 @@ export const listGraphs: API.PaginatedOperationMethod<
     items: "graphs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGraphs",
 })) as any;
 
 export type ListGraphSnapshotsError =
@@ -1542,6 +1597,8 @@ export const listGraphSnapshots: API.PaginatedOperationMethod<
     items: "graphSnapshots",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGraphSnapshots",
 })) as any;
 
 export type ListImportTasksError =
@@ -1577,6 +1634,8 @@ export const listImportTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListImportTasks",
 })) as any;
 
 export type ListPrivateGraphEndpointsError =
@@ -1612,6 +1671,8 @@ export const listPrivateGraphEndpoints: API.PaginatedOperationMethod<
     items: "privateGraphEndpoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrivateGraphEndpoints",
 })) as any;
 
 export type ListQueriesError =
@@ -1641,6 +1702,8 @@ export const listQueries: API.OperationMethod<
   retry: Retry,
   operationName: "ListQueries",
   endpointHostPrefix: "{graphIdentifier}.",
+  telemetry: TELEMETRY,
+  span: "ListQueries",
 }));
 
 export type ListTagsForResourceError =
@@ -1669,6 +1732,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResetGraphError =
@@ -1699,6 +1764,8 @@ export const resetGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetGraph",
+  telemetry: TELEMETRY,
+  span: "ResetGraph",
 }));
 
 export type RestoreGraphFromSnapshotError =
@@ -1731,6 +1798,8 @@ export const restoreGraphFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreGraphFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreGraphFromSnapshot",
 }));
 
 export type StartExportTaskError =
@@ -1761,6 +1830,8 @@ export const startExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportTask",
+  telemetry: TELEMETRY,
+  span: "StartExportTask",
 }));
 
 export type StartGraphError =
@@ -1791,6 +1862,8 @@ export const startGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGraph",
+  telemetry: TELEMETRY,
+  span: "StartGraph",
 }));
 
 export type StartImportTaskError =
@@ -1821,6 +1894,8 @@ export const startImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportTask",
+  telemetry: TELEMETRY,
+  span: "StartImportTask",
 }));
 
 export type StopGraphError =
@@ -1851,6 +1926,8 @@ export const stopGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopGraph",
+  telemetry: TELEMETRY,
+  span: "StopGraph",
 }));
 
 export type TagResourceError =
@@ -1879,6 +1956,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1907,6 +1986,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateGraphError =
@@ -1937,6 +2018,8 @@ export const updateGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGraph",
+  telemetry: TELEMETRY,
+  span: "UpdateGraph",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

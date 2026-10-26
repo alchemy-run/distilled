@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "sts" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Sts",
+  service: "sts",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -173,6 +192,8 @@ export const getJwksOrganizationsLocationsWorkloadIdentityPoolsOpenid: API.Opera
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJwksOrganizationsLocationsWorkloadIdentityPoolsOpenid",
 }));
 
 export type GetJwksProjectsLocationsWorkloadIdentityPoolsOpenidError =
@@ -195,6 +216,8 @@ export const getJwksProjectsLocationsWorkloadIdentityPoolsOpenid: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJwksProjectsLocationsWorkloadIdentityPoolsOpenid",
 }));
 
 export type GetOpenid_configurationOrganizationsLocationsWorkloadIdentityPoolsWell_knownError =
@@ -217,6 +240,8 @@ export const getOpenid_configurationOrganizationsLocationsWorkloadIdentityPoolsW
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenid_configurationOrganizationsLocationsWorkloadIdentityPoolsWell_known",
 }));
 
 export type GetOpenid_configurationProjectsLocationsWorkloadIdentityPoolsWell_knownError =
@@ -239,6 +264,8 @@ export const getOpenid_configurationProjectsLocationsWorkloadIdentityPoolsWell_k
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOpenid_configurationProjectsLocationsWorkloadIdentityPoolsWell_known",
 }));
 
 export type TokenV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -254,6 +281,8 @@ export const tokenV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TokenV1",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

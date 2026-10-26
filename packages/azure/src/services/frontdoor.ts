@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Network" },
+  prefix: "Frontdoor",
+  service: "Frontdoor",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Type of Front Door resource used in CheckNameAvailability. */
 export type ResourceType =
   | "Microsoft.Network/frontDoors"
@@ -2061,6 +2081,8 @@ export const CheckFrontDoorNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckFrontDoorNameAvailability",
 }));
 
 export type CheckFrontDoorNameAvailabilityWithSubscriptionError = AzureOpError;
@@ -2076,6 +2098,8 @@ export const CheckFrontDoorNameAvailabilityWithSubscription: API.OperationMethod
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckFrontDoorNameAvailabilityWithSubscription",
 }));
 
 export type DeleteExperimentError = AzureOpError;
@@ -2091,6 +2115,8 @@ export const DeleteExperiment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteExperiment",
 }));
 
 export type DeleteFrontDoorError = AzureOpError;
@@ -2106,6 +2132,8 @@ export const DeleteFrontDoor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFrontDoor",
 }));
 
 export type DeleteNetworkExperimentProfileError = AzureOpError;
@@ -2121,6 +2149,8 @@ export const DeleteNetworkExperimentProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkExperimentProfile",
 }));
 
 export type DeletePolicyError = AzureOpError;
@@ -2136,6 +2166,8 @@ export const DeletePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicy",
 }));
 
 export type DeleteRulesEngineError = AzureOpError;
@@ -2151,6 +2183,8 @@ export const DeleteRulesEngine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRulesEngine",
 }));
 
 export type DisableFrontendEndpointHttpsError = AzureOpError;
@@ -2166,6 +2200,8 @@ export const DisableFrontendEndpointHttps: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableFrontendEndpointHttps",
 }));
 
 export type EnableFrontendEndpointHttpsError = AzureOpError;
@@ -2181,6 +2217,8 @@ export const EnableFrontendEndpointHttps: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableFrontendEndpointHttps",
 }));
 
 export type ExperimentsCreateOrUpdateError = AzureOpError;
@@ -2196,6 +2234,8 @@ export const ExperimentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsCreateOrUpdate",
 }));
 
 export type FrontDoorsCreateOrUpdateError = AzureOpError;
@@ -2211,6 +2251,8 @@ export const FrontDoorsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FrontDoorsCreateOrUpdate",
 }));
 
 export type GetExperimentError = AzureOpError;
@@ -2226,6 +2268,8 @@ export const GetExperiment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type GetFrontDoorError = AzureOpError;
@@ -2241,6 +2285,8 @@ export const GetFrontDoor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFrontDoor",
 }));
 
 export type GetFrontendEndpointError = AzureOpError;
@@ -2256,6 +2302,8 @@ export const GetFrontendEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFrontendEndpoint",
 }));
 
 export type GetNetworkExperimentProfileError = AzureOpError;
@@ -2271,6 +2319,8 @@ export const GetNetworkExperimentProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkExperimentProfile",
 }));
 
 export type GetPolicyError = AzureOpError;
@@ -2286,6 +2336,8 @@ export const GetPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicy",
 }));
 
 export type GetReportLatencyScorecardsError = AzureOpError;
@@ -2301,6 +2353,8 @@ export const GetReportLatencyScorecards: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportLatencyScorecards",
 }));
 
 export type GetReportTimeseriesError = AzureOpError;
@@ -2316,6 +2370,8 @@ export const GetReportTimeseries: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReportTimeseries",
 }));
 
 export type GetRulesEngineError = AzureOpError;
@@ -2331,6 +2387,8 @@ export const GetRulesEngine: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRulesEngine",
 }));
 
 export type ListExperimentByProfileError = AzureOpError;
@@ -2346,6 +2404,8 @@ export const ListExperimentByProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentByProfile",
 }));
 
 export type ListFrontDoorByResourceGroupError = AzureOpError;
@@ -2361,6 +2421,8 @@ export const ListFrontDoorByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFrontDoorByResourceGroup",
 }));
 
 export type ListFrontDoorsError = AzureOpError;
@@ -2376,6 +2438,8 @@ export const ListFrontDoors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFrontDoors",
 }));
 
 export type ListFrontendEndpointByFrontDoorError = AzureOpError;
@@ -2391,6 +2455,8 @@ export const ListFrontendEndpointByFrontDoor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFrontendEndpointByFrontDoor",
 }));
 
 export type ListManagedRuleSetsError = AzureOpError;
@@ -2406,6 +2472,8 @@ export const ListManagedRuleSets: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedRuleSets",
 }));
 
 export type ListNetworkExperimentProfileByResourceGroupError = AzureOpError;
@@ -2421,6 +2489,8 @@ export const ListNetworkExperimentProfileByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkExperimentProfileByResourceGroup",
 }));
 
 export type ListNetworkExperimentProfilesError = AzureOpError;
@@ -2436,6 +2506,8 @@ export const ListNetworkExperimentProfiles: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkExperimentProfiles",
 }));
 
 export type ListPoliciesError = AzureOpError;
@@ -2451,6 +2523,8 @@ export const ListPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
 }));
 
 export type ListPolicyBySubscriptionError = AzureOpError;
@@ -2466,6 +2540,8 @@ export const ListPolicyBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicyBySubscription",
 }));
 
 export type ListPreconfiguredEndpointsError = AzureOpError;
@@ -2481,6 +2557,8 @@ export const ListPreconfiguredEndpoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPreconfiguredEndpoints",
 }));
 
 export type ListRulesEngineByFrontDoorError = AzureOpError;
@@ -2496,6 +2574,8 @@ export const ListRulesEngineByFrontDoor: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRulesEngineByFrontDoor",
 }));
 
 export type NetworkExperimentProfilesCreateOrUpdateError = AzureOpError;
@@ -2511,6 +2591,8 @@ export const NetworkExperimentProfilesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "NetworkExperimentProfilesCreateOrUpdate",
 }));
 
 export type PoliciesCreateOrUpdateError = AzureOpError;
@@ -2526,6 +2608,8 @@ export const PoliciesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoliciesCreateOrUpdate",
 }));
 
 export type PurgeEndpointContentError = AzureOpError;
@@ -2541,6 +2625,8 @@ export const PurgeEndpointContent: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeEndpointContent",
 }));
 
 export type RulesEnginesCreateOrUpdateError = AzureOpError;
@@ -2556,6 +2642,8 @@ export const RulesEnginesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RulesEnginesCreateOrUpdate",
 }));
 
 export type UpdateExperimentError = AzureOpError;
@@ -2571,6 +2659,8 @@ export const UpdateExperiment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperiment",
 }));
 
 export type UpdateNetworkExperimentProfileError = AzureOpError;
@@ -2586,6 +2676,8 @@ export const UpdateNetworkExperimentProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkExperimentProfile",
 }));
 
 export type UpdatePolicyError = AzureOpError;
@@ -2601,6 +2693,8 @@ export const UpdatePolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePolicy",
 }));
 
 export type ValidateFrontDoorCustomDomainError = AzureOpError;
@@ -2616,6 +2710,8 @@ export const ValidateFrontDoorCustomDomain: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateFrontDoorCustomDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

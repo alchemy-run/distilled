@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -123,6 +124,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://elasticfilesystem.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EFS",
+  service: "EFS",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessPointAlreadyExists
   extends /*@__PURE__*/ S.TaggedError<AccessPointAlreadyExists>()(
@@ -879,6 +894,8 @@ export const createAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPoint",
+  telemetry: TELEMETRY,
+  span: "CreateAccessPoint",
 }));
 
 export type CreateFileSystemError =
@@ -973,6 +990,8 @@ export const createFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileSystem",
+  telemetry: TELEMETRY,
+  span: "CreateFileSystem",
 }));
 
 export type CreateMountTargetError =
@@ -1130,6 +1149,8 @@ export const createMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMountTarget",
+  telemetry: TELEMETRY,
+  span: "CreateMountTarget",
 }));
 
 export type CreateReplicationConfigurationError =
@@ -1193,6 +1214,8 @@ export const createReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationConfiguration",
 }));
 
 export type CreateTagsError = BadRequest | FileSystemNotFound | InternalServerError | CommonErrors;
@@ -1220,6 +1243,8 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  telemetry: TELEMETRY,
+  span: "CreateTags",
 }));
 
 export type DeleteAccessPointError =
@@ -1246,6 +1271,8 @@ export const deleteAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPoint",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPoint",
 }));
 
 export type DeleteFileSystemError =
@@ -1289,6 +1316,8 @@ export const deleteFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystem",
+  telemetry: TELEMETRY,
+  span: "DeleteFileSystem",
 }));
 
 export type DeleteFileSystemPolicyError =
@@ -1316,6 +1345,8 @@ export const deleteFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystemPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteFileSystemPolicy",
 }));
 
 export type DeleteMountTargetError =
@@ -1361,6 +1392,8 @@ export const deleteMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMountTarget",
+  telemetry: TELEMETRY,
+  span: "DeleteMountTarget",
 }));
 
 export type DeleteReplicationConfigurationError =
@@ -1390,6 +1423,8 @@ export const deleteReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationConfiguration",
 }));
 
 export type DeleteTagsError = BadRequest | FileSystemNotFound | InternalServerError | CommonErrors;
@@ -1417,6 +1452,8 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  telemetry: TELEMETRY,
+  span: "DeleteTags",
 }));
 
 export type DescribeAccessPointsError =
@@ -1453,6 +1490,8 @@ export const describeAccessPoints: API.PaginatedOperationMethod<
     items: "AccessPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeAccessPoints",
 })) as any;
 
 export type DescribeAccountPreferencesError = InternalServerError | CommonErrors;
@@ -1471,6 +1510,8 @@ export const describeAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountPreferences",
 }));
 
 export type DescribeBackupPolicyError =
@@ -1501,6 +1542,8 @@ export const describeBackupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeBackupPolicy",
 }));
 
 export type DescribeFileSystemPolicyError =
@@ -1527,6 +1570,8 @@ export const describeFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFileSystemPolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeFileSystemPolicy",
 }));
 
 export type DescribeFileSystemsError =
@@ -1579,6 +1624,8 @@ export const describeFileSystems: API.PaginatedOperationMethod<
     items: "FileSystems",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFileSystems",
 })) as any;
 
 export type DescribeLifecycleConfigurationError =
@@ -1608,6 +1655,8 @@ export const describeLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeLifecycleConfiguration",
 }));
 
 export type DescribeMountTargetsError =
@@ -1652,6 +1701,8 @@ export const describeMountTargets: API.PaginatedOperationMethod<
     items: "MountTargets",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMountTargets",
 })) as any;
 
 export type DescribeMountTargetSecurityGroupsError =
@@ -1685,6 +1736,8 @@ export const describeMountTargetSecurityGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMountTargetSecurityGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeMountTargetSecurityGroups",
 }));
 
 export type DescribeReplicationConfigurationsError =
@@ -1724,6 +1777,8 @@ export const describeReplicationConfigurations: API.PaginatedOperationMethod<
     items: "Replications",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationConfigurations",
 })) as any;
 
 export type DescribeTagsError =
@@ -1762,6 +1817,8 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1794,6 +1851,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ModifyMountTargetSecurityGroupsError =
@@ -1841,6 +1900,8 @@ export const modifyMountTargetSecurityGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyMountTargetSecurityGroups",
+  telemetry: TELEMETRY,
+  span: "ModifyMountTargetSecurityGroups",
 }));
 
 export type PutAccountPreferencesError = BadRequest | InternalServerError | CommonErrors;
@@ -1867,6 +1928,8 @@ export const putAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountPreferences",
+  telemetry: TELEMETRY,
+  span: "PutAccountPreferences",
 }));
 
 export type PutBackupPolicyError =
@@ -1897,6 +1960,8 @@ export const putBackupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupPolicy",
+  telemetry: TELEMETRY,
+  span: "PutBackupPolicy",
 }));
 
 export type PutFileSystemPolicyError =
@@ -1938,6 +2003,8 @@ export const putFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFileSystemPolicy",
+  telemetry: TELEMETRY,
+  span: "PutFileSystemPolicy",
 }));
 
 export type PutLifecycleConfigurationError =
@@ -2013,6 +2080,8 @@ export const putLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutLifecycleConfiguration",
 }));
 
 export type TagResourceError =
@@ -2039,6 +2108,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2065,6 +2136,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFileSystemError =
@@ -2100,6 +2173,8 @@ export const updateFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystem",
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystem",
 }));
 
 export type UpdateFileSystemProtectionError =
@@ -2139,6 +2214,8 @@ export const updateFileSystemProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystemProtection",
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystemProtection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

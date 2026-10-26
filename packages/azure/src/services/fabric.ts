@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Fabric" },
+  prefix: "Fabric",
+  service: "Fabric",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckFabricCapacityNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -398,6 +418,8 @@ export const CheckFabricCapacityNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckFabricCapacityNameAvailability",
 }));
 
 export type DeleteFabricCapacityError = AzureOpError;
@@ -413,6 +435,8 @@ export const DeleteFabricCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFabricCapacity",
 }));
 
 export type FabricCapacitiesCreateOrUpdateError = AzureOpError;
@@ -428,6 +452,8 @@ export const FabricCapacitiesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FabricCapacitiesCreateOrUpdate",
 }));
 
 export type GetFabricCapacityError = AzureOpError;
@@ -443,6 +469,8 @@ export const GetFabricCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFabricCapacity",
 }));
 
 export type ListFabricCapacityByResourceGroupError = AzureOpError;
@@ -458,6 +486,8 @@ export const ListFabricCapacityByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFabricCapacityByResourceGroup",
 }));
 
 export type ListFabricCapacityBySubscriptionError = AzureOpError;
@@ -473,6 +503,8 @@ export const ListFabricCapacityBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFabricCapacityBySubscription",
 }));
 
 export type ListFabricCapacitySkusError = AzureOpError;
@@ -488,6 +520,8 @@ export const ListFabricCapacitySkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFabricCapacitySkus",
 }));
 
 export type ListFabricCapacitySkusForCapacityError = AzureOpError;
@@ -503,6 +537,8 @@ export const ListFabricCapacitySkusForCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFabricCapacitySkusForCapacity",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -518,6 +554,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ResumeFabricCapacityError = AzureOpError;
@@ -533,6 +571,8 @@ export const ResumeFabricCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeFabricCapacity",
 }));
 
 export type SuspendFabricCapacityError = AzureOpError;
@@ -548,6 +588,8 @@ export const SuspendFabricCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendFabricCapacity",
 }));
 
 export type UpdateFabricCapacityError = AzureOpError;
@@ -563,6 +605,8 @@ export const UpdateFabricCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFabricCapacity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

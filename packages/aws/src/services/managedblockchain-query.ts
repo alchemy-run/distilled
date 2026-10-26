@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://managedblockchain-query.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ManagedBlockchainQuery",
+  service: "ManagedBlockchainQuery",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -443,6 +458,8 @@ export const batchGetTokenBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTokenBalance",
+  telemetry: TELEMETRY,
+  span: "BatchGetTokenBalance",
 }));
 
 export type GetAssetContractError =
@@ -481,6 +498,8 @@ export const getAssetContract: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssetContract",
+  telemetry: TELEMETRY,
+  span: "GetAssetContract",
 }));
 
 export type GetTokenBalanceError =
@@ -516,6 +535,8 @@ export const getTokenBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTokenBalance",
+  telemetry: TELEMETRY,
+  span: "GetTokenBalance",
 }));
 
 export type GetTransactionError =
@@ -552,6 +573,8 @@ export const getTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransaction",
+  telemetry: TELEMETRY,
+  span: "GetTransaction",
 }));
 
 export type ListAssetContractsError =
@@ -593,6 +616,8 @@ export const listAssetContracts: API.PaginatedOperationMethod<
     items: "contracts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetContracts",
 })) as any;
 
 export type ListFilteredTransactionEventsError =
@@ -632,6 +657,8 @@ export const listFilteredTransactionEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFilteredTransactionEvents",
 })) as any;
 
 export type ListTokenBalancesError =
@@ -679,6 +706,8 @@ export const listTokenBalances: API.PaginatedOperationMethod<
     items: "tokenBalances",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTokenBalances",
 })) as any;
 
 export type ListTransactionEventsError =
@@ -720,6 +749,8 @@ export const listTransactionEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTransactionEvents",
 })) as any;
 
 export type ListTransactionsError =
@@ -757,6 +788,8 @@ export const listTransactions: API.PaginatedOperationMethod<
     items: "transactions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTransactions",
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

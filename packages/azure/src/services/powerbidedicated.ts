@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.PowerBIDedicated" },
+  prefix: "Powerbidedicated",
+  service: "Powerbidedicated",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface CheckCapacityNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -618,6 +638,8 @@ export const CheckCapacityNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckCapacityNameAvailability",
 }));
 
 export type CreateAutoScaleVCoreError = AzureOpError;
@@ -633,6 +655,8 @@ export const CreateAutoScaleVCore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutoScaleVCore",
 }));
 
 export type CreateCapacityError = AzureOpError;
@@ -648,6 +672,8 @@ export const CreateCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCapacity",
 }));
 
 export type DeleteAutoScaleVCoreError = AzureOpError;
@@ -663,6 +689,8 @@ export const DeleteAutoScaleVCore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoScaleVCore",
 }));
 
 export type DeleteCapacityError = AzureOpError;
@@ -678,6 +706,8 @@ export const DeleteCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCapacity",
 }));
 
 export type GetAutoScaleVCoreError = AzureOpError;
@@ -693,6 +723,8 @@ export const GetAutoScaleVCore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutoScaleVCore",
 }));
 
 export type GetCapacityDetailsError = AzureOpError;
@@ -708,6 +740,8 @@ export const GetCapacityDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCapacityDetails",
 }));
 
 export type ListAutoScaleVCoreByResourceGroupError = AzureOpError;
@@ -723,6 +757,8 @@ export const ListAutoScaleVCoreByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoScaleVCoreByResourceGroup",
 }));
 
 export type ListAutoScaleVCoreBySubscriptionError = AzureOpError;
@@ -738,6 +774,8 @@ export const ListAutoScaleVCoreBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutoScaleVCoreBySubscription",
 }));
 
 export type ListCapacitiesError = AzureOpError;
@@ -753,6 +791,8 @@ export const ListCapacities: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapacities",
 }));
 
 export type ListCapacityByResourceGroupError = AzureOpError;
@@ -768,6 +808,8 @@ export const ListCapacityByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapacityByResourceGroup",
 }));
 
 export type ListCapacitySkusError = AzureOpError;
@@ -783,6 +825,8 @@ export const ListCapacitySkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapacitySkus",
 }));
 
 export type ListCapacitySkusForCapacityError = AzureOpError;
@@ -798,6 +842,8 @@ export const ListCapacitySkusForCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapacitySkusForCapacity",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -813,6 +859,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ResumeCapacityError = AzureOpError;
@@ -828,6 +876,8 @@ export const ResumeCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeCapacity",
 }));
 
 export type SuspendCapacityError = AzureOpError;
@@ -843,6 +893,8 @@ export const SuspendCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendCapacity",
 }));
 
 export type UpdateAutoScaleVCoreError = AzureOpError;
@@ -858,6 +910,8 @@ export const UpdateAutoScaleVCore: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutoScaleVCore",
 }));
 
 export type UpdateCapacityError = AzureOpError;
@@ -873,6 +927,8 @@ export const UpdateCapacity: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCapacity",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

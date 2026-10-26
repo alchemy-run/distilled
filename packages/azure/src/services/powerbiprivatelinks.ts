@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.PowerBI" },
+  prefix: "Powerbiprivatelinks",
+  service: "Powerbiprivatelinks",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface PrivateEndpoint {
   /** Specifies the id of private endpoint. */
   id?: string;
@@ -431,6 +451,8 @@ export const CreatePowerBIResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePowerBIResource",
 }));
 
 export type CreatePrivateEndpointConnectionError = AzureOpError;
@@ -446,6 +468,8 @@ export const CreatePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateEndpointConnection",
 }));
 
 export type DeletePowerBIResourceError = AzureOpError;
@@ -461,6 +485,8 @@ export const DeletePowerBIResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePowerBIResource",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -476,6 +502,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -491,6 +519,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -506,6 +536,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetPrivateLinkServiceResourceOperationResultError = AzureOpError;
@@ -521,6 +553,8 @@ export const GetPrivateLinkServiceResourceOperationResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkServiceResourceOperationResult",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -536,6 +570,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPowerBIResourceByResourceNameError = AzureOpError;
@@ -551,6 +587,8 @@ export const ListPowerBIResourceByResourceName: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPowerBIResourceByResourceName",
 }));
 
 export type ListPrivateEndpointConnectionByResourceError = AzureOpError;
@@ -566,6 +604,8 @@ export const ListPrivateEndpointConnectionByResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionByResource",
 }));
 
 export type ListPrivateLinkResourceByResourceError = AzureOpError;
@@ -581,6 +621,8 @@ export const ListPrivateLinkResourceByResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourceByResource",
 }));
 
 export type ListPrivateLinkServiceByResourceGroupError = AzureOpError;
@@ -596,6 +638,8 @@ export const ListPrivateLinkServiceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServiceByResourceGroup",
 }));
 
 export type ListPrivateLinkServicesForPowerBIBySubscriptionIdError = AzureOpError;
@@ -619,6 +663,8 @@ export const ListPrivateLinkServicesForPowerBIBySubscriptionId: API.OperationMet
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkServicesForPowerBIBySubscriptionId",
 }));
 
 export type UpdatePowerBIResourceError = AzureOpError;
@@ -634,6 +680,8 @@ export const UpdatePowerBIResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePowerBIResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

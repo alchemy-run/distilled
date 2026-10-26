@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Experiments",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2831,6 +2844,8 @@ export const createExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperiment",
 }));
 
 export type CreateExperimentsCalculateRunningTimeError = PosthogOpError;
@@ -2846,6 +2861,8 @@ export const createExperimentsCalculateRunningTime: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsCalculateRunningTime",
 }));
 
 export type CreateExperimentsEndError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -2861,6 +2878,8 @@ export const createExperimentsEnd: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsEnd",
 }));
 
 export type CreateExperimentsFreezeExposureError = PosthogOpError;
@@ -2876,6 +2895,8 @@ export const createExperimentsFreezeExposure: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsFreezeExposure",
 }));
 
 export type CreateExperimentsLaunchError = Forbidden | NotFound | PosthogOpError;
@@ -2891,6 +2912,8 @@ export const createExperimentsLaunch: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsLaunch",
 }));
 
 export type CreateExperimentsMetricsRecalculationError = PosthogOpError;
@@ -2906,6 +2929,8 @@ export const createExperimentsMetricsRecalculation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsMetricsRecalculation",
 }));
 
 export type CreateExperimentsPauseError = Forbidden | NotFound | PosthogOpError;
@@ -2921,6 +2946,8 @@ export const createExperimentsPause: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsPause",
 }));
 
 export type CreateExperimentsRecalculateTimeseriesError =
@@ -2940,6 +2967,8 @@ export const createExperimentsRecalculateTimeseries: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsRecalculateTimeseries",
 }));
 
 export type CreateExperimentsSessionBucketError = PosthogOpError;
@@ -2955,6 +2984,8 @@ export const createExperimentsSessionBucket: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsSessionBucket",
 }));
 
 export type CreateExperimentsSessionContextError = PosthogOpError;
@@ -2970,6 +3001,8 @@ export const createExperimentsSessionContext: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsSessionContext",
 }));
 
 export type CreateExperimentsSessionEventDeltasError = PosthogOpError;
@@ -2985,6 +3018,8 @@ export const createExperimentsSessionEventDeltas: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsSessionEventDeltas",
 }));
 
 export type CreateExperimentsSetupContextError = PosthogOpError;
@@ -3000,6 +3035,8 @@ export const createExperimentsSetupContext: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsSetupContext",
 }));
 
 export type CreateExperimentsShipVariantError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3015,6 +3052,8 @@ export const createExperimentsShipVariant: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsShipVariant",
 }));
 
 export type CreateExperimentsUnfreezeExposureError = PosthogOpError;
@@ -3030,6 +3069,8 @@ export const createExperimentsUnfreezeExposure: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentsUnfreezeExposure",
 }));
 
 export type ExperimentsArchiveCreateError = Forbidden | NotFound | PosthogOpError;
@@ -3045,6 +3086,8 @@ export const experimentsArchiveCreate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsArchiveCreate",
 }));
 
 export type ExperimentsBulkUpdateTagsCreateError = PosthogOpError;
@@ -3060,6 +3103,8 @@ export const experimentsBulkUpdateTagsCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsBulkUpdateTagsCreate",
 }));
 
 export type ExperimentsCopyToProjectCreateError =
@@ -3079,6 +3124,8 @@ export const experimentsCopyToProjectCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsCopyToProjectCreate",
 }));
 
 export type ExperimentsCreateExposureCohortForExperimentCreateError =
@@ -3106,6 +3153,8 @@ export const experimentsCreateExposureCohortForExperimentCreate: API.OperationMe
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsCreateExposureCohortForExperimentCreate",
 }));
 
 export type ExperimentsCreateFromPromptCreateError = PosthogOpError;
@@ -3121,6 +3170,8 @@ export const experimentsCreateFromPromptCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsCreateFromPromptCreate",
 }));
 
 export type ExperimentsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -3136,6 +3187,8 @@ export const experimentsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsDestroy",
 }));
 
 export type ExperimentsDuplicateCreateError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3151,6 +3204,8 @@ export const experimentsDuplicateCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsDuplicateCreate",
 }));
 
 export type ExperimentsMigrateCreateError = PosthogOpError;
@@ -3166,6 +3221,8 @@ export const experimentsMigrateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsMigrateCreate",
 }));
 
 export type ExperimentsResetCreateError = Forbidden | NotFound | PosthogOpError;
@@ -3181,6 +3238,8 @@ export const experimentsResetCreate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsResetCreate",
 }));
 
 export type ExperimentsResumeCreateError = Forbidden | NotFound | PosthogOpError;
@@ -3196,6 +3255,8 @@ export const experimentsResumeCreate: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsResumeCreate",
 }));
 
 export type ExperimentsUnarchiveCreateError = PosthogOpError;
@@ -3211,6 +3272,8 @@ export const experimentsUnarchiveCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentsUnarchiveCreate",
 }));
 
 export type GetExperimentError = Forbidden | NotFound | PosthogOpError;
@@ -3226,6 +3289,8 @@ export const getExperiment: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperiment",
 }));
 
 export type GetExperimentsActivityError = NotFound | PosthogOpError;
@@ -3241,6 +3306,8 @@ export const getExperimentsActivity: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsActivity",
 }));
 
 export type GetExperimentsFlagCleanupTargetError = PosthogOpError;
@@ -3256,6 +3323,8 @@ export const getExperimentsFlagCleanupTarget: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsFlagCleanupTarget",
 }));
 
 export type GetExperimentsFlagCleanupTaskError = PosthogOpError;
@@ -3271,6 +3340,8 @@ export const getExperimentsFlagCleanupTask: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsFlagCleanupTask",
 }));
 
 export type GetExperimentsInSessionExposureError = PosthogOpError;
@@ -3286,6 +3357,8 @@ export const getExperimentsInSessionExposure: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsInSessionExposure",
 }));
 
 export type GetExperimentsMatchingIdsError = PosthogOpError;
@@ -3301,6 +3374,8 @@ export const getExperimentsMatchingIds: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsMatchingIds",
 }));
 
 export type GetExperimentsMetricsRecalculationError = NotFound | PosthogOpError;
@@ -3316,6 +3391,8 @@ export const getExperimentsMetricsRecalculation: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsMetricsRecalculation",
 }));
 
 export type GetExperimentsMetricsRecalculationLatestError = NotFound | PosthogOpError;
@@ -3331,6 +3408,8 @@ export const getExperimentsMetricsRecalculationLatest: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsMetricsRecalculationLatest",
 }));
 
 export type GetExperimentsPromptTemplateError = PosthogOpError;
@@ -3346,6 +3425,8 @@ export const getExperimentsPromptTemplate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsPromptTemplate",
 }));
 
 export type GetExperimentsSessionContextError = PosthogOpError;
@@ -3361,6 +3442,8 @@ export const getExperimentsSessionContext: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsSessionContext",
 }));
 
 export type GetExperimentsStatError = Forbidden | NotFound | PosthogOpError;
@@ -3376,6 +3459,8 @@ export const getExperimentsStat: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsStat",
 }));
 
 export type GetExperimentsTimeseriesResultError =
@@ -3395,6 +3480,8 @@ export const getExperimentsTimeseriesResult: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentsTimeseriesResult",
 }));
 
 export type ListExperimentsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3410,6 +3497,8 @@ export const listExperiments: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperiments",
 }));
 
 export type UpdateExperimentError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3425,6 +3514,8 @@ export const updateExperiment: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperiment",
 }));
 
 export type UpdateExperimentsPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -3440,6 +3531,8 @@ export const updateExperimentsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

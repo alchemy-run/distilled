@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Marketplace" },
+  prefix: "Marketplacecatalog",
+  service: "Marketplacecatalog",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface GetProductGetByBillingAccountRequest {
   /** The ID of the target billing account. */
   billingAccountId: string;
@@ -2784,6 +2804,8 @@ export const GetProductGetByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductGetByBillingAccount",
 }));
 
 export type GetProductGetByBillingProfileError = AzureOpError;
@@ -2799,6 +2821,8 @@ export const GetProductGetByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductGetByBillingProfile",
 }));
 
 export type GetProductGetBySubscriptionError = AzureOpError;
@@ -2814,6 +2838,8 @@ export const GetProductGetBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductGetBySubscription",
 }));
 
 export type GetProductGetByTenantError = AzureOpError;
@@ -2829,6 +2855,8 @@ export const GetProductGetByTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductGetByTenant",
 }));
 
 export type GetSkusByBillingAccountError = AzureOpError;
@@ -2844,6 +2872,8 @@ export const GetSkusByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSkusByBillingAccount",
 }));
 
 export type GetSkusByBillingProfileError = AzureOpError;
@@ -2859,6 +2889,8 @@ export const GetSkusByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSkusByBillingProfile",
 }));
 
 export type ListEdgeZonesProductsError = AzureOpError;
@@ -2874,6 +2906,8 @@ export const ListEdgeZonesProducts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEdgeZonesProducts",
 }));
 
 export type ListGetApiKeysError = AzureOpError;
@@ -2889,6 +2923,8 @@ export const ListGetApiKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGetApiKeys",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -2904,6 +2940,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProductListByBillingAccountError = AzureOpError;
@@ -2919,6 +2957,8 @@ export const ListProductListByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductListByBillingAccount",
 }));
 
 export type ListProductListByBillingProfileError = AzureOpError;
@@ -2934,6 +2974,8 @@ export const ListProductListByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductListByBillingProfile",
 }));
 
 export type ListProductListBySubscriptionError = AzureOpError;
@@ -2949,6 +2991,8 @@ export const ListProductListBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductListBySubscription",
 }));
 
 export type ListProductListByTenantError = AzureOpError;
@@ -2964,6 +3008,8 @@ export const ListProductListByTenant: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductListByTenant",
 }));
 
 export type ListSkusByBillingAccountError = AzureOpError;
@@ -2979,6 +3025,8 @@ export const ListSkusByBillingAccount: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkusByBillingAccount",
 }));
 
 export type ListSkusByBillingProfileError = AzureOpError;
@@ -2994,6 +3042,8 @@ export const ListSkusByBillingProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkusByBillingProfile",
 }));
 
 export type PostCreateApiKeyError = AzureOpError;
@@ -3009,6 +3059,8 @@ export const PostCreateApiKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostCreateApiKey",
 }));
 
 export type PostRevokeApiKeyError = AzureOpError;
@@ -3024,6 +3076,8 @@ export const PostRevokeApiKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostRevokeApiKey",
 }));
 
 export type SearchPostArmError = AzureOpError;
@@ -3039,6 +3093,8 @@ export const SearchPostArm: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchPostArm",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

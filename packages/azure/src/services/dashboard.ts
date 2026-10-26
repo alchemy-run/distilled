@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Dashboard" },
+  prefix: "Dashboard",
+  service: "Dashboard",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** The Private Endpoint resource. */
 export interface PrivateEndpointConnectionPropertiesInputPrivateEndpoint {}
 /** The private endpoint connection status. */
@@ -1381,6 +1401,8 @@ export const ApprovePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApprovePrivateEndpointConnection",
 }));
 
 export type CheckGrafanaEnterpriseDetailsError = AzureOpError;
@@ -1396,6 +1418,8 @@ export const CheckGrafanaEnterpriseDetails: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckGrafanaEnterpriseDetails",
 }));
 
 export type CreateGrafanaError = AzureOpError;
@@ -1411,6 +1435,8 @@ export const CreateGrafana: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGrafana",
 }));
 
 export type CreateIntegrationFabricError = AzureOpError;
@@ -1426,6 +1452,8 @@ export const CreateIntegrationFabric: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationFabric",
 }));
 
 export type CreateManagedDashboardError = AzureOpError;
@@ -1441,6 +1469,8 @@ export const CreateManagedDashboard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManagedDashboard",
 }));
 
 export type CreateManagedPrivateEndpointError = AzureOpError;
@@ -1456,6 +1486,8 @@ export const CreateManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateManagedPrivateEndpoint",
 }));
 
 export type DeleteGrafanaError = AzureOpError;
@@ -1471,6 +1503,8 @@ export const DeleteGrafana: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGrafana",
 }));
 
 export type DeleteIntegrationFabricError = AzureOpError;
@@ -1486,6 +1520,8 @@ export const DeleteIntegrationFabric: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationFabric",
 }));
 
 export type DeleteManagedDashboardError = AzureOpError;
@@ -1501,6 +1537,8 @@ export const DeleteManagedDashboard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagedDashboard",
 }));
 
 export type DeleteManagedPrivateEndpointError = AzureOpError;
@@ -1516,6 +1554,8 @@ export const DeleteManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagedPrivateEndpoint",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -1531,6 +1571,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type FetchGrafanaAvailablePluginsError = AzureOpError;
@@ -1546,6 +1588,8 @@ export const FetchGrafanaAvailablePlugins: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchGrafanaAvailablePlugins",
 }));
 
 export type GetDashboardError = AzureOpError;
@@ -1561,6 +1605,8 @@ export const GetDashboard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboard",
 }));
 
 export type GetGrafanaError = AzureOpError;
@@ -1576,6 +1622,8 @@ export const GetGrafana: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGrafana",
 }));
 
 export type GetIntegrationFabricError = AzureOpError;
@@ -1591,6 +1639,8 @@ export const GetIntegrationFabric: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationFabric",
 }));
 
 export type GetManagedPrivateEndpointError = AzureOpError;
@@ -1606,6 +1656,8 @@ export const GetManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedPrivateEndpoint",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1621,6 +1673,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -1636,6 +1690,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type ListDashboardBySubscriptionError = AzureOpError;
@@ -1651,6 +1707,8 @@ export const ListDashboardBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardBySubscription",
 }));
 
 export type ListDashboardsError = AzureOpError;
@@ -1666,6 +1724,8 @@ export const ListDashboards: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboards",
 }));
 
 export type ListGrafanaError = AzureOpError;
@@ -1681,6 +1741,8 @@ export const ListGrafana: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGrafana",
 }));
 
 export type ListGrafanaByResourceGroupError = AzureOpError;
@@ -1696,6 +1758,8 @@ export const ListGrafanaByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGrafanaByResourceGroup",
 }));
 
 export type ListIntegrationFabricsError = AzureOpError;
@@ -1711,6 +1775,8 @@ export const ListIntegrationFabrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationFabrics",
 }));
 
 export type ListManagedPrivateEndpointsError = AzureOpError;
@@ -1726,6 +1792,8 @@ export const ListManagedPrivateEndpoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedPrivateEndpoints",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1741,6 +1809,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -1756,6 +1826,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourcesError = AzureOpError;
@@ -1771,6 +1843,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResources",
 }));
 
 export type RefreshManagedPrivateEndpointError = AzureOpError;
@@ -1786,6 +1860,8 @@ export const RefreshManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshManagedPrivateEndpoint",
 }));
 
 export type UpdateGrafanaError = AzureOpError;
@@ -1801,6 +1877,8 @@ export const UpdateGrafana: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateGrafana",
 }));
 
 export type UpdateIntegrationFabricError = AzureOpError;
@@ -1816,6 +1894,8 @@ export const UpdateIntegrationFabric: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationFabric",
 }));
 
 export type UpdateManagedDashboardError = AzureOpError;
@@ -1831,6 +1911,8 @@ export const UpdateManagedDashboard: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManagedDashboard",
 }));
 
 export type UpdateManagedPrivateEndpointError = AzureOpError;
@@ -1846,6 +1928,8 @@ export const UpdateManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManagedPrivateEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

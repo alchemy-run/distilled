@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.SecurityInsights" },
+  prefix: "Securityinsights",
+  service: "Securityinsights",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Action property bag. */
 export interface ActionRequestProperties {
   /** Logic App Resource Id, /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}. */
@@ -4190,6 +4210,8 @@ export const ActionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActionsCreateOrUpdate",
 }));
 
 export type AlertRulesCreateOrUpdateError = AzureOpError;
@@ -4205,6 +4227,8 @@ export const AlertRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AlertRulesCreateOrUpdate",
 }));
 
 export type AutomationRulesCreateOrUpdateError = AzureOpError;
@@ -4220,6 +4244,8 @@ export const AutomationRulesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutomationRulesCreateOrUpdate",
 }));
 
 export type BookmarksCreateOrUpdateError = AzureOpError;
@@ -4235,6 +4261,8 @@ export const BookmarksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BookmarksCreateOrUpdate",
 }));
 
 export type CreateMetadataError = AzureOpError;
@@ -4250,6 +4278,8 @@ export const CreateMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMetadata",
 }));
 
 export type CreateSentinelOnboardingStateError = AzureOpError;
@@ -4265,6 +4295,8 @@ export const CreateSentinelOnboardingState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSentinelOnboardingState",
 }));
 
 export type CreateSourceControlError = AzureOpError;
@@ -4280,6 +4312,8 @@ export const CreateSourceControl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSourceControl",
 }));
 
 export type CreateThreatIntelligenceIndicatorError = AzureOpError;
@@ -4295,6 +4329,8 @@ export const CreateThreatIntelligenceIndicator: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateThreatIntelligenceIndicator",
 }));
 
 export type CreateThreatIntelligenceIndicatorIndicatorError = AzureOpError;
@@ -4314,6 +4350,8 @@ export const CreateThreatIntelligenceIndicatorIndicator: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateThreatIntelligenceIndicatorIndicator",
 }));
 
 export type DataConnectorDefinitionsCreateOrUpdateError = AzureOpError;
@@ -4329,6 +4367,8 @@ export const DataConnectorDefinitionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataConnectorDefinitionsCreateOrUpdate",
 }));
 
 export type DataConnectorsCreateOrUpdateError = AzureOpError;
@@ -4344,6 +4384,8 @@ export const DataConnectorsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataConnectorsCreateOrUpdate",
 }));
 
 export type DeleteActionError = AzureOpError;
@@ -4359,6 +4401,8 @@ export const DeleteAction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAction",
 }));
 
 export type DeleteAlertRuleError = AzureOpError;
@@ -4374,6 +4418,8 @@ export const DeleteAlertRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAlertRule",
 }));
 
 export type DeleteAutomationRuleError = AzureOpError;
@@ -4389,6 +4435,8 @@ export const DeleteAutomationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutomationRule",
 }));
 
 export type DeleteBookmarkError = AzureOpError;
@@ -4404,6 +4452,8 @@ export const DeleteBookmark: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBookmark",
 }));
 
 export type DeleteContentTemplateError = AzureOpError;
@@ -4419,6 +4469,8 @@ export const DeleteContentTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContentTemplate",
 }));
 
 export type DeleteDataConnectorError = AzureOpError;
@@ -4434,6 +4486,8 @@ export const DeleteDataConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataConnector",
 }));
 
 export type DeleteDataConnectorDefinitionError = AzureOpError;
@@ -4449,6 +4503,8 @@ export const DeleteDataConnectorDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataConnectorDefinition",
 }));
 
 export type DeleteIncidentError = AzureOpError;
@@ -4464,6 +4520,8 @@ export const DeleteIncident: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncident",
 }));
 
 export type DeleteIncidentCommentError = AzureOpError;
@@ -4479,6 +4537,8 @@ export const DeleteIncidentComment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentComment",
 }));
 
 export type DeleteIncidentRelationError = AzureOpError;
@@ -4494,6 +4554,8 @@ export const DeleteIncidentRelation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentRelation",
 }));
 
 export type DeleteIncidentTaskError = AzureOpError;
@@ -4509,6 +4571,8 @@ export const DeleteIncidentTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIncidentTask",
 }));
 
 export type DeleteMetadataError = AzureOpError;
@@ -4524,6 +4588,8 @@ export const DeleteMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMetadata",
 }));
 
 export type DeleteSecurityMLAnalyticsSettingsError = AzureOpError;
@@ -4539,6 +4605,8 @@ export const DeleteSecurityMLAnalyticsSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityMLAnalyticsSettings",
 }));
 
 export type DeleteSentinelOnboardingStateError = AzureOpError;
@@ -4554,6 +4622,8 @@ export const DeleteSentinelOnboardingState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSentinelOnboardingState",
 }));
 
 export type DeleteSourceControlError = AzureOpError;
@@ -4569,6 +4639,8 @@ export const DeleteSourceControl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSourceControl",
 }));
 
 export type DeleteThreatIntelligenceIndicatorError = AzureOpError;
@@ -4584,6 +4656,8 @@ export const DeleteThreatIntelligenceIndicator: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteThreatIntelligenceIndicator",
 }));
 
 export type DeleteWatchlistError = AzureOpError;
@@ -4599,6 +4673,8 @@ export const DeleteWatchlist: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWatchlist",
 }));
 
 export type DeleteWatchlistItemError = AzureOpError;
@@ -4614,6 +4690,8 @@ export const DeleteWatchlistItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWatchlistItem",
 }));
 
 export type GetActionError = AzureOpError;
@@ -4629,6 +4707,8 @@ export const GetAction: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAction",
 }));
 
 export type GetAlertRuleError = AzureOpError;
@@ -4644,6 +4724,8 @@ export const GetAlertRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlertRule",
 }));
 
 export type GetAlertRuleTemplateError = AzureOpError;
@@ -4659,6 +4741,8 @@ export const GetAlertRuleTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAlertRuleTemplate",
 }));
 
 export type GetAutomationRuleError = AzureOpError;
@@ -4674,6 +4758,8 @@ export const GetAutomationRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomationRule",
 }));
 
 export type GetBookmarkError = AzureOpError;
@@ -4689,6 +4775,8 @@ export const GetBookmark: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBookmark",
 }));
 
 export type GetContentPackageError = AzureOpError;
@@ -4704,6 +4792,8 @@ export const GetContentPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContentPackage",
 }));
 
 export type GetContentTemplateError = AzureOpError;
@@ -4719,6 +4809,8 @@ export const GetContentTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContentTemplate",
 }));
 
 export type GetDataConnectorError = AzureOpError;
@@ -4734,6 +4826,8 @@ export const GetDataConnector: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataConnector",
 }));
 
 export type GetDataConnectorDefinitionError = AzureOpError;
@@ -4749,6 +4843,8 @@ export const GetDataConnectorDefinition: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataConnectorDefinition",
 }));
 
 export type GetIncidentError = AzureOpError;
@@ -4764,6 +4860,8 @@ export const GetIncident: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncident",
 }));
 
 export type GetIncidentCommentError = AzureOpError;
@@ -4779,6 +4877,8 @@ export const GetIncidentComment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentComment",
 }));
 
 export type GetIncidentRelationError = AzureOpError;
@@ -4794,6 +4894,8 @@ export const GetIncidentRelation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentRelation",
 }));
 
 export type GetIncidentTaskError = AzureOpError;
@@ -4809,6 +4911,8 @@ export const GetIncidentTask: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIncidentTask",
 }));
 
 export type GetMetadataError = AzureOpError;
@@ -4824,6 +4928,8 @@ export const GetMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetadata",
 }));
 
 export type GetProductPackageError = AzureOpError;
@@ -4839,6 +4945,8 @@ export const GetProductPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductPackage",
 }));
 
 export type GetProductTemplateError = AzureOpError;
@@ -4854,6 +4962,8 @@ export const GetProductTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProductTemplate",
 }));
 
 export type GetSecurityMLAnalyticsSettingsError = AzureOpError;
@@ -4869,6 +4979,8 @@ export const GetSecurityMLAnalyticsSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityMLAnalyticsSettings",
 }));
 
 export type GetSentinelOnboardingStateError = AzureOpError;
@@ -4884,6 +4996,8 @@ export const GetSentinelOnboardingState: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSentinelOnboardingState",
 }));
 
 export type GetSourceControlError = AzureOpError;
@@ -4899,6 +5013,8 @@ export const GetSourceControl: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSourceControl",
 }));
 
 export type GetThreatIntelligenceIndicatorError = AzureOpError;
@@ -4914,6 +5030,8 @@ export const GetThreatIntelligenceIndicator: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThreatIntelligenceIndicator",
 }));
 
 export type GetWatchlistError = AzureOpError;
@@ -4929,6 +5047,8 @@ export const GetWatchlist: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWatchlist",
 }));
 
 export type GetWatchlistItemError = AzureOpError;
@@ -4944,6 +5064,8 @@ export const GetWatchlistItem: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWatchlistItem",
 }));
 
 export type IncidentCommentsCreateOrUpdateError = AzureOpError;
@@ -4959,6 +5081,8 @@ export const IncidentCommentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncidentCommentsCreateOrUpdate",
 }));
 
 export type IncidentRelationsCreateOrUpdateError = AzureOpError;
@@ -4974,6 +5098,8 @@ export const IncidentRelationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncidentRelationsCreateOrUpdate",
 }));
 
 export type IncidentsCreateOrUpdateError = AzureOpError;
@@ -4989,6 +5115,8 @@ export const IncidentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncidentsCreateOrUpdate",
 }));
 
 export type IncidentTasksCreateOrUpdateError = AzureOpError;
@@ -5004,6 +5132,8 @@ export const IncidentTasksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncidentTasksCreateOrUpdate",
 }));
 
 export type InstallContentPackageError = AzureOpError;
@@ -5019,6 +5149,8 @@ export const InstallContentPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallContentPackage",
 }));
 
 export type InstallContentTemplateError = AzureOpError;
@@ -5034,6 +5166,8 @@ export const InstallContentTemplate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstallContentTemplate",
 }));
 
 export type ListActionByAlertRuleError = AzureOpError;
@@ -5049,6 +5183,8 @@ export const ListActionByAlertRule: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActionByAlertRule",
 }));
 
 export type ListAlertRulesError = AzureOpError;
@@ -5064,6 +5200,8 @@ export const ListAlertRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertRules",
 }));
 
 export type ListAlertRuleTemplatesError = AzureOpError;
@@ -5079,6 +5217,8 @@ export const ListAlertRuleTemplates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAlertRuleTemplates",
 }));
 
 export type ListAutomationRulesError = AzureOpError;
@@ -5094,6 +5234,8 @@ export const ListAutomationRules: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAutomationRules",
 }));
 
 export type ListBookmarksError = AzureOpError;
@@ -5109,6 +5251,8 @@ export const ListBookmarks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBookmarks",
 }));
 
 export type ListContentPackagesError = AzureOpError;
@@ -5124,6 +5268,8 @@ export const ListContentPackages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContentPackages",
 }));
 
 export type ListContentTemplatesError = AzureOpError;
@@ -5139,6 +5285,8 @@ export const ListContentTemplates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContentTemplates",
 }));
 
 export type ListDataConnectorDefinitionsError = AzureOpError;
@@ -5154,6 +5302,8 @@ export const ListDataConnectorDefinitions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataConnectorDefinitions",
 }));
 
 export type ListDataConnectorsError = AzureOpError;
@@ -5169,6 +5319,8 @@ export const ListDataConnectors: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataConnectors",
 }));
 
 export type ListIncidentAlertsError = AzureOpError;
@@ -5184,6 +5336,8 @@ export const ListIncidentAlerts: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentAlerts",
 }));
 
 export type ListIncidentBookmarksError = AzureOpError;
@@ -5199,6 +5353,8 @@ export const ListIncidentBookmarks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentBookmarks",
 }));
 
 export type ListIncidentCommentsError = AzureOpError;
@@ -5214,6 +5370,8 @@ export const ListIncidentComments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentComments",
 }));
 
 export type ListIncidentEntitiesError = AzureOpError;
@@ -5229,6 +5387,8 @@ export const ListIncidentEntities: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentEntities",
 }));
 
 export type ListIncidentRelationsError = AzureOpError;
@@ -5244,6 +5404,8 @@ export const ListIncidentRelations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentRelations",
 }));
 
 export type ListIncidentsError = AzureOpError;
@@ -5259,6 +5421,8 @@ export const ListIncidents: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidents",
 }));
 
 export type ListIncidentTasksError = AzureOpError;
@@ -5274,6 +5438,8 @@ export const ListIncidentTasks: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIncidentTasks",
 }));
 
 export type ListMetadataError = AzureOpError;
@@ -5289,6 +5455,8 @@ export const ListMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMetadata",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -5304,6 +5472,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProductPackagesError = AzureOpError;
@@ -5319,6 +5489,8 @@ export const ListProductPackages: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductPackages",
 }));
 
 export type ListProductTemplatesError = AzureOpError;
@@ -5334,6 +5506,8 @@ export const ListProductTemplates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProductTemplates",
 }));
 
 export type ListSecurityMLAnalyticsSettingsError = AzureOpError;
@@ -5349,6 +5523,8 @@ export const ListSecurityMLAnalyticsSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityMLAnalyticsSettings",
 }));
 
 export type ListSentinelOnboardingStatesError = AzureOpError;
@@ -5364,6 +5540,8 @@ export const ListSentinelOnboardingStates: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSentinelOnboardingStates",
 }));
 
 export type ListSourceControlRepositoriesError = AzureOpError;
@@ -5379,6 +5557,8 @@ export const ListSourceControlRepositories: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSourceControlRepositories",
 }));
 
 export type ListSourceControlsError = AzureOpError;
@@ -5394,6 +5574,8 @@ export const ListSourceControls: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSourceControls",
 }));
 
 export type ListThreatIntelligenceIndicatorMetricsError = AzureOpError;
@@ -5409,6 +5591,8 @@ export const ListThreatIntelligenceIndicatorMetrics: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListThreatIntelligenceIndicatorMetrics",
 }));
 
 export type ListThreatIntelligenceIndicatorsError = AzureOpError;
@@ -5424,6 +5608,8 @@ export const ListThreatIntelligenceIndicators: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListThreatIntelligenceIndicators",
 }));
 
 export type ListWatchlistItemsError = AzureOpError;
@@ -5439,6 +5625,8 @@ export const ListWatchlistItems: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistItems",
 }));
 
 export type ListWatchlistsError = AzureOpError;
@@ -5454,6 +5642,8 @@ export const ListWatchlists: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlists",
 }));
 
 export type ReplaceThreatIntelligenceIndicatorTagsError = AzureOpError;
@@ -5469,6 +5659,8 @@ export const ReplaceThreatIntelligenceIndicatorTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceThreatIntelligenceIndicatorTags",
 }));
 
 export type RunEntityPlaybookError = AzureOpError;
@@ -5484,6 +5676,8 @@ export const RunEntityPlaybook: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunEntityPlaybook",
 }));
 
 export type RunIncidentPlaybookError = AzureOpError;
@@ -5499,6 +5693,8 @@ export const RunIncidentPlaybook: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunIncidentPlaybook",
 }));
 
 export type SecurityMLAnalyticsSettingsCreateOrUpdateError = AzureOpError;
@@ -5514,6 +5710,8 @@ export const SecurityMLAnalyticsSettingsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityMLAnalyticsSettingsCreateOrUpdate",
 }));
 
 export type ThreatIntelligenceIndicatorAppendTagsError = AzureOpError;
@@ -5529,6 +5727,8 @@ export const ThreatIntelligenceIndicatorAppendTags: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ThreatIntelligenceIndicatorAppendTags",
 }));
 
 export type ThreatIntelligenceIndicatorQueryIndicatorsError = AzureOpError;
@@ -5544,6 +5744,8 @@ export const ThreatIntelligenceIndicatorQueryIndicators: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ThreatIntelligenceIndicatorQueryIndicators",
 }));
 
 export type UninstallContentPackageError = AzureOpError;
@@ -5559,6 +5761,8 @@ export const UninstallContentPackage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UninstallContentPackage",
 }));
 
 export type UpdateMetadataError = AzureOpError;
@@ -5574,6 +5778,8 @@ export const UpdateMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMetadata",
 }));
 
 export type WatchlistItemsCreateOrUpdateError = AzureOpError;
@@ -5589,6 +5795,8 @@ export const WatchlistItemsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchlistItemsCreateOrUpdate",
 }));
 
 export type WatchlistsCreateOrUpdateError = AzureOpError;
@@ -5604,6 +5812,8 @@ export const WatchlistsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchlistsCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

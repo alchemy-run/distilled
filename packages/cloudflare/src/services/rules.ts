@@ -36,6 +36,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   urlHostname: "url_hostname",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Rules",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -504,6 +518,8 @@ export const createList: API.OperationMethod<
   errors: [ListAlreadyExists, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateList",
 }));
 
 export type CreateListItemError = CloudflareOpError;
@@ -519,6 +535,8 @@ export const createListItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateListItem",
 }));
 
 export type DeleteListError = ListNotFound | Forbidden | CloudflareOpError;
@@ -534,6 +552,8 @@ export const deleteList: API.OperationMethod<
   errors: [ListNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteList",
 }));
 
 export type DeleteListItemError = CloudflareOpError;
@@ -549,6 +569,8 @@ export const deleteListItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteListItem",
 }));
 
 export type GetListError = ListNotFound | Forbidden | CloudflareOpError;
@@ -564,6 +586,8 @@ export const getList: API.OperationMethod<
   errors: [ListNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetList",
 }));
 
 export type GetListBulkOperationError = ListNotFound | Forbidden | CloudflareOpError;
@@ -579,6 +603,8 @@ export const getListBulkOperation: API.OperationMethod<
   errors: [ListNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetListBulkOperation",
 }));
 
 export type GetListItemError = CloudflareOpError;
@@ -594,6 +620,8 @@ export const getListItem: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetListItem",
 }));
 
 export type ListListItemsError = ListNotFound | Forbidden | CloudflareOpError;
@@ -611,6 +639,8 @@ export const listListItems: API.PaginatedOperationMethod<
     errors: [ListNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListListItems",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -636,6 +666,8 @@ export const listLists: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLists",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -654,6 +686,8 @@ export const updateList: API.OperationMethod<
   errors: [ListNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateList",
 }));
 
 export type UpdateListItemError = ListNotFound | Forbidden | CloudflareOpError;
@@ -669,6 +703,8 @@ export const updateListItem: API.OperationMethod<
   errors: [ListNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateListItem",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.GuestConfiguration" },
+  prefix: "Guestconfiguration",
+  service: "Guestconfiguration",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface DeleteGuestConfigurationAssignmentRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1065,6 +1085,8 @@ export const DeleteGuestConfigurationAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuestConfigurationAssignment",
 }));
 
 export type DeleteGuestConfigurationAssignmentsVMSSError = AzureOpError;
@@ -1080,6 +1102,8 @@ export const DeleteGuestConfigurationAssignmentsVMSS: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuestConfigurationAssignmentsVMSS",
 }));
 
 export type DeleteGuestConfigurationConnectedVMwarevSphereAssignmentError = AzureOpError;
@@ -1103,6 +1127,8 @@ export const DeleteGuestConfigurationConnectedVMwarevSphereAssignment: API.Opera
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuestConfigurationConnectedVMwarevSphereAssignment",
 }));
 
 export type DeleteGuestConfigurationHCRPAssignmentError = AzureOpError;
@@ -1118,6 +1144,8 @@ export const DeleteGuestConfigurationHCRPAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGuestConfigurationHCRPAssignment",
 }));
 
 export type GetGuestConfigurationAssignmentError = AzureOpError;
@@ -1133,6 +1161,8 @@ export const GetGuestConfigurationAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestConfigurationAssignment",
 }));
 
 export type GetGuestConfigurationAssignmentReportError = AzureOpError;
@@ -1148,6 +1178,8 @@ export const GetGuestConfigurationAssignmentReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestConfigurationAssignmentReport",
 }));
 
 export type GetGuestConfigurationAssignmentReportsVMSSError = AzureOpError;
@@ -1163,6 +1195,8 @@ export const GetGuestConfigurationAssignmentReportsVMSS: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestConfigurationAssignmentReportsVMSS",
 }));
 
 export type GetGuestConfigurationAssignmentsVMSSError = AzureOpError;
@@ -1178,6 +1212,8 @@ export const GetGuestConfigurationAssignmentsVMSS: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestConfigurationAssignmentsVMSS",
 }));
 
 export type GetGuestConfigurationConnectedVMwarevSphereAssignmentError = AzureOpError;
@@ -1201,6 +1237,8 @@ export const GetGuestConfigurationConnectedVMwarevSphereAssignment: API.Operatio
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestConfigurationConnectedVMwarevSphereAssignment",
 }));
 
 export type GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportError = AzureOpError;
@@ -1220,6 +1258,8 @@ export const GetGuestConfigurationConnectedVMwarevSphereAssignmentsReport: API.O
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestConfigurationConnectedVMwarevSphereAssignmentsReport",
 }));
 
 export type GetGuestConfigurationHCRPAssignmentError = AzureOpError;
@@ -1235,6 +1275,8 @@ export const GetGuestConfigurationHCRPAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestConfigurationHCRPAssignment",
 }));
 
 export type GetGuestConfigurationHCRPAssignmentReportError = AzureOpError;
@@ -1250,6 +1292,8 @@ export const GetGuestConfigurationHCRPAssignmentReport: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuestConfigurationHCRPAssignmentReport",
 }));
 
 export type GuestConfigurationAssignmentsCreateOrUpdateError = AzureOpError;
@@ -1265,6 +1309,8 @@ export const GuestConfigurationAssignmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GuestConfigurationAssignmentsCreateOrUpdate",
 }));
 
 export type GuestConfigurationAssignmentsVMSSCreateOrUpdateError = AzureOpError;
@@ -1288,6 +1334,8 @@ export const GuestConfigurationAssignmentsVMSSCreateOrUpdate: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GuestConfigurationAssignmentsVMSSCreateOrUpdate",
 }));
 
 export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateError = AzureOpError;
@@ -1311,6 +1359,8 @@ export const GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdate: 
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdate",
 }));
 
 export type GuestConfigurationHCRPAssignmentsCreateOrUpdateError = AzureOpError;
@@ -1334,6 +1384,8 @@ export const GuestConfigurationHCRPAssignmentsCreateOrUpdate: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GuestConfigurationHCRPAssignmentsCreateOrUpdate",
 }));
 
 export type ListGuestConfigurationAssignmentReportsError = AzureOpError;
@@ -1349,6 +1401,8 @@ export const ListGuestConfigurationAssignmentReports: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationAssignmentReports",
 }));
 
 export type ListGuestConfigurationAssignmentReportsVMSSError = AzureOpError;
@@ -1364,6 +1418,8 @@ export const ListGuestConfigurationAssignmentReportsVMSS: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationAssignmentReportsVMSS",
 }));
 
 export type ListGuestConfigurationAssignmentsError = AzureOpError;
@@ -1379,6 +1435,8 @@ export const ListGuestConfigurationAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationAssignments",
 }));
 
 export type ListGuestConfigurationAssignmentsRGError = AzureOpError;
@@ -1394,6 +1452,8 @@ export const ListGuestConfigurationAssignmentsRG: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationAssignmentsRG",
 }));
 
 export type ListGuestConfigurationAssignmentsSubscriptionError = AzureOpError;
@@ -1413,6 +1473,8 @@ export const ListGuestConfigurationAssignmentsSubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationAssignmentsSubscription",
 }));
 
 export type ListGuestConfigurationAssignmentsVMSSError = AzureOpError;
@@ -1428,6 +1490,8 @@ export const ListGuestConfigurationAssignmentsVMSS: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationAssignmentsVMSS",
 }));
 
 export type ListGuestConfigurationConnectedVMwarevSphereAssignmentsError = AzureOpError;
@@ -1447,6 +1511,8 @@ export const ListGuestConfigurationConnectedVMwarevSphereAssignments: API.Operat
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationConnectedVMwarevSphereAssignments",
 }));
 
 export type ListGuestConfigurationConnectedVMwarevSphereAssignmentsReportsError = AzureOpError;
@@ -1466,6 +1532,8 @@ export const ListGuestConfigurationConnectedVMwarevSphereAssignmentsReports: API
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationConnectedVMwarevSphereAssignmentsReports",
 }));
 
 export type ListGuestConfigurationHCRPAssignmentReportsError = AzureOpError;
@@ -1481,6 +1549,8 @@ export const ListGuestConfigurationHCRPAssignmentReports: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationHCRPAssignmentReports",
 }));
 
 export type ListGuestConfigurationHCRPAssignmentsError = AzureOpError;
@@ -1496,6 +1566,8 @@ export const ListGuestConfigurationHCRPAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGuestConfigurationHCRPAssignments",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1511,6 +1583,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

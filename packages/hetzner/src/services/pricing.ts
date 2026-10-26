@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "Pricing",
+  propagate: "w3c",
+} as const;
+
 export interface GetPricingRequest {}
 /** Type of [Primary IP](#tag/primary-ips) the price is for. */
 export type GetPricingResponsePricingPrimaryIpsItemType = "ipv4" | "ipv6";
@@ -194,6 +206,8 @@ export const getPricing: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPricing",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -76,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://oidc.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SSOOIDC",
+  service: "SSOOIDC",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -381,6 +396,8 @@ export const createToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateToken",
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type CreateTokenWithIAMError =
@@ -431,6 +448,8 @@ export const createTokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTokenWithIAM",
+  telemetry: TELEMETRY,
+  span: "CreateTokenWithIAM",
 }));
 
 export type RegisterClientError =
@@ -467,6 +486,8 @@ export const registerClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterClient",
+  telemetry: TELEMETRY,
+  span: "RegisterClient",
 }));
 
 export type StartDeviceAuthorizationError =
@@ -498,6 +519,8 @@ export const startDeviceAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeviceAuthorization",
+  telemetry: TELEMETRY,
+  span: "StartDeviceAuthorization",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

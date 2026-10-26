@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "DictService",
+  propagate: "w3c",
+} as const;
+
 export interface ClearDictRequest {
   dictId?: string;
 }
@@ -133,6 +145,8 @@ export const clearDict: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearDict",
 }));
 
 export type DeleteDictError = ModalOpError;
@@ -147,6 +161,8 @@ export const deleteDict: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDict",
 }));
 
 export type DictContainsError = ModalOpError;
@@ -161,6 +177,8 @@ export const dictContains: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DictContains",
 }));
 
 export type DictGetByIdError = ModalOpError;
@@ -175,6 +193,8 @@ export const dictGetById: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DictGetById",
 }));
 
 export type DictGetOrCreateError = ModalOpError;
@@ -189,6 +209,8 @@ export const dictGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DictGetOrCreate",
 }));
 
 export type DictHeartbeatError = ModalOpError;
@@ -203,6 +225,8 @@ export const dictHeartbeat: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DictHeartbeat",
 }));
 
 export type DictLenError = ModalOpError;
@@ -217,6 +241,8 @@ export const dictLen: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DictLen",
 }));
 
 export type DictPopError = ModalOpError;
@@ -231,6 +257,8 @@ export const dictPop: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DictPop",
 }));
 
 export type GetDictError = ModalOpError;
@@ -245,6 +273,8 @@ export const getDict: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDict",
 }));
 
 export type ListDictError = ModalOpError;
@@ -259,6 +289,8 @@ export const listDict: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDict",
 }));
 
 export type UpdateDictError = ModalOpError;
@@ -273,6 +305,8 @@ export const updateDict: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDict",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

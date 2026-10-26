@@ -11,6 +11,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.ServiceNetworking" },
+  prefix: "Servicenetworking",
+  service: "Servicenetworking",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 /** Resource tags. */
 export type AssociationsInterfaceCreateOrUpdateRequestTagsMap = {
   [key: string]: string | undefined;
@@ -1113,6 +1133,8 @@ export const AssociationsInterfaceCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssociationsInterfaceCreateOrUpdate",
 }));
 
 export type DeleteAssociationsInterfaceError = AzureOpError;
@@ -1128,6 +1150,8 @@ export const DeleteAssociationsInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAssociationsInterface",
 }));
 
 export type DeleteFrontendsInterfaceError = AzureOpError;
@@ -1143,6 +1167,8 @@ export const DeleteFrontendsInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFrontendsInterface",
 }));
 
 export type DeletePrivateEndpointConnectionsInterfaceError = AzureOpError;
@@ -1158,6 +1184,8 @@ export const DeletePrivateEndpointConnectionsInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnectionsInterface",
 }));
 
 export type DeleteSecurityPoliciesInterfaceError = AzureOpError;
@@ -1173,6 +1201,8 @@ export const DeleteSecurityPoliciesInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityPoliciesInterface",
 }));
 
 export type DeleteTrafficControllerInterfaceError = AzureOpError;
@@ -1188,6 +1218,8 @@ export const DeleteTrafficControllerInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrafficControllerInterface",
 }));
 
 export type FrontendsInterfaceCreateOrUpdateError = AzureOpError;
@@ -1203,6 +1235,8 @@ export const FrontendsInterfaceCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FrontendsInterfaceCreateOrUpdate",
 }));
 
 export type GetAssociationsInterfaceError = AzureOpError;
@@ -1218,6 +1252,8 @@ export const GetAssociationsInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssociationsInterface",
 }));
 
 export type GetFrontendsInterfaceError = AzureOpError;
@@ -1233,6 +1269,8 @@ export const GetFrontendsInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFrontendsInterface",
 }));
 
 export type GetPrivateEndpointConnectionsInterfaceError = AzureOpError;
@@ -1248,6 +1286,8 @@ export const GetPrivateEndpointConnectionsInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnectionsInterface",
 }));
 
 export type GetPrivateLinkResourcesInterfaceError = AzureOpError;
@@ -1263,6 +1303,8 @@ export const GetPrivateLinkResourcesInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResourcesInterface",
 }));
 
 export type GetSecurityPoliciesInterfaceError = AzureOpError;
@@ -1278,6 +1320,8 @@ export const GetSecurityPoliciesInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityPoliciesInterface",
 }));
 
 export type GetTrafficControllerInterfaceError = AzureOpError;
@@ -1293,6 +1337,8 @@ export const GetTrafficControllerInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTrafficControllerInterface",
 }));
 
 export type ListAssociationsInterfaceByTrafficControllerError = AzureOpError;
@@ -1308,6 +1354,8 @@ export const ListAssociationsInterfaceByTrafficController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssociationsInterfaceByTrafficController",
 }));
 
 export type ListFrontendsInterfaceByTrafficControllerError = AzureOpError;
@@ -1323,6 +1371,8 @@ export const ListFrontendsInterfaceByTrafficController: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFrontendsInterfaceByTrafficController",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1338,6 +1388,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsInterfaceByTrafficControllerError = AzureOpError;
@@ -1357,6 +1409,8 @@ export const ListPrivateEndpointConnectionsInterfaceByTrafficController: API.Ope
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnectionsInterfaceByTrafficController",
 }));
 
 export type ListPrivateLinkResourcesInterfaceByTrafficControllerError = AzureOpError;
@@ -1376,6 +1430,8 @@ export const ListPrivateLinkResourcesInterfaceByTrafficController: API.Operation
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResourcesInterfaceByTrafficController",
 }));
 
 export type ListSecurityPoliciesInterfaceByTrafficControllerError = AzureOpError;
@@ -1395,6 +1451,8 @@ export const ListSecurityPoliciesInterfaceByTrafficController: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecurityPoliciesInterfaceByTrafficController",
 }));
 
 export type ListTrafficControllerInterfaceByResourceGroupError = AzureOpError;
@@ -1414,6 +1472,8 @@ export const ListTrafficControllerInterfaceByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTrafficControllerInterfaceByResourceGroup",
 }));
 
 export type ListTrafficControllerInterfaceBySubscriptionError = AzureOpError;
@@ -1429,6 +1489,8 @@ export const ListTrafficControllerInterfaceBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTrafficControllerInterfaceBySubscription",
 }));
 
 export type SecurityPoliciesInterfaceCreateOrUpdateError = AzureOpError;
@@ -1444,6 +1506,8 @@ export const SecurityPoliciesInterfaceCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SecurityPoliciesInterfaceCreateOrUpdate",
 }));
 
 export type TrafficControllerInterfaceCreateOrUpdateError = AzureOpError;
@@ -1459,6 +1523,8 @@ export const TrafficControllerInterfaceCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TrafficControllerInterfaceCreateOrUpdate",
 }));
 
 export type UpdateAssociationsInterfaceError = AzureOpError;
@@ -1474,6 +1540,8 @@ export const UpdateAssociationsInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAssociationsInterface",
 }));
 
 export type UpdateFrontendsInterfaceError = AzureOpError;
@@ -1489,6 +1557,8 @@ export const UpdateFrontendsInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateFrontendsInterface",
 }));
 
 export type UpdatePrivateEndpointConnectionsInterfaceError = AzureOpError;
@@ -1504,6 +1574,8 @@ export const UpdatePrivateEndpointConnectionsInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateEndpointConnectionsInterface",
 }));
 
 export type UpdateSecurityPoliciesInterfaceError = AzureOpError;
@@ -1519,6 +1591,8 @@ export const UpdateSecurityPoliciesInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityPoliciesInterface",
 }));
 
 export type UpdateTrafficControllerInterfaceError = AzureOpError;
@@ -1534,6 +1608,8 @@ export const UpdateTrafficControllerInterface: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTrafficControllerInterface",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

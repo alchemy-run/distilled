@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://backup.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Backup",
+  service: "Backup",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()("AlreadyExistsException", {
@@ -2287,6 +2302,8 @@ export const associateBackupVaultMpaApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBackupVaultMpaApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "AssociateBackupVaultMpaApprovalTeam",
 }));
 
 export type CancelLegalHoldError =
@@ -2318,6 +2335,8 @@ export const cancelLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLegalHold",
+  telemetry: TELEMETRY,
+  span: "CancelLegalHold",
 }));
 
 export type CreateBackupAccessPointError =
@@ -2359,6 +2378,8 @@ export const createBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupAccessPoint",
+  telemetry: TELEMETRY,
+  span: "CreateBackupAccessPoint",
 }));
 
 export type CreateBackupPlanError =
@@ -2394,6 +2415,8 @@ export const createBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupPlan",
+  telemetry: TELEMETRY,
+  span: "CreateBackupPlan",
 }));
 
 export type CreateBackupSelectionError =
@@ -2425,6 +2448,8 @@ export const createBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupSelection",
+  telemetry: TELEMETRY,
+  span: "CreateBackupSelection",
 }));
 
 export type CreateBackupVaultError =
@@ -2460,6 +2485,8 @@ export const createBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupVault",
+  telemetry: TELEMETRY,
+  span: "CreateBackupVault",
 }));
 
 export type CreateFrameworkError =
@@ -2493,6 +2520,8 @@ export const createFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFramework",
+  telemetry: TELEMETRY,
+  span: "CreateFramework",
 }));
 
 export type CreateLegalHoldError =
@@ -2524,6 +2553,8 @@ export const createLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLegalHold",
+  telemetry: TELEMETRY,
+  span: "CreateLegalHold",
 }));
 
 export type CreateLogicallyAirGappedBackupVaultError =
@@ -2563,6 +2594,8 @@ export const createLogicallyAirGappedBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogicallyAirGappedBackupVault",
+  telemetry: TELEMETRY,
+  span: "CreateLogicallyAirGappedBackupVault",
 }));
 
 export type CreateReportPlanError =
@@ -2597,6 +2630,8 @@ export const createReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReportPlan",
+  telemetry: TELEMETRY,
+  span: "CreateReportPlan",
 }));
 
 export type CreateRestoreAccessBackupVaultError =
@@ -2631,6 +2666,8 @@ export const createRestoreAccessBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreAccessBackupVault",
+  telemetry: TELEMETRY,
+  span: "CreateRestoreAccessBackupVault",
 }));
 
 export type CreateRestoreTestingPlanError =
@@ -2667,6 +2704,8 @@ export const createRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreTestingPlan",
+  telemetry: TELEMETRY,
+  span: "CreateRestoreTestingPlan",
 }));
 
 export type CreateRestoreTestingSelectionError =
@@ -2718,6 +2757,8 @@ export const createRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreTestingSelection",
+  telemetry: TELEMETRY,
+  span: "CreateRestoreTestingSelection",
 }));
 
 export type CreateTieringConfigurationError =
@@ -2754,6 +2795,8 @@ export const createTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateTieringConfiguration",
 }));
 
 export type DeleteBackupAccessPointError =
@@ -2788,6 +2831,8 @@ export const deleteBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupAccessPoint",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupAccessPoint",
 }));
 
 export type DeleteBackupPlanError =
@@ -2820,6 +2865,8 @@ export const deleteBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupPlan",
 }));
 
 export type DeleteBackupSelectionError =
@@ -2849,6 +2896,8 @@ export const deleteBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupSelection",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupSelection",
 }));
 
 export type DeleteBackupVaultError =
@@ -2880,6 +2929,8 @@ export const deleteBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVault",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVault",
 }));
 
 export type DeleteBackupVaultAccessPolicyError =
@@ -2908,6 +2959,8 @@ export const deleteBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVaultAccessPolicy",
 }));
 
 export type DeleteBackupVaultLockConfigurationError =
@@ -2944,6 +2997,8 @@ export const deleteBackupVaultLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultLockConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVaultLockConfiguration",
 }));
 
 export type DeleteBackupVaultNotificationsError =
@@ -2972,6 +3027,8 @@ export const deleteBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "DeleteBackupVaultNotifications",
 }));
 
 export type DeleteFrameworkError =
@@ -3002,6 +3059,8 @@ export const deleteFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFramework",
+  telemetry: TELEMETRY,
+  span: "DeleteFramework",
 }));
 
 export type DeleteRecoveryPointError =
@@ -3049,6 +3108,8 @@ export const deleteRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryPoint",
 }));
 
 export type DeleteReportPlanError =
@@ -3079,6 +3140,8 @@ export const deleteReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteReportPlan",
 }));
 
 export type DeleteRestoreTestingPlanError =
@@ -3103,6 +3166,8 @@ export const deleteRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestoreTestingPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteRestoreTestingPlan",
 }));
 
 export type DeleteRestoreTestingSelectionError =
@@ -3128,6 +3193,8 @@ export const deleteRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestoreTestingSelection",
+  telemetry: TELEMETRY,
+  span: "DeleteRestoreTestingSelection",
 }));
 
 export type DeleteTieringConfigurationError =
@@ -3156,6 +3223,8 @@ export const deleteTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteTieringConfiguration",
 }));
 
 export type DescribeBackupAccessPointError =
@@ -3190,6 +3259,8 @@ export const describeBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupAccessPoint",
+  telemetry: TELEMETRY,
+  span: "DescribeBackupAccessPoint",
 }));
 
 export type DescribeBackupJobError =
@@ -3220,6 +3291,8 @@ export const describeBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupJob",
+  telemetry: TELEMETRY,
+  span: "DescribeBackupJob",
 }));
 
 export type DescribeBackupVaultError =
@@ -3248,6 +3321,8 @@ export const describeBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupVault",
+  telemetry: TELEMETRY,
+  span: "DescribeBackupVault",
 }));
 
 export type DescribeCopyJobError =
@@ -3276,6 +3351,8 @@ export const describeCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCopyJob",
+  telemetry: TELEMETRY,
+  span: "DescribeCopyJob",
 }));
 
 export type DescribeFrameworkError =
@@ -3304,6 +3381,8 @@ export const describeFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFramework",
+  telemetry: TELEMETRY,
+  span: "DescribeFramework",
 }));
 
 export type DescribeGlobalSettingsError =
@@ -3325,6 +3404,8 @@ export const describeGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeGlobalSettings",
 }));
 
 export type DescribeProtectedResourceError =
@@ -3355,6 +3436,8 @@ export const describeProtectedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProtectedResource",
+  telemetry: TELEMETRY,
+  span: "DescribeProtectedResource",
 }));
 
 export type DescribeRecoveryPointError =
@@ -3384,6 +3467,8 @@ export const describeRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "DescribeRecoveryPoint",
 }));
 
 export type DescribeRegionSettingsError = ServiceUnavailableException | CommonErrors;
@@ -3406,6 +3491,8 @@ export const describeRegionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegionSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeRegionSettings",
 }));
 
 export type DescribeReportJobError =
@@ -3429,6 +3516,8 @@ export const describeReportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeReportJob",
 }));
 
 export type DescribeReportPlanError =
@@ -3457,6 +3546,8 @@ export const describeReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportPlan",
+  telemetry: TELEMETRY,
+  span: "DescribeReportPlan",
 }));
 
 export type DescribeRestoreJobError =
@@ -3487,6 +3578,8 @@ export const describeRestoreJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRestoreJob",
+  telemetry: TELEMETRY,
+  span: "DescribeRestoreJob",
 }));
 
 export type DescribeScanJobError =
@@ -3515,6 +3608,8 @@ export const describeScanJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScanJob",
+  telemetry: TELEMETRY,
+  span: "DescribeScanJob",
 }));
 
 export type DisassociateBackupVaultMpaApprovalTeamError =
@@ -3545,6 +3640,8 @@ export const disassociateBackupVaultMpaApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBackupVaultMpaApprovalTeam",
+  telemetry: TELEMETRY,
+  span: "DisassociateBackupVaultMpaApprovalTeam",
 }));
 
 export type DisassociateRecoveryPointError =
@@ -3581,6 +3678,8 @@ export const disassociateRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRecoveryPoint",
+  telemetry: TELEMETRY,
+  span: "DisassociateRecoveryPoint",
 }));
 
 export type DisassociateRecoveryPointFromParentError =
@@ -3612,6 +3711,8 @@ export const disassociateRecoveryPointFromParent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRecoveryPointFromParent",
+  telemetry: TELEMETRY,
+  span: "DisassociateRecoveryPointFromParent",
 }));
 
 export type ExportBackupPlanTemplateError =
@@ -3640,6 +3741,8 @@ export const exportBackupPlanTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportBackupPlanTemplate",
+  telemetry: TELEMETRY,
+  span: "ExportBackupPlanTemplate",
 }));
 
 export type GetBackupPlanError =
@@ -3669,6 +3772,8 @@ export const getBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlan",
+  telemetry: TELEMETRY,
+  span: "GetBackupPlan",
 }));
 
 export type GetBackupPlanFromJSONError =
@@ -3699,6 +3804,8 @@ export const getBackupPlanFromJSON: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlanFromJSON",
+  telemetry: TELEMETRY,
+  span: "GetBackupPlanFromJSON",
 }));
 
 export type GetBackupPlanFromTemplateError =
@@ -3727,6 +3834,8 @@ export const getBackupPlanFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlanFromTemplate",
+  telemetry: TELEMETRY,
+  span: "GetBackupPlanFromTemplate",
 }));
 
 export type GetBackupSelectionError =
@@ -3756,6 +3865,8 @@ export const getBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupSelection",
+  telemetry: TELEMETRY,
+  span: "GetBackupSelection",
 }));
 
 export type GetBackupVaultAccessPolicyError =
@@ -3785,6 +3896,8 @@ export const getBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "GetBackupVaultAccessPolicy",
 }));
 
 export type GetBackupVaultNotificationsError =
@@ -3813,6 +3926,8 @@ export const getBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "GetBackupVaultNotifications",
 }));
 
 export type GetLegalHoldError =
@@ -3842,6 +3957,8 @@ export const getLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLegalHold",
+  telemetry: TELEMETRY,
+  span: "GetLegalHold",
 }));
 
 export type GetPITRMalwareScanResultsError =
@@ -3870,6 +3987,8 @@ export const getPITRMalwareScanResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPITRMalwareScanResults",
+  telemetry: TELEMETRY,
+  span: "GetPITRMalwareScanResults",
 }));
 
 export type GetRecoveryPointIndexDetailsError =
@@ -3899,6 +4018,8 @@ export const getRecoveryPointIndexDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPointIndexDetails",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPointIndexDetails",
 }));
 
 export type GetRecoveryPointRestoreMetadataError =
@@ -3927,6 +4048,8 @@ export const getRecoveryPointRestoreMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPointRestoreMetadata",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPointRestoreMetadata",
 }));
 
 export type GetRestoreJobMetadataError =
@@ -3955,6 +4078,8 @@ export const getRestoreJobMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreJobMetadata",
+  telemetry: TELEMETRY,
+  span: "GetRestoreJobMetadata",
 }));
 
 export type GetRestoreTestingInferredMetadataError =
@@ -3986,6 +4111,8 @@ export const getRestoreTestingInferredMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingInferredMetadata",
+  telemetry: TELEMETRY,
+  span: "GetRestoreTestingInferredMetadata",
 }));
 
 export type GetRestoreTestingPlanError =
@@ -4009,6 +4136,8 @@ export const getRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingPlan",
+  telemetry: TELEMETRY,
+  span: "GetRestoreTestingPlan",
 }));
 
 export type GetRestoreTestingSelectionError =
@@ -4031,6 +4160,8 @@ export const getRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingSelection",
+  telemetry: TELEMETRY,
+  span: "GetRestoreTestingSelection",
 }));
 
 export type GetSupportedResourceTypesError = ServiceUnavailableException | CommonErrors;
@@ -4049,6 +4180,8 @@ export const getSupportedResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSupportedResourceTypes",
+  telemetry: TELEMETRY,
+  span: "GetSupportedResourceTypes",
 }));
 
 export type GetTieringConfigurationError =
@@ -4079,6 +4212,8 @@ export const getTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetTieringConfiguration",
 }));
 
 export type ListBackupAccessPointsError =
@@ -4107,6 +4242,8 @@ export const listBackupAccessPoints: API.PaginatedOperationMethod<
     items: "BackupAccessPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupAccessPoints",
 })) as any;
 
 export type ListBackupAccessPointsByRecoveryPointError =
@@ -4138,6 +4275,8 @@ export const listBackupAccessPointsByRecoveryPoint: API.PaginatedOperationMethod
     items: "BackupAccessPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupAccessPointsByRecoveryPoint",
 })) as any;
 
 export type ListBackupAccessPointsByResourceError =
@@ -4167,6 +4306,8 @@ export const listBackupAccessPointsByResource: API.PaginatedOperationMethod<
     items: "BackupAccessPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupAccessPointsByResource",
 })) as any;
 
 export type ListBackupJobsError =
@@ -4196,6 +4337,8 @@ export const listBackupJobs: API.PaginatedOperationMethod<
     items: "BackupJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupJobs",
 })) as any;
 
 export type ListBackupJobSummariesError =
@@ -4231,6 +4374,8 @@ export const listBackupJobSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupJobSummaries",
 })) as any;
 
 export type ListBackupPlansError =
@@ -4266,6 +4411,8 @@ export const listBackupPlans: API.PaginatedOperationMethod<
     items: "BackupPlansList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupPlans",
 })) as any;
 
 export type ListBackupPlanTemplatesError =
@@ -4301,6 +4448,8 @@ export const listBackupPlanTemplates: API.PaginatedOperationMethod<
     items: "BackupPlanTemplatesList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupPlanTemplates",
 })) as any;
 
 export type ListBackupPlanVersionsError =
@@ -4337,6 +4486,8 @@ export const listBackupPlanVersions: API.PaginatedOperationMethod<
     items: "BackupPlanVersionsList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupPlanVersions",
 })) as any;
 
 export type ListBackupSelectionsError =
@@ -4373,6 +4524,8 @@ export const listBackupSelections: API.PaginatedOperationMethod<
     items: "BackupSelectionsList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupSelections",
 })) as any;
 
 export type ListBackupVaultsError =
@@ -4409,6 +4562,8 @@ export const listBackupVaults: API.PaginatedOperationMethod<
     items: "BackupVaultList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBackupVaults",
 })) as any;
 
 export type ListCopyJobsError =
@@ -4437,6 +4592,8 @@ export const listCopyJobs: API.PaginatedOperationMethod<
     items: "CopyJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCopyJobs",
 })) as any;
 
 export type ListCopyJobSummariesError =
@@ -4472,6 +4629,8 @@ export const listCopyJobSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCopyJobSummaries",
 })) as any;
 
 export type ListFrameworksError =
@@ -4499,6 +4658,8 @@ export const listFrameworks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFrameworks",
 })) as any;
 
 export type ListIndexedRecoveryPointsError =
@@ -4533,6 +4694,8 @@ export const listIndexedRecoveryPoints: API.PaginatedOperationMethod<
     items: "IndexedRecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndexedRecoveryPoints",
 })) as any;
 
 export type ListLegalHoldsError =
@@ -4561,6 +4724,8 @@ export const listLegalHolds: API.PaginatedOperationMethod<
     items: "LegalHolds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLegalHolds",
 })) as any;
 
 export type ListProtectedResourcesError =
@@ -4592,6 +4757,8 @@ export const listProtectedResources: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtectedResources",
 })) as any;
 
 export type ListProtectedResourcesByBackupVaultError =
@@ -4621,6 +4788,8 @@ export const listProtectedResourcesByBackupVault: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProtectedResourcesByBackupVault",
 })) as any;
 
 export type ListRecoveryPointsByBackupVaultError =
@@ -4656,6 +4825,8 @@ export const listRecoveryPointsByBackupVault: API.PaginatedOperationMethod<
     items: "RecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPointsByBackupVault",
 })) as any;
 
 export type ListRecoveryPointsByLegalHoldError =
@@ -4690,6 +4861,8 @@ export const listRecoveryPointsByLegalHold: API.PaginatedOperationMethod<
     items: "RecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPointsByLegalHold",
 })) as any;
 
 export type ListRecoveryPointsByResourceError =
@@ -4729,6 +4902,8 @@ export const listRecoveryPointsByResource: API.PaginatedOperationMethod<
     items: "RecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPointsByResource",
 })) as any;
 
 export type ListReportJobsError =
@@ -4757,6 +4932,8 @@ export const listReportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportJobs",
 })) as any;
 
 export type ListReportPlansError =
@@ -4785,6 +4962,8 @@ export const listReportPlans: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReportPlans",
 })) as any;
 
 export type ListRestoreAccessBackupVaultsError =
@@ -4820,6 +4999,8 @@ export const listRestoreAccessBackupVaults: API.PaginatedOperationMethod<
     items: "RestoreAccessBackupVaults",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreAccessBackupVaults",
 })) as any;
 
 export type ListRestoreJobsError =
@@ -4856,6 +5037,8 @@ export const listRestoreJobs: API.PaginatedOperationMethod<
     items: "RestoreJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreJobs",
 })) as any;
 
 export type ListRestoreJobsByProtectedResourceError =
@@ -4896,6 +5079,8 @@ export const listRestoreJobsByProtectedResource: API.PaginatedOperationMethod<
     items: "RestoreJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreJobsByProtectedResource",
 })) as any;
 
 export type ListRestoreJobSummariesError =
@@ -4931,6 +5116,8 @@ export const listRestoreJobSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreJobSummaries",
 })) as any;
 
 export type ListRestoreTestingPlansError =
@@ -4959,6 +5146,8 @@ export const listRestoreTestingPlans: API.PaginatedOperationMethod<
     items: "RestoreTestingPlans",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreTestingPlans",
 })) as any;
 
 export type ListRestoreTestingSelectionsError =
@@ -4989,6 +5178,8 @@ export const listRestoreTestingSelections: API.PaginatedOperationMethod<
     items: "RestoreTestingSelections",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRestoreTestingSelections",
 })) as any;
 
 export type ListScanJobsError =
@@ -5017,6 +5208,8 @@ export const listScanJobs: API.PaginatedOperationMethod<
     items: "ScanJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScanJobs",
 })) as any;
 
 export type ListScanJobSummariesError =
@@ -5045,6 +5238,8 @@ export const listScanJobSummaries: API.PaginatedOperationMethod<
     items: "ScanJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScanJobSummaries",
 })) as any;
 
 export type ListTagsError =
@@ -5093,6 +5288,8 @@ export const listTags: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTags",
 })) as any;
 
 export type ListTieringConfigurationsError =
@@ -5121,6 +5318,8 @@ export const listTieringConfigurations: API.PaginatedOperationMethod<
     items: "TieringConfigurations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTieringConfigurations",
 })) as any;
 
 export type PutBackupVaultAccessPolicyError =
@@ -5151,6 +5350,8 @@ export const putBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "PutBackupVaultAccessPolicy",
 }));
 
 export type PutBackupVaultLockConfigurationError =
@@ -5193,6 +5394,8 @@ export const putBackupVaultLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultLockConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutBackupVaultLockConfiguration",
 }));
 
 export type PutBackupVaultNotificationsError =
@@ -5221,6 +5424,8 @@ export const putBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultNotifications",
+  telemetry: TELEMETRY,
+  span: "PutBackupVaultNotifications",
 }));
 
 export type PutRestoreValidationResultError =
@@ -5255,6 +5460,8 @@ export const putRestoreValidationResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRestoreValidationResult",
+  telemetry: TELEMETRY,
+  span: "PutRestoreValidationResult",
 }));
 
 export type RevokeRestoreAccessBackupVaultError =
@@ -5285,6 +5492,8 @@ export const revokeRestoreAccessBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeRestoreAccessBackupVault",
+  telemetry: TELEMETRY,
+  span: "RevokeRestoreAccessBackupVault",
 }));
 
 export type StartBackupJobError =
@@ -5317,6 +5526,8 @@ export const startBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBackupJob",
+  telemetry: TELEMETRY,
+  span: "StartBackupJob",
 }));
 
 export type StartCopyJobError =
@@ -5355,6 +5566,8 @@ export const startCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCopyJob",
+  telemetry: TELEMETRY,
+  span: "StartCopyJob",
 }));
 
 export type StartReportJobError =
@@ -5383,6 +5596,8 @@ export const startReportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReportJob",
+  telemetry: TELEMETRY,
+  span: "StartReportJob",
 }));
 
 export type StartRestoreJobError =
@@ -5413,6 +5628,8 @@ export const startRestoreJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRestoreJob",
+  telemetry: TELEMETRY,
+  span: "StartRestoreJob",
 }));
 
 export type StartScanJobError =
@@ -5445,6 +5662,8 @@ export const startScanJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartScanJob",
+  telemetry: TELEMETRY,
+  span: "StartScanJob",
 }));
 
 export type StopBackupJobError =
@@ -5495,6 +5714,8 @@ export const stopBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBackupJob",
+  telemetry: TELEMETRY,
+  span: "StopBackupJob",
 }));
 
 export type TagResourceError =
@@ -5525,6 +5746,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5558,6 +5781,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBackupPlanError =
@@ -5586,6 +5811,8 @@ export const updateBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackupPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateBackupPlan",
 }));
 
 export type UpdateFrameworkError =
@@ -5620,6 +5847,8 @@ export const updateFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFramework",
+  telemetry: TELEMETRY,
+  span: "UpdateFramework",
 }));
 
 export type UpdateGlobalSettingsError =
@@ -5648,6 +5877,8 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateGlobalSettings",
 }));
 
 export type UpdateRecoveryPointIndexSettingsError =
@@ -5680,6 +5911,8 @@ export const updateRecoveryPointIndexSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPointIndexSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPointIndexSettings",
 }));
 
 export type UpdateRecoveryPointLifecycleError =
@@ -5728,6 +5961,8 @@ export const updateRecoveryPointLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPointLifecycle",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPointLifecycle",
 }));
 
 export type UpdateRegionSettingsError =
@@ -5758,6 +5993,8 @@ export const updateRegionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegionSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateRegionSettings",
 }));
 
 export type UpdateReportPlanError =
@@ -5788,6 +6025,8 @@ export const updateReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReportPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateReportPlan",
 }));
 
 export type UpdateRestoreTestingPlanError =
@@ -5832,6 +6071,8 @@ export const updateRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestoreTestingPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateRestoreTestingPlan",
 }));
 
 export type UpdateRestoreTestingSelectionError =
@@ -5867,6 +6108,8 @@ export const updateRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestoreTestingSelection",
+  telemetry: TELEMETRY,
+  span: "UpdateRestoreTestingSelection",
 }));
 
 export type UpdateTieringConfigurationError =
@@ -5911,6 +6154,8 @@ export const updateTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTieringConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateTieringConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

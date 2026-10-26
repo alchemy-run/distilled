@@ -10,6 +10,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "HostedCompute",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 /** The hosted compute service to use for the network configuration. */
 export type CreateNetworkConfigurationForOrgRequestComputeService = "none" | "actions";
 /** A list of identifiers of the network settings resources to use for the network configuration. Exactly one resource identifier must be specified in the list. */
@@ -134,6 +152,8 @@ export const createNetworkConfigurationForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNetworkConfigurationForOrg",
 }));
 
 export type DeleteNetworkConfigurationFromOrgError = GithubOpError;
@@ -149,6 +169,8 @@ export const deleteNetworkConfigurationFromOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNetworkConfigurationFromOrg",
 }));
 
 export type GetNetworkConfigurationForOrgError = GithubOpError;
@@ -164,6 +186,8 @@ export const getNetworkConfigurationForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkConfigurationForOrg",
 }));
 
 export type GetNetworkSettingsForOrgError = GithubOpError;
@@ -179,6 +203,8 @@ export const getNetworkSettingsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkSettingsForOrg",
 }));
 
 export type ListNetworkConfigurationsForOrgError = GithubOpError;
@@ -194,6 +220,8 @@ export const listNetworkConfigurationsForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNetworkConfigurationsForOrg",
 }));
 
 export type UpdateNetworkConfigurationForOrgError = GithubOpError;
@@ -209,6 +237,8 @@ export const updateNetworkConfigurationForOrg: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNetworkConfigurationForOrg",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

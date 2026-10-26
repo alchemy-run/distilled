@@ -1,6 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxName from "@distilled.cloud/core/telemetry-name-template";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -78,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock-runtime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BedrockRuntime",
+  service: "BedrockRuntime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1949,6 +1965,8 @@ export const applyGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyGuardrail",
+  telemetry: TELEMETRY,
+  span: "ApplyGuardrail",
 }));
 
 export type ConverseError =
@@ -2003,6 +2021,27 @@ export const converse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Converse",
+  telemetry: TELEMETRY,
+  span: {
+    op: "Converse",
+    attributes: { "gen_ai.provider.name": "aws.bedrock", "gen_ai.operation.name": "chat" },
+    input: {
+      modelId: [{ name: "gen_ai.request.model" }],
+      inferenceConfig: [
+        { name: "gen_ai.request.max_tokens", field: "maxTokens" },
+        { name: "gen_ai.request.temperature", field: "temperature" },
+        { name: "gen_ai.request.top_p", field: "topP" },
+      ],
+    },
+    output: {
+      stopReason: [{ name: "gen_ai.response.finish_reasons", transform: "list" }],
+      usage: [
+        { name: "gen_ai.usage.input_tokens", field: "inputTokens" },
+        { name: "gen_ai.usage.output_tokens", field: "outputTokens" },
+      ],
+    },
+    rename: TxName.nameTemplate("chat {gen_ai.request.model}"),
+  },
 }));
 
 export type ConverseStreamError =
@@ -2061,6 +2100,20 @@ export const converseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConverseStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ConverseStream",
+    attributes: { "gen_ai.provider.name": "aws.bedrock", "gen_ai.operation.name": "chat" },
+    input: {
+      modelId: [{ name: "gen_ai.request.model" }],
+      inferenceConfig: [
+        { name: "gen_ai.request.max_tokens", field: "maxTokens" },
+        { name: "gen_ai.request.temperature", field: "temperature" },
+        { name: "gen_ai.request.top_p", field: "topP" },
+      ],
+    },
+    rename: TxName.nameTemplate("chat {gen_ai.request.model}"),
+  },
 }));
 
 export type CountTokensError =
@@ -2111,6 +2164,8 @@ export const countTokens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountTokens",
+  telemetry: TELEMETRY,
+  span: "CountTokens",
 }));
 
 export type GetAsyncInvokeError =
@@ -2139,6 +2194,8 @@ export const getAsyncInvoke: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsyncInvoke",
+  telemetry: TELEMETRY,
+  span: "GetAsyncInvoke",
 }));
 
 export type InvokeGuardrailChecksError =
@@ -2169,6 +2226,8 @@ export const invokeGuardrailChecks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeGuardrailChecks",
+  telemetry: TELEMETRY,
+  span: "InvokeGuardrailChecks",
 }));
 
 export type InvokeModelError =
@@ -2217,6 +2276,8 @@ export const invokeModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModel",
+  telemetry: TELEMETRY,
+  span: "InvokeModel",
 }));
 
 export type InvokeModelWithBidirectionalStreamError =
@@ -2261,6 +2322,8 @@ export const invokeModelWithBidirectionalStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithBidirectionalStream",
+  telemetry: TELEMETRY,
+  span: "InvokeModelWithBidirectionalStream",
 }));
 
 export type InvokeModelWithResponseStreamError =
@@ -2315,6 +2378,8 @@ export const invokeModelWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithResponseStream",
+  telemetry: TELEMETRY,
+  span: "InvokeModelWithResponseStream",
 }));
 
 export type ListAsyncInvokesError =
@@ -2350,6 +2415,8 @@ export const listAsyncInvokes: API.PaginatedOperationMethod<
     items: "asyncInvokeSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAsyncInvokes",
 })) as any;
 
 export type StartAsyncInvokeError =
@@ -2390,6 +2457,8 @@ export const startAsyncInvoke: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAsyncInvoke",
+  telemetry: TELEMETRY,
+  span: "StartAsyncInvoke",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
