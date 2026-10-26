@@ -82,6 +82,7 @@ const CORE_GROUPS: Record<string, string[]> = {
     "response-validation",
     "response-validation-strict",
     "schema-lite-impl",
+    "schema-lite-typed",
   ],
   // REST/JSON SDKs (everything but AWS).
   rest: [

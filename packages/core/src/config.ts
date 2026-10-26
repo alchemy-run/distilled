@@ -29,7 +29,18 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Redact from "effect/Redacted";
-import { ConfigError } from "./errors.ts";
+import * as Category from "./category.ts";
+import * as Schema from "./schema-lite-typed.ts";
+
+/**
+ * Configuration error - missing or invalid configuration. `key` is the
+ * configuration value (e.g. an environment variable) when one is missing.
+ */
+export class ConfigError
+  extends /*@__PURE__*/ Schema.TaggedError<ConfigError>()("ConfigError", {
+    message: Schema.String,
+    key: /*@__PURE__*/ Schema.optional(Schema.String),
+  }).pipe(Category.withConfigurationError) {}
 
 const CONFIG_PROVIDER_KEY = "effect/ConfigProvider";
 
