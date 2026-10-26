@@ -5,11 +5,13 @@
  * Handles message framing, CRC validation, and event parsing.
  */
 
+import { ResponseValidation } from "@distilled.cloud/core/response-validation";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Ref from "effect/Ref";
 import type * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
-import { decode } from "../util/codec.ts";
+import { decode, fitsWire } from "../util/codec.ts";
 import {
   decodeMessage,
   EventParseError,
@@ -232,8 +234,11 @@ export const transformEventStreamToUnion = (
  * Running the schema decode makes the runtime values match the generated
  * types (e.g. Bedrock `InvokeModelWithResponseStream`'s `chunk.bytes`).
  *
- * An event that fails to decode is passed through raw so unmodeled events
- * (`UnmodeledError`) and exception events keep flowing.
+ * An event that matches no member of the union (`UnmodeledError`, an event
+ * type newer than the schema) is passed through raw in every mode. A modeled
+ * event that fails to decode is passed through raw in lenient mode and ends
+ * the stream with {@link EventParseError} in the validating modes
+ * (`ResponseValidation`, read from the consuming fiber).
  */
 export const decodeEventStreamUnion = (
   eventStream: Stream.Stream<ParsedEvent, EventStreamParseError>,
@@ -241,13 +246,32 @@ export const decodeEventStreamUnion = (
 ): Stream.Stream<ParsedEvent, EventStreamParseError> => {
   if (!eventSchema) return eventStream;
   const ast = eventSchema.ast as any;
-  return Stream.map(eventStream, (event) => {
+  const lenient = Stream.map(eventStream, (event) => {
     try {
       return decode(ast, event, true) as ParsedEvent;
     } catch {
       return event;
     }
   });
+  return Stream.unwrap(
+    Effect.map(Effect.context<never>(), (context) =>
+      Context.get(context, ResponseValidation) === "lenient"
+        ? lenient
+        : Stream.mapEffect(eventStream, (event) => {
+            try {
+              return Effect.succeed(decode(ast, event, true) as ParsedEvent);
+            } catch (error) {
+              return fitsWire(ast, event)
+                ? Effect.fail(
+                    new EventParseError({
+                      message: `Event does not match its schema: ${(error as Error).message}`,
+                    }),
+                  )
+                : Effect.succeed(event);
+            }
+          }),
+    ),
+  );
 };
 
 /**
