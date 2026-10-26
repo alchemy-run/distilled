@@ -7,6 +7,8 @@
  * - Token-based (AWS style): NextToken/MaxResults continuation tokens
  * - Relay (GraphQL connections): after/first with a `pageInfo` block whose
  *   `hasNextPage` -- not the cursor -- marks the end
+ * - Link: the next page's token is a query parameter of the `rel="next"` URL
+ *   in the `Link` response header (RFC 8288; GitHub, Okta, Sentry)
  * - Single: one-shot list endpoints that still expose the paginated surface
  *
  * Each SDK stores a {@link PaginatedTrait} on its operations (sourced from the
@@ -15,6 +17,7 @@
  * Ported from the distilled repo's `core/pagination`.
  */
 import type * as Arr from "effect/Array";
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
 
@@ -23,9 +26,6 @@ import * as Stream from "effect/Stream";
  * `"resultInfo.page"`). Used for pagination traits and nested access.
  */
 export const getPath = (obj: unknown, path: string): unknown => {
-  // The empty path is the value itself: a list endpoint whose response IS
-  // the array of items (GitHub's bare-array lists).
-  if (path === "") return obj;
   const parts = path.split(".");
   let current: unknown = obj;
   for (const part of parts) {
@@ -50,7 +50,6 @@ export const getPath = (obj: unknown, path: string): unknown => {
  * null page yields the items it does have instead of nothing.
  */
 export const getItems = (obj: unknown, path: string): readonly unknown[] => {
-  if (path === "") return Array.isArray(obj) ? obj : [];
   let current: unknown[] = [obj];
   for (const part of path.split(".")) {
     const next: unknown[] = [];
@@ -73,8 +72,11 @@ export const getItems = (obj: unknown, path: string): readonly unknown[] => {
 /** Pagination trait describing how to navigate between pages. */
 export interface PaginatedTrait {
   /** Pagination strategy */
-  readonly mode?: "token" | "page" | "cursor" | "relay" | "single";
-  /** The name of the input member containing the page/cursor token */
+  readonly mode?: "token" | "page" | "cursor" | "relay" | "link" | "single";
+  /**
+   * The name of the input member containing the page/cursor token. In link
+   * mode it is also the query parameter read from the `rel="next"` URL.
+   */
   readonly inputToken?: string;
   /** The path to the output member containing the next page/cursor token */
   readonly outputToken?: string;
@@ -140,22 +142,9 @@ export const paginatePageNumber = <Input extends Record<string, unknown>, Output
 ): Stream.Stream<Output, E, R> => {
   const inputToken = pagination.inputToken;
   const outputToken = pagination.outputToken;
-  if (!inputToken) {
-    return missingPaginationConfig("Page-number pagination requires inputToken");
+  if (!inputToken || !outputToken) {
+    return missingPaginationConfig("Page-number pagination requires inputToken and outputToken");
   }
-  // Without an outputToken the response carries no next-page number (GitHub
-  // returns a bare array and puts the next page in a `Link` header): advance
-  // the page by one, and stop on an empty page or one shorter than the
-  // requested page size.
-  if (!outputToken && pagination.items === undefined) {
-    return missingPaginationConfig(
-      "Page-number pagination requires outputToken, or items to detect the last page",
-    );
-  }
-  const requestedSize =
-    pagination.pageSize !== undefined && typeof input[pagination.pageSize] === "number"
-      ? (input[pagination.pageSize] as number)
-      : undefined;
   type State = { page: number; done: boolean };
   const startPage = typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
 
@@ -166,9 +155,7 @@ export const paginatePageNumber = <Input extends Record<string, unknown>, Output
       const requestPayload = { ...input, [inputToken]: state.page } as Input;
       const response = yield* operation(requestPayload);
 
-      const nextPage = outputToken
-        ? (getPath(response, outputToken) as number | null | undefined)
-        : undefined;
+      const nextPage = getPath(response, outputToken) as number | null | undefined;
 
       // Some APIs report the CURRENT page at `outputToken` rather than the
       // next one (e.g. Cloudflare's `result_info.page`). Taking that value as
@@ -176,21 +163,17 @@ export const paginatePageNumber = <Input extends Record<string, unknown>, Output
       // *advancing* page number; otherwise advance by one and terminate when
       // a page comes back with no items (or the token is absent). A `null`
       // items member (e.g. `result: null`) is an empty page, as in `getItems`.
-      const items =
-        pagination.items !== undefined
-          ? (getPath(response, pagination.items) as readonly unknown[] | null | undefined)
-          : undefined;
+      const items = pagination.items
+        ? (getPath(response, pagination.items) as readonly unknown[] | null | undefined)
+        : undefined;
 
       const nextState: State = {
         page: typeof nextPage === "number" && nextPage > state.page ? nextPage : state.page + 1,
-        done: outputToken
-          ? nextPage === null ||
-            nextPage === undefined ||
-            items === null ||
-            (items !== undefined && items.length === 0)
-          : !items ||
-            items.length === 0 ||
-            (requestedSize !== undefined && items.length < requestedSize),
+        done:
+          nextPage === null ||
+          nextPage === undefined ||
+          items === null ||
+          (items !== undefined && items.length === 0),
       };
 
       return [response, nextState] as const;
@@ -363,6 +346,97 @@ export const paginateRelay = <Input extends Record<string, unknown>, Output, E, 
   );
 };
 
+// ============================================================================
+// Link-header Pagination (RFC 8288)
+// ============================================================================
+
+/** Where the protocol puts a call's response headers during a link traversal. */
+interface PageHeadersSlot {
+  headers: Readonly<Record<string, string | undefined>> | undefined;
+}
+
+const PageHeaders = /*@__PURE__*/ Context.Reference<PageHeadersSlot | undefined>(
+  "@distilled.cloud/core/Pagination/PageHeaders",
+  { defaultValue: () => undefined },
+);
+
+/**
+ * Hand a response's headers to the link traversal running on this fiber, if
+ * any. Protocols call it for every response they decode; outside
+ * {@link paginateLink} it does nothing.
+ */
+export const recordPageHeaders = (
+  context: Context.Context<never>,
+  headers: Readonly<Record<string, string | undefined>>,
+): void => {
+  const slot = Context.get(context, PageHeaders);
+  if (slot !== undefined) slot.headers = headers;
+};
+
+/**
+ * The URL of the `rel="next"` link in a `Link` header value, e.g.
+ * `<https://api.github.com/repositories/1/issues?page=2>; rel="next", <...>; rel="last"`.
+ */
+export const nextLink = (header: string | undefined): string | undefined => {
+  if (header === undefined) return undefined;
+  for (const link of header.split(/,\s*(?=<)/)) {
+    const match = /^\s*<([^>]*)>(.*)$/.exec(link);
+    const rel = match && /;\s*rel\s*=\s*"?([^";]*)"?/i.exec(match[2]!);
+    if (rel && rel[1]!.toLowerCase().split(/\s+/).includes("next")) return match![1];
+  }
+  return undefined;
+};
+
+/**
+ * Stream of pages that follows the `Link` response header: each request
+ * takes `inputToken` from the query of the previous response's `rel="next"`
+ * URL, and traversal ends when a response has no next link (or its token
+ * repeats the current one). The response body carries no token, so this
+ * works for APIs whose list responses are bare arrays.
+ *
+ * The protocol must report response headers through
+ * {@link recordPageHeaders} (the REST protocol does); otherwise traversal
+ * stops after the first page.
+ */
+export const paginateLink = <Input extends Record<string, unknown>, Output, E, R>(
+  operation: (input: Input) => Effect.Effect<Output, E, R>,
+  input: Input,
+  pagination: PaginatedTrait,
+): Stream.Stream<Output, E, R> => {
+  const inputToken = pagination.inputToken;
+  if (!inputToken) {
+    return missingPaginationConfig("Link pagination requires inputToken");
+  }
+  type State = { token: unknown; done: boolean };
+
+  return Stream.unfold({ token: input[inputToken], done: false } as State, (state) =>
+    Effect.gen(function* () {
+      if (state.done) return undefined;
+
+      const requestPayload =
+        state.token !== undefined ? ({ ...input, [inputToken]: state.token } as Input) : input;
+      const slot: PageHeadersSlot = { headers: undefined };
+      const response = yield* Effect.provideService(operation(requestPayload), PageHeaders, slot);
+
+      const next = nextLink(slot.headers?.["link"]);
+      // The token goes back as the query text it came as (`page=2` -> "2");
+      // query members are sent as text either way.
+      const token =
+        next === undefined
+          ? undefined
+          : (new URL(next, "http://_").searchParams.get(inputToken) ?? undefined);
+
+      const nextState: State = {
+        token,
+        done:
+          isTerminalToken(token) || (state.token !== undefined && token === String(state.token)),
+      };
+
+      return [response, nextState] as const;
+    }),
+  );
+};
+
 /**
  * Shared default pagination dispatcher for SDKs that use generic
  * token/cursor/page traversal.
@@ -377,6 +451,8 @@ export const paginateWithDefaults: PaginationStrategy = (operation, input, pagin
       return paginateCursor(operation, input, pagination);
     case "relay":
       return paginateRelay(operation, input, pagination);
+    case "link":
+      return paginateLink(operation, input, pagination);
     case "single":
       return paginateSingle(operation, input, pagination);
     case "token":
@@ -400,6 +476,19 @@ export const paginateWithDefaults: PaginationStrategy = (operation, input, pagin
 export const extractItems = <Output, Item, E, R>(
   pages: Stream.Stream<Output, E, R>,
   itemsPath: string,
+): Stream.Stream<Item, E, R> => flattenPages(pages, (page) => getItems(page, itemsPath));
+
+/**
+ * The items of a stream of pages that are themselves the lists (bare-array
+ * responses).
+ */
+export const extractArrayItems = <Output, Item, E, R>(
+  pages: Stream.Stream<Output, E, R>,
+): Stream.Stream<Item, E, R> => flattenPages(pages, (page) => (Array.isArray(page) ? page : []));
+
+const flattenPages = <Output, Item, E, R>(
+  pages: Stream.Stream<Output, E, R>,
+  itemsOf: (page: Output) => readonly unknown[],
 ): Stream.Stream<Item, E, R> =>
   // Flattens each pulled chunk of pages directly, skipping pages with no
   // items. `Stream.flatMap` / `flattenIterable` would do the same but pull in
@@ -411,8 +500,7 @@ export const extractItems = <Output, Item, E, R>(
       pull,
       (chunk) => {
         const items: Item[] = [];
-        for (const page of chunk)
-          for (const item of getItems(page, itemsPath)) items.push(item as Item);
+        for (const page of chunk) for (const item of itemsOf(page)) items.push(item as Item);
         return items.length > 0
           ? Effect.succeed(items as unknown as Arr.NonEmptyReadonlyArray<Item>)
           : next;

@@ -8,6 +8,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
+import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
 import {
@@ -841,5 +842,78 @@ describe("makeRestProtocol failedSuccess", () => {
       fakeClient(() => json({ data: { viewer: { login: "octocat" } } })),
     );
     expect(result.data).toEqual({ viewer: { login: "octocat" } });
+  });
+});
+
+describe("Link-header pagination", () => {
+  const listThings = API.makePaginated(() => ({
+    input: S.Struct({
+      state: S.optional(S.String).pipe(T.Query("state")),
+      page: S.optional(S.Number).pipe(T.Query("page")),
+      per_page: S.optional(S.Number).pipe(T.Query("per_page")),
+    }).pipe(T.Http({ method: "GET", uri: "/things" })),
+    output: S.Array(S.Struct({ id: S.String })).pipe(RawResponseRoot()),
+    protocol: DefaultProtocol,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" },
+  })) as unknown as {
+    items: (input: Record<string, unknown>) => Stream.Stream<{ id: string }, any, any>;
+    pages: (input: Record<string, unknown>) => Stream.Stream<unknown, any, any>;
+  };
+
+  // Three pages of two; each page but the last links to the next, keeping
+  // the request's other query parameters, the way GitHub does.
+  const server = (recorded: Recorded) =>
+    fakeClient((request) => {
+      const url = new URL(request.url);
+      const page = Number(url.searchParams.get("page") ?? "1");
+      const link = (n: number, rel: string) => {
+        const next = new URL(url);
+        next.searchParams.set("page", String(n));
+        return `<${next}>; rel="${rel}"`;
+      };
+      const links = [
+        ...(page < 3 ? [link(page + 1, "next")] : []),
+        link(3, "last"),
+        link(1, "first"),
+      ];
+      return json([{ id: `${page}a` }, { id: `${page}b` }], 200, { link: links.join(", ") });
+    }, recorded);
+
+  test("items follow rel=next across bare-array pages", async () => {
+    const recorded: Recorded = { requests: [] };
+    const items = await succeed(
+      Stream.runCollect(listThings.items({ state: "open", per_page: 2 })),
+      server(recorded),
+      creds(),
+    );
+    expect(items.map((i: { id: string }) => i.id)).toEqual(["1a", "1b", "2a", "2b", "3a", "3b"]);
+    expect(recorded.requests.map((r) => new URL(r.url).search)).toEqual([
+      "?state=open&per_page=2",
+      "?state=open&page=2&per_page=2",
+      "?state=open&page=3&per_page=2",
+    ]);
+  });
+
+  test("pages are the bare arrays", async () => {
+    const pages = await succeed(
+      Stream.runCollect(listThings.pages({ page: 2, per_page: 2 })),
+      server({ requests: [] }),
+      creds(),
+    );
+    expect(pages).toEqual([
+      [{ id: "2a" }, { id: "2b" }],
+      [{ id: "3a" }, { id: "3b" }],
+    ]);
+  });
+
+  test("a response without a Link header is the only page", async () => {
+    const recorded: Recorded = { requests: [] };
+    const items = await succeed(
+      Stream.runCollect(listThings.items({})),
+      fakeClient(() => json([{ id: "x" }]), recorded),
+      creds(),
+    );
+    expect(items).toEqual([{ id: "x" }]);
+    expect(recorded.requests).toHaveLength(1);
   });
 });

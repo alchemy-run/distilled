@@ -176,7 +176,7 @@ describe("operation type annotation overrides", () => {
 });
 
 describe("pagination over a bare-array response", () => {
-  const model = (items: string) => ({
+  const model = {
     smithy: "2.0",
     shapes: {
       "ns#Example": { type: "service", version: "1", operations: [{ target: "ns#ListThings" }] },
@@ -186,7 +186,12 @@ describe("pagination over a bare-array response", () => {
         output: { target: "ns#ListThingsResponse" },
         traits: {
           "smithy.api#http": { method: "GET", uri: "/things" },
-          "smithy.api#paginated": { mode: "page", inputToken: "page", pageSize: "per_page", items },
+          "smithy.api#paginated": {
+            mode: "link",
+            inputToken: "page",
+            pageSize: "per_page",
+            items: "body",
+          },
         },
       },
       "ns#ListThingsRequest": {
@@ -207,7 +212,7 @@ describe("pagination over a bare-array response", () => {
       "ns#ThingList": { type: "list", member: { target: "ns#Thing" } },
       "ns#Thing": { type: "structure", members: { id: { target: "smithy.api#String" } } },
     },
-  });
+  };
   const pageSpec: SdkSpec = {
     ...spec,
     extraBindings: [
@@ -218,11 +223,11 @@ describe("pagination over a bare-array response", () => {
         rootPipe: "T.RawResponseRoot()",
       },
     ],
-    paginationProfiles: { page: { strategy: "paginatePageNumber", itemsFallback: "" } },
+    paginationProfiles: { link: { strategy: "paginateLink" } },
   };
 
-  test('items: "" keeps the response the array and types items as its element', () => {
-    const { code } = generateService(model(""), pageSpec);
+  test("items naming the sole member keeps the response the array and types items as its element", () => {
+    const { code } = generateService(model, pageSpec);
     expect(code).toContain("export type ListThingsResponse = ThingList;");
     expect(code).toMatch(
       /PaginatedOperationMethod<\s*ListThingsRequest,\s*ListThingsResponse,\s*ListThingsError,\s*ExampleContext,\s*Thing\s*>/,

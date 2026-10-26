@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { paginatePageNumber } from "../pagination.ts";
+import { paginateLink } from "../pagination.ts";
 import { GithubProtocol, type GithubOpError, type GithubOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1744,9 +1744,9 @@ export const listAccountsForPlan: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListAccountsForPlan",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListAccountsForPlanStubbedError = GithubOpError;
@@ -1766,9 +1766,9 @@ export const listAccountsForPlanStubbed: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListAccountsForPlanStubbed",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListInstallationReposForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -1789,13 +1789,13 @@ export const listInstallationReposForAuthenticatedUser: API.PaginatedOperationMe
     telemetry: TELEMETRY,
     span: "ListInstallationReposForAuthenticatedUser",
     pagination: {
-      mode: "page",
+      mode: "link",
       inputToken: "page",
       pageSize: "per_page",
       items: "repositories",
     } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListInstallationRequestsForAuthenticatedAppError = GithubOpError;
@@ -1819,9 +1819,9 @@ export const listInstallationRequestsForAuthenticatedApp: API.PaginatedOperation
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListInstallationRequestsForAuthenticatedApp",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListInstallationsError = GithubOpError;
@@ -1841,9 +1841,9 @@ export const listInstallations: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListInstallations",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListInstallationsForAuthenticatedUserError = Forbidden | GithubOpError;
@@ -1864,13 +1864,13 @@ export const listInstallationsForAuthenticatedUser: API.PaginatedOperationMethod
     telemetry: TELEMETRY,
     span: "ListInstallationsForAuthenticatedUser",
     pagination: {
-      mode: "page",
+      mode: "link",
       inputToken: "page",
       pageSize: "per_page",
       items: "installations",
     } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListPlansError = NotFound | GithubOpError;
@@ -1890,9 +1890,9 @@ export const listPlans: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPlans",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListPlansStubbedError = GithubOpError;
@@ -1912,9 +1912,9 @@ export const listPlansStubbed: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPlansStubbed",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListReposAccessibleToInstallationError = Forbidden | GithubOpError;
@@ -1935,13 +1935,13 @@ export const listReposAccessibleToInstallation: API.PaginatedOperationMethod<
     telemetry: TELEMETRY,
     span: "ListReposAccessibleToInstallation",
     pagination: {
-      mode: "page",
+      mode: "link",
       inputToken: "page",
       pageSize: "per_page",
       items: "repositories",
     } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListSubscriptionsForAuthenticatedUserError = NotFound | GithubOpError;
@@ -1961,9 +1961,9 @@ export const listSubscriptionsForAuthenticatedUser: API.PaginatedOperationMethod
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListSubscriptionsForAuthenticatedUser",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListSubscriptionsForAuthenticatedUserStubbedError = GithubOpError;
@@ -1991,9 +1991,9 @@ export const listSubscriptionsForAuthenticatedUserStubbed: API.PaginatedOperatio
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListSubscriptionsForAuthenticatedUserStubbed",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListWebhookDeliveriesError = BadRequest | UnprocessableEntity | GithubOpError;

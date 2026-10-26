@@ -6,9 +6,11 @@ import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
+import { rawResponseRootSymbol } from "./annotations.ts";
 import * as API from "./api.ts";
 import { debugHttp } from "./debug.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
+import { recordPageHeaders } from "./pagination.ts";
 import { isOpaqueValue, unwrapRedactedDeep } from "./plain-values.ts";
 import {
   buildRequest,
@@ -78,15 +80,13 @@ export const rawResponseSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core
  */
 export const RawResponse = (_value?: unknown) => makeAnnotation(rawResponseSymbol, true);
 
-export const rawResponseRootSymbol = /*@__PURE__*/ Symbol.for(
-  "@distilled.cloud/core/raw-response-root",
-);
 /**
  * Marks a response schema whose ENTIRE value is the response body (the
  * generator's `rootPipe` for synthesized bare-payload wrappers): the emitted
  * response type IS the payload type and the protocol returns the mapped body
  * directly.
  */
+export { rawResponseRootSymbol };
 export const RawResponseRoot = () => makeAnnotation(rawResponseRootSymbol, true);
 
 export const binaryResponseSymbol = /*@__PURE__*/ Symbol.for(
@@ -539,6 +539,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     (response.status >= 200 && response.status < 300 && decodePlanFor(outputAst).binary
       ? Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes))
       : Effect.flatMap(response.text, (text) => {
+          recordPageHeaders(context, response.headers);
           const decoded = decodeText(
             context,
             response.status,

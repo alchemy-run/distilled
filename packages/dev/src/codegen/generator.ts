@@ -720,7 +720,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   //    token on the input and its items member on the output, else it
   //    degrades to a plain operation.
   const paginatedOutputs = new Set<string>();
-  /** Paginated outputs whose items are the response itself (`items: ""`). */
+  /** Paginated outputs whose `items` is their sole member (bare-array responses). */
   const rootItemsOutputs = new Set<string>();
   const paginatedItemsRoot = new Map<string, string>();
   /** Op id → its full (possibly dotted) items path, `""` when it has none. */
@@ -754,7 +754,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       if (ok) {
         op.def.__pagination = pg;
         paginatedOutputs.add(op.def.__output);
-        if (pg.items === "") rootItemsOutputs.add(op.def.__output);
+        if (outNames.size === 1 && outNames.has(pg.items)) rootItemsOutputs.add(op.def.__output);
         paginatedItemsRoot.set(op.def.__output, itemsRoot);
         paginatedItemsPath.set(op.id, String(pg.items ?? profile.itemsFallback ?? ""));
         outputProfile.set(op.def.__output, profile);
@@ -847,7 +847,8 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const memberEntriesAll = Object.entries(d.members ?? {});
       const soleMemberRoot =
         // A paginated output keeps its member form so `items` can address
-        // it -- unless the items are the response itself (`items: ""`).
+        // it -- unless `items` is that sole member, whose value is then the
+        // whole response (core reads the items from the page itself).
         (!paginatedOutputs.has(id) || rootItemsOutputs.has(id)) && memberEntriesAll.length === 1
           ? (spec.extraBindings ?? []).find(
               (b) =>
@@ -1059,18 +1060,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
    * the annotation on the structural fallback rather than asserting a type
    * the shape doesn't support.
    */
-  const paginatedItemTsType = (
-    outputId: string,
-    itemsPath: string,
-    rootItems = false,
-  ): string | undefined => {
-    // `items: ""`: the response IS the list (a bare-array body wrapped in a
-    // single member), so an item is that list's element.
-    if (rootItems) {
-      const members = memberInfos(shapes[outputId] ?? {});
-      const list: any = members.length === 1 ? shapes[members[0]!.target] : undefined;
-      return list?.type === "list" ? tsRef(list.member.target) : undefined;
-    }
+  const paginatedItemTsType = (outputId: string, itemsPath: string): string | undefined => {
     // No items path: `.items()` is a page passthrough at runtime, so an
     // item IS a whole response.
     if (!itemsPath) return tsRef(outputId);
@@ -1109,11 +1099,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
       const itemTsType = paginated
-        ? paginatedItemTsType(
-            ctx.op.def.__output,
-            paginatedItemsPath.get(ctx.op.id) ?? "",
-            (ctx.op.def.__pagination as { items?: unknown } | undefined)?.items === "",
-          )
+        ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
         : undefined;
       const typeAnnotation =
         overrides?.typeAnnotation ??

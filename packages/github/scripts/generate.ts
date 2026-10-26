@@ -19,10 +19,9 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * barrel exports them camelCased (`codeScanning.listAlertsForRepo`),
  * the spelling GitHub's own clients use.
  *
- * List operations paginate by page number (`page`/`per_page`; convert.ts
- * stamps the trait): `.pages(input)` / `.items(input)` advance `page` until
- * an empty or short page. Most return a bare array, which `items: ""`
- * addresses.
+ * List operations paginate (`page`/`per_page`; convert.ts stamps the
+ * trait): `.pages(input)` / `.items(input)` follow the `Link` header's
+ * `rel="next"` URL until it is absent.
  */
 import { type OperationEmit, type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
@@ -42,7 +41,7 @@ const camel = (slug: string): string =>
 /** GitHub's provider spec for the shared smithy→SDK compiler. */
 const spec: SdkSpec = {
   paginationProfiles: {
-    page: { strategy: "paginatePageNumber", itemsFallback: "" },
+    link: { strategy: "paginateLink" },
   },
 
   // Wire names ARE the TS surface (snake_case) — no renaming.

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { paginatePageNumber } from "../pagination.ts";
+import { paginateLink } from "../pagination.ts";
 import { GithubProtocol, type GithubOpError, type GithubOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3553,9 +3553,9 @@ export const customPropertiesForReposGetOrganizationValues: API.PaginatedOperati
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "CustomPropertiesForReposGetOrganizationValues",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type DeleteError = Forbidden | NotFound | GithubOpError;
@@ -3927,9 +3927,9 @@ export const getApiInsightRouteStatsByActor: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetApiInsightRouteStatsByActor",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetApiInsightSubjectStatsError = GithubOpError;
@@ -3949,9 +3949,9 @@ export const getApiInsightSubjectStats: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetApiInsightSubjectStats",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetApiInsightSummaryStatsError = GithubOpError;
@@ -4073,9 +4073,9 @@ export const getApiInsightUserStats: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetApiInsightUserStats",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetClusterDeploymentRecordsJobError = NotFound | GithubOpError;
@@ -4134,13 +4134,13 @@ export const getImmutableReleasesSettingsRepositories: API.PaginatedOperationMet
     telemetry: TELEMETRY,
     span: "GetImmutableReleasesSettingsRepositories",
     pagination: {
-      mode: "page",
+      mode: "link",
       inputToken: "page",
       pageSize: "per_page",
       items: "repositories",
     } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetMembershipForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -4211,9 +4211,9 @@ export const getOrgRulesetHistory: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetOrgRulesetHistory",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetOrgRulesetVersionError = NotFound | GithubOpError;
@@ -4315,13 +4315,13 @@ export const listAppInstallations: API.PaginatedOperationMethod<
     telemetry: TELEMETRY,
     span: "ListAppInstallations",
     pagination: {
-      mode: "page",
+      mode: "link",
       inputToken: "page",
       pageSize: "per_page",
       items: "installations",
     } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListArtifactDeploymentRecordsError = GithubOpError;
@@ -4426,9 +4426,9 @@ export const listBlockedUsers: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListBlockedUsers",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListFailedInvitationsError = NotFound | GithubOpError;
@@ -4448,9 +4448,9 @@ export const listFailedInvitations: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListFailedInvitations",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListForAuthenticatedUserError = Forbidden | GithubOpError;
@@ -4470,9 +4470,9 @@ export const listForAuthenticatedUser: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListForAuthenticatedUser",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListForUserError = GithubOpError;
@@ -4492,9 +4492,9 @@ export const listForUser: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListForUser",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListInvitationTeamsError = NotFound | GithubOpError;
@@ -4514,9 +4514,9 @@ export const listInvitationTeams: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListInvitationTeams",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListIssueFieldsError = NotFound | GithubOpError;
@@ -4570,9 +4570,9 @@ export const listMembers: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListMembers",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListMembershipsForAuthenticatedUserError =
@@ -4595,9 +4595,9 @@ export const listMembershipsForAuthenticatedUser: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListMembershipsForAuthenticatedUser",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListOrgRolesError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4634,9 +4634,9 @@ export const listOrgRoleTeams: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListOrgRoleTeams",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListOrgRoleUsersError = NotFound | UnprocessableEntity | GithubOpError;
@@ -4656,9 +4656,9 @@ export const listOrgRoleUsers: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListOrgRoleUsers",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListOutsideCollaboratorsError = GithubOpError;
@@ -4678,9 +4678,9 @@ export const listOutsideCollaborators: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListOutsideCollaborators",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListPatGrantRepositoriesError = Forbidden | NotFound | GithubOpError;
@@ -4700,9 +4700,9 @@ export const listPatGrantRepositories: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPatGrantRepositories",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListPatGrantRequestRepositoriesError = Forbidden | NotFound | GithubOpError;
@@ -4722,9 +4722,9 @@ export const listPatGrantRequestRepositories: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPatGrantRequestRepositories",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListPatGrantRequestsError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4744,9 +4744,9 @@ export const listPatGrantRequests: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPatGrantRequests",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListPatGrantsError = Forbidden | NotFound | UnprocessableEntity | GithubOpError;
@@ -4766,9 +4766,9 @@ export const listPatGrants: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPatGrants",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListPendingInvitationsError = NotFound | GithubOpError;
@@ -4788,9 +4788,9 @@ export const listPendingInvitations: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPendingInvitations",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListPublicMembersError = GithubOpError;
@@ -4810,9 +4810,9 @@ export const listPublicMembers: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPublicMembers",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListWebhookDeliveriesError = BadRequest | UnprocessableEntity | GithubOpError;
@@ -4849,9 +4849,9 @@ export const listWebhooks: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListWebhooks",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type PingWebhookError = NotFound | GithubOpError;

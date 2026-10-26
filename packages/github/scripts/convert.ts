@@ -153,9 +153,10 @@ for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(f
 // ---- 5. Convert each bucket ------------------------------------------------
 
 /**
- * Stamp page-number pagination on every GET that takes `page` and `per_page`.
- * The items are the response itself when it is a bare array (`items: ""`),
- * or its one list member when it is an envelope like
+ * Stamp `Link`-header pagination on every GET that takes `page` and
+ * `per_page`: GitHub puts the next page's URL in the `Link` response header.
+ * The items are the output's one list member -- the whole body when the
+ * response is a bare array, or the list of an envelope like
  * `{ total_count, variables: [...] }`. An envelope with several lists is
  * ambiguous and left unpaginated.
  */
@@ -169,18 +170,15 @@ const stampPagination = (model: { shapes: Record<string, any> }) => {
     }
     const output = Object.entries<any>(model.shapes[op.output?.target]?.members ?? {});
     const lists = output.filter(([, m]) => model.shapes[m.target]?.type === "list");
-    const items =
-      output.length === 1 && output[0]![1].traits?.["com.distilled.openapi#rawResponse"]
-        ? lists.length === 1
-          ? ""
-          : undefined
-        : lists.length === 1
-          ? lists[0]![0]
-          : undefined;
-    if (items === undefined) continue;
+    if (lists.length !== 1) continue;
     op.traits = {
       ...op.traits,
-      "smithy.api#paginated": { mode: "page", inputToken: "page", pageSize: "per_page", items },
+      "smithy.api#paginated": {
+        mode: "link",
+        inputToken: "page",
+        pageSize: "per_page",
+        items: lists[0]![0],
+      },
     };
   }
 };

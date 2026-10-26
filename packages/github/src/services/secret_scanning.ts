@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { paginatePageNumber } from "../pagination.ts";
+import { paginateLink } from "../pagination.ts";
 import { GithubProtocol, type GithubOpError, type GithubOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1215,9 +1215,9 @@ export const listAlertsForOrg: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListAlertsForOrg",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListAlertsForRepoError = NotFound | GithubOpError;
@@ -1237,9 +1237,9 @@ export const listAlertsForRepo: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListAlertsForRepo",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListLocationsForAlertError = NotFound | GithubOpError;
@@ -1259,9 +1259,9 @@ export const listLocationsForAlert: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListLocationsForAlert",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListOrgCustomPatternsError = Forbidden | NotFound | GithubOpError;

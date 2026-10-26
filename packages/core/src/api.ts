@@ -15,6 +15,7 @@ import type * as AST from "effect/SchemaAST";
 import * as Scope from "effect/Scope";
 import type * as Stream from "effect/Stream";
 import { SingleShotGen } from "effect/Utils";
+import { getAnn, rawResponseRootSymbol } from "./annotations.ts";
 import { isThrottling } from "./category.ts";
 import * as Pagination from "./pagination.ts";
 import {
@@ -664,9 +665,12 @@ const streamsOf = (state: OperationState, call: (input: any) => Effect.Effect<an
   const pages = (input: Record<string, unknown>) => paginate(call, input, pag());
   const items = (input: Record<string, unknown>) => {
     const p = pag();
-    // `items: ""` is the page itself (a bare-array response); only an absent
-    // path passes pages through.
-    return p.items !== undefined ? Pagination.extractItems(pages(input), p.items) : pages(input);
+    if (!p.items) return pages(input);
+    // A bare-array response's schema is its sole member's value
+    // (`RawResponseRoot`), so the member `items` names is the page itself.
+    return getAnn(prepare(state).outputAst, rawResponseRootSymbol) !== undefined
+      ? Pagination.extractArrayItems(pages(input))
+      : Pagination.extractItems(pages(input), p.items);
   };
   return { pages, items };
 };

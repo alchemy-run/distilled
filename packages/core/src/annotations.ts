@@ -6,6 +6,14 @@
  */
 import type * as AST from "effect/SchemaAST";
 
+/**
+ * Marks a response schema whose entire value is the response body (see
+ * `RawResponseRoot` in `./protocol-rest.ts`).
+ */
+export const rawResponseRootSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/raw-response-root",
+);
+
 export const getProps = (ast: AST.AST): readonly AST.PropertySignature[] => {
   if (ast._tag === "Objects") return ast.propertySignatures;
   if (ast._tag === "Suspend") return getProps(ast.thunk());

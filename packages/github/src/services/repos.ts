@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { paginatePageNumber } from "../pagination.ts";
+import { paginateLink } from "../pagination.ts";
 import { GithubProtocol, type GithubOpError, type GithubOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -7984,13 +7984,13 @@ export const getAllEnvironments: API.PaginatedOperationMethod<
     telemetry: TELEMETRY,
     span: "GetAllEnvironments",
     pagination: {
-      mode: "page",
+      mode: "link",
       inputToken: "page",
       pageSize: "per_page",
       items: "environments",
     } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetAllStatusCheckContextsError = NotFound | GithubOpError;
@@ -8027,9 +8027,9 @@ export const getAllTopics: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetAllTopics",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "names" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "names" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetAppsWithAccessToProtectedBranchError = NotFound | GithubOpError;
@@ -8117,9 +8117,9 @@ export const getBranchRules: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetBranchRules",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetByIdError = Forbidden | NotFound | GithubOpError;
@@ -8208,13 +8208,13 @@ export const getCombinedStatusForRef: API.PaginatedOperationMethod<
     telemetry: TELEMETRY,
     span: "GetCombinedStatusForRef",
     pagination: {
-      mode: "page",
+      mode: "link",
       inputToken: "page",
       pageSize: "per_page",
       items: "statuses",
     } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetCommitError = NotFound | Conflict | UnprocessableEntity | GithubOpError;
@@ -8534,9 +8534,9 @@ export const getOrgRulesets: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetOrgRulesets",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetOrgRuleSuiteError = NotFound | GithubOpError;
@@ -8573,9 +8573,9 @@ export const getOrgRuleSuites: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetOrgRuleSuites",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetPagesError = NotFound | GithubOpError;
@@ -8812,9 +8812,9 @@ export const getRepoRulesetHistory: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetRepoRulesetHistory",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetRepoRulesetsError = NotFound | GithubOpError;
@@ -8834,9 +8834,9 @@ export const getRepoRulesets: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetRepoRulesets",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetRepoRulesetVersionError = NotFound | GithubOpError;
@@ -8890,9 +8890,9 @@ export const getRepoRuleSuites: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetRepoRuleSuites",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type GetStatusChecksProtectionError = NotFound | GithubOpError;
@@ -9116,9 +9116,9 @@ export const listBranches: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListBranches",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListBranchesForHeadCommitError = Conflict | UnprocessableEntity | GithubOpError;
@@ -9155,9 +9155,9 @@ export const listCollaborators: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListCollaborators",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListCommentsForCommitError = GithubOpError;
@@ -9177,9 +9177,9 @@ export const listCommentsForCommit: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListCommentsForCommit",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListCommitCommentsForRepoError = GithubOpError;
@@ -9199,9 +9199,9 @@ export const listCommitCommentsForRepo: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListCommitCommentsForRepo",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListCommitsError =
@@ -9226,9 +9226,9 @@ export const listCommits: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListCommits",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListCommitStatusesForRefError = GithubOpError;
@@ -9248,9 +9248,9 @@ export const listCommitStatusesForRef: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListCommitStatusesForRef",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListContributorsError = Forbidden | NotFound | GithubOpError;
@@ -9270,9 +9270,9 @@ export const listContributors: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListContributors",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListCustomDeploymentRuleIntegrationsError = GithubOpError;
@@ -9293,13 +9293,13 @@ export const listCustomDeploymentRuleIntegrations: API.PaginatedOperationMethod<
     telemetry: TELEMETRY,
     span: "ListCustomDeploymentRuleIntegrations",
     pagination: {
-      mode: "page",
+      mode: "link",
       inputToken: "page",
       pageSize: "per_page",
       items: "available_custom_deployment_protection_rule_integrations",
     } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListDeployKeysError = GithubOpError;
@@ -9319,9 +9319,9 @@ export const listDeployKeys: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListDeployKeys",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListDeploymentBranchPoliciesError = GithubOpError;
@@ -9342,13 +9342,13 @@ export const listDeploymentBranchPolicies: API.PaginatedOperationMethod<
     telemetry: TELEMETRY,
     span: "ListDeploymentBranchPolicies",
     pagination: {
-      mode: "page",
+      mode: "link",
       inputToken: "page",
       pageSize: "per_page",
       items: "branch_policies",
     } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListDeploymentsError = GithubOpError;
@@ -9368,9 +9368,9 @@ export const listDeployments: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListDeployments",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListDeploymentStatusesError = NotFound | GithubOpError;
@@ -9390,9 +9390,9 @@ export const listDeploymentStatuses: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListDeploymentStatuses",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListForAuthenticatedUserError = Forbidden | UnprocessableEntity | GithubOpError;
@@ -9412,9 +9412,9 @@ export const listForAuthenticatedUser: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListForAuthenticatedUser",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListForksError = BadRequest | GithubOpError;
@@ -9434,9 +9434,9 @@ export const listForks: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListForks",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListForOrgError = GithubOpError;
@@ -9456,9 +9456,9 @@ export const listForOrg: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListForOrg",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListForUserError = GithubOpError;
@@ -9478,9 +9478,9 @@ export const listForUser: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListForUser",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListInvitationsError = GithubOpError;
@@ -9500,9 +9500,9 @@ export const listInvitations: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListInvitations",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListInvitationsForAuthenticatedUserError = Forbidden | NotFound | GithubOpError;
@@ -9522,9 +9522,9 @@ export const listInvitationsForAuthenticatedUser: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListInvitationsForAuthenticatedUser",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListIssueTypesError = NotFound | GithubOpError;
@@ -9578,9 +9578,9 @@ export const listPagesBuilds: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPagesBuilds",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListPublicError = UnprocessableEntity | GithubOpError;
@@ -9617,9 +9617,9 @@ export const listPullRequestsAssociatedWithCommit: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListPullRequestsAssociatedWithCommit",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListReleaseAssetsError = GithubOpError;
@@ -9639,9 +9639,9 @@ export const listReleaseAssets: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListReleaseAssets",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListReleasesError = NotFound | GithubOpError;
@@ -9661,9 +9661,9 @@ export const listReleases: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListReleases",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListTagsError = GithubOpError;
@@ -9683,9 +9683,9 @@ export const listTags: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListTags",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListTeamsError = NotFound | GithubOpError;
@@ -9705,9 +9705,9 @@ export const listTeams: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListTeams",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type ListWebhookDeliveriesError = BadRequest | UnprocessableEntity | GithubOpError;
@@ -9744,9 +9744,9 @@ export const listWebhooks: API.PaginatedOperationMethod<
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListWebhooks",
-    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
-  paginatePageNumber,
+  paginateLink,
 ) as any;
 
 export type MergeError = Forbidden | NotFound | Conflict | UnprocessableEntity | GithubOpError;
