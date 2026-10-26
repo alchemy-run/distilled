@@ -5,6 +5,7 @@ import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import * as Config from "../src/config.ts";
+import { ConfigError } from "../src/errors.ts";
 
 const withEnv = (env: Record<string, string>) =>
   Effect.provideService(ConfigProvider.ConfigProvider, ConfigProvider.fromEnv({ env }));
@@ -29,6 +30,10 @@ describe("core/config", () => {
       Effect.result(Config.String("NOPE_NOT_SET").pipe(withEnv({}))),
     );
     expect(exit._tag).toBe("Failure");
+    if (exit._tag === "Failure") {
+      expect(exit.failure).toBeInstanceOf(ConfigError);
+      expect(exit.failure._tag === "ConfigError" && exit.failure.key).toBe("NOPE_NOT_SET");
+    }
   });
 
   test("a provider that cannot read its source fails with its SourceError", async () => {

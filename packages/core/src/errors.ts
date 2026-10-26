@@ -140,11 +140,13 @@ export class GatewayTimeout
   }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
- * Configuration error - missing or invalid configuration.
+ * Configuration error - missing or invalid configuration. `key` is the
+ * configuration value (e.g. an environment variable) when one is missing.
  */
 export class ConfigError
   extends /*@__PURE__*/ Schema.TaggedError<ConfigError>()("ConfigError", {
     message: Schema.String,
+    key: /*@__PURE__*/ Schema.optional(Schema.String),
   }).pipe(Category.withConfigurationError) {}
 
 /**

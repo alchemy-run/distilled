@@ -13,8 +13,7 @@
  * - Otherwise the value comes from `process.env`, which is what Effect's
  *   default provider reads.
  *
- * A missing variable fails with {@link ConfigMissing} (tag `ConfigError`, like
- * Effect's), which `withDefault`, `option` and `orElse` handle. A provided
+ * A missing variable fails with {@link ConfigError} (with its `key`), which `withDefault`, `option` and `orElse` handle. A provided
  * `ConfigProvider` that cannot read its source fails with its `SourceError`,
  * which those helpers pass through.
  *
@@ -27,17 +26,10 @@
  */
 import type { SourceError } from "effect/ConfigProvider";
 import * as Context from "effect/Context";
-import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Redact from "effect/Redacted";
-
-/** A required configuration value is missing. */
-export class ConfigMissing
-  extends /*@__PURE__*/ Data.TaggedError("ConfigError")<{
-    readonly name: string;
-    readonly message: string;
-  }> {}
+import { ConfigError } from "./errors.ts";
 
 const CONFIG_PROVIDER_KEY = "effect/ConfigProvider";
 
@@ -84,7 +76,7 @@ const hasProvider = (context: Context.Context<never>): boolean =>
   Context.getOrUndefined(context, providerKey) !== undefined;
 
 const missingError = (m: Missing) =>
-  new ConfigMissing({ name: m.name, message: `Expected ${m.name} to be set` });
+  new ConfigError({ key: m.name, message: `Expected ${m.name} to be set` });
 
 const fromReader = <A>(reader: Reader<A>): Effect.Effect<A, any, any> => {
   const effect = Effect.withFiber((fiber) => {
@@ -112,28 +104,28 @@ const lookup = (name: string): Effect.Effect<string | undefined, SourceError> =>
     );
   });
 
-const required = (name: string): Effect.Effect<string, ConfigMissing | SourceError> =>
+const required = (name: string): Effect.Effect<string, ConfigError | SourceError> =>
   fromReader({
     read: () => fromEnv(name) ?? new Missing(name),
     viaEffect: () =>
       Effect.flatMap(lookup(name), (value) =>
         value === undefined ? Effect.fail(missingError(new Missing(name))) : Effect.succeed(value),
       ),
-  }) as Effect.Effect<string, ConfigMissing | SourceError>;
+  }) as Effect.Effect<string, ConfigError | SourceError>;
 
 /** The string value of environment variable `name`. */
-export const String = (name: string): Effect.Effect<string, ConfigMissing | SourceError> =>
+export const String = (name: string): Effect.Effect<string, ConfigError | SourceError> =>
   required(name);
 
 /** The value of `name`, redacted. */
 export const Redacted = (
   name: string,
-): Effect.Effect<Redact.Redacted<string>, ConfigMissing | SourceError> =>
+): Effect.Effect<Redact.Redacted<string>, ConfigError | SourceError> =>
   map((value: string) => Redact.make(value))(required(name));
 
 /**
- * The failure of a missing value: {@link ConfigMissing}, matched by its tag
- * (like Effect's `ConfigError`). `option`, `withDefault` and `orElse` handle
+ * The failure of a missing value: {@link ConfigError}, matched by its tag
+ * (Effect's own config errors share it). `option`, `withDefault` and `orElse` handle
  * only this failure; any other failure of `self` propagates.
  */
 type Missed = { readonly _tag: "ConfigError" };
