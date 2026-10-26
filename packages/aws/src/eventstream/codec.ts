@@ -376,7 +376,15 @@ function decodeHeaderValue(
 ): Effect.Effect<[HeaderValue, number], EventStreamDecodeError> {
   return Effect.gen(function* () {
     const type = data[offset] as HeaderType;
-    const view = new DataView(data.buffer, data.byteOffset + offset);
+    // Bounded to the header block: a value must not read past it.
+    const available = data.length - offset;
+    const view = new DataView(data.buffer, data.byteOffset + offset, Math.max(available, 0));
+    const pastEnd = (size: number) =>
+      new EventStreamDecodeError({
+        message: `Header value of type ${type} needs ${size} bytes at offset ${offset}, but the header block has ${available}`,
+      });
+    /** The size of a value with a 2-byte length prefix. */
+    const prefixedSize = () => (available < 3 ? 3 : 3 + view.getUint16(1, false));
 
     switch (type) {
       case HeaderType.BoolTrue:
@@ -386,39 +394,46 @@ function decodeHeaderValue(
         return [{ type: HeaderType.BoolFalse, value: false }, 1] as [HeaderValue, number];
 
       case HeaderType.Byte:
+        if (available < 2) return yield* pastEnd(2);
         return [{ type: HeaderType.Byte, value: view.getInt8(1) }, 2] as [HeaderValue, number];
 
       case HeaderType.Short:
+        if (available < 3) return yield* pastEnd(3);
         return [{ type: HeaderType.Short, value: view.getInt16(1, false) }, 3] as [
           HeaderValue,
           number,
         ];
 
       case HeaderType.Int:
+        if (available < 5) return yield* pastEnd(5);
         return [{ type: HeaderType.Int, value: view.getInt32(1, false) }, 5] as [
           HeaderValue,
           number,
         ];
 
       case HeaderType.Long:
+        if (available < 9) return yield* pastEnd(9);
         return [{ type: HeaderType.Long, value: view.getBigInt64(1, false) }, 9] as [
           HeaderValue,
           number,
         ];
 
       case HeaderType.ByteArray: {
-        const length = view.getUint16(1, false);
-        const value = data.slice(offset + 3, offset + 3 + length);
-        return [{ type: HeaderType.ByteArray, value }, 3 + length] as [HeaderValue, number];
+        const size = prefixedSize();
+        if (available < size) return yield* pastEnd(size);
+        const value = data.slice(offset + 3, offset + size);
+        return [{ type: HeaderType.ByteArray, value }, size] as [HeaderValue, number];
       }
 
       case HeaderType.String: {
-        const length = view.getUint16(1, false);
-        const value = new TextDecoder().decode(data.subarray(offset + 3, offset + 3 + length));
-        return [{ type: HeaderType.String, value }, 3 + length] as [HeaderValue, number];
+        const size = prefixedSize();
+        if (available < size) return yield* pastEnd(size);
+        const value = new TextDecoder().decode(data.subarray(offset + 3, offset + size));
+        return [{ type: HeaderType.String, value }, size] as [HeaderValue, number];
       }
 
       case HeaderType.Timestamp: {
+        if (available < 9) return yield* pastEnd(9);
         const millis = view.getBigInt64(1, false);
         return [{ type: HeaderType.Timestamp, value: new Date(Number(millis)) }, 9] as [
           HeaderValue,
@@ -427,6 +442,7 @@ function decodeHeaderValue(
       }
 
       case HeaderType.Uuid: {
+        if (available < 17) return yield* pastEnd(17);
         const value = data.slice(offset + 1, offset + 17);
         return [{ type: HeaderType.Uuid, value }, 17] as [HeaderValue, number];
       }
@@ -450,6 +466,11 @@ function decodeHeaders(data: Uint8Array): Effect.Effect<Headers, EventStreamDeco
     while (offset < data.length) {
       // Read name length and name
       const nameLength = data[offset];
+      if (offset + 1 + nameLength >= data.length) {
+        return yield* new EventStreamDecodeError({
+          message: `Header name of ${nameLength} bytes at offset ${offset} leaves no room for its value in the ${data.length}-byte header block`,
+        });
+      }
       const name = new TextDecoder().decode(data.subarray(offset + 1, offset + 1 + nameLength));
       offset += 1 + nameLength;
 
@@ -510,6 +531,12 @@ export const decodeMessage = (
     if (computedMessageCrc !== messageCrc) {
       return yield* new EventStreamDecodeError({
         message: `Message CRC mismatch: expected ${messageCrc}, got ${computedMessageCrc}`,
+      });
+    }
+
+    if (headersLength > totalLength - PRELUDE_LENGTH - MESSAGE_CRC_LENGTH) {
+      return yield* new EventStreamDecodeError({
+        message: `Headers length ${headersLength} exceeds the ${totalLength}-byte message`,
       });
     }
 

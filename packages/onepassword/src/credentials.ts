@@ -15,6 +15,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
@@ -231,7 +232,7 @@ export const exchangeAccessToken = (
   ConfigError
 > =>
   Effect.gen(function* () {
-    const basic = btoa(`${config.clientId}:${Redacted.value(config.clientSecret)}`);
+    const basic = Base64.encode(`${config.clientId}:${Redacted.value(config.clientSecret)}`);
     const res = yield* Effect.tryPromise(() =>
       fetch(`${config.apiBaseUrl.replace(/\/+$/, "")}/v1/oauth/token`, {
         method: "POST",

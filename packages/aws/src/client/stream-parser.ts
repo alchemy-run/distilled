@@ -12,6 +12,7 @@ import * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import * as Stream from "effect/Stream";
+import { ParseError } from "../errors.ts";
 import { eventStreamWith, isStreamingType } from "../traits.ts";
 import { getEncodedPropertySignatures } from "../util/ast.ts";
 import { decode } from "../util/codec.ts";
@@ -86,33 +87,47 @@ function parseTypedEventStream<A>(
   }
 
   // Decode each event's payload into the typed event
-  return Stream.map(wireEventStream, (wireEvent: any): A | null => {
-    // Only decode MessageEvent payloads that have an event type
-    if (
-      wireEvent._tag === "MessageEvent" &&
-      wireEvent.eventType &&
-      wireEvent.eventType !== "initial-response"
-    ) {
-      // Parse the JSON payload
-      const payloadText = new TextDecoder().decode(wireEvent.payload);
-      const payloadData = JSON.parse(payloadText);
+  return Stream.mapEffect(
+    wireEventStream,
+    (wireEvent: any): Effect.Effect<A | null, ParseError> => {
+      // Only decode MessageEvent payloads that have an event type
+      if (
+        wireEvent._tag === "MessageEvent" &&
+        wireEvent.eventType &&
+        wireEvent.eventType !== "initial-response"
+      ) {
+        // Parse the JSON payload
+        const payloadText = new TextDecoder().decode(wireEvent.payload);
+        let payloadData: unknown;
+        try {
+          payloadData = JSON.parse(payloadText);
+        } catch (cause) {
+          return Effect.fail(
+            new ParseError({
+              message: `Event ${wireEvent.eventType} payload is not valid JSON: ${cause instanceof Error ? cause.message : String(cause)}`,
+            }),
+          );
+        }
 
-      // Decode using the event schema (union of event types)
-      // The _tag should match the eventType for TaggedClass matching
-      try {
-        return decode(
-          eventSchema.ast as any,
-          { _tag: wireEvent.eventType, ...payloadData },
-          true,
-        ) as A;
-      } catch {
-        // If decoding fails, return the raw payload data
-        return payloadData as A;
+        // Decode using the event schema (union of event types)
+        // The _tag should match the eventType for TaggedClass matching
+        try {
+          return Effect.succeed(
+            decode(
+              eventSchema.ast as any,
+              { _tag: wireEvent.eventType, ...(payloadData as object) },
+              true,
+            ) as A,
+          );
+        } catch {
+          // If decoding fails, return the raw payload data
+          return Effect.succeed(payloadData as A);
+        }
       }
-    }
-    // For initial-response or other events, skip them
-    return null;
-  }).pipe(
+      // For initial-response or other events, skip them
+      return Effect.succeed(null);
+    },
+  ).pipe(
     // Filter out null values (skipped events)
     Stream.filter((e): e is A => e !== null),
   );

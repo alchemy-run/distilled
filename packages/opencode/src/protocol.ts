@@ -17,6 +17,7 @@ import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
  *             HTTP-status classes, then {@link UnknownOpencodeError}.
  */
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
@@ -48,7 +49,7 @@ export const OpencodeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRes
   headers: (creds): Record<string, string> => {
     const headers: Record<string, string> = {};
     if (creds.password !== undefined) {
-      headers.Authorization = `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`;
+      headers.Authorization = `Basic ${Base64.encode(`${creds.username}:${Redacted.value(creds.password)}`)}`;
     }
     return headers;
   },

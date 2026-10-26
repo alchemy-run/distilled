@@ -291,7 +291,17 @@ const toHttpRequest = (
 
   const fullPath = queryString ? `${resolvedRequest.path}?${queryString}` : resolvedRequest.path;
 
-  if (sigv2) return sigv2.sign(resolvedRequest, endpoint, fullPath, credentials);
+  if (sigv2) {
+    // The SigV2 signer parses this URL synchronously; fail an unparseable
+    // one (e.g. a malformed custom endpoint) as SigV4 does.
+    const url = `${endpoint}${fullPath}`;
+    try {
+      void new URL(url);
+    } catch (cause) {
+      return Effect.fail(new SigV4.InvalidSigningUrl({ url, cause }));
+    }
+    return sigv2.sign(resolvedRequest, endpoint, fullPath, credentials);
+  }
 
   // For streaming bodies (ReadableStream), we can't compute a hash
   // so we use UNSIGNED-PAYLOAD and don't pass the body to the signer
