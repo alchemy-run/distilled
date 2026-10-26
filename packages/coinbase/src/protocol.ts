@@ -50,6 +50,7 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
@@ -281,15 +282,23 @@ const matchError = (
     return Effect.succeed(errorBody);
   }
 
-  try {
-    const parsed = Schema.decodeUnknownSync(CoinbaseErrorResponse)(errorBody);
-    const errorProps = {
-      errorType: parsed.errorType,
-      errorMessage: parsed.errorMessage,
-      correlationId: parsed.correlationId,
-      errorLink: parsed.errorLink,
-    };
+  // A body that is not Coinbase's error shape (a proxy page, an empty body)
+  // still maps by HTTP status below.
+  const parsed = Option.getOrUndefined(
+    Schema.decodeUnknownOption(CoinbaseErrorResponse)(errorBody),
+  );
+  // Without the envelope, the start of the raw body is the best message.
+  const message =
+    parsed?.errorMessage ??
+    (typeof errorBody === "string" ? errorBody : (JSON.stringify(errorBody) ?? "")).slice(0, 200);
+  const errorProps = {
+    errorType: parsed?.errorType,
+    errorMessage: parsed?.errorMessage,
+    correlationId: parsed?.correlationId,
+    errorLink: parsed?.errorLink,
+  };
 
+  if (parsed) {
     // 1. Match by Coinbase-specific error type first
     const TypedErrorClass = ERROR_TYPE_MAP[parsed.errorType];
     if (TypedErrorClass) {
@@ -309,34 +318,32 @@ const matchError = (
         }),
       );
     }
+  }
 
-    // 3. Fall back to HTTP status code mapping from core
-    const CoreErrorClass = (HTTP_STATUS_MAP as any)[status];
-    if (CoreErrorClass) {
-      return fail(
-        new CoreErrorClass({
-          message: parsed.errorMessage ?? "",
-          retryAfter: parseRetryAfterForStatus(status, headers),
-        }),
-      );
-    }
-
-    // 4. Coinbase-specific HTTP status codes (402)
-    const CoinbaseErrorClass = (COINBASE_HTTP_STATUS_MAP as any)[status];
-    if (CoinbaseErrorClass) {
-      return fail(new CoinbaseErrorClass(errorProps));
-    }
-
-    // 5. Fall back to unknown error
+  // 3. Fall back to HTTP status code mapping from core
+  const CoreErrorClass = (HTTP_STATUS_MAP as any)[status];
+  if (CoreErrorClass) {
     return fail(
-      new UnknownCoinbaseError({
-        ...errorProps,
-        body: errorBody,
+      new CoreErrorClass({
+        message,
+        retryAfter: parseRetryAfterForStatus(status, headers),
       }),
     );
-  } catch {
-    return fail(new UnknownCoinbaseError({ body: errorBody }));
   }
+
+  // 4. Coinbase-specific HTTP status codes (402)
+  const CoinbaseErrorClass = (COINBASE_HTTP_STATUS_MAP as any)[status];
+  if (CoinbaseErrorClass) {
+    return fail(new CoinbaseErrorClass(errorProps));
+  }
+
+  // 5. Fall back to unknown error
+  return fail(
+    new UnknownCoinbaseError({
+      ...errorProps,
+      body: errorBody,
+    }),
+  );
 };
 
 // ============================================================================

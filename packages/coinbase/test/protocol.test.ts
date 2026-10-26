@@ -422,14 +422,16 @@ describe("Error decoding", () => {
     });
   });
 
-  test("a body that is not the Coinbase envelope is UnknownCoinbaseError with the raw body", async () => {
+  test("a body that is not the Coinbase envelope maps by HTTP status", async () => {
     const plain = await runError(call(), () => new Response("upstream exploded", { status: 500 }));
-    expect(plain).toBeInstanceOf(UnknownCoinbaseError);
-    expect(plain).toMatchObject({ body: "upstream exploded" });
+    expect(plain).toMatchObject({ _tag: "InternalServerError", message: "upstream exploded" });
 
     const other = await runError(call(), () => json({ message: "nope" }, 404));
-    expect(other).toBeInstanceOf(UnknownCoinbaseError);
-    expect(other).toMatchObject({ body: { message: "nope" } });
+    expect(other).toMatchObject({ _tag: "NotFound", message: '{"message":"nope"}' });
+
+    const unmapped = await runError(call(), () => new Response("teapot", { status: 418 }));
+    expect(unmapped).toBeInstanceOf(UnknownCoinbaseError);
+    expect(unmapped).toMatchObject({ body: "teapot" });
   });
 
   test("an isValid/success body with an error status is a success value", async () => {
