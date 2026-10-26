@@ -1272,7 +1272,7 @@ export const lazyService = (
   len?: number,
 ): { readonly o: () => any; readonly e: (name: string) => any; readonly E: any } => {
   const svc: LazyService = { url, spec, kinds, ns, at, len, o: [], e: [], oi: 0, ei: 0 };
-  if (!primed && at !== undefined && !(globalThis as any).process?.env?.NOPRIME) prime(svc);
+  if (!primed && at !== undefined) prime(svc);
   return {
     o: () => {
       const paginated = kinds[svc.o.length] === "p";
