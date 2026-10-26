@@ -16,7 +16,7 @@
 
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
-import { getCrc32ChecksumAlgorithmFunction } from "../hash/crc32.ts";
+import { getCrc32ChecksumAlgorithmFunction } from "#crc32";
 
 // ============================================================================
 // Constants

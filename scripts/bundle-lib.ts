@@ -217,6 +217,13 @@ const sdkPlan = (dir: string): Plan | undefined => {
       if (m && existsSync(join(src, `${m[1]}.ts`))) publicMods.add(m[1]!);
     }
   }
+  // Package `imports` (`#md5`, ...) stay bare in the bundle (see `external`) so
+  // the consumer's bundler picks the variant; their targets stay entries.
+  for (const value of Object.values(pkg.imports ?? {}))
+    for (const t of exportTargets(value)) {
+      const m = /^\.\/lib\/(.+)\.js$/.exec(t);
+      if (m && existsSync(join(src, `${m[1]}.ts`))) publicMods.add(m[1]!);
+    }
   const services = [...serviceDirs].flatMap((d) =>
     walk(join(src, d))
       .map((p) => rel(src, p))

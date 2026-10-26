@@ -14,6 +14,29 @@
   "type": "module",
   "sideEffects": false,
   "module": "src/index.ts",
+  "imports": {
+    "#crc32": {
+      "types": "./src/hash/crc32.ts",
+      "bun": "./src/hash/crc32.ts",
+      "worker": "./src/hash/crc32.ts",
+      "browser": "./lib/hash/crc32.browser.js",
+      "default": "./lib/hash/crc32.js"
+    },
+    "#md5": {
+      "types": "./src/hash/md5.ts",
+      "bun": "./src/hash/md5.ts",
+      "worker": "./src/hash/md5.ts",
+      "browser": "./lib/hash/md5.browser.js",
+      "default": "./lib/hash/md5.js"
+    },
+    "#utf8": {
+      "types": "./src/hash/utf8.ts",
+      "bun": "./src/hash/utf8.ts",
+      "worker": "./src/hash/utf8.ts",
+      "browser": "./lib/hash/utf8.browser.js",
+      "default": "./lib/hash/utf8.js"
+    }
+  },
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
