@@ -31,6 +31,18 @@ describe("core/config", () => {
     expect(exit._tag).toBe("Failure");
   });
 
+  test("a provider that cannot read its source fails with its SourceError", async () => {
+    const broken = ConfigProvider.make(() =>
+      Effect.fail(new ConfigProvider.SourceError({ message: "vault unreachable" })),
+    );
+    const program = Config.String("TOKEN").pipe(Config.withDefault("fallback"));
+    const result = await Effect.runPromise(
+      Effect.result(program.pipe(Effect.provideService(ConfigProvider.ConfigProvider, broken))),
+    );
+    expect(result._tag).toBe("Failure");
+    if (result._tag === "Failure") expect(result.failure._tag).toBe("SourceError");
+  });
+
   test("falls back to process.env without a provider", async () => {
     process.env.DISTILLED_CONFIG_TEST = "yes";
     expect(await Effect.runPromise(Config.String("DISTILLED_CONFIG_TEST"))).toBe("yes");

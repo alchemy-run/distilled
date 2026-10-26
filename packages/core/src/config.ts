@@ -14,7 +14,9 @@
  *   default provider reads.
  *
  * A missing variable fails with {@link ConfigMissing} (tag `ConfigError`, like
- * Effect's), which `withDefault`, `option` and `orElse` handle.
+ * Effect's), which `withDefault`, `option` and `orElse` handle. A provided
+ * `ConfigProvider` that cannot read its source fails with its `SourceError`,
+ * which those helpers pass through.
  *
  * Credentials read these on every request, so without a provider a whole
  * reader tree (`all`, `withDefault`, `orElse`, ...) runs as one synchronous
@@ -23,6 +25,7 @@
  * A missing value inside the tree is a plain marker; the tagged error is
  * only built if the whole tree fails.
  */
+import type { SourceError } from "effect/ConfigProvider";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
@@ -41,7 +44,7 @@ const CONFIG_PROVIDER_KEY = "effect/ConfigProvider";
 interface ProvidedConfigProvider {
   readonly load: (
     path: ReadonlyArray<string>,
-  ) => Effect.Effect<{ readonly _tag: string; readonly value?: string } | undefined, unknown>;
+  ) => Effect.Effect<{ readonly _tag: string; readonly value?: string } | undefined, SourceError>;
 }
 
 const fromEnv = (name: string): string | undefined =>
@@ -94,33 +97,38 @@ const fromReader = <A>(reader: Reader<A>): Effect.Effect<A, any, any> => {
   return effect;
 };
 
-/** The raw value of `name` from the provided `ConfigProvider`, or undefined when unset. */
-const lookup = (name: string): Effect.Effect<string | undefined> =>
+/**
+ * The raw value of `name` from the provided `ConfigProvider`, or undefined
+ * when unset. A provider that cannot read its source fails with `SourceError`.
+ */
+const lookup = (name: string): Effect.Effect<string | undefined, SourceError> =>
   Effect.flatMap(Effect.context<never>(), (context) => {
     const provider = context.mapUnsafe.get(CONFIG_PROVIDER_KEY) as
       | ProvidedConfigProvider
       | undefined;
     if (!provider) return Effect.succeed(fromEnv(name));
-    return provider.load([name]).pipe(
-      Effect.map((node) => (node?._tag === "Value" ? node.value : undefined)),
-      Effect.orElseSucceed(() => undefined),
+    return Effect.map(provider.load([name]), (node) =>
+      node?._tag === "Value" ? node.value : undefined,
     );
   });
 
-const required = (name: string): Effect.Effect<string, ConfigMissing> =>
+const required = (name: string): Effect.Effect<string, ConfigMissing | SourceError> =>
   fromReader({
     read: () => fromEnv(name) ?? new Missing(name),
     viaEffect: () =>
       Effect.flatMap(lookup(name), (value) =>
         value === undefined ? Effect.fail(missingError(new Missing(name))) : Effect.succeed(value),
       ),
-  }) as Effect.Effect<string, ConfigMissing>;
+  }) as Effect.Effect<string, ConfigMissing | SourceError>;
 
 /** The string value of environment variable `name`. */
-export const String = (name: string): Effect.Effect<string, ConfigMissing> => required(name);
+export const String = (name: string): Effect.Effect<string, ConfigMissing | SourceError> =>
+  required(name);
 
 /** The value of `name`, redacted. */
-export const Redacted = (name: string): Effect.Effect<Redact.Redacted<string>, ConfigMissing> =>
+export const Redacted = (
+  name: string,
+): Effect.Effect<Redact.Redacted<string>, ConfigMissing | SourceError> =>
   map((value: string) => Redact.make(value))(required(name));
 
 /**
