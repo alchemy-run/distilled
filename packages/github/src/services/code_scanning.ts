@@ -1090,9 +1090,7 @@ export interface CodeScanningAlertInstanceList {
   classifications?: CodeScanningAlertInstanceListClassificationsList;
 }
 export type ListAlertInstancesResponseBodyList = Array<CodeScanningAlertInstanceList>;
-export interface ListAlertInstancesResponse {
-  body: ListAlertInstancesResponseBodyList;
-}
+export type ListAlertInstancesResponse = ListAlertInstancesResponseBodyList;
 export type ListAlertsForOrgRequestDirection = "asc" | "desc";
 /** State of a code scanning alert. */
 export type CodeScanningAlertStateQuery = "open" | "closed" | "dismissed" | "fixed";
@@ -1184,9 +1182,7 @@ export interface CodeScanningOrganizationAlertItems {
   assignees?: CodeScanningOrganizationAlertItemsAssigneesList;
 }
 export type ListAlertsForOrgResponseBodyList = Array<CodeScanningOrganizationAlertItems>;
-export interface ListAlertsForOrgResponse {
-  body: ListAlertsForOrgResponseBodyList;
-}
+export type ListAlertsForOrgResponse = ListAlertsForOrgResponseBodyList;
 export type ListAlertsForRepoRequestDirection = "asc" | "desc";
 export type ListAlertsForRepoRequestSort = "created" | "updated";
 export interface ListAlertsForRepoRequest {
@@ -1242,9 +1238,7 @@ export interface CodeScanningAlertItems {
   assignees?: CodeScanningAlertItemsAssigneesList;
 }
 export type ListAlertsForRepoResponseBodyList = Array<CodeScanningAlertItems>;
-export interface ListAlertsForRepoResponse {
-  body: ListAlertsForRepoResponseBodyList;
-}
+export type ListAlertsForRepoResponse = ListAlertsForRepoResponseBodyList;
 export interface ListCodeqlDatabasesRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1280,9 +1274,7 @@ export interface ListRecentAnalysesRequest {
   sort?: ListRecentAnalysesRequestSort | (string & {});
 }
 export type ListRecentAnalysesResponseBodyList = Array<CodeScanningAnalysis>;
-export interface ListRecentAnalysesResponse {
-  body: ListRecentAnalysesResponseBodyList;
-}
+export type ListRecentAnalysesResponse = ListRecentAnalysesResponseBodyList;
 /** Whether to enable or disable AI Scan for the repository. */
 export type UpdateAiScanEnablementRequestPrScan = "enabled" | "disabled";
 export interface UpdateAiScanEnablementRequest {
@@ -2570,11 +2562,9 @@ function __c18(j: number): any {
     case 3:
       return S.Array(__S(578, __c18, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(579, __c18, 3).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListAlertInstancesResponse" });
+      return S.suspend(() => __S(579, __c18, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAlertInstancesResponse",
+      });
   }
 }
 function __c19(j: number): any {
@@ -2622,11 +2612,9 @@ function __c19(j: number): any {
     case 2:
       return S.Array(__S(609, __c19, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(610, __c19, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListAlertsForOrgResponse" });
+      return S.suspend(() => __S(610, __c19, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAlertsForOrgResponse",
+      });
   }
 }
 function __c20(j: number): any {
@@ -2678,11 +2666,9 @@ function __c20(j: number): any {
     case 2:
       return S.Array(__S(641, __c20, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(642, __c20, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListAlertsForRepoResponse" });
+      return S.suspend(() => __S(642, __c20, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAlertsForRepoResponse",
+      });
   }
 }
 function __c21(j: number): any {
@@ -2731,11 +2717,9 @@ function __c22(j: number): any {
     case 1:
       return S.Array(__S(288, __c9, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(705, __c22, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListRecentAnalysesResponse" });
+      return S.suspend(() => __S(705, __c22, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListRecentAnalysesResponse",
+      });
   }
 }
 function __c23(j: number): any {

@@ -256,9 +256,7 @@ export interface ListOrgCampaignsRequest {
   sort?: ListOrgCampaignsRequestSort | (string & {});
 }
 export type ListOrgCampaignsResponseBodyList = Array<CampaignSummary>;
-export interface ListOrgCampaignsResponse {
-  body: ListOrgCampaignsResponseBodyList;
-}
+export type ListOrgCampaignsResponse = ListOrgCampaignsResponseBodyList;
 /** The logins of the users to set as the campaign managers. At this time, only a single manager can be supplied. */
 export type UpdateCampaignRequestManagersList = Array<string>;
 /** The slugs of the teams to set as the campaign managers. */
@@ -567,11 +565,9 @@ function __c5(j: number): any {
     case 1:
       return S.Array(__S(15, __c1, 7));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(41, __c5, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListOrgCampaignsResponse" });
+      return S.suspend(() => __S(41, __c5, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListOrgCampaignsResponse",
+      });
   }
 }
 function __c6(j: number): any {

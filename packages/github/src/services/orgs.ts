@@ -739,9 +739,8 @@ export interface OrgRepoCustomPropertyValues {
 }
 export type CustomPropertiesForReposGetOrganizationValuesResponseBodyList =
   Array<OrgRepoCustomPropertyValues>;
-export interface CustomPropertiesForReposGetOrganizationValuesResponse {
-  body: CustomPropertiesForReposGetOrganizationValuesResponseBodyList;
-}
+export type CustomPropertiesForReposGetOrganizationValuesResponse =
+  CustomPropertiesForReposGetOrganizationValuesResponseBodyList;
 export interface DeleteRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -1045,9 +1044,7 @@ export interface ApiInsightsRouteStatsItem {
 }
 /** API Insights usage route stats for an actor */
 export type ApiInsightsRouteStats = Array<ApiInsightsRouteStatsItem>;
-export interface GetApiInsightRouteStatsByActorResponse {
-  body: ApiInsightsRouteStats;
-}
+export type GetApiInsightRouteStatsByActorResponse = ApiInsightsRouteStats;
 export type GetApiInsightSubjectStatsRequestDirection = "asc" | "desc";
 export type GetApiInsightSubjectStatsRequestSortItem =
   | "last_rate_limited_timestamp"
@@ -1087,9 +1084,7 @@ export interface ApiInsightsSubjectStatsItem {
 }
 /** API Insights usage subject stats for an organization */
 export type ApiInsightsSubjectStats = Array<ApiInsightsSubjectStatsItem>;
-export interface GetApiInsightSubjectStatsResponse {
-  body: ApiInsightsSubjectStats;
-}
+export type GetApiInsightSubjectStatsResponse = ApiInsightsSubjectStats;
 export interface GetApiInsightSummaryStatsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -1228,9 +1223,7 @@ export interface ApiInsightsUserStatsItem {
 }
 /** API Insights usage stats for a user */
 export type ApiInsightsUserStats = Array<ApiInsightsUserStatsItem>;
-export interface GetApiInsightUserStatsResponse {
-  body: ApiInsightsUserStats;
-}
+export type GetApiInsightUserStatsResponse = ApiInsightsUserStats;
 export interface GetClusterDeploymentRecordsJobRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -1594,9 +1587,7 @@ export interface RulesetVersion {
   updated_at: string;
 }
 export type GetOrgRulesetHistoryResponseBodyList = Array<RulesetVersion>;
-export interface GetOrgRulesetHistoryResponse {
-  body: GetOrgRulesetHistoryResponseBodyList;
-}
+export type GetOrgRulesetHistoryResponse = GetOrgRulesetHistoryResponseBodyList;
 export interface GetOrgRulesetVersionRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2150,9 +2141,7 @@ export interface ListBlockedUsersRequest {
   page?: number;
 }
 export type ListBlockedUsersResponseBodyList = Array<SimpleUser>;
-export interface ListBlockedUsersResponse {
-  body: ListBlockedUsersResponseBodyList;
-}
+export type ListBlockedUsersResponse = ListBlockedUsersResponseBodyList;
 export interface ListFailedInvitationsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2162,9 +2151,7 @@ export interface ListFailedInvitationsRequest {
   page?: number;
 }
 export type ListFailedInvitationsResponseBodyList = Array<OrganizationInvitation>;
-export interface ListFailedInvitationsResponse {
-  body: ListFailedInvitationsResponseBodyList;
-}
+export type ListFailedInvitationsResponse = ListFailedInvitationsResponseBodyList;
 export interface ListForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   per_page?: number;
@@ -2172,9 +2159,7 @@ export interface ListForAuthenticatedUserRequest {
   page?: number;
 }
 export type ListForAuthenticatedUserResponseBodyList = Array<OrganizationSimple>;
-export interface ListForAuthenticatedUserResponse {
-  body: ListForAuthenticatedUserResponseBodyList;
-}
+export type ListForAuthenticatedUserResponse = ListForAuthenticatedUserResponseBodyList;
 export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
@@ -2184,9 +2169,7 @@ export interface ListForUserRequest {
   page?: number;
 }
 export type ListForUserResponseBodyList = Array<OrganizationSimple>;
-export interface ListForUserResponse {
-  body: ListForUserResponseBodyList;
-}
+export type ListForUserResponse = ListForUserResponseBodyList;
 export interface ListInvitationTeamsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2266,9 +2249,7 @@ export interface Team {
   parent: NullableTeamSimple | null;
 }
 export type ListInvitationTeamsResponseBodyList = Array<Team>;
-export interface ListInvitationTeamsResponse {
-  body: ListInvitationTeamsResponseBodyList;
-}
+export type ListInvitationTeamsResponse = ListInvitationTeamsResponseBodyList;
 export interface ListIssueFieldsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2296,9 +2277,7 @@ export interface ListMembersRequest {
   page?: number;
 }
 export type ListMembersResponseBodyList = Array<SimpleUser>;
-export interface ListMembersResponse {
-  body: ListMembersResponseBodyList;
-}
+export type ListMembersResponse = ListMembersResponseBodyList;
 export type ListMembershipsForAuthenticatedUserRequestState = "active" | "pending";
 export interface ListMembershipsForAuthenticatedUserRequest {
   /** Indicates the state of the memberships to return. If not specified, the API returns both active and pending memberships. */
@@ -2309,9 +2288,8 @@ export interface ListMembershipsForAuthenticatedUserRequest {
   page?: number;
 }
 export type ListMembershipsForAuthenticatedUserResponseBodyList = Array<OrgMembership>;
-export interface ListMembershipsForAuthenticatedUserResponse {
-  body: ListMembershipsForAuthenticatedUserResponseBodyList;
-}
+export type ListMembershipsForAuthenticatedUserResponse =
+  ListMembershipsForAuthenticatedUserResponseBodyList;
 export interface ListOrgRolesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2366,9 +2344,7 @@ export interface TeamRoleAssignment {
 }
 /** List of teams assigned to the organization role */
 export type ListOrgRoleTeamsResponseBodyList = Array<TeamRoleAssignment>;
-export interface ListOrgRoleTeamsResponse {
-  body: ListOrgRoleTeamsResponseBodyList;
-}
+export type ListOrgRoleTeamsResponse = ListOrgRoleTeamsResponseBodyList;
 export interface ListOrgRoleUsersRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2446,9 +2422,7 @@ export interface UserRoleAssignment {
 }
 /** List of users assigned to the organization role */
 export type ListOrgRoleUsersResponseBodyList = Array<UserRoleAssignment>;
-export interface ListOrgRoleUsersResponse {
-  body: ListOrgRoleUsersResponseBodyList;
-}
+export type ListOrgRoleUsersResponse = ListOrgRoleUsersResponseBodyList;
 export type ListOutsideCollaboratorsRequestFilter = "2fa_disabled" | "2fa_insecure" | "all";
 export interface ListOutsideCollaboratorsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2461,9 +2435,7 @@ export interface ListOutsideCollaboratorsRequest {
   page?: number;
 }
 export type ListOutsideCollaboratorsResponseBodyList = Array<SimpleUser>;
-export interface ListOutsideCollaboratorsResponse {
-  body: ListOutsideCollaboratorsResponseBodyList;
-}
+export type ListOutsideCollaboratorsResponse = ListOutsideCollaboratorsResponseBodyList;
 export interface ListPatGrantRepositoriesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2475,9 +2447,7 @@ export interface ListPatGrantRepositoriesRequest {
   page?: number;
 }
 export type ListPatGrantRepositoriesResponseBodyList = Array<MinimalRepository>;
-export interface ListPatGrantRepositoriesResponse {
-  body: ListPatGrantRepositoriesResponseBodyList;
-}
+export type ListPatGrantRepositoriesResponse = ListPatGrantRepositoriesResponseBodyList;
 export interface ListPatGrantRequestRepositoriesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2489,9 +2459,8 @@ export interface ListPatGrantRequestRepositoriesRequest {
   page?: number;
 }
 export type ListPatGrantRequestRepositoriesResponseBodyList = Array<MinimalRepository>;
-export interface ListPatGrantRequestRepositoriesResponse {
-  body: ListPatGrantRequestRepositoriesResponseBodyList;
-}
+export type ListPatGrantRequestRepositoriesResponse =
+  ListPatGrantRequestRepositoriesResponseBodyList;
 export type ListPatGrantRequestsRequestSort = "created_at";
 export type ListPatGrantRequestsRequestDirection = "asc" | "desc";
 export type ListPatGrantRequestsRequestOwnerList = Array<string>;
@@ -2568,9 +2537,7 @@ export interface OrganizationProgrammaticAccessGrantRequest {
 }
 export type ListPatGrantRequestsResponseBodyList =
   Array<OrganizationProgrammaticAccessGrantRequest>;
-export interface ListPatGrantRequestsResponse {
-  body: ListPatGrantRequestsResponseBodyList;
-}
+export type ListPatGrantRequestsResponse = ListPatGrantRequestsResponseBodyList;
 export type ListPatGrantsRequestSort = "created_at";
 export type ListPatGrantsRequestDirection = "asc" | "desc";
 export type ListPatGrantsRequestOwnerList = Array<string>;
@@ -2641,9 +2608,7 @@ export interface OrganizationProgrammaticAccessGrant {
   token_last_used_at: string | null;
 }
 export type ListPatGrantsResponseBodyList = Array<OrganizationProgrammaticAccessGrant>;
-export interface ListPatGrantsResponse {
-  body: ListPatGrantsResponseBodyList;
-}
+export type ListPatGrantsResponse = ListPatGrantsResponseBodyList;
 export type ListPendingInvitationsRequestRole =
   | "all"
   | "admin"
@@ -2664,9 +2629,7 @@ export interface ListPendingInvitationsRequest {
   invitation_source?: ListPendingInvitationsRequestInvitationSource | (string & {});
 }
 export type ListPendingInvitationsResponseBodyList = Array<OrganizationInvitation>;
-export interface ListPendingInvitationsResponse {
-  body: ListPendingInvitationsResponseBodyList;
-}
+export type ListPendingInvitationsResponse = ListPendingInvitationsResponseBodyList;
 export interface ListPublicMembersRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -2676,9 +2639,7 @@ export interface ListPublicMembersRequest {
   page?: number;
 }
 export type ListPublicMembersResponseBodyList = Array<SimpleUser>;
-export interface ListPublicMembersResponse {
-  body: ListPublicMembersResponseBodyList;
-}
+export type ListPublicMembersResponse = ListPublicMembersResponseBodyList;
 export type ListWebhookDeliveriesRequestStatus = "success" | "failure";
 export interface ListWebhookDeliveriesRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2730,9 +2691,7 @@ export interface ListWebhooksRequest {
   page?: number;
 }
 export type ListWebhooksResponseBodyList = Array<OrgHook>;
-export interface ListWebhooksResponse {
-  body: ListWebhooksResponseBodyList;
-}
+export type ListWebhooksResponse = ListWebhooksResponseBodyList;
 export interface PingWebhookRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -3187,7 +3146,7 @@ export const bulkReviewPatGrantRequestsIn: API.OperationMethod<
   BulkReviewPatGrantRequestsInError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<BulkReviewPatGrantRequestsInRequest>,
+  input: __S(1952, __c122, 0) as any as S.Schema<BulkReviewPatGrantRequestsInRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<BulkReviewPatGrantRequestsInResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
@@ -3204,7 +3163,7 @@ export const cancelInvitation: API.OperationMethod<
   CancelInvitationError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<CancelInvitationRequest>,
+  input: __S(2176, __c136, 0) as any as S.Schema<CancelInvitationRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<CancelInvitationResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
@@ -4330,7 +4289,7 @@ export type ListError = GithubOpError;
 export const list: API.OperationMethod<ListRequest, ListResponse, ListError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(1584, __c99, 0) as any as S.Schema<ListRequest>,
-    output: __S(1585, __c99, 1) as any as S.Schema<ListResponse>,
+    output: __S(1601, __c100, 1) as any as S.Schema<ListResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4505,7 +4464,7 @@ export const listForAuthenticatedUser: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(1808, __c113, 0) as any as S.Schema<ListForAuthenticatedUserRequest>,
-    output: __S(1824, __c114, 0) as any as S.Schema<ListForAuthenticatedUserResponse>,
+    output: __S(1601, __c100, 1) as any as S.Schema<ListForAuthenticatedUserResponse>,
     errors: [Forbidden],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4526,8 +4485,8 @@ export const listForUser: API.PaginatedOperationMethod<
   OrganizationSimple
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1840, __c115, 0) as any as S.Schema<ListForUserRequest>,
-    output: __S(1824, __c114, 0) as any as S.Schema<ListForUserResponse>,
+    input: __S(1824, __c114, 0) as any as S.Schema<ListForUserRequest>,
+    output: __S(1601, __c100, 1) as any as S.Schema<ListForUserResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4548,8 +4507,8 @@ export const listInvitationTeams: API.PaginatedOperationMethod<
   Team
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1856, __c116, 0) as any as S.Schema<ListInvitationTeamsRequest>,
-    output: __S(1859, __c116, 3) as any as S.Schema<ListInvitationTeamsResponse>,
+    input: __S(1840, __c115, 0) as any as S.Schema<ListInvitationTeamsRequest>,
+    output: __S(1843, __c115, 3) as any as S.Schema<ListInvitationTeamsResponse>,
     errors: [NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4568,8 +4527,8 @@ export const listIssueFields: API.OperationMethod<
   ListIssueFieldsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ListIssueFieldsRequest>,
-  output: __S(1906, __c119, 2) as any as S.Schema<ListIssueFieldsResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<ListIssueFieldsRequest>,
+  output: __S(1890, __c118, 2) as any as S.Schema<ListIssueFieldsResponse>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -4585,8 +4544,8 @@ export const listIssueTypes: API.OperationMethod<
   ListIssueTypesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ListIssueTypesRequest>,
-  output: __S(1922, __c120, 2) as any as S.Schema<ListIssueTypesResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<ListIssueTypesRequest>,
+  output: __S(1906, __c119, 2) as any as S.Schema<ListIssueTypesResponse>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -4604,7 +4563,7 @@ export const listMembers: API.PaginatedOperationMethod<
   SimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1936, __c121, 0) as any as S.Schema<ListMembersRequest>,
+    input: __S(1920, __c120, 0) as any as S.Schema<ListMembersRequest>,
     output: __S(1761, __c110, 1) as any as S.Schema<ListMembersResponse>,
     errors: [UnprocessableEntity],
     protocol: GithubProtocol,
@@ -4629,8 +4588,8 @@ export const listMembershipsForAuthenticatedUser: API.PaginatedOperationMethod<
   OrgMembership
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1952, __c122, 0) as any as S.Schema<ListMembershipsForAuthenticatedUserRequest>,
-    output: __S(1954, __c122, 2) as any as S.Schema<ListMembershipsForAuthenticatedUserResponse>,
+    input: __S(1936, __c121, 0) as any as S.Schema<ListMembershipsForAuthenticatedUserRequest>,
+    output: __S(1938, __c121, 2) as any as S.Schema<ListMembershipsForAuthenticatedUserResponse>,
     errors: [Forbidden, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4649,8 +4608,8 @@ export const listOrgRoles: API.OperationMethod<
   ListOrgRolesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<ListOrgRolesRequest>,
-  output: __S(2002, __c125, 2) as any as S.Schema<ListOrgRolesResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<ListOrgRolesRequest>,
+  output: __S(1986, __c124, 2) as any as S.Schema<ListOrgRolesResponse>,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -4668,8 +4627,8 @@ export const listOrgRoleTeams: API.PaginatedOperationMethod<
   TeamRoleAssignment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2016, __c126, 0) as any as S.Schema<ListOrgRoleTeamsRequest>,
-    output: __S(2019, __c126, 3) as any as S.Schema<ListOrgRoleTeamsResponse>,
+    input: __S(2000, __c125, 0) as any as S.Schema<ListOrgRoleTeamsRequest>,
+    output: __S(2003, __c125, 3) as any as S.Schema<ListOrgRoleTeamsResponse>,
     errors: [NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4690,8 +4649,8 @@ export const listOrgRoleUsers: API.PaginatedOperationMethod<
   UserRoleAssignment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2032, __c127, 0) as any as S.Schema<ListOrgRoleUsersRequest>,
-    output: __S(2036, __c127, 4) as any as S.Schema<ListOrgRoleUsersResponse>,
+    input: __S(2016, __c126, 0) as any as S.Schema<ListOrgRoleUsersRequest>,
+    output: __S(2020, __c126, 4) as any as S.Schema<ListOrgRoleUsersResponse>,
     errors: [NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4712,7 +4671,7 @@ export const listOutsideCollaborators: API.PaginatedOperationMethod<
   SimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2048, __c128, 0) as any as S.Schema<ListOutsideCollaboratorsRequest>,
+    input: __S(2032, __c127, 0) as any as S.Schema<ListOutsideCollaboratorsRequest>,
     output: __S(1761, __c110, 1) as any as S.Schema<ListOutsideCollaboratorsResponse>,
     errors: [],
     protocol: GithubProtocol,
@@ -4734,8 +4693,8 @@ export const listPatGrantRepositories: API.PaginatedOperationMethod<
   MinimalRepository
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2064, __c129, 0) as any as S.Schema<ListPatGrantRepositoriesRequest>,
-    output: __S(2080, __c130, 0) as any as S.Schema<ListPatGrantRepositoriesResponse>,
+    input: __S(2048, __c128, 0) as any as S.Schema<ListPatGrantRepositoriesRequest>,
+    output: __S(2064, __c129, 0) as any as S.Schema<ListPatGrantRepositoriesResponse>,
     errors: [Forbidden, NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4756,8 +4715,8 @@ export const listPatGrantRequestRepositories: API.PaginatedOperationMethod<
   MinimalRepository
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2096, __c131, 0) as any as S.Schema<ListPatGrantRequestRepositoriesRequest>,
-    output: __S(2080, __c130, 0) as any as S.Schema<ListPatGrantRequestRepositoriesResponse>,
+    input: __S(2080, __c130, 0) as any as S.Schema<ListPatGrantRequestRepositoriesRequest>,
+    output: __S(2064, __c129, 0) as any as S.Schema<ListPatGrantRequestRepositoriesResponse>,
     errors: [Forbidden, NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4778,8 +4737,8 @@ export const listPatGrantRequests: API.PaginatedOperationMethod<
   OrganizationProgrammaticAccessGrantRequest
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2112, __c132, 0) as any as S.Schema<ListPatGrantRequestsRequest>,
-    output: __S(2115, __c132, 3) as any as S.Schema<ListPatGrantRequestsResponse>,
+    input: __S(2096, __c131, 0) as any as S.Schema<ListPatGrantRequestsRequest>,
+    output: __S(2099, __c131, 3) as any as S.Schema<ListPatGrantRequestsResponse>,
     errors: [Forbidden, NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4800,8 +4759,8 @@ export const listPatGrants: API.PaginatedOperationMethod<
   OrganizationProgrammaticAccessGrant
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2144, __c134, 0) as any as S.Schema<ListPatGrantsRequest>,
-    output: __S(2147, __c134, 3) as any as S.Schema<ListPatGrantsResponse>,
+    input: __S(2128, __c133, 0) as any as S.Schema<ListPatGrantsRequest>,
+    output: __S(2131, __c133, 3) as any as S.Schema<ListPatGrantsResponse>,
     errors: [Forbidden, NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4822,7 +4781,7 @@ export const listPendingInvitations: API.PaginatedOperationMethod<
   OrganizationInvitation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2160, __c135, 0) as any as S.Schema<ListPendingInvitationsRequest>,
+    input: __S(2144, __c134, 0) as any as S.Schema<ListPendingInvitationsRequest>,
     output: __S(1793, __c112, 1) as any as S.Schema<ListPendingInvitationsResponse>,
     errors: [NotFound],
     protocol: GithubProtocol,
@@ -4844,7 +4803,7 @@ export const listPublicMembers: API.PaginatedOperationMethod<
   SimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2176, __c136, 0) as any as S.Schema<ListPublicMembersRequest>,
+    input: __S(2160, __c135, 0) as any as S.Schema<ListPublicMembersRequest>,
     output: __S(1761, __c110, 1) as any as S.Schema<ListPublicMembersResponse>,
     errors: [],
     protocol: GithubProtocol,
@@ -4864,8 +4823,8 @@ export const listWebhookDeliveries: API.OperationMethod<
   ListWebhookDeliveriesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
-  output: __S(2211, __c138, 3) as any as S.Schema<ListWebhookDeliveriesResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
+  output: __S(2195, __c137, 3) as any as S.Schema<ListWebhookDeliveriesResponse>,
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -4883,8 +4842,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
   OrgHook
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2224, __c139, 0) as any as S.Schema<ListWebhooksRequest>,
-    output: __S(2226, __c139, 2) as any as S.Schema<ListWebhooksResponse>,
+    input: __S(2208, __c138, 0) as any as S.Schema<ListWebhooksRequest>,
+    output: __S(2210, __c138, 2) as any as S.Schema<ListWebhooksResponse>,
     errors: [NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -4903,7 +4862,7 @@ export const pingWebhook: API.OperationMethod<
   PingWebhookError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<PingWebhookRequest>,
+  input: __S(2224, __c139, 0) as any as S.Schema<PingWebhookRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<PingWebhookResponse>,
   errors: [NotFound],
   protocol: GithubProtocol,
@@ -4920,7 +4879,7 @@ export const redeliverWebhookDelivery: API.OperationMethod<
   RedeliverWebhookDeliveryError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<RedeliverWebhookDeliveryRequest>,
+  input: __S(2240, __c140, 0) as any as S.Schema<RedeliverWebhookDeliveryRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<RedeliverWebhookDeliveryResponse>,
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
@@ -4937,7 +4896,7 @@ export const removeMember: API.OperationMethod<
   RemoveMemberError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<RemoveMemberRequest>,
+  input: __S(2256, __c141, 0) as any as S.Schema<RemoveMemberRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<RemoveMemberResponse>,
   errors: [Forbidden],
   protocol: GithubProtocol,
@@ -4954,7 +4913,7 @@ export const removeMembershipForUser: API.OperationMethod<
   RemoveMembershipForUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<RemoveMembershipForUserRequest>,
+  input: __S(2272, __c142, 0) as any as S.Schema<RemoveMembershipForUserRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<RemoveMembershipForUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
@@ -4971,7 +4930,7 @@ export const removeOutsideCollaborator: API.OperationMethod<
   RemoveOutsideCollaboratorError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<RemoveOutsideCollaboratorRequest>,
+  input: __S(2288, __c143, 0) as any as S.Schema<RemoveOutsideCollaboratorRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<RemoveOutsideCollaboratorResponse>,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
@@ -4988,7 +4947,7 @@ export const removePublicMembershipForAuthenticatedUser: API.OperationMethod<
   RemovePublicMembershipForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<RemovePublicMembershipForAuthenticatedUserRequest>,
+  input: __S(2304, __c144, 0) as any as S.Schema<RemovePublicMembershipForAuthenticatedUserRequest>,
   output: __S(
     1216,
     __c76,
@@ -5009,7 +4968,7 @@ export const reviewPatGrantRequest: API.OperationMethod<
   ReviewPatGrantRequestError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<ReviewPatGrantRequestRequest>,
+  input: __S(2320, __c145, 0) as any as S.Schema<ReviewPatGrantRequestRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<ReviewPatGrantRequestResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
@@ -5026,7 +4985,7 @@ export const revokeAllOrgRolesTeam: API.OperationMethod<
   RevokeAllOrgRolesTeamError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<RevokeAllOrgRolesTeamRequest>,
+  input: __S(2336, __c146, 0) as any as S.Schema<RevokeAllOrgRolesTeamRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<RevokeAllOrgRolesTeamResponse>,
   errors: [],
   protocol: GithubProtocol,
@@ -5422,7 +5381,7 @@ function __c5(j: number): any {
         S.Struct({
           org: S.String.pipe(T.Label()),
           enforced_repositories: S.String,
-          selected_repository_ids: S.optional(__S(1984, __c124, 0)),
+          selected_repository_ids: S.optional(__S(1968, __c123, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/orgs/{org}/settings/immutable-releases", code: 200 }),
         ),
@@ -5435,7 +5394,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           org: S.String.pipe(T.Label()),
-          selected_repository_ids: __S(1984, __c124, 0),
+          selected_repository_ids: __S(1968, __c123, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5609,7 +5568,7 @@ function __c16(j: number): any {
         S.Struct({
           org: S.String.pipe(T.Label()),
           action: S.String,
-          pat_ids: __S(1984, __c124, 0),
+          pat_ids: __S(1968, __c123, 0),
         }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/personal-access-tokens", code: 200 })),
       ).annotate({ identifier: "UpdatePatAccessesRequest" });
   }
@@ -5848,7 +5807,7 @@ function __c29(j: number): any {
           invitee_id: S.optional(S.Number),
           email: S.optional(S.String),
           role: S.optional(S.String),
-          team_ids: S.optional(__S(1984, __c124, 0)),
+          team_ids: S.optional(__S(1968, __c123, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/invitations", code: 200 })),
       ).annotate({ identifier: "CreateInvitationRequest" });
   }
@@ -6214,11 +6173,9 @@ function __c48(j: number): any {
     case 2:
       return S.Array(__S(769, __c48, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(770, __c48, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "CustomPropertiesForReposGetOrganizationValuesResponse" });
+      return S.suspend(() => __S(770, __c48, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CustomPropertiesForReposGetOrganizationValuesResponse",
+      });
   }
 }
 function __c49(j: number): any {
@@ -6617,11 +6574,9 @@ function __c67(j: number): any {
     case 2:
       return S.Array(__S(1073, __c67, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1074, __c67, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "GetApiInsightRouteStatsByActorResponse" });
+      return S.suspend(() => __S(1074, __c67, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetApiInsightRouteStatsByActorResponse",
+      });
   }
 }
 function __c68(j: number): any {
@@ -6656,11 +6611,9 @@ function __c68(j: number): any {
     case 2:
       return S.Array(__S(1089, __c68, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1090, __c68, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "GetApiInsightSubjectStatsResponse" });
+      return S.suspend(() => __S(1090, __c68, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetApiInsightSubjectStatsResponse",
+      });
   }
 }
 function __c69(j: number): any {
@@ -6862,11 +6815,9 @@ function __c79(j: number): any {
     case 2:
       return S.Array(__S(1265, __c79, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1266, __c79, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "GetApiInsightUserStatsResponse" });
+      return S.suspend(() => __S(1266, __c79, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetApiInsightUserStatsResponse",
+      });
   }
 }
 function __c80(j: number): any {
@@ -7240,11 +7191,9 @@ function __c91(j: number): any {
     case 2:
       return S.Array(__S(1457, __c91, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1458, __c91, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "GetOrgRulesetHistoryResponse" });
+      return S.suspend(() => __S(1458, __c91, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetOrgRulesetHistoryResponse",
+      });
   }
 }
 function __c92(j: number): any {
@@ -7392,16 +7341,16 @@ function __c99(j: number): any {
           per_page: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/organizations", code: 200 })),
       ).annotate({ identifier: "ListRequest" });
-    case 1:
-      return S.suspend(() => __S(1600, __c100, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListResponse",
-      });
   }
 }
 function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1376, __c86, 0));
+    case 1:
+      return S.suspend(() => __S(1600, __c100, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListResponse",
+      });
   }
 }
 function __c101(j: number): any {
@@ -7720,11 +7669,9 @@ function __c110(j: number): any {
     case 0:
       return S.Array(__S(480, __c30, 0));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1760, __c110, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListBlockedUsersResponse" });
+      return S.suspend(() => __S(1760, __c110, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListBlockedUsersResponse",
+      });
   }
 }
 function __c111(j: number): any {
@@ -7744,11 +7691,9 @@ function __c112(j: number): any {
     case 0:
       return S.Array(__S(496, __c31, 0));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1792, __c112, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListFailedInvitationsResponse" });
+      return S.suspend(() => __S(1792, __c112, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListFailedInvitationsResponse",
+      });
   }
 }
 function __c113(j: number): any {
@@ -7767,16 +7712,6 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: __S(1600, __c100, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListForAuthenticatedUserResponse" });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           username: S.String.pipe(T.Label()),
           per_page: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -7784,7 +7719,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListForUserRequest" });
   }
 }
-function __c116(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7812,7 +7747,7 @@ function __c116(j: number): any {
           privacy: S.optional(S.String),
           notification_setting: S.optional(S.String),
           permission: S.String,
-          permissions: S.optional(__S(1872, __c117, 0)),
+          permissions: S.optional(__S(1856, __c116, 0)),
           url: S.String,
           html_url: S.String,
           members_url: S.String,
@@ -7821,20 +7756,18 @@ function __c116(j: number): any {
           access_source: S.optional(S.String),
           organization_id: S.optional(S.Number),
           enterprise_id: S.optional(S.Number),
-          parent: S.NullOr(__S(1888, __c118, 0)),
+          parent: S.NullOr(__S(1872, __c117, 0)),
         }),
       ).annotate({ identifier: "Team" });
     case 2:
-      return S.Array(__S(1857, __c116, 1));
+      return S.Array(__S(1841, __c115, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1858, __c116, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListInvitationTeamsResponse" });
+      return S.suspend(() => __S(1842, __c115, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListInvitationTeamsResponse",
+      });
   }
 }
-function __c117(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7848,7 +7781,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "TeamPermissions" });
   }
 }
-function __c118(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7873,7 +7806,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "NullableTeamSimple" });
   }
 }
-function __c119(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7884,12 +7817,12 @@ function __c119(j: number): any {
     case 1:
       return S.Array(/*@__PURE__*/ S.NullOr(__S(530, __c33, 2)));
     case 2:
-      return S.suspend(() => __S(1905, __c119, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1889, __c118, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIssueFieldsResponse",
       });
   }
 }
-function __c120(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7900,12 +7833,12 @@ function __c120(j: number): any {
     case 1:
       return S.Array(/*@__PURE__*/ S.NullOr(__S(560, __c35, 0)));
     case 2:
-      return S.suspend(() => __S(1921, __c120, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1905, __c119, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIssueTypesResponse",
       });
   }
 }
-function __c121(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7919,7 +7852,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ListMembersRequest" });
   }
 }
-function __c122(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7932,20 +7865,18 @@ function __c122(j: number): any {
     case 1:
       return S.Array(__S(1393, __c87, 1));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1953, __c122, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListMembershipsForAuthenticatedUserResponse" });
+      return S.suspend(() => __S(1937, __c121, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListMembershipsForAuthenticatedUserResponse",
+      });
   }
 }
-function __c123(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           org: S.String.pipe(T.Label()),
-          pat_request_ids: S.optional(__S(1984, __c124, 0)),
+          pat_request_ids: S.optional(__S(1968, __c123, 0)),
           action: S.String,
           reason: S.optional(S.NullOr(S.String)),
         }).pipe(
@@ -7954,13 +7885,13 @@ function __c123(j: number): any {
       ).annotate({ identifier: "BulkReviewPatGrantRequestsInRequest" });
   }
 }
-function __c124(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c125(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7974,12 +7905,12 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
-          roles: S.optional(__S(2001, __c125, 1)),
+          roles: S.optional(__S(1985, __c124, 1)),
         }),
       ).annotate({ identifier: "ListOrgRolesResponse" });
   }
 }
-function __c126(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8008,28 +7939,26 @@ function __c126(j: number): any {
           privacy: S.optional(S.String),
           notification_setting: S.optional(S.String),
           permission: S.String,
-          permissions: S.optional(__S(1872, __c117, 0)),
+          permissions: S.optional(__S(1856, __c116, 0)),
           url: S.String,
           html_url: S.String,
           members_url: S.String,
           repositories_url: S.String,
-          parent: S.NullOr(__S(1888, __c118, 0)),
+          parent: S.NullOr(__S(1872, __c117, 0)),
           type: S.String,
           organization_id: S.optional(S.Number),
           enterprise_id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TeamRoleAssignment" });
     case 2:
-      return S.Array(__S(2017, __c126, 1));
+      return S.Array(__S(2001, __c125, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(2018, __c126, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListOrgRoleTeamsResponse" });
+      return S.suspend(() => __S(2002, __c125, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListOrgRoleTeamsResponse",
+      });
   }
 }
-function __c127(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8047,12 +7976,12 @@ function __c127(j: number): any {
         ),
       ).annotate({ identifier: "ListOrgRoleUsersRequest" });
     case 1:
-      return S.Array(__S(1888, __c118, 0));
+      return S.Array(__S(1872, __c117, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           assignment: S.optional(S.String),
-          inherited_from: S.optional(__S(2033, __c127, 1)),
+          inherited_from: S.optional(__S(2017, __c126, 1)),
           name: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
           login: S.String,
@@ -8078,16 +8007,14 @@ function __c127(j: number): any {
         }),
       ).annotate({ identifier: "UserRoleAssignment" });
     case 3:
-      return S.Array(__S(2034, __c127, 2));
+      return S.Array(__S(2018, __c126, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(2035, __c127, 3).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListOrgRoleUsersResponse" });
+      return S.suspend(() => __S(2019, __c126, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListOrgRoleUsersResponse",
+      });
   }
 }
-function __c128(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8100,7 +8027,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ListOutsideCollaboratorsRequest" });
   }
 }
-function __c129(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8119,17 +8046,15 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListPatGrantRepositoriesRequest" });
   }
 }
-function __c130(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1353, __c84, 9).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListPatGrantRepositoriesResponse" });
+      return S.suspend(() => __S(1353, __c84, 9).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPatGrantRepositoriesResponse",
+      });
   }
 }
-function __c131(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8148,7 +8073,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "ListPatGrantRequestRepositoriesRequest" });
   }
 }
-function __c132(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8176,7 +8101,7 @@ function __c132(j: number): any {
           owner: __S(480, __c30, 0),
           repository_selection: S.String,
           repositories_url: S.String,
-          permissions: __S(2128, __c133, 0),
+          permissions: __S(2112, __c132, 0),
           created_at: S.String,
           token_id: S.Number,
           token_name: S.String,
@@ -8186,16 +8111,14 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationProgrammaticAccessGrantRequest" });
     case 2:
-      return S.Array(__S(2113, __c132, 1));
+      return S.Array(__S(2097, __c131, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(2114, __c132, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListPatGrantRequestsResponse" });
+      return S.suspend(() => __S(2098, __c131, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPatGrantRequestsResponse",
+      });
   }
 }
-function __c133(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8207,7 +8130,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "OrganizationProgrammaticAccessGrantRequestPermissions" });
   }
 }
-function __c134(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8232,7 +8155,7 @@ function __c134(j: number): any {
           owner: __S(480, __c30, 0),
           repository_selection: S.String,
           repositories_url: S.String,
-          permissions: __S(2128, __c133, 0),
+          permissions: __S(2112, __c132, 0),
           access_granted_at: S.String,
           token_id: S.Number,
           token_name: S.String,
@@ -8242,16 +8165,14 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationProgrammaticAccessGrant" });
     case 2:
-      return S.Array(__S(2145, __c134, 1));
+      return S.Array(__S(2129, __c133, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(2146, __c134, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListPatGrantsResponse" });
+      return S.suspend(() => __S(2130, __c133, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPatGrantsResponse",
+      });
   }
 }
-function __c135(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8265,7 +8186,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ListPendingInvitationsRequest" });
   }
 }
-function __c136(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8277,7 +8198,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "ListPublicMembersRequest" });
   }
 }
-function __c137(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8290,7 +8211,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "CancelInvitationRequest" });
   }
 }
-function __c138(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8322,14 +8243,14 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "HookDeliveryItem" });
     case 2:
-      return S.Array(__S(2209, __c138, 1));
+      return S.Array(__S(2193, __c137, 1));
     case 3:
-      return S.suspend(() => __S(2210, __c138, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2194, __c137, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListWebhookDeliveriesResponse",
       });
   }
 }
-function __c139(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8342,14 +8263,12 @@ function __c139(j: number): any {
     case 1:
       return S.Array(__S(609, __c38, 1));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(2225, __c139, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListWebhooksResponse" });
+      return S.suspend(() => __S(2209, __c138, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListWebhooksResponse",
+      });
   }
 }
-function __c140(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8360,7 +8279,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "PingWebhookRequest" });
   }
 }
-function __c141(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8378,7 +8297,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "RedeliverWebhookDeliveryRequest" });
   }
 }
-function __c142(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8389,7 +8308,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "RemoveMemberRequest" });
   }
 }
-function __c143(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8400,7 +8319,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "RemoveMembershipForUserRequest" });
   }
 }
-function __c144(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8417,7 +8336,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "RemoveOutsideCollaboratorRequest" });
   }
 }
-function __c145(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8430,7 +8349,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "RemovePublicMembershipForAuthenticatedUserRequest" });
   }
 }
-function __c146(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8449,7 +8368,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "ReviewPatGrantRequestRequest" });
   }
 }
-function __c147(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

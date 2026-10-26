@@ -278,9 +278,7 @@ export interface ListForCommitCommentRequest {
   page?: number;
 }
 export type ListForCommitCommentResponseBodyList = Array<Reaction>;
-export interface ListForCommitCommentResponse {
-  body: ListForCommitCommentResponseBodyList;
-}
+export type ListForCommitCommentResponse = ListForCommitCommentResponseBodyList;
 export type ListForIssueRequestContent =
   | "+1"
   | "-1"
@@ -305,9 +303,7 @@ export interface ListForIssueRequest {
   page?: number;
 }
 export type ListForIssueResponseBodyList = Array<Reaction>;
-export interface ListForIssueResponse {
-  body: ListForIssueResponseBodyList;
-}
+export type ListForIssueResponse = ListForIssueResponseBodyList;
 export type ListForIssueCommentRequestContent =
   | "+1"
   | "-1"
@@ -332,9 +328,7 @@ export interface ListForIssueCommentRequest {
   page?: number;
 }
 export type ListForIssueCommentResponseBodyList = Array<Reaction>;
-export interface ListForIssueCommentResponse {
-  body: ListForIssueCommentResponseBodyList;
-}
+export type ListForIssueCommentResponse = ListForIssueCommentResponseBodyList;
 export type ListForPullRequestReviewCommentRequestContent =
   | "+1"
   | "-1"
@@ -359,9 +353,8 @@ export interface ListForPullRequestReviewCommentRequest {
   page?: number;
 }
 export type ListForPullRequestReviewCommentResponseBodyList = Array<Reaction>;
-export interface ListForPullRequestReviewCommentResponse {
-  body: ListForPullRequestReviewCommentResponseBodyList;
-}
+export type ListForPullRequestReviewCommentResponse =
+  ListForPullRequestReviewCommentResponseBodyList;
 export type ListForReleaseRequestContent = "+1" | "laugh" | "heart" | "hooray" | "rocket" | "eyes";
 export interface ListForReleaseRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -378,9 +371,7 @@ export interface ListForReleaseRequest {
   page?: number;
 }
 export type ListForReleaseResponseBodyList = Array<Reaction>;
-export interface ListForReleaseResponse {
-  body: ListForReleaseResponseBodyList;
-}
+export type ListForReleaseResponse = ListForReleaseResponseBodyList;
 export type CreateForCommitCommentError = UnprocessableEntity | GithubOpError;
 /** Create reaction for a commit comment Create a reaction to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment). A response with an HTTP `200` status means that you already added the reaction type to this commit comment. */
 export const createForCommitComment: API.OperationMethod<
@@ -745,11 +736,9 @@ function __c4(j: number): any {
     case 0:
       return S.Array(__S(21, __c10, 1));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(8, __c4, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListForCommitCommentResponse" });
+      return S.suspend(() => __S(8, __c4, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListForCommitCommentResponse",
+      });
   }
 }
 function __c5(j: number): any {

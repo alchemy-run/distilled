@@ -706,9 +706,7 @@ export interface OrganizationSecretScanningAlert {
   closure_request_reviewer?: NullableSimpleUser | null;
 }
 export type ListAlertsForOrgResponseBodyList = Array<OrganizationSecretScanningAlert>;
-export interface ListAlertsForOrgResponse {
-  body: ListAlertsForOrgResponseBodyList;
-}
+export type ListAlertsForOrgResponse = ListAlertsForOrgResponseBodyList;
 export type ListAlertsForRepoRequestState = "open" | "resolved";
 export type ListAlertsForRepoRequestSort = "created" | "updated";
 export type ListAlertsForRepoRequestDirection = "asc" | "desc";
@@ -816,9 +814,7 @@ export interface SecretScanningAlert {
   closure_request_reviewer?: NullableSimpleUser | null;
 }
 export type ListAlertsForRepoResponseBodyList = Array<SecretScanningAlert>;
-export interface ListAlertsForRepoResponse {
-  body: ListAlertsForRepoResponseBodyList;
-}
+export type ListAlertsForRepoResponse = ListAlertsForRepoResponseBodyList;
 export interface ListLocationsForAlertRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -867,9 +863,7 @@ export interface SecretScanningLocation {
 }
 /** List of locations where the secret was detected */
 export type ListLocationsForAlertResponseBodyList = Array<SecretScanningLocation>;
-export interface ListLocationsForAlertResponse {
-  body: ListLocationsForAlertResponseBodyList;
-}
+export type ListLocationsForAlertResponse = ListLocationsForAlertResponseBodyList;
 export type ListOrgCustomPatternsRequestState = "published" | "unpublished";
 export type ListOrgCustomPatternsRequestPushProtection = "enabled" | "disabled";
 export type ListOrgCustomPatternsRequestSort = "created" | "updated" | "name";
@@ -1685,11 +1679,9 @@ function __c4(j: number): any {
     case 3:
       return S.Array(__S(34, __c4, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(35, __c4, 3).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListAlertsForOrgResponse" });
+      return S.suspend(() => __S(35, __c4, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAlertsForOrgResponse",
+      });
   }
 }
 function __c5(j: number): any {
@@ -1764,11 +1756,9 @@ function __c5(j: number): any {
     case 2:
       return S.Array(__S(41, __c5, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(42, __c5, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListAlertsForRepoResponse" });
+      return S.suspend(() => __S(42, __c5, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAlertsForRepoResponse",
+      });
   }
 }
 function __c6(j: number): any {
@@ -1799,11 +1789,9 @@ function __c6(j: number): any {
     case 2:
       return S.Array(__S(49, __c6, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(50, __c6, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListLocationsForAlertResponse" });
+      return S.suspend(() => __S(50, __c6, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListLocationsForAlertResponse",
+      });
   }
 }
 function __c7(j: number): any {

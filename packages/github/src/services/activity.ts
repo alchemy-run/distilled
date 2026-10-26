@@ -160,9 +160,7 @@ export interface StargazerHistory {
   week: number;
 }
 export type GetStargazerHistoryForRepoResponseBodyList = Array<StargazerHistory>;
-export interface GetStargazerHistoryForRepoResponse {
-  body: GetStargazerHistoryForRepoResponseBodyList;
-}
+export type GetStargazerHistoryForRepoResponse = GetStargazerHistoryForRepoResponseBodyList;
 export interface GetThreadRequest {
   /** The unique identifier of the notification thread. This corresponds to the value returned in the `id` field when you retrieve notifications (for example with the [`GET /notifications` operation](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user)). */
   thread_id: number;
@@ -1422,9 +1420,7 @@ export interface Event {
   created_at: string | null;
 }
 export type ListEventsForAuthenticatedUserResponseBodyList = Array<Event>;
-export interface ListEventsForAuthenticatedUserResponse {
-  body: ListEventsForAuthenticatedUserResponseBodyList;
-}
+export type ListEventsForAuthenticatedUserResponse = ListEventsForAuthenticatedUserResponseBodyList;
 export interface ListNotificationsForAuthenticatedUserRequest {
   /** If `true`, show notifications marked as read. */
   all?: boolean;
@@ -1440,9 +1436,8 @@ export interface ListNotificationsForAuthenticatedUserRequest {
   per_page?: number;
 }
 export type ListNotificationsForAuthenticatedUserResponseBodyList = Array<Thread>;
-export interface ListNotificationsForAuthenticatedUserResponse {
-  body: ListNotificationsForAuthenticatedUserResponseBodyList;
-}
+export type ListNotificationsForAuthenticatedUserResponse =
+  ListNotificationsForAuthenticatedUserResponseBodyList;
 export interface ListOrgEventsForAuthenticatedUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
@@ -1454,9 +1449,8 @@ export interface ListOrgEventsForAuthenticatedUserRequest {
   page?: number;
 }
 export type ListOrgEventsForAuthenticatedUserResponseBodyList = Array<Event>;
-export interface ListOrgEventsForAuthenticatedUserResponse {
-  body: ListOrgEventsForAuthenticatedUserResponseBodyList;
-}
+export type ListOrgEventsForAuthenticatedUserResponse =
+  ListOrgEventsForAuthenticatedUserResponseBodyList;
 export interface ListPublicEventsRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   per_page?: number;
@@ -1464,9 +1458,7 @@ export interface ListPublicEventsRequest {
   page?: number;
 }
 export type ListPublicEventsResponseBodyList = Array<Event>;
-export interface ListPublicEventsResponse {
-  body: ListPublicEventsResponseBodyList;
-}
+export type ListPublicEventsResponse = ListPublicEventsResponseBodyList;
 export interface ListPublicEventsForRepoNetworkRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1478,9 +1470,7 @@ export interface ListPublicEventsForRepoNetworkRequest {
   page?: number;
 }
 export type ListPublicEventsForRepoNetworkResponseBodyList = Array<Event>;
-export interface ListPublicEventsForRepoNetworkResponse {
-  body: ListPublicEventsForRepoNetworkResponseBodyList;
-}
+export type ListPublicEventsForRepoNetworkResponse = ListPublicEventsForRepoNetworkResponseBodyList;
 export interface ListPublicEventsForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
@@ -1490,9 +1480,7 @@ export interface ListPublicEventsForUserRequest {
   page?: number;
 }
 export type ListPublicEventsForUserResponseBodyList = Array<Event>;
-export interface ListPublicEventsForUserResponse {
-  body: ListPublicEventsForUserResponseBodyList;
-}
+export type ListPublicEventsForUserResponse = ListPublicEventsForUserResponseBodyList;
 export interface ListPublicOrgEventsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -1502,9 +1490,7 @@ export interface ListPublicOrgEventsRequest {
   page?: number;
 }
 export type ListPublicOrgEventsResponseBodyList = Array<Event>;
-export interface ListPublicOrgEventsResponse {
-  body: ListPublicOrgEventsResponseBodyList;
-}
+export type ListPublicOrgEventsResponse = ListPublicOrgEventsResponseBodyList;
 export interface ListReceivedEventsForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
@@ -1514,9 +1500,7 @@ export interface ListReceivedEventsForUserRequest {
   page?: number;
 }
 export type ListReceivedEventsForUserResponseBodyList = Array<Event>;
-export interface ListReceivedEventsForUserResponse {
-  body: ListReceivedEventsForUserResponseBodyList;
-}
+export type ListReceivedEventsForUserResponse = ListReceivedEventsForUserResponseBodyList;
 export interface ListReceivedPublicEventsForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
@@ -1526,9 +1510,8 @@ export interface ListReceivedPublicEventsForUserRequest {
   page?: number;
 }
 export type ListReceivedPublicEventsForUserResponseBodyList = Array<Event>;
-export interface ListReceivedPublicEventsForUserResponse {
-  body: ListReceivedPublicEventsForUserResponseBodyList;
-}
+export type ListReceivedPublicEventsForUserResponse =
+  ListReceivedPublicEventsForUserResponseBodyList;
 export interface ListRepoEventsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1540,9 +1523,7 @@ export interface ListRepoEventsRequest {
   page?: number;
 }
 export type ListRepoEventsResponseBodyList = Array<Event>;
-export interface ListRepoEventsResponse {
-  body: ListRepoEventsResponseBodyList;
-}
+export type ListRepoEventsResponse = ListRepoEventsResponseBodyList;
 export interface ListRepoNotificationsForAuthenticatedUserRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1562,9 +1543,8 @@ export interface ListRepoNotificationsForAuthenticatedUserRequest {
   page?: number;
 }
 export type ListRepoNotificationsForAuthenticatedUserResponseBodyList = Array<Thread>;
-export interface ListRepoNotificationsForAuthenticatedUserResponse {
-  body: ListRepoNotificationsForAuthenticatedUserResponseBodyList;
-}
+export type ListRepoNotificationsForAuthenticatedUserResponse =
+  ListRepoNotificationsForAuthenticatedUserResponseBodyList;
 export type ListReposStarredByAuthenticatedUserRequestSort = "created" | "updated";
 export type ListReposStarredByAuthenticatedUserRequestDirection = "asc" | "desc";
 export interface ListReposStarredByAuthenticatedUserRequest {
@@ -1578,9 +1558,8 @@ export interface ListReposStarredByAuthenticatedUserRequest {
   page?: number;
 }
 export type ListReposStarredByAuthenticatedUserResponseBodyList = Array<Repository>;
-export interface ListReposStarredByAuthenticatedUserResponse {
-  body: ListReposStarredByAuthenticatedUserResponseBodyList;
-}
+export type ListReposStarredByAuthenticatedUserResponse =
+  ListReposStarredByAuthenticatedUserResponseBodyList;
 export type ListReposStarredByUserRequestSort = "created" | "updated";
 export type ListReposStarredByUserRequestDirection = "asc" | "desc";
 export interface ListReposStarredByUserRequest {
@@ -1615,9 +1594,7 @@ export interface ListReposWatchedByUserRequest {
   page?: number;
 }
 export type ListReposWatchedByUserResponseBodyList = Array<MinimalRepository>;
-export interface ListReposWatchedByUserResponse {
-  body: ListReposWatchedByUserResponseBodyList;
-}
+export type ListReposWatchedByUserResponse = ListReposWatchedByUserResponseBodyList;
 export interface ListStargazersForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1646,9 +1623,8 @@ export interface ListWatchedReposForAuthenticatedUserRequest {
   page?: number;
 }
 export type ListWatchedReposForAuthenticatedUserResponseBodyList = Array<MinimalRepository>;
-export interface ListWatchedReposForAuthenticatedUserResponse {
-  body: ListWatchedReposForAuthenticatedUserResponseBodyList;
-}
+export type ListWatchedReposForAuthenticatedUserResponse =
+  ListWatchedReposForAuthenticatedUserResponseBodyList;
 export interface ListWatchersForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1660,9 +1636,7 @@ export interface ListWatchersForRepoRequest {
   page?: number;
 }
 export type ListWatchersForRepoResponseBodyList = Array<SimpleUser>;
-export interface ListWatchersForRepoResponse {
-  body: ListWatchersForRepoResponseBodyList;
-}
+export type ListWatchersForRepoResponse = ListWatchersForRepoResponseBodyList;
 export interface MarkThreadAsDoneRequest {
   /** The unique identifier of the notification thread. This corresponds to the value returned in the `id` field when you retrieve notifications (for example with the [`GET /notifications` operation](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user)). */
   thread_id: number;
@@ -2696,11 +2670,9 @@ function __c7(j: number): any {
     case 3:
       return S.Array(__S(114, __c7, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(115, __c7, 3).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListEventsForAuthenticatedUserResponse" });
+      return S.suspend(() => __S(115, __c7, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListEventsForAuthenticatedUserResponse",
+      });
   }
 }
 function __c8(j: number): any {
@@ -2723,11 +2695,9 @@ function __c9(j: number): any {
     case 0:
       return S.Array(__S(17, __c1, 1));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(144, __c9, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListNotificationsForAuthenticatedUserResponse" });
+      return S.suspend(() => __S(144, __c9, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListNotificationsForAuthenticatedUserResponse",
+      });
   }
 }
 function __c10(j: number): any {
@@ -2992,11 +2962,9 @@ function __c19(j: number): any {
     case 5:
       return S.Array(__S(307, __c19, 3));
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(309, __c19, 5).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListReposStarredByAuthenticatedUserResponse" });
+      return S.suspend(() => __S(309, __c19, 5).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReposStarredByAuthenticatedUserResponse",
+      });
   }
 }
 function __c20(j: number): any {
@@ -3034,11 +3002,9 @@ function __c22(j: number): any {
     case 0:
       return S.Array(__S(57, __c3, 9));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(352, __c22, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListReposWatchedByUserResponse" });
+      return S.suspend(() => __S(352, __c22, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReposWatchedByUserResponse",
+      });
   }
 }
 function __c23(j: number): any {
@@ -3083,11 +3049,9 @@ function __c25(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/subscribers", code: 200 })),
       ).annotate({ identifier: "ListWatchersForRepoRequest" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(400, __c25, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListWatchersForRepoResponse" });
+      return S.suspend(() => __S(400, __c25, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListWatchersForRepoResponse",
+      });
   }
 }
 function __c26(j: number): any {
@@ -3356,11 +3320,9 @@ function __c43(j: number): any {
     case 3:
       return S.Array(__S(690, __c43, 2));
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(691, __c43, 3).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "GetStargazerHistoryForRepoResponse" });
+      return S.suspend(() => __S(691, __c43, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetStargazerHistoryForRepoResponse",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

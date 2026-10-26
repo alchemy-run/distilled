@@ -489,9 +489,7 @@ export interface Team {
   parent: NullableTeamSimple | null;
 }
 export type ListResponseBodyList = Array<Team>;
-export interface ListResponse {
-  body: ListResponseBodyList;
-}
+export type ListResponse = ListResponseBodyList;
 export interface ListChildInOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -503,9 +501,7 @@ export interface ListChildInOrgRequest {
   page?: number;
 }
 export type ListChildInOrgResponseBodyList = Array<Team>;
-export interface ListChildInOrgResponse {
-  body: ListChildInOrgResponseBodyList;
-}
+export type ListChildInOrgResponse = ListChildInOrgResponseBodyList;
 export interface ListForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   per_page?: number;
@@ -513,9 +509,7 @@ export interface ListForAuthenticatedUserRequest {
   page?: number;
 }
 export type ListForAuthenticatedUserResponseBodyList = Array<TeamFull>;
-export interface ListForAuthenticatedUserResponse {
-  body: ListForAuthenticatedUserResponseBodyList;
-}
+export type ListForAuthenticatedUserResponse = ListForAuthenticatedUserResponseBodyList;
 export type ListMembersInOrgRequestRole = "member" | "maintainer" | "all";
 export interface ListMembersInOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -561,9 +555,7 @@ export interface TeamMember {
   inherited?: boolean;
 }
 export type ListMembersInOrgResponseBodyList = Array<TeamMember>;
-export interface ListMembersInOrgResponse {
-  body: ListMembersInOrgResponseBodyList;
-}
+export type ListMembersInOrgResponse = ListMembersInOrgResponseBodyList;
 export interface ListPendingInvitationsInOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -592,9 +584,7 @@ export interface OrganizationInvitation {
   invitation_source?: string;
 }
 export type ListPendingInvitationsInOrgResponseBodyList = Array<OrganizationInvitation>;
-export interface ListPendingInvitationsInOrgResponse {
-  body: ListPendingInvitationsInOrgResponseBodyList;
-}
+export type ListPendingInvitationsInOrgResponse = ListPendingInvitationsInOrgResponseBodyList;
 export interface ListReposInOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -806,9 +796,7 @@ export interface MinimalRepository {
   custom_properties?: MinimalRepositoryCustomPropertiesMap;
 }
 export type ListReposInOrgResponseBodyList = Array<MinimalRepository>;
-export interface ListReposInOrgResponse {
-  body: ListReposInOrgResponseBodyList;
-}
+export type ListReposInOrgResponse = ListReposInOrgResponseBodyList;
 export interface RemoveMembershipForUserInOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -1210,11 +1198,9 @@ function __c1(j: number): any {
     case 2:
       return S.Array(__S(17, __c1, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(18, __c1, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListResponse" });
+      return S.suspend(() => __S(18, __c1, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListResponse",
+      });
   }
 }
 function __c2(j: number): any {
@@ -1242,11 +1228,9 @@ function __c3(j: number): any {
     case 1:
       return S.Array(__S(306, __c19, 2));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(49, __c3, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListForAuthenticatedUserResponse" });
+      return S.suspend(() => __S(49, __c3, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListForAuthenticatedUserResponse",
+      });
   }
 }
 function __c4(j: number): any {
@@ -1293,11 +1277,9 @@ function __c4(j: number): any {
     case 2:
       return S.Array(__S(65, __c4, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(66, __c4, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListMembersInOrgResponse" });
+      return S.suspend(() => __S(66, __c4, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListMembersInOrgResponse",
+      });
   }
 }
 function __c5(j: number): any {
@@ -1333,11 +1315,9 @@ function __c5(j: number): any {
     case 2:
       return S.Array(__S(81, __c5, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(82, __c5, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListPendingInvitationsInOrgResponse" });
+      return S.suspend(() => __S(82, __c5, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPendingInvitationsInOrgResponse",
+      });
   }
 }
 function __c6(j: number): any {
@@ -1520,11 +1500,9 @@ function __c6(j: number): any {
     case 11:
       return S.Array(__S(106, __c6, 10));
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(107, __c6, 11).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListReposInOrgResponse" });
+      return S.suspend(() => __S(107, __c6, 11).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReposInOrgResponse",
+      });
   }
 }
 function __c7(j: number): any {

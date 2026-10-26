@@ -351,9 +351,7 @@ export interface ListRequest {
   page?: number;
 }
 export type ListResponseBodyList = Array<BaseGist>;
-export interface ListResponse {
-  body: ListResponseBodyList;
-}
+export type ListResponse = ListResponseBodyList;
 export interface ListCommentsRequest {
   /** The unique identifier of the gist. */
   gist_id: string;
@@ -363,9 +361,7 @@ export interface ListCommentsRequest {
   page?: number;
 }
 export type ListCommentsResponseBodyList = Array<GistComment>;
-export interface ListCommentsResponse {
-  body: ListCommentsResponseBodyList;
-}
+export type ListCommentsResponse = ListCommentsResponseBodyList;
 export interface ListCommitsRequest {
   /** The unique identifier of the gist. */
   gist_id: string;
@@ -384,9 +380,7 @@ export interface GistCommit {
   committed_at: string;
 }
 export type ListCommitsResponseBodyList = Array<GistCommit>;
-export interface ListCommitsResponse {
-  body: ListCommitsResponseBodyList;
-}
+export type ListCommitsResponse = ListCommitsResponseBodyList;
 export interface ListForksRequest {
   /** The unique identifier of the gist. */
   gist_id: string;
@@ -396,9 +390,7 @@ export interface ListForksRequest {
   page?: number;
 }
 export type ListForksResponseBodyList = Array<GistSimple>;
-export interface ListForksResponse {
-  body: ListForksResponseBodyList;
-}
+export type ListForksResponse = ListForksResponseBodyList;
 export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
@@ -410,9 +402,7 @@ export interface ListForUserRequest {
   page?: number;
 }
 export type ListForUserResponseBodyList = Array<BaseGist>;
-export interface ListForUserResponse {
-  body: ListForUserResponseBodyList;
-}
+export type ListForUserResponse = ListForUserResponseBodyList;
 export interface ListPublicRequest {
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   since?: string;
@@ -422,9 +412,7 @@ export interface ListPublicRequest {
   page?: number;
 }
 export type ListPublicResponseBodyList = Array<BaseGist>;
-export interface ListPublicResponse {
-  body: ListPublicResponseBodyList;
-}
+export type ListPublicResponse = ListPublicResponseBodyList;
 export interface ListStarredRequest {
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
   since?: string;
@@ -434,9 +422,7 @@ export interface ListStarredRequest {
   page?: number;
 }
 export type ListStarredResponseBodyList = Array<BaseGist>;
-export interface ListStarredResponse {
-  body: ListStarredResponseBodyList;
-}
+export type ListStarredResponse = ListStarredResponseBodyList;
 export interface StarRequest {
   /** The unique identifier of the gist. */
   gist_id: string;
@@ -868,11 +854,9 @@ function __c3(j: number): any {
     case 0:
       return S.Array(__S(418, __c26, 2));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(48, __c3, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListResponse" });
+      return S.suspend(() => __S(48, __c3, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListResponse",
+      });
   }
 }
 function __c4(j: number): any {
@@ -888,11 +872,9 @@ function __c4(j: number): any {
     case 1:
       return S.Array(__S(352, __c22, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(65, __c4, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListCommentsResponse" });
+      return S.suspend(() => __S(65, __c4, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListCommentsResponse",
+      });
   }
 }
 function __c5(j: number): any {
@@ -918,11 +900,9 @@ function __c5(j: number): any {
     case 2:
       return S.Array(__S(81, __c5, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(82, __c5, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListCommitsResponse" });
+      return S.suspend(() => __S(82, __c5, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListCommitsResponse",
+      });
   }
 }
 function __c6(j: number): any {
@@ -938,11 +918,9 @@ function __c6(j: number): any {
     case 1:
       return S.Array(__S(331, __c20, 11));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(97, __c6, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListForksResponse" });
+      return S.suspend(() => __S(97, __c6, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListForksResponse",
+      });
   }
 }
 function __c7(j: number): any {

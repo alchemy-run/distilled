@@ -217,9 +217,8 @@ export interface PackageVersion {
 }
 export type GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponseBodyList =
   Array<PackageVersion>;
-export interface GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponse {
-  body: GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponseBodyList;
-}
+export type GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponse =
+  GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponseBodyList;
 export type GetAllPackageVersionsForPackageOwnedByOrgRequestPackageType =
   | "npm"
   | "maven"
@@ -243,9 +242,8 @@ export interface GetAllPackageVersionsForPackageOwnedByOrgRequest {
   state?: GetAllPackageVersionsForPackageOwnedByOrgRequestState | (string & {});
 }
 export type GetAllPackageVersionsForPackageOwnedByOrgResponseBodyList = Array<PackageVersion>;
-export interface GetAllPackageVersionsForPackageOwnedByOrgResponse {
-  body: GetAllPackageVersionsForPackageOwnedByOrgResponseBodyList;
-}
+export type GetAllPackageVersionsForPackageOwnedByOrgResponse =
+  GetAllPackageVersionsForPackageOwnedByOrgResponseBodyList;
 export type GetAllPackageVersionsForPackageOwnedByUserRequestPackageType =
   | "npm"
   | "maven"
@@ -640,9 +638,8 @@ export interface ListPackagesForAuthenticatedUserRequest {
   per_page?: number;
 }
 export type ListPackagesForAuthenticatedUserResponseBodyList = Array<Package>;
-export interface ListPackagesForAuthenticatedUserResponse {
-  body: ListPackagesForAuthenticatedUserResponseBodyList;
-}
+export type ListPackagesForAuthenticatedUserResponse =
+  ListPackagesForAuthenticatedUserResponseBodyList;
 export type ListPackagesForOrganizationRequestPackageType =
   | "npm"
   | "maven"
@@ -664,9 +661,7 @@ export interface ListPackagesForOrganizationRequest {
   per_page?: number;
 }
 export type ListPackagesForOrganizationResponseBodyList = Array<Package>;
-export interface ListPackagesForOrganizationResponse {
-  body: ListPackagesForOrganizationResponseBodyList;
-}
+export type ListPackagesForOrganizationResponse = ListPackagesForOrganizationResponseBodyList;
 export type ListPackagesForUserRequestPackageType =
   | "npm"
   | "maven"
@@ -688,9 +683,7 @@ export interface ListPackagesForUserRequest {
   per_page?: number;
 }
 export type ListPackagesForUserResponseBodyList = Array<Package>;
-export interface ListPackagesForUserResponse {
-  body: ListPackagesForUserResponseBodyList;
-}
+export type ListPackagesForUserResponse = ListPackagesForUserResponseBodyList;
 export type RestorePackageForAuthenticatedUserRequestPackageType =
   | "npm"
   | "maven"
@@ -803,8 +796,8 @@ export const deletePackageForAuthenticatedUser: API.OperationMethod<
   DeletePackageForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<DeletePackageForAuthenticatedUserRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<DeletePackageForAuthenticatedUserResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<DeletePackageForAuthenticatedUserRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<DeletePackageForAuthenticatedUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -820,8 +813,8 @@ export const deletePackageForOrg: API.OperationMethod<
   DeletePackageForOrgError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DeletePackageForOrgRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<DeletePackageForOrgResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeletePackageForOrgRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<DeletePackageForOrgResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -837,8 +830,8 @@ export const deletePackageForUser: API.OperationMethod<
   DeletePackageForUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DeletePackageForUserRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<DeletePackageForUserResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<DeletePackageForUserRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<DeletePackageForUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -854,8 +847,8 @@ export const deletePackageVersionForAuthenticatedUser: API.OperationMethod<
   DeletePackageVersionForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<DeletePackageVersionForAuthenticatedUserRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<DeletePackageVersionForAuthenticatedUserResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<DeletePackageVersionForAuthenticatedUserRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<DeletePackageVersionForAuthenticatedUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -871,8 +864,8 @@ export const deletePackageVersionForOrg: API.OperationMethod<
   DeletePackageVersionForOrgError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<DeletePackageVersionForOrgRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<DeletePackageVersionForOrgResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<DeletePackageVersionForOrgRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<DeletePackageVersionForOrgResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -888,8 +881,8 @@ export const deletePackageVersionForUser: API.OperationMethod<
   DeletePackageVersionForUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<DeletePackageVersionForUserRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<DeletePackageVersionForUserResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<DeletePackageVersionForUserRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<DeletePackageVersionForUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -911,14 +904,14 @@ export const getAllPackageVersionsForPackageOwnedByAuthenticatedUser: API.Pagina
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      496,
-      __c31,
+      464,
+      __c29,
       0,
     ) as any as S.Schema<GetAllPackageVersionsForPackageOwnedByAuthenticatedUserRequest>,
     output: __S(
-      512,
-      __c32,
-      0,
+      481,
+      __c30,
+      1,
     ) as any as S.Schema<GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponse>,
     errors: [Forbidden, NotFound],
     protocol: GithubProtocol,
@@ -942,9 +935,9 @@ export const getAllPackageVersionsForPackageOwnedByOrg: API.PaginatedOperationMe
   () => ({
     input: __S(0, __c0, 0) as any as S.Schema<GetAllPackageVersionsForPackageOwnedByOrgRequest>,
     output: __S(
-      512,
-      __c32,
-      0,
+      481,
+      __c30,
+      1,
     ) as any as S.Schema<GetAllPackageVersionsForPackageOwnedByOrgResponse>,
     errors: [Forbidden, NotFound],
     protocol: GithubProtocol,
@@ -965,7 +958,7 @@ export const getAllPackageVersionsForPackageOwnedByUser: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<GetAllPackageVersionsForPackageOwnedByUserRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<GetAllPackageVersionsForPackageOwnedByUserResponse>,
+  output: __S(481, __c30, 1) as any as S.Schema<GetAllPackageVersionsForPackageOwnedByUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1033,7 +1026,7 @@ export const getPackageVersionForAuthenticatedUser: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetPackageVersionForAuthenticatedUserRequest>,
-  output: __S(563, __c35, 3) as any as S.Schema<PackageVersion>,
+  output: __S(515, __c32, 3) as any as S.Schema<PackageVersion>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1050,7 +1043,7 @@ export const getPackageVersionForOrganization: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetPackageVersionForOrganizationRequest>,
-  output: __S(563, __c35, 3) as any as S.Schema<PackageVersion>,
+  output: __S(515, __c32, 3) as any as S.Schema<PackageVersion>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1067,7 +1060,7 @@ export const getPackageVersionForUser: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetPackageVersionForUserRequest>,
-  output: __S(563, __c35, 3) as any as S.Schema<PackageVersion>,
+  output: __S(515, __c32, 3) as any as S.Schema<PackageVersion>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1089,9 +1082,9 @@ export const listDockerMigrationConflictingPackagesForAuthenticatedUser: API.Ope
     0,
   ) as any as S.Schema<ListDockerMigrationConflictingPackagesForAuthenticatedUserRequest>,
   output: __S(
-    160,
+    161,
     __c10,
-    0,
+    1,
   ) as any as S.Schema<ListDockerMigrationConflictingPackagesForAuthenticatedUserResponse>,
   errors: [],
   protocol: GithubProtocol,
@@ -1109,14 +1102,14 @@ export const listDockerMigrationConflictingPackagesForOrganization: API.Operatio
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    192,
-    __c12,
+    176,
+    __c11,
     0,
   ) as any as S.Schema<ListDockerMigrationConflictingPackagesForOrganizationRequest>,
   output: __S(
-    160,
+    161,
     __c10,
-    0,
+    1,
   ) as any as S.Schema<ListDockerMigrationConflictingPackagesForOrganizationResponse>,
   errors: [Forbidden],
   protocol: GithubProtocol,
@@ -1134,14 +1127,14 @@ export const listDockerMigrationConflictingPackagesForUser: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    208,
-    __c13,
+    192,
+    __c12,
     0,
   ) as any as S.Schema<ListDockerMigrationConflictingPackagesForUserRequest>,
   output: __S(
-    160,
+    161,
     __c10,
-    0,
+    1,
   ) as any as S.Schema<ListDockerMigrationConflictingPackagesForUserResponse>,
   errors: [Forbidden],
   protocol: GithubProtocol,
@@ -1160,8 +1153,8 @@ export const listPackagesForAuthenticatedUser: API.PaginatedOperationMethod<
   Package
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(224, __c14, 0) as any as S.Schema<ListPackagesForAuthenticatedUserRequest>,
-    output: __S(240, __c15, 0) as any as S.Schema<ListPackagesForAuthenticatedUserResponse>,
+    input: __S(208, __c13, 0) as any as S.Schema<ListPackagesForAuthenticatedUserRequest>,
+    output: __S(161, __c10, 1) as any as S.Schema<ListPackagesForAuthenticatedUserResponse>,
     errors: [BadRequest],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -1182,8 +1175,8 @@ export const listPackagesForOrganization: API.PaginatedOperationMethod<
   Package
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(256, __c16, 0) as any as S.Schema<ListPackagesForOrganizationRequest>,
-    output: __S(240, __c15, 0) as any as S.Schema<ListPackagesForOrganizationResponse>,
+    input: __S(224, __c14, 0) as any as S.Schema<ListPackagesForOrganizationRequest>,
+    output: __S(161, __c10, 1) as any as S.Schema<ListPackagesForOrganizationResponse>,
     errors: [BadRequest, Forbidden],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -1204,8 +1197,8 @@ export const listPackagesForUser: API.PaginatedOperationMethod<
   Package
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(272, __c17, 0) as any as S.Schema<ListPackagesForUserRequest>,
-    output: __S(240, __c15, 0) as any as S.Schema<ListPackagesForUserResponse>,
+    input: __S(240, __c15, 0) as any as S.Schema<ListPackagesForUserRequest>,
+    output: __S(161, __c10, 1) as any as S.Schema<ListPackagesForUserResponse>,
     errors: [BadRequest, Forbidden],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -1224,8 +1217,8 @@ export const restorePackageForAuthenticatedUser: API.OperationMethod<
   RestorePackageForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<RestorePackageForAuthenticatedUserRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<RestorePackageForAuthenticatedUserResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<RestorePackageForAuthenticatedUserRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<RestorePackageForAuthenticatedUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1241,8 +1234,8 @@ export const restorePackageForOrg: API.OperationMethod<
   RestorePackageForOrgError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<RestorePackageForOrgRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<RestorePackageForOrgResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<RestorePackageForOrgRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<RestorePackageForOrgResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1258,8 +1251,8 @@ export const restorePackageForUser: API.OperationMethod<
   RestorePackageForUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<RestorePackageForUserRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<RestorePackageForUserResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<RestorePackageForUserRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<RestorePackageForUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1275,8 +1268,8 @@ export const restorePackageVersionForAuthenticatedUser: API.OperationMethod<
   RestorePackageVersionForAuthenticatedUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<RestorePackageVersionForAuthenticatedUserRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<RestorePackageVersionForAuthenticatedUserResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<RestorePackageVersionForAuthenticatedUserRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<RestorePackageVersionForAuthenticatedUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1292,8 +1285,8 @@ export const restorePackageVersionForOrg: API.OperationMethod<
   RestorePackageVersionForOrgError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<RestorePackageVersionForOrgRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<RestorePackageVersionForOrgResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<RestorePackageVersionForOrgRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<RestorePackageVersionForOrgResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1309,8 +1302,8 @@ export const restorePackageVersionForUser: API.OperationMethod<
   RestorePackageVersionForUserError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<RestorePackageVersionForUserRequest>,
-  output: __S(400, __c25, 0) as any as S.Schema<RestorePackageVersionForUserResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<RestorePackageVersionForUserRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<RestorePackageVersionForUserResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -1356,10 +1349,6 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetAllPackageVersionsForPackageOwnedByUserRequest" });
-    case 1:
-      return S.suspend(() => __S(528, __c33, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetAllPackageVersionsForPackageOwnedByUserResponse",
-      });
   }
 }
 function __c2(j: number): any {
@@ -1538,7 +1527,7 @@ function __c3(j: number): any {
           default_branch: S.optional(S.String),
           open_issues_count: S.optional(S.Number),
           is_template: S.optional(S.Boolean),
-          topics: S.optional(__S(544, __c34, 0)),
+          topics: S.optional(__S(496, __c31, 0)),
           has_issues: S.optional(S.Boolean),
           has_projects: S.optional(S.Boolean),
           has_wiki: S.optional(S.Boolean),
@@ -1693,18 +1682,14 @@ function __c9(j: number): any {
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(176, __c11, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.Array(__S(59, __c3, 11));
+    case 1:
+      return S.suspend(() => __S(160, __c10, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDockerMigrationConflictingPackagesForAuthenticatedUserResponse",
       });
   }
 }
 function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(59, __c3, 11));
-  }
-}
-function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1714,7 +1699,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ListDockerMigrationConflictingPackagesForOrganizationRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1724,7 +1709,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListDockerMigrationConflictingPackagesForUserRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1737,17 +1722,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ListPackagesForAuthenticatedUserRequest" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(176, __c11, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListPackagesForAuthenticatedUserResponse" });
-  }
-}
-function __c16(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1761,7 +1736,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ListPackagesForOrganizationRequest" });
   }
 }
-function __c17(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1775,7 +1750,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListPackagesForUserRequest" });
   }
 }
-function __c18(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1793,7 +1768,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "RestorePackageForAuthenticatedUserRequest" });
   }
 }
-function __c19(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1812,7 +1787,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RestorePackageForOrgRequest" });
   }
 }
-function __c20(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1831,7 +1806,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RestorePackageForUserRequest" });
   }
 }
-function __c21(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1849,7 +1824,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "RestorePackageVersionForAuthenticatedUserRequest" });
   }
 }
-function __c22(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1868,7 +1843,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "RestorePackageVersionForOrgRequest" });
   }
 }
-function __c23(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1887,7 +1862,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "RestorePackageVersionForUserRequest" });
   }
 }
-function __c24(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1904,7 +1879,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeletePackageForAuthenticatedUserRequest" });
   }
 }
-function __c25(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1912,7 +1887,7 @@ function __c25(j: number): any {
       });
   }
 }
-function __c26(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1930,7 +1905,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeletePackageForOrgRequest" });
   }
 }
-function __c27(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1948,7 +1923,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeletePackageForUserRequest" });
   }
 }
-function __c28(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1966,7 +1941,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeletePackageVersionForAuthenticatedUserRequest" });
   }
 }
-function __c29(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1985,7 +1960,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeletePackageVersionForOrgRequest" });
   }
 }
-function __c30(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2004,7 +1979,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeletePackageVersionForUserRequest" });
   }
 }
-function __c31(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2024,48 +1999,42 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetAllPackageVersionsForPackageOwnedByAuthenticatedUserRequest" });
   }
 }
-function __c32(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(528, __c33, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponse" });
+      return S.Array(__S(515, __c32, 3));
+    case 1:
+      return S.suspend(() => __S(480, __c30, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponse",
+      });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(563, __c35, 3));
-  }
-}
-function __c34(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c35(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tags: __S(544, __c34, 0),
+          tags: __S(496, __c31, 0),
         }),
       ).annotate({ identifier: "PackageVersionMetadataContainer" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tag: S.optional(__S(544, __c34, 0)),
+          tag: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "PackageVersionMetadataDocker" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           package_type: S.String,
-          container: S.optional(__S(560, __c35, 0)),
-          docker: S.optional(__S(561, __c35, 1)),
+          container: S.optional(__S(512, __c32, 0)),
+          docker: S.optional(__S(513, __c32, 1)),
         }),
       ).annotate({ identifier: "PackageVersionMetadata" });
     case 3:
@@ -2081,7 +2050,7 @@ function __c35(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           deleted_at: S.optional(S.String),
-          metadata: S.optional(__S(562, __c35, 2)),
+          metadata: S.optional(__S(514, __c32, 2)),
         }),
       ).annotate({ identifier: "PackageVersion" });
   }

@@ -174,3 +174,58 @@ describe("operation type annotation overrides", () => {
     expect(code).toMatch(/\}\)\) as any;/);
   });
 });
+
+describe("pagination over a bare-array response", () => {
+  const model = (items: string) => ({
+    smithy: "2.0",
+    shapes: {
+      "ns#Example": { type: "service", version: "1", operations: [{ target: "ns#ListThings" }] },
+      "ns#ListThings": {
+        type: "operation",
+        input: { target: "ns#ListThingsRequest" },
+        output: { target: "ns#ListThingsResponse" },
+        traits: {
+          "smithy.api#http": { method: "GET", uri: "/things" },
+          "smithy.api#paginated": { mode: "page", inputToken: "page", pageSize: "per_page", items },
+        },
+      },
+      "ns#ListThingsRequest": {
+        type: "structure",
+        traits: { "smithy.api#input": {} },
+        members: {
+          page: { target: "smithy.api#Integer", traits: { "smithy.api#httpQuery": "page" } },
+          per_page: {
+            target: "smithy.api#Integer",
+            traits: { "smithy.api#httpQuery": "per_page" },
+          },
+        },
+      },
+      "ns#ListThingsResponse": {
+        type: "structure",
+        members: { body: { target: "ns#ThingList", traits: { "ns#raw": {} } } },
+      },
+      "ns#ThingList": { type: "list", member: { target: "ns#Thing" } },
+      "ns#Thing": { type: "structure", members: { id: { target: "smithy.api#String" } } },
+    },
+  });
+  const pageSpec: SdkSpec = {
+    ...spec,
+    extraBindings: [
+      {
+        trait: "ns#raw",
+        binding: "rawResponse",
+        pipe: "T.RawResponse()",
+        rootPipe: "T.RawResponseRoot()",
+      },
+    ],
+    paginationProfiles: { page: { strategy: "paginatePageNumber", itemsFallback: "" } },
+  };
+
+  test('items: "" keeps the response the array and types items as its element', () => {
+    const { code } = generateService(model(""), pageSpec);
+    expect(code).toContain("export type ListThingsResponse = ThingList;");
+    expect(code).toMatch(
+      /PaginatedOperationMethod<\s*ListThingsRequest,\s*ListThingsResponse,\s*ListThingsError,\s*ExampleContext,\s*Thing\s*>/,
+    );
+  });
+});

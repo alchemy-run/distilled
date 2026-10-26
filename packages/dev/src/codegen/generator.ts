@@ -720,6 +720,8 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   //    token on the input and its items member on the output, else it
   //    degrades to a plain operation.
   const paginatedOutputs = new Set<string>();
+  /** Paginated outputs whose items are the response itself (`items: ""`). */
+  const rootItemsOutputs = new Set<string>();
   const paginatedItemsRoot = new Map<string, string>();
   /** Op id → its full (possibly dotted) items path, `""` when it has none. */
   const paginatedItemsPath = new Map<string, string>();
@@ -752,6 +754,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       if (ok) {
         op.def.__pagination = pg;
         paginatedOutputs.add(op.def.__output);
+        if (pg.items === "") rootItemsOutputs.add(op.def.__output);
         paginatedItemsRoot.set(op.def.__output, itemsRoot);
         paginatedItemsPath.set(op.id, String(pg.items ?? profile.itemsFallback ?? ""));
         outputProfile.set(op.def.__output, profile);
@@ -843,7 +846,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       // that member's value; emit its type + a root marker for the protocol.
       const memberEntriesAll = Object.entries(d.members ?? {});
       const soleMemberRoot =
-        !paginatedOutputs.has(id) && memberEntriesAll.length === 1
+        // A paginated output keeps its member form so `items` can address
+        // it -- unless the items are the response itself (`items: ""`).
+        (!paginatedOutputs.has(id) || rootItemsOutputs.has(id)) && memberEntriesAll.length === 1
           ? (spec.extraBindings ?? []).find(
               (b) =>
                 b.rootPipe !== undefined &&

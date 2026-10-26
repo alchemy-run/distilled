@@ -325,9 +325,7 @@ export interface ListForAuthenticatedUserRequest {
   page?: number;
 }
 export type ListForAuthenticatedUserResponseBodyList = Array<Migration>;
-export interface ListForAuthenticatedUserResponse {
-  body: ListForAuthenticatedUserResponseBodyList;
-}
+export type ListForAuthenticatedUserResponse = ListForAuthenticatedUserResponseBodyList;
 /** Allowed values that can be passed to the exclude param. */
 export type ListForOrgRequestExcludeItem = "repositories";
 export type ListForOrgRequestExcludeList = Array<ListForOrgRequestExcludeItem | (string & {})>;
@@ -342,9 +340,7 @@ export interface ListForOrgRequest {
   exclude?: ListForOrgRequestExcludeList;
 }
 export type ListForOrgResponseBodyList = Array<Migration>;
-export interface ListForOrgResponse {
-  body: ListForOrgResponseBodyList;
-}
+export type ListForOrgResponse = ListForOrgResponseBodyList;
 export interface ListReposForAuthenticatedUserRequest {
   /** The unique identifier of the migration. */
   migration_id: number;
@@ -554,9 +550,7 @@ export interface MinimalRepository {
   custom_properties?: MinimalRepositoryCustomPropertiesMap;
 }
 export type ListReposForAuthenticatedUserResponseBodyList = Array<MinimalRepository>;
-export interface ListReposForAuthenticatedUserResponse {
-  body: ListReposForAuthenticatedUserResponseBodyList;
-}
+export type ListReposForAuthenticatedUserResponse = ListReposForAuthenticatedUserResponseBodyList;
 export interface ListReposForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
@@ -568,9 +562,7 @@ export interface ListReposForOrgRequest {
   page?: number;
 }
 export type ListReposForOrgResponseBodyList = Array<MinimalRepository>;
-export interface ListReposForOrgResponse {
-  body: ListReposForOrgResponseBodyList;
-}
+export type ListReposForOrgResponse = ListReposForOrgResponseBodyList;
 /** Allowed values that can be passed to the exclude param. */
 export type StartForAuthenticatedUserRequestExcludeItem = "repositories";
 /** Exclude attributes from the API response to improve performance */
@@ -1097,11 +1089,9 @@ function __c2(j: number): any {
     case 10:
       return S.Array(__S(41, __c2, 9));
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(42, __c2, 10).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListReposForAuthenticatedUserResponse" });
+      return S.suspend(() => __S(42, __c2, 10).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReposForAuthenticatedUserResponse",
+      });
   }
 }
 function __c3(j: number): any {
@@ -1499,11 +1489,9 @@ function __c19(j: number): any {
     case 0:
       return S.Array(__S(245, __c15, 5));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(304, __c19, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListForAuthenticatedUserResponse" });
+      return S.suspend(() => __S(304, __c19, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListForAuthenticatedUserResponse",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

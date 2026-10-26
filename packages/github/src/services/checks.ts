@@ -652,9 +652,7 @@ export interface CheckAnnotation {
   blob_href: string;
 }
 export type ListAnnotationsResponseBodyList = Array<CheckAnnotation>;
-export interface ListAnnotationsResponse {
-  body: ListAnnotationsResponseBodyList;
-}
+export type ListAnnotationsResponse = ListAnnotationsResponseBodyList;
 export type ListForRefRequestStatus = "queued" | "in_progress" | "completed";
 export type ListForRefRequestFilter = "latest" | "all";
 export interface ListForRefRequest {
@@ -1772,11 +1770,9 @@ function __c16(j: number): any {
     case 2:
       return S.Array(__S(257, __c16, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(258, __c16, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListAnnotationsResponse" });
+      return S.suspend(() => __S(258, __c16, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAnnotationsResponse",
+      });
   }
 }
 function __c17(j: number): any {

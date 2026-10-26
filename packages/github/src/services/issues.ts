@@ -1376,9 +1376,7 @@ export interface ListRequest {
   page?: number;
 }
 export type ListResponseBodyList = Array<Issue>;
-export interface ListResponse {
-  body: ListResponseBodyList;
-}
+export type ListResponse = ListResponseBodyList;
 export interface ListAssigneesRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1390,9 +1388,7 @@ export interface ListAssigneesRequest {
   page?: number;
 }
 export type ListAssigneesResponseBodyList = Array<NullableSimpleUser>;
-export interface ListAssigneesResponse {
-  body: ListAssigneesResponseBodyList;
-}
+export type ListAssigneesResponse = ListAssigneesResponseBodyList;
 export interface ListCommentsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1408,9 +1404,7 @@ export interface ListCommentsRequest {
   page?: number;
 }
 export type ListCommentsResponseBodyList = Array<IssueComment>;
-export interface ListCommentsResponse {
-  body: ListCommentsResponseBodyList;
-}
+export type ListCommentsResponse = ListCommentsResponseBodyList;
 export type ListCommentsForRepoRequestSort = "created" | "updated";
 export type ListCommentsForRepoRequestDirection = "asc" | "desc";
 export interface ListCommentsForRepoRequest {
@@ -1430,9 +1424,7 @@ export interface ListCommentsForRepoRequest {
   page?: number;
 }
 export type ListCommentsForRepoResponseBodyList = Array<IssueComment>;
-export interface ListCommentsForRepoResponse {
-  body: ListCommentsForRepoResponseBodyList;
-}
+export type ListCommentsForRepoResponse = ListCommentsForRepoResponseBodyList;
 export interface ListDependenciesBlockedByRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1446,9 +1438,7 @@ export interface ListDependenciesBlockedByRequest {
   page?: number;
 }
 export type ListDependenciesBlockedByResponseBodyList = Array<Issue>;
-export interface ListDependenciesBlockedByResponse {
-  body: ListDependenciesBlockedByResponseBodyList;
-}
+export type ListDependenciesBlockedByResponse = ListDependenciesBlockedByResponseBodyList;
 export interface ListDependenciesBlockingRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1462,9 +1452,7 @@ export interface ListDependenciesBlockingRequest {
   page?: number;
 }
 export type ListDependenciesBlockingResponseBodyList = Array<Issue>;
-export interface ListDependenciesBlockingResponse {
-  body: ListDependenciesBlockingResponseBodyList;
-}
+export type ListDependenciesBlockingResponse = ListDependenciesBlockingResponseBodyList;
 export interface ListEventsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1808,9 +1796,7 @@ export type IssueEventForIssue =
   | BlockingAddedIssueEvent
   | BlockingAddedIssueEvent;
 export type ListEventsResponseBodyList = Array<IssueEventForIssue>;
-export interface ListEventsResponse {
-  body: ListEventsResponseBodyList;
-}
+export type ListEventsResponse = ListEventsResponseBodyList;
 export interface ListEventsForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1822,9 +1808,7 @@ export interface ListEventsForRepoRequest {
   page?: number;
 }
 export type ListEventsForRepoResponseBodyList = Array<IssueEvent>;
-export interface ListEventsForRepoResponse {
-  body: ListEventsForRepoResponseBodyList;
-}
+export type ListEventsForRepoResponse = ListEventsForRepoResponseBodyList;
 export interface ListEventsForTimelineRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2144,9 +2128,7 @@ export type TimelineIssueEvents =
   | TimelineConnectedEvent
   | TimelineConnectedEvent;
 export type ListEventsForTimelineResponseBodyList = Array<TimelineIssueEvents>;
-export interface ListEventsForTimelineResponse {
-  body: ListEventsForTimelineResponseBodyList;
-}
+export type ListEventsForTimelineResponse = ListEventsForTimelineResponseBodyList;
 export type ListForAuthenticatedUserRequestFilter =
   | "assigned"
   | "created"
@@ -2176,9 +2158,7 @@ export interface ListForAuthenticatedUserRequest {
   page?: number;
 }
 export type ListForAuthenticatedUserResponseBodyList = Array<Issue>;
-export interface ListForAuthenticatedUserResponse {
-  body: ListForAuthenticatedUserResponseBodyList;
-}
+export type ListForAuthenticatedUserResponse = ListForAuthenticatedUserResponseBodyList;
 export type ListForOrgRequestFilter =
   | "assigned"
   | "created"
@@ -2212,9 +2192,7 @@ export interface ListForOrgRequest {
   page?: number;
 }
 export type ListForOrgResponseBodyList = Array<Issue>;
-export interface ListForOrgResponse {
-  body: ListForOrgResponseBodyList;
-}
+export type ListForOrgResponse = ListForOrgResponseBodyList;
 export type ListForRepoRequestState = "open" | "closed" | "all";
 export type ListForRepoRequestSort = "created" | "updated" | "comments";
 export type ListForRepoRequestDirection = "asc" | "desc";
@@ -2251,9 +2229,7 @@ export interface ListForRepoRequest {
   page?: number;
 }
 export type ListForRepoResponseBodyList = Array<Issue>;
-export interface ListForRepoResponse {
-  body: ListForRepoResponseBodyList;
-}
+export type ListForRepoResponse = ListForRepoResponseBodyList;
 export interface ListIssueFieldValuesForIssueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2267,9 +2243,7 @@ export interface ListIssueFieldValuesForIssueRequest {
   page?: number;
 }
 export type ListIssueFieldValuesForIssueResponseBodyList = Array<IssueFieldValue>;
-export interface ListIssueFieldValuesForIssueResponse {
-  body: ListIssueFieldValuesForIssueResponseBodyList;
-}
+export type ListIssueFieldValuesForIssueResponse = ListIssueFieldValuesForIssueResponseBodyList;
 export interface ListLabelsForMilestoneRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2283,9 +2257,7 @@ export interface ListLabelsForMilestoneRequest {
   page?: number;
 }
 export type ListLabelsForMilestoneResponseBodyList = Array<Label>;
-export interface ListLabelsForMilestoneResponse {
-  body: ListLabelsForMilestoneResponseBodyList;
-}
+export type ListLabelsForMilestoneResponse = ListLabelsForMilestoneResponseBodyList;
 export interface ListLabelsForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2297,9 +2269,7 @@ export interface ListLabelsForRepoRequest {
   page?: number;
 }
 export type ListLabelsForRepoResponseBodyList = Array<Label>;
-export interface ListLabelsForRepoResponse {
-  body: ListLabelsForRepoResponseBodyList;
-}
+export type ListLabelsForRepoResponse = ListLabelsForRepoResponseBodyList;
 export interface ListLabelsOnIssueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2313,9 +2283,7 @@ export interface ListLabelsOnIssueRequest {
   page?: number;
 }
 export type ListLabelsOnIssueResponseBodyList = Array<Label>;
-export interface ListLabelsOnIssueResponse {
-  body: ListLabelsOnIssueResponseBodyList;
-}
+export type ListLabelsOnIssueResponse = ListLabelsOnIssueResponseBodyList;
 export type ListMilestonesRequestState = "open" | "closed" | "all";
 export type ListMilestonesRequestSort = "due_on" | "completeness";
 export type ListMilestonesRequestDirection = "asc" | "desc";
@@ -2336,9 +2304,7 @@ export interface ListMilestonesRequest {
   page?: number;
 }
 export type ListMilestonesResponseBodyList = Array<Milestone>;
-export interface ListMilestonesResponse {
-  body: ListMilestonesResponseBodyList;
-}
+export type ListMilestonesResponse = ListMilestonesResponseBodyList;
 export interface ListRelatesToRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2352,9 +2318,7 @@ export interface ListRelatesToRequest {
   page?: number;
 }
 export type ListRelatesToResponseBodyList = Array<Issue>;
-export interface ListRelatesToResponse {
-  body: ListRelatesToResponseBodyList;
-}
+export type ListRelatesToResponse = ListRelatesToResponseBodyList;
 export interface ListSubIssuesRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2368,9 +2332,7 @@ export interface ListSubIssuesRequest {
   page?: number;
 }
 export type ListSubIssuesResponseBodyList = Array<Issue>;
-export interface ListSubIssuesResponse {
-  body: ListSubIssuesResponseBodyList;
-}
+export type ListSubIssuesResponse = ListSubIssuesResponseBodyList;
 export type ListSuggestionsRequestState =
   | "pending"
   | "applied"
@@ -2402,9 +2364,7 @@ export interface ListSuggestionsRequest {
   page?: number;
 }
 export type ListSuggestionsResponseBodyList = Array<IssueSuggestion>;
-export interface ListSuggestionsResponse {
-  body: ListSuggestionsResponseBodyList;
-}
+export type ListSuggestionsResponse = ListSuggestionsResponseBodyList;
 /** The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons: * `off-topic` * `too heated` * `resolved` * `spam` */
 export type LockRequestLockReason = "off-topic" | "too heated" | "resolved" | "spam";
 export interface LockRequest {
@@ -2875,8 +2835,8 @@ export const addAssignees: API.OperationMethod<
   AddAssigneesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1473, __c46, 1) as any as S.Schema<AddAssigneesRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  input: __S(1441, __c45, 1) as any as S.Schema<AddAssigneesRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2897,8 +2857,8 @@ export const addBlockedByDependency: API.OperationMethod<
   AddBlockedByDependencyError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<AddBlockedByDependencyRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  input: __S(2016, __c63, 0) as any as S.Schema<AddBlockedByDependencyRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2919,8 +2879,8 @@ export const addIssueFieldValues: API.OperationMethod<
   AddIssueFieldValuesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2274, __c71, 2) as any as S.Schema<AddIssueFieldValuesRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<AddIssueFieldValuesResponse>,
+  input: __S(2242, __c70, 2) as any as S.Schema<AddIssueFieldValuesRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<AddIssueFieldValuesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2936,8 +2896,8 @@ export const addLabels: API.OperationMethod<
   AddLabelsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<AddLabelsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<AddLabelsResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<AddLabelsRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<AddLabelsResponse>,
   errors: [NotFound, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2953,8 +2913,8 @@ export const addRelatesTo: API.OperationMethod<
   AddRelatesToError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<AddRelatesToRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  input: __S(2400, __c75, 0) as any as S.Schema<AddRelatesToRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2971,7 +2931,7 @@ export const addSubIssue: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddSubIssueRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3041,7 +3001,7 @@ export type CreateError =
 export const create: API.OperationMethod<CreateRequest, Issue, CreateError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(195, __c6, 3) as any as S.Schema<CreateRequest>,
-    output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+    output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
     errors: [BadRequest, Forbidden, NotFound, Gone, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3058,7 +3018,7 @@ export const createComment: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<CreateCommentRequest>,
-  output: __S(1574, __c49, 6) as any as S.Schema<IssueComment>,
+  output: __S(1542, __c48, 6) as any as S.Schema<IssueComment>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3075,7 +3035,7 @@ export const createLabel: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CreateLabelRequest>,
-  output: __S(2368, __c74, 0) as any as S.Schema<Label>,
+  output: __S(2336, __c73, 0) as any as S.Schema<Label>,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3092,7 +3052,7 @@ export const createMilestone: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateMilestoneRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<Milestone>,
+  output: __S(1568, __c49, 0) as any as S.Schema<Milestone>,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3190,7 +3150,7 @@ export type GetError = NotFound | Gone | GithubOpError;
 export const get: API.OperationMethod<GetRequest, Issue, GetError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(480, __c15, 0) as any as S.Schema<GetRequest>,
-    output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+    output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
     errors: [NotFound, Gone],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3207,7 +3167,7 @@ export const getComment: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetCommentRequest>,
-  output: __S(1574, __c49, 6) as any as S.Schema<IssueComment>,
+  output: __S(1542, __c48, 6) as any as S.Schema<IssueComment>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3237,7 +3197,7 @@ export type GetLabelError = NotFound | GithubOpError;
 export const getLabel: API.OperationMethod<GetLabelRequest, Label, GetLabelError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(608, __c19, 0) as any as S.Schema<GetLabelRequest>,
-    output: __S(2368, __c74, 0) as any as S.Schema<Label>,
+    output: __S(2336, __c73, 0) as any as S.Schema<Label>,
     errors: [NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3254,7 +3214,7 @@ export const getMilestone: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetMilestoneRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<Milestone>,
+  output: __S(1568, __c49, 0) as any as S.Schema<Milestone>,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3271,7 +3231,7 @@ export const getParent: API.OperationMethod<
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetParentRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3554,7 +3514,7 @@ export const listIssueFieldValuesForIssue: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(1152, __c36, 0) as any as S.Schema<ListIssueFieldValuesForIssueRequest>,
-    output: __S(1153, __c36, 1) as any as S.Schema<ListIssueFieldValuesForIssueResponse>,
+    output: __S(2272, __c71, 0) as any as S.Schema<ListIssueFieldValuesForIssueResponse>,
     errors: [NotFound, Gone],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3576,7 +3536,7 @@ export const listLabelsForMilestone: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(1184, __c37, 0) as any as S.Schema<ListLabelsForMilestoneRequest>,
-    output: __S(1216, __c38, 0) as any as S.Schema<ListLabelsForMilestoneResponse>,
+    output: __S(2369, __c74, 1) as any as S.Schema<ListLabelsForMilestoneResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3597,8 +3557,8 @@ export const listLabelsForRepo: API.PaginatedOperationMethod<
   Label
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1248, __c39, 0) as any as S.Schema<ListLabelsForRepoRequest>,
-    output: __S(1216, __c38, 0) as any as S.Schema<ListLabelsForRepoResponse>,
+    input: __S(1216, __c38, 0) as any as S.Schema<ListLabelsForRepoRequest>,
+    output: __S(2369, __c74, 1) as any as S.Schema<ListLabelsForRepoResponse>,
     errors: [NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3619,8 +3579,8 @@ export const listLabelsOnIssue: API.PaginatedOperationMethod<
   Label
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1280, __c40, 0) as any as S.Schema<ListLabelsOnIssueRequest>,
-    output: __S(1216, __c38, 0) as any as S.Schema<ListLabelsOnIssueResponse>,
+    input: __S(1248, __c39, 0) as any as S.Schema<ListLabelsOnIssueRequest>,
+    output: __S(2369, __c74, 1) as any as S.Schema<ListLabelsOnIssueResponse>,
     errors: [NotFound, Gone],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3641,8 +3601,8 @@ export const listMilestones: API.PaginatedOperationMethod<
   Milestone
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1312, __c41, 0) as any as S.Schema<ListMilestonesRequest>,
-    output: __S(1314, __c41, 2) as any as S.Schema<ListMilestonesResponse>,
+    input: __S(1280, __c40, 0) as any as S.Schema<ListMilestonesRequest>,
+    output: __S(1282, __c40, 2) as any as S.Schema<ListMilestonesResponse>,
     errors: [NotFound],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3663,7 +3623,7 @@ export const listRelatesTo: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1344, __c42, 0) as any as S.Schema<ListRelatesToRequest>,
+    input: __S(1312, __c41, 0) as any as S.Schema<ListRelatesToRequest>,
     output: __S(737, __c23, 1) as any as S.Schema<ListRelatesToResponse>,
     errors: [NotFound, Gone],
     protocol: GithubProtocol,
@@ -3685,7 +3645,7 @@ export const listSubIssues: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1376, __c43, 0) as any as S.Schema<ListSubIssuesRequest>,
+    input: __S(1344, __c42, 0) as any as S.Schema<ListSubIssuesRequest>,
     output: __S(737, __c23, 1) as any as S.Schema<ListSubIssuesResponse>,
     errors: [NotFound, Gone],
     protocol: GithubProtocol,
@@ -3707,8 +3667,8 @@ export const listSuggestions: API.PaginatedOperationMethod<
   IssueSuggestion
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1408, __c44, 0) as any as S.Schema<ListSuggestionsRequest>,
-    output: __S(1410, __c44, 2) as any as S.Schema<ListSuggestionsResponse>,
+    input: __S(1376, __c43, 0) as any as S.Schema<ListSuggestionsRequest>,
+    output: __S(1378, __c43, 2) as any as S.Schema<ListSuggestionsResponse>,
     errors: [NotFound, UnprocessableEntity],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3723,7 +3683,7 @@ export type LockError = Forbidden | NotFound | Gone | UnprocessableEntity | Gith
 /** Lock an issue Users with push access can lock an issue or pull request's conversation. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP method](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)." */
 export const lock: API.OperationMethod<LockRequest, LockResponse, LockError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1440, __c45, 0) as any as S.Schema<LockRequest>,
+    input: __S(1408, __c44, 0) as any as S.Schema<LockRequest>,
     output: __S(128, __c4, 0) as any as S.Schema<LockResponse>,
     errors: [Forbidden, NotFound, Gone, UnprocessableEntity],
     protocol: GithubProtocol,
@@ -3740,8 +3700,8 @@ export const pinComment: API.OperationMethod<
   PinCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<PinCommentRequest>,
-  output: __S(1574, __c49, 6) as any as S.Schema<IssueComment>,
+  input: __S(1696, __c53, 0) as any as S.Schema<PinCommentRequest>,
+  output: __S(1542, __c48, 6) as any as S.Schema<IssueComment>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3757,7 +3717,7 @@ export const removeAllLabels: API.OperationMethod<
   RemoveAllLabelsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<RemoveAllLabelsRequest>,
+  input: __S(1728, __c54, 0) as any as S.Schema<RemoveAllLabelsRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<RemoveAllLabelsResponse>,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
@@ -3774,8 +3734,8 @@ export const removeAssignees: API.OperationMethod<
   RemoveAssigneesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<RemoveAssigneesRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  input: __S(1760, __c55, 0) as any as S.Schema<RemoveAssigneesRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3796,8 +3756,8 @@ export const removeDependencyBlockedBy: API.OperationMethod<
   RemoveDependencyBlockedByError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<RemoveDependencyBlockedByRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  input: __S(1792, __c56, 0) as any as S.Schema<RemoveDependencyBlockedByRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [BadRequest, Forbidden, NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3813,8 +3773,8 @@ export const removeLabel: API.OperationMethod<
   RemoveLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<RemoveLabelRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<RemoveLabelResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<RemoveLabelRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<RemoveLabelResponse>,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3830,8 +3790,8 @@ export const removeRelatesTo: API.OperationMethod<
   RemoveRelatesToError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<RemoveRelatesToRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  input: __S(1856, __c58, 0) as any as S.Schema<RemoveRelatesToRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [BadRequest, Forbidden, NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3847,8 +3807,8 @@ export const removeSubIssue: API.OperationMethod<
   RemoveSubIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<RemoveSubIssueRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  input: __S(1888, __c59, 0) as any as S.Schema<RemoveSubIssueRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3864,8 +3824,8 @@ export const reprioritizeSubIssue: API.OperationMethod<
   ReprioritizeSubIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ReprioritizeSubIssueRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<Issue>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ReprioritizeSubIssueRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<Issue>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3886,8 +3846,8 @@ export const setIssueFieldValues: API.OperationMethod<
   SetIssueFieldValuesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1986, __c62, 2) as any as S.Schema<SetIssueFieldValuesRequest>,
-  output: __S(2304, __c72, 0) as any as S.Schema<SetIssueFieldValuesResponse>,
+  input: __S(1954, __c61, 2) as any as S.Schema<SetIssueFieldValuesRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<SetIssueFieldValuesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3903,8 +3863,8 @@ export const setLabels: API.OperationMethod<
   SetLabelsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<SetLabelsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<SetLabelsResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<SetLabelsRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<SetLabelsResponse>,
   errors: [NotFound, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3920,7 +3880,7 @@ export const unlock: API.OperationMethod<
   UnlockError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<UnlockRequest>,
+  input: __S(2048, __c64, 0) as any as S.Schema<UnlockRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<UnlockResponse>,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
@@ -3937,7 +3897,7 @@ export const unpinComment: API.OperationMethod<
   UnpinCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<UnpinCommentRequest>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UnpinCommentRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<UnpinCommentResponse>,
   errors: [Forbidden, NotFound, Gone],
   protocol: GithubProtocol,
@@ -3954,8 +3914,8 @@ export const update: API.OperationMethod<
   UpdateError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2148, __c67, 4) as any as S.Schema<UpdateRequest>,
-  output: __S(2161, __c67, 17) as any as S.Schema<UpdateResponse>,
+  input: __S(2116, __c66, 4) as any as S.Schema<UpdateRequest>,
+  output: __S(2129, __c66, 17) as any as S.Schema<UpdateResponse>,
   errors: [Forbidden, NotFound, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3971,8 +3931,8 @@ export const updateComment: API.OperationMethod<
   UpdateCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<UpdateCommentRequest>,
-  output: __S(1574, __c49, 6) as any as S.Schema<IssueComment>,
+  input: __S(2144, __c67, 0) as any as S.Schema<UpdateCommentRequest>,
+  output: __S(1542, __c48, 6) as any as S.Schema<IssueComment>,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3988,8 +3948,8 @@ export const updateLabel: API.OperationMethod<
   UpdateLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<UpdateLabelRequest>,
-  output: __S(2368, __c74, 0) as any as S.Schema<Label>,
+  input: __S(2176, __c68, 0) as any as S.Schema<UpdateLabelRequest>,
+  output: __S(2336, __c73, 0) as any as S.Schema<Label>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -4005,8 +3965,8 @@ export const updateMilestone: API.OperationMethod<
   UpdateMilestoneError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<UpdateMilestoneRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<Milestone>,
+  input: __S(2208, __c69, 0) as any as S.Schema<UpdateMilestoneRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<Milestone>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -4140,7 +4100,7 @@ function __c6(j: number): any {
           assignee: S.optional(S.NullOr(S.String)),
           milestone: S.optional(S.NullOr(S.Unknown)),
           labels: S.optional(__S(192, __c6, 0)),
-          assignees: S.optional(__S(1568, __c49, 0)),
+          assignees: S.optional(__S(1536, __c48, 0)),
           issue_field_values: S.optional(__S(194, __c6, 2)),
           type: S.optional(S.NullOr(S.String)),
           parent_issue_id: S.optional(S.Number),
@@ -4354,33 +4314,33 @@ function __c18(j: number): any {
           state_reason: S.optional(S.NullOr(S.String)),
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
-          user: S.NullOr(__S(1536, __c48, 0)),
+          user: S.NullOr(__S(1504, __c47, 0)),
           labels: __S(576, __c18, 0),
-          assignee: S.NullOr(__S(1536, __c48, 0)),
-          assignees: S.optional(__S(1632, __c51, 0)),
-          milestone: S.NullOr(__S(1600, __c50, 0)),
+          assignee: S.NullOr(__S(1504, __c47, 0)),
+          assignees: S.optional(__S(1600, __c50, 0)),
+          milestone: S.NullOr(__S(1568, __c49, 0)),
           locked: S.Boolean,
           active_lock_reason: S.optional(S.NullOr(S.String)),
           comments: S.Number,
-          pull_request: S.optional(__S(1664, __c52, 0)),
+          pull_request: S.optional(__S(1632, __c51, 0)),
           closed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
           draft: S.optional(S.Boolean),
-          closed_by: S.optional(S.NullOr(__S(1536, __c48, 0))),
+          closed_by: S.optional(S.NullOr(__S(1504, __c47, 0))),
           body_html: S.optional(S.String),
           body_text: S.optional(S.String),
           timeline_url: S.optional(S.String),
-          type: S.optional(S.NullOr(__S(1665, __c52, 1))),
-          repository: S.optional(__S(1669, __c52, 5)),
-          performed_via_github_app: S.optional(S.NullOr(__S(1570, __c49, 2))),
+          type: S.optional(S.NullOr(__S(1633, __c51, 1))),
+          repository: S.optional(__S(1637, __c51, 5)),
+          performed_via_github_app: S.optional(S.NullOr(__S(1538, __c48, 2))),
           author_association: S.optional(S.String),
-          reactions: S.optional(__S(1571, __c49, 3)),
-          sub_issues_summary: S.optional(__S(1670, __c52, 6)),
+          reactions: S.optional(__S(1539, __c48, 3)),
+          sub_issues_summary: S.optional(__S(1638, __c51, 6)),
           parent_issue_url: S.optional(S.NullOr(S.String)),
-          pinned_comment: S.optional(S.NullOr(__S(1574, __c49, 6))),
-          issue_dependencies_summary: S.optional(__S(1671, __c52, 7)),
-          issue_field_values: S.optional(__S(1507, __c47, 3)),
+          pinned_comment: S.optional(S.NullOr(__S(1542, __c48, 6))),
+          issue_dependencies_summary: S.optional(__S(1639, __c51, 7)),
+          issue_field_values: S.optional(__S(1475, __c46, 3)),
         }),
       ).annotate({ identifier: "NullableIssue" });
     case 2:
@@ -4492,7 +4452,7 @@ function __c18(j: number): any {
           node_id: S.String,
           name: S.String,
           full_name: S.String,
-          owner: __S(1536, __c48, 0),
+          owner: __S(1504, __c47, 0),
           private: S.Boolean,
           html_url: S.String,
           description: S.NullOr(S.String),
@@ -4569,17 +4529,17 @@ function __c18(j: number): any {
           id: S.Number,
           node_id: S.String,
           url: S.String,
-          actor: S.NullOr(__S(1536, __c48, 0)),
+          actor: S.NullOr(__S(1504, __c47, 0)),
           event: S.String,
           commit_id: S.NullOr(S.String),
           commit_url: S.NullOr(S.String),
           created_at: S.String,
           issue: S.optional(S.NullOr(__S(577, __c18, 1))),
           label: S.optional(__S(578, __c18, 2)),
-          assignee: S.optional(S.NullOr(__S(1536, __c48, 0))),
-          assigner: S.optional(S.NullOr(__S(1536, __c48, 0))),
-          review_requester: S.optional(S.NullOr(__S(1536, __c48, 0))),
-          requested_reviewer: S.optional(S.NullOr(__S(1536, __c48, 0))),
+          assignee: S.optional(S.NullOr(__S(1504, __c47, 0))),
+          assigner: S.optional(S.NullOr(__S(1504, __c47, 0))),
+          review_requester: S.optional(S.NullOr(__S(1504, __c47, 0))),
+          requested_reviewer: S.optional(S.NullOr(__S(1504, __c47, 0))),
           requested_team: S.optional(__S(581, __c18, 5)),
           dismissed_review: S.optional(__S(582, __c18, 6)),
           milestone: S.optional(__S(583, __c18, 7)),
@@ -4594,7 +4554,7 @@ function __c18(j: number): any {
           intent: S.optional(S.NullOr(__S(590, __c18, 14))),
           author_association: S.optional(S.String),
           lock_reason: S.optional(S.NullOr(S.String)),
-          performed_via_github_app: S.optional(S.NullOr(__S(1570, __c49, 2))),
+          performed_via_github_app: S.optional(S.NullOr(__S(1538, __c48, 2))),
         }),
       ).annotate({ identifier: "IssueEvent" });
   }
@@ -4671,13 +4631,11 @@ function __c22(j: number): any {
 function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1697, __c53, 1));
+      return S.Array(__S(1665, __c52, 1));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(736, __c23, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListResponse" });
+      return S.suspend(() => __S(736, __c23, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListResponse",
+      });
   }
 }
 function __c24(j: number): any {
@@ -4692,11 +4650,9 @@ function __c24(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/assignees", code: 200 })),
       ).annotate({ identifier: "ListAssigneesRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1632, __c51, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListAssigneesResponse" });
+      return S.suspend(() => __S(1600, __c50, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAssigneesResponse",
+      });
   }
 }
 function __c25(j: number): any {
@@ -4723,13 +4679,11 @@ function __c25(j: number): any {
 function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1574, __c49, 6));
+      return S.Array(__S(1542, __c48, 6));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(832, __c26, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListCommentsResponse" });
+      return S.suspend(() => __S(832, __c26, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListCommentsResponse",
+      });
   }
 }
 function __c27(j: number): any {
@@ -4809,11 +4763,9 @@ function __c30(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(961, __c30, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListEventsResponse" });
+      return S.suspend(() => __S(961, __c30, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListEventsResponse",
+      });
   }
 }
 function __c31(j: number): any {
@@ -4830,11 +4782,9 @@ function __c31(j: number): any {
     case 1:
       return S.Array(__S(591, __c18, 15));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(993, __c31, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListEventsForRepoResponse" });
+      return S.suspend(() => __S(993, __c31, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListEventsForRepoResponse",
+      });
   }
 }
 function __c32(j: number): any {
@@ -4859,11 +4809,9 @@ function __c32(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1025, __c32, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListEventsForTimelineResponse" });
+      return S.suspend(() => __S(1025, __c32, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListEventsForTimelineResponse",
+      });
   }
 }
 function __c33(j: number): any {
@@ -4944,12 +4892,6 @@ function __c36(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListIssueFieldValuesForIssueRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1507, __c47, 3).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListIssueFieldValuesForIssueResponse" });
   }
 }
 function __c37(j: number): any {
@@ -4977,16 +4919,6 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: __S(2400, __c75, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListLabelsForMilestoneResponse" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           per_page: S.optional(S.Number.pipe(T.Query())),
@@ -4995,7 +4927,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListLabelsForRepoRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5015,7 +4947,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ListLabelsOnIssueRequest" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5030,16 +4962,14 @@ function __c41(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/milestones", code: 200 })),
       ).annotate({ identifier: "ListMilestonesRequest" });
     case 1:
-      return S.Array(__S(1600, __c50, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1313, __c41, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListMilestonesResponse" });
+      return S.suspend(() => __S(1281, __c40, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListMilestonesResponse",
+      });
   }
 }
-function __c42(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5059,7 +4989,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ListRelatesToRequest" });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5079,7 +5009,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ListSubIssuesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5102,14 +5032,12 @@ function __c44(j: number): any {
     case 1:
       return S.Array(__S(64, __c2, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(1409, __c44, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListSuggestionsResponse" });
+      return S.suspend(() => __S(1377, __c43, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSuggestionsResponse",
+      });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5128,7 +5056,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "LockRequest" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5138,7 +5066,7 @@ function __c46(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           issue_number: S.Number.pipe(T.Label()),
-          assignees: S.optional(__S(1472, __c46, 0)),
+          assignees: S.optional(__S(1440, __c45, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5149,7 +5077,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "AddAssigneesRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5160,7 +5088,7 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "IssueFieldValueSingleSelectOption" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1472, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5169,15 +5097,15 @@ function __c47(j: number): any {
           node_id: S.String,
           data_type: S.String,
           value: S.NullOr(S.Unknown),
-          single_select_option: S.optional(S.NullOr(__S(1504, __c47, 0))),
-          multi_select_options: S.optional(S.NullOr(__S(1505, __c47, 1))),
+          single_select_option: S.optional(S.NullOr(__S(1472, __c46, 0))),
+          multi_select_options: S.optional(S.NullOr(__S(1473, __c46, 1))),
         }),
       ).annotate({ identifier: "IssueFieldValue" });
     case 3:
-      return S.Array(__S(1506, __c47, 2));
+      return S.Array(__S(1474, __c46, 2));
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5208,7 +5136,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "NullableSimpleUser" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -5239,8 +5167,8 @@ function __c49(j: number): any {
           html_url: S.String,
           created_at: S.String,
           updated_at: S.String,
-          permissions: __S(1569, __c49, 1),
-          events: __S(1568, __c49, 0),
+          permissions: __S(1537, __c48, 1),
+          events: __S(1536, __c48, 0),
           installations_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "NullableIntegration" });
@@ -5263,7 +5191,7 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pinned_at: S.String,
-          pinned_by: S.NullOr(__S(1536, __c48, 0)),
+          pinned_by: S.NullOr(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "NullablePinnedIssueComment" });
     case 5:
@@ -5282,20 +5210,20 @@ function __c49(j: number): any {
           body_text: S.optional(S.String),
           body_html: S.optional(S.String),
           html_url: S.String,
-          user: S.NullOr(__S(1536, __c48, 0)),
+          user: S.NullOr(__S(1504, __c47, 0)),
           created_at: S.String,
           updated_at: S.String,
           issue_url: S.String,
           author_association: S.optional(S.String),
-          performed_via_github_app: S.optional(S.NullOr(__S(1570, __c49, 2))),
-          reactions: S.optional(__S(1571, __c49, 3)),
-          pin: S.optional(S.NullOr(__S(1572, __c49, 4))),
-          minimized: S.optional(S.NullOr(__S(1573, __c49, 5))),
+          performed_via_github_app: S.optional(S.NullOr(__S(1538, __c48, 2))),
+          reactions: S.optional(__S(1539, __c48, 3)),
+          pin: S.optional(S.NullOr(__S(1540, __c48, 4))),
+          minimized: S.optional(S.NullOr(__S(1541, __c48, 5))),
         }),
       ).annotate({ identifier: "NullableIssueComment" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5309,7 +5237,7 @@ function __c50(j: number): any {
           state: S.String,
           title: S.String,
           description: S.NullOr(S.String),
-          creator: S.NullOr(__S(1536, __c48, 0)),
+          creator: S.NullOr(__S(1504, __c47, 0)),
           open_issues: S.Number,
           closed_issues: S.Number,
           created_at: S.String,
@@ -5320,13 +5248,13 @@ function __c50(j: number): any {
       ).annotate({ identifier: "NullableMilestone" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1504, __c47, 0));
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5386,10 +5314,10 @@ function __c52(j: number): any {
           node_id: S.String,
           name: S.String,
           full_name: S.String,
-          license: S.NullOr(__S(1666, __c52, 2)),
+          license: S.NullOr(__S(1634, __c51, 2)),
           forks: S.Number,
-          permissions: S.optional(__S(1667, __c52, 3)),
-          owner: __S(1536, __c48, 0),
+          permissions: S.optional(__S(1635, __c51, 3)),
+          owner: __S(1504, __c47, 0),
           private: S.Boolean,
           html_url: S.String,
           description: S.NullOr(S.String),
@@ -5445,7 +5373,7 @@ function __c52(j: number): any {
           default_branch: S.String,
           open_issues_count: S.Number,
           is_template: S.optional(S.Boolean),
-          topics: S.optional(__S(1568, __c49, 0)),
+          topics: S.optional(__S(1536, __c48, 0)),
           has_issues: S.Boolean,
           has_projects: S.Boolean,
           has_wiki: S.Boolean,
@@ -5479,7 +5407,7 @@ function __c52(j: number): any {
           master_branch: S.optional(S.String),
           starred_at: S.optional(S.String),
           anonymous_access_enabled: S.optional(S.Boolean),
-          code_search_index_status: S.optional(__S(1668, __c52, 4)),
+          code_search_index_status: S.optional(__S(1636, __c51, 4)),
         }),
       ).annotate({ identifier: "Repository" });
     case 6:
@@ -5501,7 +5429,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "IssueDependenciesSummary" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5521,38 +5449,38 @@ function __c53(j: number): any {
           state_reason: S.optional(S.NullOr(S.String)),
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
-          user: S.NullOr(__S(1536, __c48, 0)),
-          labels: __S(1696, __c53, 0),
-          assignee: S.NullOr(__S(1536, __c48, 0)),
-          assignees: S.optional(__S(1632, __c51, 0)),
-          milestone: S.NullOr(__S(1600, __c50, 0)),
+          user: S.NullOr(__S(1504, __c47, 0)),
+          labels: __S(1664, __c52, 0),
+          assignee: S.NullOr(__S(1504, __c47, 0)),
+          assignees: S.optional(__S(1600, __c50, 0)),
+          milestone: S.NullOr(__S(1568, __c49, 0)),
           locked: S.Boolean,
           active_lock_reason: S.optional(S.NullOr(S.String)),
           comments: S.Number,
-          pull_request: S.optional(__S(1664, __c52, 0)),
+          pull_request: S.optional(__S(1632, __c51, 0)),
           closed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
           draft: S.optional(S.Boolean),
-          closed_by: S.optional(S.NullOr(__S(1536, __c48, 0))),
+          closed_by: S.optional(S.NullOr(__S(1504, __c47, 0))),
           body_html: S.optional(S.String),
           body_text: S.optional(S.String),
           timeline_url: S.optional(S.String),
-          type: S.optional(S.NullOr(__S(1665, __c52, 1))),
-          repository: S.optional(__S(1669, __c52, 5)),
-          performed_via_github_app: S.optional(S.NullOr(__S(1570, __c49, 2))),
+          type: S.optional(S.NullOr(__S(1633, __c51, 1))),
+          repository: S.optional(__S(1637, __c51, 5)),
+          performed_via_github_app: S.optional(S.NullOr(__S(1538, __c48, 2))),
           author_association: S.optional(S.String),
-          reactions: S.optional(__S(1571, __c49, 3)),
-          sub_issues_summary: S.optional(__S(1670, __c52, 6)),
+          reactions: S.optional(__S(1539, __c48, 3)),
+          sub_issues_summary: S.optional(__S(1638, __c51, 6)),
           parent_issue_url: S.optional(S.NullOr(S.String)),
-          pinned_comment: S.optional(S.NullOr(__S(1574, __c49, 6))),
-          issue_dependencies_summary: S.optional(__S(1671, __c52, 7)),
-          issue_field_values: S.optional(__S(1507, __c47, 3)),
+          pinned_comment: S.optional(S.NullOr(__S(1542, __c48, 6))),
+          issue_dependencies_summary: S.optional(__S(1639, __c51, 7)),
+          issue_field_values: S.optional(__S(1475, __c46, 3)),
         }),
       ).annotate({ identifier: "Issue" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5570,7 +5498,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PinCommentRequest" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5588,7 +5516,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "RemoveAllLabelsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5596,7 +5524,7 @@ function __c56(j: number): any {
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           issue_number: S.Number.pipe(T.Label()),
-          assignees: S.optional(__S(1568, __c49, 0)),
+          assignees: S.optional(__S(1536, __c48, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5607,7 +5535,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "RemoveAssigneesRequest" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5626,7 +5554,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "RemoveDependencyBlockedByRequest" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5645,7 +5573,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "RemoveLabelRequest" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5664,7 +5592,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "RemoveRelatesToRequest" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5683,7 +5611,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RemoveSubIssueRequest" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5704,7 +5632,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ReprioritizeSubIssueRequest" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5714,14 +5642,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "SetIssueFieldValuesRequestIssueFieldValuesItem" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(1952, __c61, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           issue_number: S.Number.pipe(T.Label()),
-          issue_field_values: S.optional(__S(1985, __c62, 1)),
+          issue_field_values: S.optional(__S(1953, __c61, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5732,7 +5660,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SetIssueFieldValuesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5751,7 +5679,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetLabelsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5770,7 +5698,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "AddBlockedByDependencyRequest" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5788,7 +5716,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UnlockRequest" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5806,7 +5734,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UnpinCommentRequest" });
   }
 }
-function __c67(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5823,7 +5751,7 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "UpdateRequestIssueFieldValuesItem" });
     case 3:
-      return S.Array(__S(2146, __c67, 2));
+      return S.Array(__S(2114, __c66, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5837,9 +5765,9 @@ function __c67(j: number): any {
           state_reason: S.optional(S.NullOr(S.String)),
           duplicate_issue_id: S.optional(S.Number),
           milestone: S.optional(S.NullOr(S.Unknown)),
-          labels: S.optional(__S(2144, __c67, 0)),
-          assignees: S.optional(__S(2145, __c67, 1)),
-          issue_field_values: S.optional(__S(2147, __c67, 3)),
+          labels: S.optional(__S(2112, __c66, 0)),
+          assignees: S.optional(__S(2113, __c66, 1)),
+          issue_field_values: S.optional(__S(2115, __c66, 3)),
           type: S.optional(S.NullOr(S.Unknown)),
         }).pipe(
           T.Http({
@@ -5863,7 +5791,7 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsTypeItem" });
     case 7:
-      return S.Array(__S(2150, __c67, 6));
+      return S.Array(__S(2118, __c66, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5877,7 +5805,7 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsIssueFieldValuesItem" });
     case 9:
-      return S.Array(__S(2152, __c67, 8));
+      return S.Array(__S(2120, __c66, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -5890,7 +5818,7 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsLabelsItem" });
     case 11:
-      return S.Array(__S(2154, __c67, 10));
+      return S.Array(__S(2122, __c66, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -5903,7 +5831,7 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsAssigneesItem" });
     case 13:
-      return S.Array(__S(2156, __c67, 12));
+      return S.Array(__S(2124, __c66, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -5918,15 +5846,15 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsStateItem" });
     case 15:
-      return S.Array(__S(2158, __c67, 14));
+      return S.Array(__S(2126, __c66, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(__S(2151, __c67, 7)),
-          issue_field_values: S.optional(__S(2153, __c67, 9)),
-          labels: S.optional(__S(2155, __c67, 11)),
-          assignees: S.optional(__S(2157, __c67, 13)),
-          state: S.optional(__S(2159, __c67, 15)),
+          type: S.optional(__S(2119, __c66, 7)),
+          issue_field_values: S.optional(__S(2121, __c66, 9)),
+          labels: S.optional(__S(2123, __c66, 11)),
+          assignees: S.optional(__S(2125, __c66, 13)),
+          state: S.optional(__S(2127, __c66, 15)),
         }),
       ).annotate({ identifier: "UpdateResponseSuggestions" });
     case 17:
@@ -5945,39 +5873,39 @@ function __c67(j: number): any {
           state_reason: S.optional(S.NullOr(S.String)),
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
-          user: S.NullOr(__S(1536, __c48, 0)),
-          labels: __S(2149, __c67, 5),
-          assignee: S.NullOr(__S(1536, __c48, 0)),
-          assignees: S.optional(__S(1632, __c51, 0)),
-          milestone: S.NullOr(__S(1600, __c50, 0)),
+          user: S.NullOr(__S(1504, __c47, 0)),
+          labels: __S(2117, __c66, 5),
+          assignee: S.NullOr(__S(1504, __c47, 0)),
+          assignees: S.optional(__S(1600, __c50, 0)),
+          milestone: S.NullOr(__S(1568, __c49, 0)),
           locked: S.Boolean,
           active_lock_reason: S.optional(S.NullOr(S.String)),
           comments: S.Number,
-          pull_request: S.optional(__S(1664, __c52, 0)),
+          pull_request: S.optional(__S(1632, __c51, 0)),
           closed_at: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
           draft: S.optional(S.Boolean),
-          closed_by: S.optional(S.NullOr(__S(1536, __c48, 0))),
+          closed_by: S.optional(S.NullOr(__S(1504, __c47, 0))),
           body_html: S.optional(S.String),
           body_text: S.optional(S.String),
           timeline_url: S.optional(S.String),
-          type: S.optional(S.NullOr(__S(1665, __c52, 1))),
-          repository: S.optional(__S(1669, __c52, 5)),
-          performed_via_github_app: S.optional(S.NullOr(__S(1570, __c49, 2))),
+          type: S.optional(S.NullOr(__S(1633, __c51, 1))),
+          repository: S.optional(__S(1637, __c51, 5)),
+          performed_via_github_app: S.optional(S.NullOr(__S(1538, __c48, 2))),
           author_association: S.optional(S.String),
-          reactions: S.optional(__S(1571, __c49, 3)),
-          sub_issues_summary: S.optional(__S(1670, __c52, 6)),
+          reactions: S.optional(__S(1539, __c48, 3)),
+          sub_issues_summary: S.optional(__S(1638, __c51, 6)),
           parent_issue_url: S.optional(S.NullOr(S.String)),
-          pinned_comment: S.optional(S.NullOr(__S(1574, __c49, 6))),
-          issue_dependencies_summary: S.optional(__S(1671, __c52, 7)),
-          issue_field_values: S.optional(__S(1507, __c47, 3)),
-          suggestions: S.optional(__S(2160, __c67, 16)),
+          pinned_comment: S.optional(S.NullOr(__S(1542, __c48, 6))),
+          issue_dependencies_summary: S.optional(__S(1639, __c51, 7)),
+          issue_field_values: S.optional(__S(1475, __c46, 3)),
+          suggestions: S.optional(__S(2128, __c66, 16)),
         }),
       ).annotate({ identifier: "UpdateResponse" });
   }
 }
-function __c68(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5996,7 +5924,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateCommentRequest" });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6012,7 +5940,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "UpdateLabelRequest" });
   }
 }
-function __c70(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6034,7 +5962,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UpdateMilestoneRequest" });
   }
 }
-function __c71(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6044,14 +5972,14 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "AddIssueFieldValuesRequestIssueFieldValuesItem" });
     case 1:
-      return S.Array(__S(2272, __c71, 0));
+      return S.Array(__S(2240, __c70, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           issue_number: S.Number.pipe(T.Label()),
-          issue_field_values: S.optional(__S(2273, __c71, 1)),
+          issue_field_values: S.optional(__S(2241, __c70, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6062,15 +5990,15 @@ function __c71(j: number): any {
       ).annotate({ identifier: "AddIssueFieldValuesRequest" });
   }
 }
-function __c72(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1507, __c47, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1475, __c46, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "AddIssueFieldValuesResponse",
       });
   }
 }
-function __c73(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6089,7 +6017,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "AddLabelsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6102,26 +6030,22 @@ function __c74(j: number): any {
           color: S.String,
           default: S.Boolean,
           archived_at: S.NullOr(S.String),
-          archived_by: S.NullOr(__S(1536, __c48, 0)),
+          archived_by: S.NullOr(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "Label" });
   }
 }
-function __c75(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2368, __c74, 0));
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => __S(2400, __c75, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.Array(__S(2336, __c73, 0));
+    case 1:
+      return S.suspend(() => __S(2368, __c74, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "AddLabelsResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

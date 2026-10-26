@@ -1045,9 +1045,7 @@ export interface PullRequestSimple {
   draft?: boolean;
 }
 export type ListResponseBodyList = Array<PullRequestSimple>;
-export interface ListResponse {
-  body: ListResponseBodyList;
-}
+export type ListResponse = ListResponseBodyList;
 export interface ListCommentsForReviewRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1109,9 +1107,7 @@ export interface ReviewComment {
   subject_type?: ReviewCommentSubjectType;
 }
 export type ListCommentsForReviewResponseBodyList = Array<ReviewComment>;
-export interface ListCommentsForReviewResponse {
-  body: ListCommentsForReviewResponseBodyList;
-}
+export type ListCommentsForReviewResponse = ListCommentsForReviewResponseBodyList;
 export interface ListCommitsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1201,9 +1197,7 @@ export interface Commit {
   files?: CommitFilesList;
 }
 export type ListCommitsResponseBodyList = Array<Commit>;
-export interface ListCommitsResponse {
-  body: ListCommitsResponseBodyList;
-}
+export type ListCommitsResponse = ListCommitsResponseBodyList;
 export interface ListFilesRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1217,9 +1211,7 @@ export interface ListFilesRequest {
   page?: number;
 }
 export type ListFilesResponseBodyList = Array<DiffEntry>;
-export interface ListFilesResponse {
-  body: ListFilesResponseBodyList;
-}
+export type ListFilesResponse = ListFilesResponseBodyList;
 export interface ListPullRequestStacksRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1259,9 +1251,7 @@ export interface PullRequestStackMinimal {
   pull_requests: PullRequestStackMinimalPullRequestsList;
 }
 export type ListPullRequestStacksResponseBodyList = Array<PullRequestStackMinimal>;
-export interface ListPullRequestStacksResponse {
-  body: ListPullRequestStacksResponseBodyList;
-}
+export type ListPullRequestStacksResponse = ListPullRequestStacksResponseBodyList;
 export interface ListRequestedReviewersRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1298,9 +1288,7 @@ export interface ListReviewCommentsRequest {
   page?: number;
 }
 export type ListReviewCommentsResponseBodyList = Array<PullRequestReviewComment>;
-export interface ListReviewCommentsResponse {
-  body: ListReviewCommentsResponseBodyList;
-}
+export type ListReviewCommentsResponse = ListReviewCommentsResponseBodyList;
 export type ListReviewCommentsForRepoRequestSort = "created" | "updated" | "created_at";
 export type ListReviewCommentsForRepoRequestDirection = "asc" | "desc";
 export interface ListReviewCommentsForRepoRequest {
@@ -1319,9 +1307,7 @@ export interface ListReviewCommentsForRepoRequest {
   page?: number;
 }
 export type ListReviewCommentsForRepoResponseBodyList = Array<PullRequestReviewComment>;
-export interface ListReviewCommentsForRepoResponse {
-  body: ListReviewCommentsForRepoResponseBodyList;
-}
+export type ListReviewCommentsForRepoResponse = ListReviewCommentsForRepoResponseBodyList;
 export interface ListReviewsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1335,9 +1321,7 @@ export interface ListReviewsRequest {
   page?: number;
 }
 export type ListReviewsResponseBodyList = Array<PullRequestReview>;
-export interface ListReviewsResponse {
-  body: ListReviewsResponseBodyList;
-}
+export type ListReviewsResponse = ListReviewsResponseBodyList;
 /** The merge method to use. */
 export type MergeRequestMergeMethod = "merge" | "squash" | "rebase";
 export interface MergeRequest {
@@ -2440,11 +2424,9 @@ function __c12(j: number): any {
     case 1:
       return S.Array(__S(227, __c14, 3));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(193, __c12, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListResponse" });
+      return S.suspend(() => __S(193, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListResponse",
+      });
   }
 }
 function __c13(j: number): any {
@@ -2613,11 +2595,9 @@ function __c15(j: number): any {
     case 2:
       return S.Array(__S(241, __c15, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(242, __c15, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListCommentsForReviewResponse" });
+      return S.suspend(() => __S(242, __c15, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListCommentsForReviewResponse",
+      });
   }
 }
 function __c16(j: number): any {
@@ -2712,11 +2692,9 @@ function __c16(j: number): any {
     case 9:
       return S.Array(__S(264, __c16, 8));
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(265, __c16, 9).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListCommitsResponse" });
+      return S.suspend(() => __S(265, __c16, 9).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListCommitsResponse",
+      });
   }
 }
 function __c17(j: number): any {
@@ -2760,11 +2738,9 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListFilesRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(273, __c17, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListFilesResponse" });
+      return S.suspend(() => __S(273, __c17, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListFilesResponse",
+      });
   }
 }
 function __c19(j: number): any {
@@ -2807,11 +2783,9 @@ function __c19(j: number): any {
     case 4:
       return S.Array(__S(307, __c19, 3));
     case 5:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(308, __c19, 4).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListPullRequestStacksResponse" });
+      return S.suspend(() => __S(308, __c19, 4).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPullRequestStacksResponse",
+      });
   }
 }
 function __c20(j: number): any {
@@ -2867,11 +2841,9 @@ function __c22(j: number): any {
     case 0:
       return S.Array(__S(832, __c52, 0));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(352, __c22, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListReviewCommentsResponse" });
+      return S.suspend(() => __S(352, __c22, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReviewCommentsResponse",
+      });
   }
 }
 function __c23(j: number): any {
@@ -2911,11 +2883,9 @@ function __c24(j: number): any {
     case 1:
       return S.Array(__S(17, __c1, 1));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(385, __c24, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListReviewsResponse" });
+      return S.suspend(() => __S(385, __c24, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListReviewsResponse",
+      });
   }
 }
 function __c25(j: number): any {

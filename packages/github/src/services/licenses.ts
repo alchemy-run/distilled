@@ -87,9 +87,7 @@ export interface LicenseSimple {
   html_url?: string;
 }
 export type GetAllCommonlyUsedResponseBodyList = Array<LicenseSimple>;
-export interface GetAllCommonlyUsedResponse {
-  body: GetAllCommonlyUsedResponseBodyList;
-}
+export type GetAllCommonlyUsedResponse = GetAllCommonlyUsedResponseBodyList;
 export interface GetForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -217,11 +215,9 @@ function __c1(j: number): any {
     case 1:
       return S.Array(__S(8, __c2, 0));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(5, __c1, 1).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "GetAllCommonlyUsedResponse" });
+      return S.suspend(() => __S(5, __c1, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetAllCommonlyUsedResponse",
+      });
   }
 }
 function __c2(j: number): any {

@@ -869,9 +869,7 @@ export interface ListAccountsForPlanRequest {
   page?: number;
 }
 export type ListAccountsForPlanResponseBodyList = Array<MarketplacePurchase>;
-export interface ListAccountsForPlanResponse {
-  body: ListAccountsForPlanResponseBodyList;
-}
+export type ListAccountsForPlanResponse = ListAccountsForPlanResponseBodyList;
 export type ListAccountsForPlanStubbedRequestSort = "created" | "updated";
 export type ListAccountsForPlanStubbedRequestDirection = "asc" | "desc";
 export interface ListAccountsForPlanStubbedRequest {
@@ -887,9 +885,7 @@ export interface ListAccountsForPlanStubbedRequest {
   page?: number;
 }
 export type ListAccountsForPlanStubbedResponseBodyList = Array<MarketplacePurchase>;
-export interface ListAccountsForPlanStubbedResponse {
-  body: ListAccountsForPlanStubbedResponseBodyList;
-}
+export type ListAccountsForPlanStubbedResponse = ListAccountsForPlanStubbedResponseBodyList;
 export interface ListInstallationReposForAuthenticatedUserRequest {
   /** The unique identifier of the installation. */
   installation_id: number;
@@ -1089,9 +1085,8 @@ export interface IntegrationInstallationRequest {
 }
 export type ListInstallationRequestsForAuthenticatedAppResponseBodyList =
   Array<IntegrationInstallationRequest>;
-export interface ListInstallationRequestsForAuthenticatedAppResponse {
-  body: ListInstallationRequestsForAuthenticatedAppResponseBodyList;
-}
+export type ListInstallationRequestsForAuthenticatedAppResponse =
+  ListInstallationRequestsForAuthenticatedAppResponseBodyList;
 export interface ListInstallationsRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   per_page?: number;
@@ -1102,9 +1097,7 @@ export interface ListInstallationsRequest {
   outdated?: string;
 }
 export type ListInstallationsResponseBodyList = Array<Installation>;
-export interface ListInstallationsResponse {
-  body: ListInstallationsResponseBodyList;
-}
+export type ListInstallationsResponse = ListInstallationsResponseBodyList;
 export interface ListInstallationsForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   per_page?: number;
@@ -1123,9 +1116,7 @@ export interface ListPlansRequest {
   page?: number;
 }
 export type ListPlansResponseBodyList = Array<MarketplaceListingPlan>;
-export interface ListPlansResponse {
-  body: ListPlansResponseBodyList;
-}
+export type ListPlansResponse = ListPlansResponseBodyList;
 export interface ListPlansStubbedRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   per_page?: number;
@@ -1133,9 +1124,7 @@ export interface ListPlansStubbedRequest {
   page?: number;
 }
 export type ListPlansStubbedResponseBodyList = Array<MarketplaceListingPlan>;
-export interface ListPlansStubbedResponse {
-  body: ListPlansStubbedResponseBodyList;
-}
+export type ListPlansStubbedResponse = ListPlansStubbedResponseBodyList;
 export interface ListReposAccessibleToInstallationRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   per_page?: number;
@@ -1341,9 +1330,8 @@ export interface UserMarketplacePurchase {
   plan: MarketplaceListingPlan;
 }
 export type ListSubscriptionsForAuthenticatedUserResponseBodyList = Array<UserMarketplacePurchase>;
-export interface ListSubscriptionsForAuthenticatedUserResponse {
-  body: ListSubscriptionsForAuthenticatedUserResponseBodyList;
-}
+export type ListSubscriptionsForAuthenticatedUserResponse =
+  ListSubscriptionsForAuthenticatedUserResponseBodyList;
 export interface ListSubscriptionsForAuthenticatedUserStubbedRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   per_page?: number;
@@ -1352,9 +1340,8 @@ export interface ListSubscriptionsForAuthenticatedUserStubbedRequest {
 }
 export type ListSubscriptionsForAuthenticatedUserStubbedResponseBodyList =
   Array<UserMarketplacePurchase>;
-export interface ListSubscriptionsForAuthenticatedUserStubbedResponse {
-  body: ListSubscriptionsForAuthenticatedUserStubbedResponseBodyList;
-}
+export type ListSubscriptionsForAuthenticatedUserStubbedResponse =
+  ListSubscriptionsForAuthenticatedUserStubbedResponseBodyList;
 export type ListWebhookDeliveriesRequestStatus = "success" | "failure";
 export interface ListWebhookDeliveriesRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
@@ -2477,11 +2464,9 @@ function __c18(j: number): any {
     case 0:
       return S.Array(__S(38, __c9, 2));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(72, __c18, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListAccountsForPlanResponse" });
+      return S.suspend(() => __S(72, __c18, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAccountsForPlanResponse",
+      });
   }
 }
 function __c19(j: number): any {
@@ -2664,11 +2649,9 @@ function __c22(j: number): any {
     case 2:
       return S.Array(__S(89, __c22, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(90, __c22, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListInstallationRequestsForAuthenticatedAppResponse" });
+      return S.suspend(() => __S(90, __c22, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListInstallationRequestsForAuthenticatedAppResponse",
+      });
   }
 }
 function __c23(j: number): any {
@@ -2683,11 +2666,9 @@ function __c23(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/app/installations", code: 200 })),
       ).annotate({ identifier: "ListInstallationsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(96, __c24, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListInstallationsResponse" });
+      return S.suspend(() => __S(96, __c24, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListInstallationsResponse",
+      });
   }
 }
 function __c24(j: number): any {
@@ -2730,11 +2711,9 @@ function __c27(j: number): any {
     case 0:
       return S.Array(__S(40, __c10, 0));
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(108, __c27, 0).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListPlansResponse" });
+      return S.suspend(() => __S(108, __c27, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPlansResponse",
+      });
   }
 }
 function __c28(j: number): any {
@@ -2808,11 +2787,9 @@ function __c31(j: number): any {
     case 2:
       return S.Array(__S(125, __c31, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body: __S(126, __c31, 2).pipe(T.RawResponse()),
-        }),
-      ).annotate({ identifier: "ListSubscriptionsForAuthenticatedUserResponse" });
+      return S.suspend(() => __S(126, __c31, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListSubscriptionsForAuthenticatedUserResponse",
+      });
   }
 }
 function __c32(j: number): any {
