@@ -5,6 +5,7 @@ import {
   HTTP_STATUS_MAP,
   InternalServerError,
   type API_ERRORS,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -76,7 +77,8 @@ export type AzureOpError =
   | UnknownAzureError
   | AzureParseError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Azure operation. */
 export type AzureOpContext = Credentials | HttpClient.HttpClient;
@@ -155,7 +157,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
-    let request = buildRequest({
+    let request = yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: creds.apiBaseUrl,

@@ -5,6 +5,7 @@ import {
   type ConfigError,
   HTTP_STATUS_MAP,
   InternalServerError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -63,7 +64,8 @@ export type MongodbAtlasOpError =
   | UnknownMongodbAtlasError
   | MongodbAtlasParseError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Atlas operation. */
 export type MongodbAtlasOpContext = Credentials | HttpClient.HttpClient;
@@ -111,7 +113,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     // by scripts/convert.ts. `application/json` alone is a 406; the API
     // serves the newest resource version <= the requested date.
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
-    return buildRequest({
+    return yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: creds.apiBaseUrl,

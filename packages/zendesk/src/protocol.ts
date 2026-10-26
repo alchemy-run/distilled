@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * ZendeskProtocol -- hand-written.
@@ -36,7 +36,8 @@ export type ZendeskOpError =
   | UnknownZendeskError
   | ConfigError
   | HttpClientError.HttpClientError
-  | ZendeskParseError;
+  | ZendeskParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Zendesk operation. */
 export type ZendeskOpContext = Credentials | HttpClient.HttpClient;

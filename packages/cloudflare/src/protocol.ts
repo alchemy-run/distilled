@@ -9,6 +9,7 @@ import {
   InternalServerError,
   TooManyRequests,
   Unauthorized,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -135,7 +136,8 @@ export type CloudflareOpError =
   // fail the two ways every operation can.
   | CloudflareError
   | CloudflareRateLimited
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Cloudflare operation. */
 export type CloudflareOpContext = Credentials | HttpClient.HttpClient;
@@ -304,7 +306,7 @@ const requestFor = (
   creds: ResolvedCredentials,
   input: unknown,
   inputAst: AST.AST,
-): HttpClientRequest.HttpClientRequest =>
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> =>
   buildRequest({
     input,
     inputAst,
@@ -333,7 +335,7 @@ const withCredentials = <B>(
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.withFiber((fiber) =>
     withCredentials(fiber.context as Context.Context<any>, (creds) =>
-      Effect.succeed(requestFor(creds, input, inputAst)),
+      requestFor(creds, input, inputAst),
     ),
   );
 
@@ -667,10 +669,11 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
-        const request = requestFor(creds, input, op.inputAst);
         const client = Context.get(context, HttpClient.HttpClient);
-        return Effect.flatMap(client.execute(request), (response) =>
-          decodeResponse(context, response, op.outputAst, op.errors),
+        return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
+          Effect.flatMap(client.execute(request), (response) =>
+            decodeResponse(context, response, op.outputAst, op.errors),
+          ),
         );
       });
     }) as Effect.Effect<unknown>;

@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import {
   makeRestProtocol,
   type RestErrorInfo,
@@ -57,7 +57,8 @@ export type OnepasswordOpError =
   | UnknownOnepasswordError
   | ConfigError
   | HttpClientError.HttpClientError
-  | OnepasswordParseError;
+  | OnepasswordParseError
+  | InvalidInput;
 
 /** Context (requirements) of every generated Connect operation. */
 export type ConnectOpContext = ConnectCredentials | HttpClient.HttpClient;

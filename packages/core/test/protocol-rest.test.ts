@@ -601,6 +601,23 @@ describe("makeRestProtocol body read failures", () => {
   });
 });
 
+describe("makeRestProtocol label refusals", () => {
+  test("a `..` label fails with InvalidInput and sends nothing", async () => {
+    let sent = 0;
+    const error = await failWith(
+      createThingWithErrors({ id: ".." }),
+      fakeClient(() => {
+        sent++;
+        return json({});
+      }),
+      creds(),
+    );
+    expect(error._tag).toBe("InvalidInput");
+    expect(error.member).toBe("id");
+    expect(sent).toBe(0);
+  });
+});
+
 // =============================================================================
 // Error responses
 // =============================================================================

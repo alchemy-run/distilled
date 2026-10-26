@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * SpacetimeDBProtocol -- hand-written.
@@ -38,7 +38,8 @@ export type SpacetimeDBOpError =
   | UnknownSpacetimeDBError
   | ConfigError
   | HttpClientError.HttpClientError
-  | SpacetimeDBParseError;
+  | SpacetimeDBParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated SpacetimeDB operation. */
 export type SpacetimeDBOpContext = Credentials | HttpClient.HttpClient;

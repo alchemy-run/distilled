@@ -369,12 +369,15 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       f,
     );
 
-  /** The request, or the error a refusing `baseUrl` threw. */
+  /**
+   * The request; fails with the error a refusing `baseUrl` threw, or with
+   * `InvalidInput` for a label that would address another resource.
+   */
   const requestFor = (
     creds: C,
     input: unknown,
     inputAst: AST.AST,
-  ): HttpClientRequest.HttpClientRequest | { readonly refused: unknown } => {
+  ): Effect.Effect<HttpClientRequest.HttpClientRequest> => {
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     let baseUrl: string;
     try {
@@ -386,7 +389,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       // A baseUrl that refuses the route (missing scope in the
       // credentials) fails the call with that error, typed for callers by
       // the operation's declared error channel.
-      return { refused: e };
+      return fail(e);
     }
     return buildRequest({
       input: unwrapRedactedDeep(input),
@@ -395,7 +398,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       headers: options.headers(creds),
       mapMemberHeader: options.mapMemberHeader,
       unknownKeyToWire: options.unknownKeyToWire,
-    });
+    }) as Effect.Effect<HttpClientRequest.HttpClientRequest>;
   };
 
   /** Map a read response body to the call's outcome. */
@@ -538,11 +541,11 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
-        const request = requestFor(creds, input, op.inputAst);
-        if ("refused" in request) return fail(request.refused);
         const client = Context.get(context, HttpClient.HttpClient);
-        return Effect.flatMap(client.execute(request), (response) =>
-          decodeResponse(context, response, op.outputAst, op.errors),
+        return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
+          Effect.flatMap(client.execute(request), (response) =>
+            decodeResponse(context, response, op.outputAst, op.errors),
+          ),
         );
       });
     }) as Effect.Effect<unknown>;
@@ -554,10 +557,9 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       // fiber; see RestProtocolOptions.credentials).
       encode: ({ input, inputAst }) =>
         Effect.withFiber((fiber) =>
-          withCredentials(fiber.context as Context.Context<any>, (creds) => {
-            const request = requestFor(creds, input, inputAst);
-            return "refused" in request ? fail(request.refused) : Effect.succeed(request);
-          }),
+          withCredentials(fiber.context as Context.Context<any>, (creds) =>
+            requestFor(creds, input, inputAst),
+          ),
         ) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
       decode: ({ response, outputAst, errors }) =>
         Effect.withFiber((fiber) =>

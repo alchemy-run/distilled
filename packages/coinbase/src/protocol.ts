@@ -1,7 +1,7 @@
 import * as crypto from "node:crypto";
 import * as API from "@distilled.cloud/core/api";
 import { debugHttp } from "@distilled.cloud/core/debug";
-import { ConfigError, HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { ConfigError, HTTP_STATUS_MAP, type InvalidInput } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
@@ -70,7 +70,11 @@ import {
  * CoinbaseOpError, CoinbaseOpContext>` explicitly so the compiler never
  * infers these back out of the schema generics.
  */
-export type CoinbaseOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type CoinbaseOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Coinbase operation. */
 export type CoinbaseOpContext = Credentials | HttpClient.HttpClient;
@@ -355,7 +359,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
 
     // Sensitive input members accept string | Redacted<string>; the wire
     // wants the raw string.
-    const request = buildRequest({
+    const request = yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: creds.apiBaseUrl,

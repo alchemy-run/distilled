@@ -3,6 +3,7 @@ import {
   HTTP_STATUS_MAP,
   InternalServerError,
   type ConfigError,
+  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -88,7 +89,8 @@ export type FlyIoOpError =
   | DefaultErrors
   | ConfigError
   | CreateExtensionTosAgreementNotAuthorized
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput;
 
 /** Context (requirements) shared by Machines / MPG / GraphQL operations. */
 export type FlyIoOpContext = Credentials | HttpClient.HttpClient;
@@ -474,7 +476,7 @@ const encodeSpritesRequest = ({
       const token = yield* mintSpritesToken(fly);
       authorization = `Bearer ${Redacted.value(token)}`;
     }
-    return buildRequest({
+    return yield* buildRequest({
       input: unwrapRedactedDeep(input),
       inputAst,
       baseUrl: DEFAULT_SPRITES_API_BASE_URL,

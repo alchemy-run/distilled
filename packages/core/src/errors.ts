@@ -147,6 +147,17 @@ export class ConfigError
     message: Schema.String,
   }).pipe(Category.withConfigurationError) {}
 
+/**
+ * The input cannot be sent: a path label whose value would address another
+ * resource (`.` or `..`, which the URL parser resolves to the parent path).
+ * Raised before anything is sent.
+ */
+export class InvalidInput
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
+    member: Schema.String,
+    message: Schema.String,
+  }).pipe(Category.withBadRequestError) {}
+
 // ============================================================================
 // Error Maps
 // ============================================================================
