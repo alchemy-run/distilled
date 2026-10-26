@@ -40,6 +40,12 @@
       "worker": "./src/protocol.ts",
       "default": "./lib/protocol.js"
     },
+    "./Pagination": {
+      "types": "./lib/pagination.d.ts",
+      "bun": "./src/pagination.ts",
+      "worker": "./src/pagination.ts",
+      "default": "./lib/pagination.js"
+    },
     "./Retry": {
       "types": "./lib/retry.d.ts",
       "bun": "./src/retry.ts",

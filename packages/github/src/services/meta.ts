@@ -28,6 +28,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** GitHub answered the GraphQL query with errors (HTTP 200); `message` is the first error's. */
+export class GraphqlFailed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<GraphqlFailed>()("GraphqlFailed", {
+      message: S.String,
+    }),
+    [{ status: 200 }],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -235,8 +244,8 @@ export const getZen: API.OperationMethod<
   span: "GetZen",
 }));
 
-export type GraphqlError = GithubOpError;
-/** Run a GraphQL query or mutation GitHub's GraphQL API, for the operations REST does not offer. Check `errors`: GitHub reports GraphQL failures with a 200 response. */
+export type GraphqlError = GraphqlFailed | GithubOpError;
+/** Run a GraphQL query or mutation GitHub's GraphQL API, for the operations REST does not offer. A query GitHub answers with `errors` fails with `GraphqlFailed`. */
 export const graphql: API.OperationMethod<
   GraphqlRequest,
   GraphqlResponse,
@@ -245,7 +254,7 @@ export const graphql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GraphqlRequest>,
   output: __S(51, __c6, 3) as any as S.Schema<GraphqlResponse>,
-  errors: [],
+  errors: [GraphqlFailed],
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

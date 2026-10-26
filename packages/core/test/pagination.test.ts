@@ -1,7 +1,12 @@
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
-import { extractItems, paginateCursor, type PaginatedTrait } from "../src/pagination.ts";
+import {
+  extractItems,
+  paginateCursor,
+  paginatePageNumber,
+  type PaginatedTrait,
+} from "../src/pagination.ts";
 
 const pagination: PaginatedTrait = {
   mode: "cursor",
@@ -176,4 +181,45 @@ describe("cursor pagination", () => {
         expect(calls).toBe(12);
       }),
     ));
+});
+
+describe("page-number pagination without an output token", () => {
+  // GitHub-style: a bare array per page, the next page only in a `Link` header.
+  const trait: PaginatedTrait = {
+    mode: "page",
+    inputToken: "page",
+    pageSize: "per_page",
+    items: "",
+  };
+
+  const run = (pages: number[][], input: Record<string, unknown>) => {
+    const requested: unknown[] = [];
+    const operation = (request: Record<string, unknown>) =>
+      Effect.sync(() => {
+        requested.push(request.page);
+        return pages[(request.page as number) - 1] ?? [];
+      });
+    const items = Effect.runSync(
+      Stream.runCollect(extractItems(paginatePageNumber(operation, input, trait), "")),
+    );
+    return { items: Array.from(items), requested };
+  };
+
+  test("stops at a page shorter than per_page", () => {
+    expect(run([[1, 2], [3, 4], [5]], { per_page: 2 })).toEqual({
+      items: [1, 2, 3, 4, 5],
+      requested: [1, 2, 3],
+    });
+  });
+
+  test("stops at an empty page when per_page is not set", () => {
+    expect(run([[1, 2], [3]], {})).toEqual({ items: [1, 2, 3], requested: [1, 2, 3] });
+  });
+
+  test("starts at the requested page", () => {
+    expect(run([[1], [2], []], { page: 2, per_page: 1 })).toEqual({
+      items: [2],
+      requested: [2, 3],
+    });
+  });
 });

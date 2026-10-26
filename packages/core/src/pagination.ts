@@ -23,6 +23,9 @@ import * as Stream from "effect/Stream";
  * `"resultInfo.page"`). Used for pagination traits and nested access.
  */
 export const getPath = (obj: unknown, path: string): unknown => {
+  // The empty path is the value itself: a list endpoint whose response IS
+  // the array of items (GitHub's bare-array lists).
+  if (path === "") return obj;
   const parts = path.split(".");
   let current: unknown = obj;
   for (const part of parts) {
@@ -47,6 +50,7 @@ export const getPath = (obj: unknown, path: string): unknown => {
  * null page yields the items it does have instead of nothing.
  */
 export const getItems = (obj: unknown, path: string): readonly unknown[] => {
+  if (path === "") return Array.isArray(obj) ? obj : [];
   let current: unknown[] = [obj];
   for (const part of path.split(".")) {
     const next: unknown[] = [];
@@ -136,9 +140,22 @@ export const paginatePageNumber = <Input extends Record<string, unknown>, Output
 ): Stream.Stream<Output, E, R> => {
   const inputToken = pagination.inputToken;
   const outputToken = pagination.outputToken;
-  if (!inputToken || !outputToken) {
-    return missingPaginationConfig("Page-number pagination requires inputToken and outputToken");
+  if (!inputToken) {
+    return missingPaginationConfig("Page-number pagination requires inputToken");
   }
+  // Without an outputToken the response carries no next-page number (GitHub
+  // returns a bare array and puts the next page in a `Link` header): advance
+  // the page by one, and stop on an empty page or one shorter than the
+  // requested page size.
+  if (!outputToken && pagination.items === undefined) {
+    return missingPaginationConfig(
+      "Page-number pagination requires outputToken, or items to detect the last page",
+    );
+  }
+  const requestedSize =
+    pagination.pageSize !== undefined && typeof input[pagination.pageSize] === "number"
+      ? (input[pagination.pageSize] as number)
+      : undefined;
   type State = { page: number; done: boolean };
   const startPage = typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
 
@@ -149,7 +166,9 @@ export const paginatePageNumber = <Input extends Record<string, unknown>, Output
       const requestPayload = { ...input, [inputToken]: state.page } as Input;
       const response = yield* operation(requestPayload);
 
-      const nextPage = getPath(response, outputToken) as number | null | undefined;
+      const nextPage = outputToken
+        ? (getPath(response, outputToken) as number | null | undefined)
+        : undefined;
 
       // Some APIs report the CURRENT page at `outputToken` rather than the
       // next one (e.g. Cloudflare's `result_info.page`). Taking that value as
@@ -157,17 +176,21 @@ export const paginatePageNumber = <Input extends Record<string, unknown>, Output
       // *advancing* page number; otherwise advance by one and terminate when
       // a page comes back with no items (or the token is absent). A `null`
       // items member (e.g. `result: null`) is an empty page, as in `getItems`.
-      const items = pagination.items
-        ? (getPath(response, pagination.items) as readonly unknown[] | null | undefined)
-        : undefined;
+      const items =
+        pagination.items !== undefined
+          ? (getPath(response, pagination.items) as readonly unknown[] | null | undefined)
+          : undefined;
 
       const nextState: State = {
         page: typeof nextPage === "number" && nextPage > state.page ? nextPage : state.page + 1,
-        done:
-          nextPage === null ||
-          nextPage === undefined ||
-          items === null ||
-          (items !== undefined && items.length === 0),
+        done: outputToken
+          ? nextPage === null ||
+            nextPage === undefined ||
+            items === null ||
+            (items !== undefined && items.length === 0)
+          : !items ||
+            items.length === 0 ||
+            (requestedSize !== undefined && items.length < requestedSize),
       };
 
       return [response, nextState] as const;

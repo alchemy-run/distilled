@@ -151,6 +151,40 @@ for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(f
 }
 
 // ---- 5. Convert each bucket ------------------------------------------------
+
+/**
+ * Stamp page-number pagination on every GET that takes `page` and `per_page`.
+ * The items are the response itself when it is a bare array (`items: ""`),
+ * or its one list member when it is an envelope like
+ * `{ total_count, variables: [...] }`. An envelope with several lists is
+ * ambiguous and left unpaginated.
+ */
+const stampPagination = (model: { shapes: Record<string, any> }) => {
+  const query = (member: any) => member?.traits?.["smithy.api#httpQuery"];
+  for (const op of Object.values<any>(model.shapes)) {
+    if (op.type !== "operation" || op.traits?.["smithy.api#http"]?.method !== "GET") continue;
+    const input = Object.values<any>(model.shapes[op.input?.target]?.members ?? {});
+    if (!input.some((m) => query(m) === "page") || !input.some((m) => query(m) === "per_page")) {
+      continue;
+    }
+    const output = Object.entries<any>(model.shapes[op.output?.target]?.members ?? {});
+    const lists = output.filter(([, m]) => model.shapes[m.target]?.type === "list");
+    const items =
+      output.length === 1 && output[0]![1].traits?.["com.distilled.openapi#rawResponse"]
+        ? lists.length === 1
+          ? ""
+          : undefined
+        : lists.length === 1
+          ? lists[0]![0]
+          : undefined;
+    if (items === undefined) continue;
+    op.traits = {
+      ...op.traits,
+      "smithy.api#paginated": { mode: "page", inputToken: "page", pageSize: "per_page", items },
+    };
+  }
+};
+
 clearModels(outDir);
 
 let written = 0;
@@ -180,6 +214,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   });
   const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue; // all-deprecated bucket
+  stampPagination(model);
   writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += opCount;

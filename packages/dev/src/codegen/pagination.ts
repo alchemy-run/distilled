@@ -59,6 +59,10 @@ export const validatePaginated = (o: ValidatePaginatedOptions): ValidatedPaginat
   const tokenOk =
     o.trait.mode === "single" ||
     (typeof o.trait.inputToken === "string" && o.inputNames.has(o.trait.inputToken));
-  const itemsOk = o.outputNames.has(itemsRoot) || (o.syntheticOutputs?.has(itemsRoot) ?? false);
+  const itemsOk =
+    o.outputNames.has(itemsRoot) ||
+    (o.syntheticOutputs?.has(itemsRoot) ?? false) ||
+    // An explicit empty path: the response itself is the list of items.
+    o.trait.items === "";
   return { ok: tokenOk && itemsOk, itemsRoot };
 };

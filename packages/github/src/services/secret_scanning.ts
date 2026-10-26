@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { paginatePageNumber } from "../pagination.ts";
 import { GithubProtocol, type GithubOpError, type GithubOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -705,7 +706,9 @@ export interface OrganizationSecretScanningAlert {
   closure_request_reviewer?: NullableSimpleUser | null;
 }
 export type ListAlertsForOrgResponseBodyList = Array<OrganizationSecretScanningAlert>;
-export type ListAlertsForOrgResponse = ListAlertsForOrgResponseBodyList;
+export interface ListAlertsForOrgResponse {
+  body: ListAlertsForOrgResponseBodyList;
+}
 export type ListAlertsForRepoRequestState = "open" | "resolved";
 export type ListAlertsForRepoRequestSort = "created" | "updated";
 export type ListAlertsForRepoRequestDirection = "asc" | "desc";
@@ -813,7 +816,9 @@ export interface SecretScanningAlert {
   closure_request_reviewer?: NullableSimpleUser | null;
 }
 export type ListAlertsForRepoResponseBodyList = Array<SecretScanningAlert>;
-export type ListAlertsForRepoResponse = ListAlertsForRepoResponseBodyList;
+export interface ListAlertsForRepoResponse {
+  body: ListAlertsForRepoResponseBodyList;
+}
 export interface ListLocationsForAlertRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -862,7 +867,9 @@ export interface SecretScanningLocation {
 }
 /** List of locations where the secret was detected */
 export type ListLocationsForAlertResponseBodyList = Array<SecretScanningLocation>;
-export type ListLocationsForAlertResponse = ListLocationsForAlertResponseBodyList;
+export interface ListLocationsForAlertResponse {
+  body: ListLocationsForAlertResponseBodyList;
+}
 export type ListOrgCustomPatternsRequestState = "published" | "unpublished";
 export type ListOrgCustomPatternsRequestPushProtection = "enabled" | "disabled";
 export type ListOrgCustomPatternsRequestSort = "created" | "updated" | "name";
@@ -1199,54 +1206,69 @@ export const getScanHistory: API.OperationMethod<
 
 export type ListAlertsForOrgError = NotFound | GithubOpError;
 /** List secret scanning alerts for an organization Lists secret scanning alerts for eligible repositories in an organization, from newest to oldest. The authenticated user must be an administrator or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
-export const listAlertsForOrg: API.OperationMethod<
+export const listAlertsForOrg: API.PaginatedOperationMethod<
   ListAlertsForOrgRequest,
   ListAlertsForOrgResponse,
   ListAlertsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListAlertsForOrgRequest>,
-  output: __S(36, __c4, 4) as any as S.Schema<ListAlertsForOrgResponse>,
-  errors: [NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListAlertsForOrg",
-}));
+  GithubOpContext,
+  OrganizationSecretScanningAlert
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(32, __c4, 0) as any as S.Schema<ListAlertsForOrgRequest>,
+    output: __S(36, __c4, 4) as any as S.Schema<ListAlertsForOrgResponse>,
+    errors: [NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAlertsForOrg",
+    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+  }),
+  paginatePageNumber,
+) as any;
 
 export type ListAlertsForRepoError = NotFound | GithubOpError;
 /** List secret scanning alerts for a repository Lists secret scanning alerts for an eligible repository, from newest to oldest. The authenticated user must be an administrator for the repository or for the organization that owns the repository to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
-export const listAlertsForRepo: API.OperationMethod<
+export const listAlertsForRepo: API.PaginatedOperationMethod<
   ListAlertsForRepoRequest,
   ListAlertsForRepoResponse,
   ListAlertsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListAlertsForRepoRequest>,
-  output: __S(43, __c5, 3) as any as S.Schema<ListAlertsForRepoResponse>,
-  errors: [NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListAlertsForRepo",
-}));
+  GithubOpContext,
+  SecretScanningAlert
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(40, __c5, 0) as any as S.Schema<ListAlertsForRepoRequest>,
+    output: __S(43, __c5, 3) as any as S.Schema<ListAlertsForRepoResponse>,
+    errors: [NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAlertsForRepo",
+    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+  }),
+  paginatePageNumber,
+) as any;
 
 export type ListLocationsForAlertError = NotFound | GithubOpError;
 /** List locations for a secret scanning alert Lists all locations for a given secret scanning alert for an eligible repository. The authenticated user must be an administrator for the repository or for the organization that owns the repository to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
-export const listLocationsForAlert: API.OperationMethod<
+export const listLocationsForAlert: API.PaginatedOperationMethod<
   ListLocationsForAlertRequest,
   ListLocationsForAlertResponse,
   ListLocationsForAlertError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListLocationsForAlertRequest>,
-  output: __S(51, __c6, 3) as any as S.Schema<ListLocationsForAlertResponse>,
-  errors: [NotFound],
-  protocol: GithubProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListLocationsForAlert",
-}));
+  GithubOpContext,
+  SecretScanningLocation
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(48, __c6, 0) as any as S.Schema<ListLocationsForAlertRequest>,
+    output: __S(51, __c6, 3) as any as S.Schema<ListLocationsForAlertResponse>,
+    errors: [NotFound],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLocationsForAlert",
+    pagination: { mode: "page", inputToken: "page", pageSize: "per_page", items: "" } as const,
+  }),
+  paginatePageNumber,
+) as any;
 
 export type ListOrgCustomPatternsError = Forbidden | NotFound | GithubOpError;
 /** List organization custom patterns Lists secret scanning custom patterns for an organization. Personal access tokens (classic) need the `read:org` scope to use this endpoint. */
@@ -1663,9 +1685,11 @@ function __c4(j: number): any {
     case 3:
       return S.Array(__S(34, __c4, 2));
     case 4:
-      return S.suspend(() => __S(35, __c4, 3).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListAlertsForOrgResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          body: __S(35, __c4, 3).pipe(T.RawResponse()),
+        }),
+      ).annotate({ identifier: "ListAlertsForOrgResponse" });
   }
 }
 function __c5(j: number): any {
@@ -1740,9 +1764,11 @@ function __c5(j: number): any {
     case 2:
       return S.Array(__S(41, __c5, 1));
     case 3:
-      return S.suspend(() => __S(42, __c5, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListAlertsForRepoResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          body: __S(42, __c5, 2).pipe(T.RawResponse()),
+        }),
+      ).annotate({ identifier: "ListAlertsForRepoResponse" });
   }
 }
 function __c6(j: number): any {
@@ -1773,9 +1799,11 @@ function __c6(j: number): any {
     case 2:
       return S.Array(__S(49, __c6, 1));
     case 3:
-      return S.suspend(() => __S(50, __c6, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListLocationsForAlertResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          body: __S(50, __c6, 2).pipe(T.RawResponse()),
+        }),
+      ).annotate({ identifier: "ListLocationsForAlertResponse" });
   }
 }
 function __c7(j: number): any {

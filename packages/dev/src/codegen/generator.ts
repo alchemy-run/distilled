@@ -1054,7 +1054,18 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
    * the annotation on the structural fallback rather than asserting a type
    * the shape doesn't support.
    */
-  const paginatedItemTsType = (outputId: string, itemsPath: string): string | undefined => {
+  const paginatedItemTsType = (
+    outputId: string,
+    itemsPath: string,
+    rootItems = false,
+  ): string | undefined => {
+    // `items: ""`: the response IS the list (a bare-array body wrapped in a
+    // single member), so an item is that list's element.
+    if (rootItems) {
+      const members = memberInfos(shapes[outputId] ?? {});
+      const list: any = members.length === 1 ? shapes[members[0]!.target] : undefined;
+      return list?.type === "list" ? tsRef(list.member.target) : undefined;
+    }
     // No items path: `.items()` is a page passthrough at runtime, so an
     // item IS a whole response.
     if (!itemsPath) return tsRef(outputId);
@@ -1093,7 +1104,11 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
       const itemTsType = paginated
-        ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
+        ? paginatedItemTsType(
+            ctx.op.def.__output,
+            paginatedItemsPath.get(ctx.op.id) ?? "",
+            (ctx.op.def.__pagination as { items?: unknown } | undefined)?.items === "",
+          )
         : undefined;
       const typeAnnotation =
         overrides?.typeAnnotation ??

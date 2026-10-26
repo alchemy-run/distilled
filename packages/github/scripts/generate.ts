@@ -19,12 +19,10 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * barrel exports them camelCased (`codeScanning.listAlertsForRepo`),
  * the spelling GitHub's own clients use.
  *
- * No pagination profiles are emitted: GitHub paginates with `page`/`per_page`
- * and a `Link` response header, and most list endpoints return a BARE array
- * with no in-body next-page token — none of core's token/cursor/page
- * strategies can drive that without a Link-header-aware strategy and an
- * items path that can address a raw-array body. `page`/`per_page` stay plain
- * input fields; callers advance them.
+ * List operations paginate by page number (`page`/`per_page`; convert.ts
+ * stamps the trait): `.pages(input)` / `.items(input)` advance `page` until
+ * an empty or short page. Most return a bare array, which `items: ""`
+ * addresses.
  */
 import { type OperationEmit, type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
@@ -43,6 +41,10 @@ const camel = (slug: string): string =>
 
 /** GitHub's provider spec for the shared smithy→SDK compiler. */
 const spec: SdkSpec = {
+  paginationProfiles: {
+    page: { strategy: "paginatePageNumber", itemsFallback: "" },
+  },
+
   // Wire names ARE the TS surface (snake_case) — no renaming.
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,

@@ -664,7 +664,9 @@ const streamsOf = (state: OperationState, call: (input: any) => Effect.Effect<an
   const pages = (input: Record<string, unknown>) => paginate(call, input, pag());
   const items = (input: Record<string, unknown>) => {
     const p = pag();
-    return p.items ? Pagination.extractItems(pages(input), p.items) : pages(input);
+    // `items: ""` is the page itself (a bare-array response); only an absent
+    // path passes pages through.
+    return p.items !== undefined ? Pagination.extractItems(pages(input), p.items) : pages(input);
   };
   return { pages, items };
 };
