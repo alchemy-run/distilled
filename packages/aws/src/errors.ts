@@ -168,11 +168,15 @@ export class InternalError
     message: ErrorMessage,
   }).pipe(Category.withServerError) {}
 
-/** Error when endpoint resolution fails due to a rule error */
+/**
+ * The endpoint rules reject the call's parameters (e.g. a region that is not
+ * a valid DNS name, a malformed ARN). A configuration error: retrying
+ * cannot succeed.
+ */
 export class EndpointError
   extends /*@__PURE__*/ S.TaggedError<EndpointError>()("EndpointError", {
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withConfigurationError) {}
 
 /** Error when no rule matches in the ruleset */
 export class NoMatchingRuleError

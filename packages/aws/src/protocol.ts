@@ -53,7 +53,7 @@ import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/r
 import type { Response } from "./client/response.ts";
 import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
-import { ParseError } from "./errors.ts";
+import { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
 import * as SigV4 from "./sigv4.ts";
@@ -225,7 +225,7 @@ const toHttpRequest = (
       region,
       request,
     });
-    if (resolved instanceof Error) return Effect.fail(resolved);
+    if (resolved instanceof EndpointError) return Effect.fail(resolved);
     endpoint = resolved.endpoint.url;
     resolvedRequest = resolved.request;
 
