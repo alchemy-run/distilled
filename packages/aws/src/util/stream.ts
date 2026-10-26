@@ -91,7 +91,7 @@ export const readableToEffectStream = (
     ? Stream.fromIterable([new TextEncoder().encode(stream)])
     : Stream.fromReadableStream({
         evaluate: () => stream,
-        onError: (e) => new Error(String(e)),
+        onError: (e) => (e instanceof Error ? e : new Error(String(e), { cause: e })),
       });
 
 /**

@@ -407,7 +407,8 @@ const httpRequestOf = (
     // Convert ReadableStream to Effect Stream for HttpClient
     const effectStream = Stream.fromReadableStream({
       evaluate: () => body as ReadableStream<Uint8Array>,
-      onError: (error) => new Error(String(error)),
+      onError: (error) =>
+        error instanceof Error ? error : new Error(String(error), { cause: error }),
     });
     httpBody = HttpBody.stream(effectStream, contentType);
   } else if (body === undefined) {
