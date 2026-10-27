@@ -1,9 +1,10 @@
 # spec-mirror-github
 
-A git mirror of GitHub's [REST API description](https://github.com/github/rest-api-description), reduced to exactly the file the
+A git mirror of GitHub's API descriptions, reduced to exactly the files the
 [`@distilled.cloud/github`](https://github.com/alchemy-run/distilled) generator reads:
 
-- `specs/api.github.com.json` — `descriptions/api.github.com/api.github.com.json`
+- `specs/api.github.com.json` — `descriptions/api.github.com/api.github.com.json` from the [REST API description](https://github.com/github/rest-api-description)
+- `specs/graphql.json` — the [public GraphQL schema](https://docs.github.com/public/fpt/schema.docs.graphql), as introspection JSON
 
 Nothing else from `github/rest-api-description` is mirrored, so this repository stays small
 enough to use as a git submodule — the upstream repository is never cloned.

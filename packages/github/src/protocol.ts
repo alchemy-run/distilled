@@ -53,14 +53,8 @@ export type GithubOpContext = Credentials | HttpClient.HttpClient;
 const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
+  const message = typeof b.message === "string" ? b.message : undefined;
   const first = Array.isArray(b.errors) ? b.errors[0] : undefined;
-  // GraphQL failures carry no top-level message, only `errors[].message`.
-  const message =
-    typeof b.message === "string"
-      ? b.message
-      : first !== null && typeof first === "object" && typeof first.message === "string"
-        ? (first.message as string)
-        : undefined;
   const code =
     first !== null && typeof first === "object"
       ? typeof (first as Record<string, unknown>).code === "string"
@@ -75,11 +69,7 @@ export const GithubProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   // process); the Credentials service holds an effect so rotating tokens
   // (GitHub App installation tokens expire hourly) Just Work.
   credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  // GraphQL is not under the REST root on GitHub Enterprise Server: REST is
-  // `<host>/api/v3`, GraphQL `<host>/api/graphql`. github.com and data
-  // residency hosts serve both from the same root.
-  baseUrl: (creds, { uri }) =>
-    uri === "/graphql" ? creds.apiBaseUrl.replace(/\/v3\/?$/, "") : creds.apiBaseUrl,
+  baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
     Accept: "application/vnd.github+json",
@@ -87,13 +77,6 @@ export const GithubProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
     "User-Agent": creds.userAgent,
   }),
   errorEnvelope,
-  // GraphQL answers a failed query with 200 and an `errors` array.
-  failedSuccess: (body, request) =>
-    new URL(request.url).pathname.endsWith("/graphql") &&
-    body !== null &&
-    typeof body === "object" &&
-    Array.isArray((body as { errors?: unknown }).errors) &&
-    (body as { errors: unknown[] }).errors.length > 0,
   // Core's shared map plus 410 -- GitHub uses Gone far more than most APIs
   // (issues disabled, deleted migration archives), and an op that doesn't
   // declare a 410 response would otherwise land in UnknownGithubError.

@@ -39,3 +39,4 @@ packages/.audit-*/
 # writes them here only for you to read (patch authoring, patches:audit).
 packages/*/.generated-specs/
 packages/railway/.generated-graphql/
+packages/github/.generated-graphql/

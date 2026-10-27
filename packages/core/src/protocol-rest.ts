@@ -258,12 +258,6 @@ export interface RestProtocolOptions<C> {
   readonly parseError: (info: RestParseErrorInfo) => unknown;
   /** Transform the parsed 2xx JSON before decoding (e.g. stripNulls). */
   readonly transformResponse?: (body: unknown) => unknown;
-  /**
-   * Whether a parsed 2xx JSON body is a failure. GraphQL answers a failed
-   * query with `200` and an `errors` array; such a body takes the error path
-   * (per-op typed matchers see its status, then the fallbacks).
-   */
-  readonly failedSuccess?: (body: unknown, request: HttpClientRequest.HttpClientRequest) => boolean;
   /** Passed through to `buildRequest` (member-header transforms). */
   readonly mapMemberHeader?: (name: string, value: string) => string;
   /** Passed through to `buildRequest` (wire names for unmodeled input keys). */
@@ -416,7 +410,6 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     text: string,
     outputAst: AST.AST,
     errorClasses: ReadonlyArray<unknown>,
-    request?: HttpClientRequest.HttpClientRequest,
   ): Decoded => {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
     if (debugHttp()) {
@@ -432,12 +425,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       }
     }
 
-    const failed =
-      status < 400 &&
-      !nonJson &&
-      request !== undefined &&
-      (options.failedSuccess?.(json, request) ?? false);
-    if (status >= 400 || failed) {
+    if (status >= 400) {
       const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
       const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
@@ -547,7 +535,6 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
             text ?? "",
             outputAst,
             errorClasses,
-            response.request,
           );
           return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
         })) as Effect.Effect<unknown>;

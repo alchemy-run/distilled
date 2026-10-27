@@ -22,8 +22,13 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * List operations paginate (`page`/`per_page`; convert.ts stamps the
  * trait): `.pages(input)` / `.items(input)` follow the `Link` header's
  * `rel="next"` URL until it is absent.
+ *
+ * The GraphQL Query SDK (`src/graphql.ts`) is generated first, from the
+ * GraphQL schema the spec mirror also carries (see generate-graphql.ts).
  */
 import { type OperationEmit, type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import * as Effect from "effect/Effect";
+import { generateGraphQL } from "./generate-graphql.ts";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -193,6 +198,7 @@ runGeneratorCli({
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — never to the Smithy models.
   patchesDir: false,
+  prepare: () => Effect.promise(generateGraphQL),
   barrelExportName: camel,
   spec: (model) =>
     Object.values<any>(model.shapes).some((shape) => shape.traits?.[WEBHOOK_EVENT_TRAIT])

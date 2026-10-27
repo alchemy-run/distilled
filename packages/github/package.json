@@ -58,6 +58,12 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
+    "./GraphQL": {
+      "types": "./lib/graphql-index.d.ts",
+      "bun": "./src/graphql-index.ts",
+      "worker": "./src/graphql-index.ts",
+      "default": "./lib/graphql-index.js"
+    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
@@ -85,7 +91,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-26",
+    "generatedAt": "2026-10-27",
     "specUpdatedAt": "2026-10-04"
   }
 }

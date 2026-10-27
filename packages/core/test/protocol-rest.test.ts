@@ -802,49 +802,6 @@ describe("makeRestProtocol errorEnvelope and statusMap options", () => {
   });
 });
 
-describe("makeRestProtocol failedSuccess", () => {
-  class QueryFailed extends T.applyErrorMatchers(
-    Schema.TaggedError<QueryFailed>()("QueryFailed", { message: Schema.String }),
-    [{ status: 200 }],
-  ) {}
-
-  const GraphqlProtocol = makeRestProtocol<Creds>({
-    ...baseOptions,
-    errorEnvelope: (body) => ({
-      message: (body as { errors?: Array<{ message: string }> }).errors?.[0]?.message,
-    }),
-    failedSuccess: (body, request) =>
-      new URL(request.url).pathname === "/graphql" &&
-      ((body as { errors?: unknown[] }).errors?.length ?? 0) > 0,
-  });
-
-  const query = API.make(() => ({
-    input: S.Struct({ query: S.String }).pipe(T.Http({ method: "POST", uri: "/graphql" })),
-    output: S.Struct({ data: S.optional(S.Unknown) }),
-    errors: [QueryFailed],
-    protocol: GraphqlProtocol,
-  })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
-
-  test("a 200 body the provider marks as failed takes the error path", async () => {
-    const error = await failWith(
-      query({ query: "{ viewer { login } }" }),
-      creds(),
-      fakeClient(() => json({ errors: [{ message: "Field 'nope' doesn't exist" }] })),
-    );
-    expect(error).toBeInstanceOf(QueryFailed);
-    expect(error.message).toBe("Field 'nope' doesn't exist");
-  });
-
-  test("a 200 body it does not mark still succeeds", async () => {
-    const result = await succeed(
-      query({ query: "{ viewer { login } }" }),
-      creds(),
-      fakeClient(() => json({ data: { viewer: { login: "octocat" } } })),
-    );
-    expect(result.data).toEqual({ viewer: { login: "octocat" } });
-  });
-});
-
 describe("Link-header pagination", () => {
   const listThings = API.makePaginated(() => ({
     input: S.Struct({
