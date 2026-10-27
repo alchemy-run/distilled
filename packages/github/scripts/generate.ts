@@ -46,7 +46,8 @@ const camel = (slug: string): string =>
 /** GitHub's provider spec for the shared smithy→SDK compiler. */
 const spec: SdkSpec = {
   paginationProfiles: {
-    link: { strategy: "paginateLink" },
+    // convert.ts stamps `items` on every list operation.
+    link: { strategy: "paginateLink", itemsFallback: "" },
   },
 
   // Wire names ARE the TS surface (snake_case) — no renaming.

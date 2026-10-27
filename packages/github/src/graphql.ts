@@ -38494,8 +38494,6 @@ export const GitHub = {
     readonly dryRun?: boolean | null;
   }): Query<RateLimit | null, GitHubGlobalError> =>
     root("query", "rateLimit", RateLimit, args, { dryRun: "Boolean" }, globalErrors),
-  relay: (): Query<Query, GitHubGlobalError> =>
-    root("query", "relay", Query, undefined, undefined, globalErrors),
   repository: (args: {
     readonly name: string;
     readonly owner: string;

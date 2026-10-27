@@ -223,7 +223,7 @@ describe("pagination over a bare-array response", () => {
         rootPipe: "T.RawResponseRoot()",
       },
     ],
-    paginationProfiles: { link: { strategy: "paginateLink" } },
+    paginationProfiles: { link: { strategy: "paginateLink", itemsFallback: "" } },
   };
 
   test("items naming the sole member keeps the response the array and types items as its element", () => {
