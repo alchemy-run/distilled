@@ -189,6 +189,7 @@ describe("Container applications, one response type per scheduling policy", () =
       createContainerApplication({
         accountId: "account",
         name: "fleet",
+        maxInstances: 5,
         configuration: {
           image: "registry.cloudflare.com/account/app:1",
           network: { assignIpv4: "none", assignIpv6: "none", mode: "private" },
